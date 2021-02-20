@@ -242,7 +242,7 @@
     <!-- 打标签弹窗结束 -->
     </div>
     <div class="form-save__unique">
-      <ns-button type="primary" @click="onSave()">保存</ns-button>
+      <ns-button type="primary" @click="onSave()" :disabled="disableSaveBtn">保存</ns-button>
       <ns-button @click="cancel()">取消</ns-button>
     </div>
   </div>

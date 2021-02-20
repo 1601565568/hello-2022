@@ -110,7 +110,9 @@ export default {
         userName: null,
         userId: null
       }],
-      addTagDialogVisible: false // 是否显示打标签dialog
+      // 是否显示打标签dialog
+      addTagDialogVisible: false,
+      disableSaveBtn: false
     }
   },
   mounted: function () {
@@ -479,17 +481,20 @@ export default {
         this.$message.error('上传失败')
       }
 
-      this.changeAvatarLoading = false
+      this.disableSaveBtn = false
     },
     uploadPosterError () { // 上传海报失败回调
       this.$message.error('上传海报失败')
+      this.disableSaveBtn = false
     },
     uploadPosterBefore (file) { // 上传海报前回调
+      this.disableSaveBtn = true
       const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
       const isLt10M = file.size / 1024 / 1024 < 10
 
       if (!isPngOrJpg || !isLt10M) {
         this.$message.error('请上传jpg或png图片，大小不超过10M')
+        this.disableSaveBtn = false
         return false
       }
 
@@ -508,12 +513,14 @@ export default {
           } else {
             const msg = `上传图片尺寸只能是750x1334`
             this.$notify.error(msg)
+            this.disableSaveBtn = false
             return reject(msg)
           }
         }
       })
     },
     uploadPosterRemove (file, fileList) {
+      this.disableSaveBtn = false
       this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''
     }
   },

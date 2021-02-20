@@ -80,7 +80,7 @@
                   class="item"
                   :title="`工作门店（${scope.row.offlineShops.length}）`"
                   trigger="hover"
-                  width="480"
+                  width="360"
                   :content="scope.row.offlineShops.join('；')">
                   <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops.length}}个</span>
                 </el-popover>
@@ -92,7 +92,8 @@
             label="添加好友数"
             sortable="custom">
             <template slot-scope="scope">
-              <span class="scope-name_tip">{{scope.row.inviteFriendCount}}</span>
+              <!-- <span class="scope-name_tip">{{scope.row.inviteFriendCount}}</span> -->
+              {{scope.row.inviteFriendCount}}
             </template>
           </el-table-column>
       </el-table>
