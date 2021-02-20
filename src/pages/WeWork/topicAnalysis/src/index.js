@@ -72,10 +72,10 @@ export default {
         length: 15
       },
       keyWordVoListReq: {
-        name: '',
         time: '',
         start: 0,
-        length: 20
+        length: 20,
+        topicId: null
       },
       WeWorkChatParam: {
         chatDateTime: '', // 聊天日期时间
@@ -203,7 +203,7 @@ export default {
       if (i) {
         this.select = i.topicId
         // 查询详情列表和数量
-        this.keyWordVoListReq.name = i.topicName
+        this.keyWordVoListReq.topicId = i.topicId
       }
       this.keyWordVoListReq.time = this.time
       this.$http
