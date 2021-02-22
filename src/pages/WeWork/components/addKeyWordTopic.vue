@@ -64,6 +64,10 @@ export default {
     confirm () {
       this.$refs.topicRuleForm.validate(valid => {
         if (valid) {
+          if (this.Form.keyWords.endsWith(',')) {
+            this.$notify.error('请去掉结尾的 , ')
+            return false
+          }
           const addWords = JSON.parse(JSON.stringify(this.Form.keyWords))
           if (addWords) {
             const arr = addWords.split(',')
