@@ -334,8 +334,10 @@ export default {
     },
     /**
      * 删除话题
+     * PS:会触发滚动事件
      */
     deleteKeyWordTopic () {
+      this.listIsScroll = true
       this.$http
         .fetch(this.$api.weWork.topicAnalysis.deleteKeyWordTopic, {
           topicId: this.topicId

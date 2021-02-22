@@ -102,6 +102,10 @@ export default {
         .then(res => {
           const result = formatList(res.result)
           this.list = this.list.concat(result)
+          if (this.list.length === 0) {
+            this.table.loading = false
+            this.table.tableData = []
+          }
           if (this.select === null && this.list.length !== 0) {
             this.select =
               this.list[0] && this.list[0].id ? this.list[0].id : null
@@ -185,8 +189,11 @@ export default {
     /**
      * 敏感词列表删除
      * @param {number} // id list唯一标识ID
+     * PS:会触发滚动事件
      */
     listDeleteItem (id) {
+      // 防止滚动事件
+      this.listIsScroll = true
       this.listLoading = true
       this.table.loading = true
       this.select = null

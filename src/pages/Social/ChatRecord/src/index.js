@@ -34,6 +34,7 @@ export default {
       noMore: true, // senderList 加载判断是否还有更多数据
       senderTime: null, // 发起人列表点击防抖处理
       toList: [], // 聊天对象列表
+      toListRequest: false, // 请求限制id
       toListLoading: false, // 聊天对象loading
       toListIndex: null, // 聊天对象标识
       toListTime: null, // 聊天对象防抖处理
@@ -343,6 +344,10 @@ export default {
      * 查询发起人对应的聊天列表
      */
     getTalkToGuideList () {
+      if (this.toListRequest) {
+        return
+      }
+      this.toListRequest = true
       this.toListLoading = true
       this.$http
         .fetch(
@@ -350,6 +355,7 @@ export default {
           this.talkToGuideListParams
         )
         .then(res => {
+          this.toListRequest = false
           this.toList = this.toList.concat(formatToList(res.result))
           if (this.toListIndex === null) {
             this.toListIndex = 0
@@ -374,6 +380,7 @@ export default {
         })
         .catch(err => {
           this.$notify.error(err.msg)
+          this.toListRequest = false
           this.lodingFalseFirst()
           this.weWorkChatDataLoading = false
         })
