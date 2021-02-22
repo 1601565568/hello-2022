@@ -8,19 +8,25 @@
       size="medium"
       class="normal-from"
       :rules="rules"
-      ref="ruleForm"
+      ref="setPrizeruleForm"
     >
       <el-form-item class="larger-item" label="奖励机制">
         <el-switch
+         :disabled='isStating'
           active-color="#0091FA"
           inactive-color="#8C8C8C"
-          v-model="model.type"
+          v-model="model.prizeStatus"
         >
         </el-switch>
       </el-form-item>
-      <template v-if="model.type">
-        <el-form-item class="larger-item" label="发放设置" prop="prizeType">
-          <el-select v-model="model.prizeType" placeholder="请选择奖励">
+      <template v-if="model.prizeStatus">
+        <el-form-item class="larger-item" label="发放设置" prop="prizeSendPlan">
+          <el-select
+           :disabled='isStating'
+            v-model="model.prizeSendPlan"
+            placeholder="请选择奖励"
+            class="NsUi_select"
+          >
             <el-option
               v-for="item in prizeList"
               :key="item.value"
@@ -31,20 +37,29 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-table ref="table" class="new-table_border" :data="model.setList">
+          <el-table
+            ref="table"
+            class="new-table_border"
+            :data="model.prizeRuleList"
+          >
             <el-table-column type="default" label="助力人数" :sortable="false">
               <template slot-scope="scope">
-                <el-input-number
-                  style="width:118px;"
-                  size="medium"
-                  v-model="scope.row.exchangeStock"
-                  controls-position="right"
-                  :min="1"
-                  :step="1"
-                  step-strictly
-                  controls
-                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                ></el-input-number>
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
+                >
+                  <el-input-number
+                  :disabled='isStating'
+                    style="width:118px;"
+                    size="medium"
+                    v-model="scope.row.recruitment"
+                    controls-position="right"
+                    :min="1"
+                    :step="1"
+                    step-strictly
+                    controls
+                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  ></el-input-number>
+                </el-form-item>
               </template>
             </el-table-column>
             <el-table-column
@@ -54,64 +69,185 @@
               class="el-form__change"
             >
               <template slot-scope="scope">
-                <el-select
-                  v-model="scope.row.prizeType"
-                  placeholder="请选择奖励"
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.prizeType'"
+                  :rules="[
+                    {
+                      required: true,
+                      message: '请选择奖励',
+                      trigger: ['blur', 'change']
+                    }
+                  ]"
                 >
-                  <el-option
-                    v-for="item in prizeList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                  <el-select
+                  :disabled='isStating'
+                    v-model="scope.row.prizeType"
+                    placeholder="请选择奖励"
                   >
-                  </el-option>
-                </el-select>
+                    <el-option
+                      v-for="item in prizeList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
               </template>
             </el-table-column>
             <el-table-column type="default" label="奖励内容" :sortable="false">
               <template slot-scope="scope">
-                <div class="coupon">
-                  <p v-if="scope.row.coupon_id">请选择优惠券</p>
-                  <p v-else class="text">{{ scope.row.coupon_id }}1111</p>
+                <div class="coupon" @click="getCoupon">
+                  <p v-if="!scope.row.prizeId" class="getCoupon">
+                    请选择
+                  </p>
+                  <p v-else class="text">{{ scope.row.prizeName }}</p>
                   <Icon type="couponicon" />
                 </div>
               </template>
             </el-table-column>
             <el-table-column type="default" label="剩余数量" :sortable="false">
-              <template>
-                <p>123123123</p>
+              <template slot-scope="scope">
+                <p>{{ scope.row.validNumber }}</p>
               </template></el-table-column
             >
-            <el-table-column type="default" label="发放类型" :sortable="false">
+            <el-table-column type="default" label="发放数量" :sortable="false">
               <template slot-scope="scope">
-                <el-input
-                  v-model="scope.row.aaa"
-                  maxlength="10"
-                  class="appended-table-setting__input"
-                  placeholder=""
-                  type="number"
-                  :disabled="isDisabled"
-                ></el-input>
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
+                  :rules="[
+                    {
+                      validator: ValidateUtil.isPureNumber,
+                      message: '请填写大于等于0的整数',
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      required: true,
+                      message: '请设置发放数量',
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      validator: ValidateUtil.checkDigitalLength.bind(
+                        this,
+                        null,
+                        10
+                      ),
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      validator: ValidateUtil.checkStock.bind(this, scope.row),
+                      trigger: ['blur', 'change']
+                    }
+                  ]"
+                >
+                  <el-input
+                    :disabled='isStating'
+                    v-model="scope.row.prizeNumber"
+                    maxlength="10"
+                    type="number"
+                  ></el-input
+                ></el-form-item>
+                <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
+              </template>
+            </el-table-column>
+            <el-table-column type="default" label="追加数量" :sortable="false" v-if="isStating">
+                            <template slot-scope="scope">
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.addPrizeNumber'"
+                  :rules="[
+                    {
+                      validator: ValidateUtil.isPureNumber,
+                      message: '请填写大于等于0的整数',
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      required: true,
+                      message: '请设置追加数量',
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      validator: ValidateUtil.checkDigitalLength.bind(
+                        this,
+                        null,
+                        10
+                      ),
+                      trigger: ['blur', 'change']
+                    },
+                    {
+                      validator: ValidateUtil.checkaddPrizeNumber.bind(this, scope.row),
+                      trigger: ['blur', 'change']
+                    }
+                  ]"
+                >
+                  <el-input
+                    v-model="scope.row.addPrizeNumber"
+                    maxlength="10"
+                    type="number"
+                  ></el-input
+                ></el-form-item>
+                <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
           </el-table>
         </el-form-item>
       </template>
     </el-form>
+    <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
   </div>
 </template>
 <script>
 import ElInputNumber from '@nascent/nui/lib/input-number'
+import Coupon from './coupon'
+import ValidateUtil from '@/utils/validateUtil'
+import activityUtil from '@/utils/activityUtil'
+import { clone } from 'lodash'
 export default {
-  components: { ElInputNumber },
+  components: { ElInputNumber, Coupon },
+  props: {
+    prizeModel: {
+      type: Object
+    },
+    isStating: {
+      type: Boolean
+    }
+  },
   data () {
+    // 效验库存设置
+    const checkStock = (item, rule, value, callback) => {
+      if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
+        callback(new Error('填写的发放数量不能大于剩余数量'))
+      } else if (parseFloat(item.prizeNumber) === 0) {
+        callback(new Error('填写的发放数量不能0'))
+      } else {
+        callback()
+      }
+    }
+    const checkaddPrizeNumber = (item, rule, value, callback) => {
+      if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
+        callback(new Error('填写的新增发放数量不能大于剩余数量'))
+      } else if (parseFloat(item.addPrizeNumber) === 0) {
+        callback(new Error('填写的新增发放数量不能0'))
+      } else {
+        callback()
+      }
+    }
     return {
       model: {
-        type: true,
-        effectiveCycle: 1,
-        prizeType: 1,
-        setList: [{ exchangeStock: 1, coupon_id: '', aaa: '' }]
+        prizeStatus: 0, // 奖励机制 0 关闭 1 开启
+        prizeSendPlan: 1, // 发放奖励
+        prizeRuleList: [
+          {
+            prizeGrade: 1,
+            addPrizeNumber: 0, // 新增发放数量
+            prizeId: null,
+            recruitment: 1, // 助力人数
+            prizeName: '', // 优惠券名称
+            prizeNumber: '', // 设置发放数量
+            validNumber: 0 // 优惠券剩余数量
+          }
+        ]
       },
+      ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber },
       rules: {
         prizeType: [
           {
@@ -128,11 +264,71 @@ export default {
         }
       ]
     }
+  },
+  mounted () {
+    this.setModel()
+  },
+  methods: {
+    setModel () {
+      console.log(this.prizeModel, 'this.prizeModel')
+      // debugger
+      if (Object.keys(this.prizeModel).length > 0) {
+        this.model = {
+          prizeStatus: this.prizeModel.prizeStatus,
+          prizeSendPlan: this.prizeModel.prizeSendPlan,
+          prizeRuleList: this.prizeModel.prizeRuleList
+        }
+      }
+    },
+    getCoupon () {
+      if (this.isStating) {
+        return false
+      }
+      this.$refs.Coupon.init()
+    },
+    getCouponMessage (data) {
+      const obj = this.model.prizeRuleList[0]
+      let params = {
+        ...obj,
+        prizeId: data.activityCouponConfigId,
+        prizeName: data.couponTitle,
+        validNumber: data.validNumber
+      }
+      this.$set(this.model.prizeRuleList, 0, params)
+    },
+    onSave () {
+      return new Promise((resolve, reject) => {
+        this.$refs.setPrizeruleForm.validate((valid, object) => {
+          if (valid) {
+            const saveModel = this.formartSave(this.model)
+            resolve(saveModel)
+          } else {
+            this.$notify.error(
+              activityUtil.getValidatorFirstErrObj(object).message
+            )
+            resolve(false)
+          }
+        })
+      })
+    },
+    formartSave (model) {
+      const saveModel = clone(model)
+      return {
+        prizeStatus: saveModel.prizeStatus ? 1 : 0,
+        prizeSendPlan: saveModel.prizeSendPlan,
+        prizeRuleList: saveModel.prizeRuleList.map((item, index) => {
+          return {
+            ...item,
+            prizeGrade: index + 1
+          }
+        })
+      }
+    }
   }
 }
 </script>
 <style scoped>
-@import '../styles/reset.css';
+@import '@components/NewUi/styles/reset.css';
 .Tips {
   padding: 0 16px;
   line-height: 40px;
@@ -143,7 +339,8 @@ export default {
   margin-bottom: 16px;
 }
 .coupon {
-  width: 118px;
+  /* width: 118px; */
+  line-height: 36px;
   height: 36px;
   border: 1px solid #d9d9d9;
   display: flex;
@@ -152,5 +349,9 @@ export default {
   border-radius: 3px;
   border: 1px solid #d9d9d9;
   padding: 0 5px;
+}
+.getCoupon {
+  color: #bfbfbf;
+  font-size: 14px;
 }
 </style>

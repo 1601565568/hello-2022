@@ -7,7 +7,7 @@
         <ns-button class='customer-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
       </div>
     </div>
-    <el-row class="customer-box">
+    <el-row class="customer-box" v-loading="customerLoading">
       <el-col :span='16' class="customer-edit">
         <el-form label-width="100px" label-position='left' :model="model" size='medium' class='normal-from' :rules="rules" ref="ruleForm">
         <el-collapse class='customer-collapse' v-model='collapseList'>
@@ -41,7 +41,8 @@
                   <div class='employee-suffix'>
                     <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                        <template slot='selfBtn'>
-                        <Icon type="geren"></Icon>
+                         123123123123
+                        <!-- <Icon type="geren"></Icon>111111 -->
                       </template>
                     </NsGuideDialog>
                   </div>
@@ -175,7 +176,7 @@
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='奖励机制' :name="3">
-            <SetPrize />
+            <SetPrize v-if="!customerLoading" :prizeModel='prizeModel' :isStating='isStating' ref="setPrize"/>
           </el-collapse-item>
         </el-collapse>
         </el-form>

@@ -3,6 +3,7 @@ export default {
   data () {
     return {
       collapseList: [1, 2, 3],
+      customerLoading: false,
       guestCodeId: null,
       copyGuestCodeId: null,
       activityIntroductionLength: 0,
@@ -94,7 +95,8 @@ export default {
       ],
       // 是否是进行中的
       isStating: false,
-      isLoading: false
+      isLoading: false,
+      prizeModel: {} // 奖品组件回显
     }
   },
   computed: {
@@ -105,6 +107,8 @@ export default {
   mounted () {
     const query = this.$route.query
     const { guestCodeId, copyGuestCodeId } = query
+    this.guestCodeId = guestCodeId
+    this.copyGuestCodeId = copyGuestCodeId
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
@@ -114,12 +118,11 @@ export default {
     } else {
       this.isLoading = true
     }
-    this.guestCodeId = guestCodeId
-    this.copyGuestCodeId = copyGuestCodeId
   },
   methods: {
     // 获取详情
     loadActivity (guestCodeId) {
+      this.customerLoading = true
       this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
         const { result } = res
         this.model = {
@@ -139,12 +142,28 @@ export default {
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
+        this.formatPrizeModel(result)
+        this.customerLoading = false
         this.isStating = !!(result.status === 2 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
         this.$nextTick(() => {
           this.isLoading = true
         })
       })
+    },
+    formatPrizeModel (result) {
+      this.prizeModel = {
+        prizeStatus: result.prizeStatus === 1,
+        prizeRuleList: result.prizeRuleList.map((item) => {
+          return {
+            ...item,
+            addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
+            validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
+            uuid: this.copyGuestCodeId ? null : item.uuid
+          }
+        }) || [],
+        prizeSendPlan: result.prizeSendPlan
+      }
     },
     // 获取员工详情
     getGuideListByGuestCodeId (guestCodeId) {
@@ -243,10 +262,18 @@ export default {
     },
     // 保存
     handleSave () {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
-          this.btnLoad = true
-          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, this.formatModel()).then(res => {
+          const prizeModel = await this.$refs.setPrize.onSave()
+          // this.btnLoad = true
+          if (!prizeModel) {
+            this.btnLoad = false
+            return false
+          }
+          console.log('prizeModel', prizeModel)
+          const save = Object.assign(this.formatModel(), prizeModel)
+          console.log(save)
+          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
             this.$notify.success('保存成功')
             this.handleCancel()
           }).catch(res => {
