@@ -350,6 +350,8 @@ export default {
      * 每页条数发生变化
      */
     handleSizeChange (size) {
+      this.pagination.page = 1
+      this.tableParams.start = 0
       this.tableParams.length = size
       this.getContentList()
     },

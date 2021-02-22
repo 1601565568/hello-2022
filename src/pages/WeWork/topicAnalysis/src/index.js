@@ -232,6 +232,8 @@ export default {
           this.keyWordsVoListLoding = false
           if (defItem === null) {
             this.table.loading = false
+            this.table.tableData = []
+            this.selectKeyWordId = null
             return
           }
           this.selectKeyWord(defItem)
@@ -519,15 +521,21 @@ export default {
      * 每页条数发生变化
      */
     handleSizeChange (size) {
-      this.tableParams.length = size
-      this.getContentList()
+      if (this.tableParams.id) {
+        this.pagination.page = 1
+        this.tableParams.length = size
+        this.tableParams.start = 0
+        this.getContentList()
+      }
     },
     /**
      * 页码发生变化
      */
     handlePageChange (page) {
-      this.tableParams.start = (page - 1) * this.tableParams.length
-      this.getContentList()
+      if (this.tableParams.id) {
+        this.tableParams.start = (page - 1) * this.tableParams.length
+        this.getContentList()
+      }
     },
     setHeight: function () {
       // this.$nextTick(() => {

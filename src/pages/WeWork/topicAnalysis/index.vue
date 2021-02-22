@@ -162,8 +162,8 @@
             <el-pagination
               :page-sizes="pagination.sizeOpts"
               :total="pagination.total"
-              :current-page="pagination.page"
-              :page-size="pagination.size"
+              :current-page.sync="pagination.page"
+              :page-size.sync="pagination.size"
               @size-change="handleSizeChange"
               @current-change="handlePageChange"
               class="template-table__pagination"
