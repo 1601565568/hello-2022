@@ -54,7 +54,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           if (this.Form.keyWords.endsWith(',')) {
-            this.$notify.error('请去掉结尾的 , ')
+            this.$notify.error('请去掉关键词结尾的 , ')
             return false
           }
           const addWords = JSON.parse(JSON.stringify(this.Form.keyWords))
