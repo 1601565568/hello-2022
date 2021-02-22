@@ -9,19 +9,19 @@
     <div class="custom-header" slot="title">
       <div class="header-title">
         <h3>自定义指标</h3>
-        <span class="select-tip">已选<i>9/9</i>个表头</span>
+        <span class="select-tip">已选<i>{{checkedChannels.length}}/{{channelList.length}}</i>个表头</span>
       </div>
-      <el-input placeholder="请输入渠道名称" v-model="filterText">
+      <el-input placeholder="请输入渠道名称" v-model="searchChannelName">
         <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px"></Icon>
       </el-input>
     </div>
-    <div class="indicator-list">
+    <div class="channel-list">
       <el-checkbox-group v-model="checkedChannels">
-        <el-checkbox v-for="item in channels" :label="item.channel_code" :key="item.channel_code">{{item.channel_name}}</el-checkbox>
+        <el-checkbox v-for="item in showChannelList" :label="item.channel_code" :key="item.channel_code">{{item.channel_name}}</el-checkbox>
       </el-checkbox-group>
     </div>
     <span slot="footer" class="dialog-footer">
-      <ns-button type="text" style="float: left">恢复默认</ns-button>
+      <el-checkbox style="float: left" :value="checkedChannels.length === channelList.length" @change="checkAll">全选</el-checkbox>
       <ns-button @click="$emit('close')">取 消</ns-button>
       <ns-button type="primary" @click="confirm">确 定</ns-button>
     </span>
@@ -30,47 +30,48 @@
 
 <script>
 export default {
-  props: ['visible', 'selectedChannels'],
+  props: ['visible', 'channelList', 'selectedChannels'],
   data () {
     return {
       centerDialogVisible: false,
-      filterText: '',
-      checkedChannels: [],
-      channels: []
+      searchChannelName: '',
+      checkedChannels: []
     }
   },
-  mounted () {
-    this.getChannelList()
+  computed: {
+    showChannelList () {
+      if (!this.channelList) {
+        return this.channelList
+      } else {
+        return this.channelList.filter(item => item.channel_name.indexOf(this.searchChannelName) > -1)
+      }
+    }
   },
   methods: {
-    async getChannelList () {
-      try {
-        const res = await this.$http.fetch(this.$api.guide.channel.getChannelList)
-
-        window.console.log('自定义指标', res)
-        if (res.success) {
-          this.channels = res.result
-        } else {
-          this.$notify.error('自定义指标获取失败')
-        }
-      } catch (resErr) {
-        this.$notify.error('自定义指标获取失败')
-      }
-    },
     async openDialog () {
       this.checkedChannels = this.selectedChannels || []
-      await this.getChannelList()
     },
     confirm () {
-      this.$emit('confirm', this.checkedChannels)
-      this.$emit('close')
+      if (this.checkedChannels.length) {
+        this.$emit('confirm', this.checkedChannels)
+        this.$emit('close')
+      } else {
+        this.$notify.error('至少选择一个指标')
+      }
+    },
+    checkAll (isChecked) {
+      if (isChecked) {
+        this.checkedChannels = this.channelList.map(item => item.channel_code)
+      } else {
+        this.checkedChannels = []
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/indicator-dialog-reset.css";
+@import "./styles/channel-list-dialog-reset.css";
 .custom-header {
   display: flex;
   justify-content: space-between;
@@ -93,7 +94,7 @@ export default {
   }
 }
 
-.indicator-list {
+.channel-list {
   padding-top: 8px;
   margin-left: 6px;
   height: 100%;

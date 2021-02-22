@@ -28,8 +28,9 @@ export default {
   data () {
     return {
       chartHeight: 200,
-      customIndicatorDialogVisible: false, // 自定义指标dialog
-      customIndicators: [], // 已选自定义指标
+      channelCodesDialogVisible: false, // 自定义指标dialog
+      channelList: [], // 自定义指标列表
+      selectedChannelCodes: [], // 已选自定义指标
       channelFriendRateDialogVisible: false, // 渠道好友占比
       url: this.$api.guide.channel.findChannelAnalysisList,
       model: {
@@ -53,6 +54,7 @@ export default {
     }
     this.searchform()
     window.console.log('渠道统计列表', this._data)
+    await this.getChannelList()
   },
   methods: {
     searchform () {
@@ -61,16 +63,31 @@ export default {
     checkDetail (rowData) {
       this.$router.push(`/Guide/chanel/ChannelDetail/${rowData.channelCode}/${rowData.channelName}`)
     },
-    customIndicator () {
-      this.customIndicatorDialogVisible = true
+    async customChannelCodes () {
+      this.channelCodesDialogVisible = true
     },
-    async chooseCustomIndicator (indicators) { // 选择自定义指标
-      window.console.log('已选择的自定义指标', indicators)
-      this.customIndicators = indicators
+    async chooseChannelCodes (channelCodes) { // 选择自定义指标
+      window.console.log('已选择的自定义指标', channelCodes)
+      this.selectedChannelCodes = channelCodes
     },
     showChannelFriendRateDialog () {
       this.chartHeight = document.documentElement.clientHeight || document.body.clientHeight
       this.channelFriendRateDialogVisible = true
+    },
+    async getChannelList () {
+      try {
+        const res = await this.$http.fetch(this.$api.guide.channel.getChannelList)
+
+        window.console.log('自定义指标', res)
+        if (res.success) {
+          this.channelList = res.result
+          this.selectedChannelCodes = res.result.map(item => item.channel_code)
+        } else {
+          this.$notify.error('自定义指标获取失败')
+        }
+      } catch (resErr) {
+        this.$notify.error('自定义指标获取失败')
+      }
     },
     checkTableDataExists () {
       if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {

@@ -3,22 +3,24 @@
     <NsEcharts class="echart-size" :options="chartOptions" :theme="'customed'" />
     <div class="channel-total-position">
       <div class="circle-chart-statistics">
-        <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source" :key="index">
+        <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source.slice(0, 3)" :key="index">
           <span class="data-item-count">{{item.addCount}}</span>
           <span class="data-item-label">{{item.channelName}}</span>
         </div>
-        <!-- <div class="data-item">
-          <span class="data-item-count">129,831</span>
-          <span class="data-item-label">线下添加好友</span>
-        </div>
-        <div class="data-item">
-          <span class="data-item-count">12,831</span>
-          <span class="data-item-label">公众号添加好友</span>
-        </div>
-        <div class="data-item">
-          <span class="data-item-count">9,831</span>
-          <span class="data-item-label">小程序添加好友</span>
-        </div> -->
+        <el-popover
+          placement="bottom"
+          class="down-icon"
+          trigger="click"
+          popper-class="channel-list-popover"
+        >
+          <Icon slot="reference" type="ns-arrow-drowdown"/>
+          <div class="channel-list">
+            <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source" :key="index">
+              <span class="data-item-count">{{item.addCount}}</span>
+              <span class="data-item-label">{{item.channelName}}</span>
+            </div>
+          </div>
+        </el-popover>
       </div>
     </div>
   </div>
@@ -33,7 +35,7 @@ export default {
   components: {
     NsEcharts
   },
-  props: [ 'channelCodes', 'searchDate' ],
+  props: [ 'fullScreen', 'channelCodes', 'searchDate' ],
   data () {
     return {
       chartOptions: {
@@ -49,28 +51,38 @@ export default {
         },
         dataset: [
           {
-            dimensions: ['date', '测试', '渠道2', '渠道3'],
+            // dimensions: ['date', '测试', '渠道2', '渠道3'],
             source: [
-              { date: '2021-2-17', '测试': 56.5, '渠道2': 32.1, '渠道3': 88.7 },
-              { date: '2021-2-18', '测试': 22.5, '渠道2': 62.1, '渠道3': 78.7 },
-              { date: '2021-2-19', '测试': 54.5, '渠道2': 82.1, '渠道3': 38.7 }
+              // { date: '2021-2-17', '测试': 56.5, '渠道2': 32.1, '渠道3': 88.7 },
+              // { date: '2021-2-18', '测试': 22.5, '渠道2': 62.1, '渠道3': 78.7 },
+              // { date: '2021-2-19', '测试': 54.5, '渠道2': 82.1, '渠道3': 38.7 }
             ]
           },
           {
-            dimensions: ['channelName', 'addCount'],
+            // dimensions: ['channelName', 'addCount'],
             source: [
-              { addCount: 100, channelName: '哈哈' },
-              { addCount: 10, channelName: '哈哈2' },
-              { addCount: 80, channelName: '哈哈3' }
+              // { addCount: 100, channelName: '哈哈' },
+              // { addCount: 10, channelName: '哈哈2' },
+              // { addCount: 80, channelName: '哈哈3' }
             ]
           }
         ],
         xAxis: { gridIndex: 0, type: 'category' },
         yAxis: { gridIndex: 0 },
         grid: { left: 50, right: '35%' },
+        dataZoom: this.fullScreen ? [
+          {
+            type: 'slider',
+            start: 0,
+            end: 100
+          },
+          {
+            type: 'inside',
+            start: 0,
+            end: 100
+          }
+        ] : [],
         series: [
-          // { type: 'line' },
-          // { type: 'line' },
           // { type: 'line' },
           {
             datasetIndex: 1,
@@ -78,7 +90,9 @@ export default {
             id: 'pie',
             top: '-20%',
             left: '65%',
-            label: false,
+            label: this.fullScreen ? { formatter: function (tip) {
+              return `${tip.name}： ${tip.value.addCount} (${tip.percent}%)`
+            } } : false,
             // label: {
             //   formatter: '{b}: {d}%'
             // },
@@ -89,6 +103,49 @@ export default {
                 return `${tip.name}: ${tip.value.addCount} (${tip.percent}%)`
               }
             }
+          }
+        ]
+      },
+      chartOptions2: {
+        xAxis: {
+          type: 'value'
+        },
+        yAxis: {
+          type: 'value'
+        },
+        dataZoom: [
+          {
+            type: 'slider',
+            start: 10,
+            end: 60
+          },
+          {
+            type: 'inside',
+            start: 0,
+            end: 100
+          }
+        ],
+        series: [
+          {
+            type: 'scatter',
+            itemStyle: {
+              opacity: 0.8
+            },
+            symbolSize: function (val) {
+              return val[2] * 40
+            },
+            data: [
+              [ '14.616', '7.241', '0.896' ],
+              [ '3.958', '5.701', '0.955' ],
+              [ '2.768', '8.971', '0.669' ],
+              [ '9.051', '9.710', '0.171' ],
+              [ '14.046', '4.182', '0.536' ],
+              [ '12.295', '1.429', '0.962' ],
+              [ '4.417', '8.167', '0.113' ],
+              [ '0.492', '4.771', '0.785' ],
+              [ '7.632', '2.605', '0.645' ],
+              [ '14.242', '5.042', '0.368' ]
+            ]
           }
         ]
       }
@@ -120,6 +177,8 @@ export default {
         if (res.success) {
           this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
           this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
+
+          this.chartOptions.dataset[1].dimensions = res.result.channelPieChartData.length ? ['channelName', 'addCount'] : []
           this.chartOptions.dataset[1].source = res.result.channelPieChartData
 
           const pieChart = this.chartOptions.series.pop()
@@ -186,6 +245,60 @@ export default {
           color: #8c8c8c;
           line-height: 20px;
         }
+      }
+
+      .down-icon {
+        font-size: 16px;
+        position: absolute;
+        bottom: -16px;
+        cursor: pointer;
+        &:hover {
+          color: #0091fa;
+        }
+      }
+    }
+  }
+}
+
+.channel-list-popover {
+  .channel-list {
+    max-width: 782px;
+    max-height: 306px;
+    padding: 15px 10px 11px;
+    overflow: overlay;
+    display: flex;
+    flex-wrap: wrap;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: #9093994d;
+    }
+
+    .data-item {
+      width: 152px;
+      height: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      span {
+        display: inline-block;
+        text-align: center;
+      }
+      .data-item-count {
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+      }
+
+      .data-item-label {
+        font-size: 12px;
+        color: #8c8c8c;
+        line-height: 20px;
       }
     }
   }

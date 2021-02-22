@@ -22,10 +22,10 @@
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
           :data="_data._table.data"
+          v-loading="_data._table.loadingtable"
           @sort-change="$orderChange$"
         >
           <el-table-column prop="date" label="日期" sortable="date"></el-table-column>
-          <el-table-column prop="addTotalCount" label="总添加人数"></el-table-column>
           <el-table-column prop="addCount" label="添加人数" sortable="addCount"></el-table-column>
           <el-table-column prop="deleteCount" label="删除人数" width="316" sortable="deleteCount">
           </el-table-column>

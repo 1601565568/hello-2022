@@ -12,7 +12,7 @@
   }
 }
 
-.indicator-list {
+.channel-list {
   >>> .el-checkbox {
     width: 149px;
     margin-top: 5px;
@@ -26,6 +26,7 @@
       width: 125px;
       padding-left: 8px;
       font-size: 14px;
+      color:#262626;;
       white-space: normal;
       display: inline-grid;
       white-space: pre-line;

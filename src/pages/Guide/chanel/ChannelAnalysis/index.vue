@@ -3,29 +3,37 @@
     <content-panel title="渠道添加好友占比" class="channel-friends-rate">
       <template v-slot:toolbar>
         <div>
-          <el-tooltip content="超出9个指标，建议全屏观看" effect="light" placement="top">
+          <el-tooltip v-if="channelList.length > 9" content="指标过多时，建议全屏观看" effect="light" placement="top">
             <ns-button class="ns-button fullscreen-button" @click="showChannelFriendRateDialog">
-              <Icon type="info-circle" theme="filled"/>
+              <Icon type="quanping" style="font-size: 16px"/>
             </ns-button>
           </el-tooltip>
-          <ns-button class="ns-button" @click="customIndicator">自定义指标</ns-button>
+          <ns-button class="ns-button" @click="customChannelCodes">自定义指标</ns-button>
           <!-- 自定义指标Dialog -->
-          <CustomIndicatorDialog
-            :visible="customIndicatorDialogVisible"
-            @close="customIndicatorDialogVisible = false"
-            @confirm="chooseCustomIndicator"
-            :selectedChannels="customIndicators"
+          <CustomChannelDialog
+            :visible="channelCodesDialogVisible"
+            @close="channelCodesDialogVisible = false"
+            @confirm="chooseChannelCodes"
+            :channelList="channelList"
+            :selectedChannels="selectedChannelCodes"
           />
           <!-- 全屏查看渠道好友占比Dialog -->
           <ChannelFriendRateDialog
             :visible="channelFriendRateDialogVisible"
             :chartHeight="chartHeight"
             @close="channelFriendRateDialogVisible = false"
+            :channelCodes="selectedChannelCodes"
+            :searchDate="searchDate"
           />
         </div>
       </template>
       <!-- echart图 -->
-      <ChannelChart ref="channelChart" class="channel-friend-rate-chart" :channelCodes="customIndicators" :searchDate="searchDate"/>
+      <ChannelChart
+        ref="channelChart"
+        class="channel-friend-rate-chart"
+        :channelCodes="selectedChannelCodes"
+        :searchDate="searchDate"
+      />
     </content-panel>
     <content-panel title="渠道统计" class="channel-statistics">
       <template v-slot:toolbar>
@@ -44,6 +52,7 @@
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
           :data="_data._table.data"
+          v-loading="_data._table.loadingtable"
           @sort-change="$orderChange$"
         >
           <el-table-column prop="channelName" label="渠道名称"></el-table-column>
@@ -80,13 +89,13 @@
 import ChannelAnalysis from './src/index.js'
 import ContentPanel from '../components/ContentPanel'
 import ChannelChart from './ChannelChart'
-import CustomIndicatorDialog from './CustomIndicatorDialog'
+import CustomChannelDialog from './CustomChannelDialog'
 import ChannelFriendRateDialog from './ChannelFriendRateDialog'
 
 ChannelAnalysis.components = {
   ContentPanel,
   ChannelChart,
-  CustomIndicatorDialog,
+  CustomChannelDialog,
   ChannelFriendRateDialog
 }
 
@@ -105,6 +114,11 @@ export default ChannelAnalysis
 
   .channel-friends-rate {
     height: 415px;
+    .fullscreen-button {
+      width: 32px;
+      padding: 7px 0;
+    }
+
     .channel-friend-rate-chart {
       height: calc(415px - 56px);
     }
