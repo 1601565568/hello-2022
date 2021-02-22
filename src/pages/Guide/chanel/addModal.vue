@@ -94,7 +94,11 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error({ message: info + '渠道失败' })
+          if (resp.msg) {
+            this.$notify.error(resp.msg)
+          } else {
+            this.$notify.error({ message: info + '渠道失败' })
+          }
         })
       this.loading = false
     },
