@@ -5,8 +5,7 @@ import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin, scrollHeight],
-  data: function () {
-    let that = this
+  data () {
     return {
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
@@ -110,12 +109,21 @@ export default {
         userName: null,
         userId: null
       }],
-      // 是否显示打标签dialog
-      addTagDialogVisible: false,
-      disableSaveBtn: false
+      addTagDialogVisible: false, // 是否显示打标签dialog
+      disableSaveBtn: false,
+      tagList: [], // 打标签列表
+      tagId2TagGroupId: {}, // 已选择标签id映射标签组id
+      saveLoading: false,
+      showPosterQrcode: false,
+      uploadPosterFileList: []
     }
   },
-  mounted: function () {
+  computed: {
+    selectedTagGroup () {
+      return Array.from(new Set(Object.values(this.tagId2TagGroupId)))
+    }
+  },
+  async mounted () {
     this.tableData = []
     this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
       this.memberManagePlan = data.result.memberManagePlan
@@ -151,10 +159,12 @@ export default {
         this.personalQrcode = {
           ...data.result,
           posterBackgroundUrl: data.result.poster_background_url || '',
-          qrcodeSize: data.result.qrcode_size || 172,
-          qrcodeX: data.result.qrcode_x || 67,
-          qrcodeY: data.result.qrcode_y || 349
+          qrcodeSize: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
+          qrcodeX: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 67,
+          qrcodeY: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
         }
+
+        this.showPosterQrcode = true
 
         this.tableData = JSON.parse(data.result.child_qrcodes)
         this.addTableData = JSON.parse(data.result.child_qrcodes)
@@ -167,6 +177,34 @@ export default {
     } else {
       this.title = '新增聚合二维码'
     }
+
+    // 获取打标签列表
+    await this.getWeWorkTagList()
+    if (id > 0) {
+      let checkList = []
+      if (this.personalQrcode.tagList) {
+        checkList = this.personalQrcode.tagList.split(',')
+      }
+
+      if (this.personalQrcode.tag_list) {
+        checkList = this.personalQrcode.tag_list.split(',')
+      }
+
+      if (checkList.length) {
+        const tagId2TagGroupId = {}
+        for (const tagGroupItem of this.tagList) {
+          const tagGroupId = tagGroupItem.tagGroupId
+          for (const tagValItem of tagGroupItem.tagValueList) {
+            const tagId = tagValItem.tagId
+            if (checkList.indexOf(tagId) > -1) {
+              tagId2TagGroupId[tagId] = tagGroupId
+            }
+          }
+        }
+
+        this.tagId2TagGroupId = tagId2TagGroupId
+      }
+    }
   },
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
@@ -174,13 +212,31 @@ export default {
       this.personalQrcode.qrcodeX = info.x
       this.personalQrcode.qrcodeY = info.y
     },
-    selectedTags (tagList) { // 打标签已选标签
-      this.personalQrcode = { ...this.personalQrcode, tagList }
+    switchTagDialog (state) { // 选择标签
+      this.addTagDialogVisible = state
+    },
+    selectedTags (info) { // 打标签已选标签
+      this.personalQrcode = { ...this.personalQrcode, tagList: info.checkList }
+      this.tagId2TagGroupId = info.tagId2TagGroupId
+    },
+    async getWeWorkTagList () { // 获取标签列表
+      try {
+        const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
+        if (res.success) {
+          this.tagList = res.result
+        } else {
+          this.$notify.error('获取企微标签失败')
+        }
+      } catch (error) {
+        this.$notify.error('获取企微标签失败')
+      }
     },
     sgUploadFile (name) {
       return this.$api.core.sgUploadFile('test')
     },
     onSave () {
+      this.saveLoading = true
+
       let that = this
       if (that.personalQrcode.name === null || that.personalQrcode.name.trim() === '') {
         return that.$notify.error('聚合码名称不能为空')
@@ -211,6 +267,7 @@ export default {
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {
+        this.saveLoading = false
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       })
     },
@@ -468,12 +525,9 @@ export default {
     cancel () { // 取消
       this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
     },
-    switchTagDialog (state) { // 选择标签
-      this.addTagDialogVisible = state
-    },
-    uploadPosterSuccess (uploadRes) { // 上传海报成功回调
+    uploadPosterSuccess (uploadRes, file, fileList) { // 上传海报成功回调
       const { success, result } = uploadRes
-
+      this.uploadPosterFileList = [ { name: file.name, url: file.response.result.url } ]
       if (success) {
         // 展示背景图
         this.personalQrcode = { ...this.personalQrcode, posterBackgroundUrl: result.url }
@@ -493,7 +547,7 @@ export default {
       const isLt10M = file.size / 1024 / 1024 < 10
 
       if (!isPngOrJpg || !isLt10M) {
-        this.$message.error('请上传jpg或png图片，大小不超过10M')
+        this.$message.error('请上传jpg、jpeg或png图片，大小不超过10M')
         this.disableSaveBtn = false
         return false
       }

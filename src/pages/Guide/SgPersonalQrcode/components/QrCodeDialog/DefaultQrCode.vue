@@ -7,7 +7,7 @@
           :action="uploadUrl"
           :data="{ guid: guid }"
           :show-file-list="false"
-          accept=".jpg,.png,.jpeg"
+          accept=".jpg,.jpeg,.png"
           :on-success="changeQrcodeAvatarSuccess"
           :on-error="changeQrcodeAvatarError"
           :before-upload="changeQrcodeAvatarBefore"
@@ -20,7 +20,7 @@
       </div>
       <p class='prompt-text'>
         <span class='yellow-point'></span>
-        请上传jpg或png图片，大小不超过100kb
+        请上传jpg、jpeg或png图片，大小不超过100kb
       </p>
     </div>
   </el-form>
@@ -83,7 +83,7 @@ export default {
       const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
       const isLt100K = file.size / 1024 < 100
       if (!isPngOrJpg || !isLt100K) {
-        this.$message.error('请上传jpg或png图片，大小不超过100kb')
+        this.$message.error('请上传jpg、jpeg或png图片，大小不超过100kb')
         this.changeAvatarLoading = false
         return false
       }

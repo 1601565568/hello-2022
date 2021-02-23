@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: white" class="base-border-radius border-line">
+  <div v-loading="saveLoading" style="background-color: white" class="base-border-radius border-line">
     <el-scrollbar ref="fullScreen" outsider>
     <el-row class="qrcode-content">
     <el-col :span="16" class="qrcode-content_edit">
@@ -96,21 +96,6 @@
                 </el-select>
               </el-form-grid>
             </el-form-item>
-<!--            <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>-->
-<!--              <el-form-grid size="xxmd">-->
-<!--                <el-form-item prop="sex">-->
-<!--                  <el-radio-group v-model="personalQrcode.isvalidate">-->
-<!--                    <el-radio :label="1">关闭</el-radio>-->
-<!--                    <el-radio :label="2">开启</el-radio>-->
-<!--                  </el-radio-group>-->
-<!--                </el-form-item>-->
-<!--              </el-form-grid>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 2 && personalQrcode.isvalidate == 2" required>-->
-<!--              <el-form-grid>-->
-<!--                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>-->
-<!--              </el-form-grid>-->
-<!--            </el-form-item>-->
             <el-form-item label="子码展示方式：" v-if="memberManagePlan == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
@@ -122,14 +107,14 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="打标签：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
+              <div class="sub-title" style="color: #595959;">
+                根据使用场景设置标签，给扫码添加的好友，自动打此标签
+              </div>
               <el-form-grid>
                 <ns-button type='text' @click="switchTagDialog(true)">+ 选择标签</ns-button>
               </el-form-grid>
-              <el-form-grid v-if="personalQrcode.tagList">
-                已选择<span class="text-primary">{{personalQrcode.tagList.split(',').length}}</span>个标签
-              </el-form-grid>
-              <el-form-grid v-else-if="personalQrcode.tag_list">
-                已选择<span class="text-primary">{{personalQrcode.tag_list.split(',').length}}</span>个标签
+              <el-form-grid v-if="selectedTagGroup.length">
+                已选择<span class="text-primary">{{selectedTagGroup.length}}</span>个标签
               </el-form-grid>
               <el-form-grid v-else>
                 未选择标签
@@ -142,18 +127,16 @@
                   drag
                   :action=" $api.core.sgUploadFile('test')"
                   accept=".jpg,.png"
-                  :limit="1"
                   :multiple="false"
                   :on-success="uploadPosterSuccess"
                   :on-error="uploadPosterError"
                   :on-remove="uploadPosterRemove"
                   :before-upload="uploadPosterBefore"
+                  :file-list="uploadPosterFileList"
                 >
-                  <!-- :disabled="changeAvatarLoading" -->
                     <i class="el-icon-upload" style="color:#0094FC;"></i>
-                    <!-- <Icon type="ns-cloud-uploading" /> -->
                     <div class="el-upload__text">点击或拖拽上传海报图</div>
-                    <div class="el-upload__tip" slot="tip">（请上传格式为jpg或png的图片，图片尺寸为750*1334，大小不超过10M）</div>
+                    <div class="el-upload__tip" slot="tip">（请上传格式为jpg、jpeg或png的图片，图片尺寸为750*1334，大小不超过10M）</div>
                 </el-upload>
               </div>
             </el-form-item>
@@ -164,6 +147,7 @@
       <!-- 效果展示开始 -->
       <el-col :span="8" class="qrcode-content_show">
         <PosterPreviewPanel
+          :showQrcode="showPosterQrcode"
           :posterBackgroundUrl="personalQrcode.posterBackgroundUrl"
           :qrcodeX="personalQrcode.qrcodeX"
           :qrcodeY="personalQrcode.qrcodeY"
@@ -235,6 +219,7 @@
     <!-- 打标签弹窗开始 -->
     <AddTagsDialog
       :visible="addTagDialogVisible"
+      :tagList="tagList"
       :selectedTags="personalQrcode.tagList || personalQrcode.tag_list"
       @hide="switchTagDialog(false)"
       @confirm="selectedTags"

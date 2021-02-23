@@ -3,14 +3,12 @@
     <h3>效果展示</h3>
     <div class="mobile-panel">
       <div class="poster-content" :style='{backgroundImage:"url("+posterBackgroundUrl+")"}'>
-         <!-- :isActive="isStating"
-          :isDraggable='isStating'
-          :isResizable='isStating' -->
         <VueDragResize
-          :w="qrcodeSize || size"
-          :h="qrcodeSize || size"
-          :x="qrcodeX || x"
-          :y="qrcodeY || y"
+          v-if="showQrcode"
+          :w="qrcodeSize"
+          :h="qrcodeSize"
+          :x="qrcodeX"
+          :y="qrcodeY"
           :parentLimitation="true"
           :aspectRatio="true"
           @dragstop="onDragResize"
@@ -31,22 +29,7 @@ export default {
   components: {
     VueDragResize
   },
-  props: [ 'posterBackgroundUrl', 'qrcodeSize', 'qrcodeX', 'qrcodeY' ],
-  computed: {
-    isStating () {
-      if (this.posterBackgroundUrl) {
-        return true
-      }
-      return false
-    }
-  },
-  data () {
-    return {
-      size: 172,
-      x: 67,
-      y: 349
-    }
-  },
+  props: [ 'posterBackgroundUrl', 'qrcodeSize', 'qrcodeX', 'qrcodeY', 'showQrcode' ],
   methods: {
     onDragResize (info) {
       this.$emit('posterQrcode', {
@@ -84,15 +67,6 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       overflow: hidden;
-      // .poster-qrcode {
-      //   margin: 349px auto 0;
-      //   width: 172px;
-      //   height: 172px;
-      //   img {
-      //     width: 100%;
-      //     height: 100%;
-      //   }
-      // }
     }
   }
 }

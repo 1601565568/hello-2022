@@ -63,10 +63,16 @@
           <el-table-column
             prop="employeeNumber"
             label="工号">
+            <template slot-scope="scope">
+              {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="employeeMobile"
             label="手机号">
+             <template slot-scope="scope">
+              {{ scope.row.employeeMobile ? scope.row.employeeMobile : '-' }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="offlineShops"
@@ -158,7 +164,7 @@ export default {
         employeeName: '',
         startTime: this.searchStartTime,
         endTime: this.searchEndDateTime,
-        friendOrder: 'asc'
+        friendOrder: 'desc'
       },
       seachEmployeeName: ''
     }

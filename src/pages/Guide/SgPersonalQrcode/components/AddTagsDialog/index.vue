@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="选择标签" width="758px" :visible="visible" @close="cancel">
+  <el-dialog title="选择标签" width="758px" :visible="visible" @close="cancel" @open="open">
     <el-form class="add-tags" label-width="100px" label-position="left">
       <!-- <el-form-item label="运营视角" required>
         <el-select v-model="selectedValue" filterable placeholder="请选择">
@@ -24,6 +24,7 @@
                 v-for="tagValueItem in tagGroupItem.tagValueList"
                 :key="tagValueItem.tagId"
                 :label="tagValueItem.tagId"
+                @change="chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId)"
               >
                 {{tagValueItem.tagName}}
               </el-checkbox>
@@ -46,48 +47,47 @@
  */
 export default {
   name: 'AddTags',
-  props: [ 'visible', 'selectedTags' ],
+  props: [ 'visible', 'tagList', 'selectedTags' ],
   data () {
     return {
       checkList: [],
-      tagList: []
-    }
-  },
-  watch: {
-    visible (val) {
-      if (val) {
-        if (this.selectedTags && typeof this.selectedTags === 'string') {
-          this.checkList = this.selectedTags.split(',')
-        }
-      }
-    }
-  },
-  async created () {
-    await this.getWeWorkTagList()
-
-    if (this.selectedTags && typeof this.selectedTags === 'string') {
-      this.checkList = this.selectedTags.split(',')
+      selectedTagGroupIds: [],
+      tagId2TagGroupId: {}
     }
   },
   methods: {
-    async getWeWorkTagList () {
-      try {
-        const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
-        if (res.success) {
-          this.tagList = res.result
-        } else {
-          this.$notify.error('获取企微标签失败')
+    chooseTag (tagGroupId, tagId) {
+      if (this.checkList.indexOf(tagId) > -1) {
+        this.tagId2TagGroupId[tagId] = tagGroupId
+      } else {
+        delete this.tagId2TagGroupId[tagId]
+      }
+    },
+    open () {
+      if (this.selectedTags && typeof this.selectedTags === 'string') {
+        this.checkList = this.selectedTags.split(',')
+      }
+
+      for (const tagGroupItem of this.tagList) {
+        const tagGroupId = tagGroupItem.tagGroupId
+        for (const tagValItem of tagGroupItem.tagValueList) {
+          const tagId = tagValItem.tagId
+          if (this.checkList.indexOf(tagId) > -1) {
+            this.tagId2TagGroupId[tagId] = tagGroupId
+          }
         }
-      } catch (error) {
-        this.$notify.error('获取企微标签失败')
       }
     },
     confirm () {
-      this.$emit('confirm', this.checkList.join(','))
+      this.$emit('confirm', {
+        checkList: this.checkList.join(','),
+        tagId2TagGroupId: this.tagId2TagGroupId
+      })
       this.$emit('hide')
     },
     cancel () {
       this.checkList = []
+      this.tagId2TagGroupId = {}
       this.$emit('hide')
     }
   }

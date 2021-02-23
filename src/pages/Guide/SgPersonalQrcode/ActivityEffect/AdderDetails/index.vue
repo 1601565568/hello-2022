@@ -45,6 +45,9 @@
         <el-table-column
           prop="employeeNumber"
           label="工号">
+          <template slot-scope="scope">
+            {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="createTime"
@@ -89,7 +92,7 @@ export default {
         guid: this.$route.params.guid,
         guideIds: [],
         employeeName: '',
-        createTimeOrderStr: 'asc'
+        createTimeOrderStr: 'desc'
       }
     }
   },
