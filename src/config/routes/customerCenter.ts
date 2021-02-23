@@ -42,7 +42,7 @@ export default {
           'title': '企微好友',
           'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
         }
-        /*{
+        /* {
           'path': '/Social/WeComCustomerOperation/RepeatCustomer',
           'name': 'WeComRepeatCustomer',
           'title': '重复客户',
@@ -58,7 +58,7 @@ export default {
               'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
             }
           ]
-        }*/
+        } */
       ]
     },
     {
