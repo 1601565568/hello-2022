@@ -192,7 +192,9 @@ export default {
       _this.$http
         .fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
           sgActivityCoupon: _this.activityModel,
-          couponShopList: _this.shopCouponList
+          couponShopList: _this.shopCouponList,
+          apportionChannel: this.apportionChannel, // 分配渠道
+          activityType: this.activityType // 分配活动
         })
         .then(resp => {
           if (resp.success) {
