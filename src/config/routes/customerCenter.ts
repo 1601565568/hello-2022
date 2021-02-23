@@ -74,15 +74,13 @@ export default {
           'path': '/Social/WeComCustomerOperation/RoomList',
           'name': 'WeComRoomList',
           'title': '群列表',
-          'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue'),
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/RoomList',
-              'name': 'WeComRoomMemberList',
-              'title': '企微群成员列表',
-              'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
-            }
-          ]
+          'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue')
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
+          'name': 'WeComRoomMemberList',
+          'title': '企微群成员列表',
+          'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
         }
       ]
     }
