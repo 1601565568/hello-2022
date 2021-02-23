@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table title='参与门店'>
+    <page-table :title='`${shopName}-${name}`'>
       <template slot='table'>
         <div class='form-item_tip'>
           客户选择此门店时，会随机添加以下的任意一名在职员工
@@ -70,7 +70,8 @@ export default {
       model: {
         sortName: '', // 排序字段名称
         sortType: 0 // 排序类型  0 降序 1 升序
-      }
+      },
+      name: this.$route.query ? this.$route.query.name : ''
     }
   },
   computed: {

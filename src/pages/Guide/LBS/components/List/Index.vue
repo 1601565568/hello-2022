@@ -94,7 +94,7 @@
             </el-table-column>
             <el-table-column
               prop="createName"
-              width='90px'
+              width='120px'
               label="创建人">
             </el-table-column>
             <el-table-column

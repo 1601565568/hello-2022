@@ -105,7 +105,11 @@ export default {
     },
     // 列表页面
     listPath () {
-      return this.type === 'Group' ? '/Social/LBS/Group/Index' : '/Social/LBS/Friends/Index'
+      return this.type === 'Group' ? '/Guide/LBS/Group/Index' : '/Guide/LBS/Friends/Index'
+    },
+    // 参与门店提示
+    shopTip () {
+      return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
     }
   },
   methods: {
@@ -174,7 +178,7 @@ export default {
     },
     // 返回列表
     handleCancel () {
-      this.$router.go(-1)
+      this.$router.push({ path: this.listPath })
     },
     handleChangeShopList (value) {
       this.model.shopIdList = value
@@ -210,7 +214,7 @@ export default {
       this.$http.fetch(this.saveApi, this.formatLoadData(this.model, 'updata')).then(() => {
         this.btnLoad = false
         this.$notify.success('保存成功')
-        this.$router.go(-1)
+        this.handleCancel()
       }).catch((resp) => {
         this.btnLoad = false
         this.$notify.error(getErrorMsg('保存失败', resp))

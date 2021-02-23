@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table title='参与门店'>
+    <page-table :title='`${shopName}-${name}`'>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
@@ -103,7 +103,8 @@ export default {
           color: 'info'
         }
       },
-      state: -1
+      state: -1,
+      name: this.$route.query ? this.$route.query.name : ''
     }
   },
   computed: {

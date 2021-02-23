@@ -19,7 +19,7 @@
             </el-form-item>
             <el-form-item label='参与门店' prop='shopIdList'>
               <div class='flex-box form-item_toptext'>
-                <span>会根据客户位置信息，自动推荐最近门店群聚合码</span>
+                <span>{{shopTip}}</span>
               </div>
               <html-area>
                 <div class='employee-list'>
@@ -234,7 +234,7 @@
                     <el-tooltip  placement="top" popper-class='popperClass'>
                       <Icon type="question-circle"  class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>消费者选择定位后，展示此海报和对应的企微聚合码</p>
+                        <p class='popperClass'>消费者选择定位后，展示此海报和开启的企微聚合码</p>
                       </template>
                     </el-tooltip>
                   </div>
