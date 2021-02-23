@@ -18,6 +18,12 @@ export default {
           'name': 'OTHERS_SGWXACCOUNT',
           'title': '授权管理',
           'component': () => import('@/pages/Guide/SgWxAccount/index.vue')
+        },
+        {
+          'path': '/Guide/Others/SgWxAuth',
+          'name': 'OTHERS_SGWXACCOUNT',
+          'title': '授权管理',
+          'component': () => import('@/pages/Guide/SgWxAuth/Index.vue')
         }
       ]
     },
