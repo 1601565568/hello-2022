@@ -270,9 +270,9 @@ export default {
             this.btnLoad = false
             return false
           }
-          console.log('prizeModel', prizeModel)
+          // console.log('prizeModel', prizeModel)
           const save = Object.assign(this.formatModel(), prizeModel)
-          console.log(save)
+          // console.log(save)
           this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
             this.$notify.success('保存成功')
             this.handleCancel()

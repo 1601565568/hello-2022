@@ -270,7 +270,7 @@ export default {
   },
   methods: {
     setModel () {
-      console.log(this.prizeModel, 'this.prizeModel')
+      // console.log(this.prizeModel, 'this.prizeModel')
       // debugger
       if (Object.keys(this.prizeModel).length > 0) {
         this.model = {
