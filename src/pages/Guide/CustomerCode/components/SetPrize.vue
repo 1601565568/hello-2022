@@ -12,7 +12,7 @@
     >
       <el-form-item class="larger-item" label="奖励机制">
         <el-switch
-         :disabled='isStating'
+          :disabled="isStating"
           active-color="#0091FA"
           inactive-color="#8C8C8C"
           v-model="model.prizeStatus"
@@ -22,7 +22,7 @@
       <template v-if="model.prizeStatus">
         <el-form-item class="larger-item" label="发放设置" prop="prizeSendPlan">
           <el-select
-           :disabled='isStating'
+            :disabled="isStating"
             v-model="model.prizeSendPlan"
             placeholder="请选择奖励"
             class="NsUi_select"
@@ -48,7 +48,7 @@
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
                 >
                   <el-input-number
-                  :disabled='isStating'
+                    :disabled="isStating"
                     style="width:118px;"
                     size="medium"
                     v-model="scope.row.recruitment"
@@ -80,7 +80,7 @@
                   ]"
                 >
                   <el-select
-                  :disabled='isStating'
+                    :disabled="isStating"
                     v-model="scope.row.prizeType"
                     placeholder="请选择奖励"
                   >
@@ -97,13 +97,22 @@
             </el-table-column>
             <el-table-column type="default" label="奖励内容" :sortable="false">
               <template slot-scope="scope">
-                <div class="coupon" @click="getCoupon">
-                  <p v-if="!scope.row.prizeId" class="getCoupon">
-                    请选择
-                  </p>
-                  <p v-else class="text">{{ scope.row.prizeName }}</p>
-                  <Icon type="couponicon" />
-                </div>
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.prizeId'"
+                  :rules="[{
+                      required: true,
+                      message: '请选择奖励内容',
+                      trigger: ['blur', 'change']
+                    }]"
+                >
+                  <div class="coupon" @click="getCoupon">
+                    <p v-if="!scope.row.prizeId" class="getCoupon">
+                      请选择
+                    </p>
+                    <p v-else class="couponText">{{ scope.row.prizeName }}</p>
+                    <Icon type="couponicon" />
+                  </div>
+                </el-form-item>
               </template>
             </el-table-column>
             <el-table-column type="default" label="剩余数量" :sortable="false">
@@ -141,7 +150,7 @@
                   ]"
                 >
                   <el-input
-                    :disabled='isStating'
+                    :disabled="isStating"
                     v-model="scope.row.prizeNumber"
                     maxlength="10"
                     type="number"
@@ -150,8 +159,13 @@
                 <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
-            <el-table-column type="default" label="追加数量" :sortable="false" v-if="isStating">
-                            <template slot-scope="scope">
+            <el-table-column
+              type="default"
+              label="追加数量"
+              :sortable="false"
+              v-if="isStating"
+            >
+              <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.addPrizeNumber'"
                   :rules="[
@@ -174,7 +188,10 @@
                       trigger: ['blur', 'change']
                     },
                     {
-                      validator: ValidateUtil.checkaddPrizeNumber.bind(this, scope.row),
+                      validator: ValidateUtil.checkaddPrizeNumber.bind(
+                        this,
+                        scope.row
+                      ),
                       trigger: ['blur', 'change']
                     }
                   ]"
@@ -353,5 +370,11 @@ export default {
 .getCoupon {
   color: #bfbfbf;
   font-size: 14px;
+}
+.couponText {
+    width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 </style>
