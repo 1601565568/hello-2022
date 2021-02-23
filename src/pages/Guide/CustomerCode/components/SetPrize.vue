@@ -74,7 +74,7 @@
                   :rules="[
                     {
                       required: true,
-                      message: '请选择奖励',
+                      message: '请选择奖励类型',
                       trigger: ['blur', 'change']
                     }
                   ]"
@@ -231,10 +231,10 @@ export default {
   data () {
     // 效验库存设置
     const checkStock = (item, rule, value, callback) => {
-      if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('填写的发放数量不能大于剩余数量'))
+      if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
+        callback(new Error('发放数量不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
-        callback(new Error('填写的发放数量不能0'))
+        callback(new Error('发放数量不能0'))
       } else {
         callback()
       }
@@ -344,7 +344,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang='scss'>
 @import '@components/NewUi/styles/reset.css';
 .Tips {
   padding: 0 16px;
@@ -377,4 +377,13 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+// .normal-from >>> .el-table .cell {
+//   overflow: visible !important;
+// }
+// .normal-from >>> .el-table::before {
+//   display: none;
+// }
+// .normal-from >>> .el-table__body-wrapper {
+//   padding-bottom:20px;
+// }
 </style>
