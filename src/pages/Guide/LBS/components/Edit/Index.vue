@@ -105,7 +105,7 @@
               <el-form-item label='海报' required prop='welcomePoster'>
                 <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.welcomePoster' :maxWidth='750'>
                   <template slot='footer'>
-                    <p class='prompt-text'>默认海报固定显示，建议为权益说明，引导客户入群</p>
+                    <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
                 </drap-upload>
               </el-form-item>

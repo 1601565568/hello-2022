@@ -110,6 +110,10 @@ export default {
     // 参与门店提示
     shopTip () {
       return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
+    },
+    // 海报提示
+    welcomePosterTip () {
+      return this.type === 'Group' ? '默认海报固定显示，建议为权益说明，引导客户入群' : '默认海报固定显示，建议为权益说明，引导消费者添加员工企业微信好友'
     }
   },
   methods: {

@@ -1,66 +1,74 @@
 <template>
-  <div>
-    <page-table :title='`${shopName}-${name}`'>
-      <template slot='search'>
-        <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
-            <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
-          </el-form-item>
-        </el-form>
-      </template>
-      <template slot='table'>
-        <div class='form-item_tip'>
-          门店店长已进行群聚合码设置，群满后会自动创建新群，群名前缀“{{shopName}}”
-        </div>
-        <el-table
-          :data="_data._table.data"
-          class="new-table_border"
-          @sort-change="handleSort"
-          style="width: 100%">
-          <el-table-column
-            prop="chatroomName"
-            label="群名称">
-          </el-table-column>
-          <el-table-column
-            prop="guideName"
-            label="群主">
-          </el-table-column>
-          <el-table-column
-            prop="addUserNum"
-            sortable="custom"
-            label="群成员数">
-          </el-table-column>
-          <el-table-column
-            prop="title"
-            label="操作">
-            <template slot-scope="scope">
-              <div class='btn-context'>
-                <ns-button type="text" class='detail-btn' @click='handleRemove(scope.row)'>移除</ns-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </template>
-      <template slot='pagination'>
-        <div class='drawer-pagination'>
-          <div class='pagecontent-left'>
-            <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个门店</div>
-            <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
+  <div class='container-warpper'>
+    <div class='container-div'>
+      <page-table :title='`${shopName}-${name}`'>
+        <template slot='search'>
+          <el-form :inline="true" class='form-inline_top'>
+            <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
+              <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
+            </el-form-item>
+          </el-form>
+        </template>
+        <template slot='table'>
+          <div class='form-item_tip'>
+            门店店长已进行群聚合码设置，群满后会自动创建新群，群名前缀“{{shopName}}”
           </div>
-          <el-pagination v-if="_data._pagination.enable"
-                          style='width:300px'
-                          class="template-table__pagination"
-                          :page-sizes="_data._pagination.sizeOpts"
-                          :total="_data._pagination.total"
-                          :current-page="_data._pagination.page"
-                          :page-size="_data._pagination.size"
-                          layout="total, prev, pager, next, jumper"
-                          @size-change="$sizeChange$"
-                          @current-change="$pageChange$">
-            </el-pagination>
-          </div>
-      </template>
-    </page-table>
+          <el-table
+            :data="_data._table.data"
+            class="new-table_border"
+            @sort-change="handleSort"
+            style="width: 100%">
+            <el-table-column
+              prop="chatroomName"
+              label="群名称">
+              <template slot-scope="scope">
+                {{scope.row.chatroomName || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="guideName"
+              label="群主">
+              <template slot-scope="scope">
+                {{scope.row.guideName || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="addUserNum"
+              sortable="custom"
+              label="群成员数">
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="操作">
+              <template slot-scope="scope">
+                <div class='btn-context'>
+                  <ns-button type="text" class='detail-btn' @click='handleRemove(scope.row)'>移除</ns-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+        <template slot='pagination'>
+          <div class='drawer-pagination'>
+            <div class='pagecontent-left'>
+              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个门店</div>
+              <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
+            </div>
+            <el-pagination v-if="_data._pagination.enable"
+                            style='width:300px'
+                            class="template-table__pagination"
+                            :page-sizes="_data._pagination.sizeOpts"
+                            :total="_data._pagination.total"
+                            :current-page="_data._pagination.page"
+                            :page-size="_data._pagination.size"
+                            layout="total, prev, pager, next, jumper"
+                            @size-change="$sizeChange$"
+                            @current-change="$pageChange$">
+              </el-pagination>
+            </div>
+        </template>
+      </page-table>
+    </div>
   </div>
 </template>
 <script>
@@ -197,6 +205,15 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  .container-warpper {
+    height: 100vh;
+    overflow-y:auto;
+  }
+  .container-div {
+    min-height: 100vh;
+    padding-bottom: 66px;
+    position: relative;
+  }
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
@@ -231,7 +248,7 @@ export default {
     position: absolute;
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
