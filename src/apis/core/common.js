@@ -171,6 +171,10 @@ export default {
     url: '/core/common/getLoginAccount',
     method: 'get'
   },
+  getDecryptData: {
+    url: '/core/common/getDecryptData',
+    method: 'get'
+  },
   queryEmployeeList4Component: {
     url: '/core/common/queryEmployeeList4Component',
     method: 'post'

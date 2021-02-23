@@ -356,9 +356,9 @@
           <el-table :data="detailData" stripe>
             <el-table-column prop="guideName" label="导购"></el-table-column>
             <el-table-column prop="name" label="姓名">
-              <template slot-scope="scope">
-                {{scope.row.name || '-'}}
-              </template>
+                <template slot-scope="scope">
+                  <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
+                </template>
             </el-table-column>
             <el-table-column prop="createTime" label="招募时间" align="center" width="180"></el-table-column>
             <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
@@ -410,9 +410,13 @@
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
-          <el-table :data="detailData">
+          <el-table :data="detailData" stripe>
             <el-table-column prop="guideName" label="导购" align="left"></el-table-column>
-            <el-table-column prop="name" label="姓名" align="left"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="left">
+              <template slot-scope="scope">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
+              </template>
+            </el-table-column>
             <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
             <el-table-column prop="payment" label="订单实付(含运费)" align="right"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
@@ -458,7 +462,11 @@
     <div style="overflow-x:hidden;overflow-y:auto;">
       <el-table :data="detailData" stripe>
         <el-table-column prop="guideName" label="导购"></el-table-column>
-        <el-table-column prop="friendWxnick" label="昵称"></el-table-column>
+        <el-table-column prop="friendWxnick" label="昵称">
+          <template slot-scope="scope">
+            <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encFriendWxnick" :sensitiveData="scope.row.friendWxnick"></ns-sg-sensitive-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="createTime" label="新加好友时间" align="center" width="180"></el-table-column>
         <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
       </el-table>
