@@ -3,7 +3,33 @@
     <ns-page-table :colButton="0">
       <!-- 简单搜索 -->
       <template slot="searchSearch">
-        <el-form :model="model" :inline="true" label-width="60px">
+        <el-form
+          :inline="true"
+          label-width="60px"
+        >
+          <el-form-item v-show="searchType.advanced === false">
+            <el-input
+              ref="quickText"
+              v-model="model.customerNick"
+              placeholder="请输入好友昵称"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item v-show="searchType.advanced === false">
+            <ns-button type="primary" @click="submitForm()">搜索</ns-button>
+            <ns-button @click="resetForm()" class="resetbtn">重置</ns-button>
+          </el-form-item>
+          <el-form-item>
+            <ns-button type="text" @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;">
+              {{searchType.tipText}}
+              <Icon :type="searchType.advanced ? 'up' : 'down'" />
+            </ns-button>
+          </el-form-item>
+        </el-form>
+      </template>
+      <!-- 高级搜索 -->
+      <template slot="advancedSearch" v-if="searchType.advanced">
+        <el-form :model="model" :inline="true" label-width="60px" align="right">
           <el-form-item label="好友昵称：">
             <el-input
               v-model="model.customerNick"
@@ -27,6 +53,7 @@
               v-model="model.deleteTime"
               type="datetimerange"
               value-format="yyyy-MM-dd HH:mm:ss"
+              :default-time="['00:00:00','23:59:59']"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
