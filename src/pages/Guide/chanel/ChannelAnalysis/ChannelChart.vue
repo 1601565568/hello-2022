@@ -8,6 +8,7 @@
           <span class="data-item-label" :title="item.channelName">{{item.channelName}}</span>
         </div>
         <el-popover
+          v-if="channelCodes.length > 3"
           placement="bottom"
           class="down-icon"
           trigger="click"
@@ -15,7 +16,7 @@
         >
           <Icon slot="reference" type="ns-arrow-drowdown"/>
           <div class="channel-list">
-            <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source" :key="index">
+            <div class="data-item" v-for="(item, index) in channlePopover" :key="index">
               <span class="data-item-count">{{item.addCount}}</span>
               <span class="data-item-label" :title="item.channelName">{{item.channelName}}</span>
             </div>
@@ -45,7 +46,16 @@ export default {
           type: 'scroll'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          borderColor: '#E4E7ED',
+          borderWidth: 1.4,
+          backgroundColor: '#fff',
+          textStyle: {
+            color: '#606266'
+          }
           // formatter: '{b} {c} ({d}%)'
           // formatter: '{b}: {d}%'
         },
@@ -106,49 +116,7 @@ export default {
           }
         ]
       },
-      chartOptions2: {
-        xAxis: {
-          type: 'value'
-        },
-        yAxis: {
-          type: 'value'
-        },
-        dataZoom: [
-          {
-            type: 'slider',
-            start: 10,
-            end: 60
-          },
-          {
-            type: 'inside',
-            start: 0,
-            end: 100
-          }
-        ],
-        series: [
-          {
-            type: 'scatter',
-            itemStyle: {
-              opacity: 0.8
-            },
-            symbolSize: function (val) {
-              return val[2] * 40
-            },
-            data: [
-              [ '14.616', '7.241', '0.896' ],
-              [ '3.958', '5.701', '0.955' ],
-              [ '2.768', '8.971', '0.669' ],
-              [ '9.051', '9.710', '0.171' ],
-              [ '14.046', '4.182', '0.536' ],
-              [ '12.295', '1.429', '0.962' ],
-              [ '4.417', '8.167', '0.113' ],
-              [ '0.492', '4.771', '0.785' ],
-              [ '7.632', '2.605', '0.645' ],
-              [ '14.242', '5.042', '0.368' ]
-            ]
-          }
-        ]
-      }
+      channlePopover: []
     }
   },
   watch: {
@@ -179,7 +147,9 @@ export default {
           this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
 
           this.chartOptions.dataset[1].dimensions = res.result.channelPieChartData.length ? ['channelName', 'addCount'] : []
-          this.chartOptions.dataset[1].source = res.result.channelPieChartData
+          this.chartOptions.dataset[1].source = res.result.channelPieChartData.filter(item => item.addCount > 0)
+
+          this.channlePopover = res.result.channelPieChartData
 
           const pieChart = this.chartOptions.series.pop()
           this.chartOptions.series = []
