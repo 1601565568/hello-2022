@@ -21,7 +21,7 @@
       </el-checkbox-group>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-checkbox style="float: left" :value="checkedChannels.length === channelList.length" @change="checkAll">全选</el-checkbox>
+      <el-checkbox style="float: left; margin-left: 6px;" :value="checkedChannels.length === channelList.length" @change="checkAll">全选</el-checkbox>
       <ns-button @click="$emit('close')">取 消</ns-button>
       <ns-button type="primary" @click="confirm">确 定</ns-button>
     </span>
@@ -56,7 +56,7 @@ export default {
         this.$emit('confirm', this.checkedChannels)
         this.$emit('close')
       } else {
-        this.$notify.error('至少选择一个指标')
+        this.$message.error('至少选择一个指标')
       }
     },
     checkAll (isChecked) {

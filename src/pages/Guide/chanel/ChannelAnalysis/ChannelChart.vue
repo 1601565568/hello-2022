@@ -5,7 +5,7 @@
       <div class="circle-chart-statistics">
         <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source.slice(0, 3)" :key="index">
           <span class="data-item-count">{{item.addCount}}</span>
-          <span class="data-item-label">{{item.channelName}}</span>
+          <span class="data-item-label" :title="item.channelName">{{item.channelName}}</span>
         </div>
         <el-popover
           placement="bottom"
@@ -17,7 +17,7 @@
           <div class="channel-list">
             <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source" :key="index">
               <span class="data-item-count">{{item.addCount}}</span>
-              <span class="data-item-label">{{item.channelName}}</span>
+              <span class="data-item-label" :title="item.channelName">{{item.channelName}}</span>
             </div>
           </div>
         </el-popover>
@@ -244,6 +244,10 @@ export default {
           font-size: 12px;
           color: #8c8c8c;
           line-height: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 152px;
         }
       }
 

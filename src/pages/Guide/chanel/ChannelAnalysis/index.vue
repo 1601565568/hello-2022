@@ -1,9 +1,9 @@
 <template>
   <div class="channel-analysis-container">
-    <content-panel title="渠道添加好友占比" class="channel-friends-rate">
+    <content-panel v-loading="loadingChannelFriendRate" title="渠道添加好友占比" class="channel-friends-rate">
       <template v-slot:toolbar>
         <div>
-          <el-tooltip v-if="channelList.length > 9" content="指标过多时，建议全屏观看" effect="light" placement="top">
+          <el-tooltip content="指标过多时，建议全屏观看" effect="light" placement="top">
             <ns-button class="ns-button fullscreen-button" @click="showChannelFriendRateDialog">
               <Icon type="quanping" style="font-size: 16px"/>
             </ns-button>

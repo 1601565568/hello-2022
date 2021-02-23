@@ -32,6 +32,7 @@ export default {
       channelList: [], // 自定义指标列表
       selectedChannelCodes: [], // 已选自定义指标
       channelFriendRateDialogVisible: false, // 渠道好友占比
+      loadingChannelFriendRate: false,
       url: this.$api.guide.channel.findChannelAnalysisList,
       model: {
         channelName: '',
@@ -53,7 +54,6 @@ export default {
       this.model.endTime = ''
     }
     this.searchform()
-    window.console.log('渠道统计列表', this._data)
     await this.getChannelList()
   },
   methods: {
@@ -67,7 +67,6 @@ export default {
       this.channelCodesDialogVisible = true
     },
     async chooseChannelCodes (channelCodes) { // 选择自定义指标
-      window.console.log('已选择的自定义指标', channelCodes)
       this.selectedChannelCodes = channelCodes
     },
     showChannelFriendRateDialog () {
@@ -78,7 +77,6 @@ export default {
       try {
         const res = await this.$http.fetch(this.$api.guide.channel.getChannelList)
 
-        window.console.log('自定义指标', res)
         if (res.success) {
           this.channelList = res.result
           this.selectedChannelCodes = res.result.map(item => item.channel_code)
