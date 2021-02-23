@@ -161,64 +161,64 @@ export default {
               'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
             }
           ]
-        },
-        {
-          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-          'name': 'WeComFriendsAnalysis',
-          'title': '好友分析',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeComRepeatCustomer'
-          },
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-              'name': 'WeComFriendsAnalysis',
-              'title': '好友分析',
-              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
-            }
-          ]
-        },
-        {
-          'path': '/Social/WeComCustomerOperation/RepeatCustomer',
-          'name': 'WeComRepeatCustomer',
-          'title': '重复客户',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeComRepeatCustomer'
-          },
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/RepeatCustomer',
-              'name': 'WeComRepeatCustomer',
-              'title': '重复客户',
-              'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
-            }
-          ]
-        },
-        {
-          'path': '/Social/WeComCustomerOperation/LossCustomers',
-          'name': 'WeComLossCustomers',
-          'title': '流失客户',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
-          'redirect': {
-            'name': 'WeComDeleteCustomers'
-          },
-          children: [
-            {
-              path: '/Social/WeComCustomerOperation/DeleteCustomers',
-              name: 'WeComDeleteCustomers',
-              title: '企微好友数据分析',
-              component: () => import('@/pages/WeWork/LossCustomers/deleteCustomers.vue')
-            },
-            {
-              path: '/Social/WeComCustomerOperation/BeDeleteCustomers',
-              name: 'WeComBeDeleteCustomers',
-              title: '企微好友数据分析',
-              component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
-            }
-          ]
         }
+        // {
+        //   'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+        //   'name': 'WeComFriendsAnalysis',
+        //   'title': '好友分析',
+        //   'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+        //   'redirect': {
+        //     'name': 'WeComRepeatCustomer'
+        //   },
+        //   'children': [
+        //     {
+        //       'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+        //       'name': 'WeComFriendsAnalysis',
+        //       'title': '好友分析',
+        //       'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
+        //     }
+        //   ]
+        // },
+        // {
+        //   'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+        //   'name': 'WeComRepeatCustomer',
+        //   'title': '重复客户',
+        //   'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+        //   'redirect': {
+        //     'name': 'WeComRepeatCustomer'
+        //   },
+        //   'children': [
+        //     {
+        //       'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+        //       'name': 'WeComRepeatCustomer',
+        //       'title': '重复客户',
+        //       'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
+        //     }
+        //   ]
+        // },
+        // {
+        //   'path': '/Social/WeComCustomerOperation/LossCustomers',
+        //   'name': 'WeComLossCustomers',
+        //   'title': '流失客户',
+        //   'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
+        //   'redirect': {
+        //     'name': 'WeComDeleteCustomers'
+        //   },
+        //   children: [
+        //     {
+        //       path: '/Social/WeComCustomerOperation/DeleteCustomers',
+        //       name: 'WeComDeleteCustomers',
+        //       title: '企微好友数据分析',
+        //       component: () => import('@/pages/WeWork/LossCustomers/deleteCustomers.vue')
+        //     },
+        //     {
+        //       path: '/Social/WeComCustomerOperation/BeDeleteCustomers',
+        //       name: 'WeComBeDeleteCustomers',
+        //       title: '企微好友数据分析',
+        //       component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
+        //     }
+        //   ]
+        // }
       ]
     },
     {
