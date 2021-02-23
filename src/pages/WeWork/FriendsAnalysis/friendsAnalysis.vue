@@ -87,15 +87,25 @@
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="选择员工：" label-width="80px">
-            <ElFormGrid>
-              <NsGuideDialog :auth="false"
-                             :guideUrl="this.$api.weWork.guide.findGuideList"
-                             type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
-            </ElFormGrid>
-            <ElFormGrid>
-              已选择<span class="text-primary">{{model.guideIds ? model.guideIds.length : 0}}</span>个员工
-            </ElFormGrid>
+          <!--导购员工组件 -->
+          <el-form-item label="选择员工：">
+            <div class="template-search__box">
+          <span v-if="model.guideIds&&model.guideIds.length>0">
+              已选择{{model.guideIds.length}}个
+          </span>
+              <span v-else>全部</span>
+              <div style="float: right;">
+                <NsGuideDialog
+                  :isButton="false"
+                  :validNull="true"
+                  :auth="false"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择员工"
+                  v-model="model.guideIds"
+                ></NsGuideDialog>
+              </div>
+            </div>
           </el-form-item>
           <el-form-item>
             <ns-button type="primary" @click="$searchAction$()">{{$t('operating.search')}}</ns-button>
