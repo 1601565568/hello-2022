@@ -31,6 +31,10 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    showIcon: {
+      type: Boolean,
+      default: true
     }
   },
   data: function () {
@@ -340,14 +344,20 @@ export default {
     $sizeChange$: function (size) {
       this.pagination4Emp.size = size
       return this.getChatRoomList(1)
+    },
+    init () {
+      vm = this
+      // 获取部门树
+      vm.getDepartmentTree()
+      // 分类树
+      vm.getShopCateAndShop()
+    },
+    emptyData () {
+      this.selectedData = []
     }
   },
   mounted: function () {
-    vm = this
-    // 获取部门树
-    vm.getDepartmentTree()
-    // 分类树
-    vm.getShopCateAndShop()
+    this.init()
   },
   created: function () {
   }

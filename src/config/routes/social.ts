@@ -119,6 +119,72 @@ export default {
           'component': () => import('@/pages/WeWork/topicAnalysis/index.vue')
         }
       ]
+    },
+    {
+      path: '/Guide/LBS/Group',
+      name: 'Group',
+      title: 'LBS群聚合码',
+      meta: { requiresAuth: true },
+      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      redirect: {
+        path: '/Guide/LBS/Group/Index'
+      },
+      children: [
+        {
+          path: '/Guide/LBS/Group/Index',
+          name: 'GroupIndex',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
+        },
+        {
+          path: '/Guide/LBS/Group/Edit',
+          name: 'GroupEdit',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Edit.vue')
+        },
+        {
+          path: '/Guide/LBS/Group/Analysis',
+          name: 'GroupAnalysis',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Analysis.vue')
+        }
+      ]
+    },
+    {
+      path: '/Guide/LBS/Friends',
+      name: 'Friends',
+      title: 'LBS好友聚合码',
+      meta: { requiresAuth: true },
+      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      redirect: {
+        path: '/Guide/LBS/Friends/Index'
+      },
+      children: [
+        {
+          path: '/Guide/LBS/Friends/Index',
+          name: 'FriendsIndex',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Index.vue')
+        },
+        {
+          path: '/Guide/LBS/Friends/Edit',
+          name: 'FriendsEdit',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Edit.vue')
+        },
+        {
+          path: '/Guide/LBS/Friends/Analysis',
+          name: 'FriendsAnalysis',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Analysis.vue')
+        }
+      ]
     }
   ]
 }
