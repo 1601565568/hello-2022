@@ -203,6 +203,10 @@ export default {
             _this.$notify.success(resp.msg)
             _this.forbidden = false
             this.closeDialog()
+          } else {
+            _this.$notify.error(resp.msg)
+            _this.forbidden = false
+            // this.closeDialog()
           }
         })
         .catch(resp => {
