@@ -1,7 +1,7 @@
 <template>
   <div class="channel-analysis-container">
     <content-panel v-loading="loadingChannelFriendRate" title="渠道添加好友占比" class="channel-friends-rate">
-      <template v-slot:toolbar>
+      <template v-slot:toolbar v-if="channelList.length">
         <div>
           <el-tooltip content="指标过多时，建议全屏观看" effect="light" placement="top">
             <ns-button class="ns-button fullscreen-button" @click="showChannelFriendRateDialog">
@@ -29,11 +29,16 @@
       </template>
       <!-- echart图 -->
       <ChannelChart
+        v-if="channelList.length"
         ref="channelChart"
         class="channel-friend-rate-chart"
         :channelCodes="selectedChannelCodes"
         :searchDate="searchDate"
       />
+      <div class="no-data-content" v-else>
+        <div class="no-data-img"></div>
+        <span class="no-data-tip">暂无数据</span>
+      </div>
     </content-panel>
     <content-panel title="渠道统计" class="channel-statistics">
       <template v-slot:toolbar>
@@ -147,6 +152,24 @@ export default ChannelAnalysis
 
     .channel-friend-rate-chart {
       height: calc(415px - 56px);
+    }
+
+    .no-data-content {
+      margin: 50px auto;
+      width: 320px;
+      height: 220px;
+      .no-data-img {
+        width: 320px;
+        height: 200px;
+        background: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/common/img/no_list.png');
+      }
+      .no-data-tip {
+        display: block;
+        font-size: 14px;
+        color: #595959;
+        line-height: 22px;
+        text-align: center;
+      }
     }
   }
 

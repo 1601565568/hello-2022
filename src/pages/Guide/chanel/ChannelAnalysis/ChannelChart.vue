@@ -146,8 +146,8 @@ export default {
           this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
           this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
 
-          this.chartOptions.dataset[1].dimensions = res.result.channelPieChartData.length ? ['channelName', 'addCount'] : []
           this.chartOptions.dataset[1].source = res.result.channelPieChartData.filter(item => item.addCount > 0)
+          this.chartOptions.dataset[1].dimensions = this.chartOptions.dataset[1].source.length ? ['channelName', 'addCount'] : []
 
           this.channlePopover = res.result.channelPieChartData
 
