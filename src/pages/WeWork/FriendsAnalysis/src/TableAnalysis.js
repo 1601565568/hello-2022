@@ -245,8 +245,8 @@ export default {
           if (resp.success) {
             if (resp.result.length > 0) {
               resp.result.map((item) => {
-                this._data.option.legend.data.push('客户总数')
-                this._data.option.series[0].name = '客户总数'
+                this._data.option.legend.data.push('好友总数')
+                this._data.option.series[0].name = '好友总数'
                 this._data.option.xAxis[0].data.push(item.analysis_date.substring(0, 10))
                 this._data.option.series[0].data.push(item.customerTotal)
                 this._data.option.legend.data.push('净增人数')
