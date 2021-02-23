@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column
               type="default"
-              label="助力人数"
+              label="奖励类型"
               :sortable="false"
               class="el-form__change"
             >
