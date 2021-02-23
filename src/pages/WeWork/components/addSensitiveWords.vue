@@ -17,7 +17,7 @@
               <Icon type="exclamation-circle" />
             </i>
             <span
-              >多敏感词用“,”隔开，且每个敏感词不得超过10个字符，如敏感词1,敏感词2</span
+              >多敏感词用","隔开，且每个敏感词不得超过10个字符，如敏感词1,敏感词2</span
             >
           </span>
         </el-form-item>
