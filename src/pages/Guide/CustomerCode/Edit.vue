@@ -41,8 +41,7 @@
                   <div class='employee-suffix'>
                     <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                        <template slot='selfBtn'>
-                         123123123123
-                        <!-- <Icon type="geren"></Icon>111111 -->
+                        <Icon type="geren"></Icon>
                       </template>
                     </NsGuideDialog>
                   </div>
