@@ -3,7 +3,7 @@
     <NsEcharts class="echart-size" :options="chartOptions" :theme="'customed'" />
     <div class="channel-total-position">
       <div class="circle-chart-statistics">
-        <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source.slice(0, 3)" :key="index">
+        <div class="data-item" v-for="(item, index) in channlePopover.slice(0, 3)" :key="index">
           <span class="data-item-count">{{item.addCount}}</span>
           <span class="data-item-label" :title="item.channelName">{{item.channelName}}</span>
         </div>
@@ -14,7 +14,7 @@
           trigger="click"
           popper-class="channel-list-popover"
         >
-          <Icon slot="reference" type="ns-arrow-drowdown"/>
+          <Icon slot="reference" type="ns-arrow-drowdown" style="color: #8C8C8C;"/>
           <div class="channel-list">
             <div class="data-item" v-for="(item, index) in channlePopover" :key="index">
               <span class="data-item-count">{{item.addCount}}</span>
@@ -41,33 +41,33 @@ export default {
     return {
       chartOptions: {
         legend: {
+          bottom: this.fullScreen ? undefined : '22px',
           left: '30px',
           right: '20px',
-          type: 'scroll'
-          // pageIcons: {
-          //   horizontal: [
-          //     'path://M687.4,990l115.3-115.3L427.9,500l374.7-374.7L687.4,10l-490,490L687.4,990z',
-          //     'path://M197.8,124.3L312.2,10l490,490l-490,490L197.8,875.7L573.5,500L197.8,124.3z'
-          //   ]
-          // },
-          // pageIconInactiveColor: '#ededed',
-          // pageIconColor: '#262626',
-          // pageFormatter: '{current}-{total}',
-          // pageIconSize: 12
+          type: 'scroll',
+          icon: 'roundRect',
+          pageIcons: {
+            horizontal: [
+              'path://M687.4,990l115.3-115.3L427.9,500l374.7-374.7L687.4,10l-490,490L687.4,990z',
+              'path://M197.8,124.3L312.2,10l490,490l-490,490L197.8,875.7L573.5,500L197.8,124.3z'
+            ]
+          },
+          pageIconInactiveColor: '#ededed',
+          pageIconColor: '#262626',
+          pageFormatter: '{current}-{total}',
+          pageIconSize: 12
         },
         tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          },
+          trigger: 'axis',
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
           backgroundColor: '#fff',
           textStyle: {
             color: '#606266'
+          },
+          position: function (pos, params, el, elRect, size) {
+            return [ pos[0] + 20, pos[1] - 30 ]
           }
-          // formatter: '{b} {c} ({d}%)'
-          // formatter: '{b}: {d}%'
         },
         dataset: [
           {
@@ -89,7 +89,7 @@ export default {
         ],
         xAxis: { gridIndex: 0, type: 'category' },
         yAxis: { gridIndex: 0 },
-        grid: { left: 50, right: '35%' },
+        grid: { left: 50, right: '35%', bottom: this.fullScreen ? 80 : 130 },
         dataZoom: this.fullScreen ? [
           {
             type: 'slider',
@@ -110,12 +110,14 @@ export default {
             id: 'pie',
             top: '-20%',
             left: '65%',
+            bottom: '80',
             label: this.fullScreen ? { formatter: function (tip) {
               return `${tip.name}： ${tip.value.addCount} (${tip.percent}%)`
             } } : false,
             radius: ['30%', '50%'],
             tooltip: {
               trigger: 'item',
+              position: 'left',
               formatter: function (tip) {
                 return `${tip.name}: ${tip.value.addCount} (${tip.percent}%)`
               }
@@ -142,6 +144,8 @@ export default {
   methods: {
     async getChannelAnalysisChartData () {
       try {
+        this.$emit('loading')
+
         const res = await this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
           startTime: (this.searchDate && this.searchDate.length) ? this.searchDate[0] : '',
           endTime: (this.searchDate && this.searchDate.length) ? this.searchDate[1] : '',
@@ -171,6 +175,8 @@ export default {
         }
       } catch (error) {
         this.$notify.error('渠道好友占比数据获取失败')
+      } finally {
+        this.$emit('loading')
       }
     }
   }
@@ -196,7 +202,7 @@ export default {
     .circle-chart-statistics {
       position: absolute;
       right: -47%;
-      bottom: 24px;
+      bottom: 84px;
       width: 50%;
       height: 64px;
       display: flex;
@@ -207,6 +213,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         span {
           display: inline-block;
           text-align: center;
@@ -266,6 +273,7 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       span {
         display: inline-block;
         text-align: center;

@@ -34,6 +34,7 @@
         class="channel-friend-rate-chart"
         :channelCodes="selectedChannelCodes"
         :searchDate="searchDate"
+        @loading="loadingChannelFriendRate = !loadingChannelFriendRate"
       />
       <div class="no-data-content" v-else>
         <div class="no-data-img"></div>
@@ -146,6 +147,7 @@ export default ChannelAnalysis
   .channel-friends-rate {
     height: 415px;
     .fullscreen-button {
+      margin-top: -1px;
       width: 32px;
       padding: 7px 0;
     }

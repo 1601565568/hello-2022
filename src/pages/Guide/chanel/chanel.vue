@@ -217,7 +217,9 @@ export default {
     }
   },
   mounted: function () {
-    this.loadListFun()
+    if (!this.$route.query.tab || this.$route.query.tab === '0') {
+      this.loadListFun()
+    }
   },
   computed: {
     collapseText () {
@@ -235,7 +237,6 @@ export default {
       this.expanded = !this.expanded
     },
     tabHandleClick (tab, event) {
-      window.console.log(this.$route)
       this.$router.push({
         path: this.$route.path,
         query: { tab: tab.name }
