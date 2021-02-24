@@ -21,6 +21,13 @@ export default {
         callback()
       }
     }
+    const validateNumber = (min, max, rule, value, callback) => {
+      if (value > max || value < min) {
+        callback(new Error(`请输入${min}-${max}的正整数`))
+      } else {
+        callback()
+      }
+    }
     return {
       model: {
         id: null,
@@ -41,7 +48,7 @@ export default {
         roomRule: '',
         roomBaseName: '',
         roomBaseId: 1,
-        roomUserNum: 1,
+        roomUserNum: 200,
         qrcodeType: 1 // 好友聚合二维码设置
       },
       rules: {
@@ -71,6 +78,12 @@ export default {
         ],
         qrcodeType: [
           { required: true, message: '请选择聚合码设置', trigger: ['blur', 'change'] }
+        ],
+        roomBaseId: [
+          { validator: validateNumber.bind(this, 1, 100), trigger: ['blur', 'change'] }
+        ],
+        roomUserNum: [
+          { validator: validateNumber.bind(this, 1, 200), trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,

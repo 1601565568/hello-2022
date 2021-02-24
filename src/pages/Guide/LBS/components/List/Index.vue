@@ -86,7 +86,7 @@
                   <span>永久有效</span>
                 </template>
                 <template v-else>
-                  <span>{{scope.row.createTime}}</span>
+                  <span>{{scope.row.startTime}}</span>
                   至
                   <span>{{scope.row.endTime}}</span>
                 </template>
