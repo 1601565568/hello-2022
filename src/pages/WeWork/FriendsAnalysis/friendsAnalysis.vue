@@ -10,7 +10,7 @@
             <Icon type="kehudongcha-2"/>
           </div>
           <div class="subtance">
-            <div class="subtance__title">当前客户总数</div>
+            <div class="subtance__title">当前好友总数</div>
             <div class="subtance__text">
               <span>{{ this._data.rowDatas.customerTotal ?  this._data.rowDatas.customerTotal : 0 }}</span>
             </div>
