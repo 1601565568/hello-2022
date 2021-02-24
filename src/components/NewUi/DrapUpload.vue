@@ -34,7 +34,7 @@
         </label>
       </div>
     </div>
-    <div class='poster-set_content'>
+    <div class='poster-set_content' v-if='showFooter'>
       <span class='yellow-point' v-if='showPont'></span>
       <div>
         <slot name='footer'></slot>
@@ -95,6 +95,10 @@ export default {
       default: ''
     },
     showPont: {
+      type: Boolean,
+      default: true
+    },
+    showFooter: {
       type: Boolean,
       default: true
     },
@@ -168,7 +172,7 @@ export default {
 .poster-set_content {
   display: flex;
   align-items: flex-start;
-  padding: 16px 0;
+  padding:16px 0;
   .yellow-point {
     display: inline-block;
     background: #F2AA18;

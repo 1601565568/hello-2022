@@ -79,7 +79,7 @@
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false'>
+              <drap-upload tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -103,7 +103,7 @@
           <PhoneBox class='first-phone' title='01 引导页设置' phoneBar='加入门店群' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.welcomePoster' :maxWidth='750'>
+                <drap-upload tip='(建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式)' v-model='model.welcomePoster' :maxWidth='750'>
                   <template slot='footer'>
                     <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
@@ -112,7 +112,7 @@
             </template>
             <template slot='collapse-right'>
               <div class='search-bar'>
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
                 <span class='search-bar_text'>搜索您最近的门店</span>
               </div>
               <div class='preview-img short-img' :style='{backgroundImage: `url(${model.welcomePoster})`}'>
@@ -242,7 +242,7 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='welcomePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' :maxWidth='750' :maxHeight='1334'>
+                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334'>
                   <template slot='footer'>
                     <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                   </template>
@@ -251,7 +251,7 @@
             </template>
             <template slot='collapse-right'>
               <div class='search-bar'>
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
                 <span class='search-bar_text'>搜索您最近的门店</span>
               </div>
               <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
@@ -415,14 +415,13 @@ export default Index
   .employee-text {
     font-size: 14px;
     color: #BFBFBF;
-    padding-bottom: 8px;
     &.active {
       color: #262626;
     }
   }
   .employee-list {
     display: flex;
-    padding: 8px  0 0 8px;
+    padding-left:8px;
     flex-direction: row;
     flex-wrap: wrap;
   }
@@ -455,6 +454,12 @@ export default Index
     border-radius: 2px;
     border-radius: 2px;
     text-align: center;
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(227,242,255);
+      color: rgb(34,126,246);
+      border:1px solid rgb(172,216,252)
+    }
   }
   .search-bar {
     display: flex;

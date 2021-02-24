@@ -34,7 +34,7 @@
           </el-form-item>
           <el-form-item label="">
             <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
@@ -195,8 +195,7 @@ export default Index
     margin-right: 8px;
   }
   .search-icon {
-    font-size: 22px;
-    margin-top: 2px;
+    font-size: 25px;
   }
   .scope-name_text {
     overflow: hidden;
