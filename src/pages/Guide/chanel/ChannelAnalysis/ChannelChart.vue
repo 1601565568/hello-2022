@@ -54,7 +54,9 @@ export default {
           },
           pageIconInactiveColor: '#ededed',
           pageIconColor: '#262626',
-          pageFormatter: '{current}-{total}',
+          pageFormatter: '{current}/{total}',
+          pageButtonItemGap: 15,
+          pageButtonGap: 24,
           pageIconSize: 12
         },
         tooltip: {
@@ -195,7 +197,7 @@ export default {
 
   .channel-total-position {
     position: absolute;
-    height: 80px;
+    height: 0;
     width: 65%;
     bottom: 0;
     left: 50px;

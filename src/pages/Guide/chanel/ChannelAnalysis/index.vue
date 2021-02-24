@@ -94,7 +94,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="操作">
+          <el-table-column prop="count" label="操作" width="105">
             <template slot-scope="scope">
               <ns-button type="text" @click="checkDetail(scope.row)">查看明细</ns-button>
             </template>
@@ -147,6 +147,7 @@ export default ChannelAnalysis
   .channel-friends-rate {
     height: 415px;
     .fullscreen-button {
+      margin-right: 0;
       margin-top: -1px;
       width: 32px;
       padding: 7px 0;

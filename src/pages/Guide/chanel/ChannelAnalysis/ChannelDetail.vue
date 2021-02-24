@@ -1,8 +1,8 @@
 <template>
   <div class="channel-detail">
     <div class="channel-nav">
-      <!-- <Icon class="back" type="fanhuishangyiji"  @click="$router.go(-1)"/> -->
-      <Icon class="back" type="return" @click="$router.go(-1)" />
+      <Icon class="back" type="fanhuishangyiji"  @click="$router.go(-1)"/>
+      <!-- <Icon class="back" type="return" @click="$router.go(-1)" /> -->
       <h3>渠道明细</h3>
     </div>
     <ContentPanel class="channel-content">
@@ -42,7 +42,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="beDeletedCount" label="被删除人数" sortable="beDeletedCount">
+          <el-table-column prop="beDeletedCount" label="被删除人数" sortable="beDeletedCount" width="185">
             <template slot="header">
               被删除人数
               <el-tooltip class="help" content="筛选时间内，所有渠道添加的好友主动删除导购的好友数（会进行以下场景排重仅计算为1：一天发生多次删除，一个好友删除多个员工）">
