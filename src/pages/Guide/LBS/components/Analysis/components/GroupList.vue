@@ -1,7 +1,7 @@
 <template>
   <div class='container-warpper'>
     <div class='container-div'>
-      <page-table :title='`${shopName}-${name}`'>
+      <page-table :title='`${shopName}-聚合群聊`'>
         <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
@@ -55,7 +55,6 @@
               <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
             </div>
             <el-pagination v-if="_data._pagination.enable"
-                            style='width:300px'
                             class="template-table__pagination"
                             :page-sizes="_data._pagination.sizeOpts"
                             :total="_data._pagination.total"

@@ -66,6 +66,7 @@
       size='50%'
       @close='handleClose'
       :visible.sync="drawer"
+       appendToBody
       :with-header="false">
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
