@@ -156,7 +156,12 @@ export default {
 
         window.console.log('图数据', res)
         if (res.success) {
-          this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
+          // this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
+          let dimensions = [ 'date' ]
+          res.result.channelPieChartData.forEach(item => {
+            dimensions.push(item.channelName)
+          })
+          this.chartOptions.dataset[0].dimensions = dimensions
           this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
 
           this.chartOptions.dataset[1].source = res.result.channelPieChartData.filter(item => item.addCount > 0)

@@ -28,17 +28,16 @@
         </div>
       </template>
       <!-- echart图 -->
-      <ChannelChart
+      <!-- <ChannelChart
         v-if="channelList.length"
         ref="channelChart"
         class="channel-friend-rate-chart"
         :channelCodes="selectedChannelCodes"
         :searchDate="searchDate"
         @loading="loadingChannelFriendRate = !loadingChannelFriendRate"
-      />
-      <div class="no-data-content" v-else>
-        <div class="no-data-img"></div>
-        <span class="no-data-tip">暂无数据</span>
+      /> -->
+      <div class="no-data-content">
+        <img src="@/assets/no-data.png" alt="暂无数据">
       </div>
     </content-panel>
     <content-panel title="渠道统计" class="channel-statistics">
@@ -161,18 +160,6 @@ export default ChannelAnalysis
       margin: 50px auto;
       width: 320px;
       height: 220px;
-      .no-data-img {
-        width: 320px;
-        height: 200px;
-        background: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/common/img/no_list.png');
-      }
-      .no-data-tip {
-        display: block;
-        font-size: 14px;
-        color: #595959;
-        line-height: 22px;
-        text-align: center;
-      }
     }
   }
 
