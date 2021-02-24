@@ -125,7 +125,7 @@
                 <el-upload
                   size="xlg"
                   drag
-                  :action=" $api.core.sgUploadFile('test')"
+                  :action="$api.core.sgUploadFile('test')"
                   accept=".jpg,.png"
                   :multiple="false"
                   :on-success="uploadPosterSuccess"
