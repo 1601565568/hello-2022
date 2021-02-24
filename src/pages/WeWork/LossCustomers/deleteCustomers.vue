@@ -29,7 +29,7 @@
       </template>
       <!-- 高级搜索 -->
       <template slot="advancedSearch" v-if="searchType.advanced">
-        <el-form :model="model" :inline="true" label-width="60px" align="right">
+        <el-form :model="model" :inline="true" label-width="80px">
           <el-form-item label="好友昵称：">
             <el-input
               v-model="model.customerNick"
@@ -37,17 +37,27 @@
               clearable
             ></el-input>
           </el-form-item>
-          <el-form-item label="选择员工：" label-width="80px">
-            <ElFormGrid>
-              <NsGuideDialog :auth="false"
-                             :guideUrl="this.$api.weWork.guide.findGuideList"
-                             type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
-            </ElFormGrid>
-            <ElFormGrid>
-              已选择<span class="text-primary">{{model.guideIds ? model.guideIds.length : 0}}</span>个员工
-            </ElFormGrid>
+          <!--导购员工组件-->
+          <el-form-item label="选择员工：">
+            <div class="template-search__box">
+            <span v-if="model.guideIds && model.guideIds.length>0">
+                已选择{{model.guideIds.length}}个
+            </span>
+              <span v-else>全部</span>
+              <div style="float: right;">
+                <NsGuideDialog
+                  :isButton="false"
+                  :validNull="true"
+                  :auth="false"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择员工"
+                  v-model="model.guideIds"
+                ></NsGuideDialog>
+              </div>
+            </div>
           </el-form-item>
-          <el-form-item label="删除时间：" label-width="80px">
+          <el-form-item label="删除时间：">
             <el-date-picker
               :clearable=false
               v-model="model.deleteTime"
@@ -59,11 +69,11 @@
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="submitForm()">搜索</ns-button>
-            <ns-button @click="resetForm()" class="resetbtn">重置</ns-button>
-          </el-form-item>
         </el-form>
+        <div class="template-table__more-btn">
+          <ns-button type="primary" @click="submitForm()">搜索</ns-button>
+          <ns-button @click="resetForm()" class="resetbtn">重置</ns-button>
+        </div>
       </template>
       <!-- 简单搜索-结束 -->
 
@@ -141,4 +151,22 @@ export default deleteCustomers
 </script>
 <style scoped>
  @import "@theme/variables.pcss";
+ .template-search__box {
+   width: 182px;
+   height: 28px;
+   background: #ffffff;
+   border: 1px solid #dcdfe6;
+   border-radius: 3px;
+   border-radius: 3px;
+   display: flex;
+ }
+ .template-search__box span {
+   width: 141px;
+   height: 27px;
+   margin-left: 10px;
+   border-right: 1px solid #dcdfe6;
+ }
+ .template-search__box > div + span {
+   margin-left: var(--default-margin-small);
+ }
 </style>

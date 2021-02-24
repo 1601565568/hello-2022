@@ -50,6 +50,9 @@ export default {
     },
     // 提交搜索
     submitForm () {
+      this.pagination.page = 1
+      this.searchObj.start = 0
+      this.searchObj.searchMap = {}
       this.loadListFun()
     },
     // 重置
@@ -57,6 +60,9 @@ export default {
       this.model.customerNick = ''
       this.model.guideIds = []
       this.model.deleteTime = []
+      this.pagination.page = 1
+      this.searchObj.start = 0
+      this.searchObj.searchMap = {}
       this.loadListFun()
     }
   }

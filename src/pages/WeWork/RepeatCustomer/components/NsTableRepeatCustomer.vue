@@ -67,14 +67,23 @@
           </el-form-grid>
         </el-form-item>
         <el-form-item label="选择员工：">
-          <ElFormGrid>
-            <NsGuideDialog :auth="false"
-                           :guideUrl="this.$api.weWork.guide.findGuideList"
-                           type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.userIds"></NsGuideDialog>
-          </ElFormGrid>
-          <ElFormGrid>
-            已选择<span class="text-primary">{{model.userIds? model.userIds.length: 0}}</span>个导购员工
-          </ElFormGrid>
+          <div class="template-search__box">
+            <span v-if="model.userIds && model.userIds.length>0">
+                已选择{{model.userIds.length}}个
+            </span>
+            <span v-else>全部</span>
+            <div style="float: right;">
+              <NsGuideDialog
+                :isButton="false"
+                :validNull="true"
+                :auth="false"
+                type="primary"
+                btnTitle="选择"
+                dialogTitle="选择员工"
+                v-model="model.userIds"
+              ></NsGuideDialog>
+            </div>
+          </div>
         </el-form-item>
         <el-form-item label="首次添加时间：" label-width="100px">
           <el-form-grid size="xlg">
@@ -84,7 +93,7 @@
               range-separator="至"
               start-placeholder="请选择开始日期"
               end-placeholder="请选择结束日期"
-              :default-time="['00:00:00']"
+              :default-time="['00:00:00','23:59:59']"
               @change="changeTime"
               align="right"><!-- value-format="yyyy-MM-dd HH-mm-ss" :default-time="['00:00:00', '23:59:59']" -->
             </el-date-picker>
@@ -234,5 +243,23 @@ export default NsTableRepeatCustomer
     background: var(--theme-font-color-info);
     border: 1px solid var(--theme-font-color-info);
   }
+}
+.template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span {
+  width: 141px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+  margin-left: var(--default-margin-small);
 }
 </style>
