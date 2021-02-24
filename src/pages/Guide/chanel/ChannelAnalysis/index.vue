@@ -28,15 +28,15 @@
         </div>
       </template>
       <!-- echart图 -->
-      <!-- <ChannelChart
+      <ChannelChart
         v-if="channelList.length"
         ref="channelChart"
         class="channel-friend-rate-chart"
         :channelCodes="selectedChannelCodes"
         :searchDate="searchDate"
         @loading="loadingChannelFriendRate = !loadingChannelFriendRate"
-      /> -->
-      <div class="no-data-content">
+      />
+      <div class="no-data-content" v-else>
         <img src="@/assets/no-data.png" alt="暂无数据">
       </div>
     </content-panel>
