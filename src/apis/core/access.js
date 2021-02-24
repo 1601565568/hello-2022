@@ -81,31 +81,6 @@ export default {
           copyrightInfo: res.data.result.copyrightInfo,
           uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
-        const a = {
-          code: 'WeWorkGuestCode',
-          commonState: 0,
-          deluxeState: 0,
-          id: '3166',
-          name: 'LBS群',
-          parentId: '3015',
-          platinumState: 0,
-          sort: 0,
-          type: 'MENU',
-          url: '/Guide/LBS/Group/Index'
-        }
-        const b = {
-          code: 'WeWorkGuestCode',
-          commonState: 0,
-          deluxeState: 0,
-          id: '3177',
-          name: 'LBS朋友',
-          parentId: '3015',
-          platinumState: 0,
-          sort: 0,
-          type: 'MENU',
-          url: '/Guide/LBS/Friends/Index'
-        }
-        res.data.result.menus.push(...[a, b])
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {
