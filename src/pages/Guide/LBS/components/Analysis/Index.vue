@@ -2,7 +2,7 @@
   <div class="analysis-container">
     <div class='analysis-header'>
       <h3 class='header-text'>
-        <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
+        <Icon type="icon-fanhuishangyiji" class='back-icon' theme="filled" @click='handleBack'></Icon>
         {{activityName}}的活动效果
       </h3>
       <div class='header-tab'>
@@ -124,10 +124,12 @@ Analysis.components = {
   @import "@components/NewUi/styles/reset.css";
   .analysis-container {
     .back-icon {
-      height: 16px;
-      width: 16px;
+      font-size: 16px;
       cursor: pointer;
       margin-right: 16px;
+      &:hover {
+        color: #0392fb;
+      }
     }
     .analysis-header {
       margin: -10px -10px 16px -10px;

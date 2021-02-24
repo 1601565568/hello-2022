@@ -79,7 +79,7 @@
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false'>
+              <drap-upload tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -103,16 +103,16 @@
           <PhoneBox class='first-phone' title='01 引导页设置' phoneBar='加入门店群' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.welcomePoster' :maxWidth='750'>
+                <drap-upload tip='(建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式)' v-model='model.welcomePoster' :maxWidth='750'>
                   <template slot='footer'>
-                    <p class='prompt-text'>默认海报固定显示，建议为权益说明，引导客户入群</p>
+                    <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
                 </drap-upload>
               </el-form-item>
             </template>
             <template slot='collapse-right'>
               <div class='search-bar'>
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
                 <span class='search-bar_text'>搜索您最近的门店</span>
               </div>
               <div class='preview-img short-img' :style='{backgroundImage: `url(${model.welcomePoster})`}'>
@@ -178,16 +178,19 @@
                   <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
                   <p class='prompt-text'><span class='yellow-point'></span>自动创建的群聊按照序号开始依次生成，如“广州客户群1”，请输入1-100的正整数</p>
                 </el-form-item>
-                <el-form-item label='自动移除群' prop='roomUserNum' class='larger-item'>
+                <el-form-item label='自动移除群' class='larger-item'>
                   <template slot='label' class='larger-item_icon'>
                     <span>自动移除群</span>
-                    <el-tooltip content="企微接口限制，单个群码聚合超过100个群时，无法自动创建新群请输入180-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群"  placement="top">
+                    <el-tooltip content="企微接口限制，单个群码聚合超过100个群时，无法自动创建新群请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）"  placement="top">
                       <Icon type="question-circle" class='question-circle' />
                     </el-tooltip>
                   </template>
-                  当群聚合超的群过100个群时，自动移除 &nbsp;
-                  <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
-                  &nbsp;人以上群聊
+                  <div style='display:flex;'>
+                    当群聚合超的群过100个群时，自动移除 <div class='cha'></div>
+                    <el-form-item prop='roomUserNum'>
+                      <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                    </el-form-item><div class='cha'></div>人以上群聊
+                  </div>
                 </el-form-item>
                 <div class='step-content'>
                   <div class='step-name'>Step3：</div>
@@ -242,7 +245,7 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='welcomePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' :maxWidth='750' :maxHeight='1334'>
+                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334'>
                   <template slot='footer'>
                     <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                   </template>
@@ -251,7 +254,7 @@
             </template>
             <template slot='collapse-right'>
               <div class='search-bar'>
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
                 <span class='search-bar_text'>搜索您最近的门店</span>
               </div>
               <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
@@ -298,6 +301,9 @@ export default Index
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  .cha {
+    width:5px;
+  }
   .common-collapse {
     margin-top: 16px;
   }
@@ -415,14 +421,13 @@ export default Index
   .employee-text {
     font-size: 14px;
     color: #BFBFBF;
-    padding-bottom: 8px;
     &.active {
       color: #262626;
     }
   }
   .employee-list {
     display: flex;
-    padding: 8px  0 0 8px;
+    padding-left:8px;
     flex-direction: row;
     flex-wrap: wrap;
   }
@@ -455,6 +460,12 @@ export default Index
     border-radius: 2px;
     border-radius: 2px;
     text-align: center;
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(227,242,255);
+      color: rgb(34,126,246);
+      border:1px solid rgb(172,216,252)
+    }
   }
   .search-bar {
     display: flex;

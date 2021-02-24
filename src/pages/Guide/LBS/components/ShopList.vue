@@ -1,55 +1,57 @@
 <template>
-  <div>
-    <page-table :searchCol='24' title='参与门店'>
-      <template slot='search'>
-        <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-          <el-form-item label="" class='no-margin'>
-            <el-input v-model="model.shopName" placeholder="请输入门店名称"  @keyup.enter.native="handleSearch" >
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </template>
-      <template slot='table'>
-        <template>
-          <el-table
-            :data="_data._table.data"
-            class="new-table_border"
-            style="width: 100%">
-            <el-table-column
-              prop="shopName"
-              label="门店名称">
-            </el-table-column>
-             <el-table-column
-              width='150px'
-              prop="status"
-              label="状态">
-              <template slot-scope="scope">
-                <el-tag :type="statusList[scope.row.shopStatus+''].color" class='scope-name_tag'>{{statusList[scope.row.shopStatus+''].value}}</el-tag>
-              </template>
-            </el-table-column>
-          </el-table>
+  <div class='container-warpper'>
+    <div class='container-div'>
+      <page-table :searchCol='24' title='参与门店'>
+        <template slot='search'>
+          <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
+            <el-form-item label="" class='no-margin'>
+              <el-input v-model="model.shopName" placeholder="请输入门店名称"  @keyup.enter.native="handleSearch" >
+                <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              </el-input>
+            </el-form-item>
+          </el-form>
         </template>
-      </template>
-      <template slot='pagination'>
-        <div class='drawer-pagination'>
-          <div class='pagecontent-left'>
-            <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个活动</div>
-            <div class='content-item' @click='handleNext'>下一个活动<i class="el-icon-arrow-right"></i></div>
-          </div>
-          <el-pagination v-if="_data._pagination.enable"
-                          class="template-table__pagination"
-                          :page-sizes="_data._pagination.sizeOpts"
-                          :total="_data._pagination.total"
-                          :current-page="_data._pagination.page"
-                          :page-size="_data._pagination.size"
-                          layout="total, prev, pager, next, jumper"
-                          @size-change="$sizeChange$"
-                          @current-change="$pageChange$">
-            </el-pagination>
-          </div>
-      </template>
-    </page-table>
+        <template slot='table'>
+          <template>
+            <el-table
+              :data="_data._table.data"
+              class="new-table_border"
+              style="width: 100%">
+              <el-table-column
+                prop="shopName"
+                label="门店名称">
+              </el-table-column>
+              <el-table-column
+                width='150px'
+                prop="status"
+                label="状态">
+                <template slot-scope="scope">
+                  <el-tag :type="statusList[scope.row.shopStatus+''].color" class='scope-name_tag'>{{statusList[scope.row.shopStatus+''].value}}</el-tag>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </template>
+        <template slot='pagination'>
+          <div class='drawer-pagination'>
+            <div class='pagecontent-left'>
+              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个活动</div>
+              <div class='content-item' @click='handleNext'>下一个活动<i class="el-icon-arrow-right"></i></div>
+            </div>
+            <el-pagination v-if="_data._pagination.enable"
+                            class="template-table__pagination"
+                            :page-sizes="_data._pagination.sizeOpts"
+                            :total="_data._pagination.total"
+                            :current-page="_data._pagination.page"
+                            :page-size="_data._pagination.size"
+                            layout="total, prev, pager, next, jumper"
+                            @size-change="$sizeChange$"
+                            @current-change="$pageChange$">
+              </el-pagination>
+            </div>
+        </template>
+      </page-table>
+    </div>
   </div>
 </template>
 <script>
@@ -133,6 +135,15 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  .container-warpper {
+    height: 100vh;
+    overflow-y:auto;
+  }
+  .container-div {
+    min-height: 100vh;
+    padding-bottom: 66px;
+    position: relative;
+  }
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
@@ -158,7 +169,7 @@ export default {
     position: absolute;
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;

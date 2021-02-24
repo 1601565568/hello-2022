@@ -111,6 +111,12 @@ export default {
     font-size: 16px;
     cursor: pointer;
   }
+  .question-circle {
+    position: relative;
+    top: 1px;
+    color: #8C8C8C;
+    left: 5px;
+  }
   .flex-box {
     display: flex;
     align-items: center;

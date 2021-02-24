@@ -1,54 +1,61 @@
 <template>
-  <div>
-    <page-table :title='`${shopName}-${name}`'>
-      <template slot='table'>
-        <div class='form-item_tip'>
-          客户选择此门店时，会随机添加以下的任意一名在职员工
-        </div>
-        <el-table
-          :data="_data._table.data"
-          class="new-table_border"
-          @sort-change="handleSort"
-          style="width: 100%">
-          <el-table-column
-            prop="userName"
-            label="员工姓名">
-          </el-table-column>
-          <el-table-column
-            prop="workNumber"
-            label="工号">
-          </el-table-column>
-          <el-table-column
-            prop="addUserNum"
-            sortable="custom"
-            label="添加好友数">
-          </el-table-column>
-          <el-table-column
-            prop="addTotalUserNum"
-            label="好友总数">
-          </el-table-column>
-        </el-table>
-      </template>
-      <template slot='pagination'>
-        <div class='drawer-pagination'>
-          <div class='pagecontent-left'>
-            <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个门店</div>
-            <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
+  <div class='container-warpper'>
+    <div class='container-div'>
+      <page-table :title='`${shopName}-${name}`'>
+        <template slot='table'>
+          <div class='form-item_tip'>
+            客户选择此门店时，会随机添加以下的任意一名在职员工
           </div>
-          <el-pagination v-if="_data._pagination.enable"
-                          style='width:300px'
-                          class="template-table__pagination"
-                          :page-sizes="_data._pagination.sizeOpts"
-                          :total="_data._pagination.total"
-                          :current-page="_data._pagination.page"
-                          :page-size="_data._pagination.size"
-                          layout="total, prev, pager, next, jumper"
-                          @size-change="$sizeChange$"
-                          @current-change="$pageChange$">
-            </el-pagination>
-          </div>
-      </template>
-    </page-table>
+          <el-table
+            :data="_data._table.data"
+            class="new-table_border"
+            @sort-change="handleSort"
+            style="width: 100%">
+            <el-table-column
+              prop="userName"
+              label="员工姓名">
+              <template slot-scope="scope">
+                {{scope.row.userName || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="workNumber"
+              label="工号">
+              <template slot-scope="scope">
+                {{scope.row.workNumber || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="addUserNum"
+              sortable="custom"
+              label="添加好友数">
+            </el-table-column>
+            <el-table-column
+              prop="addTotalUserNum"
+              label="好友总数">
+            </el-table-column>
+          </el-table>
+        </template>
+        <template slot='pagination'>
+          <div class='drawer-pagination'>
+            <div class='pagecontent-left'>
+              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个门店</div>
+              <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
+            </div>
+            <el-pagination v-if="_data._pagination.enable"
+                            class="template-table__pagination"
+                            :page-sizes="_data._pagination.sizeOpts"
+                            :total="_data._pagination.total"
+                            :current-page="_data._pagination.page"
+                            :page-size="_data._pagination.size"
+                            layout="total, prev, pager, next, jumper"
+                            @size-change="$sizeChange$"
+                            @current-change="$pageChange$">
+              </el-pagination>
+            </div>
+        </template>
+      </page-table>
+    </div>
   </div>
 </template>
 <script>
@@ -145,6 +152,15 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  .container-warpper {
+    height: 100vh;
+    overflow-y:auto;
+  }
+  .container-div {
+    min-height: 100vh;
+    padding-bottom: 66px;
+    position: relative;
+  }
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
@@ -179,7 +195,7 @@ export default {
     position: absolute;
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -8,6 +8,7 @@
         style="width: 100%">
         <el-table-column
           prop="avatar"
+          width='60px'
           label="头像">
           <template slot-scope="scope">
             <div class='avatar-img'>
@@ -23,7 +24,7 @@
           prop="type"
           label="成员类型">
           <template slot-scope="scope">
-            {{scope.row.type === 1 ? '表示该外部联系人是微信用户':'表示该外部联系人是企业微信用户'}}
+            {{scope.row.type === 1 ? '外部联系人':'企业成员'}}
           </template>
         </el-table-column>
         <el-table-column
@@ -48,6 +49,9 @@
         <el-table-column
           prop="workNumber"
           label="群主工号">
+          <template slot-scope="scope">
+            {{scope.row.workNumber || '-'}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="joinTime"
@@ -58,7 +62,7 @@
           prop="joinScene"
           label="入群方式">
           <template slot-scope="scope">
-            {{statusList[scope.row.joinScene]}}
+            {{statusList[scope.row.joinScene].value}}
           </template>
         </el-table-column>
       </el-table>
@@ -88,11 +92,11 @@ export default {
       url: this.$api.guide.lbs.getGroupFriends,
       statusList: {
         1: {
-          value: ' 由成员邀请入群（直接邀请入群）',
+          value: '由成员邀请入群',
           color: 'info'
         },
         2: {
-          value: '由成员邀请入群（通过邀请链接入群）',
+          value: '由成员邀请入群',
           color: 'warning'
         },
         3: {
@@ -140,5 +144,9 @@ export default {
   .avatar-img {
     height: 32px;
     width: 32px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

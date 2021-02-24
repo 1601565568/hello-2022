@@ -5,12 +5,12 @@
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
             <el-input v-model="model.loginAccount" placeholder="请输入创建人"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="">
             <el-input v-model="model.title" placeholder="请输入海报名称"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
