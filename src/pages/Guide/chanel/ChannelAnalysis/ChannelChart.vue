@@ -44,11 +44,21 @@ export default {
           left: '30px',
           right: '20px',
           type: 'scroll'
+          // pageIcons: {
+          //   horizontal: [
+          //     'path://M687.4,990l115.3-115.3L427.9,500l374.7-374.7L687.4,10l-490,490L687.4,990z',
+          //     'path://M197.8,124.3L312.2,10l490,490l-490,490L197.8,875.7L573.5,500L197.8,124.3z'
+          //   ]
+          // },
+          // pageIconInactiveColor: '#ededed',
+          // pageIconColor: '#262626',
+          // pageFormatter: '{current}-{total}',
+          // pageIconSize: 12
         },
         tooltip: {
           trigger: 'item',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: {
+            type: 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -103,9 +113,6 @@ export default {
             label: this.fullScreen ? { formatter: function (tip) {
               return `${tip.name}： ${tip.value.addCount} (${tip.percent}%)`
             } } : false,
-            // label: {
-            //   formatter: '{b}: {d}%'
-            // },
             radius: ['30%', '50%'],
             tooltip: {
               trigger: 'item',

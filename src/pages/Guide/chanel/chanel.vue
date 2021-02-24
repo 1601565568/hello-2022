@@ -211,6 +211,11 @@ export default {
       ]
     }
   },
+  created () {
+    if (this.$route.query.tab === '1') {
+      this.activeName = this.$route.query.tab
+    }
+  },
   mounted: function () {
     this.loadListFun()
   },
@@ -230,6 +235,12 @@ export default {
       this.expanded = !this.expanded
     },
     tabHandleClick (tab, event) {
+      window.console.log(this.$route)
+      this.$router.push({
+        path: this.$route.path,
+        query: { tab: tab.name }
+      })
+
       this.searchObj.searchMap.type = tab.name
       if (tab.name === '0') {
         this.loadListFun()
