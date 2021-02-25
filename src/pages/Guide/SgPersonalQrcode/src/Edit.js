@@ -165,7 +165,9 @@ export default {
         }
 
         this.showPosterQrcode = true
-        // this.tableData = JSON.parse(data.result.child_qrcodes)
+        if (data.result.type === 1) {
+          this.tableData = JSON.parse(data.result.child_qrcodes)
+        }
         this.addTableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
