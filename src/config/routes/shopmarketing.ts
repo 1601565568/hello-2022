@@ -67,12 +67,6 @@ export default {
           'name': 'QuicklyWord',
           'title': '快捷话术',
           'component': () => import('@/pages/Guide/SgQuicklyWord/List.vue')
-        },
-        {
-          'path': '/Guide/chanel/chanel',
-          'name': 'chanel',
-          'title': '渠道管理',
-          'component': () => import('@/pages/Guide/chanel/chanel.vue')
         }
       ]
     },
