@@ -245,10 +245,8 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='welcomePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334'>
-                  <template slot='footer'>
-                    <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
-                  </template>
+                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
+
                 </drap-upload>
               </el-form-item>
             </template>
