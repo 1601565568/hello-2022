@@ -120,7 +120,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId', 'addState', 'chooseChatroom'],
+  props: ['shopId', 'guid', 'shopName', 'configId', 'addState', 'chooseChatroom', 'startTime', 'endTime'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -204,6 +204,8 @@ export default {
         this.model.shopId = newVal
         this.model.guid = this.guid
         this.model.configId = this.configId
+        this.model.startTime = this.startTime
+        this.model.endTime = this.endTime
         this.$searchAction$()
       },
       immediate: true

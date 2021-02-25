@@ -69,7 +69,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <FriendsList v-if='drawer' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <FriendsList v-if='drawer' :startTime='model.startTime' :endTime='model.endTime' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
