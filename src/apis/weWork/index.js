@@ -8,8 +8,16 @@
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
+import sensitiveWords from './sensitiveWords'
+import topicAnalysis from './topicAnalysis'
+import externalContact from './externalContact.js'
+import weWorkRooms from './weWorkRooms.js'
 export default {
   welcomeCode,
   behaviorData,
-  guide
+  guide,
+  sensitiveWords,
+  topicAnalysis,
+  externalContact,
+  weWorkRooms
 }

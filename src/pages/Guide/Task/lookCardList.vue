@@ -14,7 +14,7 @@
         >
           <el-table-column prop="name" label="姓名" >
             <template slot-scope="scope">
-              {{ scope.row.name || '-'}}
+              <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -24,7 +24,7 @@
             prop="mobile"
           >
            <template slot-scope="scope">
-              {{ scope.row.mobile || '-'}}
+             <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="scope.row.encMobile" :sensitiveData="scope.row.mobile"></ns-sg-sensitive-button>
             </template>
           </el-table-column>
           <el-table-column prop="shopName" label="门店名称">
@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column prop="address" label="地区" >
             <template slot-scope="scope">
-              {{ scope.row.address || '-'}}
+              <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encAddress" :sensitiveData="scope.row.address"></ns-sg-sensitive-button>
             </template>
           </el-table-column>
         </el-table>
