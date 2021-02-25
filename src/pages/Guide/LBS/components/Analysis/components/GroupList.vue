@@ -5,7 +5,7 @@
         <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
-              <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
+              <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
             </el-form-item>
           </el-form>
         </template>
@@ -171,11 +171,9 @@ export default {
     },
     getChatRoomData (list) {
       this.$refs.nsChatRoomDialog.emptyData()
-      const { shopId } = this.activeRow
-      const { guid } = this.propsModel
       const parmas = {
-        guid,
-        shopId,
+        guid: this.guid,
+        shopId: this.shopId,
         chatIdList: list.map(item => item.chatId)
       }
       this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
