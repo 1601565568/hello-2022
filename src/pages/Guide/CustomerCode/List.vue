@@ -199,6 +199,7 @@ export default List
     }
   }
   .scope-name_tag.el-tag {
+    border-radius: 2px;
     &.el-tag--success {
       background: #F7FFF0;
       border: 1px solid #53BF1D;
