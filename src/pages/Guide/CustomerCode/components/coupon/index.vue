@@ -44,7 +44,7 @@
             />
           </el-input>
         </el-form-item>
-        <!-- <el-form-item label="优惠券编码：">
+        <el-form-item label="优惠券编码：">
           <el-input
             @keyup.enter.native="onChangeInput()"
             v-model="model.couponCode"
@@ -59,7 +59,7 @@
               @click="onChangeInput()"
             />
           </el-input>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
       <div class="warpper">
         <el-table

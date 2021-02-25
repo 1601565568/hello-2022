@@ -42,7 +42,7 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
-            <el-table-column type="default" label="助力人数" :sortable="false">
+            <el-table-column type="default" label="助力人数" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
@@ -66,6 +66,7 @@
               type="default"
               label="奖励类型"
               :sortable="false"
+              min-width="150"
               class="el-form__change"
             >
               <template slot-scope="scope">
@@ -95,7 +96,7 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column type="default" label="奖励内容" :sortable="false">
+            <el-table-column type="default" min-width="150" label="奖励内容" :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.prizeId'"
@@ -115,12 +116,12 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column type="default" label="剩余数量" :sortable="false">
+            <el-table-column type="default" min-width="150"  label="剩余数量" :sortable="false">
               <template slot-scope="scope">
                 <p>{{ scope.row.validNumber }}</p>
               </template></el-table-column
             >
-            <el-table-column type="default" label="发放数量" :sortable="false">
+            <el-table-column type="default" min-width="150"  label="发放数量" :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -241,9 +242,9 @@ export default {
     }
     const checkaddPrizeNumber = (item, rule, value, callback) => {
       if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('填写的新增发放数量不能大于剩余数量'))
+        callback(new Error('新增数量不能大于剩余数量'))
       } else if (parseFloat(item.addPrizeNumber) === 0) {
-        callback(new Error('填写的新增发放数量不能0'))
+        callback(new Error('新增数量不能0'))
       } else {
         callback()
       }
