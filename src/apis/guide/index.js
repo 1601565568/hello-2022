@@ -36,6 +36,7 @@ import operationConfig from './operationConfig'
 import customerService from './customerService'
 import momentList from './momentList'
 import custom from './custom'
+import channel from './channel'
 import qrcodePoster from './qrcodePoster'
 import lbs from './lbs'
 export default {
@@ -77,6 +78,7 @@ export default {
   customerService,
   momentList,
   custom,
+  channel,
   qrcodePoster,
   lbs,
   // 所有导购模块全部整合在此
