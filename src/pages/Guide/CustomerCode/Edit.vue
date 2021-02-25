@@ -199,9 +199,11 @@
                 </el-upload>
               上传背景图
             </div>
-            <VueDragResize :isActive="!isStating" :isDraggable='!isStating' :isResizable='!isStating' :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
-              <img src='./Images/qrcode.png' style='width:100%;height:100%'>
-            </VueDragResize>
+            <template v-if='isLoading'>
+              <VueDragResize :isActive="!isStating" :isDraggable='!isStating' :isResizable='!isStating' :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
+                <img src='./Images/qrcode.png' style='width:100%;height:100%'>
+              </VueDragResize>
+            </template>
           </div>
         </div>
         <p class='customer-mobile_p'>1. 支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域</p>

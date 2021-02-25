@@ -1,0 +1,227 @@
+<template>
+  <div class="adder-detail-container">
+    <div class="adder-tool-bar">
+      <div class="adder-owners">
+        <span class="owners-label">所属员工：</span>
+        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+          <template slot='selfBtn'>
+            <div class="owners-select">
+              <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
+              <Icon type="geren" class="select-icon"/>
+            </div>
+          </template>
+        </NsGuideDialog>
+      </div>
+      <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+        <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
+      </el-input>
+      <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+    </div>
+    <div class="adder-detail-table">
+      <el-table
+        style="width: 100%;"
+        size="medium"
+        class="table-form_reset"
+        row-class-name="employee-table_row"
+        header-cell-class-name="employee-talbe-header-cell"
+        :data="_data._table.data"
+        @sort-change="sortChange"
+      >
+        <el-table-column
+          prop="friendAvatar"
+          label="头像">
+          <template slot-scope="scope">
+            <img class="scope-avatar" :src="scope.row.friendAvatar" alt="">
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="friendName"
+          label="昵称">
+        </el-table-column>
+        <el-table-column
+          prop="employeeName"
+          label="员工">
+        </el-table-column>
+        <el-table-column
+          prop="employeeNumber"
+          label="工号">
+          <template slot-scope="scope">
+            {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="添加时间"
+          sortable="custom">
+        </el-table-column>
+      </el-table>
+    </div>
+    <el-pagination
+      v-if="_data._pagination.enable"
+      class="template-table__pagination"
+      :page-sizes="_data._pagination.sizeOpts"
+      :total="_data._pagination.total"
+      :current-page="_data._pagination.page"
+      :page-size="_data._pagination.size"
+      :background="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="$sizeChange$"
+      @current-change="$pageChange$">
+    </el-pagination>
+  </div>
+</template>
+
+<script>
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsGuideDialog from '@/components/NsGuideDialog'
+
+/**
+ * 添加明细
+ */
+export default {
+  components: {
+    NsGuideDialog
+  },
+  mixins: [tableMixin],
+  data () {
+    return {
+      url: this.$api.guide.sgPersonalQrcode.getQrCodeInviteFriendDetailList,
+      seachVal: '',
+      // 筛选数据
+      model: {
+        guid: this.$route.params.guid,
+        guideIds: [],
+        employeeName: '',
+        createTimeOrderStr: 'desc'
+      }
+    }
+  },
+  mounted () {
+    this.searchform()
+    // window.console.log('添加明细列表', this._data)
+  },
+  methods: {
+    searchform () {
+      this.$searchAction$()
+    },
+    sortChange (data) {
+      if (data.order === 'ascending') {
+        this.model.createTimeOrderStr = 'asc'
+      } else if (data.order === 'descending') {
+        this.model.createTimeOrderStr = 'desc'
+      } else {
+        this.model.createTimeOrderStr = 'asc'
+      }
+      this.searchform()
+    },
+    checkTableDataExists () {
+      if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
+        this.$notify.error('当前没有匹配的数据项')
+        return true
+      }
+      return false
+    },
+    exportFile () {
+      if (this.checkTableDataExists()) {
+        return false
+      }
+
+      let param = this.$generateParams$()
+      param.searchMap.type = 2
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
+        .then((resp) => {
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          if (!resp.size === 0) {
+            this.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import "../styles/table-reset.css";
+@import "../styles/toolbar-reset.css";
+
+.adder-detail-container {
+  margin-top: 16px;
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .adder-tool-bar {
+    margin-top: 4px;
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .adder-owners {
+      position: relative;
+      width: 200px;
+      height: 32px;
+      font-size: 14px;
+      box-sizing: border-box;
+      border: 1px solid #D9D9D9;
+      border-radius: 4px;
+      margin: 0 16px;
+      display: flex;
+      align-items: center;
+      .owners-label {
+        color: #606266;
+        padding-left: 8px;
+      }
+      .owners-select {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        span {
+          display: inline-block;
+          width: 60px;
+          white-space: nowrap;
+          color:#262626;
+          font-size: 14px;
+        }
+        .select-icon {
+          display: inline-block;
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          color:#C0C4CC;
+        }
+      }
+    }
+
+    .export-cvs-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+    }
+  }
+
+  .adder-detail-table {
+    width: calc(100% - 32px);
+    margin: 8px auto 0;
+
+    .scope-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+    }
+  }
+}
+</style>

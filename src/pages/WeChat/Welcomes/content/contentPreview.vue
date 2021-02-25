@@ -68,7 +68,13 @@
               <div class="message-circle message-circle--bgcolor"></div>
             </div>
             <!--小程序  结束-->
-
+            <!--海报开始-->
+            <ElImage v-if="child.type === 'placard'"
+              :width="98" :height="73"
+              :src="child.placard"
+              mode="mfit" class="message-msg__uploader">
+            </ElImage>
+            <!--海报 结束-->
             <div class="message-msg__avatar">
               <ElImage
                 :width="30" :height="30"
