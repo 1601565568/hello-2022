@@ -8,7 +8,7 @@ export default {
   },
   'children': [
     {
-      'path': '/Guide/SgGuide',
+      'path': '/Guide/Customer',
       'name': 'CustomerManage',
       'title': '客户管理',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
@@ -20,28 +20,69 @@ export default {
           'component': () => import('@/pages/Guide/Customer/CustomerManage.vue')
         },
         {
-          'path': '/Guide/Customer/FriendManage',
-          'name': 'FriendData',
-          'title': '好友数据',
-          'component': () => import('@/pages/Guide/FriendData/List.vue')
-        },
-        {
-          'path': '/Guide/GroupData/index',
-          'name': 'GroupData',
-          'title': '群数据',
-          'component': () => import('@/pages/Guide/GroupData/index.vue')
-        },
-        {
           'path': '/Guide/transCustomerRecord',
           'name': 'TRANS_CUSTOMER_RECORD',
           'title': '客户转移记录',
           'component': () => import('@/pages/Guide/SgCustomer/NsTableSgCustomer.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Social/WeComCustomerOperation/ExternalContactList',
+      'name': 'WeComExternalContactList',
+      'title': '好友管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'WeComExternalContactList'
+      },
+      'children': [
+        {
+          'path': '/Social/WeComCustomerOperation/ExternalContactList',
+          'name': 'WeComExternalContactList',
+          'title': '企微好友',
+          'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
         },
         {
-          'path': '/guide/customer/getCustomerConfig',
-          'name': 'APPLET_TEMPLATE',
-          'title': '客户管理配置',
-          'component': () => import('@/pages/Guide/customerConfig/index.vue')
+          'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+          'name': 'WeComRepeatCustomer',
+          'title': '重复客户',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+              'name': 'WeComRepeatCustomer',
+              'title': '重复客户',
+              'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      'path': '/Social/WeComCustomerOperation/RoomList',
+      'name': 'WeComRoomManage',
+      'title': '群管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'WeComRepeatCustomer'
+      },
+      'children': [
+        {
+          'path': '/Social/WeComCustomerOperation/RoomList',
+          'name': 'WeComRoomList',
+          'title': '群列表',
+          'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue'),
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/RoomList',
+              'name': 'WeComRoomMemberList',
+              'title': '企微群成员列表',
+              'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
+            }
+          ]
         }
       ]
     }
