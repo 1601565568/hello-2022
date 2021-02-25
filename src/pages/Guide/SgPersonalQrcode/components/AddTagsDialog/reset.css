@@ -1,9 +1,21 @@
+>>> .el-scrollbar__bar  {
+  display: none;
+}
+
 .add-tags {
   >>> .el-form-item {
     margin-bottom: 24px;
   }
+
+  .checkboxs-tags {
+    >>> .el-form-item {
+      display: flex;
+    }
+  }
   >>> .el-form-item__label {
     font-size: 14px;
+    min-width: 60px;
+    /* display: block; */
   }
 
   >>> .el-select {

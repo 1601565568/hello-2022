@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "./reset.css";
+@import "./reset.css";
 
 .add-tags {
   margin-left: 6px;
