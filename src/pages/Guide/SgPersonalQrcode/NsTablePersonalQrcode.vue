@@ -72,7 +72,7 @@
           </el-form-item>
           <el-form-item label="创建人：">
             <el-form-grid>
-              <el-select placeholder="admin" v-model="model.creatorName" clearable @clear="setJobNull">
+              <el-select placeholder="全部" v-model="model.creatorName" clearable @clear="setJobNull">
                 <el-option value="" label="全部" />
                 <el-option
                   v-for="val in creatorList"
