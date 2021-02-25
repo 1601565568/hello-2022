@@ -183,16 +183,19 @@ export default {
     }
   }
   .el-tag--success {
+    border-radius: 2px;
     background: #F7FFF0;
     border: 1px solid #53BF1D;
     color: #262626;
   }
   .el-tag--info {
+    border-radius: 2px;
     background: #F5F5F5;
     border: 1px solid #D9D9D9;
     color: #262626;
   }
   .el-tag--warning {
+    border-radius: 2px;
     background: #FFFBE6;
     border: 1px solid #FFAE0D;
     color: #262626;

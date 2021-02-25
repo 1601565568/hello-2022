@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch">
+            <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
@@ -209,6 +209,7 @@ export default Index
     }
   }
   .scope-name_tag.el-tag {
+    border-radius: 2px;
     &.el-tag--success {
       background: #F7FFF0;
       border: 1px solid #53BF1D;
