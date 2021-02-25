@@ -1,4 +1,4 @@
-import Message from '@nascent/nui/lib/message.js'
+import Notification from '@nascent/nui/lib/notification.js'
 export default {
   bind (el, { value }) {
     el.$value = value
@@ -11,7 +11,7 @@ export default {
       document.body.appendChild(oInput)
       oInput.select() // 选择对象;
       document.execCommand('Copy') // 执行浏览器复制命令
-      Message({
+      Notification({
         message: '复制成功',
         type: 'success'
       })

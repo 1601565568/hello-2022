@@ -5,7 +5,7 @@
         <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
-              <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
+              <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
             </el-form-item>
           </el-form>
         </template>
@@ -137,13 +137,17 @@ export default {
     },
     // 删除群聊
     handleRemove (row) {
-      this.$confirm('确定要删除群聊吗', '提示信息', {
-        confirmButtonText: '确定',
-        type: 'warning',
-        cancelButtonText: '取消'
-      }).then(() => {
-        this.delect(row.configId, row.chatId)
-      })
+      if (this._data._pagination.total > 1) {
+        this.$confirm('确定要删除群聊吗', '提示信息', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          cancelButtonText: '取消'
+        }).then(() => {
+          this.delect(row.configId, row.chatId)
+        })
+      } else {
+        this.$notify.error('移除失败：只有一个群时，无法移除')
+      }
     },
     // 删除群聊
     delect (configId, chatId) {
@@ -171,11 +175,9 @@ export default {
     },
     getChatRoomData (list) {
       this.$refs.nsChatRoomDialog.emptyData()
-      const { shopId } = this.activeRow
-      const { guid } = this.propsModel
       const parmas = {
-        guid,
-        shopId,
+        guid: this.guid,
+        shopId: this.shopId,
         chatIdList: list.map(item => item.chatId)
       }
       this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {

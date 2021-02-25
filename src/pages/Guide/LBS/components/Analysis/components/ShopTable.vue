@@ -60,13 +60,13 @@
       </template>
       <!-- 页面 end -->
     </page-table>
-    <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='[]' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false'></NsChatRoomDialog>
+    <NsChatRoomDialog v-if='display' ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='[]' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false'></NsChatRoomDialog>
     <el-drawer
       :modal='false'
       size='50%'
       @close='handleClose'
       :visible.sync="drawer"
-       appendToBody
+      destroy-on-close
       :with-header="false">
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
@@ -93,7 +93,8 @@ export default {
       model: {},
       activeRow: {},
       addState: ['0', '1'], // 能新建群聊的状态
-      state: -1
+      state: -1,
+      display: false
     }
   },
   components: {
@@ -122,8 +123,10 @@ export default {
           this.$notify.success('添加成功')
           this.$searchAction$()
         }
+        this.display = false
       }).catch(res => {
         this.$notify.error(res.msg)
+        this.display = false
       })
     },
     // 查看详情
@@ -137,7 +140,11 @@ export default {
     // 添加群聊
     handleAddGroup (row) {
       this.activeRow = row
-      this.$refs.nsChatRoomDialog.onDialogOpen()
+      this.display = true
+      this.$nextTick(() => {
+        this.$refs.nsChatRoomDialog.init()
+        this.$refs.nsChatRoomDialog.onDialogOpen()
+      })
     },
     // 查看门店选择上一个或下一个详情
     getOhter (type, cb) {
@@ -202,7 +209,6 @@ export default {
   },
   mounted () {
     this.state = this.$route.query ? this.$route.query.state : -1
-    this.$refs.nsChatRoomDialog.init()
   }
 }
 </script>

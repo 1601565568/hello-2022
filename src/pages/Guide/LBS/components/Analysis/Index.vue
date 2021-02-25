@@ -2,7 +2,7 @@
   <div class="analysis-container">
     <div class='analysis-header'>
       <h3 class='header-text'>
-        <Icon type="icon-fanhuishangyiji" class='back-icon' theme="filled" @click='handleBack'></Icon>
+        <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
         {{activityName}}的活动效果
       </h3>
       <div class='header-tab'>
