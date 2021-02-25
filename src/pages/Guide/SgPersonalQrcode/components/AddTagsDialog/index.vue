@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="选择标签">
-        <el-form-grid class="checkboxs-tags">
+        <el-form-grid class="checkboxs-tags" v-if="tagList.length">
           <el-form-item
             label-width="60px"
             v-for="tagGroupItem in tagList"
@@ -31,6 +31,7 @@
             </el-checkbox-group>
           </el-form-item>
         </el-form-grid>
+        <span class="no-tag" v-else>暂无标签数据</span>
       </el-form-item>
     </el-form>
     <!-- footer -->
@@ -104,6 +105,11 @@ export default {
     border: 1px solid #D9D9D9;
     padding: 16px;
     width: 99%;
+  }
+
+  .no-tag {
+    color: #8c8c8c;
+    font-size: 14px;
   }
 }
 </style>
