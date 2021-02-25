@@ -51,7 +51,8 @@ export default {
         const jsonResult = JSON.parse(JSON.stringify(res.data.result))
         let user = {
           nick: jsonResult.userName || '',
-          nickId: jsonResult.userId || ''
+          nickId: jsonResult.userId || '',
+          groupId: jsonResult.groupId || 0
         }
         const productConfig = res.data.result.productConfig || {}
         res.data.result = {
@@ -77,7 +78,8 @@ export default {
           dataAuth: res.data.result.dataAuth,
           routerAuth: res.data.result.menus,
           cloudUrl: res.data.result.cloudUrl,
-          copyrightInfo: res.data.result.copyrightInfo
+          copyrightInfo: res.data.result.copyrightInfo,
+          uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
@@ -134,7 +136,6 @@ export default {
             brandType: res.data.result.currentView.viewType
           }
         }
-
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

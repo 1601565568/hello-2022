@@ -9,7 +9,7 @@
         </el-input>
         <el-scrollbar ref='pageLeft' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
           <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
-                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
+                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" current-node-key="0"
                    :filter-node-method="onFilterNode" @node-click="onClickNode">
             <div class="subdivision-tree-node" slot-scope="{ node }">
               <span>{{node.label}}</span>

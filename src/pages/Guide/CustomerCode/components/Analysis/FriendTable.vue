@@ -20,7 +20,7 @@
               <el-option :key="2" label="推广大师" :value="2"></el-option>
             </el-select>
           </template>
-          <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+          <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
       </el-form-item>
     </el-form>

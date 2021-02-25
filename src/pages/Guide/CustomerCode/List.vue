@@ -37,7 +37,7 @@
           </el-form-item>
           <el-form-item label="">
             <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
@@ -160,7 +160,7 @@
 <script>
 import List from './src/List'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import PageTable from './components/PageTable'
+import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/List/ItemDrawer'
 List.components = {

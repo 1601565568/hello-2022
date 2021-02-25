@@ -72,7 +72,7 @@
           </el-form-item>
           <el-form-item label="创建人：">
             <el-form-grid>
-              <el-select placeholder="admin" v-model="model.creatorName" clearable @clear="setJobNull">
+              <el-select placeholder="全部" v-model="model.creatorName" clearable @clear="setJobNull">
                 <el-option value="" label="全部" />
                 <el-option
                   v-for="val in creatorList"
@@ -103,7 +103,7 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+        <el-table ref="table" size="medium" :data="_data._table.data" stripe @selection-change="handleSelectionChange" @sort-change="orderByInviteFriendNum">
           <el-table-column prop="personnel" label="聚合码名称" align="left" min-width="88">
             <template slot-scope="scope">
               {{scope.row.name?scope.row.name:'-'}}
@@ -133,7 +133,28 @@
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="center" min-width="100">
             <template slot-scope="scope">
-                <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text"><Icon type="juheerweima" className=""/></ns-button>
+              <ns-button style="color:#0091FA; font-size:24px;" size="mini" @click="qrcodeLink(scope.row)" type="text">
+                <Icon type="erweima"/>
+              </ns-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="poster" label="海报" align="center" min-width="100">
+            <template slot-scope="scope">
+              <ns-button style="color:#0091FA; font-size:24px;" size="mini" @click="posterLink(scope.row)" type="text">
+              <Icon type="tupian"/>
+              <!-- <Icon type="erweima"/> -->
+              </ns-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="inviteFriendSum" align="center" sortable="custom">
+            <template slot="header">
+              引流好友数
+              <el-tooltip class="help" content="通过聚合码添加企业成员的好友数">
+                <Icon type="ns-help"/>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              {{ scope.row.type === 0 ? scope.row.inviteFriendSum : '-' }}
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="160px">

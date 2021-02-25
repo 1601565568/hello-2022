@@ -60,7 +60,7 @@
               range-separator="至"
               start-placeholder="请选择开始日期"
               end-placeholder="请选择结束日期"
-              :default-time="['00:00:00']"
+              :default-time="['00:00:00','23:59:59']"
               @change="changeTime"
               align="right"><!-- value-format="yyyy-MM-dd HH-mm-ss" :default-time="['00:00:00', '23:59:59']" -->
             </el-date-picker>
@@ -145,7 +145,11 @@
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
                 :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="name" label="姓名" align="left" width="100"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="left" width="100">
+              <template slot-scope="scope">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
+              </template>
+            </el-table-column>
             <el-table-column prop="sex" label="性别" align="center" width="80">
               <template slot-scope="scope">
                 <span v-if="scope.row.sex == 0">
@@ -160,7 +164,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" width="120">
-              <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
+              <template slot-scope="scope">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encMobile" :sensitiveData="scope.row.mobile"></ns-sg-sensitive-button>
+              </template>
             </el-table-column>
             <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
