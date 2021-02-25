@@ -1,0 +1,33 @@
+.activity-effect-container {
+  >>> .el-tabs__header {
+    padding-top: 8px;
+    margin: -10px -10px 0;
+  }
+
+  >>> .el-radio {
+    line-height: 14px;
+    font-size: 14px;
+    height: 32px;
+    border: 0;
+
+    .el-radio__input {
+      .el-radio__inner {
+        display: none;
+      }
+    }
+    .el-radio__label {
+      padding-top: 15px;
+    }
+  }
+
+  >>> label.is-checked {
+    background:#F5FBFF;
+    /* border: 1px solid transparent; */
+  }
+
+  /* >>> .el-date-editor {
+    input {
+      height: 32px;
+    }
+  } */
+}
