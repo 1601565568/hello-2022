@@ -460,7 +460,6 @@ export default Index
     text-align: center;
     &:hover {
       cursor: pointer;
-      background-color: rgb(227,242,255);
       color: rgb(34,126,246);
       border:1px solid rgb(172,216,252)
     }

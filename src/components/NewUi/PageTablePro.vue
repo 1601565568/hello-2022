@@ -70,7 +70,7 @@ export default {
   }
   .template-table__bar-base {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 7px;
   }
   .teplate-table__box {
     padding: 16px;
