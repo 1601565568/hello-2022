@@ -4,7 +4,7 @@
       <div class="poster-content-item">
         <span>
         链接
-        <el-tooltip class="item" content="因企业微信生成联系我二维码数量限制，请合理设置过期时间" placement="top">
+        <el-tooltip class="item" content="该链接为聚合码H5，可投放公众号等" placement="top">
           <Icon type="question-circle"></Icon>
         </el-tooltip>
         </span>

@@ -239,11 +239,14 @@ export default {
 
       let that = this
       if (that.personalQrcode.name === null || that.personalQrcode.name.trim() === '') {
+        this.saveLoading = false
         return that.$notify.error('聚合码名称不能为空')
       }
       if (that.personalQrcode.type === 0 && that.tableData.length < 1) {
+        this.saveLoading = false
         return that.$notify.error('请添加子码')
       } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
+        this.saveLoading = false
         return that.$notify.error('请添加子码')
       }
       // 判断聚合二维码类型
@@ -257,6 +260,7 @@ export default {
         let guideId = that.tableData[i].guideId
         personalIds.push(guideId)
         if (bool && (that.tableData[i].num === null || that.tableData[i].num === '')) {
+          this.saveLoading = false
           return that.$notify.error('每日添加次数不能为空')
         }
       }

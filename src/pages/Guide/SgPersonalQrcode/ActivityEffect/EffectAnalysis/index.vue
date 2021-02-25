@@ -79,16 +79,18 @@
             label="工作门店"
             width="316">
             <template slot-scope="scope">
-              <div>
-                <span class="scope-store-text">{{scope.row.offlineShops.slice(0, 3).join('；')}}</span>
+              <div class="offline-shop-content">
+                <span class="scope-store-text">{{scope.row.offlineShops.join('；')}}</span>
                 <el-popover
                   placement="top-start"
                   class="item"
                   :title="`工作门店（${scope.row.offlineShops.length}）`"
                   trigger="hover"
-                  width="360"
                   :content="scope.row.offlineShops.join('；')">
                   <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops.length}}个</span>
+                  <div style="max-width: 400px">
+                    {{scope.row.offlineShops.join('；')}}
+                  </div>
                 </el-popover>
               </div>
             </template>
@@ -323,20 +325,21 @@ export default {
     .employee-table {
       width: calc(100% - 32px);
       margin: 0 auto;
-      .scope-store-text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-        // display: -webkit-box;
-        // -webkit-box-orient: vertical;
-        // -webkit-line-clamp: 3;
-        &::after {
-          content: '...'
+
+      .offline-shop-content {
+        display: flex;
+        .scope-store-text {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
 
       .scope-name_tip {
         color: #0091FA;
+        display: block;
+        min-width: 55px;
       }
     }
   }
