@@ -5,7 +5,7 @@
         <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
-              <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
+              <NsChatRoomDialog ref='nsChatRoomDialog' :selectedDataParent='chooseChatroom' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
             </el-form-item>
           </el-form>
         </template>
@@ -33,7 +33,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="addUserNum"
+              prop="personNum"
               sortable="custom"
               label="群成员数">
             </el-table-column>
@@ -42,7 +42,7 @@
               label="操作">
               <template slot-scope="scope">
                 <div class='btn-context'>
-                  <ns-button type="text" class='detail-btn' @click='handleRemove(scope.row)'>移除</ns-button>
+                  <ns-button type="text" class='detail-btn' :loading='scope.$index === loadingIndex' @click='handleRemove(scope.row,scope.$index)'>移除</ns-button>
                 </div>
               </template>
             </el-table-column>
@@ -111,7 +111,8 @@ export default {
         }
       },
       state: -1,
-      name: this.$route.query ? this.$route.query.name : ''
+      name: this.$route.query ? this.$route.query.name : '',
+      loadingIndex: -1
     }
   },
   computed: {
@@ -119,7 +120,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId', 'addState'],
+  props: ['shopId', 'guid', 'shopName', 'configId', 'addState', 'chooseChatroom'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -136,26 +137,31 @@ export default {
       this.changeSearchfrom({ name: this.seachVal })
     },
     // 删除群聊
-    handleRemove (row) {
+    handleRemove (row, index) {
       if (this._data._pagination.total > 1) {
         this.$confirm('确定要删除群聊吗', '提示信息', {
           confirmButtonText: '确定',
           type: 'warning',
           cancelButtonText: '取消'
         }).then(() => {
-          this.delect(row.configId, row.chatId)
+          this.delect(row.configId, row.chatId, index)
         })
       } else {
         this.$notify.error('移除失败：只有一个群时，无法移除')
       }
     },
     // 删除群聊
-    delect (configId, chatId) {
+    delect (configId, chatId, index) {
+      this.loadingIndex = index
       this.$http.fetch(this.deleteApi, { configId, chatId, guid: this.model.guid })
         .then(() => {
           this.$searchAction$()
+          this.$emit('onChange', this.shopId)
+          this.$notify.success('删除成功')
+          this.loadingIndex = -1
         }).catch(() => {
           this.$notify.error('操作失败')
+          this.loadingIndex = -1
         })
     },
     handlePrev () {
@@ -184,6 +190,7 @@ export default {
         if (res.success) {
           this.$notify.success('添加成功')
           this.$searchAction$()
+          thi.$emit('onChange', this.shopId)
         }
       }).catch(res => {
         this.$notify.error(res.msg)

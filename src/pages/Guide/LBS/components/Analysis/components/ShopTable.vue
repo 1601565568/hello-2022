@@ -60,7 +60,7 @@
       </template>
       <!-- 页面 end -->
     </page-table>
-    <NsChatRoomDialog v-if='display' ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='[]' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false'></NsChatRoomDialog>
+    <NsChatRoomDialog v-if='display' ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='activeRow.chooseChatroom' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false' @onClose='display = false'></NsChatRoomDialog>
     <el-drawer
       :modal='false'
       size='50%'
@@ -71,7 +71,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :addState='addState' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <GroupList v-if='drawer' :addState='addState' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' :chooseChatroom='chooseChatroom' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' @onChange='onChangeItem'/>
     </el-drawer>
   </div>
 </template>
@@ -90,6 +90,7 @@ export default {
       configId: null,
       shopName: null,
       activeIndex: -1,
+      chooseChatroom: [],
       model: {},
       activeRow: {},
       addState: ['0', '1'], // 能新建群聊的状态
@@ -135,6 +136,7 @@ export default {
       this.shopId = +row.shopId
       this.configId = row.configId
       this.shopName = row.shopName
+      this.chooseChatroom = row.chooseChatroom || []
       this.drawer = true
     },
     // 添加群聊
@@ -195,6 +197,13 @@ export default {
         return { backgroundColor: '#D9EFFE' }
       }
       return ''
+    },
+    onChangeItem (shopId) {
+      this.$queryList$(this.$generateParams$()).then(() => {
+        const item = this._data._table.data.find(item => item.shopId)
+        const index = this._data._table.data.findIndex(item => item.shopId)
+        this.handleDetail(item, index)
+      })
     }
   },
   watch: {

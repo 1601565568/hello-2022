@@ -320,6 +320,7 @@ export default {
      * 关闭弹窗
      */
     onDialogClose () {
+      this.$emit('onClose')
       vm.visible = false
     },
     /**
