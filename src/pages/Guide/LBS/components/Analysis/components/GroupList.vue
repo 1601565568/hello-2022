@@ -42,7 +42,7 @@
               label="操作">
               <template slot-scope="scope">
                 <div class='btn-context'>
-                  <ns-button type="text" class='detail-btn' :loading='scope.$index === loadingIndex' @click='handleRemove(scope.row,scope.$index)'>移除</ns-button>
+                  <ns-button type="text" class='detail-btn' :loading='scope.row.chatId === loadingIndex' @click='handleRemove(scope.row,scope.$index)'>移除</ns-button>
                 </div>
               </template>
             </el-table-column>
@@ -112,7 +112,7 @@ export default {
       },
       state: -1,
       name: this.$route.query ? this.$route.query.name : '',
-      loadingIndex: -1
+      loadingIndex: -1 // 删除的chatId
     }
   },
   computed: {
@@ -152,7 +152,7 @@ export default {
     },
     // 删除群聊
     delect (configId, chatId, index) {
-      this.loadingIndex = index
+      this.loadingIndex = chatId
       this.$http.fetch(this.deleteApi, { configId, chatId, guid: this.model.guid })
         .then(() => {
           this.$searchAction$()

@@ -38,7 +38,7 @@
             <template slot-scope="scope">
               <div class='btn-context'>
                 <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
-                <ns-button v-if='addState.includes(state)' type="text" class='detail-btn' @click='handleAddGroup(scope.row)'>添加群聊</ns-button>
+                <ns-button v-if='addState.includes(state)' type="text" class='detail-btn' @click='handleAddGroup(scope.row)' :loading='addiding === scope.row.shopId'>添加群聊</ns-button>
                 <!-- <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false' :isLoaded='false'></NsChatRoomDialog> -->
               </div>
             </template>
@@ -95,7 +95,8 @@ export default {
       activeRow: {},
       addState: ['0', '1'], // 能新建群聊的状态
       state: -1,
-      display: false
+      display: false,
+      addiding: -1 // 点击添加群聊的id
     }
   },
   components: {
@@ -114,6 +115,7 @@ export default {
       this.$refs.nsChatRoomDialog.emptyData()
       const { shopId } = this.activeRow
       const { guid } = this.propsModel
+      this.addiding = shopId
       const parmas = {
         guid,
         shopId,
@@ -124,10 +126,12 @@ export default {
           this.$notify.success('添加成功')
           this.$searchAction$()
         }
+        this.addiding = -1
         this.display = false
       }).catch(res => {
         this.$notify.error(res.msg)
         this.display = false
+        this.addiding = -1
       })
     },
     // 查看详情
@@ -140,7 +144,7 @@ export default {
       this.drawer = true
     },
     // 添加群聊
-    handleAddGroup (row) {
+    handleAddGroup (row, index) {
       this.activeRow = row
       this.display = true
       this.$nextTick(() => {
