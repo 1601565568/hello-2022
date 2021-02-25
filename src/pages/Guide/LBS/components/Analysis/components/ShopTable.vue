@@ -71,7 +71,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :addState='addState' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' :chooseChatroom='chooseChatroom' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' @onChange='onChangeItem'/>
+      <GroupList v-if='drawer'  :startTime='model.startTime' :endTime='model.endTime' :addState='addState' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' :chooseChatroom='chooseChatroom' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' @onChange='onChangeItem'/>
     </el-drawer>
   </div>
 </template>

@@ -86,7 +86,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId'],
+  props: ['shopId', 'guid', 'shopName', 'configId', 'startTime', 'endTime'],
   components: {
     PageTable
   },
@@ -143,6 +143,8 @@ export default {
         this.model.shopId = newVal
         this.model.guid = this.guid
         this.model.configId = this.configId
+        this.model.startTime = this.startTime
+        this.model.endTime = this.endTime
         this.$searchAction$()
       },
       immediate: true
