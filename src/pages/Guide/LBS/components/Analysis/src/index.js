@@ -7,7 +7,8 @@ export default {
         setState: null,
         startTime: this.changeDate(1)[0],
         endTime: this.changeDate(1)[1],
-        guid: this.$route.query.guid
+        guid: this.$route.query.guid,
+        sortType: 0
       },
       time: this.changeDate(1), // 时间筛选
       activeType: 'shop', // 选中的数据 shop: 门店  employee：成员
@@ -147,6 +148,7 @@ export default {
       this.model = { ...this.model, ...data }
     },
     handleChangeType (activeType) {
+      this.model.sortType = 0
       this.activeType = activeType
     },
     generateHideElement (name, value) {
