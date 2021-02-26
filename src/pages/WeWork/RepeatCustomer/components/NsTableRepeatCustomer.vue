@@ -25,7 +25,6 @@
             v-model="model.name"
             placeholder="请输入昵称"
             style="width: 180px"
-            @keyup.enter.native="$quickSearchAction$('content')"
             clearable
           />
           <!--  -->
