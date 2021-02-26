@@ -55,7 +55,7 @@ export default {
         case '订单管理':
           url = require(`../../../image/Ordermanagement.png`)
           break
-        case '一客一码':
+        case '裂变大师':
           url = require(`../../../image/custormCode.png`)
       }
       return url

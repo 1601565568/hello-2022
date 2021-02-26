@@ -46,7 +46,7 @@ export default {
   align-items: center;
   height: 96px;
   padding: 0 16px;
-  background: #0091fa;
+  background: #fff;
   margin-bottom: 8px;
   .D-head-useImage {
     width: 48px;
@@ -56,7 +56,7 @@ export default {
     border-radius: 4px;
   }
   .D-head-text {
-    color: #fff;
+    color: #262626;
     display: flex;
     flex-direction: column;
     .D-head-text__user {
@@ -67,6 +67,7 @@ export default {
     }
     .D-head-text__user__name {
       margin-right: 8px;
+      font-weight: bold;
     }
     .D-head-text__user__number {
       display: flex;

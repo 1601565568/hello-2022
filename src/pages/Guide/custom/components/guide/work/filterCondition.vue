@@ -7,12 +7,8 @@
         <span class="triangle-down"></span>
       </div>
       <div v-if="editData[1] && editData[1].status === 1">
-        店长端<img class="hebing" src="../../../image/hebing.png" />
+        导购端<img class="hebing" src="../../../image/hebing.png" />
       </div>
-    </div>
-    <div class="time" v-if="editData[2] && editData[2].status === 1">
-      <div>{{ time }} <span class="triangle-down"></span></div>
-      <div>全店统计 <span class="triangle-down"></span></div>
     </div>
   </div>
 </template>
@@ -22,17 +18,10 @@ export default {
   name: 'filterCondition',
   mixins: [componentData],
   data () {
-    return { time: '' }
+    return {}
   },
-  methods: {
-    getDate () {
-      let nowDate = new Date()
-      this.time = `${nowDate.getFullYear()}/${nowDate.getMonth() + 1}`
-    }
-  },
-  created () {
-    this.getDate()
-  }
+  methods: {},
+  created () {}
 }
 </script>
 <style scoped lang="scss">
@@ -46,7 +35,7 @@ export default {
   // justify-content: space-between;
   // height: 56px;
   padding: 0 16px;
-  background: #ff532a;
+  background: #0091fa;
   color: #fff;
   display: flex;
   align-items: center;

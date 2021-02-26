@@ -59,6 +59,11 @@ export default {
         ? 'template-page__right_content'
         : ''
     },
+    line () {
+      return this.unfoldAndStow && parseInt(this.activeName) !== 2
+        ? 'template-page__line'
+        : ''
+    },
     senderListPlaceholder () {
       return `请输入${
         parseInt(this.activeName) === 1

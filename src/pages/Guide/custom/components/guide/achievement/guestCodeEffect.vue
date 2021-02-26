@@ -1,5 +1,5 @@
 <template>
-  <CardTitle title="一客一码活动效果数据">
+  <CardTitle title="裂变大师活动效果数据">
     <img
       slot="image"
       class="dataIcon"
