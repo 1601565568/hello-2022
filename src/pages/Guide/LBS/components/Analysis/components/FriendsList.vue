@@ -75,7 +75,7 @@ export default {
       url: this.$api.guide.lbs.activityShopDetailByFriends,
       // 筛选数据
       model: {
-        sortName: '', // 排序字段名称
+        sortName: 'addUserNum', // 排序字段名称
         sortType: 0 // 排序类型  0 降序 1 升序
       },
       name: this.$route.query ? this.$route.query.name : ''

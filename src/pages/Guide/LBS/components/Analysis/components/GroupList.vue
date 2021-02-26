@@ -88,7 +88,7 @@ export default {
       url: this.$api.guide.lbs.activityShopDetail,
       // 筛选数据
       model: {
-        sortName: '', // 排序字段名称
+        sortName: 'personNum', // 排序字段名称
         sortType: 0 // 排序类型  0 降序 1 升序
       },
       // 状态列表
@@ -190,7 +190,7 @@ export default {
         if (res.success) {
           this.$notify.success('添加成功')
           this.$searchAction$()
-          thi.$emit('onChange', this.shopId)
+          this.$emit('onChange', this.shopId)
         }
       }).catch(res => {
         this.$notify.error(res.msg)

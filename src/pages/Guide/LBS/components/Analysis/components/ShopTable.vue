@@ -213,7 +213,7 @@ export default {
   watch: {
     propsModel: {
       handler (newVal) {
-        this.model = { ...newVal }
+        this.model = { ...newVal, sortName: 'adduserNum' }
         this.$searchAction$()
       },
       immediate: true,

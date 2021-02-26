@@ -106,7 +106,7 @@ export default {
   watch: {
     propsModel: {
       handler (newVal) {
-        this.model = { ...newVal }
+        this.model = { ...newVal, sortName: 'created' }
         this.$searchAction$()
       },
       immediate: true,
