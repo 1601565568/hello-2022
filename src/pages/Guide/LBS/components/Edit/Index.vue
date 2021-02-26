@@ -232,7 +232,7 @@
                 </el-form-item>
                 <div class='step-content'>
                   <div class='step-name'>Step2：</div>
-                  <div class='step-value'>群二维码海报配置</div>
+                  <div class='step-value'>二维码海报配置</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
                       <Icon type="question-circle"  class='question-circle_detail'/>
