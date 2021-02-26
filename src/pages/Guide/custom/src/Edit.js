@@ -78,12 +78,12 @@ export default {
       let menuBar = [
         {
           projectType: 1,
-          projectTypeName: '导购小程序',
+          projectTypeName: '导购端',
           menuList: menuList1
         },
         {
           projectType: 2,
-          projectTypeName: '店长小程序',
+          projectTypeName: '店长端',
           menuList: menuList2
         }
       ]
