@@ -107,9 +107,6 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="打标签：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
-              <div class="sub-title" style="color: #595959;">
-                根据使用场景设置标签，给扫码添加的好友，自动打此标签
-              </div>
               <el-form-grid>
                 <ns-button type='text' @click="switchTagDialog(true)">+ 选择标签</ns-button>
               </el-form-grid>
@@ -119,6 +116,9 @@
               <el-form-grid v-else>
                 未选择标签
               </el-form-grid>
+              <div class="sub-title" style="color: #595959;">
+                <span class="yellow-point" style="background: #F2AA18;display: inline-block;height: 8px;width: 8px;border-radius: 50%;margin-right: 8px;"></span>根据使用场景设置标签，给扫码添加的好友，自动打此标签
+              </div>
             </el-form-item>
             <el-form-item label="海报" v-if="memberManagePlan == 1">
               <div class="poster-content">
