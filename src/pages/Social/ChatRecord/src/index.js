@@ -523,6 +523,9 @@ export default {
      * 拉取企业微信最新聊天数据
      */
     requestWeWorkChatDataToDb () {
+      if (this.activeName !== '2') {
+        this.WeWorkChatParam.roomid = null
+      }
       return new Promise(resolve => {
         this.$http
           .fetch(

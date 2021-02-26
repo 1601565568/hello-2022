@@ -59,7 +59,7 @@
               v-for="(item, index) in senderList"
               :key="index"
               @click="handleClickChangeSender(item, index)"
-              :class="(index === senderIndex && unfoldAndStow && parseInt(activeName) !== 2) ? 'user_list_select' : (index === senderIndex && !unfoldAndStow && parseInt(activeName) !== 2)? 'user_list_select_1': '' "
+              :class="(index === senderIndex && unfoldAndStow && parseInt(activeName) !== 2) ? 'user_list_select' : (index === senderIndex && !unfoldAndStow && parseInt(activeName) !== 2)? 'user_list_select_1':  (index === senderIndex  && parseInt(activeName) === 2)?'user_list_select_1':''"
             >
               <img
                 class="user_pic"
