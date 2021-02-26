@@ -1,9 +1,15 @@
 <template>
   <div>
+    <div class="instructions-content">
+      <div class="instructions-content__info">
+        Tips:员工主动删除好友<br>
+      </div>
+    </div>
     <ns-page-table :colButton="0">
       <!-- 简单搜索 -->
       <template slot="searchSearch">
         <el-form
+          @submit.native.prevent
           :inline="true"
           label-width="60px"
         >
@@ -29,7 +35,7 @@
       </template>
       <!-- 高级搜索 -->
       <template slot="advancedSearch" v-if="searchType.advanced">
-        <el-form :model="model" :inline="true" label-width="80px">
+        <el-form @submit.native.prevent :model="model" :inline="true" label-width="80px">
           <el-form-item label="好友昵称：">
             <el-input
               v-model="model.customerNick"
