@@ -145,7 +145,7 @@
               </ns-button>
             </template>
           </el-table-column>
-          <el-table-column v-if="memberManagePlan == 1" prop="inviteFriendSum" align="center" sortable="custom">
+          <el-table-column v-if="memberManagePlan == 1" prop="inviteFriendSum" align="center" sortable="custom" min-width="120">
             <template slot="header">
               引流好友数
               <el-tooltip class="help" content="通过聚合码添加企业成员的好友数">
