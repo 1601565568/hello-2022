@@ -53,6 +53,10 @@ export default {
     confirm () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          if (this.Form.words.endsWith(',')) {
+            this.$notify.error('请去掉结尾的 , ')
+            return false
+          }
           const addWords = JSON.parse(JSON.stringify(this.Form.words))
           const arr = addWords.split(',')
           const checkee = arr.every(item => {
@@ -63,7 +67,7 @@ export default {
             this.$refs.ruleForm.resetFields()
             this.visible = false
           } else {
-            this.$notify.error('添加敏感词格式错误')
+            this.$notify.error('每个敏感词不得超过10个字符')
           }
         } else {
           this.$notify.error('请填写敏感词！')

@@ -50,6 +50,10 @@ export default {
           break
         case '切换账户':
           url = require(`../../../image/qiehuanzhanghu.png`)
+          break
+        case 'LBS群拉新':
+          url = require(`../../../image/LBS.png`)
+          break
       }
       return url
     }

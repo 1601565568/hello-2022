@@ -4,6 +4,7 @@ import ItemDrawer from '../../components/ItemDrawer'
 import nsAddBorder from '../../topicAnalysis/image/ns-add-border.png'
 import infiniteScroll from 'vue-infinite-scroll'
 import AddSensitiveWords from '../../components/addSensitiveWords'
+import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import moment from 'moment'
 import { formatList, formatWeWorkChatData } from './format'
 export default {
@@ -12,11 +13,17 @@ export default {
     ChatRecordList,
     ElDrawer,
     ItemDrawer,
-    AddSensitiveWords
+    AddSensitiveWords,
+    NsNoData
   },
   data () {
     return {
       nsAddBorder,
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() // 禁止选择以后的时间
+        }
+      },
       // 分页配置
       pagination: {
         size: 15,
@@ -28,7 +35,7 @@ export default {
         name: '',
         time: '',
         start: 0,
-        length: 30
+        length: 15
       },
       time: '',
       list: [], // 敏感词列表
@@ -58,7 +65,11 @@ export default {
       weWorkChatData: []
     }
   },
-  computed: {},
+  computed: {
+    ml () {
+      return this.unfoldAndStow ? 'template-page__right_content' : ''
+    }
+  },
   created () {
     window.addEventListener('resize', this.setHeight)
     this.init()
@@ -76,39 +87,39 @@ export default {
     async init () {
       this.listLoading = true
       this.getDate()
+      this.table.loading = true
       this.getList()
     },
     /**
      * 获取敏感词列表
      */
-    getList () {
-      this.listLoading = true
-      this.table.loading = true
-      this.table.tableData = []
+    getList (noLoding) {
+      if (!noLoding) {
+        this.listLoading = true
+      }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.list, this.model)
         .then(res => {
           const result = formatList(res.result)
           this.list = this.list.concat(result)
-          this.tableParams.start = 0
-          if (this.select === null) {
+          if (this.list.length === 0) {
+            this.table.loading = false
+            this.table.tableData = []
+          }
+          if (this.select === null && this.list.length !== 0) {
             this.select =
               this.list[0] && this.list[0].id ? this.list[0].id : null
-          }
-          if (this.list.length !== 0) {
+            this.tableParams.start = 0
             this.tableParams.id = this.select
             this.getContentList()
-          } else {
-            this.table.loading = false
           }
-          if (result.length < this.model.length) {
-            this.getListMore = false
-          }
+          this.getListMore = !(result.length < this.model.length)
           this.listLoading = false
           this.listIsScroll = false
         })
         .catch(err => {
           this.$notify.error(err.msg || '敏感词列表失败')
+          this.listLoading = false
         })
     },
     /**
@@ -125,12 +136,13 @@ export default {
      */
     handlerChangeTime (data) {
       if (data) {
-        this.tableParams.time = data
         this.model.time = data
+        this.tableParams.time = data
+        this.model.start = 0
+        this.table.loading = true
         this.select = null
         this.list = []
         this.getList()
-        // this.getContentList()
       } else {
         const nowDate = new Date()
         this.time = moment(nowDate).format('YYYY-MM-DD')
@@ -140,7 +152,14 @@ export default {
      * 输入框搜索
      */
     onSearch () {
+      if (this.table.loading) {
+        return
+      }
       this.list = []
+      this.select = null
+      this.table.tableData = []
+      this.table.loading = true
+      this.model.start = 0
       this.getList()
     },
     /**
@@ -150,7 +169,7 @@ export default {
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
         this.model.start = this.model.start + this.model.length
-        this.getList()
+        this.getList(true)
       }
     },
     /**
@@ -158,35 +177,42 @@ export default {
      * @param {i} // i list唯一标识ID
      */
     selectUser (i) {
+      if (this.table.loading) {
+        return
+      }
       this.select = i
       this.tableParams.id = i
       this.tableParams.start = 0
-      let _this = this
       this.table.loading = true
-      clearTimeout(this.getContentListTime)
-      this.getContentListTime = setTimeout(() => {
-        _this.getContentList()
-      }, 500)
+      this.getContentList()
     },
     /**
      * 敏感词列表删除
      * @param {number} // id list唯一标识ID
+     * PS:会触发滚动事件
      */
     listDeleteItem (id) {
-      let _this = this
+      // 防止滚动事件
+      this.listIsScroll = true
+      this.listLoading = true
+      this.table.loading = true
+      this.select = null
+      // 解决不了遮罩问题. 数据清空方便遮罩
+      this.list = []
+      this.table.tableData = []
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.delete, { id })
         .then(res => {
           if (res.success) {
-            _this.$notify.success(res.msg)
-            _this.model.start = 0
-            this.select = null
-            this.list = []
-            _this.getList()
+            this.$notify.success(res.msg)
+            this.model.start = 0
+            this.getList()
           }
         })
         .catch(err => {
-          _this.$notify.error(err.msg || '删除失败')
+          this.$notify.error(err.msg || '删除失败')
+          this.listLoading = false
+          this.table.loading = false
         })
     },
     /**
@@ -208,6 +234,7 @@ export default {
             this.model.start = 0
             this.list = []
             this.select = null
+            this.table.loading = true
             this.getList()
           }
         })
@@ -238,6 +265,10 @@ export default {
      *  @param {object}
      */
     getContext (row) {
+      if (this.table.loading) {
+        return
+      }
+      this.table.loading = true
       this.WeWorkChatParam = {
         chatDateTime: this.time,
         sender: row.sender,
@@ -245,26 +276,28 @@ export default {
         tolist: row.tolist,
         roomid: row.roomid ? row.roomid : '',
         type: 1,
-        before: 5,
-        after: 3
+        before: 10,
+        after: 2
       }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.context, this.WeWorkChatParam)
         .then(res => {
           this.weWorkChatData = formatWeWorkChatData(res.result)
           this.drawer = true
+          this.table.loading = false
         })
         .catch(err => {
           this.$notify.error(err.msg || '查询失败')
+          this.table.loading = false
         })
     },
     /**
      * 聊天记录加载最新的数据
      */
     async getMore () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
@@ -281,9 +314,9 @@ export default {
      * 聊天记录顶部加载更多历史数据
      */
     async handleScrollTop () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
@@ -291,7 +324,7 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData.unshift(...arr)
+      this.weWorkChatData.unshift(...arr.reverse())
     },
     /**
      * 拉取企业微信最新聊天数据
@@ -306,13 +339,11 @@ export default {
           .then(res => {
             if (res.success) {
               const arr = res.result || []
-              const arrReverse = arr.reverse()
-              resolve(formatWeWorkChatData(arrReverse))
+              resolve(formatWeWorkChatData(arr))
             }
           })
           .catch(err => {
             this.$notify.error(err.msg)
-            // reject(new Error(err))
           })
       })
     },
@@ -326,6 +357,8 @@ export default {
      * 每页条数发生变化
      */
     handleSizeChange (size) {
+      this.pagination.page = 1
+      this.tableParams.start = 0
       this.tableParams.length = size
       this.getContentList()
     },

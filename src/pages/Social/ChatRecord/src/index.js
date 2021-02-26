@@ -30,12 +30,17 @@ export default {
       senderIsScroll: true, // 发起人是否禁用加载更多
       senderParams: { name: '', start: 0, length: 15 },
       senderListLoading: false, // 发起聊天loading
+      getMoreloading: false, // 加载更多提示文案
+      noMore: true, // senderList 加载判断是否还有更多数据
       senderTime: null, // 发起人列表点击防抖处理
       toList: [], // 聊天对象列表
+      toListRequest: false, // 请求限制id
       toListLoading: false, // 聊天对象loading
       toListIndex: null, // 聊天对象标识
       toListTime: null, // 聊天对象防抖处理
       toListIsScroll: true, // 聊天是否禁用加载更多
+      getToListNoMore: true, // toList 加载判断是否还有更多数据
+      getToListloading: false, // toList加载更多提示文案
       tabClickTime: null, // tab切换防抖
       time: '', // 搜索时间
       activeName: '1', // tabs切换表示
@@ -50,15 +55,15 @@ export default {
   },
   computed: {
     ml () {
-      return this.unfoldAndStow && this.activeName !== '2'
+      return this.unfoldAndStow && parseInt(this.activeName) !== 2
         ? 'template-page__right_content'
         : ''
     },
     senderListPlaceholder () {
       return `请输入${
-        this.activeName === '1'
+        parseInt(this.activeName) === 1
           ? '客户'
-          : this.activeName === '2'
+          : parseInt(this.activeName) === 2
             ? '群'
             : '导购'
       }`
@@ -90,6 +95,7 @@ export default {
      */
     async init () {
       this.getDate()
+      this.resetSenderParams()
       this.handlerLoading()
       this.requestExternalUserList()
     },
@@ -100,12 +106,8 @@ export default {
       this.senderListLoading = true
       this.toListLoading = true
       this.weWorkChatDataLoading = true
+      // 是否有数据
       this.isSetWeWorkChatData = false
-      this.senderList = []
-      this.senderIndex = null
-      this.toList = []
-      this.toListIndex = null
-      this.weWorkChatData = []
     },
     /**
      * 获取当前列表
@@ -124,13 +126,11 @@ export default {
       if (data) {
         this.WeWorkChatParam.chatDateTime = data
         this.talkToGuideListParams.time = data
-        this.toList = []
-        this.toListIndex = null
-        this.weWorkChatData = []
+        this.resetToListParms(false)
         this.toListLoading = true
         this.weWorkChatDataLoading = true
+        // 是否有聊天数据
         this.isSetWeWorkChatData = false
-        // this.handlerLoading()
         if (this.activeName === '2') {
           // 群聊天特殊处理
           this.getWeWorkChatDataToDb()
@@ -147,34 +147,69 @@ export default {
      */
     handleClick (tab) {
       let _this = this
-      this.resetSenderParams()
+      // 点击相同的禁止请求接口
+      if (this.activeName === tab) {
+        return
+      }
+      // 数据拉取成功后在切换列表
+      if (this.senderListLoading) {
+        this.$notify.error('正在拉取数据，请稍后再试')
+        return
+      }
+      this.activeName = tab
+      this.noMore = true
+      this.resetSenderParams(true)
       this.handlerLoading()
-      clearTimeout(this.tabClickTime)
-      this.tabClickTime = setTimeout(() => {
-        if (tab.name === '1') {
-          _this.requestExternalUserList()
-        } else if (tab.name === '2') {
-          _this.requestChatRoomList()
-        } else {
-          _this.requestGuideList()
-        }
-      }, 500)
+      if (tab === '1') {
+        _this.requestExternalUserList()
+      } else if (tab === '2') {
+        // 不需要二层加载
+        this.toListLoading = false
+        _this.requestChatRoomList()
+      } else {
+        _this.requestGuideList()
+      }
+    },
+    beforeLeave () {
+      if (this.toListLoading || this.senderListLoading || this.weWorkChatDataLoading) {
+        this.$notify.error('正在拉取数据，请稍后再试')
+        return false
+      }
     },
     /**
      * senderList 重置请求参数
      */
-    resetSenderParams () {
-      this.senderIndex = null
-      this.toListIndex = null
-      this.toList = []
-      this.senderList = []
+    resetSenderParams (reset) {
+      this.resetSearchSender(reset)
+      // 请求参数
       this.senderParams = { name: '', start: 0, length: 15 }
-      this.talkToGuideListParams = {
-        id: '', // 查询iD
-        time: this.time, // 查询时间
-        name: '',
-        start: 0,
-        length: 15
+    },
+    /**
+     * 搜索重置
+     */
+    resetSearchSender (reset) {
+      this.senderList = []
+      // 选中对象
+      this.senderIndex = null
+      this.resetToListParms(reset)
+    },
+    /**
+     * toListParams  是否重置选中参数
+     */
+    resetToListParms (reset) {
+      this.toList = []
+      this.weWorkChatData = []
+      // 第二个列表选中对象
+      this.toListIndex = null
+      if (reset) {
+        // 请求参数
+        this.talkToGuideListParams = {
+          id: '', // 查询iD
+          time: this.time, // 查询时间
+          name: '',
+          start: 0,
+          length: 15
+        }
       }
     },
     /**
@@ -203,7 +238,7 @@ export default {
      * senderList 搜索
      */
     onSenderSearch () {
-      // this.resetSenderParams()
+      this.resetSearchSender(true)
       this.handlerLoading()
       this.senderParams = { ...this.senderParams, start: 0, length: 15 }
       if (parseInt(this.activeName) === 1) {
@@ -213,7 +248,6 @@ export default {
       } else {
         this.requestGuideList()
       }
-      // this.resetSenderParams()
     },
     /**
      * toList 搜索
@@ -262,7 +296,6 @@ export default {
             this.senderList = this.senderList.concat(
               formatSenderList(res.result)
             )
-            this.toList = []
             this.toListIndex = null
             if (this.senderIndex === null) {
               this.senderIndex = 0
@@ -273,22 +306,33 @@ export default {
                 ? this.senderList[0].userId
                 : ''
             }
-            // 群聊天单独处理
-            if (this.activeName !== '2') {
-              this.getTalkToGuideList()
-            } else {
-              this.WeWorkChatParam = {
-                chatDateTime: this.WeWorkChatParam.chatDateTime,
-                sender: '',
-                tolist: '',
-                seq: 0,
-                type: 1,
-                roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+            // 判断是否还要加载请求更多的数据
+            const arr = res.result || []
+            this.noMore = arr.length < this.senderParams.length
+            // getMoreloading 加载更多文案提示判断是否是发起人列表滚动, 接口统一请求导致错误
+            if (!this.getMoreloading) {
+              // 群聊天单独处理
+              if (this.activeName !== '2') {
+                this.getTalkToGuideList()
+              } else {
+                if (arr.length !== 0) {
+                  this.WeWorkChatParam = {
+                    chatDateTime: this.WeWorkChatParam.chatDateTime,
+                    sender: '',
+                    tolist: '',
+                    seq: 0,
+                    type: 1,
+                    roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+                  }
+                  this.getWeWorkChatDataToDb()
+                }
+                this.weWorkChatDataLoading = false
+                this.isSetWeWorkChatData = true
               }
-              this.getWeWorkChatDataToDb()
             }
             this.senderIsScroll = false
             this.senderListLoading = false
+            this.getMoreloading = false
           }
         })
         .catch(err => {
@@ -300,6 +344,10 @@ export default {
      * 查询发起人对应的聊天列表
      */
     getTalkToGuideList () {
+      if (this.toListRequest) {
+        return
+      }
+      this.toListRequest = true
       this.toListLoading = true
       this.$http
         .fetch(
@@ -307,36 +355,61 @@ export default {
           this.talkToGuideListParams
         )
         .then(res => {
+          this.toListRequest = false
           this.toList = this.toList.concat(formatToList(res.result))
-          this.toListLoading = false
           if (this.toListIndex === null) {
             this.toListIndex = 0
             this.WeWorkChatParam.tolist = this.toList[0]
               ? this.toList[0].userId
               : ''
           }
-          this.toListIsScroll = false
-          if (this.toList.length === 0) {
-            this.weWorkChatDataLoading = false
-            this.weWorkChatData = []
-            this.isSetWeWorkChatData = true
-          } else {
-            this.getWeWorkChatDataToDb()
+          if (!this.getToListloading) {
+            if (this.toList.length === 0) {
+              this.weWorkChatDataLoading = false
+              this.weWorkChatData = []
+              this.isSetWeWorkChatData = true
+            } else {
+              this.getWeWorkChatDataToDb()
+            }
           }
+          // 判断是否还要加载请求更多的数据
+          const arr = res.result || []
+          this.getToListNoMore = arr.length < this.talkToGuideListParams.length
+          this.lodingFalseFirst()
+          this.scorllFalse()
         })
         .catch(err => {
           this.$notify.error(err.msg)
+          this.toListRequest = false
+          this.lodingFalseFirst()
+          this.weWorkChatDataLoading = false
         })
+    },
+    /**
+     * 一二级列表 加载中
+     */
+    lodingFalseFirst () {
+      this.toListLoading = false
+      this.getToListloading = false
+    },
+    /**
+     * 前两列的滚动
+     */
+    scorllFalse () {
+      this.senderIsScroll = false
+      this.toListIsScroll = false
     },
     /**
      * senderList 滚动加载更多
      */
     handlerScroll () {
-      if (!this.senderIsScroll) {
+      if (!this.senderIsScroll && !this.noMore) {
         this.senderIsScroll = true
+        this.getMoreloading = true
         this.senderParams.start =
           this.senderParams.start + this.senderParams.length
         if (parseInt(this.activeName) === 1) {
+          // this.senderListLoading = true
           this.requestExternalUserList()
         } else if (parseInt(this.activeName) === 2) {
           this.requestChatRoomList()
@@ -351,6 +424,8 @@ export default {
     handlerListScroll () {
       if (!this.toListIsScroll) {
         this.toListIsScroll = true
+        this.getToListloading = true
+        this.senderIsScroll = true
         this.talkToGuideListParams = {
           ...this.talkToGuideListParams,
           start:
@@ -367,14 +442,16 @@ export default {
      * @param {Number} // index list下标
      */
     handleClickChangeSender (item, index) {
+      if (this.toListLoading) {
+        return
+      }
       let _this = this
       this.senderIndex = index
+      this.toListLoading = true
       this.toList = []
       this.toListIndex = null
       this.weWorkChatDataLoading = true
-      this.toListLoading = true
       this.isSetWeWorkChatData = false
-      clearTimeout(this.senderTime)
       // 客户导购处理
       if (this.activeName !== '2') {
         this.talkToGuideListParams = {
@@ -384,15 +461,8 @@ export default {
           length: 15,
           id: item.userId
         }
-        this.WeWorkChatParam = {
-          ...this.WeWorkChatParam,
-          sender: item.userId,
-          seq: 0,
-          roomid: ''
-        }
-        this.senderTime = setTimeout(() => {
-          _this.getTalkToGuideList()
-        }, 500)
+        this.setWeWorkChatUser(item)
+        this.getTalkToGuideList()
       } else {
         // 群单独处理
         this.WeWorkChatParam = {
@@ -403,9 +473,27 @@ export default {
           type: 1,
           roomid: item.chatId
         }
-        this.senderTime = setTimeout(() => {
-          this.getWeWorkChatDataToDb()
-        }, 500)
+        this.getWeWorkChatDataToDb()
+      }
+    },
+    // set user
+    setWeWorkChatUser (item) {
+      this.WeWorkChatParam = {
+        ...this.WeWorkChatParam,
+        sender: item.userId,
+        seq: 0,
+        type: 1,
+        roomid: ''
+      }
+    },
+    // set toList
+    setWeWorkChatToList (item) {
+      this.WeWorkChatParam = {
+        ...this.WeWorkChatParam,
+        tolist: item.userId,
+        seq: 0,
+        type: 1,
+        roomid: ''
       }
     },
     /**
@@ -414,21 +502,11 @@ export default {
      * @param {Number} // index list下标
      */
     handleClickChangeToList (item, index) {
-      const _this = this
-      this.WeWorkChatParam = {
-        ...this.WeWorkChatParam,
-        tolist: item.userId,
-        seq: 0,
-        type: 1,
-        roomid: ''
-      }
+      this.setWeWorkChatToList(item)
       this.toListIndex = index
       this.isSetWeWorkChatData = false
       this.weWorkChatDataLoading = true
-      clearTimeout(this.toListTime)
-      this.toListTime = setTimeout(() => {
-        _this.getWeWorkChatDataToDb()
-      }, 500)
+      this.getWeWorkChatDataToDb()
     },
     async getWeWorkChatDataToDb () {
       this.weWorkChatDataLoading = true
@@ -450,12 +528,13 @@ export default {
             if (res.success) {
               resolve(formatWeWorkChatData(res.result))
               this.weWorkChatDataLoading = false
+              this.toListLoading = false
             }
           })
           .catch(err => {
-            this.$notify.error(err.msg)
+            this.$notify.error(err.msg | '获取聊天数据异常')
             this.weWorkChatDataLoading = false
-            // reject(new Error(err))
+            this.toListLoading = false
           })
       })
     },
@@ -469,6 +548,9 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
+      if (arr.length === 0) {
+        this.$notify.error('今日已到最早的记录')
+      }
       this.weWorkChatData.unshift(...arr)
     },
     /**
@@ -484,6 +566,7 @@ export default {
       if (arr.length === 0) {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
+      arr.reverse()
       this.weWorkChatData.push(...arr)
     },
     /**

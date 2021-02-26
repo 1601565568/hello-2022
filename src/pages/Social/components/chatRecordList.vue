@@ -20,7 +20,7 @@
               {{ item.name }} {{ item.msgtime }}
             </div>
             <div class="chatRecord_text" v-if="item.msgtype === 'text'">
-              {{ item.content }}
+              {{item.content}} <a class="link" :href="item.content_url" target=_blank>{{item.content_url}}</a>
             </div>
             <div
               class="chatRecord_img"
@@ -63,7 +63,10 @@
             </div>
             <img
               class="chatRecord_redenvelopes"
-              v-if="item.msgtype === 'redpacket'"
+              v-if="
+                item.msgtype === 'redpacket' ||
+                  item.msgtype === 'external_redpacket'
+              "
               src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
             />
             <!-- <img
@@ -76,17 +79,19 @@
                 {{ item.title }}
               </div>
               <div class="chatRecord_share__content">
-                <div class="chatRecord_share__Text">
-                  {{ item.description }}
-                </div>
+                  <div class="chatRecord_share__Text">
+                     <a :href="item.link_url" target=_blank>
+                      {{ item.description }}
+                     </a>
+                  </div>
                 <img class="chatRecord_share__img" :src="item.image_url" />
               </div>
-              <div class="chatRecord_share__user">
-                <img class="chatRecord_share__user__img" :src="item.avatar" />
-                <span class="chatRecord_share__user__name">{{
-                  item.sender
-                }}</span>
-              </div>
+<!--              <div class="chatRecord_share__user">-->
+<!--                <img class="chatRecord_share__user__img" :src="item.avatar" />-->
+<!--                <span class="chatRecord_share__user__name">{{-->
+<!--                  item.name-->
+<!--                }}</span>-->
+<!--              </div>-->
             </div>
             <div class="chatRecord_map" v-if="item.msgtype === 'location'">
               <div class="chatRecord_map_text">
@@ -103,22 +108,24 @@
       <span @click="getMore">查看更多</span>
     </div>
     <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
-    <el-dialog title="查看" :visible.sync="dialogVisible" width="30%">
-      <template v-if="type === 1">
-        <img :src="url" />
-      </template>
-      <template v-if="type === 2">
-        <video
-          :src="url"
-          autoplay="autoplay"
-          loop="loop"
-          muted="muted"
-          controls="controls"
-          controlsList="nodownload"
-          height="100%"
-          width="100%"
-        />
-      </template>
+    <el-dialog title="查看" :visible.sync="dialogVisible" :modal-append-to-body="false">
+      <div>
+        <template v-if="type === 1">
+          <img :src="url" />
+        </template>
+        <template v-if="type === 2">
+          <video
+            :src="url"
+            autoplay="autoplay"
+            loop="loop"
+            muted="muted"
+            controls="controls"
+            controlsList="nodownload"
+            height="100%"
+            width="100%"
+          />
+        </template>
+      </div>
       <span slot="footer" class="dialog-footer">
         <ns-button type="primary" @click="dialogVisible = false"
           >确 定</ns-button
@@ -147,6 +154,7 @@ export default {
       playRec: null, // 播放对象
       voiceActive: null,
       dialogVisible: false,
+      isGetMore: false, // 判断是否是点击查看更多用来设置滚动条位置
       url: '',
       type: 1
     }
@@ -156,6 +164,10 @@ export default {
       handler (newVal, oldVal) {
         if (newVal !== oldVal && newVal > oldVal) {
           this.isScroll = true
+          if (this.isGetMore) {
+            this.isGetMore = false
+            return
+          }
           this.$nextTick(() => {
             document
               .getElementById('chatRecordListWarpper')
@@ -225,6 +237,7 @@ export default {
       }
     },
     getMore () {
+      this.isGetMore = true
       this.$emit('getMore')
     },
     // 播放语音
@@ -393,6 +406,7 @@ export default {
       display: flex;
       align-items: center;
       .chatRecord_share__Text {
+        width: 192px;
         font-size: 14px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -458,6 +472,12 @@ export default {
       background: rgba(0, 0, 0, 0.65);
     }
   }
+  .link {
+    color:#0091fa;
+  }
+  .link:hover {
+    text-decoration:underline;
+  }
 }
 .chatRecord_R {
   display: flex;
@@ -478,6 +498,12 @@ export default {
     border-radius: 4px;
     object-fit: cover;
     margin-left: 16px;
+  }
+  .link {
+    color:#fff;
+  }
+  .link:hover {
+    text-decoration:underline;
   }
 }
 .more {

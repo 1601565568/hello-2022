@@ -6,11 +6,13 @@ import Database from './database'
 import Isv from './isv'
 import Management from './management'
 import ContentManager from './contentmanager'
-import riskManagement from './riskManagement'
 import social from './social'
 import WeWork from './wework'
 import dataCenter from './dataCenter'
 import greeting from './greeting'
+import customerCenter from './customerCenter'
+import pullNew from '@/config/routes/pullNew'
+import chatManage from '@/config/routes/chatManage'
 export default [
   ShopManager,
   Reward,
@@ -20,11 +22,13 @@ export default [
   Isv,
   Management,
   ContentManager,
-  riskManagement,
   social,
   dataCenter,
   WeWork, // 企业微信
   greeting,
+  customerCenter,
+  pullNew,
+  chatManage,
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',

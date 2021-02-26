@@ -9,6 +9,8 @@
           <el-date-picker
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
+            :clearable="false"
+            :picker-options="pickerOptions"
             @change="handlerChangeTime"
             v-model="time"
             type="date"
@@ -57,11 +59,20 @@
               <div class="topic-Number">
                 {{ item.count }}
               </div>
-              <span class="del" @click="listDeleteItem(item.id)">
+              <span class="del" @click.stop="listDeleteItem(item.id)">
                 <Icon type="delete"
               /></span>
             </li>
           </ul>
+          <p class="getMoreloading" v-if="getListMore && !listLoading">
+            加载中...
+          </p>
+          <p class="getMoreloading"
+            v-if="!getListMore && !listLoading && listLoading.length !== 0">
+            没有更多了
+          </p>
+          <NsNoData v-if="!listLoading && listLoading.length === 0"
+          >暂无数据</NsNoData>
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -69,7 +80,7 @@
         <div class="template-page__right__content">
           <div class="list-content_header">
             <h1>敏感词命中明细</h1>
-            <p>统计近3个月数据明细</p>
+<!--            <p>统计近3个月数据明细</p>-->
           </div>
           <div class="chat_record">
             <el-scrollbar ref="fullScreen" class="el-scrollbar__wrap__padding">
@@ -111,8 +122,8 @@
             <el-pagination
               :page-sizes="pagination.sizeOpts"
               :total="pagination.total"
-              :current-page="pagination.page"
-              :page-size="pagination.size"
+              :current-page.sync="pagination.page"
+              :page-size.sync="pagination.size"
               @size-change="handleSizeChange"
               @current-change="handlePageChange"
               class="template-table__pagination"
@@ -167,6 +178,12 @@ export default Index
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.getMoreloading {
+  height: 64px;
+  line-height: 64px;
+  // padding: 0 16px;
+  text-align: center;
 }
 .page-header {
   background: #ffffff;
@@ -269,13 +286,14 @@ export default Index
     .del {
       display: none;
       position: absolute;
-      right: 16px;
+      right: 12px;
       top: 50%;
       transform: translate(-50%, -50%);
     }
     &:hover {
       background: #d9effe;
       .del {
+        cursor: pointer;
         display: block;
       }
     }
