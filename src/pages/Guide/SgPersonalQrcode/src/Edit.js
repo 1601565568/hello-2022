@@ -273,11 +273,11 @@ export default {
       that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
+        that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {
         this.saveLoading = false
-        that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       })
     },
     // 聚合码类型改变
