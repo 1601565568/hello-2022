@@ -64,6 +64,14 @@ export default {
       this.searchObj.start = 0
       this.searchObj.searchMap = {}
       this.loadListFun()
+    },
+    checkUrl (url) {
+      if (url !== null && url !== '') {
+        if (url.indexOf('img.alicdn.com') !== -1) {
+          url = url + '_200x200.jpg'
+        }
+      }
+      return url
     }
   }
 }

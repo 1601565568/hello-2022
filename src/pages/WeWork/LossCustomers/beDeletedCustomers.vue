@@ -1,9 +1,15 @@
 <template>
   <div>
+    <div class="instructions-content">
+      <div class="instructions-content__info">
+        Tips:好友主动删除员工<br>
+      </div>
+    </div>
     <ns-page-table :colButton="0">
       <!-- 简单搜索 -->
       <template slot="searchSearch">
         <el-form
+          @submit.native.prevent
           :inline="true"
           label-width="60px"
         >
@@ -29,7 +35,7 @@
       </template>
       <!-- 高级搜索 -->
       <template slot="advancedSearch" v-if="searchType.advanced">
-        <el-form :model="model" :inline="true" label-width="80px">
+        <el-form @submit.native.prevent :model="model" :inline="true" label-width="80px">
           <el-form-item label="好友昵称：">
             <el-input
               v-model="model.customerNick"
@@ -89,9 +95,14 @@
           :element-loading-text="$t('prompt.loading')"
           v-loading.lock="loading"
         >
-          <el-table-column prop="customerAvatar" label="好友头像" align="left" min-width="100">
+          <el-table-column prop="customerAvatar" label="好友头像" align="left" :sortable="false" width="100">
             <template slot-scope="scope">
-              <el-avatar :src="scope.row.customerAvatar || require('@nascent/ecrp-ecrm/src/assets/images/no-img.png')" :size="60" shape="square" />
+              <div v-if="!scope.row.customerAvatar">
+                <img src="./images/head_demo.svg" width="60" height="60"/>
+              </div>
+              <div v-else>
+                <img :src="checkUrl(scope.row.customerAvatar)" width="60" height="60"/>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="customerNick" label="好友昵称" align="left" min-width="100">

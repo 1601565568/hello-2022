@@ -119,9 +119,14 @@
         :element-loading-text="$t('prompt.loading')"
         @sort-change="onSortChange"
       >
-        <el-table-column :show-overflow-tooltip="true" label="头像" align="left">
+        <el-table-column prop="avatar" label="头像" align="left" :sortable="false" width="100">
           <template slot-scope="scope">
-            <img :src="scope.row.avatar" width="50px"/>
+            <div v-if="!scope.row.avatar">
+              <img src="../images/head_demo.svg" width="60" height="60"/>
+            </div>
+            <div v-else>
+              <img :src="checkUrl(scope.row.avatar)" width="60" height="60"/>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="昵称" align="center">
