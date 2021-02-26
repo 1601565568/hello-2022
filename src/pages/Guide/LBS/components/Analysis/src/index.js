@@ -5,8 +5,8 @@ export default {
       model: {
         shopIdList: [],
         setState: null,
-        startTime: this.changeDate(0)[0],
-        endTime: this.changeDate(0)[1],
+        startTime: this.changeDate(1)[0],
+        endTime: this.changeDate(1)[1],
         guid: this.$route.query.guid,
         sortType: 0
       },
@@ -16,7 +16,7 @@ export default {
       dateList: [
         {
           label: '今天',
-          value: '0day'
+          value: '1day'
         }, {
           label: '近7天',
           value: '7day'
@@ -46,7 +46,7 @@ export default {
         employee: 0
       },
       // 时间选择的值
-      dateValue: '0day'
+      dateValue: '1day'
     }
   },
   props: {
