@@ -59,6 +59,11 @@ export default {
         ? 'template-page__right_content'
         : ''
     },
+    line () {
+      return this.unfoldAndStow && parseInt(this.activeName) !== 2
+        ? 'template-page__line'
+        : ''
+    },
     senderListPlaceholder () {
       return `请输入${
         parseInt(this.activeName) === 1
@@ -518,6 +523,9 @@ export default {
      * 拉取企业微信最新聊天数据
      */
     requestWeWorkChatDataToDb () {
+      if (this.activeName !== '2') {
+        this.WeWorkChatParam.roomid = null
+      }
       return new Promise(resolve => {
         this.$http
           .fetch(

@@ -17,7 +17,7 @@
               <Icon type="exclamation-circle" />
             </i>
             <span
-              >多敏感词用“,”隔开，且每个敏感词不得超过10个字符，如敏感词1,敏感词2</span
+              >多敏感词用","隔开，且每个敏感词不得超过10个字符，如敏感词1,敏感词2</span
             >
           </span>
         </el-form-item>
@@ -53,6 +53,11 @@ export default {
     confirm () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          let newKeyWord = ''
+          while (this.Form.words.indexOf('，') !== -1) {
+            newKeyWord = this.Form.words.replace('，', ',')
+            this.Form.words = newKeyWord
+          }
           if (this.Form.words.endsWith(',')) {
             this.$notify.error('请去掉结尾的 , ')
             return false
