@@ -172,7 +172,7 @@ export default {
 
     .adder-owners {
       position: relative;
-      width: 200px;
+      width: 230px;
       height: 32px;
       font-size: 14px;
       box-sizing: border-box;

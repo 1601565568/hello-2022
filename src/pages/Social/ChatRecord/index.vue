@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="template-page__content">
-      <div class="template-page__left">
+      <div class="template-page__left" :class="line">
         <div class="content_header">
           <span>{{ formatActiveName(activeName, 1) }}列表</span>
           <div @click="handlerUnfoldAndStow" v-if="activeName !== '2'">
@@ -59,7 +59,7 @@
               v-for="(item, index) in senderList"
               :key="index"
               @click="handleClickChangeSender(item, index)"
-              :class="index === senderIndex ? 'user_list_select' : ''"
+              :class="(index === senderIndex && unfoldAndStow && parseInt(activeName) !== 2) ? 'user_list_select' : (index === senderIndex && !unfoldAndStow && parseInt(activeName) !== 2)? 'user_list_select_1': '' "
             >
               <img
                 class="user_pic"
@@ -307,7 +307,7 @@ export default Index
 .user_list_select {
   position: relative;
   background: #d9effe;
-  // z-index: 2;
+  z-index: 2;
   &::after {
     position: absolute;
     right: 0px;
@@ -320,6 +320,11 @@ export default Index
     border-left: 7px solid transparent;
   }
 }
+.user_list_select_1 {
+  position: relative;
+  background: #d9effe;
+  z-index: 2;
+}
 .template-page__left__children {
   position: absolute;
   left: 220px;
@@ -328,7 +333,7 @@ export default Index
   overflow: hidden;
   width: 173px;
   background: #ffffff;
-  border-left: 1px solid #e8e8e8;
+  // border-left: 1px solid #e8e8e8;
 }
 .customer_list__warpper {
   padding: 0 16px;
@@ -387,14 +392,21 @@ export default Index
 .template-page__left {
   width: 220px;
   position: absolute;
-  // left: 210px;
-  // top: 70px;
-  // z-index: 2;
   background: #ffffff;
   overflow: hidden;
-  // >>> .el-input {
-  //     margin-bottom: var(--default-margin-base);
-  // }
+}
+.template-page__line {
+  position: relative;
+  &::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    background: #e8e8e8;
+    z-index: 1;
+  }
 }
 .template-page__right {
   position: absolute;

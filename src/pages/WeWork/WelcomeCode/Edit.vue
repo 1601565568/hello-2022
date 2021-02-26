@@ -580,7 +580,7 @@
             <span class="tmp-tips text-info">
               <Icon type="info-circle" theme="filled" />
             </span>
-            招募链接编辑位置为系统设置-招募设置-招募页面配置
+            招募链接编辑位置为获客引流-会员引流-招募页面配置
           </el-form-grid>
         </el-form-item>
       </el-form>

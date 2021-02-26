@@ -105,7 +105,7 @@
                          label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false" width="100">
           <template slot-scope="scope">
             <div v-if="!scope.row.head_img">
-              <img src="./images/no-img.png" width="60" height="60"/>
+              <img src="./images/head_demo.svg" width="60" height="60"/>
             </div>
             <div v-else>
               <img :src="checkUrl(scope.row.head_img)" width="60" height="60"/>

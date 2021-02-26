@@ -1,7 +1,7 @@
 <template>
   <div class="customer-container">
     <div class='customer-header flex-box'>
-      <h3>{{editType}}一客一码活动</h3>
+      <h3>{{editType}}裂变大师活动</h3>
       <div class='customer-btn'>
         <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
         <ns-button class='customer-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
@@ -17,7 +17,7 @@
             </el-form-item>
             <el-form-item label='参加活动人员' prop='guideIds'>
               <div class='flex-box form-item_toptext'>
-                <span>选择的员工可以在企微侧边栏使用该一客一码活动</span>
+                <span>选择的员工可以在企微侧边栏使用该裂变大师活动</span>
                 <span class='form-item_toptext__length'>已选<span>{{model.guideIds.length}}</span>人</span>
               </div>
               <html-area>
@@ -34,7 +34,7 @@
                     </span>
                   </template>
                   <template v-else>
-                    <p class='employee-text'>请选择可以在企微侧边栏使用该活动一客一码的员工</p>
+                    <p class='employee-text'>请选择可以在企微侧边栏使用该活动裂变大师的员工</p>
                   </template>
                 </div>
                 <template slot='suffix'>
@@ -78,7 +78,7 @@
           </el-collapse-item>
           <el-collapse-item title='企微互动内容' :name="2">
             <div class='form-item_tip'>
-              通过一客一码添加进来的好友，会自动收到活动介绍和活动海报
+              通过裂变大师添加进来的好友，会自动收到活动介绍和活动海报
             </div>
             <el-form-item label='活动介绍' required prop='activityIntroduction' :rules="[
               { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
@@ -169,7 +169,7 @@
                   <Icon type="question-circle" class='question-circle' />
                 </el-tooltip>
               </template>
-              <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
+              <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 裂变大师二维码过期
               <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
               <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
@@ -187,7 +187,7 @@
               <!-- <Icon type="icon-huiyuan"  :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img"></Icon> -->
               <div class='user-content_name' :style='{color:model.nickColour}'>推广人昵称</div>
             </div>
-            <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传一客一码背景图</div>
+            <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传裂变大师背景图</div>
             <div class="upload-content" v-if='!model.backgroundPic'>
               <el-upload
                   class="upload-demo"

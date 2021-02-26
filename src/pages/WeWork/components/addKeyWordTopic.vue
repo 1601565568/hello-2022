@@ -25,7 +25,7 @@
             <Icon type="exclamation-circle" />
           </i>
           <span
-            >多关键字用“，”隔开，且每个关键词不得超过10个字符，如关键词1，关键词2</span
+            >多关键字用","隔开，且每个关键词不得超过10个字符，如关键词1,关键词2</span
           >
         </span>
       </el-form-item>
@@ -64,6 +64,11 @@ export default {
     confirm () {
       this.$refs.topicRuleForm.validate(valid => {
         if (valid) {
+          let newKeyWord = ''
+          while (this.Form.keyWords.indexOf('，') !== -1) {
+            newKeyWord = this.Form.keyWords.replace('，', ',')
+            this.Form.keyWords = newKeyWord
+          }
           if (this.Form.keyWords.endsWith(',')) {
             this.$notify.error('请去掉结尾的 , ')
             return false
