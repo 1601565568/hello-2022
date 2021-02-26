@@ -56,7 +56,7 @@
               </div>
               <div class='auth-content_form'>
                 <h5 class='auth-form_header'>
-                  {{infoData.name}}<Icon v-if='infoData.qrcode' type="icon-zhaomuma" class="icon-upload" style='margin-left: 5px;cursor: pointer;' @click='handleClick'/>
+                  {{infoData.name}}<Icon v-if='infoData.qrcode' type="icon-zhaomuma" class="icon-upload" style='margin-left: 5px;cursor: pointer;color:#8C8C8C' @click='handleClick'/>
                 </h5>
                 <div class='auth-form_content'>
                   <template v-for='item in displayData'>
