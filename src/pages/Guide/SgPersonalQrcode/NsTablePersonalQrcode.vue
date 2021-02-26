@@ -121,7 +121,7 @@
               </template>
             </el-table-column>
           </div>
-          <el-table-column prop="num" v-if="memberManagePlan == 2" label="扫描次数" align="right" min-width="100">
+          <el-table-column prop="num" v-if="memberManagePlan == 2" label="扫描次数" align="center" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.num?scope.row.num:'0' }}
             </template>
@@ -138,15 +138,14 @@
               </ns-button>
             </template>
           </el-table-column>
-          <el-table-column prop="poster" label="海报" align="center" min-width="100">
+          <el-table-column v-if="memberManagePlan == 1" prop="poster" label="海报" align="center" min-width="100">
             <template slot-scope="scope">
               <ns-button style="color:#0091FA; font-size:24px;" size="mini" @click="posterLink(scope.row)" type="text">
               <Icon type="tupian"/>
-              <!-- <Icon type="erweima"/> -->
               </ns-button>
             </template>
           </el-table-column>
-          <el-table-column prop="inviteFriendSum" align="center" sortable="custom">
+          <el-table-column v-if="memberManagePlan == 1" prop="inviteFriendSum" align="center" sortable="custom" min-width="120">
             <template slot="header">
               引流好友数
               <el-tooltip class="help" content="通过聚合码添加企业成员的好友数">

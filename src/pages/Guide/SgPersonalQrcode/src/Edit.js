@@ -169,6 +169,9 @@ export default {
           this.tableData = JSON.parse(data.result.child_qrcodes)
         }
         this.addTableData = JSON.parse(data.result.child_qrcodes)
+
+        // 显示已经上传的海报
+        this.uploadPosterFileList = [ { name: data.result.poster_background_url, url: data.result.poster_background_url } ]
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
@@ -581,7 +584,8 @@ export default {
     },
     uploadPosterRemove (file, fileList) {
       this.disableSaveBtn = false
-      this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''
+      // this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''
+      this.personalQrcode.posterBackgroundUrl = ''
     }
   },
   watch: {

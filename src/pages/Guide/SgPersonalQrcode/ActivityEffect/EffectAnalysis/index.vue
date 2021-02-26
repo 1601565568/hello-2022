@@ -80,8 +80,11 @@
             width="316">
             <template slot-scope="scope">
               <div class="offline-shop-content">
-                <span class="scope-store-text">{{scope.row.offlineShops.join('；')}}</span>
+                <span class="scope-store-text">
+                  {{scope.row.offlineShops.length ? scope.row.offlineShops.join('；') : '-'}}
+                </span>
                 <el-popover
+                  v-if="scope.row.offlineShops.length"
                   placement="top-start"
                   class="item"
                   :title="`工作门店（${scope.row.offlineShops.length}）`"
@@ -278,7 +281,7 @@ export default {
       margin-right: 16px;
       .adder-owners {
         position: relative;
-        width: 200px;
+        width: 230px;
         height: 32px;
         font-size: 14px;
         box-sizing: border-box;
