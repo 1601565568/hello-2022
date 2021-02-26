@@ -89,9 +89,14 @@
           :element-loading-text="$t('prompt.loading')"
           v-loading.lock="loading"
         >
-          <el-table-column prop="customerAvatar" label="好友头像" align="left" min-width="100">
+          <el-table-column prop="customerAvatar" label="好友头像" align="left" :sortable="false" width="100">
             <template slot-scope="scope">
-              <el-avatar :src="scope.row.customerAvatar || require('@nascent/ecrp-ecrm/src/assets/images/no-img.png')" :size="60" shape="square" />
+              <div v-if="!scope.row.customerAvatar">
+                <img src="./images/head_demo.svg" width="60" height="60"/>
+              </div>
+              <div v-else>
+                <img :src="checkUrl(scope.row.customerAvatar)" width="60" height="60"/>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="customerNick" label="好友昵称" align="left" min-width="100">
