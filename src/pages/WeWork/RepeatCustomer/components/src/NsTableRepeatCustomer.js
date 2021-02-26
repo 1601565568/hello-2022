@@ -110,6 +110,14 @@ export default {
     },
     onRedactFun (row) {
       window.console.log(row)
+    },
+    checkUrl (url) {
+      if (url !== null && url !== '') {
+        if (url.indexOf('img.alicdn.com') !== -1) {
+          url = url + '_200x200.jpg'
+        }
+      }
+      return url
     }
   }
 }
