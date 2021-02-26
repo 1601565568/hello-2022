@@ -5,8 +5,8 @@ export default {
       model: {
         shopIdList: [],
         setState: null,
-        startTime: this.changeDate(1)[0],
-        endTime: this.changeDate(1)[1],
+        startTime: this.changeDate(0)[0],
+        endTime: this.changeDate(0)[1],
         guid: this.$route.query.guid,
         sortType: 0
       },
@@ -15,8 +15,8 @@ export default {
       // 时间筛选
       dateList: [
         {
-          label: '昨天',
-          value: '1day'
+          label: '今天',
+          value: '0day'
         }, {
           label: '近7天',
           value: '7day'
@@ -46,7 +46,7 @@ export default {
         employee: 0
       },
       // 时间选择的值
-      dateValue: '1day'
+      dateValue: '0day'
     }
   },
   props: {
@@ -101,9 +101,9 @@ export default {
     // 修改时间
     changeDate (day) {
       const timestamp = day * 86400000
-      const nowTime = new Date(new Date().toLocaleDateString()).getTime()
+      const nowTime = new Date(new Date().toLocaleDateString()).getTime() + 86399000
       const oldTime = nowTime - timestamp
-      const startTime = moment(oldTime).format('YYYY-MM-DD HH:mm:ss')
+      const startTime = moment(oldTime + 1000).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(nowTime).format('YYYY-MM-DD HH:mm:ss')
       return [startTime, endTime]
     },

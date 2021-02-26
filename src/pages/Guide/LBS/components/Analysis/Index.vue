@@ -3,7 +3,7 @@
     <div class='analysis-header'>
       <h3 class='header-text'>
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
-        {{activityName}}的活动效果
+        {{activityName}}的效果分析
       </h3>
       <div class='header-tab'>
         <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">

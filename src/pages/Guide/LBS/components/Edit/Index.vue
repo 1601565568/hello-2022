@@ -99,8 +99,8 @@
         </recruitment-collapse>
          <!-- 基础信息 end -->
         <!-- 消费者进群页面设置 start -->
-        <SimpleCollapse  title='消费者进群页面设置'>
-          <PhoneBox class='first-phone' title='01 引导页设置' phoneBar='加入门店群' phoneTitle='' showBottom>
+        <SimpleCollapse  :title='groupTip'>
+          <PhoneBox class='first-phone' title='01 引导页设置' :phoneBar='phoneTitle' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
                 <drap-upload tip='(建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式)' v-model='model.welcomePoster' :maxWidth='750'>
@@ -127,7 +127,7 @@
               </div>
             </template>
           </PhoneBox>
-          <PhoneBox title='02 群聚合码设置' phoneBar='加入门店群' phoneTitle=''>
+          <PhoneBox :title='groupSet' :phoneBar='phoneTitle' phoneTitle=''>
             <template slot='collapse-left'>
               <!-- 群聚合码设置 start -->
               <template v-if='type === "Group"'>

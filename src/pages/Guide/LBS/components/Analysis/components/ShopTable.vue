@@ -28,7 +28,6 @@
           </el-table-column>
           <el-table-column
             prop="adduserNum"
-            sortable="custom"
             label="新增群成员数">
           </el-table-column>
           <el-table-column
@@ -62,9 +61,11 @@
     </page-table>
     <NsChatRoomDialog v-if='display' ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='activeRow.chooseChatroom' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false' @onClose='display = false'></NsChatRoomDialog>
     <el-drawer
+      class='low-drawer'
       :modal='false'
       size='50%'
       @close='handleClose'
+      :modal-append-to-body='false'
       :visible.sync="drawer"
       destroy-on-close
       :with-header="false">
@@ -213,7 +214,7 @@ export default {
   watch: {
     propsModel: {
       handler (newVal) {
-        this.model = { ...newVal, sortName: 'adduserNum' }
+        this.model = { ...newVal }
         this.$searchAction$()
       },
       immediate: true,
@@ -242,5 +243,8 @@ export default {
     .el-icon-close {
       cursor: pointer;
     }
+  }
+  .low-drawer {
+    z-index: 1050 !important;
   }
 </style>
