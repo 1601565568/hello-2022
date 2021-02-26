@@ -1,0 +1,3 @@
+>>> .el-dialog__wrap {
+  max-height: calc(100% - 44px) !important;
+}

@@ -56,6 +56,12 @@ export default {
               'name': 'SgPersonalQrcode',
               'title': '聚合二维码',
               'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+            },
+            {
+              'path': '/Guide/SgPersonalQrcode/List/ActivityEffect/:guid/:name',
+              'name': 'SgPersonalQrcode',
+              'title': '聚合二维码活动效果分析',
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/ActivityEffect/index.vue')
             }
           ]
         },
@@ -131,7 +137,7 @@ export default {
         {
           'path': '/Social/SocialOperation/CustomerCode/List',
           'name': 'CustomerCode',
-          'title': '一客一码',
+          'title': '裂变大师',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeWorkGuestCode'
@@ -140,23 +146,57 @@ export default {
             {
               'path': '/Social/SocialOperation/CustomerCode/List',
               'name': 'CustomerCodeList',
-              'title': '一客一码',
+              'title': '裂变大师',
               'component': () => import('@/pages/Guide/CustomerCode/List.vue')
             },
             {
               'path': '/Social/SocialOperation/CustomerCode/Edit',
               'name': 'CustomerCodeEdit',
-              'title': '编辑一客一码',
+              'title': '编辑裂变大师',
               'component': () => import('@/pages/Guide/CustomerCode/Edit.vue')
             },
             {
               'path': '/Social/SocialOperation/CustomerCode/Analysis',
               'name': 'CustomerCodeAnalysis',
-              'title': '一客一码报表',
+              'title': '裂变大师报表',
               'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
             }
           ]
+        },
+        {
+          path: '/Guide/LBS/Friends',
+          name: 'LBSFriends',
+          title: 'LBS好友聚合码',
+          meta: { requiresAuth: true },
+          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          redirect: {
+            path: '/Guide/LBS/Friends/Index'
+          },
+          children: [
+            {
+              path: '/Guide/LBS/Friends/Index',
+              name: 'FriendsIndex',
+              meta: { requiresAuth: true },
+              title: 'LBS好友聚合码',
+              'component': () => import('@/pages/Guide/LBS/Friends/Index.vue')
+            },
+            {
+              path: '/Guide/LBS/Friends/Edit',
+              name: 'FriendsEdit',
+              meta: { requiresAuth: true },
+              title: 'LBS好友聚合码',
+              'component': () => import('@/pages/Guide/LBS/Friends/Edit.vue')
+            },
+            {
+              path: '/Guide/LBS/Friends/Analysis',
+              name: 'FriendsAnalysis',
+              meta: { requiresAuth: true },
+              title: 'LBS好友聚合码',
+              'component': () => import('@/pages/Guide/LBS/Friends/Analysis.vue')
+            }
+          ]
         }
+
       ]
     },
     {
@@ -211,13 +251,46 @@ export default {
               'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomGroup.vue')
             }
           ]
+        },
+        {
+          path: '/Guide/LBS/Group',
+          name: 'LBSGroup',
+          title: 'LBS群聚合码',
+          meta: { requiresAuth: true },
+          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          redirect: {
+            path: '/Guide/LBS/Group/Index'
+          },
+          children: [
+            {
+              path: '/Guide/LBS/Group/Index',
+              name: 'GroupIndex',
+              meta: { requiresAuth: true },
+              title: 'LBS群聚合码',
+              'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
+            },
+            {
+              path: '/Guide/LBS/Group/Edit',
+              name: 'GroupEdit',
+              meta: { requiresAuth: true },
+              title: 'LBS群聚合码',
+              'component': () => import('@/pages/Guide/LBS/Group/Edit.vue')
+            },
+            {
+              path: '/Guide/LBS/Group/Analysis',
+              name: 'GroupAnalysis',
+              meta: { requiresAuth: true },
+              title: 'LBS群聚合码',
+              'component': () => import('@/pages/Guide/LBS/Group/Analysis.vue')
+            }
+          ]
         }
       ]
     },
     {
       'path': '/Guide/RecruitSet',
       'name': 'RecruitSet',
-      'title': '招募设置',
+      'title': '会员引流',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
@@ -243,6 +316,29 @@ export default {
           'name': 'NotMemberPageConfig',
           'title': '非会员页面设置',
           'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/chanel/chanel',
+      'name': 'ChannelCenter',
+      'title': '渠道中心',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'chanel'
+      },
+      'children': [
+        {
+          'path': '/Guide/chanel/chanel',
+          'name': 'chanel',
+          'title': '渠道管理',
+          'component': () => import('@/pages/Guide/chanel/chanel.vue')
+        },
+        {
+          'path': '/Guide/chanel/ChannelDetail/:channelCode/:channelName',
+          'name': 'ChannelDetail',
+          'title': '渠道分析',
+          'component': () => import('@/pages/Guide/chanel/ChannelAnalysis/ChannelDetail.vue')
         }
       ]
     }

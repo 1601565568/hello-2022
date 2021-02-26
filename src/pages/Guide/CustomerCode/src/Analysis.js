@@ -31,7 +31,7 @@ export default {
         {
           label: '推广大师人数',
           value: 0,
-          tip: '筛选期间内，通过此活动成为推广大师总人数（导购发送一客一码的好友即为推广大师）',
+          tip: '筛选期间内，通过此活动成为推广大师总人数（导购发送裂变大师的好友即为推广大师）',
           id: 'master',
           key: 'promotionMasterNumber'
         },

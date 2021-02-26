@@ -12,5 +12,9 @@ export default {
   findGuideList: {
     url: '/wework/guide/findGuideList',
     method: 'post'
+  },
+  queryGuideList: {
+    url: '/wework/repeat/findGuideList',
+    method: 'post'
   }
 }

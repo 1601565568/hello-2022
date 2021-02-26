@@ -1,11 +1,16 @@
 <template>
-  <div class="pageTopWarpper">
-    <div class="store" v-if="editData[0] && editData[0].status === 1">
-      <img class="storeIcon" src="../../../image/storeIcon.png" />
-      <span>导购门店</span>
-      <span class="triangle-down"></span>
+  <div class="pageTopWarpper" v-if="show">
+    <div class="store">
+      <div class="fl" v-if="editData[0] && editData[0].status === 1">
+        <img class="storeIcon" src="../../../image/storeIcon.png" />
+        <span>导购门店</span>
+        <span class="triangle-down"></span>
+      </div>
+      <div v-if="editData[1] && editData[1].status === 1">
+        店长端<img class="hebing" src="../../../image/hebing.png" />
+      </div>
     </div>
-    <div class="time" v-if="editData[1] && editData[1].status === 1">
+    <div class="time" v-if="editData[2] && editData[2].status === 1">
       <div>{{ time }} <span class="triangle-down"></span></div>
       <div>全店统计 <span class="triangle-down"></span></div>
     </div>
@@ -31,6 +36,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.fl {
+  display: flex;
+  align-items: center;
+}
 .pageTopWarpper {
   display: flex;
   flex-direction: column;
@@ -48,6 +57,7 @@ export default {
     height: 56px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .time {
     display: flex;
@@ -67,6 +77,16 @@ export default {
     width: 20px;
     height: 20px;
     margin-right: 8px;
+  }
+  .hebing {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
   }
   .triangle-down {
     display: inline-block;

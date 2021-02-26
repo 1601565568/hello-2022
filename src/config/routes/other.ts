@@ -8,22 +8,22 @@ export default {
   },
   'children': [
     {
-      'path': '/Guide/Others/SgWxAccount',
-      'name': 'WX_ACCOUNT',
+      'path': '/Guide/Others/SgWxAuth',
+      'name': 'OTHERS_SGWXACCOUNT',
       'title': '授权管理',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Guide/Others/SgWxAccount',
+          'path': '/Guide/Others/SgWxAuth',
           'name': 'OTHERS_SGWXACCOUNT',
           'title': '授权管理',
-          'component': () => import('@/pages/Guide/SgWxAccount/index.vue')
+          'component': () => import('@/pages/Guide/SgWxAuth/Index.vue')
         }
       ]
     },
     {
-      'path': '/Guide/custom',
-      'name': 'custom',
+      'path': '/Guide/custom/DecorationEdit',
+      'name': 'RecruitPageConfig',
       'title': '自定义装修',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
@@ -56,8 +56,8 @@ export default {
       ]
     },
     {
-      'path': '/Guide/CompanyInfo',
-      'name': 'CustomerContact',
+      'path': '/account/companyInformation',
+      'name': 'companyInformation',
       'title': '公司信息',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [

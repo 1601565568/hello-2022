@@ -1,41 +1,41 @@
 const prefix = 'activity/guestCode/'
 export default {
-  // 查询一客一码活动列表
+  // 查询裂变大师活动列表
   findList: {
     url: `${prefix}findList`,
     method: 'post'
   },
-  // 结束一客一码活动
+  // 结束裂变大师活动
   closeGuestCodeActivity: {
     url: `${prefix}closeGuestCodeActivity`,
     method: 'get'
   },
-  // 查询一客一码活动下属员工列表
+  // 查询裂变大师活动下属员工列表
   findGuideList: {
     url: `${prefix}findGuideList`,
     method: 'post'
   },
-  // 查询一客一码活动
+  // 查询裂变大师活动
   getByGuestCodeId: {
     url: `${prefix}getByGuestCodeId`,
     method: 'get'
   },
-  // 查询一客一码活动下属员工列表
+  // 查询裂变大师活动下属员工列表
   getGuideListByGuestCodeId: {
     url: `${prefix}getGuideListByGuestCodeId`,
     method: 'post'
   },
-  // 保存更新一客一码活动
+  // 保存更新裂变大师活动
   saveOrUpdate: {
     url: `${prefix}saveOrUpdate`,
     method: 'post'
   },
-  // 查询一客一码活动分析所属员工明细列表
+  // 查询裂变大师活动分析所属员工明细列表
   getEmployeeListByGuestCodeId: {
     url: `${prefix}getEmployeeListByGuestCodeId`,
     method: 'post'
   },
-  // 查询一客一码推广大师列表文档
+  // 查询裂变大师推广大师列表文档
   getPromotionListByGuestCodeId: {
     url: `${prefix}getPromotionListByGuestCodeId`,
     method: 'post'
@@ -50,7 +50,7 @@ export default {
     url: `${prefix}getPromotionMasterInfoList`,
     method: 'post'
   },
-  // 查询一客一码列表统计总数
+  // 查询裂变大师列表统计总数
   getGuestStatisticsCount: {
     url: `${prefix}getGuestStatisticsCount`,
     method: 'post'

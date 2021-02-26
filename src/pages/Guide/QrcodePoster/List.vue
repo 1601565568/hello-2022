@@ -5,12 +5,12 @@
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
             <el-input v-model="model.loginAccount" placeholder="请输入创建人"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="">
             <el-input v-model="model.title" placeholder="请输入海报名称"  @keyup.enter.native="handleSearch">
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
@@ -118,6 +118,7 @@ export default List
     }
   }
   .scope-name_tag.el-tag {
+    border-radius: 2px;
     &.el-tag--success {
       background: #F7FFF0;
       border: 1px solid #53BF1D;

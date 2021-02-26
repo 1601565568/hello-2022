@@ -1,4 +1,4 @@
-const customCode = ['CustomerCode', 'CustomerCodeList', 'CustomerCodeEdit', 'CustomerCodeAnalysis'] // 一客一码
+const customCode = ['CustomerCode', 'CustomerCodeList', 'CustomerCodeEdit', 'CustomerCodeAnalysis'] // 裂变大师
 // const WeWorkGroupWelcomeCode = ['WeWorkGroupWelcomeCode'] // 群欢迎语
 const SgPersonalQrcode = ['SgPersonalQrcode'] // 聚合二维码
 const chatRoomGroup = ['chatRoomGroupAll', 'chatRoomGroup', 'chatRoomGroupAddOrEdit'] // 群聚合码

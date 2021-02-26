@@ -13,6 +13,7 @@
   </div>
 </template>
 <script>
+import filterCondition from './filterCondition'
 import personalInformation from './personalInformation'
 import performance from './performance'
 import workMenu from './workMenu'
@@ -28,6 +29,7 @@ export default {
     }
   },
   components: {
+    filterCondition,
     personalInformation,
     performance,
     workMenu,
