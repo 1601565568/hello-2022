@@ -1,5 +1,5 @@
 <template>
-  <CardTitle title="一客一码活动新增趋势">
+  <CardTitle title="裂变大师活动新增趋势">
     <img
       slot="image"
       class="dataIcon"
