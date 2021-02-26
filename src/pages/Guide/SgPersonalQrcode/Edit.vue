@@ -1,6 +1,6 @@
 <template>
   <div v-loading="saveLoading" style="background-color: white" class="base-border-radius border-line">
-    <el-scrollbar ref="fullScreen" outsider>
+    <el-scrollbar ref="fullScreen" outsider :class="{ 'el-scrollbar-border': memberManagePlan === 1 }">
     <el-row class="qrcode-content">
     <el-col :span="16" class="qrcode-content_edit">
       <el-form label-width="100px" label-position="left" ref="form">
@@ -145,7 +145,7 @@
       </el-form>
     </el-col>
       <!-- 效果展示开始 -->
-      <el-col :span="8" class="qrcode-content_show">
+      <el-col v-if="memberManagePlan === 1" :span="8" class="qrcode-content_show">
         <PosterPreviewPanel
           :showQrcode="showPosterQrcode"
           :posterBackgroundUrl="personalQrcode.posterBackgroundUrl"
@@ -438,7 +438,7 @@ export default Edit
     display:none;
   }
 
-  .el-scrollbar::before {
+  .el-scrollbar-border::before {
     content: '';
     border-right: 1px solid #E8E8E8;
     position: absolute;
