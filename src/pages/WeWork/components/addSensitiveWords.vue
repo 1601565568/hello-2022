@@ -53,6 +53,11 @@ export default {
     confirm () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          let newKeyWord = ''
+          while (this.Form.words.indexOf('，') !== -1) {
+            newKeyWord = this.Form.words.replace('，', ',')
+            this.Form.words = newKeyWord
+          }
           if (this.Form.words.endsWith(',')) {
             this.$notify.error('请去掉结尾的 , ')
             return false
