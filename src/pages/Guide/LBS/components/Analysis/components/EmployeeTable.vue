@@ -127,7 +127,7 @@ export default {
   watch: {
     propsModel: {
       handler (newVal) {
-        this.model = { ...newVal }
+        this.model = { ...newVal, sortName: 'joinTime' }
         this.$searchAction$()
       },
       immediate: true,
