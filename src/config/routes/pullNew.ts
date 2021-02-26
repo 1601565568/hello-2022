@@ -137,7 +137,7 @@ export default {
         {
           'path': '/Social/SocialOperation/CustomerCode/List',
           'name': 'CustomerCode',
-          'title': '一客一码',
+          'title': '裂变大师',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeWorkGuestCode'
@@ -146,19 +146,19 @@ export default {
             {
               'path': '/Social/SocialOperation/CustomerCode/List',
               'name': 'CustomerCodeList',
-              'title': '一客一码',
+              'title': '裂变大师',
               'component': () => import('@/pages/Guide/CustomerCode/List.vue')
             },
             {
               'path': '/Social/SocialOperation/CustomerCode/Edit',
               'name': 'CustomerCodeEdit',
-              'title': '编辑一客一码',
+              'title': '编辑裂变大师',
               'component': () => import('@/pages/Guide/CustomerCode/Edit.vue')
             },
             {
               'path': '/Social/SocialOperation/CustomerCode/Analysis',
               'name': 'CustomerCodeAnalysis',
-              'title': '一客一码报表',
+              'title': '裂变大师报表',
               'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
             }
           ]
