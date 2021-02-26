@@ -199,7 +199,7 @@ export default {
     },
     handleChangeShopList (value) {
       this.model.shopIdList = value
-      this.$refs.ruleForm && this.$refs.ruleForm.validateField('shopIdList')
+      this.$refs.searchform && this.$refs.searchform.clearValidate('shopIdList')
     },
     // 修改海报二维码位置
     onDragPosterResize (params) {

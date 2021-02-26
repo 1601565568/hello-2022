@@ -111,6 +111,10 @@ export default {
     // 删除数据接口路由
     deleteApi () {
       return this.type === 'Group' ? this.$api.guide.lbs.deleteGroupById : this.$api.guide.lbs.deleteFriendsById
+    },
+    // 删除提示
+    endTip () {
+      return this.type === 'Group' ? '结束后将无法再开启，此活动码将失效，消费者无法扫码入群。' : '结束后将无法再开启，此活动码将失效，消费者无法扫码添加员工企业微信。'
     }
   },
   mixins: [tableMixin],
@@ -209,7 +213,7 @@ export default {
     },
     // 结束活动
     handleEnd (guid, createId) {
-      this.$confirm('确定要结束活动吗？\n\r结束后将无法再开启，此活动码将失效，消费者无法扫码入群。', '提示信息', {
+      this.$confirm(this.endTip, '确定要结束活动吗？', {
         confirmButtonText: '确定',
         type: 'warning',
         cancelButtonText: '取消'

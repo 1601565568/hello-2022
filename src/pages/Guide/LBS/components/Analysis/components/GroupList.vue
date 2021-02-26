@@ -139,7 +139,7 @@ export default {
     // 删除群聊
     handleRemove (row, index) {
       if (this._data._pagination.total > 1) {
-        this.$confirm('确定要删除群聊吗', '提示信息', {
+        this.$confirm('移除后将无法通过此活动入群，确定移除吗？', '提示信息', {
           confirmButtonText: '确定',
           type: 'warning',
           cancelButtonText: '取消'
@@ -157,7 +157,7 @@ export default {
         .then(() => {
           this.$searchAction$()
           this.$emit('onChange', this.shopId)
-          this.$notify.success('删除成功')
+          this.$notify.success('删除成功,列表数据已变更')
           this.loadingIndex = -1
         }).catch(() => {
           this.$notify.error('操作失败')
@@ -188,7 +188,7 @@ export default {
       }
       this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
         if (res.success) {
-          this.$notify.success('添加成功')
+          this.$notify.success('添加成功,列表数据已变更')
           this.$searchAction$()
           this.$emit('onChange', this.shopId)
         }
