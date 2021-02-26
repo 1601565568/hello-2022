@@ -171,7 +171,9 @@ export default {
         this.addTableData = JSON.parse(data.result.child_qrcodes)
 
         // 显示已经上传的海报
-        this.uploadPosterFileList = [ { name: data.result.poster_background_url, url: data.result.poster_background_url } ]
+        if (data.result.poster_background_url) {
+          this.uploadPosterFileList = [ { name: data.result.poster_background_url, url: data.result.poster_background_url } ]
+        }
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
