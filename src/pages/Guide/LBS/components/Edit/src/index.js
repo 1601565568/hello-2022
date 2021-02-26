@@ -127,6 +127,18 @@ export default {
     // 海报提示
     welcomePosterTip () {
       return this.type === 'Group' ? '默认海报固定显示，建议为权益说明，引导客户入群' : '默认海报固定显示，建议为权益说明，引导消费者添加员工企业微信好友'
+    },
+    // 消费者进群页面设置
+    groupTip () {
+      return this.type === 'Group' ? '消费者进群页面设置' : '消费者加好友页面设置'
+    },
+    // 手机title
+    phoneTitle () {
+      return this.type === 'Group' ? '加入门店群' : 'LBS好友拉新活动名称'
+    },
+    // q群聚合码设置
+    groupSet () {
+      return this.type === 'Group' ? '02 群聚合码设置' : '02 企微聚合码'
     }
   },
   methods: {
