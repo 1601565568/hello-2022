@@ -31,7 +31,7 @@
           prop="ownerBind"
           label="是否为群主好友">
           <template slot-scope="scope">
-            {{scope.row.ownerBind === 1 ? '是':'不是'}}
+            {{scope.row.ownerBind === 1 ? '是':'否'}}
           </template>
         </el-table-column>
         <el-table-column
