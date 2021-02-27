@@ -96,6 +96,9 @@
   >>> .el-input-number.is-controls-right .el-input__inner {
     padding-right: 44px;
   }
+  /* >>> .el-table {
+    overflow: visible !important;
+  } */
   >>> .el-table .cell {
     overflow: visible !important;
   }
@@ -103,6 +106,7 @@
     display: none;
   }
   >>> .el-table__body-wrapper {
+    /* overflow: visible !important; */
     padding-bottom:30px;
   }
   >>> .el-select--medium {

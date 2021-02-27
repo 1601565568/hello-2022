@@ -162,6 +162,7 @@
             </el-table-column>
             <el-table-column
               type="default"
+              min-width="150"
               label="追加数量"
               :sortable="false"
               v-if="isStating"
@@ -242,7 +243,7 @@ export default {
     }
     const checkaddPrizeNumber = (item, rule, value, callback) => {
       if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('新增数量不能大于剩余数量'))
+        callback(new Error('数量不能大于剩余数量'))
       } else if (parseFloat(item.addPrizeNumber) === 0) {
         callback(new Error('新增数量不能0'))
       } else {
