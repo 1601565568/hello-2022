@@ -162,7 +162,7 @@
       </div>
       <ShopList v-if='drawer' :guid='dialogData.guid' :type='type' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
-    <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody/>
+    <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody content='该链接为聚合码H5，可投放公众号等'/>
   </div>
 </template>
 <script>

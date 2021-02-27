@@ -5,7 +5,7 @@
         <el-form-item class='larger-item'>
           <template slot='label'>
             <span>链接</span>
-            <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+            <el-tooltip :content="content"  placement="top">
               <Icon type="question-circle" class='question-circle' />
             </el-tooltip>
           </template>
@@ -88,6 +88,9 @@ export default {
     },
     posterName: {
       default: ''
+    },
+    content: {
+      default: '因企业微信生成联系我二维码数量限制，请合理设置过期时间'
     }
   },
   methods: {
@@ -128,6 +131,12 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  .question-circle {
+    margin-left:5px;
+    color: #8C8C8C;
+    position: relative;
+    top: 1px;
+  }
   .box-padding {
     color:#0091FA;
     padding: 0 20px;
