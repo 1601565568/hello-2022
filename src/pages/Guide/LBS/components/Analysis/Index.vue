@@ -76,7 +76,12 @@
           <el-col :span='12' :class="{active:activeType === 'employee'}">
             <div class='tab-li'  @click='handleChangeType("employee")'>
               <div class='tab-li_left'>
-                <p class='tab-li_name'>{{employeeName}}</p>
+                <p class='tab-li_name'>
+                  {{employeeName}}
+                  <el-tooltip v-if='type==="Group"' content="当一个群关联多个门店群聚合码时，新增群成员数会累计，不会进行排重。"  placement="top">
+                    <Icon type="question-circle" class='question-circle' />
+                  </el-tooltip>
+                </p>
                 <h3 class='tab-li_value'>{{countData.employee}}</h3>
               </div>
               <div class='tab-li_right employee'>
