@@ -50,6 +50,15 @@ export default {
     const qywxtableButtons = [
       {
         'func': function (scope) {
+          this.onShowEffectAnalysisFun(scope.row)
+        },
+        'icon': '',
+        'name': '活动效果',
+        'auth': ``,
+        'visible': `scope.row.type === 0`
+      },
+      {
+        'func': function (scope) {
           this.onEditFun(scope.row)
         },
         'icon': '',
@@ -133,6 +142,10 @@ export default {
         {
           value: '2',
           label: '扫描次数'
+        },
+        {
+          value: '3',
+          label: '引流好友数'
         }
       ],
       sortTypeOptions: [
@@ -163,6 +176,22 @@ export default {
   },
   computed: {},
   methods: {
+    searchAction () {
+      this.$queryList$(this.$generateParams$())
+    },
+    // 邀请好友数排序
+    orderByInviteFriendNum (data) {
+      this.model.type = '3'
+      if (data.order === 'ascending') {
+        this.model.sortType = '2'
+      } else if (data.order === 'descending') {
+        this.model.sortType = '1'
+      } else {
+        this.model.type = '1'
+        this.model.sortType = '1'
+      }
+      this.$searchAction$()
+    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },
@@ -193,12 +222,19 @@ export default {
     onShowFun (val) {
       this.$emit('onShowFun', val)
     },
+    // 活动效果
+    onShowEffectAnalysisFun (val) {
+      this.$emit('onShowEffectAnalysisFun', val)
+    },
     // 删除
     onDeleteFun (val) {
       this.$emit('onDeleteFun', val)
     },
     qrcodeLink (data) {
       this.$emit('qrcodeLink', data)
+    },
+    posterLink (data) {
+      this.$emit('posterLink', data)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)

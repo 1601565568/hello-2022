@@ -61,6 +61,7 @@ export default {
     font-size: 16px;
     color: #262626;
     line-height: 35px;
+    font-weight: bold;
   }
   .template-table__bar-base {
     margin-bottom: 16px;

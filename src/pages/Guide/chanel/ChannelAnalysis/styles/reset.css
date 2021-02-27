@@ -1,0 +1,41 @@
+.channel-statisitcs-toobar {
+  >>> .el-input {
+    width: 240px;
+    height: 32px;
+    input {
+      height: 32px;
+      font-size: 14px;
+    }
+    .el-input__suffix::before {
+      display: none;
+    }
+  }
+}
+
+
+.new-table {
+  >>> .el-table__header th {
+    background-color: #F5F5F5;
+    padding: 8px 0;
+    .cell {
+      position: relative;
+      &:after {
+        content: ' ';
+        position: absolute;
+        background: #E8E8E8;
+        width: 1px;
+        right: 0;
+        top: 0px;
+        bottom: 0px;
+      }
+    }
+  }
+
+  >>> .employee-talbe-header-cell {
+    background: #F5F5F5;
+  }
+  
+  >>> .employee-table_row {
+    height: 48px;
+  }
+}

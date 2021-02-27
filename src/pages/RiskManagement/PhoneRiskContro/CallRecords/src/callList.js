@@ -61,5 +61,13 @@ export default {
   },
   computed: {},
   methods: {
+    $searchAction$: function () {
+      this.model.deviceKeyOrPhone = null
+      this._data._table.searchMap = Object.assign({}, this.model)
+      // 页码变更会触发reload动作
+      this._data._pagination.page = 1
+      this.$reload()
+      this.$formatTextToShow$()
+    }
   }
 }

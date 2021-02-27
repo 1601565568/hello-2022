@@ -93,7 +93,8 @@ export default {
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ],
       // 是否是进行中的
-      isStating: false
+      isStating: false,
+      isLoading: false
     }
   },
   computed: {
@@ -110,6 +111,8 @@ export default {
       // if (guestCodeId) {
 
       // }
+    } else {
+      this.isLoading = true
     }
     this.guestCodeId = guestCodeId
     this.copyGuestCodeId = copyGuestCodeId
@@ -138,6 +141,9 @@ export default {
         }
         this.isStating = !!(result.status === 2 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
+        this.$nextTick(() => {
+          this.isLoading = true
+        })
       })
     },
     // 获取员工详情

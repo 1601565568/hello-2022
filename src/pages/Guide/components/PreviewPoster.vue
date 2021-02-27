@@ -32,10 +32,23 @@
       <el-form class='normal-from' label-width="60px" label-position='left'>
         <el-form-item label='  '>
           <div class='flex-box bottom qrcode'>
-            <qr-code :value="url" :size="220" :options="{size:220}"></qr-code>
-            <ns-button class='copy' icon='el-icon-download' @click="handleDownloadQrcode(url)">
-              下载
-            </ns-button>
+            <template v-if='isQrcodeImg'>
+              <el-image
+                class='preview-img qrcode'
+                :data-src="url"
+                :src="url"
+                :preview-src-list="[url]">
+              </el-image>
+              <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
+                下载
+              </ns-button>
+            </template>
+            <template v-else>
+              <qr-code :value="url" :size="220" :options="{size:220}"></qr-code>
+              <ns-button class='copy' icon='el-icon-download' @click="handleDownloadQrcode(url)">
+                下载
+              </ns-button>
+            </template>
           </div>
         </el-form-item>
       </el-form>
@@ -69,7 +82,13 @@ export default {
     title: {
       default: '海报'
     },
-    activityName: {}
+    activityName: {},
+    isQrcodeImg: {
+      default: false
+    },
+    posterName: {
+      default: ''
+    }
   },
   methods: {
     // 下载
@@ -85,7 +104,11 @@ export default {
       var input2 = document.createElement('input')
       input2.setAttribute('type', 'hidden')
       input2.setAttribute('name', 'fileName')
-      input2.setAttribute('value', this.activityName ? this.activityName + '海报' : '海报')
+      if (this.posterName) {
+        input2.setAttribute('value', this.posterName)
+      } else {
+        input2.setAttribute('value', this.activityName ? this.activityName + '海报' : '海报')
+      }
       form.appendChild(input)
       form.appendChild(input2)
       document.body.appendChild(form)
@@ -110,12 +133,6 @@ export default {
     padding: 0 20px;
     font-size: 16px;
     cursor: pointer;
-  }
-  .question-circle {
-    position: relative;
-    top: 1px;
-    color: #8C8C8C;
-    left: 5px;
   }
   .flex-box {
     display: flex;

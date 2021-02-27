@@ -179,7 +179,7 @@
                       @click="showAnnex(4)"
                     >
                       <Icon
-                        type="xiaochengxu"
+                        type="poster"
                         className="message-square__icon message-square__xiaochengxu"
                       />
                       二维码海报
@@ -580,7 +580,7 @@
             <span class="tmp-tips text-info">
               <Icon type="info-circle" theme="filled" />
             </span>
-            招募链接编辑位置为系统设置-招募设置-招募页面配置
+            招募链接编辑位置为获客引流-会员引流-招募页面配置
           </el-form-grid>
         </el-form-item>
       </el-form>
@@ -730,7 +730,7 @@
     <!-- 渠道弹框 -->
     <el-dialog
       ref="channelDialog"
-      width="320px"
+      width="640px"
       :visible.sync="channelModel.visible"
       title="选择渠道"
     >
@@ -738,6 +738,8 @@
         <el-select
           multiple
           v-model="channelModel.channelCodes"
+          style='width:600px'
+          filterable
           placeholder="请选择"
         >
           <el-option

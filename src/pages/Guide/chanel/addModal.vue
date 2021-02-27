@@ -4,9 +4,9 @@
     <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px"
                :before-close="handleClose" class="custom-box">
       <div class="comDialogBoxCon">
-        <el-form :model="model" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
+        <el-form :model="model" :rules="rules" ref="addForm" label-width="100px" style="width:440px;" @submit.native.prevent>
           <el-form-item label="渠道名称：" prop="channelName">
-            <el-input resize="none" type="text" maxlength='30' v-model="model.channel_name" placeholder="请输入渠道名称"></el-input>
+            <el-input  @keyup.enter.native="saveFun" resize="none" type="text" maxlength='30' v-model="model.channel_name" placeholder="请输入渠道名称"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -94,7 +94,11 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error({ message: info + '渠道失败' })
+          if (resp.msg) {
+            this.$notify.error(resp.msg)
+          } else {
+            this.$notify.error({ message: info + '渠道失败' })
+          }
         })
       this.loading = false
     },

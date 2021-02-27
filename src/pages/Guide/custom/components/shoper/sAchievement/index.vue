@@ -15,8 +15,9 @@
 <script>
 import filterCondition from './filterCondition'
 import monthShopPerformance from './monthShopPerformance'
-import monthShopRanking from './monthShopRanking'
-import monthShopGuideRanking from './monthShopGuideRanking'
+// monthShopGuideRanking monthShopRanking 顺序有问题调整引用地址
+import monthShopRanking from './monthShopGuideRanking'
+import monthShopGuideRanking from './monthShopRanking'
 import banner from '../../pageComponents/banner'
 import borderHighLight from '../../pageComponents/borderHighLight'
 export default {
