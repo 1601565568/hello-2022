@@ -16,7 +16,7 @@
         <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
       </template>
     </el-upload>
-    <div class='el-upload-list el-upload-list--text' v-if='fileList'>
+    <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
@@ -233,5 +233,8 @@ export default {
 }
 .el-upload-list__item .el-icon-close {
   display: block
+}
+.padingbottom {
+  padding-bottom: 16px;
 }
 </style>
