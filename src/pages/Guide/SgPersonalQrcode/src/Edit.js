@@ -147,7 +147,7 @@ export default {
       this.title = '编辑聚合二维码'
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: id
-      }).then(data => {
+      }).then(async data => {
         if (data.result.type === 0) {
           let personnelIds = data.result.personnelIds.split(',')
           for (let i = 0; i < personnelIds.length; i++) {
@@ -174,6 +174,29 @@ export default {
         if (data.result.poster_background_url) {
           this.uploadPosterFileList = [ { name: data.result.poster_background_url, url: data.result.poster_background_url } ]
         }
+        // 获取打标签列表
+        await this.getWeWorkTagList()
+        let checkList = []
+        if (this.personalQrcode.tagList) {
+          checkList = this.personalQrcode.tagList.split(',')
+        }
+
+        if (this.personalQrcode.tag_list) {
+          checkList = this.personalQrcode.tag_list.split(',')
+        }
+        if (checkList.length) {
+          const tagId2TagGroupId = {}
+          for (const tagGroupItem of this.tagList) {
+            const tagGroupId = tagGroupItem.tagGroupId
+            for (const tagValItem of tagGroupItem.tagValueList) {
+              const tagId = tagValItem.tagId
+              if (checkList.indexOf(tagId) > -1) {
+                tagId2TagGroupId[tagId] = tagGroupId
+              }
+            }
+          }
+          this.tagId2TagGroupId = tagId2TagGroupId
+        }
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
@@ -181,37 +204,36 @@ export default {
       })
       this.state = 1
     } else {
+      this.getWeWorkTagList()
       this.showPosterQrcode = true
       this.title = '新增聚合二维码'
     }
 
     // 获取打标签列表
-    await this.getWeWorkTagList()
-    if (id > 0) {
-      let checkList = []
-      if (this.personalQrcode.tagList) {
-        checkList = this.personalQrcode.tagList.split(',')
-      }
+    // await this.getWeWorkTagList()
+    // if (id > 0) {
+    //   let checkList = []
+    //   if (this.personalQrcode.tagList) {
+    //     checkList = this.personalQrcode.tagList.split(',')
+    //   }
 
-      if (this.personalQrcode.tag_list) {
-        checkList = this.personalQrcode.tag_list.split(',')
-      }
-
-      if (checkList.length) {
-        const tagId2TagGroupId = {}
-        for (const tagGroupItem of this.tagList) {
-          const tagGroupId = tagGroupItem.tagGroupId
-          for (const tagValItem of tagGroupItem.tagValueList) {
-            const tagId = tagValItem.tagId
-            if (checkList.indexOf(tagId) > -1) {
-              tagId2TagGroupId[tagId] = tagGroupId
-            }
-          }
-        }
-
-        this.tagId2TagGroupId = tagId2TagGroupId
-      }
-    }
+    //   if (this.personalQrcode.tag_list) {
+    //     checkList = this.personalQrcode.tag_list.split(',')
+    //   }
+    //   if (checkList.length) {
+    //     const tagId2TagGroupId = {}
+    //     for (const tagGroupItem of this.tagList) {
+    //       const tagGroupId = tagGroupItem.tagGroupId
+    //       for (const tagValItem of tagGroupItem.tagValueList) {
+    //         const tagId = tagValItem.tagId
+    //         if (checkList.indexOf(tagId) > -1) {
+    //           tagId2TagGroupId[tagId] = tagGroupId
+    //         }
+    //       }
+    //     }
+    //     this.tagId2TagGroupId = tagId2TagGroupId
+    //   }
+    // }
   },
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
