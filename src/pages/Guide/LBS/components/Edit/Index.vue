@@ -181,7 +181,12 @@
                 <el-form-item label='自动移除群' class='larger-item'>
                   <template slot='label' class='larger-item_icon'>
                     <span>自动移除群</span>
-                    <el-tooltip content="企微接口限制，单个群码聚合超过100个群时，无法自动创建新群请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）"  placement="top">
+
+                    <el-tooltip content=""  placement="top">
+                      <div slot="content">
+                        <span>企微接口限制，单个群码聚合超过100个群时，无法自动创建新群</span><br/>
+                        <span>请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）</span>
+                      </div>
                       <Icon type="question-circle" class='question-circle' />
                     </el-tooltip>
                   </template>
