@@ -46,8 +46,12 @@ export default {
           const { result } = res
           if (result.data && result.data.length) {
             this.infoData = this.formatInfoData(result.data.find(item => item.type === 0))
-            this.displayData = this.formatDisplayData(this.infoData)
-            this.isEmpty = false
+            if (this.infoData) {
+              this.displayData = this.formatDisplayData(this.infoData)
+              this.isEmpty = false
+            } else {
+              this.isEmpty = true
+            }
           } else {
             this.isEmpty = true
           }
