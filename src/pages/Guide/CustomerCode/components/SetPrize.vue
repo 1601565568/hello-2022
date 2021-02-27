@@ -277,7 +277,7 @@ export default {
       },
       prizeList: [
         {
-          label: '普通奖励',
+          label: '优惠券',
           value: 1
         }
       ]
