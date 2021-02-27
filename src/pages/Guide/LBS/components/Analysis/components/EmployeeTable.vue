@@ -65,7 +65,7 @@
           prop="joinScene"
           label="入群方式">
           <template slot-scope="scope">
-            {{statusList[scope.row.joinScene].value}}
+            {{statusList[scope.row.joinScene] ? statusList[scope.row.joinScene].value : '-'}}
           </template>
         </el-table-column>
       </el-table>
