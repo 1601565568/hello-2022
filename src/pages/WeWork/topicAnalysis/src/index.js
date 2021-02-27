@@ -186,6 +186,10 @@ export default {
             let def = this.list[0] && this.list[0].topicId ? this.list[0] : null
             this.onChangeList(def)
           }
+          if (!res.result || res.result.length < 1) {
+            this.keyWordsVoListLoding = false
+            this.table.loading = false
+          }
           if (res.result.length < this.listParams.length) {
             this.getListMore = false
           } else {
