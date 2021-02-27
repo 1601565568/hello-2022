@@ -244,9 +244,8 @@
                 </div>
               </template>
               <!-- 好友聚合码设置 end -->
-              <el-form-item label='海报背景' required prop='welcomePoster'>
+              <el-form-item label='海报背景' required prop='qrcodePoster'>
                 <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
-
                 </drap-upload>
               </el-form-item>
             </template>
