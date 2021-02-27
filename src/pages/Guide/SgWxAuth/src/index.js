@@ -45,8 +45,9 @@ export default {
         if (res.success) {
           const { result } = res
           if (result.data && result.data.length) {
-            this.infoData = this.formatInfoData(result.data.find(item => item.type === 0))
-            if (this.infoData) {
+            const infoData = result.data.find(item => item.type === 0)
+            if (infoData) {
+              this.infoData = this.formatInfoData(infoData)
               this.displayData = this.formatDisplayData(this.infoData)
               this.isEmpty = false
             } else {
