@@ -19,12 +19,15 @@
         <el-table-column
           prop="name"
           label="昵称">
+          <template slot-scope="scope">
+            {{scope.row.name || '-'}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="type"
           label="成员类型">
           <template slot-scope="scope">
-            {{scope.row.type === 1 ? '外部联系人':'企业成员'}}
+            {{scope.row.type === 1 ? '企业成员':'外部联系人'}}
           </template>
         </el-table-column>
         <el-table-column
