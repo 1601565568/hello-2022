@@ -47,10 +47,10 @@ export default {
           key: 'inviteFriendNumber'
         },
         {
-          label: '奖励发放总人数',
+          label: '达标总人数',
           value: 0,
-          id: 'reward',
-          key: 'inviteFriendNumber'
+          id: 'prize',
+          key: 'reachStandardNumber'
         }
       ],
       model: {
@@ -82,7 +82,8 @@ export default {
             result = {
               employeeNumber: 0,
               inviteFriendNumber: 0,
-              promotionMasterNumber: 0
+              promotionMasterNumber: 0,
+              reachStandardNumber: 0
             }
           } = res
           this.typeList = this.typeList.map(item => ({

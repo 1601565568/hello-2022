@@ -50,7 +50,7 @@
       <template v-if='analysisType === "friend"'>
         <friend-table :startTime='startTime' :endTime='endTime'/>
       </template>
-      <template v-if='analysisType === "reward"'>
+      <template v-if='analysisType === "prize"'>
         <reward-table :startTime='startTime' :endTime='endTime'/>
       </template>
     </div>

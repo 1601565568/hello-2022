@@ -65,5 +65,10 @@ export default {
   findActivityCouponList: {
     url: '/guide/sgactivitycoupon/findActivityCouponList',
     method: 'post'
+  },
+  // 查询奖励达标推广列表
+  findActivityReachStandard: {
+    url: '/activity/guestCode/findActivityReachStandard',
+    method: 'post'
   }
 }
