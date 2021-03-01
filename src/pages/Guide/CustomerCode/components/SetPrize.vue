@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="Tips">通过一客一码添加导购成功后，系统根据设置自动发放奖励</div>
+    <div class="Tips">通过裂变大师添加导购成功后，系统根据设置自动发放奖励</div>
     <el-form
       label-width="100px"
       label-position="left"
