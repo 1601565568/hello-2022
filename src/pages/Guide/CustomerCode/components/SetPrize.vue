@@ -251,8 +251,6 @@ export default {
     const checkaddPrizeNumber = (item, rule, value, callback) => {
       if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
         callback(new Error('数量不能大于剩余数量'))
-      } else if (parseFloat(item.addPrizeNumber) === 0) {
-        callback(new Error('新增数量不能0'))
       } else {
         callback()
       }
