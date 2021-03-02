@@ -316,7 +316,7 @@ export default {
           prizeRuleList: this.prizeModel.prizeRuleList
         }
       }
-      console.log(this.prizeModel.prizeRuleList, '123123123123')
+      // console.log(this.prizeModel.prizeRuleList, '123123123123')
     },
     getCoupon () {
       if (this.isStating || this.isEditSetPrize) {
