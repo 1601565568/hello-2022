@@ -89,12 +89,13 @@ export default {
       tools: [
         { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
         { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入推广大师查询链接', id: 'PROMOTION_URL', value: '推广大师查询链接' },
+        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
         { type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ],
       // 是否是进行中的
       isStating: false,
+      isSetPrize: true,
       isLoading: false,
       prizeModel: {} // 奖品组件回显
     }
@@ -145,6 +146,8 @@ export default {
         this.formatPrizeModel(result)
         this.customerLoading = false
         this.isStating = !!(result.status === 2 && this.guestCodeId)
+        // 是否可以在未开始活动编辑奖励
+        this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
         this.$nextTick(() => {
           this.isLoading = true

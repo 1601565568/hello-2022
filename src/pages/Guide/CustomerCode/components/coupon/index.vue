@@ -125,7 +125,7 @@
                 >{{ getCouponValue(scope.row.couponValue) }}折</span
               >
               <!-- 兑换券 -->
-              <span v-if="scope.row.storeCouponType == 1"
+              <span v-if="scope.row.couponType == 1"
                 >{{ scope.row.couponValue }}元</span
               >
             </template>

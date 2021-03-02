@@ -175,7 +175,7 @@
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='奖励机制' :name="3">
-            <SetPrize v-if="!customerLoading" :prizeModel='prizeModel' :isStating='isStating' ref="setPrize"/>
+            <SetPrize v-if="!customerLoading" :prizeModel='prizeModel' :isStating='isStating' :isSetPrize="isSetPrize" ref="setPrize"/>
           </el-collapse-item>
         </el-collapse>
         </el-form>

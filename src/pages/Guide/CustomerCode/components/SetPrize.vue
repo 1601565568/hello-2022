@@ -22,7 +22,7 @@
       <template v-if="model.prizeStatus">
         <el-form-item class="larger-item" label="发放设置" prop="prizeSendPlan">
           <el-select
-            :disabled="isStating"
+            :disabled="isStating || isEditSetPrize"
             v-model="model.prizeSendPlan"
             placeholder="请选择奖励"
             class="NsUi_select"
@@ -48,7 +48,7 @@
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
                 >
                   <el-input-number
-                    :disabled="isStating"
+                    :disabled="isStating || isEditSetPrize"
                     style="width:118px;"
                     size="medium"
                     v-model="scope.row.recruitment"
@@ -81,7 +81,7 @@
                   ]"
                 >
                   <el-select
-                    :disabled="isStating"
+                    :disabled="isStating || isEditSetPrize"
                     v-model="scope.row.prizeType"
                     placeholder="请选择奖励"
                   >
@@ -151,7 +151,7 @@
                   ]"
                 >
                   <el-input
-                    :disabled="isStating"
+                    :disabled="isStating || isEditSetPrize"
                     v-model="scope.row.prizeNumber"
                     maxlength="10"
                     type="number"
@@ -165,7 +165,7 @@
               min-width="150"
               label="追加数量"
               :sortable="false"
-              v-if="isStating"
+              v-if="isStating || isEditSetPrize"
             >
               <template slot-scope="scope">
                 <el-form-item
@@ -228,11 +228,18 @@ export default {
     },
     isStating: {
       type: Boolean
+    },
+    isSetPrize: {
+      type: Boolean
     }
   },
   data () {
     // 效验库存设置
     const checkStock = (item, rule, value, callback) => {
+      if (this.isStating || this.isSetPrize) {
+        callback()
+        return
+      }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
         callback(new Error('发放数量不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
@@ -266,6 +273,7 @@ export default {
           }
         ]
       },
+      isEditSetPrize: false, // 未开始活动未开启奖励设置可编辑，已开启禁止编辑
       ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber },
       rules: {
         prizeType: [
@@ -289,18 +297,29 @@ export default {
   },
   methods: {
     setModel () {
-      // console.log(this.prizeModel, 'this.prizeModel')
-      // debugger
-      if (Object.keys(this.prizeModel).length > 0) {
+      // 未开始活动编辑状态
+      if (this.isSetPrize) {
+        // debugger
+        this.isEditSetPrize = this.prizeModel.prizeStatus === 1 || this.prizeModel.prizeStatus// 可编辑
+        if (this.prizeModel.prizeStatus === 1 || this.prizeModel.prizeStatus) {
+          this.model = {
+            prizeStatus: this.prizeModel.prizeStatus,
+            prizeSendPlan: this.prizeModel.prizeSendPlan,
+            prizeRuleList: this.prizeModel.prizeRuleList
+          }
+        }
+      }
+      if (this.isStating) {
         this.model = {
           prizeStatus: this.prizeModel.prizeStatus,
           prizeSendPlan: this.prizeModel.prizeSendPlan,
           prizeRuleList: this.prizeModel.prizeRuleList
         }
       }
+      console.log(this.prizeModel.prizeRuleList, '123123123123')
     },
     getCoupon () {
-      if (this.isStating) {
+      if (this.isStating || this.isEditSetPrize) {
         return false
       }
       this.$refs.Coupon.init()
