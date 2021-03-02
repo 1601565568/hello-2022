@@ -33,12 +33,10 @@
         <el-form-item label='  '>
           <div class='flex-box bottom qrcode'>
             <template v-if='isQrcodeImg'>
-              <el-image
+              <!-- <img
                 class='preview-img qrcode'
-                :data-src="url"
-                :src="url"
-                :preview-src-list="[url]">
-              </el-image>
+                :src="url" /> -->
+              <AuthImage :src='url' class='preview-img qrcode' />
               <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
                 下载
               </ns-button>
@@ -64,6 +62,7 @@ import ElImage from '@nascent/nui/lib/image'
 import Preview from '@/components/NsPreview'
 import QrCode from '@xkeshi/vue-qrcode'
 import api from '@/config/http'
+import AuthImage from '@/components/NewUi/AuthImage'
 export default {
   data () {
     return {
@@ -71,7 +70,7 @@ export default {
       qrcodeUrl: api.API_ROOT + '/upload'
     }
   },
-  components: { Preview, ElImage, QrCode },
+  components: { Preview, ElImage, QrCode, AuthImage },
   props: {
     url: {}, // 海报链接
     link: {}, // 复制链接
