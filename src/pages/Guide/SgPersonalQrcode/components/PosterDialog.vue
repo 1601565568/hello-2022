@@ -11,13 +11,19 @@
         <span class="noposter-tip" v-if="!linkUrl">请至编辑页上传海报</span>
         <div v-else>
           <el-input class="link-input" autofocus=true placeholder="" :value="linkUrl" readonly></el-input>
-          <ns-button type='text' size="medium"  class="copy-button" data-clipboard-text="你好" @click="copyLink(linkUrl)">复制</ns-button>
+          <ns-button type='text' size="medium"  class="copy-button" @click="copyLink(linkUrl)">复制</ns-button>
         </div>
       </div>
       <div class="poster-content-item">
         <span class="poster-title">海报图</span>
         <span class="noposter-tip" v-show="!linkUrl">请至编辑页上传海报</span>
-        <img v-show="linkUrl" :src="linkUrl" alt="">
+        <!-- <img v-show="linkUrl" :src="linkUrl" alt=""> -->
+        <el-image
+          v-show="linkUrl"
+          class='preview-img'
+          :src="linkUrl"
+          :preview-src-list="[linkUrl]"
+        />
         <ns-button v-show="linkUrl" class="download-button"  size="medium" @click="downloadPoster"><Icon type="xiazai"/>下载</ns-button>
       </div>
     </div>
@@ -29,13 +35,16 @@
 
 <script>
 import api from '@/config/http'
-import clipboard from 'clipboard'
+import ElImage from '@nascent/nui/lib/image'
 
 /**
  * 海报
  */
 export default {
   name: 'PosterDialog',
+  components: {
+    ElImage
+  },
   data () {
     return {
       visible: false,
@@ -97,7 +106,6 @@ export default {
     }
 
     span.poster-title {
-      padding-top: 5px;
       align-self: flex-start;
     }
 
@@ -111,7 +119,8 @@ export default {
       margin-right: 16px;
     }
 
-    img {
+    .preview-img {
+      margin-top: -5px;
       width: 122px;
       height: 216px;
     }
