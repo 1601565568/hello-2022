@@ -295,6 +295,9 @@ export default {
   },
   methods: {
     setModel () {
+      const query = this.$route.query
+      const { copyGuestCodeId } = query
+      console.log(this.prizeModel.prizeStatus)
       // 未开始活动编辑状态
       if (this.isSetPrize) {
         // debugger
@@ -307,7 +310,7 @@ export default {
           }
         }
       }
-      if (this.isStating) {
+      if (this.isStating || (copyGuestCodeId && this.prizeModel.prizeStatus)) {
         this.model = {
           prizeStatus: this.prizeModel.prizeStatus,
           prizeSendPlan: this.prizeModel.prizeSendPlan,
