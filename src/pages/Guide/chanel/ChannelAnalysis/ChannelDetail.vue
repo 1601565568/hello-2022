@@ -17,7 +17,6 @@
       <div class="new-table channel-detail-table">
         <el-table
           style="width: 100%;"
-          size="medium"
           class="table-form_reset"
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
@@ -97,9 +96,12 @@ export default ChannelDetail
     .back {
       display: inline-block;
       margin-left: 16px;
-      color: #0094fc;
+      color:#909399;
       font-size: 16px;
       cursor: pointer;
+      &:hover {
+        color: #0094fc;
+      }
     }
     h3 {
       display: inline-block;

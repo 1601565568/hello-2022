@@ -103,7 +103,7 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table" size="medium" :data="_data._table.data" stripe @selection-change="handleSelectionChange" @sort-change="orderByInviteFriendNum">
+        <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" @sort-change="orderByInviteFriendNum">
           <el-table-column prop="personnel" label="聚合码名称" align="left" min-width="88">
             <template slot-scope="scope">
               {{scope.row.name?scope.row.name:'-'}}
@@ -133,14 +133,14 @@
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="center" min-width="100">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA; font-size:24px;" size="mini" @click="qrcodeLink(scope.row)" type="text">
+              <ns-button style="color:#0091FA; font-size:20px;" size="mini" @click="qrcodeLink(scope.row)" type="text">
                 <Icon type="erweima"/>
               </ns-button>
             </template>
           </el-table-column>
           <el-table-column v-if="memberManagePlan == 1" prop="poster" label="海报" align="center" min-width="100">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA; font-size:24px;" size="mini" @click="posterLink(scope.row)" type="text">
+              <ns-button style="color:#0091FA; font-size:20px;" size="mini" @click="posterLink(scope.row)" type="text">
               <Icon type="tupian"/>
               </ns-button>
             </template>

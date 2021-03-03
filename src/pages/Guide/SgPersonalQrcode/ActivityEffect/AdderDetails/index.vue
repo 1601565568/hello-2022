@@ -20,7 +20,6 @@
     <div class="adder-detail-table">
       <el-table
         style="width: 100%;"
-        size="medium"
         class="table-form_reset"
         row-class-name="employee-table_row"
         header-cell-class-name="employee-talbe-header-cell"
