@@ -60,5 +60,15 @@ export default {
     method: 'post',
     responseType: 'blob',
     timeout: 600000
+  },
+  // 查询优惠券列表
+  findActivityCouponList: {
+    url: '/guide/sgactivitycoupon/findActivityCouponList',
+    method: 'post'
+  },
+  // 查询奖励达标推广列表
+  findActivityReachStandard: {
+    url: '/activity/guestCode/findActivityReachStandard',
+    method: 'post'
   }
 }
