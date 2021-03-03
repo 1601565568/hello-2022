@@ -297,7 +297,6 @@ export default {
     setModel () {
       const query = this.$route.query
       const { copyGuestCodeId } = query
-      console.log(this.prizeModel.prizeStatus)
       // 未开始活动编辑状态
       if (this.isSetPrize) {
         // debugger
