@@ -187,7 +187,6 @@ export default {
       title: '',
       transferWay: '1',
       memberBelongingRadio: '1',
-      brandId: null,
       replacementStoresHaveMembersShow: false, // 批量更换门店有会员弹窗
       switchStateName: null, // 批量更换门店与批量离职提示切换字段
       theNumberOfsuccessful: null, // 批量操作返回的成功的人数

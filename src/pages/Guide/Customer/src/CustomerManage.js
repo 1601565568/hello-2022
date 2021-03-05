@@ -40,7 +40,6 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
-      brandId: null,
       dontSave: false,
       title: '导购更换列表',
       dialogFormVisible: false,
