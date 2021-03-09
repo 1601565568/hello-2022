@@ -147,7 +147,7 @@
                 :element-loading-text="$t('prompt.loading')">
             <el-table-column prop="name" label="姓名" align="left" width="100">
               <template slot-scope="scope">
-                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.name"></ns-sg-sensitive-button>
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
               </template>
             </el-table-column>
             <el-table-column prop="sex" label="性别" align="center" width="80">
@@ -165,7 +165,7 @@
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" width="120">
               <template slot-scope="scope">
-                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.mobile"></ns-sg-sensitive-button>
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encMobile" :sensitiveData="scope.row.mobile"></ns-sg-sensitive-button>
               </template>
             </el-table-column>
             <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">

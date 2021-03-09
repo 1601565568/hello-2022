@@ -128,7 +128,7 @@
           <el-form-item label="姓名：" class="el-inline-block">
             <el-form-grid size="xs">
               <div class="dialog-remark" v-if="items.customerName">
-                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.customerName"></ns-sg-sensitive-button>
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="items.encCustomerName" :sensitiveData="items.customerName"></ns-sg-sensitive-button>
               </div>
               <div v-else>
                 -
@@ -190,7 +190,7 @@
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">
               <div class="dialog-remark">
-                <ns-sg-sensitive-button type="phone" :defaultText="true" :encData="items.mobile"></ns-sg-sensitive-button>
+                <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="items.encMobile" :sensitiveData="items.mobile"></ns-sg-sensitive-button>
               </div>
             </el-form-grid>
           </el-form-item>
@@ -309,7 +309,7 @@
                 </el-form-item>
                 <el-form-item label="Email：" class="el-inline-block">
                   <el-form-grid size="xxmd">
-                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.email"></ns-sg-sensitive-button>
+                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="items.encEmail" :sensitiveData="items.email"></ns-sg-sensitive-button>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="所在地区：" class="el-inline-block">
@@ -317,7 +317,7 @@
                 </el-form-item>
                 <el-form-item label="详细地址：" class="el-inline-block">
                   <el-form-grid size="xxmd">
-                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.address"></ns-sg-sensitive-button>
+                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="items.encAddress" :sensitiveData="items.address"></ns-sg-sensitive-button>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="昵称：" class="el-inline-block">
