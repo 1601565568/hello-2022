@@ -56,6 +56,7 @@
             <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
               <el-option label="启用" value="1"></el-option>
               <el-option label="禁用" value="0"></el-option>
+              <el-option label="已作废" value="2"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
@@ -151,8 +152,8 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
                          label="状态" :sortable="false" width="70">
           <template slot-scope="scope">
-            <span :class="scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
-              {{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+            <span :class="scope.row.isValid == 1 ? 'text-yellow': scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
+              {{scope.row.isValid == 1 ? '已作废': scope.row.couponStatus == '0' ? "禁用" : "启用"}}
             </span>
           </template>
         </el-table-column>
@@ -214,5 +215,8 @@ export default NsTableSgCoupon
   }
   .resetbtn {
     margin-left: var(--default-margin-larger);
+  }
+  .text-yellow {
+    color: #FFAE09;
   }
 </style>
