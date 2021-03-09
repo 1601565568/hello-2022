@@ -184,7 +184,8 @@ export default {
     // 校验数值
     checkDecimals (rule, value, callback) {
       if (!value) {
-        callback(new Error('请输入数字'))
+        // callback(new Error('请输入数字'))
+        callback()
       } else {
         let arr = /^([-+]?\d*)(\.\d{1,2})?$/
         if (!arr.test(value)) {
