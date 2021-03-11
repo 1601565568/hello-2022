@@ -2,6 +2,7 @@
   <div class='template-container'>
     <div class='template-table__bar-name' v-if='title'>
       {{title}}
+      <slot name='title'></slot>
     </div>
     <div class="template-table">
       <div class='teplate-table__box'>
@@ -54,6 +55,8 @@ export default {
   font-weight: bold;
   margin: -10px -10px 0px;
   padding: 0 16px;
+  display: flex;
+  align-items: center;
 }
 .template-table {
   padding: 16px;

@@ -1,0 +1,178 @@
+<template>
+  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
+    <page-edit>
+      <template slot='header'>
+        <div class='common-header flex-box'>
+          <h3>
+            新建企业对外信息展示
+            <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
+              <Icon type="question-circle"  class='question-circle'/>
+              <template slot='content'>
+                <img src='./images/qibaotip.png' class='tip-img'>
+              </template>
+            </el-tooltip>
+          </h3>
+          <div class='common-btn'>
+            <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+          </div>
+        </div>
+      </template>
+      <template slot='content'>
+        <!-- 基础信息 start -->
+        <recruitment-collapse title='基本信息' phoneTitle=''>
+          <template slot='collapse-left'>
+            <el-form-item label='对外信息名称' prop='content' class='larger-item'>
+              <div>
+                请确保输入的名称与企业微信后台配置的对外信息一致
+                <el-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</el-button>
+              </div>
+              <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符"/>
+            </el-form-item>
+            <el-form-item label='网页名称' prop='content' class='larger-item'>
+              <LengthInput v-model='model.webName' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
+            </el-form-item>
+            <el-form-item label='点击跳转' prop='content' class='larger-item'>
+              <template slot='label' class='larger-item_icon'>
+                <span>点击跳转</span>
+                <Icon type="question-circle" class='question-circle item-icon' @click='handlePreview(true,2)'/>
+              </template>
+              <div class='link-content'>
+                <template v-for='item in linkData'>
+                  <div :key='item.type' :class='`link-item ${item.type === model.linkType ? "active":""}`' @click='handleChangeType(item.type)'>
+                    <img :src='item.img' class='preview-img'>
+                    <el-radio v-model="model.linkType" class='preview-radio' :label='item.type'>{{item.title}}</el-radio>
+                  </div>
+                </template>
+              </div>
+            </el-form-item>
+          </template>
+          <template slot='collapse-right'>
+            <div class='phone-wrapper'>
+              <img src='./images/qy.png'>
+              <div class='edit-div'>
+                <div class='edit-key'>{{model.name?model.name.substring(0,8):''}}</div>
+                <div class='edit-value'>{{model.webName}}</div>
+              </div>
+            </div>
+          </template>
+          <template slot='collapse-right__bottom'>
+            <p class='phone-tip'>客户看见的页面</p>
+          </template>
+        </recruitment-collapse>
+      </template>
+    </page-edit>
+    <el-dialog
+      title="示例"
+      :visible.sync="previewVisin"
+      fullscreen>
+      <div class='dialog-content' :style='`background-image:url(${shili})`'>
+      </div>
+    </el-dialog>
+  </el-form>
+</template>
+<script>
+import Index from './src/OutEdit'
+import PageEdit from '@/components/NewUi/PageEdit'
+import LengthInput from '@/components/NewUi/LengthInput'
+import RecruitmentCollapse from '@/components/NewUi/RecruitmentCollapse'
+Index.components = {
+  PageEdit, LengthInput, RecruitmentCollapse
+}
+export default Index
+</script>
+<style lang="scss" scoped>
+  @import "@components/NewUi/styles/reset.css";
+  .tip-text{
+    color: #0094FC;
+    cursor: pointer;
+  }
+  .phone-tip {
+    text-align: center;
+    font-size: 12px;
+    color: #595959;
+  }
+  .tip-img {
+    width: 352px;
+  }
+  .question-circle {
+    color: #8C8C8C;
+    &.item-icon {
+      position: relative;
+      margin-left:5px;
+      top: 1px;
+    }
+  }
+  .phone-wrapper {
+    height: 569px;
+    background-color: #fff;
+    margin-left: -1px;
+    margin-top: -1px;
+    margin-right: -1px;
+    position: relative;
+    img {
+      display: block;
+      width: 100%
+    }
+    .edit-div {
+      position: absolute;
+      left: 3px;
+      right: 3px;
+      top: 341px;
+      z-index: 99;
+      height: 43px;
+      display: flex;
+      font-size: 16px;
+      align-items: center;
+      .edit-key,.edit-value {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+      }
+      .edit-key {
+        padding-left: 12px;
+        width:107px;
+      }
+      .edit-value {
+        width:200px;
+        color: #8C8C8C;
+        word-break: break-all;
+      }
+    }
+  }
+  .link-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .link-item {
+      width: 25%;
+      cursor: pointer;
+      .preview-img {
+        display: block;
+        width: 100%;
+        margin: 0 auto 25px auto;
+        border: 1px solid #E8E8E8;
+      }
+      .preview-radio {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &.active {
+        .preview-img {
+          border-color:#0094FC
+        }
+      }
+    }
+  }
+  .dialog-content {
+    height: calc( 100vh - 100px );
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center
+  }
+</style>
