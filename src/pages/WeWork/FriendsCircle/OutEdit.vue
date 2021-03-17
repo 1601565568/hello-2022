@@ -14,7 +14,7 @@
           </h3>
           <div class='common-btn'>
             <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
           </div>
         </div>
       </template>
@@ -25,12 +25,12 @@
             <el-form-item label='对外信息名称' prop='content' class='larger-item'>
               <div>
                 请确保输入的名称与企业微信后台配置的对外信息一致
-                <el-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</el-button>
+                <ns-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</ns-button>
               </div>
-              <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符"/>
+              <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符" :disabled='isEdit'/>
             </el-form-item>
             <el-form-item label='网页名称' prop='content' class='larger-item'>
-              <LengthInput v-model='model.webName' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
+              <LengthInput v-model='model.webTitle' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
             </el-form-item>
             <el-form-item label='点击跳转' prop='content' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
@@ -39,9 +39,9 @@
               </template>
               <div class='link-content'>
                 <template v-for='item in linkData'>
-                  <div :key='item.type' :class='`link-item ${item.type === model.linkType ? "active":""}`' @click='handleChangeType(item.type)'>
+                  <div :key='item.type' :class='`link-item ${item.type === model.style ? "active":""}`' @click='handleChangeType(item.type)'>
                     <img :src='item.img' class='preview-img'>
-                    <el-radio v-model="model.linkType" class='preview-radio' :label='item.type'>{{item.title}}</el-radio>
+                    <el-radio v-model="model.style" class='preview-radio' :label='item.type'>{{item.title}}</el-radio>
                   </div>
                 </template>
               </div>
@@ -52,7 +52,7 @@
               <img src='./images/qy.png'>
               <div class='edit-div'>
                 <div class='edit-key'>{{model.name?model.name.substring(0,8):''}}</div>
-                <div class='edit-value'>{{model.webName}}</div>
+                <div class='edit-value'>{{model.webTitle}}</div>
               </div>
             </div>
           </template>
