@@ -9,7 +9,7 @@ export default {
       if (!value) {
         return callback(new Error('请输入网页地址'))
       }
-      const checkUrl = /http[s]{0,1}:\/\/([\w.]+\/?)\S*/
+      const checkUrl = /^http[s]{0,1}:\/\/?/
       if (checkUrl.test(value)) {
         return callback()
       } else {
@@ -154,12 +154,30 @@ export default {
   mounted () {
     this.getSystemPresetLink()
     // 加载页面设置函数
-    // let _this = this
-    // this.$http.fetch(this.$api.guide.notMemberSet.search).then(resp => {
-    //   if (resp.success) {
-    //     _this.value = resp.result === 1
-    //   }
-    // })
+    let _this = this
+    this.$http.fetch(this.$api.guide.notMemberSet.search).then(resp => {
+      if (resp.success) {
+        let result = resp.result
+        _this.model.memberShowSwitch = result.member_show_switch === 1
+        _this.model.recruitLinkType = result.recruit_link_type
+        _this.model.linkType = result.link_type
+        if (result.recruit_link_type === 1 && result.content) {
+          _this.model.sysLink = result.content
+        } else if (result.link_type && result.link_type === 1 && result.content) {
+          let content = JSON.parse(result.content)
+          _this.model.linkModel.desc = content.desc // 文案
+          _this.model.linkModel.link = content.link // 链接
+          _this.model.linkModel.title = content.title // 标题
+          _this.model.linkModel.image = content.image // 图片
+        } else if (result.link_type && result.link_type === 2 && result.content) {
+          let content = JSON.parse(result.content)
+          _this.model.appModel.appid = content.appid // 小程序appid
+          _this.model.appModel.path = content.path // 小程序路径
+          _this.model.appModel.title = content.title // 标题
+          _this.model.appModel.image = content.image // 封面
+        }
+      }
+    })
   },
   methods: {
     /**
@@ -301,18 +319,16 @@ export default {
           console.log(param)
         }
       })
-      // this.$http
-      //   .fetch(this.$api.guide.notMemberSet.update, {
-      //     isShow: this.value ? 1 : 0
-      //   })
-      //   .then(resp => {
-      //     if (resp.success) {
-      //       this.$notify.success('保存成功')
-      //     }
-      //   })
-      //   .catch(error => {
-      //     this.$notify.error(error.msg)
-      //   })
+      this.$http
+        .fetch(this.$api.guide.notMemberSet.saveOrUpdate, this.formatParam())
+        .then(resp => {
+          if (resp.success) {
+            this.$notify.success('保存成功')
+          }
+        })
+        .catch(error => {
+          this.$notify.error(error.msg)
+        })
     },
     /**
      * 格式化数据
