@@ -374,6 +374,12 @@ export default {
           'name': 'FriendsCircleOutEdit',
           'title': '对外信息内容管理',
           'component': () => import('@/pages/WeWork/FriendsCircle/OutEdit.vue')
+        },
+        {
+          'path': '/Marketing/FriendsCircle/Analysis',
+          'name': 'FriendsCircleAnalysis',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/Analysis.vue')
         }
       ]
     }
