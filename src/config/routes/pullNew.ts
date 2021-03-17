@@ -314,7 +314,7 @@ export default {
         {
           'path': '/Guide/RecruitSet/NotMemberPageConfig',
           'name': 'NotMemberPageConfig',
-          'title': '非会员页面设置',
+          'title': '侧边栏会员招募',
           'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
         }
       ]
