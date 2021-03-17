@@ -19,9 +19,9 @@
       <!-- 表格 start -->
       <template slot='table'>
         <template>
-          <ns-button type="primary" size='large' @click="handleDetail({})" style='margin-bottom:20px'>新建</ns-button>
+          <ns-button type="primary" size='large' @click="handleDetail(null)" style='margin-bottom:20px'>新建</ns-button>
            <el-table
-            :data="data"
+            :data="_data._table.data"
             class="new-table_border"
             style="width: 100%">
             <el-table-column
@@ -29,26 +29,40 @@
               label="对外信息名称">
             </el-table-column>
             <el-table-column
-              prop="status"
+              prop="webTitle"
               label="网页说明">
             </el-table-column>
             <el-table-column
-              prop="time"
+              prop="style"
               label="样式">
               <template slot-scope="scope">
-                <span class='col-text'>{{scope.row.time}}</span>
+                <span>{{styleList[scope.row.style]}}</span>
               </template>
             </el-table-column>
             <el-table-column
-              prop="createName"
+              prop="status"
               label="状态">
+              <template slot-scope="scope">
+                <template v-if='scope.row.status === 0'>
+                  <span >{{statusList[scope.row.status]}}</span>
+                </template>
+                <template v-else-if='scope.row.status === 1'>
+                  <ns-button type='text' :loading='scope.row.status === 1'>
+                    {{statusList[scope.row.status]}}
+                  </ns-button>
+                </template>
+                <template v-else-if='scope.row.status === 2'>
+                  <span class='col-text_error'>{{statusList[scope.row.status]}}</span>
+                  <ns-button type='text' icon="el-icon-refresh" @click='handleRefresh(scope.row.id,scope.$index)'></ns-button>
+                </template>
+              </template>
             </el-table-column>
             <el-table-column
               prop="address"
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})'>详情</ns-button>
-                <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)'>删除</ns-button>
+                <ns-button type="text" @click='handleDetail(scope.row.id)'>编辑</ns-button>
+                <ns-button type="text" @click='handleDelect(scope.row.id)' :loading='delectingIds.includes(scope.row.id)'>删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -64,8 +78,8 @@
                         :current-page="_data._pagination.page"
                         :page-size="_data._pagination.size"
                         layout="total, sizes, prev, pager, next, jumper"
-                        @size-change="handleChangePage('$sizeChange$')"
-                        @current-change="handleChangePage('$pageChange$')">
+                        @size-change="$sizeChange$"
+                        @current-change="$pageChange$">
           </el-pagination>
       </template>
       <!-- 页面 end -->
@@ -148,5 +162,8 @@ export default Index
       width: 100%;
       margin-bottom: 24px;
     }
+  }
+  .col-text_error {
+    color: #F39801;
   }
 </style>

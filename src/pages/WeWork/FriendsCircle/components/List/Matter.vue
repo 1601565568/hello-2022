@@ -1,23 +1,26 @@
 <template>
   <div>
-    <template v-if='type===1'>
+    <template v-if='content.type===1'>
       <div class='picture-content content'>
-        <div class='picture'>
-          <img />
-          <div class='picture-number'>6</div>
+        <div class='picture' v-if='content.imgSrc'>
+          <el-image
+            style="width: 48px; height: 48px"
+            :src="content.imgSrc"
+            :fit="cover"></el-image>
+          <div class='picture-number'>{{content.imgLength}}</div>
         </div>
         <div class='picture-desc over-row'>
-          招商引流活动；推荐5人线下礼包
+          {{content.content}}
         </div>
       </div>
     </template>
-    <template v-if='type===2'>
+    <template v-if='content.type===2'>
       <div class='video-content content'>
-        <div class='picture video'>
-          <img />
+        <div class='picture video' v-if='content.videoTopUrl'>
+          <img :src='content.videoTopUrl'/>
         </div>
         <div class='picture-desc over-row'>
-          招商引流活动；推荐5人线下礼包
+          {{content.content}}
         </div>
       </div>
     </template>
@@ -37,10 +40,40 @@
   </div>
 </template>
 <script>
+import ElImage from '@nascent/nui/lib/image'
 export default {
+  data () {
+    return {
+      content: {}
+    }
+  },
   props: {
-    type: {
-
+    data: {
+      default () {
+        return {}
+      }
+    }
+  },
+  components: { ElImage },
+  methods: {
+    setContent (data) {
+      const type = data.imgUrl ? 1 : 2
+      const imgList = data.imgUrl ? data.imgUrl.split(',') : []
+      return {
+        type,
+        imgSrc: imgList[0],
+        imgLength: imgList.length,
+        videoTopUrl: data.videoTopUrl,
+        content: data.content
+      }
+    }
+  },
+  watch: {
+    data: {
+      handler (newVal) {
+        this.content = this.setContent(newVal)
+      },
+      immediate: true
     }
   }
 }
@@ -74,6 +107,7 @@ export default {
       width: 100%
     }
     .picture-number {
+      color:#fff;
       border-radius: 4px 0px 4px 0px;
       background-color: rgba(0,0,0,.45);
       height:16px;
@@ -83,6 +117,9 @@ export default {
       justify-content: center;
       font-size: #fff;
       font-size: 10px;
+      position: absolute;
+      bottom:0;
+      right:0;
     }
   }
   .picture-desc {

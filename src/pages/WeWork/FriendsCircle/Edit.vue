@@ -6,7 +6,7 @@
           <h3>新建朋友圈</h3>
           <div class='common-btn'>
             <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
           </div>
         </div>
       </template>
@@ -20,20 +20,20 @@
             <el-form-item label='附件' prop='content'>
               <MoveUpload v-model='model.mediaList'/>
             </el-form-item>
-            <el-form-item label='热度' prop='content' class='larger-item'>
-              <star v-model='model.star' :img='sohot' :voidImg='nothot'/>
+            <el-form-item label='热度' prop='hotLevel' class='larger-item'>
+              <star v-model='model.hotLevel' :img='sohot' :voidImg='nothot'/>
             </el-form-item>
             <el-form-item label='对外信息说明' prop='content' class='larger-item'>
               <html-area>
                 <div class='employee-list'>
-                  <template v-if='model.outList.length>0'>
-                    <template v-for='(item,index) in model.outList'>
+                  <template v-if='model.profileId.length>0'>
+                    <template v-for='(item,index) in model.profileId'>
                       <div class='employee-list_item' :key='item.id'>
                         {{item.name}}
                         <i class="el-icon-close" @click="handleDelect(index)"></i>
                       </div>
                     </template>
-                    <span class='employee-list_all' v-if='model.outList.length>0'>
+                    <span class='employee-list_all' v-if='model.profileId.length>0'>
                       <i class="el-icon-close" @click="handleDelectAll()"></i>
                     </span>
                   </template>
@@ -53,22 +53,22 @@
               </html-area>
             </el-form-item>
             <el-form-item label='选择员工' prop='content' class='larger-item'>
-              <el-radio-group v-model="model.isAll">
-                <el-radio :label="1">全部员工</el-radio>
-                <el-radio :label="0">部分员工</el-radio>
+              <el-radio-group v-model="model.userType">
+                <el-radio :label="0">全部员工</el-radio>
+                <el-radio :label="1">部分员工</el-radio>
               </el-radio-group>
-              <div class='employee-content' v-if='model.isAll === 0'>
+              <div class='employee-content' v-if='model.userType === 1'>
                 <el-form-item label='选择员工' prop='content' class='larger-item'>
                   <html-area>
                     <div class='employee-list'>
-                      <template v-if='model.outList.length>0'>
-                        <template v-for='(item,index) in model.outList'>
+                      <template v-if='model.profileId.length>0'>
+                        <template v-for='(item,index) in model.profileId'>
                           <div class='employee-list_item' :key='item.id'>
                             {{item.name}}
                             <i class="el-icon-close" @click="handleDelect(index)"></i>
                           </div>
                         </template>
-                        <span class='employee-list_all' v-if='model.outList.length>0'>
+                        <span class='employee-list_all' v-if='model.profileId.length>0'>
                           <i class="el-icon-close" @click="handleDelectAll()"></i>
                         </span>
                       </template>
