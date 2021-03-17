@@ -152,6 +152,7 @@ export default {
     }
   },
   mounted () {
+    this.getSystemPresetLink()
     // 加载页面设置函数
     // let _this = this
     // this.$http.fetch(this.$api.guide.notMemberSet.search).then(resp => {
@@ -161,6 +162,37 @@ export default {
     // })
   },
   methods: {
+    /**
+     * 获取系统预置链接
+     */
+    getSystemPresetLink: function () {
+      this.$http.fetch(this.$api.guide.systemPreset.getLink, { type: 2 }).then(resp => {
+        if (resp.success && resp.result != null) {
+          this.presetLink = this.formatPresetLink(resp.result)
+        }
+      }).catch((err) => {
+        this.$notify.error(err.msg || '系统预置链接失败')
+      })
+    },
+    /**
+     * 格式化系统预置链接
+     * @param {Array} result
+     * @return {Array}
+     */
+    formatPresetLink (result) {
+      const arr = result || []
+      return arr.map((item) => (
+        {
+          content: item.content,
+          edit: item.edit,
+          id: item.id,
+          name: item.name,
+          picture: item.picture,
+          title: item.title,
+          url: item.url
+        }
+      ))
+    },
     /**
      * 图片上传的钩子函数
      * @param {*} file

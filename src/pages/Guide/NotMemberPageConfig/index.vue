@@ -40,13 +40,18 @@
               </el-form-item>
               <el-form-item v-if="model.memberShowSwitch" label="设置招募链接">
                 <div class="ml">
-                  <el-radio-group v-model="model.recruitLinkType" @change="handleChange">
+                  <el-radio-group
+                    v-model="model.recruitLinkType"
+                    @change="handleChange"
+                  >
                     <el-radio :label="1">系统预置链接</el-radio>
                     <el-radio :label="2">自定义链接</el-radio>
                   </el-radio-group>
                 </div>
               </el-form-item>
-              <el-form-item v-if="model.recruitLinkType === 1 && model.memberShowSwitch">
+              <el-form-item
+                v-if="model.recruitLinkType === 1 && model.memberShowSwitch"
+              >
                 <div class="ml content">
                   <el-form-item label="选择链接" prop="sysLink">
                     <el-select
@@ -56,16 +61,18 @@
                     >
                       <el-option
                         v-for="item in presetLink"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
                       >
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-form-item>
-              <template v-if="model.recruitLinkType === 2 && model.memberShowSwitch">
+              <template
+                v-if="model.recruitLinkType === 2 && model.memberShowSwitch"
+              >
                 <el-form-item>
                   <div class="ml content">
                     <el-form-item label="链接类型">
@@ -193,7 +200,7 @@
                             pages/member/test.html?id=1
                           </p>
                           <tag-area
-                            className='w-textarea--input'
+                            className="w-textarea--input"
                             v-model.trim="model.appModel.path"
                             tag="wise"
                             ref="testText"
