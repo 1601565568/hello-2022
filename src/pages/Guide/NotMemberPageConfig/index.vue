@@ -5,7 +5,7 @@
       <div class="clearfix nonMember-head__title">
         <span class="nonMember-head__title-content"> 侧边栏会员招募 </span>
         <div class="float-right">
-          <NsButton type="primary" @click="save()">保存</NsButton>
+          <NsButton type="primary" :loading="loading" @click="save()">保存</NsButton>
         </div>
       </div>
     </div>
@@ -162,6 +162,7 @@
                                 accept=".jpg,.jpeg,.png"
                                 :action="$api.core.sgUploadFile('test')"
                                 :on-remove="handleRemove"
+                                :file-list="linkModelFileList"
                                 :before-upload="beforeUpload"
                                 :on-success="handleUploadSuccess"
                               >
@@ -232,6 +233,7 @@
                               drag
                               accept=".jpg,.jpeg,.png"
                               :action="$api.core.sgUploadFile('test')"
+                              :file-list="appModelFileList"
                               :on-remove="handleRemoveApp"
                               :before-upload="beforeUpload"
                               :on-success="handleSuccessUpload"

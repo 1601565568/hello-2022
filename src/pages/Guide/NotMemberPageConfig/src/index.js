@@ -38,6 +38,7 @@ export default {
       image: '' // 封面
     }
     return {
+      loading: false,
       labelPosition: 'left',
       validates: { pageUrl, validateActivityIntroduction },
       // 页面滚动条内容高度配置
@@ -148,7 +149,8 @@ export default {
         }
       ],
       presetLink: [], // 系统链接数组
-      fileList: []
+      linkModelFileList: [],
+      appModelFileList: []
     }
   },
   mounted () {
@@ -162,19 +164,22 @@ export default {
         _this.model.recruitLinkType = result.recruit_link_type
         _this.model.linkType = result.link_type
         if (result.recruit_link_type === 1 && result.content) {
-          _this.model.sysLink = result.content
+          let content = JSON.parse(result.content)
+          _this.model.sysLink = content
         } else if (result.link_type && result.link_type === 1 && result.content) {
           let content = JSON.parse(result.content)
           _this.model.linkModel.desc = content.desc // 文案
-          _this.model.linkModel.link = content.link // 链接
+          _this.model.linkModel.link = this.stringTohtml(content.link) // 链接
           _this.model.linkModel.title = content.title // 标题
           _this.model.linkModel.image = content.image // 图片
+          this.linkModelFileList = [{ name: content.image }]
         } else if (result.link_type && result.link_type === 2 && result.content) {
           let content = JSON.parse(result.content)
           _this.model.appModel.appid = content.appid // 小程序appid
-          _this.model.appModel.path = content.path // 小程序路径
+          _this.model.appModel.path = this.stringTohtml(content.path) // 小程序路径
           _this.model.appModel.title = content.title // 标题
           _this.model.appModel.image = content.image // 封面
+          this.appModelFileList = [{ name: content.image }]
         }
       }
     })
@@ -315,20 +320,21 @@ export default {
     save () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          const param = this.formatParam()
-          console.log(param)
+          this.loading = true
+          this.$http
+            .fetch(this.$api.guide.notMemberSet.saveOrUpdate, this.formatParam())
+            .then(resp => {
+              if (resp.success) {
+                this.loading = false
+                this.$notify.success('保存成功')
+              }
+            })
+            .catch(error => {
+              this.loading = false
+              this.$notify.error(error.msg)
+            })
         }
       })
-      this.$http
-        .fetch(this.$api.guide.notMemberSet.saveOrUpdate, this.formatParam())
-        .then(resp => {
-          if (resp.success) {
-            this.$notify.success('保存成功')
-          }
-        })
-        .catch(error => {
-          this.$notify.error(error.msg)
-        })
     },
     /**
      * 格式化数据
