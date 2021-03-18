@@ -58,15 +58,13 @@
         </el-pagination>
       </div>
       <div class="template-page__row-right">
-        <page-table title='数据分析' class='title-tab_box'>
-          <!-- 分类 start -->
-          <div class='title-tab' slot='title'>
-            <template v-for='item in tabList'>
-              <div :class='`tab-item ${item.id === checkedTab ? "active":""}`' :key='item.id' @click='handleChangeTab(item.id)'>{{item.label}}</div>
-            </template>
-          </div>
-          <!-- 分类 end -->
-        </page-table>
+        <!-- 分类 start -->
+        <div class='title-tab' slot='title'>
+          <template v-for='item in tabList'>
+            <div :class='`tab-item ${item.id === checkedTab ? "active":""}`' :key='item.id' @click='handleChangeTab(item.id)'>{{item.label}}</div>
+          </template>
+        </div>
+        <!-- 分类 end -->
         <!-- 数据图表 start -->
         <ns-data-analysis-charts ref="table" :url="$api.weWork.weWorkCustomer.queryAnalysisListByDate"></ns-data-analysis-charts>
         <!-- 数据图表 end -->
