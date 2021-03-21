@@ -22,19 +22,19 @@
         <!-- 基础信息 start -->
         <recruitment-collapse title='基本信息' phoneTitle=''>
           <template slot='collapse-left'>
-            <el-form-item label='对外信息名称' prop='content' class='larger-item'>
+            <el-form-item label='对外信息名称' prop='name' class='larger-item'>
               <div>
                 请确保输入的名称与企业微信后台配置的对外信息一致
                 <ns-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</ns-button>
               </div>
-              <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符" :disabled='isEdit'/>
+              <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符" :disabled='isEdit' :textLength='textLength'/>
             </el-form-item>
-            <el-form-item label='网页名称' prop='content' class='larger-item'>
+            <el-form-item label='网页名称' prop='webTitle' class='larger-item'>
               <LengthInput v-model='model.webTitle' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
             </el-form-item>
-            <el-form-item label='点击跳转' prop='content' class='larger-item'>
+            <el-form-item label='点击跳转' prop='style' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
-                <span>点击跳转</span>
+                <span>个性签名</span>
                 <Icon type="question-circle" class='question-circle item-icon' @click='handlePreview(true,2)'/>
               </template>
               <div class='link-content'>
@@ -46,6 +46,24 @@
                 </template>
               </div>
             </el-form-item>
+            <template v-if='model.style === 0'>
+              <el-form-item label='个性签名' prop='signatrue' class='larger-item'>
+                <div>
+                  可自定义个性签名
+                  <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
+                    <ns-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</ns-button>
+                    <template slot='content'>
+                      <img src='./images/pyq.png' class='tip-img'>
+                    </template>
+                  </el-tooltip>
+                </div>
+                <LengthInput v-model='model.signatrue' :length='30' placeholder="最多8个字符"/>
+              </el-form-item>
+              <el-form-item label='朋友圈封面图' prop='topImgUrl' class='larger-item'>
+                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，图片尺寸建议为8:5）' v-model='model.topImgUrl' :showPont='false' :showFooter='false'>
+                </drap-upload>
+              </el-form-item>
+            </template>
           </template>
           <template slot='collapse-right'>
             <div class='phone-wrapper'>
@@ -75,9 +93,10 @@
 import Index from './src/OutEdit'
 import PageEdit from '@/components/NewUi/PageEdit'
 import LengthInput from '@/components/NewUi/LengthInput'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 import RecruitmentCollapse from '@/components/NewUi/RecruitmentCollapse'
 Index.components = {
-  PageEdit, LengthInput, RecruitmentCollapse
+  PageEdit, LengthInput, RecruitmentCollapse, DrapUpload
 }
 export default Index
 </script>
@@ -86,6 +105,7 @@ export default Index
   .tip-text{
     color: #0094FC;
     cursor: pointer;
+    font-size: 12px;
   }
   .phone-tip {
     text-align: center;

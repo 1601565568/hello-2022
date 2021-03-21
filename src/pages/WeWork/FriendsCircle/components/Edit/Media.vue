@@ -10,7 +10,7 @@
     <div class='content'>
       <div class='img-content' v-if='type === "img"'>
         <div v-for='item in list' class='img-src' :key='item'>
-          <img src=''>
+          <img :src='item'>
         </div>
       </div>
       <div class='video-content' v-else>
@@ -30,12 +30,12 @@ export default {
   props: {
     // 展示类型 img 图片 video 视频
     type: {
-      default: 'video'
+      default: 'img'
     },
     // 数据
     list: {
       default () {
-        return ['', '', '', '', '', '', '', '', '']
+        return []
       }
     },
     // 热度

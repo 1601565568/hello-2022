@@ -227,6 +227,26 @@ export default {
       ) {
         this.savedRange = range
       }
+    },
+    // 替换标签成模板
+    htmlToString (html) {
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+    },
+    // 替换模板成标签
+    stringTohtml (string) {
+      this.tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
+      })
+      return string
+    },
+    // 替换模板成文字
+    stringTotext (string) {
+      this.tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, item.value).replace('\n', ' <br /> ')
+      })
+      return string
     }
   },
   watch: {

@@ -34,7 +34,7 @@ export default {
   props: {
     // 展示类型 img 图片 video 视频
     type: {
-      default: 'video'
+      default: 'img'
     },
     // 数据
     list: {

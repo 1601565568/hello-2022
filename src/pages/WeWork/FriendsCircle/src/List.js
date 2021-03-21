@@ -81,6 +81,9 @@ export default {
      * @param {Object} model
      */
     changeSearchfrom (model) {
+      if (model.profileId || model.profileId === null) {
+        this._data._table.data = []
+      }
       this.model = Object.assign({}, this.model, model)
       this.$searchAction$()
     },

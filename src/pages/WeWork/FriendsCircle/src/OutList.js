@@ -4,6 +4,7 @@ export default {
   data () {
     return {
       previewVisin: false, // 弹框状态
+      previewType: 1, // 弹框展示内容 1 配置说明 2 对外信息展示 说明
       url: this.$api.weWork.friendsCircle.profileList,
       styleList: { // 样式枚举
         0: '朋友圈样式',
@@ -22,8 +23,15 @@ export default {
      * 查看/关闭 配置说明
      * @param {*} previewVisin
      */
-    handlePreview (previewVisin) {
+    handlePreview (previewVisin, previewType) {
+      this.previewType = previewType
       this.previewVisin = previewVisin
+    },
+    /**
+     * 去企微
+     */
+    handleQY () {
+      window.open('https://work.weixin.qq.com/wework_admin/loginpage_wx?redirect_uri=https://work.weixin.qq.com/wework_admin/frame#profile/contactsMng/exMemberAttrVisable')
     },
     /**
      * 删除

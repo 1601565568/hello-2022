@@ -4,7 +4,7 @@
       <h3 class='collapse-title' v-if='title'>{{title}}</h3>
       <slot name='collapse-left'></slot>
     </el-col>
-    <el-col :span='8' :class='`collapse-right ${!phoneTitle?"no-top":""}`'>
+    <el-col :span='8' :class='`collapse-right ${!phoneTitle?"no-top":""}`' v-if='isShowPhone'>
       <div class='phone-title'>{{phoneTitle}}</div>
       <Phone>
         <div class='mobile-header' v-if='phoneBar'>
@@ -27,6 +27,10 @@ export default {
     }
   },
   props: {
+    isShowPhone: {
+      type: Boolean,
+      default: true
+    },
     title: {
       type: String
     },

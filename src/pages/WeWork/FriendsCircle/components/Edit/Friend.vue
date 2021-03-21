@@ -4,6 +4,7 @@
       <div class='user'>
         <img class='user-icon' />
         <div class='user-name'>我是一个昵称</div>
+        {{list}}
       </div>
     </div>
     <div class='content'>
@@ -13,7 +14,7 @@
       <div class='img-content' v-if='type === "img"'>
         <div v-for='(item,index) in imgData' class='img-row' :key='index'>
           <div v-for='(items,indexs) in item' class='img-src' :key='indexs'>
-            <img src='items'>
+            <img :src='items'>
           </div>
         </div>
       </div>

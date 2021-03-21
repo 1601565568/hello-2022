@@ -8,7 +8,7 @@
         prop="name"
         label="内容">
         <template slot-scope="scope">
-          <Matter :data='scope.row'/>
+          <TableItem :data='formatTableItem(scope.row)'/>
         </template>
       </el-table-column>
       <el-table-column
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-import Matter from './Matter'
+import TableItem from '@/pages/Guide/Material/Library/components/TableItem'
 export default {
   props: {
     data: {
@@ -67,8 +67,15 @@ export default {
       }
     }
   },
-  components: { Matter },
+  components: { TableItem },
   methods: {
+    formatTableItem (item) {
+      return {
+        content: item.content,
+        mType: item.videoUrl ? 2 : item.imgUrl ? 1 : 0,
+        imageList: item.videoUrl ? [item.videoUrl] : item.imgUrl ? item.imgUrl.split(',') : []
+      }
+    },
     handleDelect (uuid) {
       this.$emit('onDelect', uuid)
     },

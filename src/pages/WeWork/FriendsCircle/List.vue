@@ -104,6 +104,16 @@ export default Index
     position: relative;
     margin-left: 16px;
     overflow-x: scroll;
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
+    &::-webkit-scrollbar {
+      display: none;
+      /*height: 4px;*/
+    }
     &::before {
       content: " ";
       position: absolute;
@@ -117,6 +127,9 @@ export default Index
   }
   .tab-content {
     white-space: nowrap;
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
     .tab-item {
       padding: 0 16px;
       font-size: 14px;
