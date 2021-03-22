@@ -1,6 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
-import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
 import scrollTable from '@/mixins/scrollTable'
@@ -161,9 +160,6 @@ export default {
     let limitHeight = window.innerHeight - 40 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
-  },
-  components: {
-    NsArea
   },
   updated () {
     if (this.$refs.elTree) {

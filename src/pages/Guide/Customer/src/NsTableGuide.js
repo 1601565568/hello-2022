@@ -1,13 +1,11 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
-import taskProgress from '../component/taskProgress'
 import LocalStorage from 'store/dist/store.legacy.min.js'
 import $ from 'jquery'
 
 export default {
   name: 'NsTableGuide',
-  components: { taskProgress },
   mixins: [tableMixin],
   props: {
     url: Object
@@ -77,6 +75,7 @@ export default {
         size: 50,
         shopName: ''
       },
+      viewId: '',
       total: '0', // 页面table总数居
       checkAll: false, // 是否全选
       isIndeterminate: false, // 全选样式显示状态
@@ -86,6 +85,15 @@ export default {
       outGuideId: null,
       shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
       shopCustomerTransferTaskStatusTime: null // 定时调用判断门店转移任务状态显示
+    }
+  },
+  computed: {
+    /**
+     * 是否是集团运营模式
+     *  集团运营模式下不显示视角切换
+     */
+    openGroupOperation () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.openGroupOperation
     }
   },
   watch: {
@@ -154,14 +162,16 @@ export default {
       this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
     }
   },
-  computed: {},
-  created: function () {
+  async created () {
     this.initShopList()
   },
   beforeDestroy () {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    viewChange (viewId) {
+      this.initShopList()
+    },
     handlereplaceShop () {
       this.$emit('handlereplaceShop')
     },
@@ -173,6 +183,7 @@ export default {
     },
     // 门店树选择
     onClickNode (data) {
+      window.console.log(data)
       var _this = this
       if (this._data._table.data.length > 0) {
         this._data._table.data = []

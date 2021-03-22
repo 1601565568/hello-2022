@@ -50,6 +50,9 @@
             <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
             <template slot="searchSearch">
               <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
+                <el-form-item v-show="_data._queryConfig.expand === false" label="视角：">
+                  <ViewSelect :showTitle="false"></ViewSelect>
+                </el-form-item>
                 <el-form-item v-show="_data._queryConfig.expand === false" label="线下门店名称/ID：">
                   <el-input ref="quickText" style="width: 200px" v-model="model.name" placeholder="请输入线下门店名称/ID"
                             @keyup.enter.native="$quickSearchAction$('name')" clearable>
@@ -72,6 +75,9 @@
             <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
             <template slot="advancedSearch" v-if="_data._queryConfig.expand">
               <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+                <el-form-item label="视角：">
+                  <ViewSelect :showTitle="false"></ViewSelect>
+                </el-form-item>
                 <el-form-item label="门店名称：">
                   <el-form-grid size="xmd">
                     <el-input style="width:200px" autofocus=true  v-model="model.shopName" placeholder="请输入线下门店名称"
@@ -211,6 +217,13 @@
 
 <script>
 import guide from './src/NsTableGuide'
+import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
+import ViewSelect from '@/components/NsViewSelect'
+
+guide.components = {
+  NsArea,
+  ViewSelect
+}
 
 export default guide
 </script>

@@ -46,7 +46,8 @@ export default {
         }
       },
       isQY: true, // 是否是企微
-      isLoading: false
+      isLoading: false,
+      brandDialogVisible: false // 选择品牌模态框
     }
   },
   mounted () {
@@ -69,6 +70,12 @@ export default {
       } else {
         tools.push({ type: 'tag', text: '导购微信ID', id: 'WECHAT_ID', value: '导购微信ID' })
       }
+
+      // 按品牌运营
+      if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
+        tools.push({ type: 'custom', text: `品牌id`, id: 'BRAND_ID', value: `品牌id`, callback: this.openBrandDialog.bind(this) })
+      }
+
       return tools
     },
     htmlText () {
@@ -87,6 +94,19 @@ export default {
       } else {
         this.isLoading = true
       }
+    },
+    /**
+     * 打开选择品牌模态框
+     */
+    openBrandDialog () {
+      this.brandDialogVisible = true
+    },
+    /**
+     * 向tagArea文本框中插入品牌id
+     * @param {string} barndId
+     */
+    insertBrandId (barndId) {
+      this.$refs.tagAreaText.addText(barndId)
     },
     // 请求公众号列表
     getWeChatOfficialAccounts () {
@@ -156,6 +176,8 @@ export default {
     saveOrUpdate () {
       this.btnLoad = true
       const parmas = this.formatModel(this.model)
+      // window.console.log('hahaha', parmas)
+      this.btnLoad = false
       this.$http.fetch(this.$api.guide.qrcodePoster.saveOrUpdate, parmas).then(res => {
         if (res.success) {
           this.$notify.success('保存成功')
@@ -188,7 +210,7 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/(<(.[^>]*)>)/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {

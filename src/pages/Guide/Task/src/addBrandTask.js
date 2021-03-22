@@ -70,8 +70,9 @@ export default {
         remark: '',
         shopRangeType: 0,
         runType: 0,
-        viewId: '',
-        viewName: '',
+        areaId: '', // 区域id
+        areaName: '',
+        viewId: '', // 视角id
         subgroupId: '',
         subgroupName: null,
         materialTitle: '', // 素材库标题
@@ -95,7 +96,8 @@ export default {
         materialTitle: [{ validator: validateMaterial, trigger: 'blur' }],
         taskSendTime: [{ required: true, message: '请选择提醒时间' }]
       },
-      options: [], // 视角集合
+      areaOptions: [], // 区域集合
+      viewOptions: [], // 视角集合
       subgroups: [], // 视角下分组集合
       selectMaterial: {}, // 当前选择的素材对象
       canNotEdit: false, // 编辑进来禁止
@@ -112,6 +114,15 @@ export default {
       disabled: false
     }
   },
+  computed: {
+    // viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
+    /**
+     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     */
+    viewRange () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
+    }
+  },
   methods: {
     timeFun (val) {},
     selectShopBack (val) {
@@ -121,6 +132,21 @@ export default {
     handleClose () {
       this.hasShopArr = []
       this.$router.push('/Guide/Task/List')
+    },
+    // 选择区域
+    chooseArea (areaId) {
+      // 根据选择区域查询视角列表
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
+        .then(res => {
+          window.console.log('视角查询结果', res)
+          if (res.success) {
+            this.viewOptions = res.result
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
     },
     // 选择视角
     chooseView (obj) {
@@ -147,24 +173,6 @@ export default {
         })
     },
     showSubgroupMsg () {
-    //   var params = {}
-    //   params.searchMap.pageNo = this.
-    //   this.$http
-    //     .fetch(this.$api.guide.querySubgroupMsg, param)
-    //     .then(resp => {
-    //       if (resp.success) {
-    //         for (var i = 0; i < resp.result.length; i++) {
-    //           var subgroupmsg = resp.result[i]
-    //           var subgroupJson = {}
-    //           subgroupJson.id = subgroupmsg.id
-    //           subgroupJson.name = subgroupmsg.subdivisionName
-    //           this.subgroups.push(subgroupJson)
-    //         }
-    //       }
-    //     })
-    //     .catch(resp => {
-    //       this.$notify.error('查询视角分组信息失败', resp)
-    //     })
       this.dialogVisible = true
     },
     // 选择分组
@@ -272,11 +280,11 @@ export default {
             this.model.name = obj.name
             this.model.activityTime.push(obj.startTime)
             this.model.activityTime.push(obj.endTime)
-            this.model.viewId = obj.viewId
+            this.model.areaId = obj.areaId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
-            if (obj.viewId) {
-              this.chooseView(obj.viewId)
+            if (obj.areaId) {
+              this.chooseView(obj.areaId)
             }
             if (obj.subgroupId) {
               this.chooseSubgroup(obj.subgroupId)
@@ -311,25 +319,17 @@ export default {
         })
     },
     init () {
+      // 区域模式下，初始化区域选择数据
+      if (this.viewRange === 2) {
+        this.areaOptions = this.$store.state.user.areas
+      }
+
+      // 品牌模式下，固定区域信息
+      if (this.viewRange === 1) {
+        this.viewOptions = this.$store.state.views
+      }
+
       const id = this.$route.params.id
-      this.$http
-        .fetch(this.$api.guide.queryView)
-        .then(resp => {
-          if (resp.success) {
-            let arr = []
-            resp.result.map(item => {
-              var viewJson = {}
-              viewJson.value = item.viewId
-              viewJson.label = item.viewName
-              arr.push(viewJson)
-              return arr
-            })
-            this.options = arr
-          }
-        })
-        .catch(resp => {
-          this.$notify.error('查询视角失败', resp)
-        })
       if (+id > 0) {
         this.EditFun(id)
       }

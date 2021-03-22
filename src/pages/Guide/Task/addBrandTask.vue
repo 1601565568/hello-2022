@@ -88,21 +88,36 @@
                 </ElRadioGroup>
                 <span v-if='model.shopRangeType === 1'><shopSelect :isInlineBlock='true' icon='el-icon-circle-plus-outline' @callBack="selectShopBack" :hasShopArr="hasShopArr">选择门店</shopSelect></span>
               </ElFormItem>
-              <!-- <ElFormItem v-if='model.shopRangeType === 1'>
-                <shopSelect icon='el-icon-circle-plus-outline' @callBack="selectShopBack" :hasShopArr="hasShopArr">选择门店</shopSelect>
-              </ElFormItem> -->
               <ElFormItem label='会员分组' class='special-layout'>
                 <div class='newTask-content__item'>
                   <el-select
                     filterable
+                    v-if="viewRange === 2"
+                    :clearable='true'
+                    v-model='model.areaId'
+                    placeholder='请选择区域'
+                    @change='chooseArea'
+                    :disabled='canNotEdit'
+                  >
+                    <el-option
+                      v-for='item in areaOptions'
+                      :key='item.areaId'
+                      :label='item.areaName'
+                      :value='item.areaId'
+                    >
+                    </el-option>
+                  </el-select>
+                  <el-select
+                    v-if="(viewRange === 2 && model.areaId) || viewRange === 1"
+                    filterable
                     :clearable='true'
                     v-model='model.viewId'
-                    placeholder='请选择运营视角'
+                    placeholder='请选择视角'
                     @change='chooseView'
                     :disabled='canNotEdit'
                   >
                     <el-option
-                      v-for='item in options'
+                      v-for='item in viewOptions'
                       :key='item.value'
                       :label='item.label'
                       :value='item.value'
@@ -129,7 +144,7 @@
                   <div v-if="model.viewId&&model.subgroupId">会员分组名称 <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
                 </div>
                 <span class='newTask-content__item-tip'>
-                  选择运营视角后，可选择零售CRM客户洞察中的会员分组
+                  选择区域后，可选择零售CRM客户洞察的客户分组
                 </span>
               </ElFormItem>
               <ElFormItem label='任务简述' prop="remark" required>

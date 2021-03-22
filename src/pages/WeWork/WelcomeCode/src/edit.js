@@ -12,6 +12,8 @@ import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
 import NsTextarea from '@/components/NsTextarea/index'
 import Qrcode from '../components/Qrcode'
+import NsBrandDialog from '@/components/NsBrandDialog'
+
 export default {
   name: 'Edit',
   mixins: [scrollHeight],
@@ -26,7 +28,8 @@ export default {
     NsGuideDialog,
     NsShopDialog,
     NsTextarea,
-    Qrcode
+    Qrcode,
+    NsBrandDialog
   },
   data: function () {
     // 图片配置model
@@ -38,6 +41,7 @@ export default {
       visible: false,
       custom: 1, // 默认自定义
       settingId: null, // 预置配置ID
+      brandId: null, // 品牌id
       link: '', // 链接
       title: '',
       desc: '', // 文案
@@ -129,6 +133,7 @@ export default {
       appModel: appModel,
       employeeModel: employeeModel,
       channelModel: channelModel,
+      brandDialogVisible: false,
       model: model,
       channelList: [],
       channelSelectMsg: '',
@@ -179,6 +184,19 @@ export default {
       count += (this.model.content.split('{EmployeeNick}').length - 1) * (10 - 14)
       count += (this.model.content.split('{CustomerNick}').length - 1) * (10 - 14)
       return count
+    },
+    /**
+     * 选择品牌列表
+     */
+    brandList () {
+      const brands = this.$store.state.user.remumber.remumber_login_info.productConfig.brands
+      return brands
+    },
+    /**
+     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     */
+    viewRange () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
     }
   },
   mounted () {
@@ -259,6 +277,12 @@ export default {
       this.$refs['appModelPath'].focus()
       this.appModel.path = this.appModel.path + append
     },
+    openBrandDialog () {
+      this.brandDialogVisible = true
+    },
+    insertBrandId (brandId) {
+      this.insertPlaceHolderLink(brandId)
+    },
     handleSureQrcode () {
       const result = this.$refs.qrcode.onSave()
       if (result) {
@@ -293,6 +317,7 @@ export default {
           visible: that.linkModel.visible,
           custom: that.model.custom, // 默认自定义
           settingId: that.model.settingId, // 预置配置ID
+          brandId: that.model.brandId,
           link: that.model.link, // 链接
           title: that.model.title,
           desc: that.model.desc, // 文案
@@ -407,6 +432,7 @@ export default {
           Object.assign(that.model, {
             custom: that.linkModel.custom, // 默认自定义
             settingId: that.linkModel.settingId, // 预置配置ID
+            brandId: that.linkModel.brandId, // 品牌id
             link: that.linkModel.link, // 小程序appid
             title: that.linkModel.title, // 标题
             desc: that.linkModel.desc, // 文案

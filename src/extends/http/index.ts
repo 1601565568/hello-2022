@@ -5,6 +5,7 @@ import Callback from './callback'
 // @ts-ignore
 import api from '@/config/http'
 import * as Sentry from '@sentry/browser'
+import vueStore from '@/store'
 
 interface Api extends AxiosRequestConfig {
   callback?: () => void | false;
@@ -55,6 +56,26 @@ instance.interceptors.request.use(config => {
   if (config.cancelToken) {
     config.cancelToken = window.axios.source.token
   }
+
+  const loginInfo = store.get('remumber_login_info')
+  // 更新token
+  if (loginInfo && loginInfo.token) {
+    config.headers.token = loginInfo.token
+  }
+  // 更新公司ID
+  if (loginInfo && loginInfo.productConfig && loginInfo.productConfig.user && loginInfo.productConfig.user.groupId) {
+    config.headers.groupId = loginInfo.productConfig.user.groupId
+  }
+  // 区域ID
+  const area = store.get('user_area')
+  if (area && area.id) {
+    config.headers.areaId = area.id
+  }
+  // 视角ID
+  if (loginInfo && loginInfo.productConfig.viewId) {
+    config.headers.viewId = loginInfo.productConfig.viewId
+  }
+
   return config
 }, err => {
   return Promise.reject(err)
@@ -95,25 +116,6 @@ const parseApi = (config: api, data?: any): api => {
   }
   return config
 }
-/**
- *更新token
- * */
-const putToken = () => {
-  const thatToken = store.get('remumber_login_info')
-  if (thatToken && thatToken.token) {
-    instance.defaults.headers.token = thatToken.token
-  }
-}
-
-/**
- *更新 公司ID
- * */
-const putGroupId = () => {
-  const loginInfo = store.get('remumber_login_info')
-  if (loginInfo && loginInfo.productConfig && loginInfo.productConfig.user && loginInfo.productConfig.user.groupId) {
-    instance.defaults.headers.groupId = loginInfo.productConfig.user.groupId
-  }
-}
 
 /**
  * 实例化回调类
@@ -123,8 +125,6 @@ const cb = new Callback()
 const Http: Interface = {
   fetch (config, params) {
     const api: api = parseApi(config, params)
-    putToken()
-    putGroupId()
     return new Promise((resolve, reject) => {
       const runFetch = () => {
         instance(api).then((res) => {

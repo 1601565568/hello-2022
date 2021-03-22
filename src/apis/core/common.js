@@ -182,5 +182,9 @@ export default {
   queryEmployeeTreeAndOption4Component: {
     url: '/core/common/queryEmployeeTreeAndOption4Component',
     method: 'post'
+  },
+  findViewListByAreaId: { // 区域模式下根据区域id查询该区域下视角列表
+    url: '/core/common/findViewListByAreaId',
+    method: 'get'
   }
 }
