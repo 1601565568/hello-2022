@@ -5,7 +5,7 @@
         <img :src='img'>
       </template>
       <template v-else>
-        <img :src='voidImg'>
+        <img :src='voidImg' v-if='!(disabled && currentValue>0)'>
       </template>
     </div>
   </div>
@@ -68,6 +68,11 @@ export default {
       if (!this.disabled) {
         this.$emit('input', value)
       }
+    }
+  },
+  watch: {
+    value (newVal) {
+      this.currentValue = newVal
     }
   }
 }

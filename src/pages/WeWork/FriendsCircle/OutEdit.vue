@@ -34,8 +34,8 @@
             </el-form-item>
             <el-form-item label='点击跳转' prop='style' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
-                <span>个性签名</span>
-                <Icon type="question-circle" class='question-circle item-icon' @click='handlePreview(true,2)'/>
+                <span>点击跳转</span>
+                <!-- <Icon type="question-circle" class='question-circle item-icon' @click='handlePreview(true,2)'/> -->
               </template>
               <div class='link-content'>
                 <template v-for='item in linkData'>
@@ -51,7 +51,7 @@
                 <div>
                   可自定义个性签名
                   <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
-                    <ns-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</ns-button>
+                    <ns-button type='text' class='tip-text'>查看示例</ns-button>
                     <template slot='content'>
                       <img src='./images/pyq.png' class='tip-img'>
                     </template>

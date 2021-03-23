@@ -6,19 +6,22 @@
           <el-image
             style="width: 48px; height: 48px"
             :src="content.imgSrc"
-            :fit="cover"></el-image>
+            fit="cover"></el-image>
           <div class='picture-number'>{{content.imgLength}}</div>
         </div>
         <div class='picture-desc over-row'>
-          {{content.content}}
+          <EmojiText :text='content.content' pre='EMOJI_'/>
         </div>
       </div>
     </template>
     <template v-if='content.type===2'>
       <div class='video-content content'>
-        <div class='picture video' v-if='content.videoTopUrl'>
-          <img :src='content.videoTopUrl'/>
-        </div>
+        <video :src="content.videoUrl">
+          您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+        </video>
+        <div class="tableItem-video__wrapper">
+            <Icon type="begin" />
+          </div>
         <div class='picture-desc over-row'>
           {{content.content}}
         </div>
@@ -41,6 +44,7 @@
 </template>
 <script>
 import ElImage from '@nascent/nui/lib/image'
+import EmojiText from '@/components/NewUi/EmojiText'
 export default {
   data () {
     return {
@@ -54,7 +58,7 @@ export default {
       }
     }
   },
-  components: { ElImage },
+  components: { ElImage, EmojiText },
   methods: {
     setContent (data) {
       const type = data.imgUrl ? 1 : 2
@@ -64,8 +68,28 @@ export default {
         imgSrc: imgList[0],
         imgLength: imgList.length,
         videoTopUrl: data.videoTopUrl,
-        content: data.content
+        content: this.stringTotext(data.content),
+        videoUrl: data.videoUrl
       }
+    },
+    // 替换模板成文字
+    stringTotext (string) {
+      const tools = [
+        { type: 'tag', text: '插入企业微信员工姓名', id: 'WX_EMPLOYEE_NAME', value: '企业微信员工姓名' },
+        // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称' },
+        { type: 'tag', text: '插入企业微信员工门店', id: 'WX_SHOP_NAME', value: '企业微信员工门店' }
+      ]
+      tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, '{' + item.value + '}').replace('\n', ' <br /> ')
+      })
+      if (this.$refs.emotion) {
+        this.$refs.emotion.emojiList.map(item => {
+          const regexp = new RegExp('{' + this.emojiClass + '[' + item + ']}', 'g')
+          string = string.replace(regexp, `[${item}]`)
+        })
+      }
+      return string
     }
   },
   watch: {
@@ -127,6 +151,33 @@ export default {
     color: #262626;
     line-height: 22px;
     margin-left: 8px;
+  }
+}
+.video-content {
+  position: relative;
+  video {
+    font-size: 0;
+    line-height: 1;
+    width: 107px;
+    height: 60px;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+  .tableItem-video__wrapper {
+    position: relative;
+    top: 5px;
+    left: -53px;
+    margin-left: -11px;
+    margin-top: -11px;
+    width: 22px;
+    height: 22px;
+    border-radius: 22px;
+    background-color: rgba(255, 255, 255, .4);
+    > svg {
+      margin: 5px 0 0 6px;
+      font-size: 12px;
+      color: #fff;
+    }
   }
 }
 .acticle-content {

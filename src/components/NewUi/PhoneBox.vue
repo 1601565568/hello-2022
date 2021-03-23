@@ -115,7 +115,7 @@ export default {
     color: #262626;
     text-align: center;
     line-height: 24px;
-    position: absolute;
+    overflow: hidden;
     left: 0;
     right: 0;
     top: -36px;
@@ -155,8 +155,12 @@ export default {
     .phone-bar {
       position: absolute;
       text-align: center;
-      left: 0;
-      right: 0;
+      position: absolute;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      left: 30px;
+      right: 80px;
       top: 45%;
     }
   }

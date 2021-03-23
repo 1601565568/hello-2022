@@ -29,8 +29,14 @@ export default {
         webTitle: [
           { min: 1, max: 34, message: '最多输入34个字', trigger: ['blur', 'change'] }
         ],
+        style: [
+          { required: true, message: '请选择点击跳转内容', trigger: ['blur', 'change'] }
+        ],
         topImgUrl: [
           { required: true, message: '请选择朋友圈封面图', trigger: ['blur', 'change'] }
+        ],
+        signatrue: [
+          { min: 1, max: 30, message: '最多输入30个字', trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,

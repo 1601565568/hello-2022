@@ -40,7 +40,9 @@ export default {
           name: '所有内容',
           id: null
         }
-      ]
+      ],
+      visible: false, // 查看员工弹框
+      guideIdList: []// 员工id
     }
   },
   mixins: [tableMixin],
@@ -99,7 +101,7 @@ export default {
      * @param {number} uuid
      */
     onDelect (uuid) {
-      this.$confirm('删除后，网页中的内容将被清空，是否确认删除？', '提示信息', {
+      this.$confirm('是否删除本条内容？', '提示信息', {
         confirmButtonText: '确定',
         type: 'warning',
         cancelButtonText: '取消'
@@ -140,6 +142,13 @@ export default {
         path: '/Marketing/FriendsCircle/Edit',
         query
       })
+    },
+    handleChangeVisible (visible) {
+      this.visible = visible
+    },
+    handlePreviewGuide (guideIdList) {
+      this.guideIdList = guideIdList
+      this.handleChangeVisible(true)
     }
   },
   watch: {

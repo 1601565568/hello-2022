@@ -55,5 +55,13 @@ export default {
   adFindById: {
     url: `${adPagePrefix}findById`,
     method: 'get'
+  },
+  findGuideListWithShop: {
+    url: 'guide/guide/findGuideListWithShop',
+    method: 'post'
+  },
+  uploadBase64File: {
+    url: `/core/sgfile/uploadFileBase64/test`,
+    method: 'post'
   }
 }

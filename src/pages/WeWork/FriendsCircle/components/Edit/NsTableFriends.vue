@@ -8,7 +8,7 @@
           :element-loading-text="$t('prompt.loading')">
           <el-table-column align="left" width='50px'>
             <template slot-scope="scope">
-              <el-radio v-model="checked.id" :label="scope.row.id" class='no-label' @change='handleCheck(scope.row)'></el-radio>
+              <el-radio :value="checked.id" :label="scope.row.id" class='no-label' @change='handleCheck(scope.row)'></el-radio>
               <!-- <el-checkbox :checked='checked === scope.row.id' @change='handleCheck(scope.row.id)'></el-checkbox>{{checked === scope.row.id}} -->
             </template>
           </el-table-column>
@@ -19,7 +19,10 @@
               <span>{{styleList[scope.row.style]}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="创建人" align="left">
+          <el-table-column prop="operateName" label="创建人" align="left">
+            <template slot-scope="scope">
+              <span>{{scope.row.operateName || '-'}}</span>
+            </template>
           </el-table-column>
         </el-table>
       </template>

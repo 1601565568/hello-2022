@@ -29,6 +29,15 @@
         >
           {{ count.text }}
         </span>
+        <div class="w-textarea_tools__emoji" v-if='showEmoji'>
+          <el-popover
+            width="447"
+            trigger="hover">
+            <i slot="reference" class="emoji-icon"><Icon type="biaoqing"/></i>
+            <!-- 可通过 emojiList 传入自定义的图标列表 -->
+            <emotion @emotion="addEmotion" :height="200" ref='emotion'/>
+          </el-popover>
+        </div>
       </div>
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
@@ -45,6 +54,7 @@
 </template>
 
 <script>
+import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
 export default {
   name: 'wTextarea',
   data () {
@@ -58,13 +68,20 @@ export default {
       // 记录当前选中tag的ID
       currentTagId: null,
       // 当前光标位置
-      savedRange: {}
+      savedRange: {},
+      // 表情class
+      emojiClass: 'EMOJI_'
     }
   },
+  components: { Emotion },
   props: {
     value: {
       type: String,
       default: ''
+    },
+    showEmoji: {
+      type: Boolean,
+      default: false
     },
     tag: { // 自定义模版标签的标签名
       type: String,
@@ -115,6 +132,15 @@ export default {
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
+    addEmotion: function (val) {
+      // 创建模版标签
+      let node = document.createElement(this.tag)
+      node.innerText = val
+      // 添加id便于删除
+      node.id = this.getGuid()
+      node.className = this.emojiClass + val
+      this.insertNode(node)
+    },
     updateData (text) {
       this.$emit('input', text)
     },
@@ -234,6 +260,12 @@ export default {
     },
     // 替换模板成标签
     stringTohtml (string) {
+      if (this.$refs.emotion) {
+        this.$refs.emotion.emojiList.map(item => {
+          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
+          string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${this.emojiClass}_[${item}]">${`[${item}]`}</wise>`)
+        })
+      }
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
@@ -244,9 +276,19 @@ export default {
     stringTotext (string) {
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string.replace(regexp, item.value).replace('\n', ' <br /> ')
+        string = string.replace(regexp, '{' + item.value + '}').replace('\n', ' <br /> ')
       })
+      if (this.$refs.emotion) {
+        this.$refs.emotion.emojiList.map(item => {
+          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
+          string = string.replace(regexp, `[${item}]`)
+        })
+      }
       return string
+    },
+    // 替换标签成文字
+    htmlToText (html) {
+      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}')
     }
   },
   watch: {
@@ -296,6 +338,7 @@ $textColor: #595959;
     min-height: 100px;
     box-sizing: border-box;
     padding: 10px;
+    padding-bottom: 32px;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
@@ -352,6 +395,11 @@ $textColor: #595959;
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
       -ms-interpolation-mode: nearest-neighbor;
+    }
+    &__emoji {
+      position: absolute;
+      bottom:0;
+      left: 12px;
     }
     &__text {
       display: inline-block;

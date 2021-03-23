@@ -8,7 +8,8 @@
         prop="name"
         label="内容">
         <template slot-scope="scope">
-          <TableItem :data='formatTableItem(scope.row)'/>
+          <!-- <TableItem :data='formatTableItem(scope.row)'/> -->
+          <Matter :data='scope.row' />
         </template>
       </el-table-column>
       <el-table-column
@@ -17,7 +18,7 @@
         label="使用范围">
         <template slot-scope="scope">
           <template v-if='scope.row.userType === 1'>
-            <ns-button type='text'>{{scope.row.guideIds.length}}名员工</ns-button>
+            <ns-button type='text' @click='handlePreview(scope.row.guideIds)'>{{scope.row.guideIds.length}}名员工</ns-button>
           </template>
           <template v-else>
             全部员工
@@ -58,7 +59,8 @@
   </div>
 </template>
 <script>
-import TableItem from '@/pages/Guide/Material/Library/components/TableItem'
+// import TableItem from '@/pages/Guide/Material/Library/components/TableItem'
+import Matter from './Matter'
 export default {
   props: {
     data: {
@@ -67,7 +69,7 @@ export default {
       }
     }
   },
-  components: { TableItem },
+  components: { Matter },
   methods: {
     formatTableItem (item) {
       return {
@@ -84,6 +86,9 @@ export default {
     },
     handleDetail (uuid) {
       this.$emit('onDetail', uuid)
+    },
+    handlePreview (guideIdList) {
+      this.$emit('onPreview', guideIdList)
     }
   }
 }

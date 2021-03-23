@@ -1,6 +1,6 @@
 <template>
   <div class='move-content'>
-    <draggable v-model="list" animation="300"  filter=".forbid">
+    <draggable v-model="list" animation="300"  filter=".forbid" @input='handleMove' :disabled='disabled'>
       <transition-group>
         <!-- 图片 start -->
         <template v-if='type==="img"'>
@@ -14,7 +14,7 @@
                   上传中...
                 </div>
               </template>
-              <div class='delect-box'>
+              <div class='delect-box' v-if='!disabled'>
                 <Icon type='ns-delete' class='delete-icon' @click='handleDelete(index)'/>
               </div>
             </div>
@@ -26,7 +26,7 @@
           <div class="img-content video-content" key='0'>
             <template v-if='list[0].url'>
               <video :src="list[0].url" id='upvideo'>您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
-              <div class='delect-box'>
+              <div class='delect-box' v-if='!disabled'>
                 <Icon type='ns-delete' class='delete-icon' @click='handleDelete(0)'/>
               </div>
             </template>
@@ -38,12 +38,13 @@
           </div>
         </template>
         <!-- 视频 end -->
-        <div :key='-1' class="img-content forbid" v-if='isShowAddBtn'>
+        <div :key='-1' class="img-content forbid" v-if='isShowAddBtn && !disabled'>
           <Icon type='icon-ns-succeed-add' class='add-icon'/>
           <ElUpload accept=".jpg,.jpeg,.png,.mp4" :show-file-list='false' :action="$api.core.sgUploadFile('test')" :on-success="handleUploadSuccess" :before-upload="beforeUpload"/>
         </div>
       </transition-group>
     </draggable>
+    <video  ref='demoVideo' style='position:absolute;left:9999px;top:9999px'/>
   </div>
 </template>
 <script>
@@ -53,18 +54,25 @@ export default {
   data () {
     return {
       list: [...this.value],
-      type: '', // 第一次上传的是图片还是视频  img : 图片 video : 视频
+      type: this.mediaType, // 第一次上传的是图片还是视频  img : 图片 video : 视频
       videoType: ['MP4'],
       imgType: ['JPG', 'PNG', 'JPEG'],
       imgSize: 1, // 图片最大1m
       videoSize: 20, // 视频最大20m
       imgMax: 9, // 图片最多久张
-      videoMax: 1 // 视频最多一个
+      videoMax: 1, // 视频最多一个
+      demoUrl: ''
     }
   },
   props: {
     value: {
       default: []
+    },
+    disabled: {
+      default: false
+    },
+    mediaType: {
+      default: ''
     }
   },
   computed: {
@@ -84,29 +92,37 @@ export default {
     getType () {
       return this.type
     },
-    /**
-     * 生产视频封面
-     */
-    findvideocover (src) {
-      return new Promise((resolve) => {
-        this.$nextTick(() => {
-          const video = document.getElementById('upvideo')
-          // const source = document.createElement('source')
-          // // source.src = require("../../assets/5b086751dbb7af1ea8fa8d05e66fe5c3.mp4");this.formLabelAlign.video
-          // source.src = src
-          // source.type = 'video/mp4'
-          // video.appendChild(source)
-          video.addEventListener('loadeddata', function () {
-            const canvas = document.createElement('canvas')
-            canvas.width = '320'
-            canvas.height = '320'
-            canvas
-              .getContext('2d')
-              .drawImage(video, 0, 0, canvas.width, canvas.width)
-            const img = document.createElement('img')
-            const imgsrc = canvas.toDataURL('image/png')
-            resolve(imgsrc)
-          })
+    getFileURL (file) {
+      let getUrl = null
+      if (window.createObjectURL !== undefined) { // basic
+        getUrl = window.createObjectURL(file)
+      } else if (window.webkitURL !== undefined) { // webkit or chrome
+        getUrl = window.webkitURL.createObjectURL(file)
+      } else if (window.URL !== undefined) { // mozilla(firefox)
+        getUrl = window.URL.createObjectURL(file)
+      }
+      return getUrl
+    },
+    upDataBase64 (file) {
+      return new Promise(resolve => {
+        // resolve('https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202103/10000146/2017d270-d41f-4612-b5a4-dc7d1804b990.png')
+        this.$http.fetch(this.$api.weWork.friendsCircle.uploadBase64File, { file }).then(res => {
+          if (res.success) {
+            resolve(res.result.url)
+          }
+        })
+      })
+    },
+    async initialize (url) {
+      return new Promise(resolve => {
+        this.$refs.demoVideo.src = this.demoUrl
+        this.$refs.demoVideo.currentTime = 1
+        this.$refs.demoVideo.addEventListener('loadeddata', () => {
+          const canvas = document.createElement('canvas')
+          canvas.width = this.$refs.demoVideo.videoWidth
+          canvas.height = this.$refs.demoVideo.videoHeight
+          canvas.getContext('2d').drawImage(this.$refs.demoVideo, 0, 0, canvas.width, canvas.height)
+          resolve(canvas.toDataURL('image/png'))
         })
       })
     },
@@ -120,8 +136,9 @@ export default {
       } else {
         if (this.list && this.list.length) {
           this.list = [{ url: res.result.url }]
-          this.$emit('input', { type: 'video', list: this.list.map(item => item.url) })
-          await this.findvideocover(res.result.url)
+          const posterBase64 = await this.initialize(res.result.url)
+          const poster = await this.upDataBase64(posterBase64)
+          this.$emit('input', { type: 'video', list: this.list.map(item => item.url), poster })
         }
       }
     },
@@ -142,6 +159,9 @@ export default {
         return false
       }
       this.type = type
+      if (type === 'video') {
+        this.demoUrl = this.getFileURL(file)
+      }
       this.list.push({
         key: name,
         url: ''
@@ -149,10 +169,13 @@ export default {
     },
     handleDelete (index) {
       this.list.splice(index, 1)
-      this.$emit('input', this.list.map(item => item.url))
+      this.$emit('input', { type: this.type, list: this.list.map(item => item.url) })
       if (this.list.length === 0) {
         this.type = ''
       }
+    },
+    handleMove (list) {
+      this.$emit('input', { type: this.type, list: this.list.map(item => item.url) })
     }
   },
   watch: {
@@ -161,6 +184,9 @@ export default {
         key: null,
         url
       }))
+    },
+    mediaType (newVal) {
+      this.type = newVal
     }
   }
 }

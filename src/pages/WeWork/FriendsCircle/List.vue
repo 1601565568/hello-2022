@@ -53,17 +53,17 @@
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
+        <ns-button type="primary" size='large' @click="handleDetail('')">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
       <template slot='table'>
         <template>
           <template v-if='model.profileId === null'>
-            <AllTable ref='allTable' :data='_data._table.data' @onDelect='onDelect' @onDetail='handleDetail'/>
+            <AllTable ref='allTable' :data='_data._table.data' @onDelect='onDelect' @onDetail='handleDetail' @onPreview='handlePreviewGuide'/>
           </template>
           <template v-else>
-            <EachTable ref='eachTable' :data='_data._table.data' @onDelect='onDelect' @onTop='onTop' @onDetail='handleDetail'/>
+            <EachTable ref='eachTable' :data='_data._table.data' @onDelect='onDelect' @onTop='onTop' @onDetail='handleDetail' @onPreview='handlePreviewGuide'/>
           </template>
         </template>
       </template>
@@ -83,6 +83,16 @@
       </template>
       <!-- 页面 end -->
     </page-table>
+    <!-- 选择对外信息弹框 start -->
+    <el-dialog ref="friendsList" :visible.sync="visible"
+               title="选择对外信息展示"
+               width="960px">
+      <ns-table-employee-scope v-if='visible' ref='employeeTable' :data="{guideIdList}"></ns-table-employee-scope>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="handleChangeVisible(false)">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 选择对外信息弹框 end -->
   </div>
 </template>
 <script>
@@ -93,8 +103,9 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import NsShopDialog from '@/components/NsShopDialog'
 import AllTable from './components/List/AllTable'
 import EachTable from './components/List/EachTable'
+import NsTableEmployeeScope from './components/List/NsTableEmployeeScope'
 Index.components = {
-  PageTable, ElDrawer, NsShopDialog, NsGuideDialog, AllTable, EachTable
+  PageTable, ElDrawer, NsShopDialog, NsGuideDialog, AllTable, EachTable, NsTableEmployeeScope
 }
 export default Index
 </script>

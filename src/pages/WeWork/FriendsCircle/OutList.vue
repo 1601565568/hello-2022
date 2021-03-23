@@ -43,6 +43,15 @@
             <el-table-column
               prop="status"
               label="状态">
+              <template slot='header'>
+                状态
+                <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                  <Icon type="question-circle"  class='question-circle'/>
+                  <template slot='content'>
+                    企业微信后台专属对外信息被删除或取消显示时，状态则会提醒异常，<br/>请及时前往企业微信后台新增相同名称的专属对外信息或恢复显示
+                  </template>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <template v-if='scope.row.status === 0'>
                   <span >{{statusList[scope.row.status]}}</span>
