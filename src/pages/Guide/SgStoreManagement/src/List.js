@@ -267,7 +267,8 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: { expand: false }
+      _queryConfig: { expand: false },
+      viewId: null
     }
   },
   methods: {
@@ -504,15 +505,17 @@ export default {
         })
       }
     },
-    elIconMenu (row) {
+    elIconMenu ({ row, viewId }) {
       let _this = this
+      _this.viewId = viewId
       _this.succeedObj.shopId = row.id
       _this.memberBelongingShow = true
       _this.batchDownLoad = false
       _this.title = '下载招募码'
     },
-    batchElIconMenu (row) {
+    batchElIconMenu ({ row, viewId }) {
       let _this = this
+      _this.viewId = viewId
       _this.batchShopIds = row
       _this.memberBelongingShow = true
       _this.batchDownLoad = true

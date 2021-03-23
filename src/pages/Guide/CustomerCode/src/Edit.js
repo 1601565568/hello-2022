@@ -143,7 +143,7 @@ export default {
      * @param {string} barndId
      */
     insertBrandId (barndId) {
-      this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL-barndId:${barndId}`, value: '招募链接' })
+      this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
     },
     // 获取详情
     loadActivity (guestCodeId) {

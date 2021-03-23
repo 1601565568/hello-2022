@@ -51,7 +51,7 @@
             <template slot="searchSearch">
               <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
                 <el-form-item v-if="viewRange === 1" v-show="_data._queryConfig.expand === false" label="视角：">
-                  <ViewSelect :showTitle="false" v-model="model.viewId"></ViewSelect>
+                  <ViewSelect :showTitle="false" v-model="model.viewId" :initViewId.sync="model.viewId"></ViewSelect>
                 </el-form-item>
                 <el-form-item v-show="_data._queryConfig.expand === false" label="线下门店名称/ID：">
                   <el-input ref="quickText" style="width: 200px" v-model="model.name" placeholder="请输入线下门店名称/ID"
@@ -76,7 +76,7 @@
             <template slot="advancedSearch" v-if="_data._queryConfig.expand">
               <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
                 <el-form-item v-if="viewRange === 1" label="视角：">
-                  <ViewSelect :showTitle="false"></ViewSelect>
+                  <ViewSelect :showTitle="false" v-model="model.viewId" :initViewId.sync="model.viewId"></ViewSelect>
                 </el-form-item>
                 <el-form-item label="门店名称：">
                   <el-form-grid size="xmd">

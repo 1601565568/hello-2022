@@ -252,15 +252,15 @@ export default {
       return false
     },
     elIconMenu (row) {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findIsShopLegal, {
-        shopId: row.id
+      this.$http.fetch(this.$api.guide.shop.findIsShopLegal, {
+        shopId: row.id,
+        viewId: this.model.viewId
       }).then(resp => {
         if (resp.success) {
-          this.$emit('elIconMenu', row)
+          this.$emit('elIconMenu', { row, viewId: this.model.viewId })
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('下载失败', resp))
+        this.$notify.error(getErrorMsg('下载失败', resp))
       })
     },
     scopeRowCount (data) { // 查看数字门店详情
@@ -323,7 +323,7 @@ export default {
           shopId.push(shop.id)
         }
       })
-      this.$emit('batchElIconMenu', shopId.join(','))
+      this.$emit('batchElIconMenu', { row: shopId.join(','), viewId: this.model.viewId })
     },
     onRedactFun (val) {
       this.$emit('onRedactFun', val)

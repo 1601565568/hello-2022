@@ -274,10 +274,10 @@ export default {
       })
     },
     totalForUnconditionalSearch (data) {
-      var _this = this
       let isShop = false
       let param = {
-        shopId: _this.offLineShopId
+        shopId: this.offLineShopId,
+        viewId: this.model.viewId
       }
       // 代表门店
       if (data.parentId === '0') {
@@ -286,7 +286,7 @@ export default {
         // 专属导购
         param.guideId = data.id
       }
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerTotal, param).then(resp => {
+      this.$http.fetch(this.$api.guide.guide.findCustomerTotal, param).then(resp => {
         if (resp.success && resp.result !== null) {
           // 遍历门店.asd
           if (isShop && this.totalNumTrige) {
@@ -311,7 +311,7 @@ export default {
           data.label = showLabel + addLabel
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
+        this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
       })
     },
     // 树节点过滤

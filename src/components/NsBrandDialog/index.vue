@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     close () {
+      this.searchName = ''
       this.$emit('update:visible', false)
     },
     confirm () {

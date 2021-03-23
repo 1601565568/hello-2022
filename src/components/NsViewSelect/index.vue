@@ -39,7 +39,6 @@ export default {
      * 视角id
      */
     areaId () {
-      window.console.log('areaId', this.$store.state.user.area.id)
       return this.$store.state.user.area.id
     },
     /**
@@ -50,12 +49,17 @@ export default {
     },
     viewId () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
+    },
+    viewIdKey () {
+      const loginInfo = this.$store.state.user.remumber.remumber_login_info
+      // 公司名-用户名
+      return `${loginInfo.companyName}-${loginInfo.name}`
     }
   },
   watch: {
     '$store.state.user.area' (newVal, oldVal) {
       // 请求接口，获取当前区域id下的视角
-      window.console.log('区域切换了', newVal, oldVal)
+      // window.console.log('区域切换了', newVal, oldVal)
     }
   },
   created () {
@@ -66,20 +70,37 @@ export default {
      * 设置组件渲染的视角列表
      */
     setViewList () {
-      window.console.log('切换视角')
       if (this.viewRange === 1) {
         // 按品牌
         this.viewList = this.$store.state.user.views
         if (this.viewList.length) {
+          let updateViewId = this.viewList[0].viewId
           if (!this.viewId) {
-            this.change(this.viewList[0].viewId)
+            const localViewId = localStorage.getItem(this.viewIdKey)
+            if (localViewId) {
+              let isEnableViewId = false
+              for (const view of this.viewList) {
+                if (view.viewId === localViewId) {
+                  isEnableViewId = true
+                  break
+                }
+              }
+
+              if (isEnableViewId) {
+                this.change(localViewId)
+                updateViewId = localViewId
+              } else {
+                localStorage.removeItem(this.viewIdKey)
+              }
+            }
+          } else {
+            updateViewId = this.viewId
           }
-          this.$emit('update:initViewId', this.viewList[0].viewId)
+
+          this.$emit('update:initViewId', updateViewId)
         }
       } else if (this.viewRange === 2) {
-        // 按区域
-        // this.viewList = this.$store.state.user.views
-        // 根据区域id去请求接口 areaId
+        // 按区域 根据区域id去请求接口 areaId
         this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
           .then(res => {
             window.console.log(res)
@@ -115,6 +136,8 @@ export default {
           }
         }
       })
+
+      localStorage.setItem(this.viewIdKey, veiwId)
     }
   }
 }

@@ -270,8 +270,14 @@ export default {
      * @param {String} 占位符类型
      */
     insertPlaceHolderLink (append) {
-      this.$refs['linkModelLink'].focus()
-      this.linkModel.link = this.linkModel.link + append
+      if (this.linkModel.visible) {
+        this.$refs['linkModelLink'].focus()
+        this.linkModel.link = this.linkModel.link + append
+      }
+
+      if (this.appModel.visible) {
+        this.insertAppModelPath(append)
+      }
     },
     insertAppModelPath (append) {
       this.$refs['appModelPath'].focus()

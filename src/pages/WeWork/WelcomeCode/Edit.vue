@@ -664,6 +664,7 @@
                 v-model.trim="appModel.path"
               />
               <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertAppModelPath(item.value)">&lt;{{item.label}}&gt;</ns-button>
+              <ns-button v-if="viewRange === 1" type="text" @click="openBrandDialog">&lt;品牌id&gt;</ns-button>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
