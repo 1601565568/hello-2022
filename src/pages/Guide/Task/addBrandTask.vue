@@ -118,9 +118,9 @@
                   >
                     <el-option
                       v-for='item in viewOptions'
-                      :key='item.value'
-                      :label='item.label'
-                      :value='item.value'
+                      :key='item.viewId'
+                      :label='item.viewName'
+                      :value='item.viewId'
                     >
                     </el-option>
                   </el-select>

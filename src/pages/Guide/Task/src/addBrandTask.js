@@ -324,9 +324,9 @@ export default {
         this.areaOptions = this.$store.state.user.areas
       }
 
-      // 品牌模式下，固定区域信息
+      // 品牌模式下，固定视角信息
       if (this.viewRange === 1) {
-        this.viewOptions = this.$store.state.views
+        this.viewOptions = this.$store.state.user.views
       }
 
       const id = this.$route.params.id

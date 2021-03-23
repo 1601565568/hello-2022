@@ -66,15 +66,15 @@ instance.interceptors.request.use(config => {
   if (loginInfo && loginInfo.productConfig && loginInfo.productConfig.user && loginInfo.productConfig.user.groupId) {
     config.headers.groupId = loginInfo.productConfig.user.groupId
   }
-  // 区域ID
-  const area = store.get('user_area')
-  if (area && area.id) {
-    config.headers.areaId = area.id
-  }
-  // 视角ID
-  if (loginInfo && loginInfo.productConfig.viewId) {
-    config.headers.viewId = loginInfo.productConfig.viewId
-  }
+  // // 区域ID
+  // const area = store.get('user_area')
+  // if (area && area.id) {
+  //   config.headers.areaId = area.id
+  // }
+  // // 视角ID
+  // if (loginInfo && loginInfo.productConfig.viewId) {
+  //   config.headers.viewId = loginInfo.productConfig.viewId
+  // }
 
   return config
 }, err => {

@@ -70,6 +70,7 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     var findVo = {
+      'viewId': null, // 视角id
       'name': null,
       'shopName': null, // 门店名称
       'shopId': null, // 门店ID
@@ -166,7 +167,14 @@ export default {
       this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
     }
   },
-  computed: {},
+  computed: {
+    /**
+     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     */
+    viewRange () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
+    }
+  },
   methods: {
     async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
       let that = this
