@@ -164,14 +164,14 @@ export default {
           ]
         },
         {
-          path: '/Guide/LBS/Friends',
+          path: '/Guide/LBS/Friends/Index',
           name: 'LBSFriends',
           title: 'LBS好友聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          redirect: {
-            path: '/Guide/LBS/Friends/Index'
-          },
+          // redirect: {
+          //   path: '/Guide/LBS/Friends/Index'
+          // },
           children: [
             {
               path: '/Guide/LBS/Friends/Index',
