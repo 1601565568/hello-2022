@@ -117,7 +117,17 @@ export default {
     }
   }
   .content {
-    padding-left: 64px;;
+    padding:0 64px;
+    padding-bottom: 32px;
+    position: relative;
+    &:after {
+      position: absolute;
+      content: ' ';
+      border-bottom: 1px solid #E8E8E8;
+      bottom: 0;
+      left:64px;
+      right:64px;
+    }
   }
   .img-content {
     margin-bottom: 12px;
