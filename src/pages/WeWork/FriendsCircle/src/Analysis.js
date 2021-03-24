@@ -1,5 +1,6 @@
 import formMixin from '@nascent/ecrp-ecrm/src/mixins/form'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 
 let vm
@@ -7,20 +8,7 @@ export default {
   mixins: [formMixin, tableMixin],
   data () {
     return {
-      tabList: [ // tab列表
-        {
-          label: '所有内容',
-          id: null
-        },
-        {
-          label: '小朋友圈1',
-          id: 1
-        },
-        {
-          label: '小朋友圈2',
-          id: 2
-        }
-      ],
+      date: this.changeDate(1),
       buttonStatus: 0, // 0是高级搜索，1是重置
       treeData: [],
       // 简单搜索参数
@@ -51,16 +39,112 @@ export default {
         shopName: ''
       },
       checkStatusList: ['1', '-1'],
-      shopFindList: []
+      shopFindList: [],
       // 下拉门店树相关变量===结束
+      modelTab: {
+        style: null,
+        startTime: '',
+        endTime: '',
+        founderId: null,
+        content: '',
+        profileId: null
+      },
+      tabList: [ // 头部tab列表
+        {
+          name: '所有内容',
+          id: null
+        }
+      ],
+      profileId: '',
+      // timeListactive: 0,
+      // timeList: ['今天', '近7天', '近30天']
+      time: this.changeDate(1),
+      // 时间筛选
+      dateList: [
+        {
+          label: '今天',
+          value: '1day'
+        }, {
+          label: '近7天',
+          value: '7day'
+        }, {
+          label: '近30天',
+          value: '30day'
+        }
+      ],
+      // 时间选择的值
+      dateValue: '1day'
     }
   },
   created: function () {
     vm = this
     vm.initShopList()
     // vm.getTreeData(1)
+    vm.getProfileList()
+    vm.date = vm.changeDate(1)
   },
   methods: {
+    /**
+     * 获取对外信息列表
+     */
+    // 修改时间
+    changeDate (day) {
+      const timestamp = day * 86400000
+      const nowTime = new Date(new Date().toLocaleDateString()).getTime() + 86399000
+      const oldTime = nowTime - timestamp
+      const startTime = moment(oldTime + 1000).format('YYYY-MM-DD HH:mm:ss')
+      const endTime = moment(nowTime).format('YYYY-MM-DD HH:mm:ss')
+      return [startTime, endTime]
+    },
+    // 根据类型修改请求时间
+    handleChangeDateType (tab) {
+      if (tab.name === 'all') {
+        this.startTime = null
+        this.endTime = null
+      } else {
+        const data = this.changeDate(parseInt(tab.name))
+        this.changeModelDate(data[0], data[1])
+      }
+    },
+    // 根据值修改请求时间
+    handleChangeDateValue (date) {
+      if (date) {
+        const startTime = date[0] || null
+        const endTime = date[1] || null
+        this.changeModelDate(startTime, endTime)
+      } else {
+        this.changeModelDate(null, null)
+      }
+      this.dateValue = null
+    },
+    changeModelDate (startTime, endTime) {
+      this.time = [startTime, endTime]
+      this.date = [startTime, endTime]
+    },
+    // 数据分析列表
+    getProfileList () {
+      this.$http.fetch(this.$api.weWork.friendsCircle.profileList, { start: 0, length: 999 }).then((res) => {
+        if (res.success && res.result) {
+          const { data } = res.result
+          this.tabList = [{
+            name: '所有内容',
+            id: null
+          }, ...data]
+        }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('获取失败', resp))
+      })
+    },
+    /**
+     * 设置modelTab信息
+     * @param {Object} modelTab
+     */
+    changeSearchfrom (modelTab) {
+      var _this = this
+      this.modelTab = Object.assign({}, this.modelTab, modelTab)
+      _this.$refs.table.$data.model.profileId = modelTab.profileId
+      _this.$refs.table.$searchAction$()
+    },
     /**
      * 过滤树
      * @param val
@@ -142,7 +226,11 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result !== null) {
           this.shopTreePage.total = Number(resp.result.recordsTotal)
-          this.shopFindList = resp.result.data
+          let list = resp.result.data
+          list.map(item => {
+            item.children = []
+          })
+          this.shopFindList = list
           if (this.shopFindList.length > 0) {
             this.$nextTick(function () {
               this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
@@ -181,22 +269,12 @@ export default {
     onClickNode (data) {
       var _this = this
       if (data.code !== 'root') {
-        if (data.children) {
-          const guideIdArray = []
-          data.children.map(item => {
-            guideIdArray.push(item.id)
-          })
-          _this.$refs.table.$data.model.guideIds = guideIdArray.join(',')
-        } else {
-          // _this.$refs.table.$data.personalWxid = data.ext1
-          _this.$refs.table.$data.model.guideIds = data.id
-        }
+        _this.$refs.table.$data.model.shopId = data.id
       } else {
-        _this.$refs.table.$data.model.guideIds = null
+        _this.$refs.table.$data.model.shopId = null
       }
       _this.$refs.table.$searchAction$()
     }
     // 下拉门店树相关方法====结束
-
   }
 }

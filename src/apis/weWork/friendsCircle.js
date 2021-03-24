@@ -1,5 +1,6 @@
 const profilePrefix = 'externalProfile/'
 const adPagePrefix = 'AdPage/'
+const logPrefix = 'externalLog/'
 export default {
   // 外部联系人属性添加
   profileAdd: {
@@ -55,5 +56,15 @@ export default {
   adFindById: {
     url: `${adPagePrefix}findById`,
     method: 'get'
+  },
+  // 效果分析折线图
+  logPvAndUv: {
+    url: `${logPrefix}pvAndUv`,
+    method: 'post'
+  },
+  // 效果分析数据报表
+  logPageByType: {
+    url: `${logPrefix}logPageByType`,
+    method: 'post'
   }
 }

@@ -1,56 +1,30 @@
 <template>
   <!-- 信息更新页面 -->
   <div class="dataCenter-content">
-    <div style="padding: 7px 0px 25px;">
+    <div class="dataCenter-content_line"></div>
+    <!-- 人数统计及刷新 start-->
+    <div class="dataCenter-content_box">
+      <div class="dataCenter-content_title">人数统计</div>
+      <ns-button class="dataCenter-content_botton" type="text" icon="el-icon-refresh" @click="$searchAction$()">刷新</ns-button>
     </div>
-    <el-row class="dataCenter-content__grid" :gutter="2">
-      <el-col>
-        <div class="interactive__item">
-          <div class="subtance">
-            <div class="subtance__title">访问人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.customerTotal ?  this._data.rowDatas.customerTotal : 0 }}</span>
-            </div>
-          </div>
+    <!-- 人数统计及刷新 end-->
+    <div class="pvanduv_box">
+      <div class="pvanduv_left">
+        <div class="pvanduv_title">访问人数</div>
+        <div class="pvanduv_text">
+          <span>{{ this._data.rowDatas.uv ?  this._data.rowDatas.uv : 0 }}</span>
         </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="subtance">
-            <div class="subtance__title">访问次数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.increaseCount ?  this._data.rowDatas.increaseCount : 0 }}</span>
-            </div>
-          </div>
+      </div>
+      <div class="pvanduv_right">
+        <div class="pvanduv_title">访问次数</div>
+        <div class="pvanduv_text">
+          <span>{{ this._data.rowDatas.pv ?  this._data.rowDatas.pv : 0 }}</span>
         </div>
-      </el-col>
-    </el-row>
-    <!--/数据面板-->
-
+      </div>
+    </div>
+    <!--折线图-->
     <ns-page-table :colButton="0">
-      <template slot="searchSearch">
-        <el-form label-width="100px"
-                 :inline="true">
-          <el-form-item label="时间：" class="el-inline-block">
-            <el-date-picker
-              v-model="model.TheDate"
-              type="daterange"
-              value-format="yyyy-MM-dd"
-              :picker-options="pickerOptions"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-            </el-date-picker>
-          </el-form-item>
-          <!--导购员工组件 -->
-          <el-form-item>
-            <!-- 搜索刷新 -->
-            <ns-button type="primary" @click="$searchAction$()">{{$t('operating.search')}}</ns-button>
-          </el-form-item>
-        </el-form>
-      </template>
       <template slot="table">
-        <el-card shadow="never" class="dataCenter-content__echart card-body--no-padding">
           <div class="dataCenter-echart__item">
             <div :element-loading-text="$t('prompt.loading')">
               <template>
@@ -60,32 +34,30 @@
               </template>
             </div>
           </div>
-        </el-card>
       </template>
     </ns-page-table>
-    <el-card shadow="never" class="card-body--no-padding">
+      <div>
       <div slot="header" class="card-header clearfix">
-        <span class="float-left">数据报表</span>
-        <el-radio-group v-model="tableRadios" @change="changeListDataType" class="float-left">
-          <el-radio :label="1">按日期展示</el-radio>
-          <el-radio :label="2">按员工展示</el-radio>
-        </el-radio-group>
+        <span class="float-left tab-content-left">数据报表</span>
+        <template v-for='item in typeList' class="tab-content-right">
+          <span :class='`tab-item ${item.id === logByTypeQuery.type ? "active":""}`' :key='item.id' @click='changeListDataType(item.id)'>{{item.name}}</span>
+        </template>
       </div>
       <el-table ref="table" :data="_data._table.data"
                 class="template-table__main" stripe roll-click
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
-                :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-        <el-table-column :show-overflow-tooltip="true" type="default" :prop="tableRadios === 1 ? 'TheDate' : 'UserID'"
-                         :label="tableRadios === 1 ? '日期':'员工'" :sortable="false" align="center">
+                :element-loading-text="$t('prompt.loading')" @sort-change="sortChange">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="type"
+                         :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="center">
           <template slot-scope="scope">
             {{formateTheDate(scope.row)}}
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="customerTotal"
-                         label="访问人数 (UV)" :sortable="false" align="right">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="uv"
+                         label="访问人数 (UV)" sortable="custom" align="right">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="increaseCount"
-                         label="访问次数 (PV)" :sortable="false" align="right">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="pv"
+                         label="访问次数 (PV)" sortable="custom" align="right">
         </el-table-column>
       </el-table>
 
@@ -95,16 +67,110 @@
                      layout="total, sizes, prev, pager, next, jumper" @size-change="analysisSizeChange"
                      @current-change="analysisPageChange">
       </el-pagination>
-    </el-card>
+    </div>
   </div>
   <!-- /信息更新页面 -->
 </template>
 
 <script>
 import NsDataAnalysisCharts from './src/NsDataAnalysisCharts'
+import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+NsDataAnalysisCharts.components = {
+  businessEcharts
+}
 export default NsDataAnalysisCharts
 </script>
-
+<style lang="scss" scoped>
+  .dataCenter-content{
+    background: #fff;
+    .dataCenter-content_line{
+      margin: 0 16px;
+      height: 1px;
+      background: #E8E8E8;
+    }
+    .dataCenter-content_box{
+      margin: 12px 0 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+      line-height: 48px;
+      background: #fff;
+      padding: 0 16px;
+      .dataCenter-content_title{
+        font-size: 14px;
+        color: #262626;
+        font-weight: 600;
+      }
+      .dataCenter-content_botton{
+        font-size: 12px;
+        color: #262626;
+        font-weight: 400;
+      }
+    }
+    .pvanduv_box{
+      padding: 0 16px;
+      display: flex;
+      .pvanduv_left, .pvanduv_right{
+        width: 367px;
+        .pvanduv_title{
+          font-size: 12px;
+          color: #8C8C8C;
+          font-weight: 400;
+          margin-bottom: 10px;
+        }
+        .pvanduv_text{
+          font-family: Helvetica;
+          font-size: 32px;
+          color: #262626;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  ::v-deep .template-table__bar{
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .tab-content-left{
+    position: relative;
+    padding: 0 16px;
+    font-size: 16px;
+    color: #262626;
+    font-weight: 600;
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 96px;
+      top: 50%;
+      height: 24px;
+      width: 1px;
+      margin-top: -12px;
+      background: #E8E8E8;
+    }
+  }
+  .tab-content-right{
+    padding-left: 4px;
+  }
+  .tab-item {
+    padding: 0 12px;
+    font-size: 12px;
+    color: #595959;
+    cursor: pointer;
+    font-weight: normal;
+    &.active {
+      color: #262626;
+      font-weight: bold;
+    }
+  }
+  .card-header {
+    height: 48px;
+    line-height: 48px !important;
+    background: #fff;
+    margin-top: 16px;
+    border-bottom: 1px solid #dcdfe6;
+  }
+</style>
 <style scoped>
   @import "@theme/variables.pcss";
   @b interactive {

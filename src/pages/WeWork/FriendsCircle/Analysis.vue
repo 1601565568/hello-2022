@@ -1,30 +1,32 @@
 <template>
   <div>
     <template>
-      <div class='title-box'>
-        <div class='title-analysis'>企业信息栏效果分析</div>
-        <div class='title-right'>
-          <el-radio-group v-model="analysisDays" @change="onClickEchatsTime" class='float-left'>
-            <el-radio-button label="1">昨天</el-radio-button>
-            <el-radio-button label="2">7天</el-radio-button>
-            <el-radio-button label="3">近30天</el-radio-button>
-          </el-radio-group>
-          <el-date-picker
-            class="float-right"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format = "timestamp"
-            :unlink-panels = true
-            :default-time="['00:00:00', '00:00:00']">
-          </el-date-picker>
+      <div class="title-box">
+        <div class="title-analysis">企业信息栏效果分析</div>
+        <div class="title-right">
+          <el-tabs class="title-right_time" v-model="dateValue" :timeModel="model" @tab-click="handleChangeDateType">
+            <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
+          </el-tabs>
+          <div class="title-right_picker">
+            <el-date-picker
+              :datePickerModel="model"
+              v-model="date"
+              type="datetimerange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              range-separator="至"
+              start-placeholder="请选择开始日期"
+              end-placeholder="请选择结束日期"
+              :default-time="['00:00:00','23:59:59']"
+              @change='handleChangeDateValue'
+              align="right">
+            </el-date-picker>
+          </div>
         </div>
       </div>
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable
+        <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
         </el-input>
@@ -60,13 +62,16 @@
       <div class="template-page__row-right">
         <!-- 分类 start -->
         <div class='title-tab' slot='title'>
-          <template v-for='item in tabList'>
-            <div :class='`tab-item ${item.id === checkedTab ? "active":""}`' :key='item.id' @click='handleChangeTab(item.id)'>{{item.label}}</div>
-          </template>
+          <div class='tab-content'>
+          <span class='tab-content-left'>数据分析</span>
+            <template v-for='item in tabList'>
+              <span :class='`tab-item ${item.id === modelTab.profileId ? "active":""}`' :key='item.id' @click='changeSearchfrom({profileId:item.id})'>{{item.name}}</span>
+            </template>
+          </div>
         </div>
         <!-- 分类 end -->
         <!-- 数据图表 start -->
-        <ns-data-analysis-charts ref="table" :url="$api.weWork.weWorkCustomer.queryAnalysisListByDate"></ns-data-analysis-charts>
+        <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType"></ns-data-analysis-charts>
         <!-- 数据图表 end -->
       </div>
     </div>
@@ -83,6 +88,50 @@ export default Index
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
+  ::v-deep .el-tabs__header{
+    border-bottom: none;
+  }
+  ::v-deep .el-tabs__item.is-active:before{
+    border-bottom: none;
+  }
+  ::v-deep .el-tabs__active-bar{
+    background-color: transparent !important;
+  }
+  ::v-deep .el-tabs__item.is-active{
+    color: #0091FA;
+    background: #F5FBFF;
+    border-radius: 4px;
+  }
+  ::v-deep .el-tabs__item{
+    padding: 0px 13px;
+    line-height: 28px;
+  }
+  .title-right_picker{
+    padding-left: 32px;
+    position: relative;
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      height: 20px;
+      width: 1px;
+      margin-top: -10px;
+      background: #E8E8E8;
+    }
+  }
+  .title-right{
+    display: flex;
+    .title-right_time{
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .template-page__row-right{
+    overflow-x: hidden;
+    margin-left: 16px;
+    width:calc(100vw - 527px)
+  }
   .title-box{
     display: flex;
     height: 48px;
@@ -103,20 +152,33 @@ export default Index
   ::v-deep .template-table__bar-name{
     margin: 0px 0px 0px 6px;
   }
+  .tab-content-left{
+    padding: 0 16px;
+    font-size: 16px;
+    color: #262626;
+    line-height: 24px;
+    font-weight: 600;
+  }
   .title-tab {
-    display: flex;
-    margin-left: 16px;
     position: relative;
+    overflow-x: scroll;
+    height: 55px;
+    line-height: 55px;
+    background: #fff;
     &::before {
       content: " ";
       position: absolute;
-      left: 0;
+      left: 96px;
       top: 50%;
       height: 24px;
       width: 1px;
       margin-top: -12px;
       background: #E8E8E8;
     }
+  }
+  .title-tab::-webkit-scrollbar {display:none}
+  .tab-content {
+    white-space: nowrap;
     .tab-item {
       padding: 0 16px;
       font-size: 14px;
