@@ -66,5 +66,13 @@ export default {
   logPageByType: {
     url: `${logPrefix}logPageByType`,
     method: 'post'
+  },
+  findGuideListWithShop: {
+    url: 'guide/guide/findGuideListWithShop',
+    method: 'post'
+  },
+  uploadBase64File: {
+    url: `/core/sgfile/uploadFileBase64/test`,
+    method: 'post'
   }
 }

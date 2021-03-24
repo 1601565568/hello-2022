@@ -1,24 +1,25 @@
 <template>
   <div class='media-content'>
     <div class='header'>
-      <div class='user'>
-        <img class='user-icon' />
-        <div class='user-name'>我是一个昵称</div>
-      </div>
+       <div class='cover-content'>
+         <el-image :src='data.topImgUrl' fit='cover' class='cover-img' style='height:464px' />
+          <img class='user-icon'/>
+       </div>
+       <div class='signatrue'>{{data.signature}}</div>
     </div>
     <div class='content'>
       <div class='text-content'>
-        {{text}}
+        <EmojiText :text='text' />
       </div>
       <div class='img-content' v-if='type === "img"'>
         <div v-for='(item,index) in imgData' class='img-row' :key='index'>
           <div v-for='(items,indexs) in item' class='img-src' :key='indexs'>
-            <img src='items'>
+            <el-image :src='items' fit='cover' class='img'/>
           </div>
         </div>
       </div>
       <div class='video-content' v-else>
-        <img src=''>
+        <video :src="list[0]" class='video'>您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
       </div>
       <div class='hot-content'>
         <Hot :hotNum='hotNum' />
@@ -29,8 +30,10 @@
 </template>
 <script>
 import Hot from './Hot'
+import ElImage from '@nascent/nui/lib/image'
+import EmojiText from '@/components/NewUi/EmojiText'
 export default {
-  components: { Hot },
+  components: { Hot, ElImage, EmojiText },
   computed: {
     imgData () {
       if (this.type === 'img') {
@@ -43,7 +46,7 @@ export default {
           if (!Array.isArray(arr[merchant])) {
             arr[merchant] = []
           }
-          arr[merchant][remainder] = { ...list[i] }
+          arr[merchant][remainder] = list[i]
         }
         return arr
       }
@@ -58,7 +61,7 @@ export default {
     // 数据
     list: {
       default () {
-        return ['', '', '', '', '', '', '', '', '']
+        return []
       }
     },
     // 热度
@@ -67,7 +70,13 @@ export default {
     },
     // 文章
     text: {
-      default: '我是正文我是正文我是正文，我是正文我是正文，我是正文我是正文我是正文我是正文，我是正文我是正文我是正文我是正文，我是正文我是正文。'
+      default: ''
+    },
+    // 朋友圈其他信息
+    data: {
+      default () {
+        return {}
+      }
     }
   }
 }
@@ -79,35 +88,34 @@ export default {
   transform-origin: 0 0;
   padding: 20px 32px;
   .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    .user {
-      display: flex;
-      align-items: center;
-      .user-icon {
-        height: 80px;
-        width: 80px;
-        border-radius: 50%;
-        background-color: #d8d8d8;
+    .cover-content {
+      position: relative;
+      height: 464px;
+      width: 100%;
+      margin-bottom: 46px;
+      .cover-img {
+        height: 464px;
+        height: 100%;
+        width: 100%;
       }
-      .user-name {
-        font-size: 32px;
-        color: #262626;
-        line-height: 48px;
-        margin-left: 16px;
-        font-weight: bold;
+      .user-icon {
+        position: absolute;
+        right: 34px;
+        height: 120px;
+        width: 120px;
+        bottom: -30px;
       }
     }
-    .createtime {
+    .signatrue {
       font-size: 24px;
       color: #8C8C8C;
-      text-align: center;
+      line-height: 40px;
+      margin-bottom: 80px;
+      text-align: right;
     }
   }
   .content {
-    padding-left: 96px;;
+    padding-left: 64px;;
   }
   .img-content {
     margin-bottom: 12px;
@@ -117,6 +125,10 @@ export default {
       flex-wrap: wrap;
       .img-src {
         margin-right: 12px;
+        .img {
+          height: 100%;
+          width: 100%;
+        }
       }
     }
     .img-src {
@@ -131,6 +143,10 @@ export default {
     width: 342px;
     background-color: #d8d8d8;
     margin-bottom: 16px;
+    .video{
+      width: 100%;
+      height: 100%;
+    }
   }
   .text-content {
     font-size: 30px;

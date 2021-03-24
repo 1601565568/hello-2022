@@ -1,15 +1,16 @@
 <template>
   <div>
     <page-table title='对外信息展示' :searchCol='24'>
-      <!-- 分类 start -->
-      <!-- 分类 end -->
+      <template slot='title'>
+        <Icon type="question-circle" class='question-circle' @click='handlePreview(true,2)'/>
+      </template>
       <!-- 搜索 start -->
       <template slot='search'>
         <div class='blue-tip'>
           <div>请先完成企业微信后台配置</div>
           <div>
-            <ns-button type='text' style='margin-right:24px'>去配置</ns-button>
-            <ns-button type='text' @click='handlePreview(true)'>配置说明</ns-button>
+            <ns-button type='text' style='margin-right:24px' @click="handleQY">去配置</ns-button>
+            <ns-button type='text' @click='handlePreview(true,1)'>配置说明</ns-button>
           </div>
         </div>
       </template>
@@ -42,6 +43,15 @@
             <el-table-column
               prop="status"
               label="状态">
+              <template slot='header'>
+                状态
+                <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                  <Icon type="question-circle"  class='question-circle'/>
+                  <template slot='content'>
+                    企业微信后台专属对外信息被删除或取消显示时，状态则会提醒异常，<br/>请及时前往企业微信后台新增相同名称的专属对外信息或恢复显示
+                  </template>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <template v-if='scope.row.status === 0'>
                   <span >{{statusList[scope.row.status]}}</span>
@@ -53,12 +63,14 @@
                 </template>
                 <template v-else-if='scope.row.status === 2'>
                   <span class='col-text_error'>{{statusList[scope.row.status]}}</span>
-                  <ns-button type='text' icon="el-icon-refresh" @click='handleRefresh(scope.row.id,scope.$index)'></ns-button>
+                  <Icon type='ns-refresh' @click='handleRefresh(scope.row.id,scope.$index)' class='refresh-btn'/>
+                  <!-- <ns-button type='text' icon="el-icon-refresh" @click='handleRefresh(scope.row.id,scope.$index)'></ns-button> -->
                 </template>
               </template>
             </el-table-column>
             <el-table-column
               prop="address"
+              width='125px'
               label="操作">
               <template slot-scope="scope">
                 <ns-button type="text" @click='handleDetail(scope.row.id)'>编辑</ns-button>
@@ -90,11 +102,21 @@
       fullscreen>
       <div class='dialog-content'>
         <div class='blue-tip'>
-          <div>路径：我的企业->通讯录管理->对外资料显示-修改->添加自定义信息<br/>添加自定义信息：名称可自定义，类型请选择“网页”。</div>
+          <template v-if='previewType === 1'>
+            <div>路径：我的企业->通讯录管理->对外资料显示-修改->添加自定义信息<br/>添加自定义信息：名称可自定义，类型请选择“网页”。</div>
+          </template>
+          <template v-if='previewType === 2'>
+            企业可在企业成员的企业信息处配置专属对外信息，可在专属对外信息内添加文字、图片、视频等，客户在员工名片点击后，即可进入由企业发布的内容页面，达到内容营销的作用。
+          </template>
         </div>
-        <img src='./images/peizhi1.png' class='full-img'>
-        <img src='./images/peizhi2.png' class='full-img'>
-        <img src='./images/peizhi3.png' class='full-img'>
+        <template v-if='previewType === 1'>
+          <img src='./images/peizhi1.png' class='full-img'>
+          <img src='./images/peizhi2.png' class='full-img'>
+          <img src='./images/peizhi3.png' class='full-img'>
+        </template>
+        <template v-if='previewType === 2'>
+          <img src='./images/shouji.png' class='full-img padding-img'>
+        </template>
       </div>
     </el-dialog>
   </div>
@@ -161,7 +183,15 @@ export default Index
     .full-img {
       width: 100%;
       margin-bottom: 24px;
+      &.padding-img {
+        padding: 100px;
+      }
     }
+  }
+  .refresh-btn {
+    font-size:14px;
+    margin-left: 5px;
+    cursor: pointer;
   }
   .col-text_error {
     color: #F39801;

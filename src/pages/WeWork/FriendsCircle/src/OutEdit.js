@@ -6,16 +6,42 @@ import shili from '../images/shili.png'
 
 export default {
   data () {
+    const checkName = (maxLength, rule, value, callback) => {
+      if (this.calcLength(value) > maxLength) {
+        callback(new Error(`最多输入${maxLength}个字符`))
+      } else {
+        callback()
+      }
+    }
     return {
       model: {
         name: '',
         webTitle: '',
-        style: 0 // 点击跳转类型0.朋友圈样式  1.设计师样式  2.多媒体样式
+        style: 0, // 点击跳转类型0.朋友圈样式  1.设计师样式  2.多媒体样式
+        signatrue: '',
+        topImgUrl: ''
       },
-      rules: {},
+      rules: {
+        name: [
+          { required: true, message: '请输入对外信息名称', trigger: ['blur', 'change'] },
+          { validator: checkName.bind(this, 8), trigger: ['blur', 'change'] }
+        ],
+        webTitle: [
+          { min: 1, max: 34, message: '最多输入34个字', trigger: ['blur', 'change'] }
+        ],
+        style: [
+          { required: true, message: '请选择点击跳转内容', trigger: ['blur', 'change'] }
+        ],
+        topImgUrl: [
+          { required: true, message: '请选择朋友圈封面图', trigger: ['blur', 'change'] }
+        ],
+        signatrue: [
+          { min: 1, max: 30, message: '最多输入30个字', trigger: ['blur', 'change'] }
+        ]
+      },
       btnLoad: false,
       isEdit: false,
-      linkData: [
+      linkData: [ // 样式列表
         {
           type: 0,
           img: friends,
@@ -36,7 +62,29 @@ export default {
       shili
     }
   },
+  computed: {
+    textLength () {
+      const { name } = this.model
+      return this.calcLength(name)
+    }
+  },
   methods: {
+    /**
+     * 计算字符
+     * @param {string} value
+     */
+    calcLength (value) {
+      const list = value.split('')
+      if (list && list.length) {
+        return list.reduce((total, item) => {
+          if (item.charCodeAt(0) > 127 || item.charCodeAt(0) === 94) {
+            return total + 2
+          }
+          return total + 1
+        }, 0)
+      }
+      return 0
+    },
     /**
      * 初始化
      */
@@ -51,7 +99,9 @@ export default {
               name: result.name,
               webTitle: result.web_title,
               style: result.style,
-              id: result.id
+              id: result.id,
+              signatrue: result.signatrue,
+              topImgUrl: result.top_img_url
             }
           }
         }).catch((resp) => {
@@ -74,16 +124,32 @@ export default {
     handlePreview (previewVisin, type) {
       this.previewVisin = previewVisin
     },
+    /**
+     * 保存校验
+     */
     handleSave () {
-      this.onSubmit(this.model)
+      this.btnLoad = true
+      this.$refs.searchform.validate(valid => {
+        if (valid) {
+          this.onSubmit(this.model)
+        } else {
+          this.btnLoad = false
+        }
+      })
     },
+    /**
+     * 返回列表
+     */
     handleCancel () {
       this.$router.push({
         path: '/Marketing/FriendsCircle/OutList'
       })
     },
+    /**
+     * 提交信息
+     * @param {*} model
+     */
     onSubmit (model) {
-      this.btnLoad = true
       this.$http.fetch(this.$api.weWork.friendsCircle.profileAdd, model).then(() => {
         this.btnLoad = false
         this.$notify.success('保存成功')

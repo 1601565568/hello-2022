@@ -1,5 +1,5 @@
 <template>
-  <div class='skew-content'>
+  <div class='skew-content' v-if='hotNum>0'>
     <img class='hot-pre' src="@/assets/hot.png">
     <template v-for='(item,index) in hotNum'>
       <img class='hot-img' src='@/assets/sohot.png' :key='index'/>
