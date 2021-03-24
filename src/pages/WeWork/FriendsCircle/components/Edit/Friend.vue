@@ -5,7 +5,7 @@
          <el-image :src='data.topImgUrl' fit='none' class='cover-img' style='height:464px' />
           <img class='user-icon'/>
        </div>
-       <div class='signatrue'>{{data.signature}}</div>
+       <div class='signature'>{{data.signature}}</div>
     </div>
     <div class='content' v-if='list && list.length'>
       <div class='text-content'>
@@ -108,7 +108,7 @@ export default {
         border-radius: 8px;
       }
     }
-    .signatrue {
+    .signature {
       font-size: 24px;
       color: #8C8C8C;
       line-height: 40px;

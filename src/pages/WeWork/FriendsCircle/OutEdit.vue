@@ -47,7 +47,7 @@
               </div>
             </el-form-item>
             <template v-if='model.style === 0'>
-              <el-form-item label='个性签名' prop='signatrue' class='larger-item'>
+              <el-form-item label='个性签名' prop='signature' class='larger-item'>
                 <div>
                   可自定义个性签名
                   <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
@@ -57,7 +57,7 @@
                     </template>
                   </el-tooltip>
                 </div>
-                <LengthInput v-model='model.signatrue' :length='30' placeholder="最多8个字符"/>
+                <LengthInput v-model='model.signature' :length='30' placeholder="最多8个字符"/>
               </el-form-item>
               <el-form-item label='朋友圈封面图' prop='topImgUrl' class='larger-item'>
                 <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，图片尺寸建议为8:5）' v-model='model.topImgUrl' :showPont='false' :showFooter='false'>

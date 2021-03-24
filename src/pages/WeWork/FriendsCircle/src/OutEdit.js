@@ -18,7 +18,7 @@ export default {
         name: '',
         webTitle: '',
         style: 0, // 点击跳转类型0.朋友圈样式  1.设计师样式  2.多媒体样式
-        signatrue: '',
+        signature: '',
         topImgUrl: ''
       },
       rules: {
@@ -35,7 +35,7 @@ export default {
         topImgUrl: [
           { required: true, message: '请选择朋友圈封面图', trigger: ['blur', 'change'] }
         ],
-        signatrue: [
+        signature: [
           { min: 1, max: 30, message: '最多输入30个字', trigger: ['blur', 'change'] }
         ]
       },
@@ -100,7 +100,7 @@ export default {
               webTitle: result.web_title,
               style: result.style,
               id: result.id,
-              signatrue: result.signatrue,
+              signature: result.signature,
               topImgUrl: result.top_img_url
             }
           }
