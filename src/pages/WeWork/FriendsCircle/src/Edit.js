@@ -26,9 +26,9 @@ export default {
     }
     return {
       tools: [
-        { type: 'tag', text: '插入企业微信员工姓名', id: 'WX_EMPLOYEE_NAME', value: '企业微信员工姓名' },
-        // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称' },
-        { type: 'tag', text: '插入企业微信员工门店', id: 'WX_SHOP_NAME', value: '企业微信员工门店' }
+        { type: 'tag', text: '插入企业微信员工姓名', id: 'WX_EMPLOYEE_NAME', value: '企业微信员工姓名', icon: 'icon-xingming-2-x' },
+        // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称',icon:'icon-nicheng2x' },
+        { type: 'tag', text: '插入企业微信员工门店', id: 'WX_SHOP_NAME', value: '企业微信员工门店', icon: 'icon-mendian-2-x' }
       ],
       model: { // 提交信息
         content: '',

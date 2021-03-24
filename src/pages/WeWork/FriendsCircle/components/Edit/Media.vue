@@ -7,7 +7,7 @@
       </div>
       <div class='createtime'>2021/01/12 12:00:00</div>
     </div>
-    <div class='content'>
+    <div class='content' v-if='list && list.length'>
       <div class='img-content' v-if='type === "img"'>
         <div v-for='item in list' class='img-src' :key='item'>
           <el-image :src='item' fit='cover' class='img'/>

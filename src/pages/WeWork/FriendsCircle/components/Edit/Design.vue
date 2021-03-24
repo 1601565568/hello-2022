@@ -7,9 +7,9 @@
       </div>
       <div class='createtime'>2021/01/12 12:00:00</div>
     </div>
-    <div class='content'>
-      <div class='img-content' v-if='type === "img"' arrow='never'>
-        <el-carousel indicator-position="outside" :autoplay='false' class='img-carousel'>
+    <div class='content' v-if='list && list.length'>
+      <div class='img-content' v-if='type === "img"'>
+        <el-carousel indicator-position="outside" :autoplay='false' class='img-carousel' arrow='never'>
           <el-carousel-item v-for="item in list" :key="item">
             <el-image :src='item' fit='cover' class='img'/>
           </el-carousel-item>

@@ -20,7 +20,7 @@
               class="w-textarea_tools__img"
               :src="item.img"
             />
-            {{ item.icon }}{{ item.text }}</span
+            {{ item.text }}</span
           ></el-tooltip
         >
         <span
@@ -33,7 +33,7 @@
           <el-popover
             width="447"
             trigger="hover">
-            <i slot="reference" class="emoji-icon"><Icon type="biaoqing"/></i>
+            <i slot="reference"><Icon type="ns-expression" class="emoji-icon"/></i>
             <!-- 可通过 emojiList 传入自定义的图标列表 -->
             <emotion @emotion="addEmotion" :height="200" ref='emotion'/>
           </el-popover>
@@ -422,5 +422,9 @@ $textColor: #595959;
       }
     }
   }
+}
+.emoji-icon {
+  font-size:16px;
+  color:#D9D9D9;
 }
 </style>

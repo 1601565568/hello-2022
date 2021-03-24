@@ -2,12 +2,12 @@
   <div class='media-content'>
     <div class='header'>
        <div class='cover-content'>
-         <el-image :src='data.topImgUrl' fit='cover' class='cover-img' style='height:464px' />
+         <el-image :src='data.topImgUrl' fit='none' class='cover-img' style='height:464px' />
           <img class='user-icon'/>
        </div>
        <div class='signatrue'>{{data.signature}}</div>
     </div>
-    <div class='content'>
+    <div class='content' v-if='list && list.length'>
       <div class='text-content'>
         <EmojiText :text='text' />
       </div>
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class='video-content' v-else>
+      <div class='video-content' v-else-if='type === "video"'>
         <video :src="list[0]" class='video'>您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
       </div>
       <div class='hot-content'>
@@ -104,6 +104,8 @@ export default {
         height: 120px;
         width: 120px;
         bottom: -30px;
+        background: #D8D8D8;
+        border-radius: 8px;
       }
     }
     .signatrue {
