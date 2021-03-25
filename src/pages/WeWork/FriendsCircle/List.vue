@@ -151,6 +151,9 @@ export default Index
       color:#C0C4CC;
     }
   }
+  .search-icon {
+    font-size: 25px;
+  }
 </style>
 <style scoped>
 .title-tab {

@@ -123,7 +123,7 @@ export default {
     requestDelect (uuid) {
       this.$http.fetch(this.$api.weWork.friendsCircle.adDeleteById, { uuid }).then(() => {
         this.$notify.success('删除成功')
-        this.$searchAction$()
+        this.$reload()
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('删除失败', resp))
       })
