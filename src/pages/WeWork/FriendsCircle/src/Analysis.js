@@ -8,7 +8,6 @@ export default {
   mixins: [formMixin, tableMixin],
   data () {
     return {
-      date: this.changeDate(1),
       buttonStatus: 0, // 0是高级搜索，1是重置
       treeData: [],
       // 简单搜索参数
@@ -72,6 +71,7 @@ export default {
           value: '30day'
         }
       ],
+      date: this.changeDate(1),
       // 时间选择的值
       dateValue: '1day'
     }
@@ -134,6 +134,14 @@ export default {
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('获取失败', resp))
       })
+    },
+    // tab切换
+    handleTab (value) {
+      if (value.name === 'null') {
+        this.changeSearchfrom({ style: null, profileId: null })
+      } else {
+        this.changeSearchfrom({ style: null, profileId: value.name * 1 })
+      }
     },
     /**
      * 设置modelTab信息

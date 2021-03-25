@@ -61,13 +61,12 @@
       </div>
       <div class="template-page__row-right">
         <!-- 分类 start -->
-        <div class='title-tab' slot='title'>
-          <div class='tab-content'>
-          <span class='tab-content-left'>数据分析</span>
+        <div class='title-tab' slot='tab'>
+          <el-tabs :value="modelTab.profileId+''" @tab-click='handleTab'>
             <template v-for='item in tabList'>
-              <span :class='`tab-item ${item.id === modelTab.profileId ? "active":""}`' :key='item.id' @click='changeSearchfrom({profileId:item.id})'>{{item.name}}</span>
+              <el-tab-pane :key='item.id' :name="item.id+''" :label='item.name'></el-tab-pane>
             </template>
-          </div>
+          </el-tabs>
         </div>
         <!-- 分类 end -->
         <!-- 数据图表 start -->
@@ -103,10 +102,33 @@ export default Index
     border-radius: 4px;
   }
   ::v-deep .el-tabs__item{
-    padding: 0px 13px;
+    padding: 2px 13px;
     line-height: 28px;
   }
+  ::v-deep .el-tabs__nav-prev{
+    line-height: 55px;
+    left: 4px;
+  }
+  ::v-deep .el-tabs__nav-next{
+    line-height: 55px;
+    right: 4px;
+  }
+  .title-tab {
+    ::v-deep .el-tabs__item  {
+      line-height: 51px;
+      font-weight: 400;
+      color: #595959;
+      &.is-active {
+        font-weight: 600;
+        background: #fff;
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
   .title-right_picker{
+    padding-top: 2px;
     padding-left: 32px;
     position: relative;
     &::before {
@@ -159,24 +181,6 @@ export default Index
     line-height: 24px;
     font-weight: 600;
   }
-  .title-tab {
-    position: relative;
-    overflow-x: scroll;
-    height: 55px;
-    line-height: 55px;
-    background: #fff;
-    &::before {
-      content: " ";
-      position: absolute;
-      left: 96px;
-      top: 50%;
-      height: 24px;
-      width: 1px;
-      margin-top: -12px;
-      background: #E8E8E8;
-    }
-  }
-  .title-tab::-webkit-scrollbar {display:none}
   .tab-content {
     white-space: nowrap;
     .tab-item {

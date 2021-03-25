@@ -38,14 +38,9 @@ export default {
         return false
       }
       },
-      pageCompleteData: [],
-      pageUserData: [],
       rowDatas: {},
-      selectUserRange: [],
       url: this.$api.weWork.friendsCircle.logPageByType,
       model: model,
-      rules: Object.assign({}, {}, {}),
-      chartRadio: 1,
       type: 0,
       loadingtable: false,
       _pagination: pagination,
@@ -167,9 +162,6 @@ export default {
     this.changeChartDataType()
   }, */
   methods: {
-    resetInputAction: function () {
-      this.$resetInputAction$()
-    },
     // 折线图初始化数据
     changeChartDataType: function () {
       let _this = this
@@ -207,6 +199,7 @@ export default {
           }
         })
     },
+    // 日期导购列表
     tableReload: function () {
       this.logByTypeQuery.shopId = this.model.shopId
       this.logByTypeQuery.profileId = this.model.profileId
@@ -224,10 +217,6 @@ export default {
       this._data._pagination.page = 1
       this.tableReload(this.$generateParams$())
     },
-    reload: function () {
-      this._data._table.data = []
-      this.tableReload(this.$generateParams$())
-    },
     // 刷新
     $searchAction$: function () {
       this.tableReload()
@@ -240,6 +229,7 @@ export default {
       this.logByTypeQuery.sort = val.order === 'descending' ? 'desc' : 'asc'
       this.tableReload(this.$generateParams$())
     },
+    // 日期格式转换
     formateTheDate: function (row) {
       if (this.type === 1) {
         return row.name
@@ -253,12 +243,8 @@ export default {
       return this.tableReload(this.$generateParams$())
     },
     analysisPageChange: function (page) {
-      // var _pagination = this._data._pagination
       this._data._pagination.page = page
       return this.tableReload(this.$generateParams$())
-    },
-    funIntroduce: function () {
-      functionIntroduce(this, 30)
     }
   }
 }
