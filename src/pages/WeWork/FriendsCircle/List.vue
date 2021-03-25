@@ -1,19 +1,24 @@
 <template>
   <div>
-    <page-table title='数据分析'>
+    <page-table title=''>
       <!-- 分类 start -->
-      <div class='title-tab' slot='title'>
-        <div class='tab-content'>
+      <div class='title-tab' slot='tab'>
+        <!-- <div class='tab-content'>
           <template v-for='item in tabList'>
             <span :class='`tab-item ${item.id === model.profileId ? "active":""}`' :key='item.id' @click='changeSearchfrom({profileId:item.id})'>{{item.name}}</span>
           </template>
-        </div>
+        </div> -->
+        <el-tabs :value="model.profileId+''" @tab-click='handleTab'>
+          <template v-for='item in tabList'>
+            <el-tab-pane :key='item.id' :name="item.id+''" :label='item.name'></el-tab-pane>
+          </template>
+        </el-tabs>
       </div>
       <!-- 分类 end -->
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="样式：" class='el-form__change'>
+          <el-form-item label="样式：" class='el-form__change' v-if='model.profileId === null'>
             <el-select v-model="model.style" placeholder="请选择" @change='(value)=>{changeSearchfrom({style:value})}'>
               <el-option
                 v-for="item in statusOptionList"
@@ -112,28 +117,10 @@ export default Index
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
   .title-tab {
-    position: relative;
-    margin-left: 16px;
-    overflow-x: scroll;
-    &::-webkit-scrollbar-thumb {
-      display: none;
-    }
-    &::-webkit-scrollbar-track {
-      display: none;
-    }
-    &::-webkit-scrollbar {
-      display: none;
-      /*height: 4px;*/
-    }
-    &::before {
-      content: " ";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      height: 24px;
-      width: 1px;
-      margin-top: -12px;
-      background: #E8E8E8;
+    margin: -10px -10px 0px;
+    background-color: #fff;
+    .el-tabs__item  {
+      line-height: 38px;
     }
   }
   .tab-content {
@@ -164,4 +151,28 @@ export default Index
       color:#C0C4CC;
     }
   }
+</style>
+<style scoped>
+.title-tab {
+  >>> .el-tabs__item  {
+    line-height: 38px;
+    font-weight: 400;
+    color: #595959;
+    &.is-active {
+      font-weight: 600;
+      &:before {
+        display: none;
+      }
+    }
+  }
+  >>> .el-tabs__header {
+    border-bottom:none;
+  }
+  >>> .el-tabs__nav-next,>>> .el-tabs__nav-prev {
+    line-height: 48px;
+  }
+  >>> .el-tabs__active-bar {
+    display: none;
+  }
+}
 </style>

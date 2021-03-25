@@ -4,6 +4,7 @@
       <h1>{{title}}</h1>
       <slot name='title'></slot>
     </div>
+    <slot name='tab'></slot>
     <div class="template-table">
       <div class='teplate-table__box'>
         <!-- 工具栏 -->

@@ -47,6 +47,13 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
+    handleTab (value) {
+      if (value.name === 'null') {
+        this.changeSearchfrom({ style: null, profileId: null })
+      } else {
+        this.changeSearchfrom({ style: null, profileId: value.name * 1 })
+      }
+    },
     /**
      * 获取对外信息列表
      */
