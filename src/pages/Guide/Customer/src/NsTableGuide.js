@@ -7,9 +7,6 @@ import $ from 'jquery'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  props: {
-    url: Object
-  },
   data: function () {
     let pagination = {
       enable: true,
@@ -60,7 +57,7 @@ export default {
       multipleSelection: [],
       select: true,
       shopFindList: [],
-      // url: this.$api.guide.guide.customerFindCustomerList,
+      url: this.$api.guide.guide.customerFindCustomerList,
       dataList: [],
       allGuideArr: { id: 0, pId: null, label: '全部导购' },
       shuJushuzu: {},
@@ -84,7 +81,8 @@ export default {
       addcheckList: [], // 记录表格勾选的数据
       outGuideId: null,
       shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
-      shopCustomerTransferTaskStatusTime: null // 定时调用判断门店转移任务状态显示
+      shopCustomerTransferTaskStatusTime: null, // 定时调用判断门店转移任务状态显示
+      viewList: [] // 视角列表
     }
   },
   computed: {
@@ -94,6 +92,9 @@ export default {
      */
     openGroupOperation () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.openGroupOperation
+    },
+    viewId () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
     }
   },
   watch: {
@@ -143,13 +144,12 @@ export default {
       }
     }
   },
-  mounted: function () {
+  mounted: async function () {
     var vm = this
     vm.height = window.innerHeight - 120
     let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
-    // window.console.log('搜索信息', this.model)
-    this.$searchAction$()
+    // this.$searchAction$()
   },
   updated () {
     if (this.$refs.elTree) {
@@ -178,7 +178,6 @@ export default {
     },
     // 门店树选择
     onClickNode (data) {
-      window.console.log(data)
       var _this = this
       if (this._data._table.data.length > 0) {
         this._data._table.data = []

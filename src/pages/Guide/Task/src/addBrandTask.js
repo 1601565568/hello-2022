@@ -135,10 +135,11 @@ export default {
     },
     // 选择区域
     chooseArea (areaId) {
+      this.model.viewId = ''
+      this.viewOptions = []
       // 根据选择区域查询视角列表
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
         .then(res => {
-          window.console.log('视角查询结果', res)
           if (res.success) {
             this.viewOptions = res.result
           } else {
@@ -207,6 +208,18 @@ export default {
     // 提交保存
     saveFun () {
       var that = this
+
+      that.model.startTime = that.model.activityTime[0]
+      that.model.endTime = that.model.activityTime[1]
+      // 指定门店
+      if (that.model.shopRangeType === 1) {
+        that.model.targetIds = that.hasShopArr.join(',')
+      } else {
+        that.model.targetIds = 0
+      }
+
+      window.console.log('保存的数据', this.model)
+
       this.$refs.form.validate(valid => {
         if (valid) {
           that.model.startTime = that.model.activityTime[0]

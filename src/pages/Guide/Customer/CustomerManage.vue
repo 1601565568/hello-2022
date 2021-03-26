@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="handleSelectionChange"
+    <ns-table-guide ref="table1" @add="handleSelectionChange"
                     @shopEdit="shopEdit" @showTag="showTagData" @onRedactFun="onRedactFun"
                     @handlereplaceShop="handlereplaceShop"
                     @offLineShopId="getOffLineShopId($event)">

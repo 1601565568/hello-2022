@@ -253,8 +253,8 @@ export default {
     },
     elIconMenu (row) {
       this.$http.fetch(this.$api.guide.shop.findIsShopLegal, {
-        shopId: row.id,
-        viewId: this.model.viewId
+        shopId: row.id
+        // viewId: this.model.viewId
       }).then(resp => {
         if (resp.success) {
           this.$emit('elIconMenu', { row, viewId: this.model.viewId })

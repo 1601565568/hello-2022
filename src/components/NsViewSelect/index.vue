@@ -3,10 +3,9 @@
     <span class="label-title" v-if="showTitle">视角：</span>
     <el-select
       v-bind="$attrs"
-      v-on="$listeners"
+      v-on="selectListeners"
       placeholder="请选择"
       :value="value"
-      @change="change"
       filterable
     >
       <el-option
@@ -54,6 +53,21 @@ export default {
       const loginInfo = this.$store.state.user.remumber.remumber_login_info
       // 公司名-用户名
       return `${loginInfo.companyName}-${loginInfo.name}`
+    },
+    selectListeners () {
+      const vm = this
+
+      return {
+        ...this.$listeners,
+        change (value) {
+          vm.setStore(value)
+          vm.$emit('change', value)
+        },
+        input (value) {
+          vm.setStore(value)
+          vm.$emit('input', value)
+        }
+      }
     }
   },
   watch: {
@@ -87,7 +101,6 @@ export default {
               }
 
               if (isEnableViewId) {
-                this.change(localViewId)
                 updateViewId = localViewId
               } else {
                 localStorage.removeItem(this.viewIdKey)
@@ -97,7 +110,7 @@ export default {
             updateViewId = this.viewId
           }
 
-          this.$emit('update:initViewId', updateViewId)
+          this.selectListeners.input(localViewId)
         }
       } else if (this.viewRange === 2) {
         // 按区域 根据区域id去请求接口 areaId
@@ -107,10 +120,7 @@ export default {
             if (res.success) {
               this.viewList = res.result
               if (this.viewList.length) {
-                if (!this.viewId) {
-                  this.change(this.viewList[0].viewId)
-                }
-                this.$emit('update:initViewId', this.viewList[0].viewId)
+                this.selectListeners.input(this.viewList[0].viewId)
               }
             } else {
               this.$notify.error(res.msg)
@@ -120,24 +130,18 @@ export default {
           })
       }
     },
-    /**
-     * 切换视角时，记录切换的视角id到store中
-     */
-    change (veiwId) {
-      // 设置视角id
-      // this.$store.commit('user/UPDATE_REMUMBER', { ...this.$store.state.user.remumber, hello: 'world' })
+    setStore (viewId) {
       this.$store.commit('user/UPDATE_REMUMBER', {
         ...this.$store.state.user.remumber,
         remumber_login_info: {
           ...this.$store.state.user.remumber.remumber_login_info,
           productConfig: {
             ...this.$store.state.user.remumber.remumber_login_info.productConfig,
-            viewId: veiwId
+            viewId: viewId
           }
         }
       })
-
-      localStorage.setItem(this.viewIdKey, veiwId)
+      localStorage.setItem(this.viewIdKey, viewId)
     }
   }
 }
