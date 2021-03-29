@@ -18,7 +18,7 @@
               { required: true, message: '请输入内容', trigger: ['blur', 'change'] },
               { validator: validateContent.bind(this, activityIntroductionLength), trigger: ['blur', 'change'] }
             ]">
-              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="1000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true'/>
+              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="2000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true'/>
             </el-form-item>
             <el-form-item label='附件' prop='mediaList'>
               <MoveUpload :value='model.mediaList' @input='handleChangeMedia' :mediaType='model.type' :disabled='isEdit'/>
@@ -26,7 +26,7 @@
             <el-form-item label='热度' prop='hotLevel' class='larger-item'>
               <star v-model='model.hotLevel' :img='sohot' :voidImg='nothot' :disabled='isEdit'/>
             </el-form-item>
-            <el-form-item label='对外信息说明' prop='profileId' class='larger-item'>
+            <el-form-item label='对外信息名称' prop='profileId' class='larger-item'>
               <template v-if='isEdit'>
                 <div class='preview-div'>
                   {{styleData.name}}

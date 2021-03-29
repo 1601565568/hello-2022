@@ -90,7 +90,7 @@
     </page-table>
     <!-- 选择对外信息弹框 start -->
     <el-dialog ref="friendsList" :visible.sync="visible"
-               title="选择对外信息展示"
+               title="使用员工"
                width="960px">
       <ns-table-employee-scope v-if='visible' ref='employeeTable' :data="{guideIdList}"></ns-table-employee-scope>
       <div slot="footer" class="dialog-footer">
