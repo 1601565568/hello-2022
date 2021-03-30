@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
+  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container friends-from' :model='model' :rules="rules"  size='medium'>
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
@@ -166,6 +166,7 @@ export default Index
     margin-left: -1px;
     margin-top: -1px;
     margin-right: -1px;
+    overflow-y: hidden;
   }
   .employee-list {
     display: flex;
@@ -217,4 +218,10 @@ export default Index
     color: #595959;
     line-height: 22px;
   }
+</style>
+<style scoped>
+.friends-from >>> .scroll-view {
+  overflow-x: hidden;
+  overflow-y:scroll
+}
 </style>
