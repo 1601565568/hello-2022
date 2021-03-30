@@ -41,7 +41,7 @@
     </el-table-column>
     <el-table-column
       prop="createTime"
-      width='150px'
+      width='170px'
       label="发布时间">
       <template slot-scope="scope">
         <span class='col-text'>{{scope.row.createTime}}</span>

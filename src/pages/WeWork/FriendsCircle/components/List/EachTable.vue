@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column
         prop="createTime"
-        width='150px'
+        width='170px'
         label="发布时间">
       </el-table-column>
       <el-table-column
