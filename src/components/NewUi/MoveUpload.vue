@@ -44,7 +44,7 @@
         </div>
       </transition-group>
     </draggable>
-    <video  ref='demoVideo' style='position:absolute;left:9999px;top:9999px'/>
+    <video  ref='demoVideo' style='position:absolute;left:-9999px;top:-9999px'/>
   </div>
 </template>
 <script>

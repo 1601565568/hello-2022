@@ -27,7 +27,8 @@ export default {
           { validator: checkName.bind(this, 8), trigger: ['blur', 'change'] }
         ],
         webTitle: [
-          { min: 1, max: 34, message: '最多输入34个字符', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入网页名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 12, message: '最多输入12个字符', trigger: ['blur', 'change'] }
         ],
         style: [
           { required: true, message: '请选择点击跳转内容', trigger: ['blur', 'change'] }

@@ -30,7 +30,7 @@
               <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符" :disabled='isEdit' :textLength='textLength'/>
             </el-form-item>
             <el-form-item label='网页名称' prop='webTitle' class='larger-item'>
-              <LengthInput v-model='model.webTitle' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
+              <LengthInput v-model='model.webTitle' :length='12' placeholder="可自定义网页名称，最多12个字符"/>
             </el-form-item>
             <el-form-item label='点击跳转' prop='style' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
