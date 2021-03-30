@@ -93,6 +93,12 @@ export default {
     openGroupOperation () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.openGroupOperation
     },
+    /**
+     * 区域id
+     */
+    areaId () {
+      return this.$store.state.user.area.id
+    },
     viewId () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
     }
@@ -144,12 +150,11 @@ export default {
       }
     }
   },
-  mounted: async function () {
+  async mounted () {
     var vm = this
     vm.height = window.innerHeight - 120
     let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
-    // this.$searchAction$()
   },
   updated () {
     if (this.$refs.elTree) {
@@ -157,12 +162,30 @@ export default {
     }
   },
   async created () {
+    await this.findViewList()
     this.initShopList()
   },
   beforeDestroy () {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    // 区域模式下 查询区域对应的视角列表
+    findViewList () {
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result.length) {
+              this.viewList = res.result
+              this.model.viewId = res.result[0].viewId
+              // this.$searchAction$()
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
     viewChange (viewId) {
       // this.initShopList()
       this.$searchAction$()

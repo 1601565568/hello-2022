@@ -133,7 +133,8 @@ export default {
       shopCateTree: [],
       allShopOptions: [],
       shopOptions: [],
-      activeTab: {} // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
+      activeTab: {}, // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
+      viewList: null
     }
   },
   mixins: [tableMixin],

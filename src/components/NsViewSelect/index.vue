@@ -26,16 +26,17 @@ export default {
   inheritAttrs: false,
   props: {
     value: [ String, undefined ],
-    showTitle: { type: Boolean, default: true }
+    showTitle: { type: Boolean, default: true },
+    viewList: { type: Array }
   },
   data () {
     return {
-      viewList: []
+      viewList2: []
     }
   },
   computed: {
     /**
-     * 视角id
+     * 区域id
      */
     areaId () {
       return this.$store.state.user.area.id
@@ -77,7 +78,7 @@ export default {
     }
   },
   created () {
-    this.setViewList()
+    // this.setViewList()
   },
   methods: {
     /**
@@ -116,7 +117,6 @@ export default {
         // 按区域 根据区域id去请求接口 areaId
         this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
           .then(res => {
-            window.console.log(res)
             if (res.success) {
               this.viewList = res.result
               if (this.viewList.length) {
