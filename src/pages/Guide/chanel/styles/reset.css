@@ -1,0 +1,38 @@
+.channel-management {
+  >>> .el-tabs__header {
+    padding-top: 8px;
+    margin: -10px -10px 0;
+  }
+
+  /* form */
+  .effect-analysis-tool-bar {
+    .el-form-item {
+      border: 1px solid #D9D9D9;
+      padding: 2px 8px;
+      margin-bottom: 0;
+      width: 240px;
+      height:32px;
+      box-sizing:border-box;
+      border-radius: 2px;
+      >>> .el-form-item__label {
+        font-size: 14px;
+      }
+      >>> .el-input__inner {
+        border: none;
+        font-size: 14px;
+        min-width: 150px;
+        max-width: 300px;
+      }
+      >>> .el-input__suffix:before {
+        display: none;
+      }
+      >>> .el-date-editor {
+        margin-left: 10px;
+        width: 155px;
+        input {
+          width: 155px;
+        }
+      }
+    }
+  }
+}

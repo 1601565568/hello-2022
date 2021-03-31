@@ -174,5 +174,13 @@ export default {
   getDecryptData: {
     url: '/core/common/getDecryptData',
     method: 'get'
+  },
+  queryEmployeeList4Component: {
+    url: '/core/common/queryEmployeeList4Component',
+    method: 'post'
+  },
+  queryEmployeeTreeAndOption4Component: {
+    url: '/core/common/queryEmployeeTreeAndOption4Component',
+    method: 'post'
   }
 }

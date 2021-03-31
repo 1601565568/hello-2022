@@ -136,7 +136,6 @@ export default {
             brandType: res.data.result.currentView.viewType
           }
         }
-
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

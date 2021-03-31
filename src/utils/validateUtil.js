@@ -54,13 +54,13 @@ const checkLength = (min, max, rule, value, callback) => {
     if (!isNaN(min)) {
       if (value.length < min) {
         isPass = false
-        msg = '输入内容长度不能小于' + min + '位'
+        msg = '内容长度不能小于' + min + '位'
       }
     }
     if (!isNaN(max)) {
       if (value.length > max) {
         isPass = false
-        msg = '输入内容长度不能大于' + max + '位'
+        msg = '内容长度不能大于' + max + '位'
       }
     }
   }

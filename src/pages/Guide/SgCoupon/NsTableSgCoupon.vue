@@ -140,6 +140,11 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
                          label="创建时间" :sortable="false" width="180">
         </el-table-column>
+        <el-table-column label="分配渠道" width="100" align="right">
+          <template slot-scope="scope">
+            {{scope.row.apportionChannel === 1 ? '活动分发': '导购分发'}}
+          </template>
+        </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="right"
                          label="配额" :sortable="false" width="100">
         </el-table-column>

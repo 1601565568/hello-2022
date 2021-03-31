@@ -3,40 +3,110 @@ export default {
   'name': 'ACTIVITY_INDEX',
   'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
   'meta': {
-    'title': '业绩指标',
+    'title': '数据运营',
     'requiresAuth': true
   },
   'children': [
     {
-      'path': '/Guide/ActivityIndex',
-      'name': 'ACTIVITY_INDEX2',
-      'title': '业绩指标',
+      'path': '/Guide/ActivityIndex/ShopSetList',
+      'name': 'WeWorkOperateAnalysis',
+      'title': '企微运营分析',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Guide/ActivityIndex/ShopSetList',
-          'name': 'ACTIVITY_INDEX_SHOP_SETLIST',
-          'title': '门店指标',
-          'component': () => import('@/pages/Guide/ActivityIndex/ShopSetList.vue')
+          path: '/AnalysisWechatData/EnterpriseWechatFriendData',
+          name: 'EnterpriseWechatFriendData',
+          title: '企微好友数据分析',
+          component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
         },
         {
-          'path': '/Guide/Task/shopList',
-          'name': 'SHOP_TASK',
-          'title': '门店任务',
-          'component': () => import('@/pages/Guide/Task/shopList.vue')
+          'path': '/Social/OperationData/CircleOfFriends',
+          'name': 'CircleOfFriends',
+          'title': '朋友圈看板',
+          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         },
         {
-          'path': '/Guide/Task/taskDetail',
-          'name': 'SHOP_TASK_DETAIL',
-          'title': '门店任务',
-          'component': () => import('@/pages/Guide/Task/taskDetail.vue')
+          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+          'name': 'WeComFriendsAnalysis',
+          'title': '好友分析',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+              'name': 'WeComFriendsAnalysis',
+              'title': '好友分析',
+              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
+            }
+          ]
         },
         {
-          'path': '/Guide/ActivityIndex/RewardSetList',
-          'name': 'ACTIVITY_INDEX_REWARD_SETLIST',
-          'title': '提成奖励设置',
-          'component': () => import('@/pages/Guide/ActivityIndex/RewardSetList.vue')
+          'path': '/Social/WeComCustomerOperation/LossCustomers',
+          'name': 'WeComLossCustomers',
+          'title': '流失客户',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
+          'redirect': {
+            'name': 'WeComDeleteCustomers'
+          },
+          children: [
+            {
+              path: '/Social/WeComCustomerOperation/DeleteCustomers',
+              name: 'WeComDeleteCustomers',
+              title: '企微流失好友-删除',
+              component: () => import('@/pages/WeWork/LossCustomers/deleteCustomers.vue')
+            },
+            {
+              path: '/Social/WeComCustomerOperation/BeDeleteCustomers',
+              name: 'WeComBeDeleteCustomers',
+              title: '企微流失好友-被删除',
+              component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      'path': '/Guide/SgGuide',
+      'name': 'WeChatOperateAnalysis',
+      'title': '微信运营分析',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/SgGuide/ActivityAnalysis',
+          'name': 'ActivityAnalysis',
+          'title': '导购行为分析',
+          'component': () => import('@/pages/Guide/ActivityAnalysis/Index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Risk/PhoneRiskManagement/SMSRecords',
+      'name': 'RiskManage',
+      'title': '风控管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Risk/PhoneRiskManagement/CallRecords',
+          'name': 'CallRecords',
+          'title': '通话记录',
+          'component': () => import('@/pages/RiskManagement/PhoneRiskContro/CallRecords/index.vue')
         },
+        {
+          'path': '/Risk/PhoneRiskManagement/SMSRecords',
+          'name': 'SMSRecords',
+          'title': '短信记录',
+          'component': () => import('@/pages/RiskManagement/PhoneRiskContro/SmsRecords/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/ActivityIndex/WorkStatistics',
+      'name': 'ShopOperateAnalysis',
+      'title': '门店运营分析',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
         {
           'path': '/Guide/ActivityIndex/WorkStatistics',
           'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
@@ -48,38 +118,33 @@ export default {
           'name': 'ACTIVITY_INDEX_SHOP_STATISTICS',
           'title': '门店工作统计',
           'component': () => import('@/pages/Guide/ActivityIndex/ShopStatistics.vue')
+        },
+        {
+          path: '/DataCenter/VisitStatistics',
+          name: 'VisitStatistics',
+          title: '员工访问统计',
+          component: () =>
+            import('@/pages/DataCenter/SystemAnalysis/VisitStatistics/index.vue')
         }
       ]
     },
     {
-      'path': '/Guide/Task/List',
-      'name': 'TaskManger',
-      'title': '任务管理',
+      'path': '/Guide/OperationLog/List',
+      'name': 'SystemLog',
+      'title': '系统日志',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Guide/Task/List',
-          'name': 'GUIDE_TASK',
-          'title': '任务管理',
-          'component': () => import('@/pages/Guide/Task/brandList.vue')
+          'path': '/Guide/OperationLog/List',
+          'name': 'SG_WX_ACCOUNT',
+          'title': '操作日志',
+          'component': () => import('@/pages/Guide/OperationLog/List.vue')
         },
         {
-          'path': '/Guide/Task/edit/:id',
-          'name': 'GUIDE_TASK',
-          'title': '新增任务管理',
-          'component': () => import('@/pages/Guide/Task/addBrandTask.vue')
-        },
-        {
-          'path': '/Guide/Task/taskOverview/:id',
-          'name': 'GUIDE_TASK',
-          'title': '查看完整任务',
-          'component': () => import('@/pages/Guide/Task/taskOverview.vue')
-        },
-        {
-          'path': '/Guide/Task/detail',
-          'name': 'GUIDE_DETAIL',
-          'title': '任务概况',
-          'component': () => import('@/pages/Guide/Task/detail.vue')
+          'path': '/Guide/LoginLog/List',
+          'name': 'SG_LOGIN_LOG',
+          'title': '登录日志',
+          'component': () => import('@/pages/Guide/LoginLog/List.vue')
         }
       ]
     }

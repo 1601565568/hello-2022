@@ -97,7 +97,7 @@
           </ElFormItem>
           <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
                 <span class="text-primary">
-                  <Icon type="exclamation-circle"/>&nbsp;招募消息展示内容可在系统设置-招募设置-招募页面配置进行自定义编辑
+                  <Icon type="exclamation-circle"/>&nbsp;招募消息展示内容可在获客引流-会员引流-招募页面配置进行自定义编辑
                 </span>
           </ElFormItem>
         </ElForm>
