@@ -9,7 +9,6 @@
           </el-tabs>
           <div class="title-right_picker">
             <el-date-picker
-              class="date-picker"
               :datePickerModel="model"
               v-model="date"
               type="datetimerange"
@@ -89,9 +88,6 @@ export default Index
 </script>
 <style lang="scss" scoped>
   @import "@components/NewUi/styles/reset.css";
-  ::v-deep .date-picker.el-button--text{
-    display: none !important;
-  }
   ::v-deep .el-tabs__header{
     border-bottom: none;
   }

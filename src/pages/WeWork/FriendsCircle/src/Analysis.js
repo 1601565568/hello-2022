@@ -7,14 +7,32 @@ let vm
 export default {
   mixins: [formMixin, tableMixin],
   data () {
+    let _minTime = null
+    let _maxTime = null
     return {
       pickerOptions: {
+        // 限制搜索时间为三个月
+        onPick (time) {
+          if (!time.maxDate) {
+            let timeRange = 90 * 24 * 3600 * 1000
+            _minTime = time.minDate.getTime() // 最小时间
+            _maxTime = time.minDate.getTime() + timeRange // 最大时间
+          } else {
+            _minTime = _maxTime = null
+          }
+        },
         disabledDate (time) {
-          let curDate = (new Date()).getTime()
-          let three = 90 * 24 * 3600 * 1000
-          let threeMonths = curDate - three
+          // 可以选择今天
           let nowTime = new Date(new Date().toLocaleDateString()).getTime() + 86399000
-          return time.getTime() > nowTime || time.getTime() < threeMonths
+          // let afterToday = Date.now() - 3600 * 1000 * 24
+          if (_maxTime) {
+            _maxTime = (_maxTime <= nowTime) ? _maxTime : nowTime
+          } else {
+            return time.getTime() > nowTime
+          }
+          if (_minTime && _maxTime) {
+            return time.getTime() < _minTime || time.getTime() > _maxTime
+          }
         }
       },
       buttonStatus: 0, // 0是高级搜索，1是重置
