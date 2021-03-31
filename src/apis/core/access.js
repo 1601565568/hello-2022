@@ -81,6 +81,21 @@ export default {
           copyrightInfo: res.data.result.copyrightInfo,
           uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
+        const a = {
+          code: 'FriendsCircleList',
+          commonState: 0,
+          deluxeState: 0,
+          description: '',
+          icon: '',
+          id: '3066',
+          name: '朋友圈',
+          parentId: '3015',
+          platinumState: 0,
+          sort: 4,
+          type: 'MENU',
+          url: '/Marketing/FriendsCircle/List'
+        }
+        res.data.result.menus.push(a)
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

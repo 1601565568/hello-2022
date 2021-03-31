@@ -13,6 +13,7 @@ import sensitiveWords from './sensitiveWords'
 import topicAnalysis from './topicAnalysis'
 import externalContact from './externalContact.js'
 import weWorkRooms from './weWorkRooms.js'
+import friendsCircle from './friendsCircle.js'
 export default {
   welcomeCode,
   behaviorData,
@@ -21,5 +22,6 @@ export default {
   sensitiveWords,
   topicAnalysis,
   externalContact,
-  weWorkRooms
+  weWorkRooms,
+  friendsCircle
 }
