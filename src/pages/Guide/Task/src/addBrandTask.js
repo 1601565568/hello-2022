@@ -135,6 +135,7 @@ export default {
     },
     // 选择区域
     chooseArea (areaId) {
+      this.model.areaId = areaId
       this.model.viewId = ''
       this.viewOptions = []
       // 根据选择区域查询视角列表
@@ -150,14 +151,13 @@ export default {
         })
     },
     // 选择视角
-    chooseView (obj) {
-      var param = {}
-      param.viewId = obj
+    chooseView (viewId) {
+      this.model.viewId = viewId
       this.subgroups = []
       this.model.subgroupId = null
       this.model.subgroupName = null
       this.$http
-        .fetch(this.$api.guide.querySubgroup, param)
+        .fetch(this.$api.guide.querySubgroup, { viewId })
         .then(resp => {
           if (resp.success) {
             for (var i = 0; i < resp.result.length; i++) {
@@ -249,6 +249,7 @@ export default {
       } else {
         params = { ...this.model }
       }
+      console.log('保存的三个id', params.areaId, params.viewId, params.subgroupId)
       this.loading = true
       await this.$http
         .fetch(this.$api.guide.taskEdit, params)
@@ -283,6 +284,7 @@ export default {
           taskId: parseInt(id)
         })
         .then(resp => {
+          window.console.log('要编辑的详细', resp)
           if (resp.success) {
             var obj = resp.result
             this.titleText = '编辑任务'
@@ -294,10 +296,15 @@ export default {
             this.model.activityTime.push(obj.startTime)
             this.model.activityTime.push(obj.endTime)
             this.model.areaId = obj.areaId
+            this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
+            console.log('编辑的三个id', obj.areaId, obj.viewId, obj.subgroupId)
             if (obj.areaId) {
-              this.chooseView(obj.areaId)
+              this.chooseArea(obj.areaId)
+            }
+            if (obj.viewId) {
+              this.chooseView(obj.viewId)
             }
             if (obj.subgroupId) {
               this.chooseSubgroup(obj.subgroupId)
