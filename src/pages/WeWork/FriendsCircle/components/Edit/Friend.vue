@@ -114,6 +114,7 @@ export default {
       line-height: 40px;
       margin-bottom: 80px;
       text-align: right;
+      padding: 0 34px;
     }
   }
   .content {
