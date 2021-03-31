@@ -1,10 +1,12 @@
 import sohot from '@/assets/sohot.png'
 import nothot from '@/assets/nothot.png'
+import iconXingming from '@/assets/icon-xingming.png'
+import iconMendian from '@/assets/icon-mendian.png'
 
 export default {
   data () {
     const validateContent = (length, rule, value, callback) => {
-      if (length > 1000) {
+      if (length > 2000) {
         callback(new Error(`内容最多1000个字`))
       } else {
         callback()
@@ -26,9 +28,9 @@ export default {
     }
     return {
       tools: [
-        { type: 'tag', text: '插入企业微信员工姓名', id: 'WX_EMPLOYEE_NAME', value: '企业微信员工姓名', icon: 'icon-xingming-2-x' },
+        { type: 'tag', text: '插入企业微信员工姓名', id: 'WX_EMPLOYEE_NAME', value: '企业微信员工姓名', img: iconXingming },
         // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称',icon:'icon-nicheng2x' },
-        { type: 'tag', text: '插入企业微信员工门店', id: 'WX_SHOP_NAME', value: '企业微信员工门店', icon: 'icon-mendian-2-x' }
+        { type: 'tag', text: '插入企业微信员工门店', id: 'WX_SHOP_NAME', value: '企业微信员工门店', img: iconMendian }
       ],
       model: { // 提交信息
         content: '',

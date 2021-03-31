@@ -66,7 +66,8 @@ export default {
      */
     handleClick (value) {
       if (!this.disabled) {
-        this.$emit('input', value)
+        const num = value === this.value ? 0 : value
+        this.$emit('input', num)
       }
     }
   },

@@ -30,7 +30,7 @@
               <LengthInput v-model='model.name' :length='8' placeholder="最多8个字符" :disabled='isEdit' :textLength='textLength'/>
             </el-form-item>
             <el-form-item label='网页名称' prop='webTitle' class='larger-item'>
-              <LengthInput v-model='model.webTitle' :length='34' placeholder="可自定义网页名称，最多34个字符"/>
+              <LengthInput v-model='model.webTitle' :length='12' placeholder="可自定义网页名称，最多12个字符"/>
             </el-form-item>
             <el-form-item label='点击跳转' prop='style' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
@@ -57,10 +57,10 @@
                     </template>
                   </el-tooltip>
                 </div>
-                <LengthInput v-model='model.signature' :length='30' placeholder="最多8个字符"/>
+                <LengthInput v-model='model.signature' :length='30' placeholder="最多输入30个字符"/>
               </el-form-item>
               <el-form-item label='朋友圈封面图' prop='topImgUrl' class='larger-item'>
-                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，图片尺寸建议为8:5）' v-model='model.topImgUrl' :showPont='false' :showFooter='false'>
+                <drap-upload tip='（建议：尺寸比例8:5，小于1M，格式为jpg、jpeg或png的图片）' :maxSize='1' v-model='model.topImgUrl' :showPont='false' :showFooter='false'>
                 </drap-upload>
               </el-form-item>
             </template>

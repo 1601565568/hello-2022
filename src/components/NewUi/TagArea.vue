@@ -70,7 +70,8 @@ export default {
       // 当前光标位置
       savedRange: {},
       // 表情class
-      emojiClass: 'EMOJI_'
+      emojiClass: 'EMOJI_',
+      endOffset: 0
     }
   },
   components: { Emotion },
@@ -196,8 +197,19 @@ export default {
       // 删掉选中的内容（如有）
       // this.savedRange.deleteContents()
       // 插入链接
+      // for (var s in this.endDon) {
+      //   console.log(s, this.endDon[s])
+      // }
+      // console.log(this.endDon)
+      // if (this.endDon.style) {
+      //   this.savedRange.setStartBefore(node)
+      // } else {
+      //   this.savedRange.setStart(this.endDon, this.endOffset)
+      // }
+      // this.savedRange.setStart(this.endDon, this.endOffset)
       this.savedRange.insertNode(node)
-
+      // this.endDon = node
+      // this.endOffset = this.savedRange.endOffset + 1
       // 更新双向绑定数据
       let target = this.$refs.wTextareaContent
       this.updateData(target.innerHTML)
@@ -251,7 +263,9 @@ export default {
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
         this.contentId
       ) {
-        this.savedRange = range
+        this.savedRange = range.cloneRange()
+        // this.endDon = this.savedRange.endContainer
+        // this.endOffset = this.savedRange.endOffset
       }
     },
     // 替换标签成模板
@@ -390,6 +404,7 @@ $textColor: #595959;
     &__img {
       width: 16px;
       height: 16px;
+      margin-right: 4px;
       image-rendering: -moz-crisp-edges;
       image-rendering: -o-crisp-edges;
       image-rendering: -webkit-optimize-contrast;

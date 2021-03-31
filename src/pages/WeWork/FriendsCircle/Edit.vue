@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
+  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container friends-from' :model='model' :rules="rules"  size='medium'>
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
@@ -18,7 +18,7 @@
               { required: true, message: '请输入内容', trigger: ['blur', 'change'] },
               { validator: validateContent.bind(this, activityIntroductionLength), trigger: ['blur', 'change'] }
             ]">
-              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="1000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true'/>
+              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="2000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true'/>
             </el-form-item>
             <el-form-item label='附件' prop='mediaList'>
               <MoveUpload :value='model.mediaList' @input='handleChangeMedia' :mediaType='model.type' :disabled='isEdit'/>
@@ -26,7 +26,7 @@
             <el-form-item label='热度' prop='hotLevel' class='larger-item'>
               <star v-model='model.hotLevel' :img='sohot' :voidImg='nothot' :disabled='isEdit'/>
             </el-form-item>
-            <el-form-item label='对外信息说明' prop='profileId' class='larger-item'>
+            <el-form-item label='对外信息名称' prop='profileId' class='larger-item'>
               <template v-if='isEdit'>
                 <div class='preview-div'>
                   {{styleData.name}}
@@ -166,6 +166,7 @@ export default Index
     margin-left: -1px;
     margin-top: -1px;
     margin-right: -1px;
+    overflow-y: hidden;
   }
   .employee-list {
     display: flex;
@@ -217,4 +218,10 @@ export default Index
     color: #595959;
     line-height: 22px;
   }
+</style>
+<style scoped>
+.friends-from >>> .scroll-view {
+  overflow-x: hidden;
+  overflow-y:scroll
+}
 </style>
