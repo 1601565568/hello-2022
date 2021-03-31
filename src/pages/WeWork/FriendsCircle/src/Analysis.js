@@ -8,6 +8,15 @@ export default {
   mixins: [formMixin, tableMixin],
   data () {
     return {
+      pickerOptions: {
+        disabledDate (time) {
+          let curDate = (new Date()).getTime()
+          let three = 90 * 24 * 3600 * 1000
+          let threeMonths = curDate - three
+          let nowTime = new Date(new Date().toLocaleDateString()).getTime() + 86399000
+          return time.getTime() > nowTime || time.getTime() < threeMonths
+        }
+      },
       buttonStatus: 0, // 0是高级搜索，1是重置
       treeData: [],
       // 简单搜索参数
@@ -73,7 +82,8 @@ export default {
       ],
       date: this.changeDate(1),
       // 时间选择的值
-      dateValue: '1day'
+      dateValue: '1day',
+      debounce: null // 点击获取图表时防抖
     }
   },
   created: function () {
@@ -98,13 +108,16 @@ export default {
     },
     // 根据类型修改请求时间
     handleChangeDateType (tab) {
-      if (tab.name === 'all') {
-        this.startTime = null
-        this.endTime = null
-      } else {
-        const data = this.changeDate(parseInt(tab.name))
-        this.changeModelDate(data[0], data[1])
-      }
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+        if (tab.name === 'all') {
+          this.startTime = null
+          this.endTime = null
+        } else {
+          const data = this.changeDate(parseInt(tab.name))
+          this.changeModelDate(data[0], data[1])
+        }
+      }, 500)
     },
     // 根据值修改请求时间
     handleChangeDateValue (date) {
@@ -148,10 +161,13 @@ export default {
      * @param {Object} modelTab
      */
     changeSearchfrom (modelTab) {
-      var _this = this
-      this.modelTab = Object.assign({}, this.modelTab, modelTab)
-      _this.$refs.table.$data.model.profileId = modelTab.profileId
-      _this.$refs.table.$searchAction$()
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+        var _this = this
+        this.modelTab = Object.assign({}, this.modelTab, modelTab)
+        _this.$refs.table.$data.model.profileId = modelTab.profileId
+        _this.$refs.table.$searchAction$()
+      }, 500)
     },
     /**
      * 过滤树
@@ -253,8 +269,6 @@ export default {
             this.$emit('offLineShopId', this.offLineShopId)
           }
         }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     changeShopStatus () {
@@ -275,13 +289,17 @@ export default {
     },
     // 门店树选择
     onClickNode (data) {
-      var _this = this
-      if (data.code !== 'root') {
-        _this.$refs.table.$data.model.shopId = data.id
-      } else {
-        _this.$refs.table.$data.model.shopId = null
-      }
-      _this.$refs.table.$searchAction$()
+      // 方式
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+        var _this = this
+        if (data.code !== 'root') {
+          _this.$refs.table.$data.model.shopId = data.id
+        } else {
+          _this.$refs.table.$data.model.shopId = null
+        }
+        _this.$refs.table.$searchAction$()
+      }, 500)
     }
     // 下拉门店树相关方法====结束
   }

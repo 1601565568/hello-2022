@@ -50,8 +50,11 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type"
                          :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="center">
           <template slot-scope="scope">
-            {{formateTheDate(scope.row)}}
+            {{scope.row.visitTime || scope.row.guideName }}
           </template>
+          <!-- <template v-else slot-scope="scope">
+            {{scope.row.guideName}}
+          </template> -->
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="uv"
                          label="访问人数 (UV)" sortable="custom" align="right">

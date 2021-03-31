@@ -24,7 +24,7 @@ export default {
   },
   data: function () {
     let model = Object.assign({},
-      { 'shopId': '', 'profileId': 0 })
+      { 'shopId': '', 'profileId': null })
     let pagination = {
       enable: true,
       size: 15,
@@ -203,6 +203,8 @@ export default {
     tableReload: function () {
       this.logByTypeQuery.shopId = this.model.shopId
       this.logByTypeQuery.profileId = this.model.profileId
+      this.logByTypeQuery.length = this._data._pagination.size
+      this.logByTypeQuery.start = (this._data._pagination.page - 1) * (this._data._pagination.size)
       this.$http.fetch(this.$api.weWork.friendsCircle.logPageByType, this.logByTypeQuery)
         .then((resp) => {
           if (resp.success) {
@@ -214,6 +216,9 @@ export default {
     // 切换数据报表搜索类型
     changeListDataType: function (e) {
       this.logByTypeQuery.type = e
+      if (e === 1) {
+        this.logByTypeQuery.orderBy = ''
+      }
       this._data._pagination.page = 1
       this.tableReload(this.$generateParams$())
     },
