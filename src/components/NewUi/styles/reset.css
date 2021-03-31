@@ -63,6 +63,15 @@
   >>> .el-form-item__label {
     font-size: 14px;
     line-height: 22px;
+    &:before {
+      opacity: 0;
+      content: "*";
+      color: #F56C6C;
+      margin-right: 4px;
+    }
+  }
+  >>> .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before, >>> .el-form-item.is-required:not(.is-no-asterisk) .el-form-item__label-wrap > .el-form-item__label:before {
+    opacity: 1;
   }
   >>> .larger-item .el-form-item__label {
     line-height: 32px;
@@ -139,7 +148,18 @@
         bottom: 0px;
       }
     }
+    &:last-child {
+      .cell:after {
+        display: none;
+      }
+    }
   }
+  /* >>>&.el-table--small {
+    font-size: 14px;
+  }
+  >>>&.el-table--small .el-table__row td {
+    padding: 15px 0;
+  } */
 }
 /* 折叠 */
 .common-collapse {
@@ -222,3 +242,15 @@
 /* .NsUi_select {
   width: 100%;
 } */
+.blue-tip {
+  background: #F2F9FE;
+  border-radius: 2px;
+  padding: 9px 16px;
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

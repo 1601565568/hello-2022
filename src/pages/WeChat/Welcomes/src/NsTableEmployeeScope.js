@@ -34,6 +34,7 @@ export default {
     }
   },
   mounted () {
+    this.$reload()
     this.model = Object.assign({}, this.model, this.childData)
   },
   methods: {
