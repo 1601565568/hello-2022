@@ -19,7 +19,7 @@ export default {
       let arr = []
       let arr1 = []
       _this.$http.fetch(_this.$api.guide.guide.operationlogGetDetail, { id: Number(value.id) }).then(resp => {
-        if (resp.result.afterJson !== null) {
+        if (resp.result.afterJson !== null && resp.result.afterJson !== undefined) {
           resp.result.afterJson = JSON.parse(resp.result.afterJson)
           for (let i in resp.result.afterJson) {
             if (Object.prototype.toString.call(resp.result.afterJson[i]) === '[object Array]') {
@@ -36,7 +36,7 @@ export default {
           }
           resp.result.afterJson = arr
         }
-        if (resp.result.beforeJson !== null) {
+        if (resp.result.beforeJson !== null && resp.result.beforeJson !== undefined) {
           resp.result.beforeJson = JSON.parse(resp.result.beforeJson)
           for (let i in resp.result.beforeJson) {
             if (Object.prototype.toString.call(resp.result.beforeJson[i]) === '[object Array]') {
@@ -86,6 +86,7 @@ export default {
           })
         }
       }).catch((resp) => {
+        // console.log(resp, '123123')
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     }

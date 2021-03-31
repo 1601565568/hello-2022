@@ -2,7 +2,8 @@ import validates from './validates'
 export default {
   data () {
     return {
-      collapseList: [1, 2],
+      collapseList: [1, 2, 3],
+      customerLoading: false,
       guestCodeId: null,
       copyGuestCodeId: null,
       activityIntroductionLength: 0,
@@ -88,13 +89,15 @@ export default {
       tools: [
         { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
         { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入推广大师查询链接', id: 'PROMOTION_URL', value: '推广大师查询链接' },
+        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
         { type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ],
       // 是否是进行中的
       isStating: false,
-      isLoading: false
+      isSetPrize: true,
+      isLoading: false,
+      prizeModel: {} // 奖品组件回显
     }
   },
   computed: {
@@ -105,6 +108,8 @@ export default {
   mounted () {
     const query = this.$route.query
     const { guestCodeId, copyGuestCodeId } = query
+    this.guestCodeId = guestCodeId
+    this.copyGuestCodeId = copyGuestCodeId
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
@@ -114,12 +119,11 @@ export default {
     } else {
       this.isLoading = true
     }
-    this.guestCodeId = guestCodeId
-    this.copyGuestCodeId = copyGuestCodeId
   },
   methods: {
     // 获取详情
     loadActivity (guestCodeId) {
+      this.customerLoading = true
       this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
         const { result } = res
         this.model = {
@@ -139,12 +143,30 @@ export default {
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
+        this.formatPrizeModel(result)
+        this.customerLoading = false
         this.isStating = !!(result.status === 2 && this.guestCodeId)
+        // 是否可以在未开始活动编辑奖励
+        this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
         this.$nextTick(() => {
           this.isLoading = true
         })
       })
+    },
+    formatPrizeModel (result) {
+      this.prizeModel = {
+        prizeStatus: result.prizeStatus === 1,
+        prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
+          return {
+            ...item,
+            addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
+            validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
+            uuid: this.copyGuestCodeId ? null : item.uuid
+          }
+        }) : [],
+        prizeSendPlan: result.prizeSendPlan
+      }
     },
     // 获取员工详情
     getGuideListByGuestCodeId (guestCodeId) {
@@ -243,10 +265,18 @@ export default {
     },
     // 保存
     handleSave () {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
-          this.btnLoad = true
-          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, this.formatModel()).then(res => {
+          const prizeModel = await this.$refs.setPrize.onSave()
+          // this.btnLoad = true
+          if (!prizeModel) {
+            this.btnLoad = false
+            return false
+          }
+          // console.log('prizeModel', prizeModel)
+          const save = Object.assign(this.formatModel(), prizeModel)
+          // console.log(save)
+          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
             this.$notify.success('保存成功')
             this.handleCancel()
           }).catch(res => {

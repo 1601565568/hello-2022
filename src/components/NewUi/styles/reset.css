@@ -108,6 +108,28 @@
   >>> .el-input-number.is-controls-right .el-input__inner {
     padding-right: 44px;
   }
+  /* >>> .el-table {
+    overflow: visible !important;
+  } */
+  >>> .el-table .cell {
+    overflow: visible !important;
+  }
+  >>> .el-table::before {
+    display: none;
+  }
+  >>> .el-table__body-wrapper {
+    /* overflow: visible !important; */
+    padding-bottom:30px;
+  }
+  >>> .el-select--medium {
+    width: 100%;
+    .el-input__suffix {
+      height: calc(100% - 2px);
+      &::before {
+        display: none;
+      }
+    }
+  }
 }
 /* 表格 */
 .new-table_border {
@@ -217,7 +239,9 @@
   width: 200px;
   background-color: blue;
 }
-/* 蓝色提示栏 */
+/* .NsUi_select {
+  width: 100%;
+} */
 .blue-tip {
   background: #F2F9FE;
   border-radius: 2px;

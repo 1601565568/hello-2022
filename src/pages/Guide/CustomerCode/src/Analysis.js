@@ -31,16 +31,24 @@ export default {
         {
           label: '推广大师人数',
           value: 0,
-          tip: '筛选期间内，通过此活动成为推广大师总人数（导购发送裂变大师的好友即为推广大师）',
+          tip:
+            '筛选期间内，通过此活动成为推广大师总人数（导购发送裂变大师的好友即为推广大师）',
           id: 'master',
           key: 'promotionMasterNumber'
         },
         {
           label: '邀请好友总数',
           value: 0,
-          tip: '筛选期间内，通过此活动每个导购新增的好友数之和。注意：1、只有第一次添加导购企业微信才算邀请好友数；2、一个微信号添加了多个导购时，好友数为多个',
+          tip:
+            '筛选期间内，通过此活动每个导购新增的好友数之和。注意：1、只有第一次添加导购企业微信才算邀请好友数；2、一个微信号添加了多个导购时，好友数为多个',
           id: 'friend',
           key: 'inviteFriendNumber'
+        },
+        {
+          label: '达标总人数',
+          value: 0,
+          id: 'prize',
+          key: 'reachStandardNumber'
         }
       ],
       model: {
@@ -65,19 +73,25 @@ export default {
         timeStart: this.startTime,
         timeEnd: this.endTime
       }
-      this.$http.fetch(this.$api.guide.customerCode.getGuestStatisticsCount, parmas).then(res => {
-        const { result = {
-          employeeNumber: 0,
-          inviteFriendNumber: 0,
-          promotionMasterNumber: 0
-        } } = res
-        this.typeList = this.typeList.map(item => ({
-          ...item,
-          value: result[item.key]
-        }))
-      }).catch(res => {
-        this.$notify.error(res.msg)
-      })
+      this.$http
+        .fetch(this.$api.guide.customerCode.getGuestStatisticsCount, parmas)
+        .then(res => {
+          const {
+            result = {
+              employeeNumber: 0,
+              inviteFriendNumber: 0,
+              promotionMasterNumber: 0,
+              reachStandardNumber: 0
+            }
+          } = res
+          this.typeList = this.typeList.map(item => ({
+            ...item,
+            value: result[item.key]
+          }))
+        })
+        .catch(res => {
+          this.$notify.error(res.msg)
+        })
     },
     // 切换报表
     hanldeChangeType (id) {

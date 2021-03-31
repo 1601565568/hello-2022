@@ -169,6 +169,9 @@ export default {
           title: 'LBS好友聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          // redirect: {
+          //   path: '/Guide/LBS/Friends/Index'
+          // },
           children: [
             {
               path: '/Guide/LBS/Friends/Index',
