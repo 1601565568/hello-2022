@@ -247,7 +247,6 @@ export default {
       } else {
         params = { ...this.model }
       }
-      console.log('保存的三个id', params.areaId, params.viewId, params.subgroupId)
       this.loading = true
       await this.$http
         .fetch(this.$api.guide.taskEdit, params)
@@ -296,7 +295,6 @@ export default {
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
-            console.log('编辑的三个id', obj.areaId, obj.viewId, obj.subgroupId)
             if (obj.areaId) {
               this.chooseArea(obj.areaId)
             }
