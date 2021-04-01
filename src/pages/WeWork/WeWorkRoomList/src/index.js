@@ -137,9 +137,9 @@ export default {
           } else {
             this._data._table.data = []
             this._data._pagination.total = 0
-            this.shuJushuzu.id = ''
+            // this.shuJushuzu.id = ''
             this.offLineShopId = ''
-            this.setStatus()
+            // this.setStatus()
             this.$emit('offLineShopId', this.offLineShopId)
           }
         }

@@ -78,13 +78,10 @@ export default {
           'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseFriendCircle/index.vue')
         },
         {
-          'path': '/Marketing/ActivityAuditList',
+          'path': '/EnterpriseExamine',
           'name': 'ActivityAuditList',
           'title': '活动审核',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
-          'redirect': {
-            'name': 'enterpriseExamine'
-          },
           'children': [
             {
               'path': '/EnterpriseExamine',

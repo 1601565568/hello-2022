@@ -164,14 +164,14 @@ export default {
           ]
         },
         {
-          path: '/Guide/LBS/Friends',
+          path: '/Guide/LBS/Friends/Index',
           name: 'LBSFriends',
           title: 'LBS好友聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          redirect: {
-            path: '/Guide/LBS/Friends/Index'
-          },
+          // redirect: {
+          //   path: '/Guide/LBS/Friends/Index'
+          // },
           children: [
             {
               path: '/Guide/LBS/Friends/Index',
@@ -253,18 +253,15 @@ export default {
           ]
         },
         {
-          path: '/Guide/LBS/Group',
+          path: '/Guide/LBS/Group/Index',
           name: 'LBSGroup',
           title: 'LBS群聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          redirect: {
-            path: '/Guide/LBS/Group/Index'
-          },
           children: [
             {
               path: '/Guide/LBS/Group/Index',
-              name: 'GroupIndex',
+              name: 'LBSGroup',
               meta: { requiresAuth: true },
               title: 'LBS群聚合码',
               'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
@@ -339,6 +336,47 @@ export default {
           'name': 'ChannelDetail',
           'title': '渠道分析',
           'component': () => import('@/pages/Guide/chanel/ChannelAnalysis/ChannelDetail.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Marketing/FriendsCircle',
+      'name': 'FriendsCircle3',
+      'title': '朋友圈统计',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'enterpriseExamine'
+      },
+      'children': [
+        {
+          'path': '/Marketing/FriendsCircle/List',
+          'name': 'FriendsCircleList',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/List.vue')
+        },
+        {
+          'path': '/Marketing/FriendsCircle/OutList',
+          'name': 'FriendsCircleOutList',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/OutList.vue')
+        },
+        {
+          'path': '/Marketing/FriendsCircle/Edit',
+          'name': 'FriendsCircleList',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/Edit.vue')
+        },
+        {
+          'path': '/Marketing/FriendsCircle/OutEdit',
+          'name': 'FriendsCircleOutEdit',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/OutEdit.vue')
+        },
+        {
+          'path': '/Marketing/FriendsCircle/Analysis',
+          'name': 'FriendsCircleAnalysis',
+          'title': '对外信息内容管理',
+          'component': () => import('@/pages/WeWork/FriendsCircle/Analysis.vue')
         }
       ]
     }

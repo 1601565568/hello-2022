@@ -157,14 +157,14 @@ export default {
     formatPrizeModel (result) {
       this.prizeModel = {
         prizeStatus: result.prizeStatus === 1,
-        prizeRuleList: result.prizeRuleList.map((item) => {
+        prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
           return {
             ...item,
             addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
             validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
             uuid: this.copyGuestCodeId ? null : item.uuid
           }
-        }) || [],
+        }) : [],
         prizeSendPlan: result.prizeSendPlan
       }
     },
