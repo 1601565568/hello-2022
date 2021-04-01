@@ -218,8 +218,6 @@ export default {
         that.model.targetIds = 0
       }
 
-      window.console.log('保存的数据', this.model)
-
       this.$refs.form.validate(valid => {
         if (valid) {
           that.model.startTime = that.model.activityTime[0]
@@ -284,7 +282,6 @@ export default {
           taskId: parseInt(id)
         })
         .then(resp => {
-          window.console.log('要编辑的详细', resp)
           if (resp.success) {
             var obj = resp.result
             this.titleText = '编辑任务'
