@@ -1,7 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 let vm
 export default {
-  name: 'NsEmployeeOrCustGroupDialog',
+  name: 'NsGuideDialog',
   mixins: [tableMixin],
   props: {
     value: {
@@ -78,16 +78,16 @@ export default {
         name: '',
         shopId: '',
         shopIds: '',
-        // 门店分类
-        shopCate: {},
+        // 门店区域
+        shopArea: {},
         // 类型 0导购 1店长
         job: null,
         mobile: '',
         fileImportKey: '', // 文件导入
         manualInputKey: '' // 手动输入导入
       },
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
@@ -107,7 +107,7 @@ export default {
   },
   computed: {},
   watch: {
-    'departData.shopCate': function (o1, o2) {
+    'departData.shopArea': function (o1, o2) {
       let shopOptions = []
       this.departData.shopId = ''
       this.departData.shopIds = ''
@@ -137,7 +137,7 @@ export default {
         this.departData.mobile = ''
         this.departData.job = null
         this.departData.selectedDepart = {}
-        this.departData.shopCate = {} // 选择的门店分类
+        this.departData.shopArea = {} // 选择的门店区域
         this.departData.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
@@ -163,13 +163,13 @@ export default {
       }
     },
     /**
-     * 门店分类树点击事件(懒加载)
+     * 门店区域树点击事件(懒加载)
      * @param node
      * @param resolve
      * @returns {*}
      */
-    loadShopCateNode (node, resolve) {
-      let shopCateTree = this.shopCateTree
+    loadShopAreaNode (node, resolve) {
+      let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
         return resolve([{
           id: 0,
@@ -180,7 +180,7 @@ export default {
       }
       if (node.level >= 1) {
         // 点击之后触发
-        let filter = shopCateTree.filter(data => {
+        let filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -204,14 +204,14 @@ export default {
         })
     },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
           that.loading = false
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -226,7 +226,7 @@ export default {
       vm.departData.mobile = ''
       vm.departData.job = ''
       vm.departData.selectedDepart = {}
-      vm.departData.shopCate = {} // 选择的门店分类
+      vm.departData.shopArea = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
       vm.departData.fileImportKey = '' // 文件导入key
       vm.departData.manualInputKey = '' // 手动输入key
@@ -322,8 +322,8 @@ export default {
       if (this.departData.shopId) {
         param.shopId = this.departData.shopId
       } else {
-        if (this.departData.shopCate && this.departData.shopCate.value) {
-          param.cateId = '-' + this.departData.shopCate.value + '-'
+        if (this.departData.shopArea && this.departData.shopArea.value) {
+          param.areaId = '-' + this.departData.shopArea.value + '-'
         }
       }
       if (vm.departData.manualInputKey) {
@@ -610,8 +610,8 @@ export default {
     vm = this
     // 获取部门树
     vm.getDepartmentTree()
-    // 分类树
-    vm.getShopCateAndShop()
+    // 区域树
+    vm.getShopAreaAndShop()
   },
   created: function () {
   }

@@ -38,7 +38,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :data="shopCateData" :load="loadShopCateNode" :filter-lazy-nodes="filterShopCate" v-model="model.shopCate" clearable></ns-droptree>
+                <ns-droptree ref="shopAreaTree" placeholder="请选择门店分类" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -314,7 +314,7 @@ export default {
         wechatNo: '',
         mobile: '',
         name: '', // 搜索的员工名称
-        shopCate: {}, // 选择的门店分类
+        shopArea: {}, // 选择的门店分类
         shopId: '', // 选择的门店
         employeeType: '' // 选择的员工类型
       },
@@ -338,8 +338,8 @@ export default {
         page: 1,
         total: 0
       },
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
@@ -347,7 +347,7 @@ export default {
       initGroupDataFlag: false,
       isCheckAll: false,
       loadSelectedData: [],
-      shopCateData: [],
+      shopAreaData: [],
       deptData: []
     }
   },
@@ -364,7 +364,7 @@ export default {
         vm.objProps = 'groupProps'
       }
     },
-    'model.shopCate': function (o1, o2) {
+    'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
         this.allShopOptions.map(item => {
@@ -433,9 +433,9 @@ export default {
         }
       }
     },
-    // 懒加载门店分类树
-    loadShopCateNode (node, resolve) {
-      const shopCateTree = this.shopCateTree
+    // 懒加载门店区域树
+    loadShopAreaNode (node, resolve) {
+      const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
         return resolve([{
           id: 0,
@@ -446,7 +446,7 @@ export default {
       }
       if (node.level >= 1) {
         // 点击之后触发
-        const filter = shopCateTree.filter(data => {
+        const filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -456,16 +456,16 @@ export default {
         }
       }
     },
-    filterShopCate (val) {
+    filterShopArea (val) {
       if (val) {
-        const nodes = this.shopCateTree.filter(item => {
+        const nodes = this.shopAreaTree.filter(item => {
           if (item.label) {
             return item.label.indexOf(val) !== -1
           }
         })
-        this.shopCateData = nodes
+        this.shopAreaData = nodes
       } else {
-        this.shopCateData = [{
+        this.shopAreaData = [{
           id: 0,
           parentId: -1,
           code: 0,
@@ -491,16 +491,16 @@ export default {
       }
     },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       // 设置选中
       // this.$set(this, 'selectedData', JSON.parse(JSON.stringify(this.confirmData)))
       // this.visible = true
       const that = this
       that.$http.fetch(that.$api.marketing.weworkMarketing.queryEmployeeTreeAndOption4Component)
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -593,14 +593,14 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopCate = {} // 选择的门店分类
+        vm.model.shopArea = {} // 选择的区域分类
         vm.model.mobile = ''
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型
         vm.model.wechatNick = '' // 选择的员工类型
         vm.model.wechatNo = '' // 选择的员工类型
         vm.$refs.employeeDepartTree.cleanClickHandle()
-        vm.$refs.shopCateTree.cleanClickHandle()
+        vm.$refs.shopAreaTree.cleanClickHandle()
         vm.searchEmployee()
       }
     },
@@ -639,15 +639,15 @@ export default {
         } else {
           flag = false
         }
-      } else if (searchMap.shopCate && searchMap.shopCate.value && vm.shopOptions && vm.shopOptions.length > 0) {
-        let shopCateFlag = false
+      } else if (searchMap.shopArea && searchMap.shopArea.value && vm.shopOptions && vm.shopOptions.length > 0) {
+        let shopAreaFlag = false
         for (let i = 0; i < vm.shopOptions.length; i++) {
           if (data.shopIds && data.shopIds.indexOf(vm.shopOptions[i].value) !== -1) {
-            shopCateFlag = true
+            shopAreaFlag = true
             break
           }
         }
-        flag = flag && shopCateFlag
+        flag = flag && shopAreaFlag
       }
       if (searchMap.employeeType) {
         flag = flag && (data.employeeType === parseInt(searchMap.employeeType))
@@ -811,14 +811,14 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopCate = {} // 选择的门店分类
+        vm.model.shopArea = {} // 选择的门店区域
         vm.model.mobile = ''
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型
         vm.model.wechatNick = '' // 选择的员工类型
         vm.model.wechatNo = '' // 选择的员工类型
         vm.$refs.employeeDepartTree.cleanClickHandle()
-        vm.$refs.shopCateTree.cleanClickHandle()
+        vm.$refs.shopAreaTree.cleanClickHandle()
       }
       vm.isAllSelect()
       vm.fileData()
@@ -1061,7 +1061,7 @@ export default {
     vm = this
     vm.getDepartmentTree()
     vm.getGroupTree()
-    vm.getShopCateAndShop()
+    vm.getShopAreaAndShop()
   },
   created: function () {
     // do nothing
