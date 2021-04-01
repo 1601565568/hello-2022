@@ -1,9 +1,10 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import TagArea from '@/components/NewUi/TagArea'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 import ElUpload from '@nascent/nui/lib/upload'
 export default {
   mixins: [scrollHeight],
-  components: { TagArea, ElUpload },
+  components: { TagArea, ElUpload, DrapUpload },
   data () {
     const pageUrl = (rule, value, callback) => {
       if (!value) {
@@ -148,9 +149,9 @@ export default {
           value: '时间戳'
         }
       ],
-      presetLink: [], // 系统链接数组
-      linkModelFileList: [],
-      appModelFileList: []
+      presetLink: [] // 系统链接数组
+      // linkModelFileList: [],
+      // appModelFileList: []
     }
   },
   mounted () {
@@ -172,14 +173,14 @@ export default {
           _this.model.linkModel.link = this.stringTohtml(content.link) // 链接
           _this.model.linkModel.title = content.title // 标题
           _this.model.linkModel.image = content.image // 图片
-          this.linkModelFileList = [{ name: content.image }]
+          // this.linkModelFileList = [{ name: content.image }]
         } else if (result.link_type && result.link_type === 2 && result.content) {
           let content = JSON.parse(result.content)
           _this.model.appModel.appid = content.appid // 小程序appid
           _this.model.appModel.path = this.stringTohtml(content.path) // 小程序路径
           _this.model.appModel.title = content.title // 标题
           _this.model.appModel.image = content.image // 封面
-          this.appModelFileList = [{ name: content.image }]
+          // this.appModelFileList = [{ name: content.image }]
         }
       }
     })
@@ -220,42 +221,45 @@ export default {
      * 图片上传的钩子函数
      * @param {*} file
      */
-    beforeUpload (file) {
-      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-        return false
-      }
-      if (file.size / 1024 / 1024 > 1) {
-        this.$notify.error('上传图片不能超过1M')
-        return false
-      }
-    },
+    // beforeUpload (file) {
+    //   if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+    //     this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+    //     return false
+    //   }
+    //   if (file.size / 1024 / 1024 > 1) {
+    //     this.$notify.error('上传图片不能超过1M')
+    //     return false
+    //   }
+    //   this.appModelFileList = [file]
+    //   return true
+    // },
     /**
      * H5链接上传成功的钩子
      * @param {object} res
      */
-    handleUploadSuccess (res) {
-      this.model.linkModel.image = res.result.url
-    },
+    // handleUploadSuccess (res) {
+    //   this.model.linkModel.image = res.result.url
+    // },
     /**
     * 小程序上传成功的钩子
     * @param {object} res
     */
-    handleSuccessUpload (res) {
-      this.model.appModel.image = res.result.url
-    },
+    // handleSuccessUpload (res) {
+    //   this.model.appModel.image = res.result.url
+    //   console.log(this.model.appModel.image)
+    // },
     /**
      * H5链接移除钩子函数
      */
-    handleRemove () {
-      this.model.linkModel.image = ''
-    },
+    // handleRemove () {
+    //   this.model.linkModel.image = ''
+    // },
     /**
     * 小程序链接移除钩子函数
     */
-    handleRemoveApp () {
-      this.model.appModel.image = ''
-    },
+    // handleRemoveApp () {
+    //   this.model.appModel.image = ''
+    // },
     /**
      * H5配置链接长度判断
      * @param {number} length

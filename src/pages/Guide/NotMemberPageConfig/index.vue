@@ -5,7 +5,9 @@
       <div class="clearfix nonMember-head__title">
         <span class="nonMember-head__title-content"> 侧边栏会员招募 </span>
         <div class="float-right">
-          <NsButton type="primary" :loading="loading" @click="save()">保存</NsButton>
+          <NsButton type="primary" :loading="loading" @click="save()"
+            >保存</NsButton
+          >
         </div>
       </div>
     </div>
@@ -155,9 +157,17 @@
                           </div>
                           <div class="NotMemberPageConfig-poster__content">
                             <el-form-item>
-                              <el-upload
+                              <drap-upload
+                                tip="请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M"
+                                v-model="model.linkModel.image"
+                                :showPont="false"
+                                :showFooter="false"
+                              >
+                              </drap-upload>
+                              <!-- <el-upload
                                 class="upload-demo"
                                 ref="upload"
+                                :limit="1"
                                 drag
                                 accept=".jpg,.jpeg,.png"
                                 :action="$api.core.sgUploadFile('test')"
@@ -173,7 +183,7 @@
                                 <div class="el-upload__tip" slot="tip">
                                   （请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M）
                                 </div>
-                              </el-upload>
+                              </el-upload> -->
                             </el-form-item>
                           </div>
                         </div>
@@ -220,14 +230,21 @@
                                 maxlength="20"
                                 minlength="1"
                                 clearable
-                                placeholder="请输入标题1"
+                                placeholder="请输入标题"
                                 v-model="model.appModel.title"
                                 show-word-limit
                               />
                             </div>
                           </el-form-item>
                           <div class="NotMemberPageConfig-poster__content">
-                            <el-upload
+                            <drap-upload
+                              tip="请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M"
+                              v-model="model.appModel.image"
+                              :showPont="false"
+                              :showFooter="false"
+                            >
+                            </drap-upload>
+                            <!-- <el-upload
                               class="upload-demo"
                               ref="upload"
                               drag
@@ -247,7 +264,7 @@
                                   >请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M</span
                                 >
                               </div>
-                            </el-upload>
+                            </el-upload> -->
                           </div>
                         </div>
                       </el-form-item>
@@ -375,20 +392,22 @@ export default Index
       padding: 16px;
     }
     .msg-content {
+       width: 50%;
       padding: 16px;
       background: #f5f5f5;
       border-radius: 2px;
       .msg-content__input {
-        margin-bottom: 16px;
+        margin: 16px;
       }
     }
     .app-msg__content {
       width: 50%;
-      padding: 16px;
+      // padding: 16px;
       background: #f5f5f5;
       border-radius: 2px;
       .msg-content__input {
-        margin-bottom: 16px;
+        // margin-bottom: 16px;
+        margin: 16px;
       }
     }
   }
