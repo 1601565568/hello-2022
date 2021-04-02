@@ -122,6 +122,7 @@ export default {
         start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
         length: this.shopTreePage.size,
         searchMap: {
+          areaScope: 0,
           shopName: this.shopTreePage.shopName,
           shopStatus: this.checkStatusList.join(',')
         }

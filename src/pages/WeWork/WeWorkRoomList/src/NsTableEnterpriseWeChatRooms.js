@@ -48,7 +48,6 @@ export default {
     const quickSearchModel = {}
     const model = Object.assign({},
       {
-        areaScope: 0,
         title: '',
         chatroomLeaderWxid: '',
         buildTime: []
