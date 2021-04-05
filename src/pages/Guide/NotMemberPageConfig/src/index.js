@@ -221,45 +221,44 @@ export default {
      * 图片上传的钩子函数
      * @param {*} file
      */
-    // beforeUpload (file) {
-    //   if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-    //     this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-    //     return false
-    //   }
-    //   if (file.size / 1024 / 1024 > 1) {
-    //     this.$notify.error('上传图片不能超过1M')
-    //     return false
-    //   }
-    //   this.appModelFileList = [file]
-    //   return true
-    // },
+    beforeUpload (file) {
+      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+        return false
+      }
+      if (file.size / 1024 / 1024 > 1) {
+        this.$notify.error('上传图片不能超过1M')
+        return false
+      }
+      // this.appModelFileList = [file]
+      // return true
+    },
     /**
      * H5链接上传成功的钩子
      * @param {object} res
      */
-    // handleUploadSuccess (res) {
-    //   this.model.linkModel.image = res.result.url
-    // },
+    handleUploadSuccess (res) {
+      this.model.linkModel.image = res.result.url
+    },
     /**
     * 小程序上传成功的钩子
     * @param {object} res
     */
-    // handleSuccessUpload (res) {
-    //   this.model.appModel.image = res.result.url
-    //   console.log(this.model.appModel.image)
-    // },
+    handleSuccessUpload (res) {
+      this.model.appModel.image = res.result.url
+    },
     /**
      * H5链接移除钩子函数
      */
-    // handleRemove () {
-    //   this.model.linkModel.image = ''
-    // },
+    handleRemove () {
+      this.model.linkModel.image = ''
+    },
     /**
     * 小程序链接移除钩子函数
     */
-    // handleRemoveApp () {
-    //   this.model.appModel.image = ''
-    // },
+    handleRemoveApp () {
+      this.model.appModel.image = ''
+    },
     /**
      * H5配置链接长度判断
      * @param {number} length

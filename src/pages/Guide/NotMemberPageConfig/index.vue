@@ -165,13 +165,36 @@
                             </div>
                             <div class="NotMemberPageConfig-poster__content">
                               <el-form-item>
-                                <drap-upload
+                                <ElUpload
+                                  :action="this.$api.core.sgUploadFile('test')"
+                                  :show-file-list="false"
+                                  :on-success="handleUploadSuccess"
+                                  :before-upload="beforeUpload"
+                                  clearable
+                                  class="message-upload"
+                                >
+                                  <img
+                                    v-if="model.linkModel.image"
+                                    :src="model.linkModel.image"
+                                    class="message-upload__avatar"
+                                  />
+                                  <Icon
+                                    type="plus"
+                                    className="message-upload__tip"
+                                    v-else
+                                  />
+                                </ElUpload>
+                                <p class="prompt-text">
+                                  <span class="yellow-point"></span
+                                  >请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M
+                                </p>
+                                <!-- <drap-upload
                                   tip="请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M"
                                   v-model="model.linkModel.image"
                                   :showPont="false"
                                   :showFooter="false"
                                 >
-                                </drap-upload>
+                                </drap-upload> -->
                                 <!-- <el-upload
                                 class="upload-demo"
                                 ref="upload"
@@ -234,6 +257,7 @@
                           prop="appModel.image"
                         >
                           <div class="app-msg__content">
+                            <div class="app-name">小程序名称</div>
                             <el-form-item prop="appModel.title">
                               <div class="msg-content__input">
                                 <el-input
@@ -248,34 +272,29 @@
                               </div>
                             </el-form-item>
                             <div class="NotMemberPageConfig-poster__content">
-                              <drap-upload
-                                tip="请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M"
-                                v-model="model.appModel.image"
-                                :showPont="false"
-                                :showFooter="false"
+                              <ElUpload
+                                :action="this.$api.core.sgUploadFile('test')"
+                                :show-file-list="false"
+                                :on-success="handleSuccessUpload"
+                                :before-upload="beforeUpload"
+                                clearable
+                                class="message-upload"
                               >
-                              </drap-upload>
-                              <!-- <el-upload
-                              class="upload-demo"
-                              ref="upload"
-                              drag
-                              accept=".jpg,.jpeg,.png"
-                              :action="$api.core.sgUploadFile('test')"
-                              :file-list="appModelFileList"
-                              :on-remove="handleRemoveApp"
-                              :before-upload="beforeUpload"
-                              :on-success="handleSuccessUpload"
-                            >
-                              <i class="el-icon-upload"></i>
-                              <div class="el-upload__text">
-                                将文件拖到此处，或<em>点击上传</em>
-                              </div>
-                              <div class="el-upload__tip" slot="tip">
-                                <span class="nonMember-config__left-content-tip"
-                                  >请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M</span
-                                >
-                              </div>
-                            </el-upload> -->
+                                <img
+                                  v-if="model.appModel.image"
+                                  :src="model.appModel.image"
+                                  class="message-upload__avatar"
+                                />
+                                <Icon
+                                  type="plus"
+                                  className="message-upload__tip"
+                                  v-else
+                                />
+                              </ElUpload>
+                              <p class="prompt-text">
+                                <span class="yellow-point"></span
+                                >请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M
+                              </p>
                             </div>
                           </div>
                         </el-form-item>
@@ -315,8 +334,8 @@ export default Index
 </script>
 <style>
 .NotMemberPageConfig-poster__content {
-  /* padding: 16px; */
-  padding-bottom: 0;
+  /* padding: 0px 16px; */
+  padding-bottom: 16px;
   /* background-color: #f5f5f5; */
   /deep/ .el-upload--text {
     width: 100%;
@@ -325,10 +344,49 @@ export default Index
     }
   }
 }
-/* .nonMember-page {
-  /deep/ .el-scrollbar__wrap {
-    overflow-x: hidden !important;
+.message-upload {
+  position: relative;
+  width: 100%;
+  border: 1px dashed #dcdfe6;
+  border-radius: 3px;
+  height: 192px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  &:hover {
+    cursor: pointer;
+    border-color: #0091fa;
   }
+  .message-upload__avatar {
+    width: 100%;
+    max-height: 192px;
+    object-fit: cover;
+  }
+  > div {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    color: #dcdfe6;
+    line-height: 190px;
+  }
+  /* >>> .el-upload {
+    min-width: 240px;
+    height: 192px;
+    font-size: 18px;
+    color: #dcdfe6;
+    text-align: center;
+    line-height: 192px;
+  } */
+}
+/* .message-upload >>> .el-upload {
+  min-width: 240px;
+  height: 192px;
+  font-size: 18px;
+  color: #dcdfe6;
+  text-align: center;
+  line-height: 192px;
 } */
 </style>
 
@@ -423,22 +481,40 @@ export default Index
       padding: 16px;
     }
     .msg-content {
-      width: 50%;
+      width: 272px;
+      padding: 0 16px;
       padding-top: 16px;
       background: #f5f5f5;
       border-radius: 2px;
       .msg-content__input {
-        margin: 16px;
+        margin-bottom: 16px;
       }
     }
     .app-msg__content {
-      width: 50%;
-      // padding: 16px;
+      width: 272px;
+      padding: 0 16px;
       background: #f5f5f5;
       border-radius: 2px;
+      .app-name {
+        position: relative;
+        font-size: 14px;
+        color: #606266;
+        padding: 4px 0px 4px 28px;
+        &::before {
+          position: absolute;
+          content: '';
+          left: 0;
+          top: 50%;
+          transform: translate(0%, -50%);
+          width: 20px;
+          height: 20px;
+          background: #d9d9d9;
+          border-radius: 50%;
+        }
+      }
       .msg-content__input {
-        // margin-bottom: 16px;
-        margin: 16px;
+        margin-bottom: 12px;
+        // margin: 16px;
       }
     }
   }
@@ -479,6 +555,18 @@ export default Index
         }
       }
     }
+  }
+}
+.prompt-text {
+  // display: flex;
+  // align-items: center;
+  .yellow-point {
+    background: #f2aa18;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
   }
 }
 </style>
