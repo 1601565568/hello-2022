@@ -138,13 +138,13 @@ export default NsDataAnalysisCharts
   .tab-content-left{
     position: relative;
     padding: 0 16px;
-    font-size: 16px;
+    font-size: 14px;
     color: #262626;
     font-weight: 600;
     &::before {
       content: " ";
       position: absolute;
-      left: 96px;
+      right: 0;
       top: 50%;
       height: 24px;
       width: 1px;
