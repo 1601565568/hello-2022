@@ -48,7 +48,7 @@
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                 :element-loading-text="$t('prompt.loading')" @sort-change="sortChange">
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type"
-                         :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="center">
+                         :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="left">
           <template slot-scope="scope">
             {{scope.row.visitTime || scope.row.guideName }}
           </template>
@@ -58,9 +58,15 @@
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="uv"
                          label="访问人数 (UV)" sortable="custom" align="right">
+          <template slot-scope="scope">
+            <span class='table-row_span'>{{scope.row.uv}}</span>
+          </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="pv"
                          label="访问次数 (PV)" sortable="custom" align="right">
+          <template slot-scope="scope">
+            <span class='table-row_span'>{{scope.row.pv}}</span>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -172,6 +178,9 @@ export default NsDataAnalysisCharts
     background: #fff;
     margin-top: 16px;
     border-bottom: 1px solid #dcdfe6;
+  }
+  .table-row_span {
+    margin-right: 24px;
   }
 </style>
 <style scoped>
