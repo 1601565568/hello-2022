@@ -434,9 +434,9 @@ export default Index
       .el-form-item__label {
         color: #595959;
       }
-      .el-form-item__content {
-        padding-left: 16px;
-      }
+      // .el-form-item__content {
+      //   padding-left: 16px;
+      // }
       .nonMember-config__left-content-tip {
         position: relative;
         padding-left: 16px;
