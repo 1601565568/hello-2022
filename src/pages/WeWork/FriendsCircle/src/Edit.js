@@ -76,7 +76,7 @@ export default {
       return ''
     },
     title () {
-      return this.isEdit ? '对外信息展示详情' : '新建对外信息展示'
+      return this.isEdit ? '对外信息展示详情' : '新增对外信息内容'
     }
   },
   methods: {
