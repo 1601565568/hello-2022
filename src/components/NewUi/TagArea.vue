@@ -284,13 +284,13 @@ export default {
         const regexp = new RegExp('{' + item.id + '}', 'g')
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
-      return string.replace('\n', ' <br /> ')
+      return string.replace(/\n/g, ' <br /> ')
     },
     // 替换模板成文字
     stringTotext (string) {
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string.replace(regexp, '{' + item.value + '}').replace('\n', ' <br /> ')
+        string = string.replace(regexp, '{' + item.value + '}').replace(/\n/g, ' <br /> ')
       })
       if (this.$refs.emotion) {
         this.$refs.emotion.emojiList.map(item => {
