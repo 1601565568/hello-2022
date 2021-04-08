@@ -16,8 +16,14 @@ export default {
         {
           'path': '/Guide/Others/SgWxAuth',
           'name': 'OTHERS_SGWXACCOUNT',
-          'title': '授权管理',
+          'title': '小程序授权',
           'component': () => import('@/pages/Guide/SgWxAuth/Index.vue')
+        },
+        {
+          'path': '/Guide/Others/paySet',
+          'name': 'PAY_SET',
+          'title': '支付配置',
+          'component': () => import('@/pages/Guide/PaySet/Index.vue')
         }
       ]
     },
