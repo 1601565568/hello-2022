@@ -131,6 +131,7 @@ export default {
         const index = this.list.findIndex(item => item.key === res.result.originalFileName)
         if (index > -1) {
           this.list[index].url = res.result.url
+          this.list[index].key = null
           this.$emit('input', { type: 'img', list: this.list.map(item => item.url) })
         }
       } else {
@@ -157,6 +158,17 @@ export default {
       if (file.size / 1024 / 1024 > this[type + 'Size']) {
         this.$notify.error(`上传文件不能超过${this[type + 'Size']}M`)
         return false
+      }
+      if (type === 'img') {
+        if (this.list.length >= 9) {
+          this.$notify.error(`最多上传9张图片`)
+          return false
+        }
+      } else {
+        if (this.list.length >= 1) {
+          this.$notify.error(`最多上传1个视频`)
+          return false
+        }
       }
       this.type = type
       if (type === 'video') {
