@@ -28,7 +28,7 @@ export default {
         ],
         webTitle: [
           { required: true, message: '请输入网页名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 12, message: '最多输入12个字符', trigger: ['blur', 'change'] }
+          { min: 1, max: 12, message: '最多输入12个字', trigger: ['blur', 'change'] }
         ],
         style: [
           { required: true, message: '请选择点击跳转内容', trigger: ['blur', 'change'] }
@@ -37,7 +37,7 @@ export default {
           { required: true, message: '请选择朋友圈封面图', trigger: ['blur', 'change'] }
         ],
         signature: [
-          { min: 1, max: 30, message: '最多输入30个字符', trigger: ['blur', 'change'] }
+          { min: 1, max: 30, message: '最多输入30个字', trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,
