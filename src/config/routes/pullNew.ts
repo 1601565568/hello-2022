@@ -338,47 +338,6 @@ export default {
           'component': () => import('@/pages/Guide/chanel/ChannelAnalysis/ChannelDetail.vue')
         }
       ]
-    },
-    {
-      'path': '/Marketing/FriendsCircle',
-      'name': 'FriendsCircle',
-      'title': '朋友圈统计',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'redirect': {
-        'name': 'enterpriseExamine'
-      },
-      'children': [
-        {
-          'path': '/Marketing/FriendsCircle/List',
-          'name': 'FriendsCircleList',
-          'title': '对外信息内容管理',
-          'component': () => import('@/pages/WeWork/FriendsCircle/List.vue')
-        },
-        {
-          'path': '/Marketing/FriendsCircle/OutList',
-          'name': 'FriendsCircleOutList',
-          'title': '对外信息内容管理',
-          'component': () => import('@/pages/WeWork/FriendsCircle/OutList.vue')
-        },
-        {
-          'path': '/Marketing/FriendsCircle/Edit',
-          'name': 'FriendsCircleList',
-          'title': '对外信息内容管理',
-          'component': () => import('@/pages/WeWork/FriendsCircle/Edit.vue')
-        },
-        {
-          'path': '/Marketing/FriendsCircle/OutEdit',
-          'name': 'FriendsCircleOutEdit',
-          'title': '对外信息内容管理',
-          'component': () => import('@/pages/WeWork/FriendsCircle/OutEdit.vue')
-        },
-        {
-          'path': '/Marketing/FriendsCircle/Analysis',
-          'name': 'FriendsCircleAnalysis',
-          'title': '对外信息内容管理',
-          'component': () => import('@/pages/WeWork/FriendsCircle/Analysis.vue')
-        }
-      ]
     }
   ]
 }
