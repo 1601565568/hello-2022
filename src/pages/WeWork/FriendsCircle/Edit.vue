@@ -60,7 +60,7 @@
                   <el-radio :label="1">部分员工</el-radio>
                 </el-radio-group>
                 <div class='employee-content' v-if='model.userType === 1'>
-                  <el-form-item label='选择员工' prop='guideIds' class='larger-item'>
+                  <el-form-item label='' prop='guideIds' class='larger-item'>
                     <html-area @onOpen='()=>{$refs.nsGuideDialog.onDialogOpen()}'>
                       <div class='employee-list'>
                         <template v-if='model.guideIds.length>0'>
