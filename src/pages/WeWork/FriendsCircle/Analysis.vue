@@ -2,7 +2,7 @@
   <div>
     <template>
       <div class="title-box">
-        <div class="title-analysis">企业信息栏效果分析</div>
+        <div class="title-analysis">对外信息效果分析</div>
         <div class="title-right">
           <el-tabs class="title-right_time" v-model="dateValue" :timeModel="model" @tab-click="handleChangeDateType">
             <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>

@@ -92,6 +92,7 @@ export default {
     init () {
       const { id } = this.$route.query
       if (id) {
+        this.model.style = -1
         this.isEdit = true
         this.$http.fetch(this.$api.weWork.friendsCircle.profileFindById, { id }).then((res) => {
           if (res.success) {
