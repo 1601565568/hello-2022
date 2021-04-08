@@ -71,7 +71,7 @@
         </div>
         <!-- 分类 end -->
         <!-- 数据图表 start -->
-        <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType"></ns-data-analysis-charts>
+          <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType"></ns-data-analysis-charts>
         <!-- 数据图表 end -->
       </div>
     </div>
@@ -97,28 +97,32 @@ export default Index
   ::v-deep .el-tabs__active-bar{
     background-color: transparent !important;
   }
-  ::v-deep .el-tabs__item.is-active{
+  ::v-deep .title-right_time .el-tabs__item.is-active{
+    text-align:center;
     color: #0091FA;
     background: #F5FBFF;
     border-radius: 4px;
+    font-weight: 500;
   }
-  ::v-deep .el-tabs__item{
-    padding: 2px 13px;
+  ::v-deep .title-right_time .el-tabs__item{
+    color: #595959;
+    font-weight: 400;
+    padding: 2px 13px 2px 13px;
     line-height: 28px;
   }
   ::v-deep .el-tabs__nav-prev{
-    line-height: 55px;
-    left: 4px;
+    line-height: 62px;
+    left: 12px;
   }
   ::v-deep .el-tabs__nav-next{
-    line-height: 55px;
-    right: 4px;
+    line-height: 62px;
+    right: 12px;
   }
   .title-tab {
     ::v-deep .el-tabs__item  {
       line-height: 51px;
       font-weight: 400;
-      color: #595959;
+      color: #262626;
       &.is-active {
         font-weight: 600;
         background: #fff;
@@ -130,12 +134,12 @@ export default Index
   }
   .title-right_picker{
     padding-top: 2px;
-    padding-left: 32px;
+    padding-left: 24px;
     position: relative;
     &::before {
       content: " ";
       position: absolute;
-      left: 14px;
+      left: 6px;
       top: 50%;
       height: 20px;
       width: 1px;
