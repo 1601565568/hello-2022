@@ -522,7 +522,11 @@ export default {
             param.pageNo = 1
             param.pageSize = 1
             if (vm.value && vm.value.length > 0) {
-              param.userIds = vm.value.join(',')
+              if (vm.value[0] && typeof vm.value[0] === 'object') {
+                param.userIds = vm.value.map(item => item.id).join(',')
+              } else {
+                param.userIds = vm.value.join(',')
+              }
             }
             vm.$http.fetch(this.$api.core.sysUser.findByGuideIds, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
@@ -532,7 +536,7 @@ export default {
                   vm.tableLoading = false
                 })
               }
-            }).catch((ee) => {})
+            })
           } else {
             vm.selectedData = []
           }

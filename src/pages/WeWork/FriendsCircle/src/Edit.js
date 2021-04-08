@@ -7,7 +7,7 @@ export default {
   data () {
     const validateContent = (length, rule, value, callback) => {
       if (length > 2000) {
-        callback(new Error(`内容最多1000个字`))
+        callback(new Error(`内容最多2000个字`))
       } else {
         callback()
       }
@@ -100,6 +100,7 @@ export default {
 
     inputLength (length) {
       this.activityIntroductionLength = length
+      this.$refs.searchform && this.$refs.searchform.validateField('content')
     },
     /**
      * 删除导购
@@ -107,7 +108,7 @@ export default {
      */
     handleDelect (index) {
       this.model.guideIds.splice(index, 1)
-      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.searchform && this.$refs.searchform.validateField('guideIds')
     },
     /**
      * 删除所有导购
@@ -115,7 +116,7 @@ export default {
      */
     handleDelectAll () {
       this.model.guideIds = []
-      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.searchform && this.$refs.searchform.validateField('guideIds')
     },
     /**
      * 选择导购
@@ -123,7 +124,7 @@ export default {
      */
     handleChangeGuide (value) {
       this.model.guideIds = value
-      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.searchform && this.$refs.searchform.validateField('guideIds')
     },
     /**
      * 选择文件
@@ -133,6 +134,7 @@ export default {
       this.model.mediaList = data.list
       this.model.type = data.type
       this.model.videoTopUrl = data.poster
+      this.$refs.searchform && this.$refs.searchform.validateField('mediaList')
     },
     /**
      * 格式化通用数据

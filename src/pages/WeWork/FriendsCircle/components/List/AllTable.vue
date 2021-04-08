@@ -13,7 +13,7 @@
     </el-table-column>
     <el-table-column
       prop="name"
-      label="对外信息说明">
+      label="对外信息名称">
       <template slot-scope="scope">
         <span class='col-text'>{{scope.row.name}}</span>
       </template>

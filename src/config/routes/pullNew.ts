@@ -341,7 +341,7 @@ export default {
     },
     {
       'path': '/Marketing/FriendsCircle',
-      'name': 'FriendsCircle3',
+      'name': 'FriendsCircle',
       'title': '朋友圈统计',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'redirect': {
