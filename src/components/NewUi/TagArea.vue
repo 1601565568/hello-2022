@@ -284,7 +284,7 @@ export default {
         const regexp = new RegExp('{' + item.id + '}', 'g')
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
-      return string
+      return string.replace('\n', ' <br /> ')
     },
     // 替换模板成文字
     stringTotext (string) {

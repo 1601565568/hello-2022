@@ -23,7 +23,7 @@
         <recruitment-collapse title='基本信息' phoneTitle=''>
           <template slot='collapse-left'>
             <el-form-item label='对外信息名称' prop='name' class='larger-item'>
-              <div>
+              <div class='gray-color'>
                 请确保输入的名称与企业微信后台配置的对外信息一致
                 <ns-button type='text' class='tip-text' @click='handlePreview(true,1)'>查看示例</ns-button>
               </div>
@@ -48,7 +48,7 @@
             </el-form-item>
             <template v-if='model.style === 0'>
               <el-form-item label='个性签名' prop='signature' class='larger-item'>
-                <div>
+                <div class='gray-color'>
                   可自定义个性签名
                   <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
                     <ns-button type='text' class='tip-text'>查看示例</ns-button>
@@ -138,7 +138,7 @@ export default Index
       position: absolute;
       left: 3px;
       right: 3px;
-      top: 341px;
+      top: 347px;
       z-index: 99;
       height: 43px;
       display: flex;
@@ -194,5 +194,8 @@ export default Index
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center
+  }
+  .gray-color {
+    color:#8C8C8C
   }
 </style>

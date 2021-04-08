@@ -40,7 +40,7 @@
         <!-- 视频 end -->
         <div :key='-1' class="img-content forbid" v-if='isShowAddBtn && !disabled'>
           <Icon type='icon-ns-succeed-add' class='add-icon'/>
-          <ElUpload accept=".jpg,.jpeg,.png,.mp4" :show-file-list='false' :action="$api.core.sgUploadFile('test')" :on-success="handleUploadSuccess" :before-upload="beforeUpload"/>
+          <ElUpload multiple accept=".jpg,.jpeg,.png,.mp4" :show-file-list='false' :action="$api.core.sgUploadFile('test')" :on-success="handleUploadSuccess" :before-upload="beforeUpload"/>
         </div>
       </transition-group>
     </draggable>
@@ -128,7 +128,7 @@ export default {
     },
     async handleUploadSuccess (res) {
       if (this.type === 'img') {
-        const index = this.list.findIndex(item => item.key === decodeURIComponent(res.result.originalFileName))
+        const index = this.list.findIndex(item => item.key === res.result.originalFileName)
         if (index > -1) {
           this.list[index].url = res.result.url
           this.$emit('input', { type: 'img', list: this.list.map(item => item.url) })
@@ -180,10 +180,12 @@ export default {
   },
   watch: {
     value (newVal) {
-      this.list = newVal.map(url => ({
-        key: null,
-        url
-      }))
+      if (this.list.length === 0) {
+        this.list = newVal.map(url => ({
+          key: null,
+          url
+        }))
+      }
     },
     mediaType (newVal) {
       this.type = newVal
