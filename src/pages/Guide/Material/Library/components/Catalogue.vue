@@ -6,7 +6,10 @@
         <div class="catalogue-folders__content">
           <div class="catalogue-folders__item" :class="{'catalogue-folders__item--selected': item.selected}" v-for="item in folderList" :key="item.id">
             <div class="catalogue-folders__item--info" @click="onEnter(item)">
-              <Icon type="wenjianjia-new" class="catalogue-folders__item--icon"/>
+              <div class="catalogue-folders__item--iconview">
+                <Icon type="wenjianjia-new" class="catalogue-folders__item--icon"/>
+                <div type="jiaobiao-new" class="catalogue-folders__item--angle" style="">99+</div>
+              </div>
               <div class="catalogue-folders__item--name" :title="item.name">{{item.name}}</div>
             </div>
             <div class="catalogue-folders__item--btns">
@@ -296,6 +299,9 @@ export default {
             opacity: 1;
           }
         }
+        @m iconview {
+          position: relative;
+        }
         @m selected {
           border-color: #1a9cfb;
           &:hover {
@@ -355,6 +361,23 @@ export default {
           font-size: 0;
           line-height: 1;
           cursor: pointer;
+        }
+        @m angle {
+          position: absolute;
+          bottom: 0px;
+          left: 30px;
+          background: #F5F5F5;
+          border: 1px solid #D9D9D9;
+          border-radius: 4px;
+          font-size: 12px;
+          color: #595959;
+          text-align: center;
+          line-height: 14px;
+          padding: 1px;
+          min-width: 16px;
+          min-height: 16px;
+          display: inline-block;
+          font-family: PingFangSC-Regular;
         }
       }
     }
