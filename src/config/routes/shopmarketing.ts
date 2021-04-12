@@ -115,6 +115,29 @@ export default {
           'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
         }
       ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Strategies/List',
+      'name': 'redPacket',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketList'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Strategies/List',
+          'name': 'redPacketList',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/List.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/Strategies/Edit',
+          'name': 'redPacketEdit',
+          'title': '新建红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Edit.vue')
+        }
+      ]
     }
   ]
 }

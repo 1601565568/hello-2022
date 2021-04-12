@@ -32,7 +32,9 @@ export default {
           value: ''
         }
       ],
-      btnLoad: false
+      btnLoad: false,
+      visible: false,
+      drawerData: {}
     }
   },
   methods: {
