@@ -8,7 +8,7 @@
           v-model="model.name"
           placeholder="请输入标题，长度在150个字符以内"
           style="width: 260px"
-          :input="model.name=model.name.replace(/\s+/g,'')"
+          :input="(model.name = model.name.replace(/\s+/g, ''))"
           clearable
         ></el-input>
       </el-form-item>
@@ -29,7 +29,7 @@
           </el-option>
         </el-select>
         <span class="library-icon__extra" @click="toggleLabel">
-          <Icon type="plus"/>
+          <Icon type="plus" />
           <span>添加标签</span>
         </span>
       </el-form-item>
@@ -44,32 +44,58 @@
         ></el-input>
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="imageList">
-        <ul class="library-image__list clearfix">
-          <li class="library-image__item" v-for="(item,index) in imageList" :key="index">
-            <img :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">
+        <ul class="library-image__list clearfix" style="z-index:200">
+          <li
+            class="library-image__item"
+            v-for="(item, index) in imageList"
+            :key="index"
+          >
+            <img
+              :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
+            />
             <div class="library-image__mask">
-              <Icon type="zoom-in" @click="previewImage(index)"/>
-              <Icon type="delete" @click="removeImage(index)"/>
+              <Icon type="zoom-in" @click="previewImage(index)" />
+              <Icon type="delete" @click="removeImage(index)" />
             </div>
           </li>
           <li v-if="imageList.length < imageNum">
-            <el-upload
-              class="library-uploader"
-              :action="this.$api.core.sgUploadFile('image')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-              accept=".jpg,.jpeg,.png"
-              list-type="picture-card"
-              multiple
-            >
-              <Icon type="plus"/>
-            </el-upload>
+            <el-popover placement="top-start" width="160" trigger="click">
+              <div class="library-popover">
+                <div>
+                  <el-upload
+                    class="library-uploader"
+                    :action="this.$api.core.sgUploadFile('image')"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload"
+                    accept=".jpg,.jpeg,.png"
+                    list-type="picture-card"
+                    multiple
+                  >
+                    <div class="popover-base">
+                      <Icon type="tupianbeifen-5" class="popover-icon"></Icon>
+                      <span class="popver-text">图片</span>
+                    </div>
+                  </el-upload>
+                </div>
+                <div class="popover-base">
+                  <Icon type="ns-edit" class="popover-icon"></Icon>
+                  <span class="popver-text">自建坑位</span>
+                </div>
+              </div>
+              <div class="library-select-uploader" slot="reference">
+                <div class="el-upload--picture-card">
+                  <Icon type="plus" />
+                </div>
+              </div>
+            </el-popover>
           </li>
         </ul>
         <div class="library-icon__extra">
-          <Icon type="tishi"/>
-          <span>上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</span>
+          <Icon type="tishi" />
+          <span
+            >上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</span
+          >
         </div>
       </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule">
@@ -77,14 +103,24 @@
           v-model="model.codeModule"
           placeholder="请选择"
           clearable
-          @change='codeModuleChange'
+          @change="codeModuleChange"
           style="width: 240px"
         >
-          <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id" >
+          <el-option
+            v-for="item in wechatPageTypeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
           </el-option>
         </el-select>
         <el-form-grid v-if="model.codeModule == 1">
-          <el-select v-model="model.codeTarget" placeholder="请选择" clearable  @change='codeTargetChange'>
+          <el-select
+            v-model="model.codeTarget"
+            placeholder="请选择"
+            clearable
+            @change="codeTargetChange"
+          >
             <el-option
               v-for="item in wechatPageUrlList"
               :key="item.codeTarget"
@@ -95,42 +131,73 @@
           </el-select>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 2">
-          <ns-button @click='selectGoods' type='primary'>选择商品</ns-button>
+          <ns-button @click="selectGoods" type="primary">选择商品</ns-button>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 4">
-          <ns-button @click='selectMarket' type='primary'>选择营销活动</ns-button>
+          <ns-button @click="selectMarket" type="primary"
+            >选择营销活动</ns-button
+          >
         </el-form-grid>
       </el-form-item>
       <el-form-item
-        v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != '' "
-        :label="model.codeModule == 2 ? '商品名称：' : model.codeModule == 4 ? '活动名称：' : ''"
-        prop='codeTargetName'
+        v-if="
+          model.codeModule &&
+            model.codeModule != 1 &&
+            model.codeTargetName != ''
+        "
+        :label="
+          model.codeModule == 2
+            ? '商品名称：'
+            : model.codeModule == 4
+            ? '活动名称：'
+            : ''
+        "
+        prop="codeTargetName"
       >
-        <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
+        <el-input
+          v-model="model.codeTargetName"
+          :disabled="true"
+          style="width: 240px"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="小程序码类型：" prop="codeType" v-if='model.codeTarget'>
+      <el-form-item
+        label="小程序码类型："
+        prop="codeType"
+        v-if="model.codeTarget"
+      >
         <el-radio-group v-model="model.codeType">
-          <el-radio :label="1">图片上植入小程序码
-          </el-radio>
-          <el-radio :label="2">单独增加一张小程序码图
-          </el-radio>
+          <el-radio :label="1">图片上植入小程序码 </el-radio>
+          <el-radio :label="2">单独增加一张小程序码图 </el-radio>
         </el-radio-group>
-        <div v-if="model.codeType == 2" style='line-height:1.5;' class="library-icon__extra">
-          <Icon type="info-circle"/>
+        <div
+          v-if="model.codeType == 2"
+          style="line-height:1.5;"
+          class="library-icon__extra"
+        >
+          <Icon type="info-circle" />
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
         </div>
       </el-form-item>
-      <el-form-item label="保存到：" >
-        <span class="library-catalogue__text">{{catalogueStr}}</span>
+      <el-form-item label="保存到：">
+        <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
+      <ns-button type="primary" :loading="loading" @click="onSave"
+        >保存</ns-button
+      >
       <ns-button @click="onBack()">取消</ns-button>
     </div>
-    <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
-    <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
+    <folder-tree
+      ref="folderTree"
+      title="选择文件夹"
+      @submit="handleFolder"
+    ></folder-tree>
+    <SelectMarket
+      ref="selectMarket"
+      :callBack="selectMarketBack"
+    ></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
   </div>
 </template>
@@ -143,6 +210,7 @@ import SelectGoods from '../../components/selectGoods'
 
 export default {
   name: 'imageform',
+  // components: { FolderTree, SelectMarket, SelectGoods },
   components: { FolderTree, ElUpload, SelectMarket, SelectGoods },
   props: {
     labelList: {
@@ -167,8 +235,16 @@ export default {
   data: function () {
     return {
       loading: false,
-      wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
-      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, { codeTargetName: '我的', codeTarget: '3' }],
+      wechatPageTypeList: [
+        { name: '商城主页面', id: 1 },
+        { name: '商品', id: 2 },
+        { name: '营销活动', id: 4 }
+      ],
+      wechatPageUrlList: [
+        { codeTargetName: '首页', codeTarget: '1' },
+        { codeTargetName: '分类', codeTarget: '2' },
+        { codeTargetName: '我的', codeTarget: '3' }
+      ],
       model: {
         isDirectory: 0,
         name: '',
@@ -184,12 +260,30 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
-          { min: 0, max: 150, message: '限制长度在150个字符以内', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入标题',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 0,
+            max: 150,
+            message: '限制长度在150个字符以内',
+            trigger: ['blur', 'change']
+          }
         ],
         content: [
-          { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
-          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入推广文案',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 0,
+            max: 1500,
+            message: '限制长度在1500个字符以内',
+            trigger: ['blur', 'change']
+          }
         ],
         imageList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }
@@ -197,7 +291,8 @@ export default {
       },
       mType: 1,
       imageNum: 9,
-      catalogue: [{ id: 0, name: '素材库' }]
+      catalogue: [{ id: 0, name: '素材库' }],
+      visible: false
     }
   },
   computed: {
@@ -216,17 +311,26 @@ export default {
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
         if (k === 'imageList') {
-          tempModel[k] = tempModel[k].filter(v => /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v))
+          tempModel[k] = tempModel[k].filter(v =>
+            /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
+          )
         }
       })
       this.model = tempModel
-      this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+      this.catalogue = parentIds.map((id, index) => ({
+        id: +id,
+        name: parentNames[index]
+      }))
     },
     'model.codeType' (newVal) {
       this.imageNum = newVal === 2 ? 8 : 9
     }
   },
   methods: {
+    handleImageType () {
+      console.log('01')
+      this.visible = !this.visible
+    },
     toggleFolder () {
       this.$refs.folderTree.show(null, this.catalogue)
     },
@@ -267,7 +371,11 @@ export default {
     },
     codeTargetChange (e) {
       let codeTargetObj = e ? this.wechatPageUrlList[Number(e) - 1] : {}
-      this.$set(this.model, 'codeTargetName', codeTargetObj.codeTargetName || '')
+      this.$set(
+        this.model,
+        'codeTargetName',
+        codeTargetObj.codeTargetName || ''
+      )
     },
     selectMarket () {
       this.$nextTick(() => {
@@ -287,7 +395,11 @@ export default {
       } else if (obj.sysItemId) {
         this.$set(this.model, 'codeTarget', obj.sysItemId)
         this.$set(this.model, 'codeTargetName', obj.title)
-        this.$set(this.model, 'extJson', JSON.stringify({ mallId: obj.mallId, bankId: obj.bankId }))
+        this.$set(
+          this.model,
+          'extJson',
+          JSON.stringify({ mallId: obj.mallId, bankId: obj.bankId })
+        )
       }
     },
     onBack (isSave) {
@@ -317,97 +429,160 @@ export default {
         this.loading = false
         return
       }
-      this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
-        this.$notify.success('保存成功')
-        this.onBack(true)
-      }).catch(resp => {
-        this.$notify.error(getErrorMsg('保存失败', resp))
-      }).finally(() => {
-        this.loading = false
-      })
+      this.$http
+        .fetch(this.$api.guide.materialEdit, params)
+        .then(resp => {
+          this.$notify.success('保存成功')
+          this.onBack(true)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('保存失败', resp))
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   },
   mounted () {
-    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
+    this.catalogue =
+      this.breadcrumb && this.breadcrumb.length
+        ? this.breadcrumb
+        : [{ id: 0, name: '素材库' }]
   }
 }
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
-  @component-namespace library {
-    @b image {
-      @e list {
-        width: 300px;
-        list-style: none;
-        padding: 0;
-        margin-bottom: var(--default-margin-small);
-        > li {
-          float: left;
-          position: relative;
-          margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
-        }
-      }
-      @e item {
-        font-size: 0;
-        > img {
-          width: 90px;
-          height: 90px;
-          border-radius: var(--default-radius-mini);
-          object-fit: cover;
-          border: 1px solid #E8E8E8;
-        }
-      }
-      @e mask {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        background-color: rgba(0, 0, 0, .5);
-        transition: opacity .3s;
-        font-size: 16px;
-        color: #fff;
-        text-align: center;
-        line-height: 90px;
-        border-radius: var(--default-radius-mini);
-        &:hover {
-          opacity: 1;
-        }
-        svg {
-          cursor: pointer;
-        }
-        svg + svg {
-          margin-left: var(--default-margin-small);
-        }
+@import '@theme/variables.pcss';
+.a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+@component-namespace library {
+  @b image {
+    @e list {
+      width: 300px;
+      list-style: none;
+      padding: 0;
+      margin-bottom: var(--default-margin-small);
+      > li {
+        float: left;
+        position: relative;
+        margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
       }
     }
-    @b uploader {
-      >>> .el-upload--picture-card {
+    @e item {
+      font-size: 0;
+      > img {
         width: 90px;
         height: 90px;
-        border: dashed 1px #DCDFE6;
-        background-color: transparent;
-        font-size: 18px;
-        color: #8c8c8c;
-        line-height: 88px;
         border-radius: var(--default-radius-mini);
-        &:hover {
-          border-color: var(--theme-color-primary);
-          color: var(--theme-color-primary);
-        }
+        object-fit: cover;
+        border: 1px solid #e8e8e8;
       }
     }
-    @b catalogue {
-      @e text {
-        vertical-align: middle;
-        & + button {
-          margin-left: var(--default-margin-larger);
-        }
+    @e mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: opacity 0.3s;
+      font-size: 16px;
+      color: #fff;
+      text-align: center;
+      line-height: 90px;
+      border-radius: var(--default-radius-mini);
+      &:hover {
+        opacity: 1;
       }
-    }
-    >>> .el-form-grid {
-      margin-left: var(--default-margin-larger);
+      svg {
+        cursor: pointer;
+      }
+      svg + svg {
+        margin-left: var(--default-margin-small);
+      }
     }
   }
+  @b uploader {
+    >>> .el-upload--picture-card {
+      width: 80px;
+      height: 80px;
+      border: none;
+      background-color: transparent;
+      color: #8c8c8c;
+      line-height: 80px;
+      border-radius: var(--default-radius-mini);
+      &:hover {
+        /* border-color: var(--theme-color-primary); */
+        /* color: var(--theme-color-primary); */
+      }
+    }
+  }
+  @b select-uploader {
+    z-index: 100;
+    display: inline-block;
+    >>> .el-upload--picture-card {
+      width: 90px;
+      height: 90px;
+      /* border: dashed 1px #dcdfe6; */
+      background-color: transparent;
+      font-size: 18px;
+      color: #8c8c8c;
+      line-height: 88px;
+      border-radius: var(--default-radius-mini);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        border-color: var(--theme-color-primary);
+        color: var(--theme-color-primary);
+      }
+    }
+  }
+  @b popover {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    >>> .popover-base {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    >>> .popver-image {
+      width: 35px;
+      height: 30px;
+      color: red;
+    }
+    >>> .popver-text {
+      font-size: 12px;
+      color: #303133;
+      line-height: 20px;
+      font-weight: 400;
+      margin-top: 5px;
+    }
+    >>> .popover-icon {
+      font-size: 35px;
+      color: #383838;
+    }
+  }
+  @b catalogue {
+    @e text {
+      vertical-align: middle;
+      & + button {
+        margin-left: var(--default-margin-larger);
+      }
+    }
+  }
+  >>> .el-form-grid {
+    margin-left: var(--default-margin-larger);
+  }
+}
 </style>
