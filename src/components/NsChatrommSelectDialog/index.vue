@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree ref="shopAreaTree" placeholder="请选择门店分类" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+              <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
@@ -562,20 +562,23 @@ export default {
     },
     // 懒加载门店区域树
     loadShopAreaNode (node, resolve) {
+      console.log('调用啊', node)
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.shopAreaTree.filter(item => item.parentId === '0'))
+        // return resolve([{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }])
       }
       if (node.level >= 1) {
         // 点击之后触发
         const filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
+        window.console.log('这个是什么', shopAreaTree)
         if (filter && filter.length > 0) {
           resolve(filter)
         } else {
@@ -592,13 +595,15 @@ export default {
         })
         this.shopAreaData = nodes
       } else {
-        this.shopAreaData = [{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }]
+        this.shopAreaData = this.shopAreaTree.filter(item => item.parentId === '0')
+        // this.shopAreaData = [{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }]
       }
+      window.console.log('这是什么啊', this.shopAreaData)
     },
     filterDept (val) {
       if (val) {

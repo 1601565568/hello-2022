@@ -16,7 +16,7 @@
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
                 <el-form-item label="门店名称：">
                   <el-form-grid>
-                    <ns-droptree ref="shopCateTree" placeholder="线下门店分类" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  clearable></ns-droptree>
+                    <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  clearable></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">
@@ -256,12 +256,13 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.shopAreaTree.filter(item => item.parentId === '0'))
+        // return resolve([{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }])
       }
       if (node.level >= 1) {
         // 点击之后触发

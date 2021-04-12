@@ -38,7 +38,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" placeholder="请选择门店分类" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -437,12 +437,13 @@ export default {
     loadShopAreaNode (node, resolve) {
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.shopAreaTree.filter(item => item.parentId === '0'))
+        // return resolve([{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }])
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -465,12 +466,13 @@ export default {
         })
         this.shopAreaData = nodes
       } else {
-        this.shopAreaData = [{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }]
+        this.shopAreaData = this.shopAreaTree.filter(item => item.parentId === '0')
+        // this.shopAreaData = [{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }]
       }
     },
     filterDept (val) {

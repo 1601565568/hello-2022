@@ -452,12 +452,13 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.shopAreaTree.filter(item => item.parentId === '0'))
+        // return resolve([{
+        //   id: 0,
+        //   parentId: -1,
+        //   code: 0,
+        //   label: '全部'
+        // }])
       }
       if (node.level >= 1) {
         // 点击之后触发
