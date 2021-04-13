@@ -54,12 +54,18 @@
               :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
             />
             <div class="library-image__mask">
+              <Icon type="bianji" @click="editImage(index)" />
               <Icon type="zoom-in" @click="previewImage(index)" />
               <Icon type="delete" @click="removeImage(index)" />
             </div>
           </li>
           <li v-if="imageList.length < imageNum">
-            <el-popover placement="top-start" width="160" trigger="click">
+            <el-popover
+              placement="top-start"
+              width="160"
+              trigger="click"
+              ref="popoverView"
+            >
               <div class="library-popover">
                 <div>
                   <el-upload
@@ -78,7 +84,7 @@
                     </div>
                   </el-upload>
                 </div>
-                <div class="popover-base">
+                <div class="popover-base" @click="addCustomImg">
                   <Icon type="ns-edit" class="popover-icon"></Icon>
                   <span class="popver-text">自建坑位</span>
                 </div>
@@ -199,6 +205,47 @@
       :callBack="selectMarketBack"
     ></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
+    <el-dialog
+      :visible="showEdit"
+      title="指南"
+      width="658px"
+      @close="handleCloseDia"
+    >
+      <div>
+        <div class="guide-text">指南说明</div>
+        <el-input
+        class="library-guide-remind"
+          type="textarea"
+          placeholder="请输入"
+          v-model="guideText"
+          maxlength="1000"
+          show-word-limit
+          resize="none"
+        >
+        </el-input>
+      </div>
+      <div>
+        <div class="guide-text">示意图</div>
+        <div class="upload-view">
+          <el-upload
+            class="library-guide"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            multiple
+          >
+            <div>
+              <Icon type="cloud-uploading" class="uploading-icon" />
+              <div class="el-upload-remind">点击或拖拽上传示意图</div>
+              <div class="el-upload-remind" slot="tip">（建议：小于1M，jpg、png、jpeg格式）</div>
+            </div>
+          </el-upload>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="handleCloseDia">取消</ns-button>
+        <ns-button type="primary" @click="handleSure">确定</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -292,7 +339,11 @@ export default {
       mType: 1,
       imageNum: 9,
       catalogue: [{ id: 0, name: '素材库' }],
-      visible: false
+      visible: false,
+      defaultImgUrl:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      showEdit: false,
+      guideText: ''
     }
   },
   computed: {
@@ -327,8 +378,14 @@ export default {
     }
   },
   methods: {
+    handleSure () {},
+    handleCloseDia () {
+      this.showEdit = false
+    },
+    editImage () {
+      this.showEdit = !this.showEdit
+    },
     handleImageType () {
-      console.log('01')
       this.visible = !this.visible
     },
     toggleFolder () {
@@ -349,8 +406,16 @@ export default {
     },
     handleAvatarSuccess (res, file) {
       this.$refs.imageForm.clearValidate()
+      this.$refs.popoverView.doClose()
       if (this.model.imageList.length < this.imageNum) {
         this.model.imageList.push(res.result.url)
+      }
+    },
+    addCustomImg () {
+      this.$refs.imageForm.clearValidate()
+      this.$refs.popoverView.doClose()
+      if (this.model.imageList.length < this.imageNum) {
+        this.model.imageList.push(this.defaultImgUrl)
       }
     },
     beforeAvatarUpload (file) {
@@ -453,13 +518,27 @@ export default {
 </script>
 <style scoped>
 @import '@theme/variables.pcss';
-.a {
+.guide-text {
+  height: 22px;
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.guide-input {
+  height: 140px;
+}
+.upload-view {
+  width: 100%;
+  background: #f5f5f5;
+  border-radius: 2px;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
 }
+
 @component-namespace library {
   @b image {
     @e list {
@@ -583,6 +662,50 @@ export default {
   }
   >>> .el-form-grid {
     margin-left: var(--default-margin-larger);
+  }
+  @b guide {
+    background: #ffffff;
+    border: 1px dashed #d9d9d9;
+    border-radius: ;
+    display: block;
+    /* height: 112px; */
+    width: 100%;
+    margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 16px;
+    >>> .el-upload-dragger {
+      width: 100%;
+      height: 112px;
+      border: none;
+      background-color: transparent;
+      &:hover {
+        /* border-color: var(--theme-color-primary); */
+        /* color: var(--theme-color-primary); */
+      }
+    }
+    >>> .el-upload-remind {
+      font-size: 14px;
+      color: #8c8c8c;
+      text-align: center;
+      line-height: 22px;
+      font-weight: 400;
+    }
+    >>> .uploading-icon {
+      margin-top: 20px;
+      width: 60px;
+      height: 46px;
+      color: #0094fc;
+    }
+  }
+  @b guide-remind{
+    >>> .el-textarea__inner {
+      height: 112px;
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+    }
   }
 }
 </style>
