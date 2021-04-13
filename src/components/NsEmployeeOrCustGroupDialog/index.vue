@@ -437,13 +437,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.shopAreaTree.filter(item => item.parentId === '0'))
-        // return resolve([{
-        //   id: 0,
-        //   parentId: -1,
-        //   code: 0,
-        //   label: '全部'
-        // }])
+        return resolve(this.getRootTree(this.shopAreaTree))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -457,6 +451,23 @@ export default {
         }
       }
     },
+    getRootTree (shopAreaTree) {
+      const rootTree = []
+      for (let item of shopAreaTree) {
+        let parentId = item.parentId // 每一项的父级id
+        let flag = false
+        for (let item of shopAreaTree) {
+          if (parentId === item.id) {
+            flag = true
+            break
+          }
+        }
+        if (!flag) {
+          rootTree.push(item)
+        }
+      }
+      return rootTree
+    },
     filterShopArea (val) {
       if (val) {
         const nodes = this.shopAreaTree.filter(item => {
@@ -466,13 +477,7 @@ export default {
         })
         this.shopAreaData = nodes
       } else {
-        this.shopAreaData = this.shopAreaTree.filter(item => item.parentId === '0')
-        // this.shopAreaData = [{
-        //   id: 0,
-        //   parentId: -1,
-        //   code: 0,
-        //   label: '全部'
-        // }]
+        this.shopAreaData = this.getRootTree(this.shopAreaTree)
       }
     },
     filterDept (val) {
