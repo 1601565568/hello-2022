@@ -214,7 +214,7 @@
       <div>
         <div class="guide-text">指南说明</div>
         <el-input
-        class="library-guide-remind"
+          class="library-guide-remind"
           type="textarea"
           placeholder="请输入"
           v-model="guideText"
@@ -236,7 +236,9 @@
             <div>
               <Icon type="cloud-uploading" class="uploading-icon" />
               <div class="el-upload-remind">点击或拖拽上传示意图</div>
-              <div class="el-upload-remind" slot="tip">（建议：小于1M，jpg、png、jpeg格式）</div>
+              <div class="el-upload-remind" slot="tip">
+                （建议：小于1M，jpg、png、jpeg格式）
+              </div>
             </div>
           </el-upload>
         </div>
@@ -246,6 +248,7 @@
         <ns-button type="primary" @click="handleSure">确定</ns-button>
       </div>
     </el-dialog>
+    <GuideInfo ref="guideInfo"/>
   </div>
 </template>
 <script>
@@ -254,11 +257,12 @@ import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
 import SelectMarket from '../../components/selectMarket'
 import SelectGoods from '../../components/selectGoods'
+import GuideInfo from './GuideInfo'
 
 export default {
   name: 'imageform',
   // components: { FolderTree, SelectMarket, SelectGoods },
-  components: { FolderTree, ElUpload, SelectMarket, SelectGoods },
+  components: { FolderTree, ElUpload, SelectMarket, SelectGoods, GuideInfo },
   props: {
     labelList: {
       type: Array,
@@ -343,7 +347,8 @@ export default {
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       showEdit: false,
-      guideText: ''
+      guideText: '',
+      drawer: false
     }
   },
   computed: {
@@ -383,7 +388,8 @@ export default {
       this.showEdit = false
     },
     editImage () {
-      this.showEdit = !this.showEdit
+      this.$refs.guideInfo.closeDeawer()
+      // this.showEdit = !this.showEdit
     },
     handleImageType () {
       this.visible = !this.visible
@@ -699,7 +705,7 @@ export default {
       color: #0094fc;
     }
   }
-  @b guide-remind{
+  @b guide-remind {
     >>> .el-textarea__inner {
       height: 112px;
       font-size: 14px;
