@@ -1,5 +1,5 @@
 <template>
-  <div class='html-area'>
+  <div class='html-area' @click='handleClick'>
     <div class="html-area_context">
       <slot></slot>
     </div>
@@ -8,6 +8,15 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    handleClick () {
+      this.$emit('onOpen')
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .html-area {
   display: flex;
@@ -37,7 +46,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     top: 1px;
     right: 1px;
     bottom: 1px;

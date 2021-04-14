@@ -1,8 +1,10 @@
 <template>
   <div class='template-container'>
     <div class='template-table__bar-name' v-if='title'>
-      {{title}}
+      <h1>{{title}}</h1>
+      <slot name='title'></slot>
     </div>
+    <slot name='tab'></slot>
     <div class="template-table">
       <div class='teplate-table__box'>
         <!-- 工具栏 -->
@@ -54,6 +56,13 @@ export default {
   font-weight: bold;
   margin: -10px -10px 0px;
   padding: 0 16px;
+  display: flex;
+  align-items: center;
+  h1 {
+    font-size: 16px;
+    color: #262626;
+    min-width: 70px
+  }
 }
 .template-table {
   padding: 16px;

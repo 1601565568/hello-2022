@@ -302,7 +302,9 @@ export default {
             })
           }
           allEmployee.forEach(function (item) {
-            selectedData2.push(item)
+            if (!selectedData3.find(items => items.shop_id === item.shop_id)) {
+              selectedData2.push(item)
+            }
           })
         }
         vm.selectedData = selectedData2
