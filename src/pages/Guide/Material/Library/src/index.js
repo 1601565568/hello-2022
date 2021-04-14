@@ -8,11 +8,12 @@ import LabelManage from '../components/LabelManage'
 import LabelMake from '../components/LabelMake'
 import Catalogue from '../components/Catalogue'
 import Preview from '@/components/NsPreview'
+import DetailList from '../components/DetailList'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview, DetailList },
   data: function () {
     return {
       // 表格顶部
@@ -173,6 +174,13 @@ export default {
             'icon': 'shanchu',
             'func': (row) => {
               this.removeItem(row)
+            }
+          },
+          {
+            'name': '自创明细',
+            'icon': 'shanchu',
+            'func': (row) => {
+              this.showGuideLists(row)
             }
           }
         ]
@@ -553,6 +561,13 @@ export default {
       }).then(() => {
         this.toDelete([row])
       }).catch(() => {})
+    },
+    /**
+     * 自创明细
+     */
+    showGuideLists (row) {
+      this.$refs.detailList.closeDeawer()
+      console.log(row + '自创明细')
     },
     /**
      * 批量删除素材、视频

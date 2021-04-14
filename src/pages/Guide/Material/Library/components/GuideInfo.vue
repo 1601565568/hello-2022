@@ -39,7 +39,8 @@ export default {
   methods: {
     closeDeawer () {
       this.drawer = !this.drawer
-    }
+    },
+    handleClose () {}
   }
 }
 </script>
