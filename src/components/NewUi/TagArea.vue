@@ -42,11 +42,11 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
-      ref="wTextareaContent"
+      :class="`${className} w-textarea_input ${disabled ? 'disabled' : ''}`"
+      :ref="className"
       :id="contentId"
       @focus="isLocked = true"
-      @blur="isLocked = false"
+      @blur="handleBlur()"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
@@ -76,6 +76,10 @@ export default {
   },
   components: { Emotion },
   props: {
+    className: {
+      type: String,
+      default: 'w-textarea__input'
+    },
     value: {
       type: String,
       default: ''
@@ -124,7 +128,7 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      const dom = document.getElementsByClassName(`${this.className}`)[0]
       this.currentText = dom.innerText
     }, 1000)
   },
@@ -184,7 +188,7 @@ export default {
     },
     insertNode (node) { // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
-        const dom = document.getElementsByClassName('w-textarea_input')[0]
+        const dom = document.getElementsByClassName(`${this.className}`)[0]
         dom.focus()
         setTimeout(() => {
           this.addNode(node)
@@ -211,7 +215,7 @@ export default {
       // this.endDon = node
       // this.endOffset = this.savedRange.endOffset + 1
       // 更新双向绑定数据
-      let target = this.$refs.wTextareaContent
+      let target = this.$refs[this.className]
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
     },
@@ -225,12 +229,16 @@ export default {
       if (this.currentTagId) {
         // 若已选中模版标签，直接删除dom节点
         let t = document.getElementById(this.currentTagId)
-        this.$refs.wTextareaContent.removeChild(t)
+        this.$refs[this.className].removeChild(t)
         this.currentTagId = null
         // 阻止浏览器默认的删除事件，并手动更新数据
         e.preventDefault()
         this.handleInput(e.target)
       }
+    },
+    handleBlur () {
+      this.isLocked = false
+      this.$emit('handleBlur')
     },
     // inputClick (e) {
     //   // 监听点击事件
@@ -306,11 +314,15 @@ export default {
     }
   },
   watch: {
-    value (val) {
-      // 非锁定状态下，实时更新innerHTML
-      if (!this.isLocked) {
-        this.$refs.wTextareaContent.innerHTML = val
-      }
+    value: {
+      handler (val) {
+        if (!this.isLocked) {
+          this.$nextTick(() => {
+            this.$refs[this.className].innerHTML = val
+          })
+        }
+      },
+      immediate: true
     }
   }
 }
