@@ -207,7 +207,7 @@
               <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
               <el-table-column label="操作" fixed="right" :width="150">
                 <template slot-scope="scope">
-                  <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
+                  <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope" :width="250"></ns-table-column-operate-button>
                 </template>
               </el-table-column>
             </el-table>

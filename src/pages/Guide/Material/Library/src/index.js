@@ -130,6 +130,12 @@ export default {
             'func': (scope) => {
               this.removeItem(scope.row)
             }
+          },
+          {
+            'name': '自创明细',
+            'func': (scope) => {
+              this.showGuideLists(scope.row)
+            }
           }
         ]
       },

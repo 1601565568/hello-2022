@@ -64,6 +64,12 @@ export default {
               component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
             }
           ]
+        },
+        {
+          path: '/Social/OperationData/MaterialData',
+          name: 'MaterialData',
+          title: '素材库明细统计',
+          component: () => import('@/pages/WeWork/MaterialData/index.vue')
         }
       ]
     },

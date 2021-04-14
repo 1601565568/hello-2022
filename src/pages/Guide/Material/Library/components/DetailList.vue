@@ -201,6 +201,8 @@ export default {
   height: 32px;
   background: #ffffff;
   border-radius: 2px;
+  font-size: 14px;
+  color: #262626;
 }
 .select-button {
   font-size: 14px;
