@@ -14,7 +14,7 @@ export default {
       if (checkUrl.test(value)) {
         return callback()
       } else {
-        return callback(new Error('网页地址格式错误'))
+        return callback(new Error('网页地址格式错误,以http://或https://开头'))
       }
     }
     const validateActivityIntroduction = (length, rule, value, callback) => {
