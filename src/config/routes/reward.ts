@@ -70,6 +70,12 @@ export default {
           name: 'MaterialData',
           title: '素材库明细统计',
           component: () => import('@/pages/WeWork/MaterialData/index.vue')
+        },
+        {
+          path: '/Social/OperationData/MaterialChat',
+          name: 'MaterialChat',
+          title: '素材库累计数据',
+          component: () => import('@/pages/WeWork/MaterialChat/index.vue')
         }
       ]
     },
