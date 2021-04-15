@@ -130,10 +130,7 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      console.log(this.className)
-      console.log(document.getElementsByClassName(this.className))
       const dom = document.getElementsByClassName(this.className)[0]
-      console.log(dom)
       this.currentText = dom.innerText
     }, 1000)
   },
