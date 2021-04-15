@@ -33,12 +33,12 @@
                 </div>
               </template>
               <template v-else>
-                <html-area>
+                <html-area @onOpen='handleChangeVisible(true)'>
                   <div class='employee-list profile-list'>
                     <template v-if='model.profileId'>
                       <div class='employee-list_item'>
                         {{styleData.name}}
-                        <i class="el-icon-close" @click="handleDelectProfileId"></i>
+                        <i class="el-icon-close" @click.stop="handleDelectProfileId"></i>
                       </div>
                     </template>
                     <template v-else>
@@ -47,7 +47,7 @@
                   </div>
                   <template slot='suffix'>
                     <div class='employee-suffix_top'>
-                      <Icon  class='suffix-icon' type="icon-duiwaixinximingcheng-2-x" @click='handleChangeVisible(true)'></Icon>
+                      <Icon  class='suffix-icon' type="icon-duiwaixinximingcheng-2-x"></Icon>
                     </div>
                   </template>
                 </html-area>
@@ -60,18 +60,18 @@
                   <el-radio :label="1">部分员工</el-radio>
                 </el-radio-group>
                 <div class='employee-content' v-if='model.userType === 1'>
-                  <el-form-item label='选择员工' prop='guideIds' class='larger-item'>
-                    <html-area>
+                  <el-form-item label='' prop='guideIds' class='larger-item'>
+                    <html-area @onOpen='()=>{$refs.nsGuideDialog.onDialogOpen()}'>
                       <div class='employee-list'>
                         <template v-if='model.guideIds.length>0'>
                           <template v-for='(item,index) in model.guideIds'>
                             <div class='employee-list_item' :key='item.id'>
                               {{item.name}}
-                              <i class="el-icon-close" @click="handleDelect(index)"></i>
+                              <i class="el-icon-close" @click.stop="handleDelect(index)"></i>
                             </div>
                           </template>
                           <span class='employee-list_all' v-if='model.guideIds.length>0'>
-                            <i class="el-icon-close" @click="handleDelectAll()"></i>
+                            <i class="el-icon-close" @click.stop="handleDelectAll()"></i>
                           </span>
                         </template>
                         <template v-else>
@@ -80,11 +80,16 @@
                       </div>
                       <template slot='suffix'>
                         <div class='employee-suffix'>
-                          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
+                          <NsGuideDialog ref='nsGuideDialog' :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                             <template slot='selfBtn'>
                               <Icon type="geren" class='suffix-icon'></Icon>
                             </template>
                           </NsGuideDialog>
+                          <!-- <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
+                            <template slot='selfBtn'>
+                              <Icon type="geren"></Icon>
+                            </template>
+                          </NsGuideDialog> -->
                         </div>
                       </template>
                     </html-area>

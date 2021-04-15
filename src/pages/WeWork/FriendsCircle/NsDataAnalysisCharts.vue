@@ -5,7 +5,10 @@
     <!-- 人数统计及刷新 start-->
     <div class="dataCenter-content_box">
       <div class="dataCenter-content_title">人数统计</div>
-      <ns-button class="dataCenter-content_botton" type="text" icon="el-icon-refresh" @click="$searchAction$()">刷新</ns-button>
+      <div class="refresh-box">
+        <img class="refresh" src="./images/refresh.svg" alt="刷新">
+        <ns-button class="dataCenter-content_botton" type="text" @click="$searchAction$()">刷新</ns-button>
+      </div>
     </div>
     <!-- 人数统计及刷新 end-->
     <div class="pvanduv_box">
@@ -44,11 +47,11 @@
         </template>
       </div>
       <el-table ref="table" :data="_data._table.data"
-                class="template-table__main" stripe roll-click
+                class="template-table__main new-table_border" stripe roll-click
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                 :element-loading-text="$t('prompt.loading')" @sort-change="sortChange">
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type"
-                         :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="center">
+                         :label="logByTypeQuery.type === 0 ? '日期':'导购'" :sortable="false" align="left">
           <template slot-scope="scope">
             {{scope.row.visitTime || scope.row.guideName }}
           </template>
@@ -58,9 +61,15 @@
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="uv"
                          label="访问人数 (UV)" sortable="custom" align="right">
+          <template slot-scope="scope">
+            <span class='table-row_span'>{{scope.row.uv}}</span>
+          </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="pv"
                          label="访问次数 (PV)" sortable="custom" align="right">
+          <template slot-scope="scope">
+            <span class='table-row_span'>{{scope.row.pv}}</span>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -84,6 +93,23 @@ NsDataAnalysisCharts.components = {
 export default NsDataAnalysisCharts
 </script>
 <style lang="scss" scoped>
+  @import "@components/NewUi/styles/reset.css";
+  ::v-deep .has-gutter th:first-child .cell::after{
+    width: 0;
+  }
+  .dataCenter-echart__item{
+    padding: 0 7px;
+  }
+  .refresh-box{
+    height: 20px;
+    display: flex;
+    align-items: center;
+    .refresh{
+      width: 12.25px;
+      height: 12.25px;
+      margin-right: 4.88px;
+    }
+  }
   .dataCenter-content{
     background: #fff;
     .dataCenter-content_line{
@@ -138,13 +164,13 @@ export default NsDataAnalysisCharts
   .tab-content-left{
     position: relative;
     padding: 0 16px;
-    font-size: 16px;
+    font-size: 14px;
     color: #262626;
     font-weight: 600;
     &::before {
       content: " ";
       position: absolute;
-      left: 96px;
+      right: 0;
       top: 50%;
       height: 24px;
       width: 1px;
@@ -160,10 +186,10 @@ export default NsDataAnalysisCharts
     font-size: 12px;
     color: #595959;
     cursor: pointer;
-    font-weight: normal;
+    font-weight: 400;
     &.active {
       color: #262626;
-      font-weight: bold;
+      font-weight: 500;
     }
   }
   .card-header {
@@ -172,6 +198,9 @@ export default NsDataAnalysisCharts
     background: #fff;
     margin-top: 16px;
     border-bottom: 1px solid #dcdfe6;
+  }
+  .table-row_span {
+    margin-right: 24px;
   }
 </style>
 <style scoped>

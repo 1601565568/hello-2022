@@ -76,7 +76,13 @@ export default {
         legend: {
           data: ['访问次数', '访问人数'],
           bottom: 10,
-          right: 'center'
+          right: 'center',
+          textStyle: {
+            color: '#595959'
+          },
+          icon: 'rectangle',
+          itemHeight: 10,
+          itemWidth: 10
         },
         grid: {
           left: '10px',
@@ -91,7 +97,10 @@ export default {
         xAxis: [
           {
             axisLine: {
-              show: false
+              show: false,
+              lineStyle: {
+                color: '#8C8C8C'
+              }
             },
             axisTick: {
               show: false
@@ -102,7 +111,10 @@ export default {
         ],
         yAxis: {
           axisLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              color: '#8C8C8C'
+            }
           },
           axisTick: {
             show: false

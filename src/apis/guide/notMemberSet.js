@@ -1,9 +1,9 @@
 const prefix = '/notMemberConfig/'
 
 export default {
-  update: {
-    url: prefix + 'update',
-    method: 'get'
+  saveOrUpdate: {
+    url: prefix + 'saveOrUpdate',
+    method: 'post'
   },
   search: {
     url: prefix + 'search',

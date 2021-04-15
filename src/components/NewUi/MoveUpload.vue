@@ -40,7 +40,7 @@
         <!-- 视频 end -->
         <div :key='-1' class="img-content forbid" v-if='isShowAddBtn && !disabled'>
           <Icon type='icon-ns-succeed-add' class='add-icon'/>
-          <ElUpload accept=".jpg,.jpeg,.png,.mp4" :show-file-list='false' :action="$api.core.sgUploadFile('test')" :on-success="handleUploadSuccess" :before-upload="beforeUpload"/>
+          <ElUpload multiple accept=".jpg,.jpeg,.png,.mp4" :show-file-list='false' :action="$api.core.sgUploadFile('test')" :on-success="handleUploadSuccess" :before-upload="beforeUpload"/>
         </div>
       </transition-group>
     </draggable>
@@ -128,9 +128,10 @@ export default {
     },
     async handleUploadSuccess (res) {
       if (this.type === 'img') {
-        const index = this.list.findIndex(item => item.key === decodeURIComponent(res.result.originalFileName))
+        const index = this.list.findIndex(item => item.key === res.result.originalFileName)
         if (index > -1) {
           this.list[index].url = res.result.url
+          this.list[index].key = null
           this.$emit('input', { type: 'img', list: this.list.map(item => item.url) })
         }
       } else {
@@ -158,6 +159,17 @@ export default {
         this.$notify.error(`上传文件不能超过${this[type + 'Size']}M`)
         return false
       }
+      if (type === 'img') {
+        if (this.list.length >= 9) {
+          this.$notify.error(`最多上传9张图片`)
+          return false
+        }
+      } else {
+        if (this.list.length >= 1) {
+          this.$notify.error(`最多上传1个视频`)
+          return false
+        }
+      }
       this.type = type
       if (type === 'video') {
         this.demoUrl = this.getFileURL(file)
@@ -180,10 +192,12 @@ export default {
   },
   watch: {
     value (newVal) {
-      this.list = newVal.map(url => ({
-        key: null,
-        url
-      }))
+      if (this.list.length === 0) {
+        this.list = newVal.map(url => ({
+          key: null,
+          url
+        }))
+      }
     },
     mediaType (newVal) {
       this.type = newVal

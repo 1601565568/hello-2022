@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='out-content'>
     <page-table title='对外信息展示' :searchCol='24'>
       <template slot='title'>
         <Icon type="question-circle" class='question-circle' @click='handlePreview(true,2)'/>
@@ -31,7 +31,7 @@
             </el-table-column>
             <el-table-column
               prop="webTitle"
-              label="网页说明">
+              label="网页名称">
             </el-table-column>
             <el-table-column
               prop="style"
@@ -98,8 +98,11 @@
     </page-table>
     <el-dialog
       title="对外信息展示"
-      :visible.sync="previewVisin"
-      fullscreen>
+      custom-class='full-dialog'
+      class='full-dialog'
+      height='600px'
+      width='1000px'
+      :visible.sync="previewVisin">
       <div class='dialog-content'>
         <div class='blue-tip'>
           <template v-if='previewType === 1'>
@@ -110,9 +113,7 @@
           </template>
         </div>
         <template v-if='previewType === 1'>
-          <img src='./images/peizhi1.png' class='full-img'>
-          <img src='./images/peizhi2.png' class='full-img'>
-          <img src='./images/peizhi3.png' class='full-img'>
+          <img src='./images/peizhi.png' class='full-img'>
         </template>
         <template v-if='previewType === 2'>
           <img src='./images/shouji.png' class='full-img padding-img'>
@@ -174,7 +175,6 @@ export default Index
     }
   }
   .dialog-content {
-    min-height: calc( 100vh - 100px );
     background: #F5F5F5;
     width: 100%;
     .blue-tip {
@@ -182,9 +182,7 @@ export default Index
     }
     .full-img {
       width: 100%;
-      margin-bottom: 24px;
       &.padding-img {
-        padding: 100px;
       }
     }
   }
@@ -196,4 +194,11 @@ export default Index
   .col-text_error {
     color: #F39801;
   }
+
+</style>
+<style scoped>
+.out-content >>> .full-dialog{
+  padding-bottom: 20px;
+  box-sizing: content-box;
+}
 </style>
