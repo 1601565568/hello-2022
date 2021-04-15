@@ -43,15 +43,17 @@
         </page-table>
       </div>
     </div>
+    <DataList ref="detaList" />
   </div>
 </template>
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import DataList from './components/DataList'
 export default {
   name: 'MaterialCahat',
-  components: { PageTable, NsEcharts },
+  components: { PageTable, NsEcharts, DataList },
   data () {
     return {
       dataList: [
@@ -172,7 +174,11 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    showMoreData () {
+      this.$refs.detaList.closeDeawer()
+    }
+  }
 }
 </script>
 
