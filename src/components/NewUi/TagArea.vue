@@ -217,8 +217,6 @@ export default {
       } else {
         this.savedRange.setStart(this.endDon, this.endOffset)
       }
-      const dom = document.getElementsByClassName('w-textarea_input')[0]
-      dom.focus()
       let target = this.$refs.wTextareaContent
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
