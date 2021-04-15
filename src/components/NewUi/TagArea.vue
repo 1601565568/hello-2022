@@ -208,6 +208,9 @@ export default {
       // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
       // console.log(this.savedRange)
+      if (this.disabled) {
+        return false
+      }
       this.savedRange.insertNode(node)
       this.endDon = node
       this.endOffset = this.savedRange.endOffset
@@ -314,12 +317,13 @@ export default {
     }
   },
   watch: {
-    // value (val) {
-    //   // 非锁定状态下，实时更新innerHTML
-    //   if (!this.isLocked) {
-    //     // this.$refs.wTextareaContent.innerHTML = val
-    //   }
-    // }
+    value (val) {
+      // 非锁定状态下，实时更新innerHTML
+      // if (!this.isLocked) {
+      //   // this.$refs.wTextareaContent.innerHTML = val
+      // }
+      this.$refs.wTextareaContent.innerHTML = val
+    }
   }
 }
 </script>
