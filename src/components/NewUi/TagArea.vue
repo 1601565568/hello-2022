@@ -43,6 +43,7 @@
     </div>
     <div
       :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
+      :contenteditable='!disabled'
       ref="wTextareaContent"
       :id="contentId"
       @focus="isLocked = true"
@@ -140,6 +141,7 @@ export default {
       // 添加id便于删除
       node.id = this.getGuid()
       node.className = this.emojiClass + val
+      node.setAttribute('contenteditable', false)
       this.insertNode(node)
     },
     updateData (text) {
@@ -169,6 +171,7 @@ export default {
       // 创建模版标签
       let node = document.createElement(this.tag)
       node.innerText = item.value
+      node.setAttribute('contenteditable', false)
       // 添加id便于删除
       node.id = this.getGuid()
       node.className = item.id
@@ -356,7 +359,8 @@ $textColor: #595959;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
-    -webkit-user-modify: read-write-plaintext-only !important;
+    // -webkit-user-modify: read-write-plaintext-only !important;
+    // -moz-user-modify: read-write;
     &.disabled {
       -webkit-user-modify: read-only !important;
     }
