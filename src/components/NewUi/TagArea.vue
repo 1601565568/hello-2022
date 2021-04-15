@@ -322,7 +322,10 @@ export default {
       // if (!this.isLocked) {
       //   // this.$refs.wTextareaContent.innerHTML = val
       // }
-      this.$refs.wTextareaContent.innerHTML = val
+      // this.$refs.wTextareaContent.innerHTML = val
+      if (this.disabled) {
+        this.$refs.wTextareaContent.innerHTML = val
+      }
     }
   }
 }
