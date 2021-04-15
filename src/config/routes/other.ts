@@ -20,10 +20,16 @@ export default {
           'component': () => import('@/pages/Guide/SgWxAuth/Index.vue')
         },
         {
-          'path': '/Guide/Others/paySet',
+          'path': '/Guide/Others/PaySet',
           'name': 'PAY_SET',
           'title': '支付配置',
           'component': () => import('@/pages/Guide/PaySet/Index.vue')
+        },
+        {
+          'path': '/Guide/Others/PayGuide',
+          'name': 'PAY_Guide',
+          'title': '支付引导',
+          'component': () => import('@/pages/Guide/PayGuide/Index.vue')
         }
       ]
     },

@@ -32,15 +32,20 @@
       :before-close="handleClose">
       <el-form class='drawer-form' :model="drawerData" ref="form" label-width="95px">
         <el-form-item label="支付商户号" required>
-          <el-input v-model="drawerData.name" placeholder="请输入支付商户号" :length='32'></el-input>
+          <el-input v-model="drawerData.name" placeholder="请输入支付商户号,最多输入32个字符" :length='32'></el-input>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取支付商户号</span>
-            <ns-button type='text'>立即查看</ns-button>
+            <ns-button type='text' @click='jumpGuide(1)'>立即查看</ns-button>
           </div>
         </el-form-item>
         <el-form-item label="支付密钥" required>
           <el-input v-model="drawerData.name" placeholder="请输入支付密钥" :length='20'></el-input>
+          <div class='label-tip'>
+            <span class='label-point'></span>
+            <span class='label-text'>如何获取API证书</span>
+            <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
+          </div>
         </el-form-item>
         <el-form-item label="API证书" required>
           <el-upload
@@ -55,7 +60,7 @@
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
-            <ns-button type='text'>立即查看</ns-button>
+            <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
           </div>
         </el-form-item>
         <el-form-item label="证书有效期" required>
@@ -72,7 +77,7 @@
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何关联公众号</span>
-            <ns-button type='text'>立即查看</ns-button>
+            <ns-button type='text'  @click='jumpGuide(4)'>立即查看</ns-button>
           </div>
         </el-form-item>
       </el-form>

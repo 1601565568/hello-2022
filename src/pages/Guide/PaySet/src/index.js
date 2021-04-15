@@ -33,11 +33,15 @@ export default {
         }
       ],
       btnLoad: false,
-      visible: false,
+      visible: true,
       drawerData: {}
     }
   },
   methods: {
-    update () {}
+    update () {},
+    jumpGuide (index) {
+      const { href } = this.$router.resolve({ path: `/Guide/Others/PayGuide?step=step${index}` })
+      window.open(href, '_blank')
+    }
   }
 }

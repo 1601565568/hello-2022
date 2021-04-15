@@ -3,7 +3,41 @@
     <page-table :title='title'>
       <!-- 搜索 start -->
       <template slot='search'>
-
+        <el-form :inline="true" class='form-inline_top'>
+          <el-form-item label="参与门店：">
+            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择员工" v-model="model.shopIdList" @input="handleChangeShop">
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </NsShopDialog> -->
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
+          </el-form-item>
+          <el-form-item label="活动状态：" class='el-form__change'>
+            <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
+              <el-option
+                v-for="item in statusOptionList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            </el-input>
+          </el-form-item>
+        </el-form>
       </template>
       <template slot='button'>
         <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
@@ -12,7 +46,93 @@
       <!-- 表格 start -->
       <template slot='table'>
         <template>
-
+          <el-table
+            :data="_data._table.data"
+            class="new-table_border"
+            :row-style="tableRowClassName"
+            style="width: 100%">
+            <el-table-column
+              prop="name"
+              label="活动名称">
+              <template slot-scope="scope">
+                <div class="scope-title">
+                  <div class="scope-title_text">
+                    {{scope.row.name}}
+                  </div>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="guideNames"
+              width='90px'
+              label="参与门店">
+              <template slot-scope="scope">
+                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="status"
+              width='90px'
+              label="状态">
+              <template slot-scope="scope">
+                <el-tag :type="statusList[scope.row.state].color" class='scope-name_tag'>{{statusList[scope.row.state].value}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="address"
+              label="有效时间">
+              <template slot-scope="scope">
+                <template v-if="scope.row.timeType === 2">
+                  <span>永久有效</span>
+                </template>
+                <template v-else>
+                  <span>{{scope.row.startTime}}</span>
+                  至
+                  <span>{{scope.row.endTime}}</span>
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="createName"
+              width='120px'
+              label="创建人">
+            </el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="创建时间">
+            </el-table-column>
+            <el-table-column
+              width='100px'
+              align='center'
+              label="二维码">
+              <template slot-scope="scope">
+                <div class="scope-name scope-name_num box-padding">
+                  <Icon type="icon-erweima" className="message-upload__tip" @click='handlePreviewQrcode(scope.row)'/>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align='center'
+              width='100px'
+              label="海报">
+              <template slot-scope="scope">
+                <div class="scope-name scope-name_num box-padding">
+                  <Icon type="ns-file-picture" className="message-upload__tip" @click='handlePreviewPoster(scope.row)'/>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="address"
+              width='250px'
+              label="操作">
+              <template slot-scope="scope">
+                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})' v-if='isShowEdit(scope.row)'>编辑</ns-button>
+                <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)' v-if='isShowEdit(scope.row)'>结束活动</ns-button>
+                <ns-button type="text" v-copy='scope.row.activityQrcode'>复制链接</ns-button>
+                <ns-button type="text" v-if='!(scope.row.state===0 && type==="Friends")' @click='handleAnalysis(scope.row.guid,scope.row.name,scope.row.state)'>效果分析</ns-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </template>
       </template>
       <!-- 表格 end -->

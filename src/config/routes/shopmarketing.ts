@@ -118,24 +118,70 @@ export default {
     },
     {
       'path': '/Social/SocialOperation/RedPacket/Strategies/List',
-      'name': 'redPacket',
+      'name': 'redPacketStrategies',
       'title': '',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'redirect': {
-        'name': 'redPacketList'
+        'name': 'redPacketStrategiesList'
       },
       'children': [
         {
           'path': '/Social/SocialOperation/RedPacket/Strategies/List',
-          'name': 'redPacketList',
+          'name': 'redPacketStrategiesList',
           'title': '红包策略',
-          'component': () => import('@/pages/Guide/RedPacket/List.vue')
+          'component': () => import('@/pages/Guide/RedPacket/Strategies/List.vue')
         },
         {
           'path': '/Social/SocialOperation/RedPacket/Strategies/Edit',
-          'name': 'redPacketEdit',
+          'name': 'redPacketStrategiesEdit',
           'title': '新建红包策略',
-          'component': () => import('@/pages/Guide/RedPacket/Edit.vue')
+          'component': () => import('@/pages/Guide/RedPacket/Strategies/Edit.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Poster/List',
+      'name': 'redPacketPoster',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketPosterList'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Poster/List',
+          'name': 'redPacketPosterList',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Poster/List.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/Poster/Edit',
+          'name': 'redPacketPosterEdit',
+          'title': '新建红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Poster/Edit.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Send/List',
+      'name': 'redPacketSend',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketSendList'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Send/List',
+          'name': 'redPacketSendList',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/Send/Edit',
+          'name': 'redPacketSendEdit',
+          'title': '新建红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
         }
       ]
     }

@@ -1,7 +1,9 @@
 export default {
   data () {
     return {
-      model: {}
+      model: {
+        guideIds: []
+      }
     }
   }
 }

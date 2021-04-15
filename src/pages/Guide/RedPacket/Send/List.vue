@@ -4,52 +4,15 @@
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="红包类型：">
-            <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="有效期：">
-            <el-date-picker
-              v-model="seachDate"
-              type="datetimerange"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              range-separator="至"
-              start-placeholder="请选择开始日期"
-              end-placeholder="请选择结束日期"
-              :default-time="['00:00:00','23:59:59']"
-              align="right">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="支付商户号：" class='el-form__change'>
-            <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="发放类型：" class='el-form__change'>
-            <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label="参与员工：">
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+              <template slot='selfBtn'>
+                <div class='self-btn'>
+                  {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                  <Icon type="geren" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </NsGuideDialog>
           </el-form-item>
         </el-form>
       </template>
@@ -79,7 +42,6 @@
             </el-table-column>
             <el-table-column
               prop="guideNames"
-              width='90px'
               label="红包类型">
               <template slot-scope="scope">
                 <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>
@@ -87,43 +49,26 @@
             </el-table-column>
             <el-table-column
               prop="createName"
-              width='120px'
-              label="红包总数">
+              label="单个金额">
             </el-table-column>
             <el-table-column
               prop="createTime"
               :sortable="'custom'"
-              width='100px'
               label="剩余个数">
-            </el-table-column>
-            <el-table-column
-              width='100px'
-              align='center'
-              label="有效期">
             </el-table-column>
             <el-table-column
               align='center'
               width='100px'
               :sortable="'custom'"
-              label="创建时间">
+              label="使用人员">
             </el-table-column>
             <el-table-column
               align='center'
-              width='100px'
-              label="支付商户号">
+              label="红包有效期">
             </el-table-column>
             <el-table-column
               align='center'
-              width='100px'
-              label="创建人">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              width='70px'
-              label="操作">
-              <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})'>查看</ns-button>
-              </template>
+              label="状态">
             </el-table-column>
           </el-table>
         </template>
@@ -149,8 +94,9 @@
 <script>
 import Index from './src/list'
 import PageTable from '@/components/NewUi/PageTablePro'
+import NsGuideDialog from '@/components/NsGuideDialog'
 Index.components = {
-  PageTable
+  PageTable, NsGuideDialog
 }
 export default Index
 </script>
@@ -161,5 +107,16 @@ export default Index
 }
 .scope-img {
   height: 50px;
+}
+.self-btn {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
+  }
 }
 </style>
