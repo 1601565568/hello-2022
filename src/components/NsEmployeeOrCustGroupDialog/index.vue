@@ -17,6 +17,25 @@
         </div>
         <el-form label-width="60px" :inline="true">
           <el-form-item v-show="tabType === 'group'">
+            <el-form-item label="选择视角：">
+              <el-form-grid>
+                <el-select
+                  filterable
+                  :clearable='true'
+                  v-model='model.viewId'
+                  placeholder='请选择视角'
+                  @change='chooseView'
+                >
+                  <el-option
+                    v-for='item in viewOptions'
+                    :key='item.viewId'
+                    :label='item.viewName'
+                    :value='item.viewId'
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
             <el-form-item label="选择分类：">
               <el-form-grid>
                 <ns-droptree ref="groupClassTree" :lazy="true" :load="loadNode4Group" :multiple="false" v-model="groupData.selectedGroup" clearable></ns-droptree>
@@ -316,7 +335,8 @@ export default {
         name: '', // 搜索的员工名称
         shopArea: {}, // 选择的门店分类
         shopId: '', // 选择的门店
-        employeeType: '' // 选择的员工类型
+        employeeType: '', // 选择的员工类型
+        viewId: '' // 选择的视角
       },
       groupData: {
         groupTree: [],
@@ -348,7 +368,8 @@ export default {
       isCheckAll: false,
       loadSelectedData: [],
       shopAreaData: [],
-      deptData: []
+      deptData: [],
+      viewOptions: [] // 视角列表
     }
   },
   computed: {},
@@ -387,6 +408,26 @@ export default {
     }
   },
   methods: {
+    getViewList () {
+      const areaId = this.$store.state.user.area.id
+      // 根据选择区域查询视角列表
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result && res.result.length) {
+              this.viewOptions = res.result
+              this.model.viewId = res.result[0].viewId
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
+    chooseView (viewId) {
+      this.getGroupList()
+    },
     loadSelectedDataF () {
       if (this.selectedData.length > LOADPAGESIZE) {
         const start = this.loadSelectedData.length
@@ -405,13 +446,6 @@ export default {
     changeTab (tab) {
       vm.tabType = tab.name
       vm.$nextTick(function () {
-        // vm.resetInput()
-        // 重置部门树，用户群树 todo
-        // if (tab.name === 'employee') {
-        //   this.getEmployeeList('tabChange', vm.initData, vm.setSelectedDataFull)
-        // } else if (tab.name === 'group') {
-        //   this.getGroupList('tabChange', vm.initData, vm.setSelectedDataFull)
-        // }
         vm.getData(tab.name, 'tabChange ')
       })
     },
@@ -502,8 +536,6 @@ export default {
      */
     getShopAreaAndShop: function () {
       // 设置选中
-      // this.$set(this, 'selectedData', JSON.parse(JSON.stringify(this.confirmData)))
-      // this.visible = true
       const that = this
       that.$http.fetch(that.$api.marketing.weworkMarketing.queryEmployeeTreeAndOption4Component)
         .then((resp) => {
@@ -528,12 +560,11 @@ export default {
           vm.$notify.error('查询部门树失败')
         })
     },
-    // 部门树 end
     /**
      * 获取分群树
      */
     getGroupTree () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList, { viewId: this.model.viewId })
         .then(resp => {
           vm.groupData.groupTree = vm.handleGroupList(clone(resp.result), 'onlyCatalog')
           vm.groupData.allGroup = vm.handleGroupList(clone(resp.result), 'onlyCatalog')
@@ -897,8 +928,6 @@ export default {
     },
     // 初始化数据
     initData (result) {
-      // vm.allEmployeeData = vm.handleGroupList(JSON.parse(JSON.stringify(resp.result)), 'onlyGroup')
-      // vm.allEmployeeData = vm.tabType === 'employee' ? vm.handleEmployeeList(clone(result), vm.departData.allDepartments) : vm.handleGroupList(clone(result), 'onlyGroup')
       vm.allEmployeeData = vm.tabType === 'employee' ? clone(result) : vm.handleGroupList(clone(result), 'onlyGroup')
       vm.matchEmployeeData = clone(vm.allEmployeeData)
       const obj = vm.pageingData(vm.allEmployeeData, 0)
@@ -969,15 +998,18 @@ export default {
     // 获取分群信息
     getGroupList (type, initData, setSelectedDataFull) {
       this.tableLoading = true
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList, { viewId: this.model.viewId })
         .then(resp => {
           // 赋值员工数据
           vm.allGroupData.query = true
           if (vm.tabType === 'group' && resp.result) {
-            initData(resp.result)
+            this.initData(resp.result)
             vm.allGroupData.data = resp.result
           }
-        }).catch(() => {
+
+          this.groupData.groupTree = this.handleGroupList(clone(resp.result), 'onlyCatalog')
+          this.groupData.allGroup = this.handleGroupList(clone(resp.result), 'onlyCatalog')
+        }).catch((aaa) => {
           vm.$notify.error('查询客户分群加载失败')
         }).finally(() => {
           // 设置已选择的信息
@@ -1064,10 +1096,11 @@ export default {
       })
     }
   },
-  mounted: function () {
+  mounted: async function () {
     vm = this
+    await vm.getViewList()
     vm.getDepartmentTree()
-    vm.getGroupTree()
+    // vm.getGroupTree()
     vm.getShopAreaAndShop()
   },
   created: function () {

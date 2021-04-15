@@ -1384,7 +1384,7 @@ export default {
   mounted: function () {
     vm = this
     vm.getDepartmentTree()
-    vm.getGroupTree()
+    // vm.getGroupTree()
     vm.getShopAreaAndShop()
     vm.getAllEmployeeList()
   },
