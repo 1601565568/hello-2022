@@ -42,9 +42,9 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
+      :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
       :contenteditable='!disabled'
-      ref="wTextareaContent"
+      :ref="className"
       :id="contentId"
       @blur="handleBlur()"
       @keydown.delete="handleDelete($event)"
@@ -130,7 +130,10 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      const dom = document.getElementsByClassName(`${this.className}`)[0]
+      console.log(this.className)
+      console.log(document.getElementsByClassName(this.className))
+      const dom = document.getElementsByClassName(this.className)[0]
+      console.log(dom)
       this.currentText = dom.innerText
     }, 1000)
   },
@@ -320,12 +323,14 @@ export default {
     }
   },
   watch: {
-    // value (val) {
-    //   // 非锁定状态下，实时更新innerHTML
-    //   if (!this.isLocked) {
-    //     // this.$refs.wTextareaContent.innerHTML = val
-    //   }
-    // }
+    value: {
+      handler (val) {
+        this.$nextTick(() => {
+          this.$refs[this.className].innerHTML = val
+        })
+      },
+      immediate: true
+    }
   }
 }
 </script>
