@@ -49,15 +49,54 @@
                 </el-form-item>
               </div>
             </el-form-item>
-            <el-form-item label='红包背景图' required prop='activityPoster'>
-              <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
-              </drap-upload>
+            <el-form-item label='红包总数（个）' required prop='name' class='larger-item'>
+              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            </el-form-item>
+            <el-form-item label='单人单日发放个数上限（个）' required prop='name' class='larger-item'>
+              <div class='form-item_toptext'>
+                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>有限</el-radio>
+                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>不限</el-radio>
+              </div>
+              <div class='form-item_time'>
+                <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
+                  <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+                </el-form-item>
+              </div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
             <div class='preview-img'>
               <RedPacket :bgImage='model.activityPoster'/>
             </div>
+          </template>
+          <template slot='collapse-right__bottom'>
+            <p class='collapse-right__bottom'>好友领红包封面预览图</p>
+          </template>
+        </recruitment-collapse>
+         <!-- 红包封面配置 end -->
+        <!-- 红包封面配置 start -->
+        <recruitment-collapse title='红包信息' phoneTitle=''>
+          <template slot='collapse-left'>
+            <el-form-item label='单个红包金额（元）' required prop='name' class='larger-item'>
+              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            </el-form-item>
+            <el-form-item label='红包祝福语' required prop='name' class='larger-item'>
+              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            </el-form-item>
+            <el-form-item label='单人单日发放个数上限（个）' required prop='name' class='larger-item'>
+              <div class='form-item_toptext'>
+                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>有限</el-radio>
+                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>不限</el-radio>
+              </div>
+              <div class='form-item_time'>
+                <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
+                  <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+                </el-form-item>
+              </div>
+            </el-form-item>
+          </template>
+          <template slot='collapse-right'>
+            <RedPacketContent />
           </template>
           <template slot='collapse-right__bottom'>
             <p class='collapse-right__bottom'>好友领红包封面预览图</p>
@@ -76,8 +115,9 @@ import LengthInput from '@/components/NewUi/LengthInput'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import PageEdit from '@/components/NewUi/PageEdit'
 import RedPacket from '../components/RedPacket'
+import RedPacketContent from '../components/RedPacketContent'
 Index.components = {
-  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse
+  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse, RedPacketContent
 }
 export default Index
 </script>
