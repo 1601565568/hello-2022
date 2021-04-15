@@ -1,17 +1,12 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
-import taskProgress from '../component/taskProgress'
 import LocalStorage from 'store/dist/store.legacy.min.js'
 import $ from 'jquery'
 
 export default {
   name: 'NsTableGuide',
-  components: { taskProgress },
   mixins: [tableMixin],
-  props: {
-    url: Object
-  },
   data: function () {
     let pagination = {
       enable: true,
@@ -43,7 +38,8 @@ export default {
       'cardId': null,
       'time': null,
       'grade': null,
-      isNotAll: true
+      isNotAll: true,
+      viewId: null
     }
     let copyModel = Object.assign({}, findVo)
     return {
@@ -61,7 +57,7 @@ export default {
       multipleSelection: [],
       select: true,
       shopFindList: [],
-      // url: this.$api.guide.guide.customerFindCustomerList,
+      url: this.$api.guide.guide.customerFindCustomerList,
       dataList: [],
       allGuideArr: { id: 0, pId: null, label: '全部导购' },
       shuJushuzu: {},
@@ -85,7 +81,26 @@ export default {
       addcheckList: [], // 记录表格勾选的数据
       outGuideId: null,
       shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
-      shopCustomerTransferTaskStatusTime: null // 定时调用判断门店转移任务状态显示
+      shopCustomerTransferTaskStatusTime: null, // 定时调用判断门店转移任务状态显示
+      viewList: [] // 视角列表
+    }
+  },
+  computed: {
+    /**
+     * 是否是集团运营模式
+     *  集团运营模式下不显示视角切换
+     */
+    openGroupOperation () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.openGroupOperation
+    },
+    /**
+     * 区域id
+     */
+    areaId () {
+      return this.$store.state.user.area.id
+    },
+    viewId () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
     }
   },
   watch: {
@@ -135,33 +150,46 @@ export default {
       }
     }
   },
-  mounted: function () {
+  async mounted () {
     var vm = this
     vm.height = window.innerHeight - 120
-    // if (typeof vm.$init === 'function') {
-    // } else {
-    //   vm.loading = true
-    //   vm.$reload().then(rep => {
-    //     vm.loading = vm._data._loading
-    //   })
-    // }
     let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
-    this.$searchAction$()
   },
   updated () {
     if (this.$refs.elTree) {
       this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
     }
   },
-  computed: {},
-  created: function () {
+  async created () {
+    await this.findViewList()
     this.initShopList()
   },
   beforeDestroy () {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    // 区域模式下 查询区域对应的视角列表
+    findViewList () {
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result.length) {
+              this.viewList = res.result
+              this.model.viewId = res.result[0].viewId
+              // this.$searchAction$()
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
+    viewChange (viewId) {
+      // this.initShopList()
+      this.$searchAction$()
+    },
     handlereplaceShop () {
       this.$emit('handlereplaceShop')
     },
@@ -268,10 +296,10 @@ export default {
       })
     },
     totalForUnconditionalSearch (data) {
-      var _this = this
       let isShop = false
       let param = {
-        shopId: _this.offLineShopId
+        shopId: this.offLineShopId,
+        viewId: this.model.viewId
       }
       // 代表门店
       if (data.parentId === '0') {
@@ -280,7 +308,7 @@ export default {
         // 专属导购
         param.guideId = data.id
       }
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerTotal, param).then(resp => {
+      this.$http.fetch(this.$api.guide.guide.findCustomerTotal, param).then(resp => {
         if (resp.success && resp.result !== null) {
           // 遍历门店.asd
           if (isShop && this.totalNumTrige) {
@@ -305,7 +333,7 @@ export default {
           data.label = showLabel + addLabel
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
+        this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
       })
     },
     // 树节点过滤

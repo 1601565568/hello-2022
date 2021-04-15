@@ -12,8 +12,6 @@ import mutations from './mutations'
 import common from '@nascent/ecrp-ecrm/src/store/modules/common'
 // @ts-ignore
 import user from '@nascent/ecrp-ecrm/src/store/modules/user'
-// @ts-ignore
-import operate from './modules/operate'
 
 Vue.use(Vuex)
 
@@ -26,8 +24,7 @@ export default new Vuex.Store({
   mutations,
   modules: {
     common,
-    user,
-    operate
+    user
   },
   strict: debug
 })

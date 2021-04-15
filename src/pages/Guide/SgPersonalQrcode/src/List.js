@@ -166,7 +166,6 @@ export default {
       title: '',
       transferWay: '1',
       memberBelongingRadio: '1',
-      brandId: null,
       frindAddList: [],
       pageChange: true, // 当前页数
       guideId: null, // 当前导购的id

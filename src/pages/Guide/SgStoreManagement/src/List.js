@@ -182,7 +182,6 @@ export default {
       url: api.API_ROOT + '/guide/ehd/getShopRecruitmentQrcode?codeType=',
       batchUrl: api.API_ROOT + '/guide/ehd/batchDownloadShopRecruitmentQrcode?codeType=',
       // url: 'http://47.96.228.119:8089/guide/ehd/getShopRecruitmentQrcode?codeType=0&'+shopId=1001267+'&size=1',
-      brandId: null,
       memberBelongingShows: false,
       dialogFormVisible: false,
       shopFormVisible: false, //  店铺弹窗
@@ -268,7 +267,8 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: { expand: false }
+      _queryConfig: { expand: false },
+      viewId: null
     }
   },
   methods: {
@@ -505,15 +505,17 @@ export default {
         })
       }
     },
-    elIconMenu (row) {
+    elIconMenu ({ row, viewId }) {
       let _this = this
+      _this.viewId = viewId
       _this.succeedObj.shopId = row.id
       _this.memberBelongingShow = true
       _this.batchDownLoad = false
       _this.title = '下载招募码'
     },
-    batchElIconMenu (row) {
+    batchElIconMenu ({ row, viewId }) {
       let _this = this
+      _this.viewId = viewId
       _this.batchShopIds = row
       _this.memberBelongingShow = true
       _this.batchDownLoad = true

@@ -1,26 +1,27 @@
-import ShopManager from './shopmanager'
-import Reward from './reward'
-import ShopMarketing from './shopmarketing'
-import Other from './other'
-import Database from './database'
-import Isv from './isv'
-import Management from './management'
+import chatManage from '@/config/routes/chatManage'
 import ContentManager from './contentmanager'
-import social from './social'
-import WeWork from './wework'
+import customerCenter from './customerCenter'
+import Database from './database'
 import dataCenter from './dataCenter'
 import greeting from './greeting'
-import customerCenter from './customerCenter'
+// import Isv from './isv'
+// import Management from './management'
+import Other from './other'
 import pullNew from '@/config/routes/pullNew'
-import chatManage from '@/config/routes/chatManage'
+import Reward from './reward'
+import ShopManager from './shopmanager'
+import ShopMarketing from './shopmarketing'
+import social from './social'
+import WeWork from './wework'
+
 export default [
   ShopManager,
   Reward,
   ShopMarketing,
   Other,
   Database,
-  Isv,
-  Management,
+  // Isv,
+  // Management,
   ContentManager,
   social,
   dataCenter,
@@ -29,22 +30,22 @@ export default [
   customerCenter,
   pullNew,
   chatManage,
-  {
-    path: '/operate/articleMaterialDetail',
-    name: 'articleMaterialDetail',
-    'component': () => import('@/pages/ISV/articleMaterialDetail.vue')
-  },
-  {
-    path: '/operate/third/personalWeChat',
-    name: 'personalWeChat',
-    'component': () => import('@/pages/third/personalWeChat.vue')
-  },
-  {
-    'path': '/operate',
-    'name': 'ECRP_LOGIN',
-    'title': 'ECRP登录',
-    'component': () => import('@/pages/LoginEcrp/index.vue')
-  },
+  // {
+  //   path: '/operate/articleMaterialDetail',
+  //   name: 'articleMaterialDetail',
+  //   'component': () => import('@/pages/ISV/articleMaterialDetail.vue')
+  // },
+  // {
+  //   path: '/operate/third/personalWeChat',
+  //   name: 'personalWeChat',
+  //   'component': () => import('@/pages/third/personalWeChat.vue')
+  // },
+  // {
+  //   'path': '/operate',
+  //   'name': 'ECRP_LOGIN',
+  //   'title': 'ECRP登录',
+  //   'component': () => import('@/pages/LoginEcrp/index.vue')
+  // },
   {
     'path': '/greeting',
     'name': 'Greeting',

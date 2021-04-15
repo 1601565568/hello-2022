@@ -113,6 +113,7 @@ export default {
   methods: {
     querySubTableList (brandId) {
       var _this = this
+      // 此接口已不存在
       _this.$http.fetch(_this.$api.guide.materialSubdivision.querySubTableList, {
         length: 100,
         searchMap: {
