@@ -263,7 +263,7 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-      console.log(111, range)
+      // console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
