@@ -46,8 +46,6 @@
       :contenteditable='!disabled'
       ref="wTextareaContent"
       :id="contentId"
-      @focus="isLocked = true"
-      @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
@@ -72,7 +70,9 @@ export default {
       savedRange: {},
       // 表情class
       emojiClass: 'EMOJI_',
-      endOffset: 0
+      endOffset: -1,
+      endDon: null,
+      isFrist: true
     }
   },
   components: { Emotion },
@@ -134,6 +134,9 @@ export default {
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
+    handleBlur () {
+      // this.$refs.wTextareaContent.innerHTML = this.$refs.wTextareaContent.innerHTML + '&nbsp;&nbsp;&nbsp;&nbsp;'
+    },
     addEmotion: function (val) {
       // 创建模版标签
       let node = document.createElement(this.tag)
@@ -142,7 +145,7 @@ export default {
       node.id = this.getGuid()
       node.className = this.emojiClass + val
       node.setAttribute('contenteditable', false)
-      this.insertNode(node)
+      this.addNode(node)
     },
     updateData (text) {
       this.$emit('input', text)
@@ -203,17 +206,19 @@ export default {
       // for (var s in this.endDon) {
       //   console.log(s, this.endDon[s])
       // }
-      // console.log(this.endDon)
-      // if (this.endDon.style) {
-      //   this.savedRange.setStartBefore(node)
-      // } else {
-      //   this.savedRange.setStart(this.endDon, this.endOffset)
-      // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
+      // console.log(this.savedRange)
       this.savedRange.insertNode(node)
-      // this.endDon = node
-      // this.endOffset = this.savedRange.endOffset + 1
+      this.endDon = node
+      this.endOffset = this.savedRange.endOffset
       // 更新双向绑定数据
+      if (this.endDon.style) {
+        this.savedRange.setStartAfter(this.endDon)
+      } else {
+        this.savedRange.setStart(this.endDon, this.endOffset)
+      }
+      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      dom.focus()
       let target = this.$refs.wTextareaContent
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
@@ -260,15 +265,17 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-
+      console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
         this.contentId
       ) {
         this.savedRange = range.cloneRange()
-        // this.endDon = this.savedRange.endContainer
-        // this.endOffset = this.savedRange.endOffset
+        this.endOffset = this.savedRange.endOffset
+        if (this.savedRange.endContainer.nodeName !== 'DIV') {
+          this.endDon = this.savedRange.endContainer
+        }
       }
     },
     // 替换标签成模板
@@ -309,12 +316,12 @@ export default {
     }
   },
   watch: {
-    value (val) {
-      // 非锁定状态下，实时更新innerHTML
-      if (!this.isLocked) {
-        this.$refs.wTextareaContent.innerHTML = val
-      }
-    }
+    // value (val) {
+    //   // 非锁定状态下，实时更新innerHTML
+    //   if (!this.isLocked) {
+    //     // this.$refs.wTextareaContent.innerHTML = val
+    //   }
+    // }
   }
 }
 </script>
