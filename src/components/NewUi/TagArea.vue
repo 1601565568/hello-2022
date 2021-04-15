@@ -143,8 +143,8 @@ export default {
       node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
-      node.className = this.emojiClass + val
       node.setAttribute('contenteditable', false)
+      node.className = this.emojiClass + val
       this.addNode(node)
     },
     updateData (text) {
