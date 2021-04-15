@@ -60,7 +60,7 @@ export default {
       imgSize: 1, // 图片最大1m
       videoSize: 20, // 视频最大20m
       imgMax: 9, // 图片最多久张
-      videoMax: 1, // 视频最多一个
+      videoMax: 2, // 视频最多一个
       demoUrl: ''
     }
   },
