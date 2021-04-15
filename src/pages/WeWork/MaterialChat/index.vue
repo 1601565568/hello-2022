@@ -13,6 +13,28 @@
     </div>
     <div class="material-show">
       <div class="material-chat">
+        <div class="chat-select">
+          <div class="left-select">
+            <div class="day-view">
+              <span class="base-text">近七天</span>
+              <span class="base-text">近30天</span>
+            </div>
+            <div class="date-view">
+              <el-date-picker
+                v-model="value1"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="center"
+              >
+              </el-date-picker>
+            </div>
+          </div>
+          <div class="drawer-output">
+            导出CSV文件
+          </div>
+        </div>
         <div class="title">数据分析</div>
         <NsEcharts :options="option" />
       </div>
@@ -98,14 +120,20 @@ export default {
             '今日素材发送次数',
             '今日素材下载次数'
           ],
-          left: '5%'
+          left: '0',
+          bottom: '9%',
+          icon: 'roundRect',
+          itemWidth: 10,
+          itemHeight: 10
         },
         color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          left: 0,
+          right: 0,
+          bottom: 0,
+          containLabel: true,
+          top: '4%',
+          height: 291
         },
         xAxis: {
           type: 'category',
@@ -171,7 +199,8 @@ export default {
             data: [320, 332, 301, 334, 390, 330, 320]
           }
         ]
-      }
+      },
+      value1: ''
     }
   },
   methods: {
@@ -182,7 +211,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import '@components/NewUi/styles/reset.css';
 
 .material-data {
@@ -240,6 +269,7 @@ export default {
   }
 }
 .material-show {
+  margin-top: 16px;
   background-color: white;
   padding-left: 16px;
   padding-right: 16px;
@@ -272,5 +302,57 @@ export default {
   font-size: 14px;
   color: #0094fc;
   font-weight: 400;
+}
+.chat-select {
+  height: 64px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .left-select {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.day-view {
+  border-right: 1px solid #E8E8E8;
+  .base-text {
+    font-size: 14px;
+    color: #595959;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 400;
+    margin-right: 16px;
+    background: #f5fbff;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 5px 9px;
+  }
+}
+
+.drawer-output {
+  width: 116px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  line-height: 32px;
+  text-align: center;
+  font-size: 14px;
+}
+.date-view {
+  margin-left: 16px;
+}
+.date-view >>> .el-input__inner {
+  width: 256px;
+  height: 32px;
+}
+.data-view >>> .el-range-input {
+  font-size: 14px;
+  text-align: center;
+}
+.data-view >>> .el-range-separator {
+  font-size: 14px;
 }
 </style>
