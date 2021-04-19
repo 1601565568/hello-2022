@@ -96,7 +96,9 @@
             </el-form-item>
           </template>
           <template slot='collapse-right'>
-            <RedPacketContent />
+            <div class='preview-img'>
+              <RedPacketContent />
+            </div>
           </template>
           <template slot='collapse-right__bottom'>
             <p class='collapse-right__bottom'>好友领红包封面预览图</p>
@@ -126,7 +128,7 @@ export default Index
   .preview-img {
     width: 100%;
     height: 100%;
-    font-size: 30px;
+    font-size: 13.65px;
   }
   .collapse-right__bottom {
     text-align: center;
