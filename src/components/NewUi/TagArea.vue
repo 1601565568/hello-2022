@@ -145,8 +145,8 @@ export default {
       node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
-      node.className = this.emojiClass + val
       node.setAttribute('contenteditable', false)
+      node.className = this.emojiClass + val
       this.addNode(node)
     },
     updateData (text) {
@@ -210,6 +210,9 @@ export default {
       // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
       // console.log(this.savedRange)
+      if (this.disabled) {
+        return false
+      }
       this.savedRange.insertNode(node)
       this.endDon = node
       this.endOffset = this.savedRange.endOffset
@@ -320,13 +323,15 @@ export default {
     }
   },
   watch: {
-    value: {
-      handler (val) {
-        this.$nextTick(() => {
-          this.$refs[this.className].innerHTML = val
-        })
-      },
-      immediate: true
+    value (val) {
+      // 非锁定状态下，实时更新innerHTML
+      // if (!this.isLocked) {
+      //   // this.$refs.wTextareaContent.innerHTML = val
+      // }
+      // this.$refs.wTextareaContent.innerHTML = val
+      if (this.disabled) {
+        this.$refs[this.className].innerHTML = val
+      }
     }
   }
 }
