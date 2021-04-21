@@ -5,7 +5,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="请输入封面名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+            <el-input v-model="model.name" placeholder="请输入封面名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
@@ -24,47 +24,54 @@
       <template slot='table'>
         <template>
           <el-table
-            :data="data"
+            :data="_data._table.data"
             class="new-table_border"
-            :row-style="tableRowClassName"
             style="width: 100%">
             <el-table-column
               prop="name"
               label="红包封面">
-              <template>
+              <template slot-scope="scope">
                 <div class="scope-title">
-                  <img :src='redPacket' class='scope-img' />
-                  <div class="scope-title_tab">
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
+                  <!-- <img :src='redPacket' class='scope-img' /> -->
+                  <div class="scope-title_tab" v-if='scope.row.isDefault'>
                     默认
                   </div>
                 </div>
               </template>
             </el-table-column>
             <el-table-column
-              prop="guideNames"
+              prop="name"
               label="封面名称">
             </el-table-column>
             <el-table-column
+              prop="createTime"
               align='center'
               :sortable="'custom'"
               label="创建时间">
             </el-table-column>
             <el-table-column
+              prop="operatorId"
               align='center'
               label="创建人">
             </el-table-column>
             <el-table-column
               align='center'
               label="默认封面">
+              <template slot-scope="scope">
+                <el-switch
+                  :value="scope.row.isDefault">
+                </el-switch>
+              </template>
             </el-table-column>
             <el-table-column
               prop="address"
               width='170px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})'>编辑</ns-button>
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})'>查看</ns-button>
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})'>删除</ns-button>
+                <ns-button type="text" @click='handleDetail({id:scope.row.id})'>编辑</ns-button>
+                <PreviewRedPacket :bgImage='scope.row.background'><ns-button type="text">查看</ns-button></PreviewRedPacket>
+                <ns-button type="text" @click='handleDelete(scope.row.id)'>删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -86,12 +93,6 @@
       </template>
       <!-- 页面 end -->
     </page-table>
-    <el-drawer
-      title="红包封面预览"
-      :visible.sync="drawer"
-      :before-close="handleClose">
-      <div class='packet-box'><RedPacket/></div>
-    </el-drawer>
   </div>
 </template>
 <script>
@@ -99,8 +100,9 @@ import Index from './src/list'
 import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import RedPacket from '../components/RedPacket'
+import PreviewRedPacket from '../components/PreviewRedPacket'
 Index.components = {
-  PageTable, ElDrawer, RedPacket
+  PageTable, ElDrawer, RedPacket, PreviewRedPacket
 }
 export default Index
 </script>
@@ -123,11 +125,7 @@ export default Index
   color: #0091FA;
 }
 .scope-img {
-  height: 50px;
-}
-.packet-box {
-  width: 375px;
-  margin: 0 auto;
-  font-size: 30px;
+  width: 38.66px;
+  margin-right: 15.67px;
 }
 </style>

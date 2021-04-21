@@ -2,11 +2,11 @@
   <div>
     <el-input v-bind="$attrs" :type='type' :value='value' @input='(value)=>{$emit("input",value)}' class='length-input suffix-input'>
       <template slot='suffix' v-if='length && type==="text"'>
-        <div class='input-length'>{{value.length}}/{{length}}</div>
+        <div class='input-length'>{{value?value.length:0}}/{{length}}</div>
       </template>
     </el-input>
     <span class='el-input__count' v-if='length && type==="textarea"'>
-      {{value.length}}/{{length}}
+      {{value?value.length:0}}/{{length}}
     </span>
   </div>
 </template>

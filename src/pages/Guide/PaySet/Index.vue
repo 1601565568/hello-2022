@@ -5,34 +5,47 @@
         <div class='common-header flex-box'>
           <h3>支付配置</h3>
           <div class='common-btn'>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>新增授权</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='handleAdd'>新增授权</ns-button>
           </div>
         </div>
       </template>
       <template slot='content'>
         <el-row>
-          <el-col :span='8' class='card-warrper'>
-            <div class='card-content'>
-              <template v-for='item in mapItem'>
-                <div class='card-item' :key='item.key'>
-                  <div class='card-key'><span class='key-name'><span v-if='item.isRequire' class='red-point'>*</span>{{item.name}}</span></div>
-                  <div class='card-value'>{{item.value}}</div>
-                </div>
-              </template>
-              <ns-button class='fix-btn'>修改</ns-button>
-            </div>
-          </el-col>
+          <template v-for='itemData in data'>
+            <el-col :span='8' class='card-warrper' :key='itemData.id'>
+              <div class='card-content'>
+                <template v-for='item in itemData.mapList'>
+                  <div class='card-item' :key='item.key'>
+                    <div class='card-key'><span class='key-name'><span v-if='item.isRequire' class='red-point'>*</span>{{item.name}}</span></div>
+                    <template v-if='item.key === "key"'>
+                      <div class='card-value'>
+                        <template v-for='(items,indexs) in item.value'>
+                          <span :key='indexs'>*</span>
+                        </template>
+                      </div>
+                    </template>
+                    <template v-else-if='item.key === "linkApp"'>
+                      <div></div>
+                    </template>
+                    <template v-else>
+                      <div class='card-value'>{{item.value}}</div>
+                    </template>
+                  </div>
+                </template>
+                <ns-button class='fix-btn' @click='handleEdit(itemData)'>修改</ns-button>
+              </div>
+            </el-col>
+          </template>
         </el-row>
       </template>
     </page-edit>
     <el-dialog
       title="支付设置"
       :visible.sync="visible"
-      width="500px"
-      :before-close="handleClose">
+      width="500px">
       <el-form class='drawer-form' :model="drawerData" ref="form" label-width="95px">
         <el-form-item label="支付商户号" required>
-          <el-input v-model="drawerData.name" placeholder="请输入支付商户号,最多输入32个字符" :length='32'></el-input>
+          <el-input v-model="drawerData.mchid" placeholder="请输入支付商户号,最多输入32个字符" :length='32'></el-input>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取支付商户号</span>
@@ -40,7 +53,7 @@
           </div>
         </el-form-item>
         <el-form-item label="支付密钥" required>
-          <el-input v-model="drawerData.name" placeholder="请输入支付密钥" :length='20'></el-input>
+          <el-input v-model="drawerData.key" placeholder="请输入支付密钥" :length='20' type='password'></el-input>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
@@ -50,11 +63,13 @@
         <el-form-item label="API证书" required>
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :on-exceed="handleExceed">
+            accept=".p12,.P12"
+            :action="$api.core.sgUploadFile('test')"
+            :on-remove='handleRemove'
+            :show-file-list='false'
+            :before-upload="beforeUpload"
+            :on-success="handleUploadSuccess"
+          >
             <ns-button size="small" type="text">上传证书</ns-button>
           </el-upload>
           <div class='label-tip'>

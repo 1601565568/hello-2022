@@ -1,7 +1,12 @@
 <template>
   <div class='red-content' :style='bgImage?`background-image:url(${bgImage})`:""'>
-    <img :src='redpacketbg' class='red-image'>
-    <div class='redpacket-text'>
+    <template v-if='!bgHasFont'>
+      <img :src='redpacketbg' class='red-image'>
+    </template>
+    <template v-else>
+      <img :src='redpacketbgHasFont' class='red-image'>
+    </template>
+    <div class='redpacket-text' v-if='!bgHasFont'>
       <div class='redpacket-name'>
         <img class='redpacket-userimg' :src='userImg'>
         <span>{{bagName}}</span>
@@ -14,14 +19,18 @@
 </template>
 <script>
 import redpacketbg from '@/assets/redpacketbg.png'
+import redpacketbgHasFont from '@/assets/redpacketbgHasFont.png'
 import baguser from '@/assets/baguser.png'
 export default {
   data () {
     return {
-      redpacketbg
+      redpacketbg, redpacketbgHasFont
     }
   },
   props: {
+    bgHasFont: {
+      default: false
+    },
     bgImage: {
       type: String
     },

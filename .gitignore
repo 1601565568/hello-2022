@@ -26,3 +26,6 @@ yarn-error.log*
 # temp directories and files
 .temp
 /public/temp
+
+# eslint files
+.eslintrc.js

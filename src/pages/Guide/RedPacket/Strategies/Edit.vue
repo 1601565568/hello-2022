@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
+  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium' :disabled='disabled'>
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
@@ -12,15 +12,43 @@
       </template>
       <template slot='content'>
         <SimpleCollapse title='红包配置'>
-          <el-form-item label='红包类型' required prop='name' class='larger-item'>
-
-          </el-form-item>
-          <el-form-item label='发放类型' required prop='name' class='larger-item'>
-
-          </el-form-item>
-          <el-form-item label='支付商户号' required prop='name' class='larger-item'>
-
-          </el-form-item>
+          <Box :noborder='true'>
+            <template slot='collapse-left'>
+              <el-form-item label='红包类型' required prop='redpackType' class='larger-item'>
+                <el-select v-model="model.redpackType" placeholder="请选择">
+                    <el-option
+                      v-for="item in redpacketTypeList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label='发放类型' required prop='launchType' class='larger-item'>
+                  <el-radio-group v-model="model.launchType">
+                    <template v-for='item in setTypeList'>
+                      <el-radio :label="item.value" :key='item.value'>{{item.label}}</el-radio>
+                    </template>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item label='支付商户号' required prop='payConfigId' class='larger-item'>
+                  <template slot='label' class='larger-item_icon'>
+                    <span>支付商户号</span>
+                    <el-tooltip content="可前往“系统设置->授权管理->支付配置”添加支付商户号"  placement="top">
+                      <Icon type="question-circle" class='question-circle' />
+                    </el-tooltip>
+                  </template>
+                  <el-select v-model="model.payConfigId" placeholder="请选择">
+                    <el-option
+                      v-for="item in wxpayList"
+                      :key="item.mchid"
+                      :label="item.mchid"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+            </template>
+          </Box>
         </SimpleCollapse>
         <!-- 红包封面配置 start -->
         <recruitment-collapse title='基本信息' phoneTitle=''>
@@ -28,12 +56,13 @@
             <el-form-item label='红包名称' required prop='name' class='larger-item'>
               <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
             </el-form-item>
-            <el-form-item label='有效时间' required prop='validTimeType'>
-              <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>固定时间</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>永久有效</el-radio>
-              </div>
-              <div class='form-item_time' v-if='model.validTimeType === 1'>
+            <el-form-item label='有效时间' required prop='timeType' class='larger-item'>
+              <el-radio-group v-model="model.timeType">
+                <template v-for='item in timeTypeList'>
+                  <el-radio :label="item.value" :key='item.value'>{{item.nick}}</el-radio>
+                </template>
+              </el-radio-group>
+              <div class='form-item_time larger-item' v-if='model.timeType === timeTypeInterval'>
                 <div>时间范围</div>
                 <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
                   <el-date-picker
@@ -49,24 +78,28 @@
                 </el-form-item>
               </div>
             </el-form-item>
-            <el-form-item label='红包总数（个）' required prop='name' class='larger-item'>
-              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            <el-form-item label='红包总数（个）' required prop='total' class='larger-item'>
+              <length-input v-model='model.total' placeholder="请输入红包总数" />
+              <p class='prompt-text'><span class='yellow-point'></span>控制此红包的总个数，全部发送完后，则不可发放此红包</p>
             </el-form-item>
-            <el-form-item label='单人单日发放个数上限（个）' required prop='name' class='larger-item'>
+            <el-form-item label='单人单日发放个数上限（个）' required prop='limitType' class='larger-item'>
               <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>有限</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>不限</el-radio>
+                <el-radio-group v-model="model.limitType">
+                  <el-radio :label="1">有限<el-tooltip content="可前往“系统设置->授权管理->支付配置”添加支付商户号"  placement="top">
+                      <Icon type="question-circle" class='question-circle' />
+                    </el-tooltip></el-radio>
+                  <el-radio :label="2">不限</el-radio>
+                </el-radio-group>
               </div>
-              <div class='form-item_time'>
-                <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
-                  <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+              <div v-if='model.limitType === 1'>
+                <el-form-item label-width="0px" label=' '  prop='everyoneLimit' hide-required-asterisk>
+                  <length-input v-model='model.everyoneLimit' placeholder="请输入单人单日发放个数上限" />
                 </el-form-item>
               </div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
             <div class='preview-img'>
-              <RedPacket :bgImage='model.activityPoster'/>
             </div>
           </template>
           <template slot='collapse-right__bottom'>
@@ -77,21 +110,24 @@
         <!-- 红包封面配置 start -->
         <recruitment-collapse title='红包信息' phoneTitle=''>
           <template slot='collapse-left'>
-            <el-form-item label='单个红包金额（元）' required prop='name' class='larger-item'>
-              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            <el-form-item label='单个红包金额（元）' required prop='money' class='larger-item'>
+              <length-input v-model='model.money'/>
+              <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为1~200</p>
             </el-form-item>
-            <el-form-item label='红包祝福语' required prop='name' class='larger-item'>
-              <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
+            <el-form-item label='红包祝福语' prop='benediction' class='larger-item'>
+              <length-input v-model='model.benediction' type='textarea' placeholder="恭喜发财，大吉大利" :length='20'/>
+              <el-checkbox v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
             </el-form-item>
-            <el-form-item label='单人单日发放个数上限（个）' required prop='name' class='larger-item'>
-              <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>有限</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>不限</el-radio>
-              </div>
-              <div class='form-item_time'>
-                <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
-                  <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
-                </el-form-item>
+            <el-form-item label='红包封面' prop='coverId' class='larger-item'>
+              <template slot='label' class='larger-item_icon'>
+                <span>红包封面</span>
+                <el-tooltip content="可前往“内容管理->红包工具->红包封面”添加红包封面"  placement="top">
+                  <Icon type="question-circle" class='question-circle' />
+                </el-tooltip>
+              </template>
+              <div class='poster-container'>
+                <div class='poster-img'><RedPacket :bgImage='posterInfo.activityPoster' :bgHasFont='true'/></div>
+                <ns-button type='text' class='choose-poster'>选择封面</ns-button>
               </div>
             </el-form-item>
           </template>
@@ -107,19 +143,23 @@
          <!-- 红包封面配置 end -->
       </template>
     </page-edit>
+    <el-dialog>
+
+    </el-dialog>
   </el-form>
 </template>
 <script>
 import Index from './src/edit'
 import RecruitmentCollapse from '@/components/NewUi/RecruitmentCollapse'
 import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
+import Box from '@/components/NewUi/Box'
 import LengthInput from '@/components/NewUi/LengthInput'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import PageEdit from '@/components/NewUi/PageEdit'
 import RedPacket from '../components/RedPacket'
 import RedPacketContent from '../components/RedPacketContent'
 Index.components = {
-  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse, RedPacketContent
+  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse, RedPacketContent, Box
 }
 export default Index
 </script>
@@ -132,5 +172,37 @@ export default Index
   }
   .collapse-right__bottom {
     text-align: center;
+  }
+  .form-item_time {
+    display: flex;
+    padding: 16px;
+    background: #F5F5F5;
+    border-radius: 2px;
+  }
+  .prompt-text {
+    display: flex;
+    align-items: center;
+    .yellow-point {
+      background: #F2AA18;
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+  }
+  .question-circle {
+    color: #8C8C8C !important;
+  }
+  .poster-container {
+    display: flex;
+    align-items: flex-start;
+    .poster-img {
+      width: 112.44px;
+      font-size: 12px;
+    }
+  }
+  .choose-poster {
+    margin-left: 16px;
   }
 </style>
