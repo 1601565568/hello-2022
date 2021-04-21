@@ -1,10 +1,11 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import TagArea from '@/components/NewUi/TagArea'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import Tip from '../compontent/index.vue'
 import ElUpload from '@nascent/nui/lib/upload'
 export default {
   mixins: [scrollHeight],
-  components: { TagArea, ElUpload, DrapUpload },
+  components: { TagArea, ElUpload, DrapUpload, Tip },
   data () {
     const pageUrl = (rule, value, callback) => {
       if (!value) {
@@ -162,13 +163,14 @@ export default {
       if (resp.success) {
         let result = resp.result
         _this.model.memberShowSwitch = result.member_show_switch === 1
-        _this.model.recruitLinkType = result.recruit_link_type
-        _this.model.linkType = result.link_type
+        _this.model.recruitLinkType = result.recruit_link_type || 1
+        _this.model.linkType = result.link_type || 1
         if (result.recruit_link_type === 1 && result.content) {
           let content = JSON.parse(result.content)
           _this.model.sysLink = content
         } else if (result.link_type && result.link_type === 1 && result.content) {
           let content = JSON.parse(result.content)
+          console.log(content)
           _this.model.linkModel.desc = content.desc // 文案
           _this.model.linkModel.link = this.stringTohtml(content.link) // 链接
           _this.model.linkModel.title = content.title // 标题

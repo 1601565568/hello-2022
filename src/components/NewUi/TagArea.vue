@@ -133,6 +133,7 @@ export default {
       const dom = document.getElementsByClassName(this.className)[0]
       this.currentText = dom.innerText
     }, 1000)
+    this.$refs[this.className].innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件

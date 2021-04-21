@@ -93,6 +93,14 @@
                           </el-radio-group>
                         </div>
                       </el-form-item>
+                      <el-form-item label=" " v-if="model.linkType === 2">
+                        <div class="ml qwTip">
+                          <span class="nonMember-config__left-content-tip"
+                            >请先在企业微信后台将小程序配置到工作台才可正常使用该功能</span
+                          >
+                          <Tip></Tip>
+                        </div>
+                      </el-form-item>
                       <!-- H5链接配置开始 -->
                       <template v-if="model.linkType === 1">
                         <el-form-item
@@ -568,5 +576,9 @@ export default Index
     border-radius: 50%;
     margin-right: 8px;
   }
+}
+.qwTip {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
