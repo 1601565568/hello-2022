@@ -42,10 +42,10 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`${className} w-textarea_input ${disabled ? 'disabled' : ''}`"
+      :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
+      :contenteditable='!disabled'
       :ref="className"
       :id="contentId"
-      @focus="isLocked = true"
       @blur="handleBlur()"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
@@ -71,7 +71,9 @@ export default {
       savedRange: {},
       // 表情class
       emojiClass: 'EMOJI_',
-      endOffset: 0
+      endOffset: -1,
+      endDon: null,
+      isFrist: true
     }
   },
   components: { Emotion },
@@ -128,7 +130,7 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      const dom = document.getElementsByClassName(`${this.className}`)[0]
+      const dom = document.getElementsByClassName(this.className)[0]
       this.currentText = dom.innerText
     }, 1000)
   },
@@ -143,8 +145,9 @@ export default {
       node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
+      node.setAttribute('contenteditable', false)
       node.className = this.emojiClass + val
-      this.insertNode(node)
+      this.addNode(node)
     },
     updateData (text) {
       this.$emit('input', text)
@@ -173,6 +176,7 @@ export default {
       // 创建模版标签
       let node = document.createElement(this.tag)
       node.innerText = item.value
+      node.setAttribute('contenteditable', false)
       // 添加id便于删除
       node.id = this.getGuid()
       node.className = item.id
@@ -204,17 +208,20 @@ export default {
       // for (var s in this.endDon) {
       //   console.log(s, this.endDon[s])
       // }
-      // console.log(this.endDon)
-      // if (this.endDon.style) {
-      //   this.savedRange.setStartBefore(node)
-      // } else {
-      //   this.savedRange.setStart(this.endDon, this.endOffset)
-      // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
+      // console.log(this.savedRange)
+      if (this.disabled) {
+        return false
+      }
       this.savedRange.insertNode(node)
-      // this.endDon = node
-      // this.endOffset = this.savedRange.endOffset + 1
+      this.endDon = node
+      this.endOffset = this.savedRange.endOffset
       // 更新双向绑定数据
+      if (this.endDon.style) {
+        this.savedRange.setStartAfter(this.endDon)
+      } else {
+        this.savedRange.setStart(this.endDon, this.endOffset)
+      }
       let target = this.$refs[this.className]
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
@@ -265,15 +272,17 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-
+      // console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
         this.contentId
       ) {
         this.savedRange = range.cloneRange()
-        // this.endDon = this.savedRange.endContainer
-        // this.endOffset = this.savedRange.endOffset
+        this.endOffset = this.savedRange.endOffset
+        if (this.savedRange.endContainer.nodeName !== 'DIV') {
+          this.endDon = this.savedRange.endContainer
+        }
       }
     },
     // 替换标签成模板
@@ -314,15 +323,15 @@ export default {
     }
   },
   watch: {
-    value: {
-      handler (val) {
-        if (!this.isLocked) {
-          this.$nextTick(() => {
-            this.$refs[this.className].innerHTML = val
-          })
-        }
-      },
-      immediate: true
+    value (val) {
+      // 非锁定状态下，实时更新innerHTML
+      // if (!this.isLocked) {
+      //   // this.$refs.wTextareaContent.innerHTML = val
+      // }
+      // this.$refs.wTextareaContent.innerHTML = val
+      if (this.disabled) {
+        this.$refs[this.className].innerHTML = val
+      }
     }
   }
 }
@@ -368,7 +377,8 @@ $textColor: #595959;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
-    -webkit-user-modify: read-write-plaintext-only !important;
+    // -webkit-user-modify: read-write-plaintext-only !important;
+    // -moz-user-modify: read-write;
     &.disabled {
       -webkit-user-modify: read-only !important;
     }
