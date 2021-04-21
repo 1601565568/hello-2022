@@ -170,7 +170,7 @@ export default {
           _this.model.sysLink = content
         } else if (result.link_type && result.link_type === 1 && result.content) {
           let content = JSON.parse(result.content)
-          console.log(content)
+          // console.log(content)
           _this.model.linkModel.desc = content.desc // 文案
           _this.model.linkModel.link = this.stringTohtml(content.link) // 链接
           _this.model.linkModel.title = content.title // 标题
