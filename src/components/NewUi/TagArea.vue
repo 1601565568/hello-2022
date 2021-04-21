@@ -288,7 +288,7 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {
@@ -320,7 +320,7 @@ export default {
     },
     // 替换标签成文字
     htmlToText (html) {
-      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     }
   },
   watch: {
