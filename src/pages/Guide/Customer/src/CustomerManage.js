@@ -130,7 +130,7 @@ export default {
       recordChooseList: [], // 记录勾选导购转移的数组
       checkNumberLength: 0, // 记录列表勾选会员人数
       replaceStoreShow: false,
-      shopCateTree: [],
+      shopAreaTree: [],
       allShopOptions: [],
       shopOptions: [],
       activeTab: {}, // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
@@ -160,14 +160,14 @@ export default {
       }
     },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       if (!this.sameSystemShopId) { return false }
       that.$http.fetch(that.$api.core.sysShop.getShopTree, { sameSystemShopId: this.sameSystemShopId })
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -695,7 +695,7 @@ export default {
     },
     getOffLineShopId (data) {
       this.sameSystemShopId = data
-      this.getShopCateAndShop()
+      this.getShopAreaAndShop()
     },
     addText (row) {
       if (row.selectValue) {

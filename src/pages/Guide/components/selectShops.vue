@@ -16,7 +16,7 @@
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
                 <el-form-item label="门店名称：">
                   <el-form-grid>
-                    <ns-droptree ref="shopCateTree" placeholder="线下门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
+                    <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  clearable></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">
@@ -185,8 +185,8 @@ export default {
         }
       },
       multipleSelectionLoading: false,
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
@@ -195,8 +195,8 @@ export default {
         name: '',
         shopId: '',
         shopIds: '',
-        // 门店分类
-        shopCate: {}
+        // 门店区域
+        shopArea: {}
       },
       multipleSelectionArray: []
     }
@@ -206,7 +206,7 @@ export default {
    * 选中工作门店 分类
    */
   watch: {
-    'param.shopCate': function (o1, o2) {
+    'param.shopArea': function (o1, o2) {
       let shopOptions = []
       this.param.shopId = ''
       this.param.shopIds = ''
@@ -232,11 +232,11 @@ export default {
     changeFun (val) {
       this.multipleSelectionArray = val // 返回的是选中的列的数组集合
     },
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -253,19 +253,14 @@ export default {
      * @param resolve
      * @returns {*}
      */
-    loadShopCateNode (node, resolve) {
-      let shopCateTree = this.shopCateTree
+    loadShopAreaNode (node, resolve) {
+      let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.getRootTree(this.shopAreaTree))
       }
       if (node.level >= 1) {
         // 点击之后触发
-        let filter = shopCateTree.filter(data => {
+        let filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -274,6 +269,23 @@ export default {
           resolve([])
         }
       }
+    },
+    getRootTree (shopAreaTree) {
+      const rootTree = []
+      for (let item of shopAreaTree) {
+        let parentId = item.parentId // 每一项的父级id
+        let flag = false
+        for (let item of shopAreaTree) {
+          if (parentId === item.id) {
+            flag = true
+            break
+          }
+        }
+        if (!flag) {
+          rootTree.push(item)
+        }
+      }
+      return rootTree
     },
     /**
      * 全选
@@ -286,7 +298,7 @@ export default {
         searchMap: {
           shopStatus: this.shopStatus,
           shopIds: this.storeInfo.fileIds,
-          shopCate: this.param.shopCate.value,
+          shopArea: this.param.shopArea.value,
           shopId: this.param.shopId,
           shopType: this.model.shopType,
           district: this.model.area[2],
@@ -320,7 +332,7 @@ export default {
      * */
     resetInputAction () { // 重置功能
       this.param.shopId = null
-      this.param.shopCate = 0
+      this.param.shopArea = 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
@@ -375,7 +387,7 @@ export default {
         searchMap: {
           shopStatus: this.shopStatus,
           shopIds: this.storeInfo.fileIds,
-          shopCate: this.param.shopCate.value,
+          shopArea: this.param.shopArea.value,
           shopId: this.param.shopId,
           shopType: this.model.shopType,
           district: this.model.area[2],
@@ -445,7 +457,7 @@ export default {
     // 打开弹窗回显已经选择的门店
     openFun () {
       this.param.shopId = null
-      this.param.shopCate = 0
+      this.param.shopArea = 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
@@ -581,7 +593,7 @@ export default {
     }
   },
   mounted: function () {
-    this.getShopCateAndShop()
+    this.getShopAreaAndShop()
   },
   components: {
     ElSelectLoad,

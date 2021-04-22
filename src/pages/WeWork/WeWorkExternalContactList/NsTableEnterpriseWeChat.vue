@@ -44,7 +44,7 @@
               <NsGuideDialog
                 :isButton="false"
                 :validNull="true"
-                :auth="false"
+                :auth="true"
                 type="primary"
                 btnTitle="选择"
                 dialogTitle="选择员工"

@@ -64,7 +64,6 @@
 import listPageMixin from '@/mixins/listPage'
 import { getErrorMsg } from '@/utils/toast'
 import loadLost from './mixins/loadLost'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import PopItem from './components/PopItem'
 import TabPane from './components/TabPane'

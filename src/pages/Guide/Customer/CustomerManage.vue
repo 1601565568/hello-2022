@@ -851,7 +851,7 @@
         v-if="replaceStoreShow"
         :sameSystemShopId="sameSystemShopId"
         :checkNumberLength="checkNumberLength"
-        :shopCateTree="shopCateTree"
+        :shopAreaTree="shopAreaTree"
         :allShopOptions="allShopOptions"
         :shopOptions="shopOptions"
         @onSave="replaceStoreonSave()"
