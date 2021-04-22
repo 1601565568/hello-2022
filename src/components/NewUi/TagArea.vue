@@ -42,10 +42,11 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
+      :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
       :contenteditable='contenteditable'
-      ref="wTextareaContent"
+      :ref="className"
       :id="contentId"
+      @blur="handleBlur()"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
@@ -77,6 +78,10 @@ export default {
   },
   components: { Emotion },
   props: {
+    className: {
+      type: String,
+      default: 'w-textarea__input'
+    },
     value: {
       type: String,
       default: ''
@@ -133,18 +138,16 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      const dom = document.getElementsByClassName(this.className)[0]
       this.currentText = dom.innerText
     }, 1000)
+    this.$refs[this.className].innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
-    handleBlur () {
-      // this.$refs.wTextareaContent.innerHTML = this.$refs.wTextareaContent.innerHTML + '&nbsp;&nbsp;&nbsp;&nbsp;'
-    },
     addEmotion: function (val) {
       // 创建模版标签
       let node = document.createElement(this.tag)
@@ -198,7 +201,7 @@ export default {
     },
     insertNode (node) { // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
-        const dom = document.getElementsByClassName('w-textarea_input')[0]
+        const dom = document.getElementsByClassName(`${this.className}`)[0]
         dom.focus()
         setTimeout(() => {
           this.addNode(node)
@@ -228,7 +231,7 @@ export default {
       } else {
         this.savedRange.setStart(this.endDon, this.endOffset)
       }
-      let target = this.$refs.wTextareaContent
+      let target = this.$refs[this.className]
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
     },
@@ -242,12 +245,16 @@ export default {
       if (this.currentTagId) {
         // 若已选中模版标签，直接删除dom节点
         let t = document.getElementById(this.currentTagId)
-        this.$refs.wTextareaContent.removeChild(t)
+        this.$refs[this.className].removeChild(t)
         this.currentTagId = null
         // 阻止浏览器默认的删除事件，并手动更新数据
         e.preventDefault()
         this.handleInput(e.target)
       }
+    },
+    handleBlur () {
+      this.isLocked = false
+      this.$emit('handleBlur')
     },
     // inputClick (e) {
     //   // 监听点击事件
@@ -332,7 +339,7 @@ export default {
       // }
       // this.$refs.wTextareaContent.innerHTML = val
       if (this.disabled) {
-        this.$refs.wTextareaContent.innerHTML = val
+        this.$refs[this.className].innerHTML = val
       }
     }
   }
