@@ -287,7 +287,7 @@ export default {
      */
     subdivisionChange (item) {
       const params = {
-        subdivisionId: item.subdivisionId || null,
+        subdivisionIds: item.subdivisionIds || [],
         itemList: [{
           id: item.id,
           isDirectory: item.isDirectory,

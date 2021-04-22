@@ -68,14 +68,14 @@
               </div>
               <div class="catalogue-materials__item--action clearfix">
                 <el-select
-                  v-model="item.subdivisionId"
+                  v-model="item.subdivisionIds"
                   placeholder="未打标"
                   :filter-method="subdivisionFilter"
                   @visible-change="subdivisionVisible"
-                  @change="subdivisionChange(item)"
-                  filterable
-                  clearable
+                  @change="((val)=>{subdivisionChange(val,item)})"
                   style="width: 150px"
+                  multiple
+                  collapse-tags
                 >
                   <el-option
                     v-for="obj in subdivisionList"
@@ -236,7 +236,8 @@ export default {
         this.filterValue = ''
       }
     },
-    subdivisionChange (item) {
+    subdivisionChange (val, item) {
+      item.subdivisionIds = Array.from(val)
       this.$emit('subdivisionChange', item)
     },
     onSelect (row) {
