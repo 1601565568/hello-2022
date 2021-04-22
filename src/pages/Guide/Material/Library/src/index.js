@@ -209,7 +209,8 @@ export default {
       queryNum: 0,
       // 搜索时，排除文件夹的字段
       excludeQuery: ['content', 'subdivisionId', 'mType'],
-      queryLoading: null
+      queryLoading: null,
+      selectItem: {}
     }
   },
   computed: {
@@ -280,6 +281,8 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
+        this.subdivisionChange(this.selectItem)
+        this.selectItem = {}
       }
     },
     /**
@@ -287,7 +290,8 @@ export default {
      */
     updateSubs (val, item) {
       item.subdivisionIds = Array.from(val)
-      this.subdivisionChange(item)
+      this.selectItem = item
+      // this.subdivisionChange(item)
     },
     /**
      * 标签改变
