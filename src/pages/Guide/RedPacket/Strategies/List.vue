@@ -81,7 +81,7 @@
               prop="state"
               label="红包类型">
               <template slot-scope="scope">
-                {{redpacketTypeMap[scope.row.state]}}
+                {{redpacketTypeMap[scope.row.redpackType]}}
               </template>
             </el-table-column>
             <el-table-column
@@ -175,7 +175,8 @@ export default Index
   font-size: 25px;
 }
 .scope-img {
-  width: 38.66px;
+  min-width: 38.66px;
+  max-width: 38.66px;
   margin-right: 15.67px;
 }
 .scope-title {

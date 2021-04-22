@@ -50,5 +50,15 @@ export default {
   getStrategies: {
     url: prefix + 'policy/queryById',
     method: 'get'
+  },
+  // 添加发红包
+  createSend: {
+    url: prefix + 'send/setting/saveOrUpdate',
+    method: 'post'
+  },
+  // 发红包列表
+  getSendList: {
+    url: prefix + 'send/setting/list',
+    method: 'post'
   }
 }
