@@ -43,7 +43,7 @@
     </div>
     <div
       :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
-      :contenteditable='!disabled'
+      :contenteditable='contenteditable'
       :ref="className"
       :id="contentId"
       @blur="handleBlur()"
@@ -120,6 +120,14 @@ export default {
       let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
+    },
+    contenteditable () {
+      const userAgent = navigator.userAgent
+      // 火狐只支持true 不支持 plaintext-only
+      if (userAgent.indexOf('Firefox') > -1) {
+        return !this.disabled
+      }
+      return this.disabled ? false : 'plaintext-only'
     }
   },
   mounted () {
