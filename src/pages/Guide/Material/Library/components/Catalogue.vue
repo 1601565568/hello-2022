@@ -369,6 +369,7 @@ export default {
       this.filterValue = val.toUpperCase()
     },
     subdivisionVisible (val) {
+      console.log('subdivisionVisible')
       if (!val) {
         this.filterValue = ''
       }
