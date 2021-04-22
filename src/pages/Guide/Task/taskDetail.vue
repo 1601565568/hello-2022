@@ -132,7 +132,7 @@
                       <img :src="item"/>
                     </div>
                   </div>
-                  <span v-if="scope.row && scope.row.urlJson" class='urkJsonimageSpan' title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
+                  <span class='urkJsonimageSpan' title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson ? scope.row.urlJson.split(',').length : 0}}张</span>
                 </div>
                 </div>
               </template>

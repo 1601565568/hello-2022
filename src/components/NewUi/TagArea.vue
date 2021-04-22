@@ -90,7 +90,7 @@ export default {
       // 当使用其他标签名的时候，需要另写标签样式
       default: 'wise'
     },
-    tools: { // 自定义扩展功能：超链接'link'，模版标签'tag'
+    tools: { // 自定义扩展功能：超链接'link'，模版标签'tag' 自定义类型'custom'：需传入自定义的回调函数
       type: Array,
       default () {
         return []
@@ -160,10 +160,15 @@ export default {
       this.showModal = false
     },
     openTagDialog (item) {
-      // 将事件抛给父组件处理
-      // 处理后需要调用 addTag() 或者 addLink() 将内容传回来
-      // this.$emit('add', item)
-      this.addTag(item)
+      // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
+      if (item.type === 'custom') {
+        // 会调用传入的回调函数字段 callback
+        item.callback(item)
+      } else if (item.type === 'link') {
+        this.addLink(item.text, item.url)
+      } else {
+        this.addTag(item)
+      }
     },
     addTag (item) {
       // 创建模版标签
@@ -180,6 +185,14 @@ export default {
       node.innerText = text
       node.href = url
       node.target = 'blank'
+      this.insertNode(node)
+    },
+    /**
+     * 向输入框中插入纯文本
+     */
+    addText (text) {
+      let node = document.createElement('text')
+      node.innerText = text
       this.insertNode(node)
     },
     insertNode (node) { // 判断是否第一次点击

@@ -154,7 +154,6 @@ export default {
           channelCodes: this.channelCodes.join(',')
         })
 
-        window.console.log('图数据', res)
         if (res.success) {
           // this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
           let dimensions = [ 'date' ]

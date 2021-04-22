@@ -25,14 +25,14 @@ export default {
         shopId: '',
         userName: '',
         wxNo: '',
-        shopCate: ''
+        shopArea: ''
       },
       copyModel: {
         time: [moment().subtract(7, 'days').format('YYYY-MM-DD 00:00:00'), moment().subtract(1, 'days').format('YYYY-MM-DD 23:59:59')],
         shopId: '',
         userName: '',
         wxNo: '',
-        shopCate: ''
+        shopArea: ''
       },
       chartData: {},
       option: {
@@ -86,37 +86,37 @@ export default {
       },
       // 列表数据
       tableData: [],
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
-      shopCateData: []
+      shopAreaData: []
     }
   },
   mounted: function () {
-    this.getShopCateAndShop()
+    this.getShopAreaAndShop()
     this.getData()
   },
   methods: {
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       // 设置选中
       const that = this
       that.$http.fetch(that.$api.marketing.weworkMarketing.queryEmployeeTreeAndOption4Component)
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
     },
-    // 懒加载门店分类树
-    loadShopCateNode (node, resolve) {
-      const shopCateTree = this.shopCateTree
+    // 懒加载门店区域树
+    loadShopAreaNode (node, resolve) {
+      const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
         return resolve([{
           id: 0,
@@ -127,7 +127,7 @@ export default {
       }
       if (node.level >= 1) {
         // 点击之后触发
-        const filter = shopCateTree.filter(data => {
+        const filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -228,16 +228,16 @@ export default {
       // const chazhi = (moment(end).toDate().getTime() - moment(start).toDate().getTime()) > (365 * 24 * 60 * 60 * 1000)
       this.getData()
     },
-    filterShopCate (val) {
+    filterShopArea (val) {
       if (val) {
-        const nodes = this.shopCateTree.filter(item => {
+        const nodes = this.shopAreaTree.filter(item => {
           if (item.label) {
             return item.label.indexOf(val) !== -1
           }
         })
-        this.shopCateData = nodes
+        this.shopAreaData = nodes
       } else {
-        this.shopCateData = [{
+        this.shopAreaData = [{
           id: 0,
           parentId: -1,
           code: 0,
@@ -264,7 +264,7 @@ export default {
       }
       if (that.model.shopId) {
         params.shopIds = that.model.shopId
-      } else if (that.model.shopCate && that.model.shopCate.value && that.shopOptions) {
+      } else if (that.model.shopArea && that.model.shopArea.value && that.shopOptions) {
         params.shopIds = that.shopOptions.map(item => item.value).join(',')
       }
       params.userName = that.model.userName
@@ -322,7 +322,7 @@ export default {
     }
   },
   watch: {
-    'model.shopCate': function (o1, o2) {
+    'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
         this.allShopOptions.map(item => {

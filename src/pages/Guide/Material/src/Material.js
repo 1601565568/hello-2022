@@ -90,7 +90,6 @@ export default {
       title: '',
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       transferWay: '1',
-      brandId: null,
       dialogFormVisible_image: false, // 添加图文弹窗
       dialogFormVisible_link: false, // 添加链接弹窗
       dialogFormVisible_update: false, // 设置分组弹窗

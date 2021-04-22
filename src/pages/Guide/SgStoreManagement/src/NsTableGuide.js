@@ -1,6 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
-import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
 import scrollTable from '@/mixins/scrollTable'
@@ -71,6 +70,7 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     var findVo = {
+      'viewId': null, // 视角id
       'name': null,
       'shopName': null, // 门店名称
       'shopId': null, // 门店ID
@@ -162,15 +162,19 @@ export default {
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
   },
-  components: {
-    NsArea
-  },
   updated () {
     if (this.$refs.elTree) {
       this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
     }
   },
-  computed: {},
+  computed: {
+    /**
+     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     */
+    viewRange () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
+    }
+  },
   methods: {
     async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
       let that = this
@@ -248,15 +252,15 @@ export default {
       return false
     },
     elIconMenu (row) {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findIsShopLegal, {
+      this.$http.fetch(this.$api.guide.shop.findIsShopLegal, {
         shopId: row.id
+        // viewId: this.model.viewId
       }).then(resp => {
         if (resp.success) {
-          this.$emit('elIconMenu', row)
+          this.$emit('elIconMenu', { row, viewId: this.model.viewId })
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('下载失败', resp))
+        this.$notify.error(getErrorMsg('下载失败', resp))
       })
     },
     scopeRowCount (data) { // 查看数字门店详情
@@ -319,7 +323,7 @@ export default {
           shopId.push(shop.id)
         }
       })
-      this.$emit('batchElIconMenu', shopId.join(','))
+      this.$emit('batchElIconMenu', { row: shopId.join(','), viewId: this.model.viewId })
     },
     onRedactFun (val) {
       this.$emit('onRedactFun', val)

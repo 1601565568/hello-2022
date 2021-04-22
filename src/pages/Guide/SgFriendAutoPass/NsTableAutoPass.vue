@@ -1,6 +1,5 @@
 <template>
   <div>
-    <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
     <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" @shopEdit="$emit('shopEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">

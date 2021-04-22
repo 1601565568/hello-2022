@@ -493,6 +493,25 @@
             </el-option>
           </el-select>
         </el-form-item>
+         <el-form-item
+          v-if="linkModel.custom === 2 && viewRange === 1"
+          label="选择品牌："
+          prop="settingId"
+          :rules="commonRules.selectOne"
+        >
+          <el-select
+            v-model="linkModel.brandId"
+            placeholder="请选择"
+            filterable
+          >
+            <el-option
+              v-for="item in brandList"
+              :key="item.brandId"
+              :label="item.brandName"
+              :value="item.brandId"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item
           label="网页地址："
           prop="link"
@@ -509,6 +528,9 @@
             />
             <span v-for="(item, index) in placeholderLink" :key="index">
                <ns-button v-if="linkModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
+            </span>
+            <span v-if="viewRange === 1">
+               <ns-button v-if="linkModel.custom === 1" type="text" @click="openBrandDialog">&lt;品牌id&gt;</ns-button>
             </span>
           </el-form-grid>
         </el-form-item>
@@ -642,6 +664,7 @@
                 v-model.trim="appModel.path"
               />
               <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertAppModelPath(item.value)">&lt;{{item.label}}&gt;</ns-button>
+              <ns-button v-if="viewRange === 1" type="text" @click="openBrandDialog">&lt;品牌id&gt;</ns-button>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
@@ -727,6 +750,8 @@
         <ns-button @click="onSubmitAnnex(3)" type="primary">确定</ns-button>
       </div>
     </el-dialog>
+    <!-- 选择品牌弹窗 -->
+    <NsBrandDialog :visible.sync="brandDialogVisible" @confirm="insertBrandId"/>
     <!-- 渠道弹框 -->
     <el-dialog
       ref="channelDialog"

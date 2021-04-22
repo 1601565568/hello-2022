@@ -78,12 +78,11 @@
 </template>
 <script>
 import List from './src/List'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PreviewPoster from '../components/PreviewPoster'
 List.components = {
-  PageTable, NsGuideDialog, ElDrawer, PreviewPoster
+  PageTable, ElDrawer, PreviewPoster
 }
 export default List
 </script>

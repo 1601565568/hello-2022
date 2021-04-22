@@ -215,8 +215,8 @@ export default {
     url: '/guide/task/saveOrUpdateTask',
     method: 'post'
   },
-  queryView: {
-    // 查询登录账号数据权限视角
+  queryArea: {
+    // 查询登录账号数据权限区域
     url: '/guide/task/queryView',
     method: 'post'
   },

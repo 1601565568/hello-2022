@@ -1,32 +1,33 @@
 import test from './test'
 import core from './core'
+// import coupon from './coupon'
+import dataCenter from './dataCenter'
 import guide from './guide'
-import coupon from './coupon'
-import isv from './isv'
+// import isv from './isv'
 import mall from './mall'
+import marketing from './marketing'
 import overView from './overView'
 import riskManagement from './riskManagement'
-import weWork from './weWork' // 企业微信
 import weChat from './weChat' // 个号
-import dataCenter from './dataCenter'
-import marketing from './marketing'
+import weWork from './weWork' // 企业微信
+
 export default {
   test,
   core,
+  // coupon,
+  dataCenter,
   guide,
-  coupon,
-  isv,
+  // isv,
   mall,
-  riskManagement,
+  marketing,
   overView,
+  riskManagement,
+  weChat, // 个号
+  weWork, // 企业微信
   getMoreAccountByWeight: { // 根据权重查询个人号
     url: '/guide/sgmoreaccount/getMoreAccountByWeight',
     method: 'get'
   },
-  dataCenter,
-  marketing,
-  weWork, // 企业微信
-  weChat, // 个号
   getChangeChannel: {
     url: '/group/queryGroupMsg',
     method: 'get'

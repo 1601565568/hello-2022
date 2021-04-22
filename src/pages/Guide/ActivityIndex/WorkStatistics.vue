@@ -68,16 +68,6 @@
                     </span>
                     <span v-else>全部</span>
                     <div style="float: right;">
-                        <!-- <NsGuideDialog
-                            :isButton="false"
-                            :validNull="true"
-                            :auth="false"
-                            type="primary"
-                            btnTitle="选择"
-                            dialogTitle="选择员工"
-                            v-model="searchform.guideId"
-                            @input="NsGuideDialog()"
-                        ></NsGuideDialog> -->
                         <NsGuideDialog
                         :isButton="false"
                         :validNull="true"

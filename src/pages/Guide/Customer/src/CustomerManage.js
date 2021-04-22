@@ -40,7 +40,6 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
-      brandId: null,
       dontSave: false,
       title: '导购更换列表',
       dialogFormVisible: false,
@@ -131,13 +130,19 @@ export default {
       recordChooseList: [], // 记录勾选导购转移的数组
       checkNumberLength: 0, // 记录列表勾选会员人数
       replaceStoreShow: false,
-      shopCateTree: [],
+      shopAreaTree: [],
       allShopOptions: [],
       shopOptions: [],
-      activeTab: {} // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
+      activeTab: {}, // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
+      viewList: null
     }
   },
   mixins: [tableMixin],
+  computed: {
+    viewId () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
+    }
+  },
   methods: {
     // 更换门店开始
     async handlereplaceShop () {
@@ -155,14 +160,14 @@ export default {
       }
     },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       if (!this.sameSystemShopId) { return false }
       that.$http.fetch(that.$api.core.sysShop.getShopTree, { sameSystemShopId: this.sameSystemShopId })
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -270,7 +275,8 @@ export default {
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
         customerId: customerId,
-        shopId: shopId
+        shopId: shopId,
+        viewId: this.viewId
       }).then(resp => {
         this.rfmInfo = resp.result
       }).catch(resp => {
@@ -689,7 +695,7 @@ export default {
     },
     getOffLineShopId (data) {
       this.sameSystemShopId = data
-      this.getShopCateAndShop()
+      this.getShopAreaAndShop()
     },
     addText (row) {
       if (row.selectValue) {
@@ -972,6 +978,7 @@ export default {
       let remumberLoginInfo = this.$store.state.user.remumber.remumber_login_info.productConfig.user
       let { nick, nickId } = remumberLoginInfo
       let obj = {
+        viewId: this.viewId,
         outGuideIdList: this.$refs.table1.outGuideId ? [this.$refs.table1.outGuideId] : null,
         operatorName: nick, // 操作人
         operator: nickId,
@@ -997,42 +1004,6 @@ export default {
         }
       }
       this.createCustomerTransferTask(params, taskType)
-      // this.createCustomerTransferTask(params)
-      // let _this = this
-      // let obj = {
-      //   nick: null,
-      //   nickType: null,
-      //   customerFrom: null,
-      //   sgExclusiveGuideId: null, // 增加原导购ID sgExclusiveShopId 、sgExclusiveGuideId | name 也有
-      //   sgExclusiveShopId: null
-      // }
-      // if (_this.value !== null) {
-      //   _this.customerIdList = []
-      //   _this.multipleSelection.map(item => {
-      //     let nick = {}
-      //     obj.nick = item.nickInfoList[0].nick
-      //     obj.platform = this.changePlatform(item.nickInfoList[0].platform)
-      //     // obj.nick = item.outNick
-      //     // obj.platform = this.changePlatform(item.platform)
-      //     obj.sgExclusiveGuideId = item.sgExclusiveGuideId
-      //     obj.sgExclusiveShopId = item.sgExclusiveShopId
-      //     nick = Object.assign({}, obj)
-      //     _this.customerIdList.push(nick)
-      //   })
-      //   this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
-      //     nickListJson: _this.customerIdList,
-      //     newGuideId: Number(_this.value.id),
-      //     shopId: Number(_this.value.shopId)
-      //   }).then(resp => {
-      //     _this.$notify.success('保存成功')
-      //     _this.$refs.table1.$reload()
-      //     _this.closeDialog()
-      //   }).catch((resp) => {
-      //     _this.$notify.error(getErrorMsg('保存失败', resp))
-      //   })
-      // } else {
-      //   _this.$notify.error('请选择要更换的导购！')
-      // }
     },
     // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
@@ -1111,8 +1082,5 @@ export default {
       }
       return customerName
     }
-  },
-  mounted: function () {
-  },
-  computed: {}
+  }
 }

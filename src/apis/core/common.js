@@ -79,11 +79,6 @@ export default {
     url: '/core/common/queryAreaTree4Component',
     method: 'get'
   },
-  // 渠道树
-  queryChannelTree4Component: {
-    url: '/core/common/queryChannelTree4Component',
-    method: 'post'
-  },
   // 查询商品表格
   queryGoodsTable4Component: {
     url: '/core/common/queryGoodsTable4Component',
@@ -179,8 +174,8 @@ export default {
     url: '/core/common/queryEmployeeList4Component',
     method: 'post'
   },
-  queryEmployeeTreeAndOption4Component: {
-    url: '/core/common/queryEmployeeTreeAndOption4Component',
-    method: 'post'
+  findViewListByAreaId: { // 区域模式下根据区域id查询该区域下视角列表
+    url: '/core/common/findViewListByAreaId',
+    method: 'get'
   }
 }

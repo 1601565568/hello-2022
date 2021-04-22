@@ -86,23 +86,34 @@ export default {
       },
       fileList: [],
       btnLoad: false,
-      tools: [
-        { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
-        { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
-        { type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' },
-        { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
-      ],
       // 是否是进行中的
       isStating: false,
       isSetPrize: true,
       isLoading: false,
-      prizeModel: {} // 奖品组件回显
+      prizeModel: {}, // 奖品组件回显
+      brandDialogVisible: false
     }
   },
   computed: {
     editType () {
       return this.$route.query.guestCodeId ? '编辑' : '新建'
+    },
+    tools () {
+      const tools = [
+        { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
+        { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
+        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
+        { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
+      ]
+
+      // 按品牌运营
+      if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
+        tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
+      } else {
+        tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
+      }
+
+      return tools
     }
   },
   mounted () {
@@ -121,6 +132,19 @@ export default {
     }
   },
   methods: {
+    /**
+     * 打开选择品牌模态框
+     */
+    openBrandDialog (item) {
+      this.brandDialogVisible = true
+    },
+    /**
+     * 向tagArea文本框中插入品牌id
+     * @param {string} barndId
+     */
+    insertBrandId (barndId) {
+      this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
+    },
     // 获取详情
     loadActivity (guestCodeId) {
       this.customerLoading = true
@@ -265,6 +289,8 @@ export default {
     },
     // 保存
     handleSave () {
+      // const save = Object.assign(this.formatModel())
+      // window.console.log('保存', save)
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const prizeModel = await this.$refs.setPrize.onSave()
@@ -294,7 +320,8 @@ export default {
     // 替换模板成标签
     stringTohtml (string) {
       this.tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '}', 'g')
+        const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
+
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
       return string

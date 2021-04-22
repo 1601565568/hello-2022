@@ -40,6 +40,11 @@ export default {
       items: {}
     }
   },
+  computed: {
+    viewId () {
+      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
+    }
+  },
   mounted () {
     // this.init()
   },
@@ -232,7 +237,8 @@ export default {
       this.$http
         .fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
           customerId: customerId,
-          shopId: shopId
+          shopId: shopId,
+          viewId: this.viewId
         })
         .then(resp => {
           this.rfmInfo = resp.result

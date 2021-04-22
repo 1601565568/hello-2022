@@ -1,7 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 let vm
 export default {
-  name: 'NsEmployeeOrCustGroupDialog',
+  name: 'NsShopDialog',
   mixins: [tableMixin],
   props: {
     value: {
@@ -66,8 +66,8 @@ export default {
         name: '',
         shopId: '',
         shopIds: '',
-        // 门店分类
-        shopCate: {}
+        // 门店区域
+        shopArea: {}
       },
       // 接口数据的key值name
       recordId: 'shop_id',
@@ -79,8 +79,8 @@ export default {
         page: 1,
         total: 0
       },
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
@@ -89,7 +89,7 @@ export default {
   },
   computed: {},
   watch: {
-    'param.shopCate': function (o1, o2) {
+    'param.shopArea': function (o1, o2) {
       let shopOptions = []
       this.param.shopId = ''
       this.param.shopIds = ''
@@ -116,7 +116,7 @@ export default {
       vm.isCheckAll = false
       vm.$nextTick(function () {
         this.param.name = ''
-        this.param.shopCate = {} // 选择的门店分类
+        this.param.shopArea = {} // 选择的门店区域
         this.param.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
@@ -126,7 +126,7 @@ export default {
      */
     resetSearch: function () {
       vm.param.name = ''
-      vm.param.shopCate = {} // 选择的门店分类
+      vm.param.shopArea = {} // 选择的门店区域
       vm.param.shopId = '' // 选择的门店
       vm.searchEmployee(1)
     },
@@ -144,8 +144,8 @@ export default {
       if (this.param.shopId) {
         param.searchMap.shopId = this.param.shopId
       } else {
-        if (this.param.shopCate && this.param.shopCate.value) {
-          param.searchMap.cateId = '-' + this.param.shopCate.value + '-'
+        if (this.param.shopArea && this.param.shopArea.value) {
+          param.searchMap.areaId = '-' + this.param.shopArea.value + '-'
         }
       }
       // 请求获取列表数据
@@ -189,8 +189,8 @@ export default {
       if (this.param.shopId) {
         param.searchMap.shopId = this.param.shopId
       } else {
-        if (this.param.shopCate && this.param.shopCate.value) {
-          param.searchMap.cateId = '-' + this.param.shopCate.value + '-'
+        if (this.param.shopArea && this.param.shopArea.value) {
+          param.searchMap.areaId = '-' + this.param.shopArea.value + '-'
         }
       }
       // 请求获取列表数据
@@ -446,24 +446,19 @@ export default {
       return this.searchEmployee(1)
     },
     /**
-     * 门店分类树点击事件(懒加载)
+     * 门店区域树点击事件(懒加载)
      * @param node
      * @param resolve
      * @returns {*}
      */
-    loadShopCateNode (node, resolve) {
-      let shopCateTree = this.shopCateTree
+    loadShopAreaNode (node, resolve) {
+      let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.getRootTree(this.shopAreaTree))
       }
       if (node.level >= 1) {
         // 点击之后触发
-        let filter = shopCateTree.filter(data => {
+        let filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -473,14 +468,31 @@ export default {
         }
       }
     },
+    getRootTree (shopAreaTree) {
+      const rootTree = []
+      for (let item of shopAreaTree) {
+        let parentId = item.parentId // 每一项的父级id
+        let flag = false
+        for (let item of shopAreaTree) {
+          if (parentId === item.id) {
+            flag = true
+            break
+          }
+        }
+        if (!flag) {
+          rootTree.push(item)
+        }
+      }
+      return rootTree
+    },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取门店区域，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -491,7 +503,7 @@ export default {
   mounted: function () {
     vm = this
     // 分类树
-    vm.getShopCateAndShop()
+    vm.getShopAreaAndShop()
   },
   created: function () {
   }

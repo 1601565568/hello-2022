@@ -1,4 +1,5 @@
 import transData from '@nascent/ecrp-ecrm/src/utils/transData'
+import store from '@/store'
 import LocalStorage from 'store/dist/store.legacy.min.js'
 const treeFn = (err, rows) => {
   if (err) { throw err }
@@ -64,13 +65,23 @@ export default {
           name: res.data.result.loginAccount,
           nick: res.data.result.userName,
           menus: res.data.result.menus,
-          brands: res.data.result.views,
+          areas: res.data.result.areas,
+          views: res.data.result.views,
           // 拓展字段
-          productConfig: { ...productConfig, wxPlan: res.data.result.wxPlan, user },
-          brand: {
-            id: res.data.result.currentView.viewId,
-            name: res.data.result.currentView.viewName,
-            brandType: res.data.result.currentView.viewType,
+          productConfig: {
+            ...productConfig,
+            wxPlan: res.data.result.wxPlan,
+            user,
+            viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
+            openGroupOperation: res.data.result.openGroupOperation || 0, // 是否是集团运营
+            groupViewId: res.data.result.groupViewId,
+            brands: res.data.result.brands,
+            viewId: '' // 已选的视角id
+          },
+          area: {
+            id: res.data.result.currentArea.areaId,
+            name: res.data.result.currentArea.areaName,
+            areaType: res.data.result.currentArea.areaType,
             isHyt: res.data.result.isHyt,
             gradeRuleStatus: res.data.result.gradeRuleStatus
           },
@@ -196,7 +207,7 @@ export default {
     method: 'get'
 
   },
-  changeView: {
+  changeArea: {
     cancelToken: false,
     url: '/core/access/changeView',
     method: 'get'

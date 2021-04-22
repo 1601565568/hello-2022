@@ -83,10 +83,6 @@ export default {
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
-      bindDeviceDialog: {
-        visible: false,
-        guide: {}
-      },
       memberManagePlan: 1,
       shopSelectUrl: this.$api.guide.shop.findBrandShopList,
       shopSelectOptions: []

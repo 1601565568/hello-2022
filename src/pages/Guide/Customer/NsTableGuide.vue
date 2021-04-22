@@ -1,5 +1,11 @@
 <template>
-  <div calss="NsTableGuide_main">
+  <div class="NsTableGuide_main">
+    <div class="template-page__title-bar">
+      <div class="title">客户列表</div>
+      <!-- 视角改造去掉视角选择 -->
+      <!-- <div class="line" v-if="openGroupOperation === 0"></div>
+      <view-select v-if="openGroupOperation === 0" :viewList="viewList" ref="viewSelect" v-model="model.viewId" @change="viewChange"/> -->
+    </div>
     <div class="template-page__row-left">
       <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable
                 @keyup.enter.native="initShopList(1)">
@@ -148,7 +154,7 @@
           <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
           <!-- 手机号 :width="120" -->
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-          <taskProgress v-if="offLineShopId" :shopCustomerTransferTaskStatus="shopCustomerTransferTaskStatus" :shopId="offLineShopId" @onResetCustomerTransferTask="updateSetAjax()"></taskProgress>
+          <TaskProgress v-if="offLineShopId" :shopCustomerTransferTaskStatus="shopCustomerTransferTaskStatus" :shopId="offLineShopId" @onResetCustomerTransferTask="updateSetAjax()"></TaskProgress>
           <!-- @selection-change="handleSelectionChange" -->
           <el-table ref="table" :data="_data._table.data" stripe
             @select="handleSelectChange"
@@ -246,6 +252,14 @@
 </template>
 <script>
 import NsTableGuide from './src/NsTableGuide'
+import ViewSelect from '@/components/NsViewSelect'
+import TaskProgress from './component/taskProgress'
+
+NsTableGuide.components = {
+  ViewSelect,
+  TaskProgress
+}
+
 export default NsTableGuide
 </script>
 
@@ -256,7 +270,7 @@ export default NsTableGuide
     width: 220px;
     position: absolute;
     left: 210px;
-    top: 70px;
+    top: 118px;
     z-index: 2;
     overflow: hidden;
     >>> .el-input {
@@ -265,12 +279,31 @@ export default NsTableGuide
   }
   .template-page__row-right {
     position: absolute;
-    top: 70px;
+    top: 118px;
     left: 0;
     z-index: 1;
     margin: 0;
     width: 100%;
   }
+
+  .template-page__title-bar {
+    width: 100%;
+    font-size: 16px;
+    color: #262626;
+    height: 48px;
+    background-color: #fff;
+    font-weight: bold;
+    margin: -10px -10px 0px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    .line {
+      height: 20px;
+      margin: 0 16px;
+      border-left: 1px solid #E8E8E8;
+    }
+  }
+
   .template-table {
     margin: 0 10px 10px 435px;
   }
@@ -278,17 +311,21 @@ export default NsTableGuide
     .el-tree-node__content{
       width: 210px;
     }
+
     .template-page__row-left {
       width: 220px;
       position: absolute;
       left: 210px;
-      top: 90px;
+      top: 138px;
       z-index: 2;
       overflow: hidden;
+      >>> .el-input {
+        margin-bottom: var(--default-margin-base);
+      }
     }
     .template-page__row-right {
       position: absolute;
-      top: 90px;
+      top: 138px;
       left: 0;
       z-index: 1;
       width: 100%;

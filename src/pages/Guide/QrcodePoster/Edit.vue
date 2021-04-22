@@ -59,9 +59,11 @@
                       </template>
                     </el-popover> -->
                   </div>
-                  <tag-area v-model='model.sceneStr' tag="wise" ref="testText" :maxlength="64" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
+                  <tag-area v-model='model.sceneStr' tag="wise" ref="tagAreaText" :maxlength="64" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
                 </el-form-item>
               </div>
+              <!-- 选择品牌Dialog -->
+              <NsBrandDialog :visible.sync="brandDialogVisible" @confirm="insertBrandId"/>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
@@ -93,8 +95,19 @@ import ElColorPicker from '@nascent/nui/lib/color-picker'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import ElImage from '@nascent/nui/lib/image'
 import TagArea from '@/components/NewUi/TagArea'
+import NsBrandDialog from '@/components/NsBrandDialog'
+
 Edit.components = {
-  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, ElColorPicker, TagArea
+  ElUpload,
+  VueDragResize,
+  RecruitmentCollapse,
+  LengthInput,
+  PageEdit,
+  DrapUpload,
+  ElImage,
+  ElColorPicker,
+  TagArea,
+  NsBrandDialog
 }
 export default Edit
 </script>

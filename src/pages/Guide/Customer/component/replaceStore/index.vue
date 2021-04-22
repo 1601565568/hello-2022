@@ -15,7 +15,7 @@
               <el-form-item>
                 <el-form-grid><div>工作门店：</div></el-form-grid>
                 <el-form-grid>
-                  <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode" :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
+                  <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopAreaNode" :multiple="false" v-model="departData.shopArea" clearable></ns-droptree>
                 </el-form-grid>
               </el-form-item>
               <el-form-item>

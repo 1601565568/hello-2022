@@ -107,7 +107,9 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' :disabled='isStating' tag="wise" ref="testText" :maxlength="1000" :tools='tools' placeholder="请输入活动介绍" @inputLength="inputLength"/>
+              <tag-area v-model='model.activityIntroduction' :disabled='isStating' tag="wise" ref="tagAreaText" :maxlength="1000" :tools='tools' placeholder="请输入活动介绍" @inputLength="inputLength"/>
+              <!-- 选择品牌Dialog -->
+              <NsBrandDialog :visible.sync="brandDialogVisible" @confirm="insertBrandId"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
@@ -226,8 +228,10 @@ import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
+import NsBrandDialog from '@/components/NsBrandDialog'
+
 Edit.components = {
-  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber, SetPrize
+  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber, SetPrize, NsBrandDialog
 }
 export default Edit
 </script>
