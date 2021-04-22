@@ -11,11 +11,13 @@
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
       <div class="drawer-title">拍摄指南</div>
-      <div class="drawer-sub-title">坑位拍摄指南</div>
-      <div class="drawer-sub-cont">{{ info.pitText }}</div>
+      <div v-if="info.pitText">
+        <div class="drawer-sub-title">坑位拍摄指南</div>
+        <div class="drawer-sub-cont">{{ info.pitText }}</div>
+      </div>
+      <div class="drawer-sub-title">示意图</div>
+      <img class="drawer-sub-img" :src="info.url" />
     </div>
-    <div class="drawer-sub-title">示意图</div>
-    <img class="drawer-sub-img" :src="info.url" />
   </el-drawer>
 </template>
 <script>

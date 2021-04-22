@@ -224,7 +224,7 @@
       </div>
     </div>
     <ns-no-data v-if="isEmpty">暂无数据</ns-no-data>
-    <GuideInfo ref="guideInfo" :info="guideInfo"/>
+    <GuideInfo ref="guideInfo" :info="guideInfo" />
   </div>
 </template>
 <script>
@@ -284,7 +284,16 @@ export default {
       // 筛选项
       filterValue: '',
       // 拍摄指南
-      guideInfo: {}
+      guideInfo: {},
+      //
+      materialShow: this.materials,
+      //
+      selectItem: {}
+    }
+  },
+  watch: {
+    materials (val) {
+      this.materialShow = val
     }
   },
   computed: {
@@ -305,7 +314,7 @@ export default {
           list[i] = []
           sortArr[i] = { i: i, h: 0 }
         }
-        this.materials.forEach(o => {
+        this.materialShow.forEach(o => {
           let index = this.selectRows.findIndex(s => s.id === o.id)
           let height = this.baseHeight
           switch (o.m_type) {
@@ -372,11 +381,22 @@ export default {
       console.log('subdivisionVisible')
       if (!val) {
         this.filterValue = ''
+        this.$emit('subdivisionChange', this.selectItem)
       }
     },
     subdivisionChange (val, item) {
       item.subdivisionIds = Array.from(val)
-      this.$emit('subdivisionChange', item)
+      this.selectItem = item
+      let arr = []
+      for (let i = 0; i < this.materialShow.length; i++) {
+        let dItem = this.materialShow[i]
+        if (dItem.id === item.id) {
+          dItem = item
+        }
+        arr.push(dItem)
+      }
+      this.materialShow = arr
+      // this.$emit('subdivisionChange', item)
     },
     onSelect (row) {
       this.$emit('onSelect', row)
