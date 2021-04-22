@@ -236,8 +236,9 @@
           <el-upload
             class="library-guide"
             drag
-            action="https://jsonplaceholder.typicode.com/posts/"
-            multiple
+            :action="this.$api.core.sgUploadFile('image')"
+            :on-success="handleGuideSuccess"
+            :before-upload="beforeAvatarUpload"
           >
             <div>
               <Icon type="cloud-uploading" class="uploading-icon" />
@@ -438,6 +439,10 @@ export default {
         }
         this.model.mediaList.push(obj)
       }
+    },
+    handleGuideSuccess (res, file) {
+      let item = this.mediaList[this.editIndex]
+      item.url = res.result.url
     },
     addCustomImg () {
       this.$refs.imageForm.clearValidate()
