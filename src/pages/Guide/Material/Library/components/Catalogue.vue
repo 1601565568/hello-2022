@@ -56,9 +56,11 @@
                   <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-for="(img, index) in item.mediaList" :key="index" @click="showPreview(index, item)"/>
                 </div>
                 <div v-else class="catalogue-materials__video">
-                  <video :src="item.imageList[0]" :style="{'height': videoHeight + 'px'}">
-                    您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-                  </video>
+                  <div v-if="item.mediaList">
+                    <video :src="videoUrl(item)" :style="{'height': videoHeight + 'px'}">
+                      您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+                    </video>
+                  </div>
                   <div class="catalogue-materials__video--mask" @click="showPreview(0, item)">
                     <div class="catalogue-materials__video--wrapper">
                       <Icon type="begin" />
@@ -192,10 +194,10 @@ export default {
               height += this.articleHeight
               break
             case 2:
-              height += o.imageList && o.imageList.length ? this.videoHeight : 0
+              height += o.mediaList && o.mediaList.length ? this.videoHeight : 0
               break
             default:
-              let rows = Math.ceil((o.imageList || []).length / 3)
+              let rows = Math.ceil((o.mediaList || []).length / 3)
               height += rows * (this.imageHeight + this.imageOffset) - this.imageOffset
           }
           let temp = sortArr[0]
@@ -256,7 +258,13 @@ export default {
     },
     showPreview (current, row) {
       let type = +row.mType === 2 ? 'video' : 'img'
-      this.$emit('preview', current, row.imageList, type)
+      this.$emit('preview', current, row.mediaList, type)
+    },
+    videoUrl (list) {
+      if (list.mediaList && list.mediaList.length > 0) {
+        return list.mediaList[0].url
+      }
+      return ''
     }
   }
 }
