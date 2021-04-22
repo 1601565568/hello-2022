@@ -402,6 +402,8 @@ export default {
     },
     editImage (index) {
       this.editIndex = index
+      let item = this.mediaList[index]
+      this.guideText = item.pitText ? item.pitText : ''
       // this.$refs.guideInfo.closeDeawer()
       this.showEdit = !this.showEdit
     },
