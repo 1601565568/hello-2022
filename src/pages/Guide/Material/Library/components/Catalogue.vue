@@ -224,10 +224,12 @@
       </div>
     </div>
     <ns-no-data v-if="isEmpty">暂无数据</ns-no-data>
+    <GuideInfo ref="guideInfo" :info="guideInfo"/>
   </div>
 </template>
 <script>
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import GuideInfo from './GuideInfo'
 export default {
   props: {
     folders: {
@@ -256,7 +258,7 @@ export default {
     },
     operate_buttons: Array
   },
-  components: { NsNoData },
+  components: { NsNoData, GuideInfo },
   data () {
     return {
       // 卡片容器宽度
@@ -280,7 +282,9 @@ export default {
       // 分组数
       columnNum: 0,
       // 筛选项
-      filterValue: ''
+      filterValue: '',
+      // 拍摄指南
+      guideInfo: {}
     }
   },
   computed: {
@@ -384,6 +388,12 @@ export default {
     },
     showPreview (current, row) {
       let type = +row.mType === 2 ? 'video' : 'img'
+      let item = row.mediaList[current]
+      if (item.picType === 2) {
+        this.guideInfo = item
+        this.$refs.guideInfo.closeDeawer()
+        return
+      }
       let imgs = []
       row.mediaList.forEach(item => {
         imgs.push(item.url)
