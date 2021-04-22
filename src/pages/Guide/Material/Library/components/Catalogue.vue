@@ -88,8 +88,13 @@
                 <span v-if="item.mType === 0" class="catalogue-materials__item--total">浏览量: {{item.pageView || 0}}</span>
               </div>
             </div>
-            <div class="catalogue-materials__item--btns">
+            <div class="catalogue-materials__item--btns" v-if="item.materialScriptType === 2">
               <span class="catalogue-materials__item--btn" v-for="btn in operate_buttons" :key="btn.name" @click="btn.func(item)">
+                {{btn.name}}
+              </span>
+            </div>
+            <div v-else class="catalogue-materials__item--btns">
+              <span class="catalogue-materials__item--btn" v-for="btn in operate_buttons.slice(0,3)" :key="btn.name" @click="btn.func(item)">
                 {{btn.name}}
               </span>
             </div>
@@ -378,6 +383,7 @@ export default {
           min-width: 16px;
           min-height: 16px;
           display: inline-block;
+          display: none;
         }
       }
     }

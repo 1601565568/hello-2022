@@ -517,6 +517,14 @@ export default {
       if (params.codeTarget === '') {
         params.codeType = 0
       }
+      params.materialScriptType = 1
+      for (let i = 0; i < params.mediaList.length; i++) {
+        let item = params.mediaList[i]
+        if (item.picType === 2) {
+          params.materialScriptType = 2
+          break
+        }
+      }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
