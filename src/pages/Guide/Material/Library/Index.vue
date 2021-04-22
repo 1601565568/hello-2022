@@ -206,9 +206,14 @@
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
               <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
-              <el-table-column label="操作" fixed="right" :width="150">
-                <template slot-scope="scope">
-                  <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope" :width="250"></ns-table-column-operate-button>
+              <el-table-column label="操作" fixed="right" :width="150" >
+                <template slot-scope="scope" >
+                  <div v-if="scope.row.materialScriptType === 2">
+                    <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope" :width="250"></ns-table-column-operate-button>
+                  </div>
+                  <div v-else>
+                    <ns-table-column-operate-button :buttons="table.operate_buttons.slice(0,4)" :prop="scope" :width="250"></ns-table-column-operate-button>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
