@@ -186,13 +186,14 @@
                   <span v-if="scope.row.isDirectory === 1">-</span>
                   <el-select
                     v-else
-                    v-model="scope.row.subdivisionId"
+                    v-model="scope.row.subdivisionIds"
                     placeholder="未打标"
                     :filter-method="subdivisionFilter"
                     @visible-change="subdivisionVisible"
-                    @change="subdivisionChange(scope.row)"
+                    @change="((val)=>{updateSubs(val,scope.row)})"
                     filterable
-                    clearable
+                    multiple
+                    collapse-tags
                   >
                     <el-option
                       v-for="item in subdivisionList"

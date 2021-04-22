@@ -283,6 +283,13 @@ export default {
       }
     },
     /**
+     * 标签
+     */
+    updateSubs (val, item) {
+      item.subdivisionIds = Array.from(val)
+      this.subdivisionChange(item)
+    },
+    /**
      * 标签改变
      */
     subdivisionChange (item) {
