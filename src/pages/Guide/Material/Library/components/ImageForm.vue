@@ -14,11 +14,12 @@
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
-          v-model="model.subdivisionId"
+          v-model="model.subdivisionIds"
           placeholder="请选择"
           filterable
-          clearable
           style="width: 260px"
+          multiple
+          collapse-tags
         >
           <el-option
             v-for="item in labelList"
@@ -43,23 +44,28 @@
           style="width: 340px"
         ></el-input>
       </el-form-item>
-      <el-form-item ref="imageForm" label="素材图片：" prop="imageList">
+      <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
         <ul class="library-image__list clearfix" style="z-index:200">
           <li
             class="library-image__item"
-            v-for="(item, index) in imageList"
+            v-for="(item, index) in mediaList"
             :key="index"
           >
             <img
-              :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
+              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
             />
             <div class="library-image__mask">
-              <Icon type="bianji" @click="editImage(index)" />
-              <Icon type="zoom-in" @click="previewImage(index)" />
-              <Icon type="delete" @click="removeImage(index)" />
+              <div v-if="item.picType == 1">
+                <Icon type="zoom-in" @click="previewImage(index)" />
+                <Icon type="delete" @click="removeImage(index)" />
+              </div>
+              <div v-else>
+                <Icon type="bianji" @click="editImage(index)" />
+                <Icon type="delete" @click="removeImage(index)" />
+              </div>
             </div>
           </li>
-          <li v-if="imageList.length < imageNum">
+          <li v-if="mediaList.length < imageNum">
             <el-popover
               placement="top-start"
               width="160"
@@ -300,14 +306,15 @@ export default {
         isDirectory: 0,
         name: '',
         content: '',
-        subdivisionId: null,
+        subdivisionIds: null,
         codeType: 1,
-        imageList: [],
         marketType: null,
         codeModule: null,
         extJson: '',
         codeTarget: '',
-        codeTargetName: ''
+        codeTargetName: '',
+        mediaList: [],
+        materialScriptType: 1
       },
       rules: {
         name: [
@@ -336,7 +343,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        imageList: [
+        mediaList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ]
       },
@@ -348,15 +355,16 @@ export default {
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       showEdit: false,
       guideText: '',
-      drawer: false
+      drawer: false,
+      editIndex: 0
     }
   },
   computed: {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
     },
-    imageList () {
-      return this.model.imageList.slice(0, this.imageNum)
+    mediaList () {
+      return this.model.mediaList.slice(0, this.imageNum)
     }
   },
   watch: {
@@ -366,7 +374,7 @@ export default {
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        if (k === 'imageList') {
+        if (k === 'mediaList') {
           tempModel[k] = tempModel[k].filter(v =>
             /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
           )
@@ -383,13 +391,19 @@ export default {
     }
   },
   methods: {
-    handleSure () {},
+    handleSure () {
+      // 根据选中下标更新用户信息
+      let item = this.mediaList[this.editIndex]
+      item.pitText = this.guideText
+      this.showEdit = false
+    },
     handleCloseDia () {
       this.showEdit = false
     },
-    editImage () {
-      this.$refs.guideInfo.closeDeawer()
-      // this.showEdit = !this.showEdit
+    editImage (index) {
+      this.editIndex = index
+      // this.$refs.guideInfo.closeDeawer()
+      this.showEdit = !this.showEdit
     },
     handleImageType () {
       this.visible = !this.visible
@@ -401,27 +415,39 @@ export default {
       this.$emit('toggleLabel')
     },
     previewImage (index) {
-      this.$emit('togglePreview', index, this.imageList, 'img')
+      this.$emit('togglePreview', index, this.mediaList, 'img')
     },
     handleFolder ({ catalogue }) {
       this.catalogue = catalogue
     },
     removeImage (index) {
-      this.model.imageList.splice(index, 1)
-      this.$refs.form.validateField('imageList')
+      this.model.mediaList.splice(index, 1)
+      this.$refs.form.validateField('mediaList')
     },
     handleAvatarSuccess (res, file) {
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
-      if (this.model.imageList.length < this.imageNum) {
-        this.model.imageList.push(res.result.url)
+      if (this.model.mediaList.length < this.imageNum) {
+        let obj = {
+          picType: 1,
+          pitText: '',
+          type: 1,
+          url: res.result.url
+        }
+        this.model.mediaList.push(obj)
       }
     },
     addCustomImg () {
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
-      if (this.model.imageList.length < this.imageNum) {
-        this.model.imageList.push(this.defaultImgUrl)
+      if (this.model.mediaList.length < this.imageNum) {
+        let obj = {
+          picType: 2,
+          pitText: '',
+          type: 1,
+          url: this.defaultImgUrl
+        }
+        this.model.mediaList.push(obj)
       }
     },
     beforeAvatarUpload (file) {
@@ -486,7 +512,7 @@ export default {
     doSave () {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
-      params.imageList = this.imageList
+      params.mediaList = this.mediaList
       // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0

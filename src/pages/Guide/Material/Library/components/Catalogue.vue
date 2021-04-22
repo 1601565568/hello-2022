@@ -46,14 +46,14 @@
               </div>
               <div class="catalogue-materials__item--media">
                 <div v-if="item.mType === 0" class="catalogue-materials__article">
-                  <img alt="" :src="item.imageList[0] + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" @click="showPreview(0, item)"/>
+                  <img alt="" :src="item.mediaList[0].url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" @click="showPreview(0, item)"/>
                   <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
                     <div slot="content">{{item.title}}</div>
                     <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.title}}</div>
                   </el-tooltip>
                 </div>
                 <div v-else-if="item.mType === 1" class="catalogue-materials__image">
-                  <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
+                  <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-for="(img, index) in item.mediaList" :key="index" @click="showPreview(index, item)"/>
                 </div>
                 <div v-else class="catalogue-materials__video">
                   <video :src="item.imageList[0]" :style="{'height': videoHeight + 'px'}">
