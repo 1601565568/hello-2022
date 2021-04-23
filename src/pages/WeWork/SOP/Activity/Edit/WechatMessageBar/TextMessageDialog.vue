@@ -11,7 +11,7 @@
     <el-form class="text-message el-form-reset" label-width="6px" label-position="left" :model="defaultModel">
       <el-form-item>
         <span class="title">文本内容</span>
-        <tag-area ref="TagAreaText" class="tag-area" v-model="defaultModel.content" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="() => {}"/>
+        <tag-area ref="TagAreaText" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="() => {}"/>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -38,7 +38,9 @@ export default {
       default: function () {
         return {
           type: 'text',
-          content: ''
+          content: '',
+          htmlContent,
+          textContent
         }
       }
     }
@@ -50,9 +52,8 @@ export default {
         content: ''
       },
       tooltags: [
-        { type: 'tag', text: `插入好友昵称`, id: 'FRIEND_NICKNAME', value: '好友昵称', icon: 'xingming-2-x' },
-        { type: 'tag', text: `插入导购姓名`, id: 'GUIDE_NAME', value: '导购姓名', icon: 'nicheng-2-x' },
-        { type: 'tag', text: `插入好友昵称`, id: 'GUIDE_NICKNAME', value: '导购门店名称', icon: 'mendian-2-x' }
+        { type: 'tag', text: `插入导购姓名`, id: '#GUIDENAME#', value: '导购姓名', icon: 'nicheng-2-x' },
+        { type: 'tag', text: `插入导购门店`, id: '#GUIDESHOP#', value: '导购门店名称', icon: 'mendian-2-x' }
       ]
     }
   },
@@ -71,9 +72,16 @@ export default {
       }
     },
     confirm () {
-      let content = this.$refs.TagAreaText.htmlToString(this.defaultModel.content)
+      const content = this.$refs.TagAreaText.htmlToString(this.defaultModel.htmlContent)
+      const htmlContent = this.defaultModel.htmlContent
+      const textContent = this.$refs.TagAreaText.htmlToText(this.defaultModel.htmlContent)
 
-      this.$emit('confirm', { ...this.defaultModel, content })
+      this.$emit('confirm', {
+        ...this.defaultModel,
+        content,
+        htmlContent,
+        textContent
+      })
 
       this.close()
     }

@@ -23,8 +23,8 @@
             <div class="select-area">
               <NsChatRoomDialog
                 btnTitle="选择已有群聊"
-                :selectedDataParent="[]"
-                @getChatRoomData="selectedRoom"
+                :selectedRoomIds="model.chatRoomIdList"
+                @getChatRoomIds="selectedRoom"
                 ref="NsChatRoomDialog"
               >
                 <div class="select-tips" @click="$refs.NsChatRoomDialog.onDialogOpen()">
@@ -219,7 +219,9 @@ export default {
           {
             content: {
               type: 'text',
-              content: '哈哈哈哈哈哈啊哈哈哈哈哈哈'
+              content: '{EMOJI_[太阳]}{#GUIDESHOP#}{#GUIDENAME#}你好啊',
+              htmlContent: '<wise id="r1619168721172d480" class="EMOJI_[太阳]">[太阳]</wise><wise id="r1619168717832d305" class="#GUIDESHOP#">导购门店名称</wise><wise id="r1619168717493d810" class="#GUIDENAME#">导购姓名</wise>你好啊',
+              textContent: '{[太阳]}{导购门店名称}{导购姓名}你好啊'
             },
             type: 0
           },
@@ -297,7 +299,6 @@ export default {
         sendTime: [
           { required: true, message: '请选择发送时间', trigger: 'change' },
           { validator: (rule, value, callback) => {
-            window.console.log('我来验证下呢', Date.now(), (new Date(value)).getTime())
             if (Date.now() > (new Date(value)).getTime()) {
               callback(new Error(`发送时间不能小于当前时间`))
             } else {
@@ -393,8 +394,7 @@ export default {
      * 选择群
      */
     selectedRoom (data) {
-      window.console.log('群信息', data)
-      this.model.chatRoomIdList = data.map(item => item.chatId)
+      this.model.chatRoomIdList = data
     },
     /**
      * 改变消息顺序

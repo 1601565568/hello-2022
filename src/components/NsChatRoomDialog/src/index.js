@@ -15,6 +15,13 @@ export default {
         return []
       }
     },
+    // 右边已选择的id数组
+    selectedRoomIds: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
     // 是否添加登录账号店铺数据权限
     auth: {
       type: Boolean,
@@ -312,6 +319,13 @@ export default {
                 this.$refs.employeeTable.toggleRowSelection(item, true)
               }
             })
+
+            this.selectedRoomIds.forEach(chatId => {
+              if (chatId === item.chatId) {
+                this.selectedData.push(item)
+                this.$refs.employeeTable.toggleRowSelection(item, true)
+              }
+            })
           })
           this.tableLoading = false
         })
@@ -337,6 +351,8 @@ export default {
       }
       let selectData = this.selectedData
       this.$emit('getChatRoomData', selectData)
+      // 群id数组
+      this.$emit('getChatRoomIds', selectData.map(item => item.chatId))
       vm.visible = false
     },
     /**

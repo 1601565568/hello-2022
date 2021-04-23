@@ -21,12 +21,7 @@
                   class="image-message"
                   :content="message.content"
                   :preview="true"
-                  :previewList=" [
-                    'http://taosha01-1253585015.cos.ap-shanghai.myqcloud.com/taosha/d620bec0-d61c-11ea-9c32-1172a154412d.png?imageMogr2/crop/100x100/center',
-                    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                    'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-                    'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-                  ]"
+                  :previewList="getImgPrewivewList(item.contentList)"
                 />
                 <VideoMessage
                   :key="messageIndex"
@@ -208,6 +203,15 @@ export default {
       }
       // 非定义类型返回 false
       return false
+    },
+    getImgPrewivewList (contentList) {
+      const previewList = []
+      contentList.forEach(item => {
+        if (item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster) {
+          previewList.push(item.content.mediaid)
+        }
+      })
+      return previewList
     },
     async updateExamineStatus (context) {
       return this.$http.fetch(this.$api.weWork.sop.updateStatus, context)

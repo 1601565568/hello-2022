@@ -128,8 +128,8 @@ export default {
       activityList: [],
       pagination: {
         enable: true,
-        size: 5,
-        sizeOpts: [5, 15, 50, 100],
+        size: 15,
+        sizeOpts: [15, 50, 100],
         page: 1,
         total: 0,
         sizeChange: this.pageSizeChange.bind(this),

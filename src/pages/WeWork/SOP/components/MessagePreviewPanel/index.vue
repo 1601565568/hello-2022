@@ -71,7 +71,6 @@ export default {
 .message-panel {
   overflow: auto;
   width: 320px;
-  min-height: 500px;
   padding-top: 26px;
   background: #F2F2F2;
   display: flex;
@@ -85,6 +84,7 @@ export default {
 
   .text-message {
     max-width: 175px;
+    max-height: 152px;
     padding: 8px;
     line-height: 20px;
     background: #fff;

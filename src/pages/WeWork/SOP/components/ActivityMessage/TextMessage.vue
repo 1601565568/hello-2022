@@ -1,10 +1,10 @@
 <template>
-  <div class="text-message">
-    {{content.content}}
-  </div>
+  <div class="text-message" v-html="htmlContent"></div>
 </template>
 
 <script>
+import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
+
 export default {
   props: {
     content: {
@@ -12,18 +12,59 @@ export default {
       default: function () {
         return {
           type: 'text',
-          content: ''
+          content: '',
+          htmlContent: '',
+          textContent: ''
         }
       }
     }
   },
-  data () {
-    return {}
+  watch: {
+    'content.textContent' (newVal, oldVal) {
+      this.text2Emoji()
+      this.tag2Html()
+    }
   },
-  mounted () {},
-  methods: {}
+  data () {
+    return {
+      htmlContent: ''
+    }
+  },
+  mounted () {
+    this.text2Emoji()
+    this.tag2Html()
+  },
+  methods: {
+    text2Emoji () {
+      const strRegex = /{\[(.+?)\]}/g
+      this.htmlContent = this.content.textContent.replace(strRegex, (item, index) => {
+        // const imgDom = document.createElement('img')
+        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
+        // return imgDom.outerHTML
+        const imgDom = document.createElement('span')
+        imgDom.innerText = item
+        return imgDom.outerHTML
+      })
+    },
+    tag2Html () {
+      const strRegex = /{(.+?)}/g
+      this.htmlContent = this.htmlContent.replace(strRegex, (item, index) => {
+        const tagDom = document.createElement('span')
+        tagDom.innerText = index
+        tagDom.className = 'text-message-tag'
+        return tagDom.outerHTML
+      })
+    }
+  }
 }
 </script>
+<style>
+.text-message-tag {
+  color:#26a2ff;
+  cursor: default;
+  margin: 0 1px;
+}
+</style>
 
 <style lang="scss" scoped>
 .text-message {
@@ -31,5 +72,9 @@ export default {
   width: 100%;
   max-height: 161px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
 }
 </style>

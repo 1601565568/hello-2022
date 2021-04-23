@@ -69,6 +69,10 @@ export default {
       activityPanelHeight: '0',
       messageTypeOptions: [
         {
+          value: SOPActivityMessageType.All,
+          label: '全部'
+        },
+        {
           value: SOPActivityMessageType.Text,
           label: '文本'
         },
@@ -98,15 +102,15 @@ export default {
         name: '',
         creatorName: '',
         start: 0,
-        length: 5
+        length: 15
         // timeStart: `${moment().format('yyyy-MM-DD')} 00:00:00`,
         // timeEnd: `${moment().format('yyyy-MM-DD')} 23:59:59`
       },
       activityList: [],
       pagination: {
         enable: true,
-        size: 5,
-        sizeOpts: [5, 15, 50, 100],
+        size: 15,
+        sizeOpts: [15, 50, 100],
         page: 1,
         total: 0,
         sizeChange: this.pageSizeChange.bind(this),

@@ -5,7 +5,7 @@
         :src="content.mediaid"
         @click="showPreview"
       >
-      <span v-if="preview" class="image-total">3张</span>
+      <span v-if="preview" class="image-total">{{previewList.length}}张</span>
     </div>
     <NsPreview v-if="preview" ref="NsPreview"/>
   </div>
