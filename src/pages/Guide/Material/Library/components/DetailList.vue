@@ -12,19 +12,31 @@
           <Icon type="close" class="close-icon" @click="closeDeawer" />
         </div>
         <div class="drawer-title">自创明细</div>
-        <el-select
-          v-model="value"
-          placeholder="所属员工："
-          class="drawer-select"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
+        <el-form :inline="true" class="form-inline_top">
+          <el-form-item label="所属员工：">
+            <NsGuideDialog
+              :selfBtn="true"
+              :appendToBody="true"
+              :isButton="false"
+              :auth="false"
+              type="primary"
+              btnTitle=""
+              dialogTitle="所属员工："
+              @input="handleChangeGuide"
+            >
+              <template slot="selfBtn">
+                <div class="self-btn">
+                  {{
+                    guideIds && guideIds.length
+                      ? `已选择${guideIds.length}个员工`
+                      : '全部'
+                  }}
+                  <Icon type="geren" class="guideIds-icon"></Icon>
+                </div>
+              </template>
+            </NsGuideDialog>
+          </el-form-item>
+        </el-form>
         <div class="drawer-showinfo">
           <div>
             <span>已完成员工 100人</span>
@@ -47,7 +59,12 @@
               <el-table-column prop="title" width="125px" label="操作">
                 <template>
                   <ns-button type="text" class="select-button">查看</ns-button>
-                  <ns-button type="text" class="select-button">删除</ns-button>
+                  <ns-button
+                    type="text"
+                    class="select-button"
+                    @click="deleteFile(row)"
+                    >删除</ns-button
+                  >
                 </template>
               </el-table-column>
             </el-table>
@@ -68,7 +85,7 @@
         </page-table>
       </div>
     </el-drawer>
-     <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
+    <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
   </div>
 </template>
 <script>
@@ -76,9 +93,10 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
 import UnDetailList from './UnDetailList'
+import NsGuideDialog from '@/components/NsGuideDialog'
 export default {
   name: 'detailList',
-  components: { ElDrawer, PageTable, UnDetailList },
+  components: { ElDrawer, PageTable, UnDetailList, NsGuideDialog },
   props: {
     materialScriptId: {
       type: Number,
@@ -91,28 +109,6 @@ export default {
       direction: 'rtl',
       drawer: false,
       listData: [],
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        },
-        {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       guideIdsStr: '',
       isCompletion: 1,
@@ -123,12 +119,53 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      guideIds: []
     }
   },
   methods: {
+    handleChangeGuide (value) {
+      this.guideIds = value
+      if (this.guideIds.length > 0) {
+        this.guideIdsStr = this.guideIds.join(',')
+      } else {
+        this.guideIdsStr = ''
+      }
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+      this.loadList()
+    },
+    deleteFile (row) {
+      const params = {
+        guideId: row.guideId,
+        materialScriptId: this.materialScriptId
+      }
+      this.$http
+        .fetch(this.$api.guide.delScriptCompletionDetailByGuideId, params)
+        .then(resp => {
+          if (resp.success) {
+            this.pagination = {
+              size: 10,
+              sizeOpts: [10],
+              page: 1,
+              total: 0
+            }
+            this.loadList()
+          }
+          this.$notify.success(`删除成功`)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
+    },
     toUnDataList () {
       this.$refs.unDetailList.closeDeawer()
+      this.drawer = false
     },
     handleSizeChange (size) {
       this.pagination = {
@@ -173,7 +210,7 @@ export default {
             this.listData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
           }
-          this.$notify.success(`${this.title}成功`)
+          this.$notify.success(`${this.title}查询成功`)
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg(this.title, resp))
@@ -214,6 +251,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
+@import '../styles/reset.css';
 .drawer-title {
   height: 53px;
   font-size: 16px;
@@ -299,5 +337,22 @@ export default {
 }
 .remind-text {
   color: #0091fa;
+}
+.self-btn {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color: #c0c4cc;
+  }
+}
+.form-inline_top {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
 }
 </style>

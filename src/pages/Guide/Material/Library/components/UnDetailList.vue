@@ -11,15 +11,11 @@
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
       <div class="unDrawer-title">未完成员工</div>
-      <el-select v-model="value" placeholder="所属员工：" class="unDrawer-select">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
+      <div>
+        <ElFormGrid>
+          <NsShopDialog btnTitle="选择门店" v-model="shopSelectData"></NsShopDialog>
+        </ElFormGrid>
+      </div>
       <div class="unDrawer-showinfo">
         <div>
           <span>未完成员工 100人</span>
@@ -32,14 +28,7 @@
         <template slot="table">
           <el-table :data="listData" class="new-table_border unDrawer-table">
             <el-table-column prop="guideName" label="员工"> </el-table-column>
-            <el-table-column prop="shopName" label="所属门店">
-            </el-table-column>
-            <el-table-column prop="title" width="125px" label="操作">
-              <template>
-                <ns-button type="text" class="select-button">查看</ns-button>
-                <ns-button type="text" class="select-button">删除</ns-button>
-              </template>
-            </el-table-column>
+            <el-table-column prop="shopName" label="所属门店"></el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
@@ -63,9 +52,10 @@
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
+import NsShopDialog from '@/components/NsShopDialog'
 export default {
   name: 'unDetailList',
-  components: { ElDrawer, PageTable },
+  components: { ElDrawer, PageTable, NsShopDialog },
   props: {
     materialScriptId: {
       type: Number,
@@ -110,7 +100,8 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      shopSelectData: []
     }
   },
   methods: {
@@ -138,8 +129,7 @@ export default {
         this.unloadList()
       }
     },
-    handleClose () {
-    },
+    handleClose () {},
     unloadList () {
       const params = {
         searchMap: {
@@ -158,7 +148,7 @@ export default {
             this.listData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
           }
-          this.$notify.success(`${this.title}成功`)
+          this.$notify.success(`${this.title}查询成功`)
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg(this.title, resp))
@@ -174,10 +164,12 @@ export default {
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
-        .then((resp) => {
+      this.$http
+        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
+        .then(resp => {
           that.$notify.success('下载完成')
-        }).catch((resp) => {
+        })
+        .catch(resp => {
           if (!resp.size === 0) {
             that.$notify.error('导出报错，请联系管理员')
           } else {

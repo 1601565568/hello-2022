@@ -157,6 +157,11 @@ export default {
     responseType: 'blob',
     timeout: 600000
   },
+  delScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/delScriptCompletionDetailByGuideId',
+    method: 'post'
+  },
   /**
    * 素材标签
    */
