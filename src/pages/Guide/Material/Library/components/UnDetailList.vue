@@ -11,11 +11,30 @@
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
       <div class="unDrawer-title">未完成员工</div>
-      <div>
-        <ElFormGrid>
-          <NsShopDialog btnTitle="选择门店" v-model="shopSelectData"></NsShopDialog>
-        </ElFormGrid>
-      </div>
+      <el-form :inline="true" class="form-inline_top">
+        <el-form-item label="选择门店：">
+          <NsShopDialog
+            :selfBtn="true"
+            :appendToBody="true"
+            :isButton="false"
+            :auth="false"
+            type="primary"
+            btnTitle=""
+            dialogTitle="选择门店："
+          >
+            <template slot="btnIcon">
+              <div class="self-btn">
+                {{
+                  shopIds && shopIds.length
+                    ? `已选择${shopIds.length}个门店`
+                    : '全部门店'
+                }}
+                <Icon type="shop" class="guideIds-icon"></Icon>
+              </div>
+            </template>
+          </NsShopDialog>
+        </el-form-item>
+      </el-form>
       <div class="unDrawer-showinfo">
         <div>
           <span>未完成员工 100人</span>
@@ -68,28 +87,6 @@ export default {
       direction: 'rtl',
       unDrawer: false,
       listData: [],
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        },
-        {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       guideIdsStr: '',
       isCompletion: 0,
@@ -101,7 +98,8 @@ export default {
         page: 1,
         total: 0
       },
-      shopSelectData: []
+      shopSelectData: [],
+      shopIds: []
     }
   },
   methods: {
@@ -189,6 +187,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
+@import '../styles/reset.css';
 .unDrawer-title {
   height: 53px;
   font-size: 16px;
@@ -274,5 +273,22 @@ export default {
 }
 .remind-text {
   color: #0091fa;
+}
+.self-btn {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color: #c0c4cc;
+  }
+}
+.form-inline_top {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
 }
 </style>
