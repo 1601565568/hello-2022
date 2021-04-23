@@ -79,7 +79,7 @@
                     :action="this.$api.core.sgUploadFile('image')"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
+                    :before-upload="beforeGuideUpload"
                     accept=".jpg,.jpeg,.png"
                     list-type="picture-card"
                     multiple
@@ -239,6 +239,8 @@
             :action="this.$api.core.sgUploadFile('image')"
             :on-success="handleGuideSuccess"
             :before-upload="beforeAvatarUpload"
+            :file-list="showEidtImg"
+            :on-remove="removeGuideImg"
           >
             <div>
               <Icon type="cloud-uploading" class="uploading-icon" />
@@ -358,7 +360,8 @@ export default {
       showEdit: false,
       guideText: '',
       drawer: false,
-      editIndex: 0
+      editIndex: 0,
+      showEidtImg: []
     }
   },
   computed: {
@@ -394,10 +397,17 @@ export default {
     }
   },
   methods: {
+    removeGuideImg () {
+      let item = this.mediaList[this.editIndex]
+      item.url = ''
+      this.mediaList.splice(this.editIndex, 1)
+    },
     handleSure () {
       // 根据选中下标更新用户信息
       let item = this.mediaList[this.editIndex]
-      item.pitText = this.guideText
+      if (item) {
+        item.pitText = this.guideText
+      }
       this.showEdit = false
     },
     handleCloseDia () {
@@ -407,6 +417,8 @@ export default {
       this.editIndex = index
       let item = this.mediaList[index]
       this.guideText = item.pitText ? item.pitText : ''
+      let fileArr = item.url.split('/')
+      this.showEidtImg = [{ name: fileArr.pop(), url: item.url }]
       // this.$refs.guideInfo.closeDeawer()
       this.showEdit = !this.showEdit
     },
@@ -458,6 +470,10 @@ export default {
         }
         this.model.mediaList.push(obj)
       }
+    },
+    beforeGuideUpload (file) {
+      this.beforeAvatarUpload(file)
+      this.$refs.popoverView.doClose()
     },
     beforeAvatarUpload (file) {
       // 图片格式判断
