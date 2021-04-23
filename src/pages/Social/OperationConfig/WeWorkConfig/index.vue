@@ -9,7 +9,7 @@
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
           <template slot-scope="scope">
-            <div v-for="child in scope.row.explanation" :key="child">
+            <div v-for="child in scope.row.explanation" :key="child.key">
               {{child.explain}}
               <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
@@ -31,7 +31,7 @@
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
           <template slot-scope="scope">
-            <div v-for="child in scope.row.explanation" :key="child">
+            <div v-for="child in scope.row.explanation" :key="child.url">
               {{child.explain}}
               <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
@@ -111,6 +111,7 @@ export default {
     init () {
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
         if (res.result && res.msg) {
+          window.console.log('配置信息', res)
           res.result.forEach((item) => {
             this.chatData[0].explanation.push(item)
           })

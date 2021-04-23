@@ -1,0 +1,407 @@
+<template>
+  <div v-if="list.length" class="activity-panel">
+    <el-scrollbar class="activity-card-scrollbar" wrapStyle="overflow-x:hidden;">
+      <div class="activity-card-box">
+        <div class="activity-card-box-wrapper">
+          <ActivityCard
+            v-for="(item, index) in list"
+            :key="index"
+            :activity="item"
+          >
+            <template v-for="(message, messageIndex) in item.contentList">
+                <TextMessage
+                  :key="messageIndex"
+                  v-if="message.type === SOPActivityMessageType.Text"
+                  class="text-message"
+                  :content="message.content"
+                />
+                <ImageMessage
+                  :key="messageIndex"
+                  v-else-if="message.type === SOPActivityMessageType.Image || message.type === SOPActivityMessageType.Poster"
+                  class="image-message"
+                  :content="message.content"
+                  :preview="true"
+                  :previewList=" [
+                    'http://taosha01-1253585015.cos.ap-shanghai.myqcloud.com/taosha/d620bec0-d61c-11ea-9c32-1172a154412d.png?imageMogr2/crop/100x100/center',
+                    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                    'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+                    'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+                  ]"
+                />
+                <VideoMessage
+                  :key="messageIndex"
+                  v-else-if="message.type === SOPActivityMessageType.Video"
+                  class="video-message"
+                  :preview="true"
+                  :content="message.content"
+                />
+                <NewsMessage
+                  :key="messageIndex"
+                  v-else-if="message.type === SOPActivityMessageType.Link"
+                  class="news-message"
+                  :content="message.content"
+                />
+                <MiniProgramMessage
+                  :key="messageIndex"
+                  v-else-if="message.type === SOPActivityMessageType.MiniProgram"
+                  class="mini-message"
+                  :content="message.content"
+                />
+            </template>
+            <template slot="footer">
+              <div>
+                <NsButton type="text" class="group-count" @click="checkActivityGroup(item.id)">{{item.chatroomNum}}</NsButton>个群
+              </div>
+              <div>
+                <NsButton v-if="showBtn(item.status, 'edit')" type="text" class="group-count" @click="editActivity(item.id)">编辑</NsButton>
+                <NsButton v-if="showBtn(item.status,'check')" type="text" class="group-count" @click="checkActivity(item.id)">查看</NsButton>
+                <NsButton v-if="showBtn(item.status,'submit')" type="text" class="group-count" @click="submitActivity(item.id)">提交审核</NsButton>
+                <NsButton v-if="showBtn(item.status,'delete')" type="text" class="group-count" @click="deleteActivity(item.id)">删除</NsButton>
+                <NsButton v-if="showBtn(item.status,'examine')" type="text" class="group-count" @click="checkActivity(item.id)">审核</NsButton>
+              </div>
+            </template>
+          </ActivityCard>
+        </div>
+      </div>
+    </el-scrollbar>
+    <el-pagination
+      class="pagination"
+      :page-sizes="pagination.sizeOpts"
+      :total="pagination.total"
+      :current-page="pagination.page"
+      :page-size="pagination.size"
+      :background="true"
+      @size-change="pagination.sizeChange"
+      @current-change="pagination.pageChange"
+      layout="total, sizes, prev, pager, next, jumper"
+    >
+    </el-pagination>
+    <!-- 参加活动群drawer -->
+    <GroupDrawer
+      :visible.sync="visibleGroupDrawer"
+      :activityId="activeActivityId"
+    />
+    <!-- 查看或审核活动drawer -->
+    <CheckActivityDrawer
+      :visible.sync="visibleCheckActivityDrawer"
+      :panelType="panelType"
+      :activityId="activeActivityId"
+      @edit="editActivity"
+      @submit="submitActivity"
+      @delete="deleteActivity"
+      @examine="examineActivity"
+    />
+    <!-- 审核Dialog -->
+    <ExamineActivityDialog
+      :visible.sync="visibleExamineDialog"
+      :activityId="activeActivityId"
+      @confirm="confirmExamineActivity"
+    />
+  </div>
+  <div v-else class="activity-panel no-date-area">
+    <div class="no-data">
+      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/mobile/no_data.png"/>
+      <span>没有数据哦~</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import ActivityCard from '../../components/ActivityCard/index.vue'
+import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
+import GroupDrawer from './GroupDrawer.vue'
+import CheckActivityDrawer from './CheckActivityDrawer.vue'
+import ExamineActivityDialog from './ExamineActivityDialog.vue'
+import { SOPActivityMessageType, SOPExamineStatus } from '../../types'
+
+export default {
+  components: {
+    ActivityCard,
+    TextMessage,
+    ImageMessage,
+    VideoMessage,
+    NewsMessage,
+    MiniProgramMessage,
+    GroupDrawer,
+    CheckActivityDrawer,
+    ExamineActivityDialog
+  },
+  props: {
+    panelType: {
+      type: String,
+      default: 'activity',
+      validator: function (value) {
+        // activity 创建活动使用 examine 审核页面使用
+        return ['activity', 'examine'].indexOf(value) !== -1
+      }
+    },
+    list: {
+      type: Array
+    },
+    pagination: {
+      type: Object
+    }
+  },
+  data () {
+    return {
+      SOPActivityMessageType: SOPActivityMessageType,
+      SOPExamineStatus: SOPExamineStatus,
+      visibleGroupDrawer: false, // 查看参加活动群drawer
+      visibleCheckActivityDrawer: false, // 查看活动drawer
+      visibleExamineDialog: false, // 查看审核活动drawer
+      activeActivityId: 0 // 要查看或审核的活动id
+    }
+  },
+  mounted () {},
+  methods: {
+    /**
+     * 是否显示按钮
+     */
+    showBtn (status, btnType) {
+      // 活动日历页面
+      if (this.panelType === 'activity') {
+        // 编辑 提交审核 删除
+        if (btnType === 'edit' || btnType === 'submit' || btnType === 'delete') {
+          // 待提交、审核失败
+          if (status === SOPExamineStatus.UnSubmit || status === SOPExamineStatus.Failed) {
+            return true
+          } else {
+            return false
+          }
+        }
+
+        // 查看按钮
+        if (btnType === 'check') {
+          return true
+        }
+
+        // 审核按钮
+        if (btnType === 'examine') {
+          return false
+        }
+      } else if (this.panelType === 'examine') {
+        // 审核页面
+        // 编辑按钮
+        if (btnType === 'edit' || btnType === 'submit' || btnType === 'delete') {
+          return false
+        }
+
+        // 查看按钮
+        if (btnType === 'check') {
+          // 审核成功、失败
+          if (status === SOPExamineStatus.Succeed || status === SOPExamineStatus.Failed) {
+            return true
+          } else {
+            return false
+          }
+        }
+
+        // 审核按钮
+        if (btnType === 'examine') {
+          // 待审核
+          if (status === SOPExamineStatus.Pending) {
+            return true
+          } else {
+            return false
+          }
+        }
+      }
+      // 非定义类型返回 false
+      return false
+    },
+    async updateExamineStatus (context) {
+      return this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
+    },
+    /**
+     * 查看活动的群
+     */
+    checkActivityGroup (id) {
+      this.activeActivityId = id
+      this.visibleGroupDrawer = true
+    },
+    /**
+     * 编辑活动
+     */
+    editActivity (id) {
+      this.$router.push(`/Marketing/SOP/Edit/${id}`)
+    },
+    /**
+     * 查看活动
+     */
+    checkActivity (id) {
+      this.activeActivityId = id
+      this.visibleCheckActivityDrawer = true
+    },
+    /**
+     * 提交活动审核
+     */
+    submitActivity (id) {
+      this.$confirm('提交后不可编辑内容，请再次确定是否要提交', '确定提交审核？', {
+        confirmButtonText: '提交',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, { id, status: SOPExamineStatus.Pending })
+          window.console.log('提交活动审核', resp)
+          this.$message({
+            type: 'success',
+            message: '提交审核成功'
+          })
+
+          this.$emit('reload')
+        } catch (respErr) {
+          this.$message.error('提交审核失败')
+        }
+      })
+    },
+    /**
+     * 删除活动
+     */
+    deleteActivity (id) {
+      this.$confirm('删除后不可恢复，请再次确定是否要删除', '确定删除？', {
+        confirmButtonText: '提交',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.fetch(this.$api.weWork.sop.delete, { id })
+          .then(resp => {
+            window.console.log('删除结果', resp)
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+
+            this.$emit('reload')
+          }).catch((respErr) => {
+            this.$message.error('删除失败')
+          })
+      }).catch(() => {})
+    },
+    /**
+     * 审核活动
+     */
+    examineActivity (id) {
+      this.activeActivityId = id
+      this.visibleExamineDialog = true
+    },
+    async confirmExamineActivity (context) {
+      try {
+        const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
+        window.console.log('确认审核互动', context, resp)
+        this.$message.success('审核成功')
+      } catch (respErr) {
+        this.$message.error('审核失败')
+      } finally {
+        this.visibleCheckActivityDrawer = false
+        this.$emit('reload')
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.activity-panel {
+  width: 100%;
+  min-width: 895px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #FFFFFF;
+
+  @media screen and (max-width: 1500px) {
+    .activity-card-box {
+      padding: 0px 16px 2px 16px;
+      height: calc(100% - 16px);
+      overflow: overlay;
+      .activity-card-box-wrapper {
+        margin-right: -16px;
+        .activity-card {
+          float: left;
+          margin-right: 16px;
+          margin-top: 16px;
+          width: calc((100% - 48px) / 3);
+          height: 325px;
+          background: #F8F9FB;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1501px){
+    .activity-card-box {
+      padding: 0px 16px 2px 16px;
+      height: calc(100% - 16px);
+      overflow: overlay;
+      .activity-card-box-wrapper {
+        margin-right: -16px;
+        .activity-card {
+          float: left;
+          margin-right: 16px;
+          margin-top: 16px;
+          width: calc((100% - 64px) / 4);
+          height: 325px;
+          background: #F8F9FB;
+        }
+      }
+    }
+  }
+
+  // @media screen and (min-width: 1600px){
+  //   .activity-card-box {
+  //     padding: 16px 32px 16px 32px;
+  //     height: calc(100% - 16px);
+  //     overflow: overlay;
+  //     .activity-card-box-wrapper {
+  //       margin-right: -16px;
+  //       .activity-card {
+  //         float: left;
+  //         box-sizing: border-box;
+  //         margin-right: 16px;
+  //         margin-top: 16px;
+  //         width: calc((100% - 84px) / 5);
+  //         height: 325px;
+  //         background: #F8F9FB;
+  //       }
+  //     }
+  //   }
+  // }
+
+  .activity-card-scrollbar {
+    height: calc(100% - 61px);
+    overflow-x: hidden;
+  }
+  .pagination {
+    height: 61px;
+    padding: 15px 18px 0;
+  }
+}
+
+.no-date-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .no-data {
+    height: 282px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    img {
+      width: 220px;
+      height: 220px;
+    }
+    span {
+      font-size: 14px;
+      color: #8C8C8C;
+      line-height: 22px;
+    }
+  }
+}
+
+.image-message, .video-message {
+  height: 161px;
+}
+</style>
