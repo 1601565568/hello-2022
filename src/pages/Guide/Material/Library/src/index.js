@@ -210,7 +210,8 @@ export default {
       // 搜索时，排除文件夹的字段
       excludeQuery: ['content', 'subdivisionId', 'mType'],
       queryLoading: null,
-      selectItem: {}
+      selectItem: {},
+      materialScriptId: 0
     }
   },
   computed: {
@@ -281,8 +282,10 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
-        this.subdivisionChange(this.selectItem)
-        this.selectItem = {}
+        if (this.selectItem.subdivisionIds && this.selectItem.subdivisionIds.length > 0) {
+          this.subdivisionChange(this.selectItem)
+          this.selectItem = {}
+        }
       }
     },
     /**
@@ -583,8 +586,9 @@ export default {
      * 自创明细
      */
     showGuideLists (row) {
+      console.log(row)
+      this.materialScriptId = row.id
       this.$refs.detailList.closeDeawer()
-      console.log(row + '自创明细')
     },
     /**
      * 批量删除素材、视频

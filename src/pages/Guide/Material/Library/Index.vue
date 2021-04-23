@@ -254,7 +254,7 @@
     <label-make ref="labelMake" @setSubdivision="setSubdivision"></label-make>
     <label-manage ref="labelManage"></label-manage>
     <preview ref="preview"></preview>
-    <DetailList ref="detailList"/>
+    <DetailList ref="detailList" :materialScriptId="materialScriptId"/>
   </div>
 </template>
 <script>

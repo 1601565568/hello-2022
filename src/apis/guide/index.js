@@ -145,6 +145,11 @@ export default {
     url: 'guide/material/getParentPath',
     method: 'get'
   },
+  findScriptCompletionDetailList: {
+    // 获取文件夹路径
+    url: 'guide/material/findScriptCompletionDetailList',
+    method: 'post'
+  },
   /**
    * 素材标签
    */

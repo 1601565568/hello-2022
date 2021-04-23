@@ -35,8 +35,9 @@
         <template slot="table">
           <el-table :data="listData" class="new-table_border drawer-table">
             <el-table-column prop="time" label="完成时间"> </el-table-column>
-            <el-table-column prop="person" label="员工"> </el-table-column>
-            <el-table-column prop="address" label="所属门店"> </el-table-column>
+            <el-table-column prop="guideName" label="员工"> </el-table-column>
+            <el-table-column prop="shopName" label="所属门店">
+            </el-table-column>
             <el-table-column prop="title" width="125px" label="操作">
               <template>
                 <ns-button type="text" class="select-button">查看</ns-button>
@@ -45,6 +46,19 @@
             </el-table-column>
           </el-table>
         </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="pagination.sizeOpts"
+            :total="pagination.total"
+            :current-page.sync="pagination.page"
+            :page-size="pagination.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </template>
       </page-table>
     </div>
   </el-drawer>
@@ -52,45 +66,22 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'detailList',
   components: { ElDrawer, PageTable },
+  props: {
+    materialScriptId: {
+      type: Number,
+      default: 1807
+    }
+  },
   data () {
     return {
+      title: '自创明细',
       direction: 'rtl',
       drawer: false,
-      listData: [
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        },
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        },
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        },
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        },
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        },
-        {
-          time: '2020-12-12 12:12:00',
-          person: '导购小李',
-          address: '杭州转塘店'
-        }
-      ],
+      listData: [],
       options: [
         {
           value: '选项1',
@@ -113,14 +104,70 @@ export default {
           label: '北京烤鸭'
         }
       ],
-      value: ''
+      value: '',
+      guideIdsStr: '',
+      isCompletion: 0,
+      shopIdsStr: '',
+      // 分页配置
+      pagination: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
+  mounted () {},
   methods: {
+    handleSizeChange (size) {
+      this.pagination = {
+        ...this.pagination,
+        size,
+        page: 1
+      }
+      this.loadList()
+    },
+    handleCurrentChange (page) {
+      this.pagination.page = page
+      this.loadList()
+    },
     closeDeawer () {
       this.drawer = !this.drawer
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+      this.loadList()
     },
-    handleClose () {}
+    handleClose () {},
+    loadList () {
+      const params = {
+        searchMap: {
+          materialScriptId: this.materialScriptId,
+          guideIdsStr: this.guideIdsStr,
+          isCompletion: this.isCompletion,
+          shopIdsStr: this.shopIdsStr
+        },
+        start: (this.pagination.page - 1) * this.pagination.size,
+        length: this.pagination.size
+      }
+      this.$http
+        .fetch(this.$api.guide.findScriptCompletionDetailList, params)
+        .then(resp => {
+          console.log(resp)
+          if (resp.success) {
+            this.listData = resp.result.data
+            this.pagination.total = parseInt(resp.result.recordsTotal)
+          }
+          this.$notify.success(`${this.title}成功`)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
+    }
   }
 }
 </script>
