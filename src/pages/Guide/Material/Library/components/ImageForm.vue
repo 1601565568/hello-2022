@@ -255,7 +255,7 @@
         <ns-button type="primary" @click="handleSure">确定</ns-button>
       </div>
     </el-dialog>
-    <GuideInfo ref="guideInfo"/>
+    <GuideInfo ref="guideInfo" />
   </div>
 </template>
 <script>
@@ -315,7 +315,8 @@ export default {
         codeTarget: '',
         codeTargetName: '',
         mediaList: [],
-        materialScriptType: 1
+        materialScriptType: 1,
+        isUpdate: 0
       },
       rules: {
         name: [
@@ -375,13 +376,14 @@ export default {
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        if (k === 'mediaList') {
-          tempModel[k] = tempModel[k].filter(v =>
-            /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
-          )
-        }
+        // if (k === 'mediaList') {
+        //   tempModel[k] = tempModel[k].filter(v =>
+        //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
+        //   )
+        // }
       })
       this.model = tempModel
+      this.model.isUpdate = 1
       this.catalogue = parentIds.map((id, index) => ({
         id: +id,
         name: parentNames[index]
@@ -533,6 +535,7 @@ export default {
         }
       }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
+
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content

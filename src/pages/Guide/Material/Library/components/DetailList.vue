@@ -27,14 +27,15 @@
             >未完成员工 <span class="remind-text">100</span>人</span
           >
         </div>
-        <div class="drawer-output">
+        <div class="drawer-output" @click="exportData">
           导出CSV文件
         </div>
       </div>
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table :data="listData" class="new-table_border drawer-table">
-            <el-table-column prop="time" label="完成时间"> </el-table-column>
+            <el-table-column prop="completionTime" label="完成时间">
+            </el-table-column>
             <el-table-column prop="guideName" label="员工"> </el-table-column>
             <el-table-column prop="shopName" label="所属门店">
             </el-table-column>
@@ -73,7 +74,7 @@ export default {
   props: {
     materialScriptId: {
       type: Number,
-      default: 1807
+      default: 0
     }
   },
   data () {
@@ -106,7 +107,7 @@ export default {
       ],
       value: '',
       guideIdsStr: '',
-      isCompletion: 0,
+      isCompletion: 1,
       shopIdsStr: '',
       // 分页配置
       pagination: {
@@ -117,7 +118,6 @@ export default {
       }
     }
   },
-  mounted () {},
   methods: {
     handleSizeChange (size) {
       this.pagination = {
@@ -133,13 +133,15 @@ export default {
     },
     closeDeawer () {
       this.drawer = !this.drawer
-      this.pagination = {
-        size: 10,
-        sizeOpts: [10],
-        page: 1,
-        total: 0
+      if (this.drawer) {
+        this.pagination = {
+          size: 10,
+          sizeOpts: [10],
+          page: 1,
+          total: 0
+        }
+        this.loadList()
       }
-      this.loadList()
     },
     handleClose () {},
     loadList () {
@@ -156,12 +158,28 @@ export default {
       this.$http
         .fetch(this.$api.guide.findScriptCompletionDetailList, params)
         .then(resp => {
-          console.log(resp)
           if (resp.success) {
             this.listData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
           }
           this.$notify.success(`${this.title}成功`)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
+    },
+    exportData () {
+      const params = {
+        materialScriptId: this.materialScriptId,
+        guideIdsStr: this.guideIdsStr,
+        isCompletion: this.isCompletion,
+        shopIdsStr: this.shopIdsStr
+      }
+      this.$http
+        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
+        .then(resp => {
+          this.$notify.success('导出剧本素材自创明细成功')
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg(this.title, resp))

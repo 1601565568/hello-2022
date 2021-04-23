@@ -146,8 +146,13 @@ export default {
     method: 'get'
   },
   findScriptCompletionDetailList: {
-    // 获取文件夹路径
+    // 指定导购补充素材明细
     url: 'guide/material/findScriptCompletionDetailList',
+    method: 'post'
+  },
+  exportMaterialCompletionByExcel: {
+    // 导出剧本素材自创明细EXCEL
+    url: 'guide/material/exportMaterialCompletionByExcel',
     method: 'post'
   },
   /**

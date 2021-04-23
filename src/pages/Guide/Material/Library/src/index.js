@@ -586,7 +586,6 @@ export default {
      * 自创明细
      */
     showGuideLists (row) {
-      console.log(row)
       this.materialScriptId = row.id
       this.$refs.detailList.closeDeawer()
     },
