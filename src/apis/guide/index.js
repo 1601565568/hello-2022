@@ -153,7 +153,9 @@ export default {
   exportMaterialCompletionByExcel: {
     // 导出剧本素材自创明细EXCEL
     url: 'guide/material/exportMaterialCompletionByExcel',
-    method: 'post'
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   },
   /**
    * 素材标签

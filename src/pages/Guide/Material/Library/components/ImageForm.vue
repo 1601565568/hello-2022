@@ -55,7 +55,7 @@
               :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
             />
             <div class="library-image__mask">
-              <div v-if="item.picType == 1">
+              <div v-if="item.pitType == 1">
                 <Icon type="zoom-in" @click="previewImage(index)" />
                 <Icon type="delete" @click="removeImage(index)" />
               </div>
@@ -446,7 +446,7 @@ export default {
       this.$refs.popoverView.doClose()
       if (this.model.mediaList.length < this.imageNum) {
         let obj = {
-          picType: 1,
+          pitType: 1,
           pitText: '',
           type: 1,
           url: res.result.url
@@ -463,7 +463,7 @@ export default {
       this.$refs.popoverView.doClose()
       if (this.model.mediaList.length < this.imageNum) {
         let obj = {
-          picType: 2,
+          pitType: 2,
           pitText: '',
           type: 1,
           url: this.defaultImgUrl
@@ -545,7 +545,7 @@ export default {
       params.materialScriptType = 1
       for (let i = 0; i < params.mediaList.length; i++) {
         let item = params.mediaList[i]
-        if (item.picType === 2) {
+        if (item.pitType === 2) {
           params.materialScriptType = 2
           break
         }

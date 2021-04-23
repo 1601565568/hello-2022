@@ -410,7 +410,7 @@ export default {
     showPreview (current, row) {
       let type = +row.mType === 2 ? 'video' : 'img'
       let item = row.mediaList[current]
-      if (item.picType === 2) {
+      if (item.pitType === 2) {
         this.guideInfo = item
         this.$refs.guideInfo.closeDeawer()
         return

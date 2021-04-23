@@ -176,15 +176,25 @@ export default {
         isCompletion: this.isCompletion,
         shopIdsStr: this.shopIdsStr
       }
-      this.$http
-        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
-        .then(resp => {
-          this.$notify.success('导出剧本素材自创明细成功')
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
+        .then((resp) => {
+          that.$notify.success('下载完成')
+        }).catch((resp) => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            var fileName = '邀请好友明细表.CSV'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
         })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg(this.title, resp))
-        })
-        .finally(() => {})
     }
   }
 }
