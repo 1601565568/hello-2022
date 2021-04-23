@@ -1,84 +1,71 @@
 <template>
-  <div>
-    <el-drawer
-      :visible.sync="drawer"
-      :direction="direction"
-      :before-close="handleClose"
-      size="720px"
-      :with-header="false"
-    >
-      <div>
-        <div class="close-view">
-          <Icon type="close" class="close-icon" @click="closeDeawer" />
-        </div>
-        <div class="drawer-title">自创明细</div>
-        <el-select
-          v-model="value"
-          placeholder="所属员工："
-          class="drawer-select"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-        <div class="drawer-showinfo">
-          <div>
-            <span>已完成员工 100人</span>
-            <span style="margin-left:46px" @click="toUnDataList"
-              >未完成员工 <span class="remind-text">100</span>人</span
-            >
-          </div>
-          <div class="drawer-output" @click="exportData">
-            导出CSV文件
-          </div>
-        </div>
-        <page-table style="padding-top:0">
-          <template slot="table">
-            <el-table :data="listData" class="new-table_border drawer-table">
-              <el-table-column prop="completionTime" label="完成时间">
-              </el-table-column>
-              <el-table-column prop="guideName" label="员工"> </el-table-column>
-              <el-table-column prop="shopName" label="所属门店">
-              </el-table-column>
-              <el-table-column prop="title" width="125px" label="操作">
-                <template>
-                  <ns-button type="text" class="select-button">查看</ns-button>
-                  <ns-button type="text" class="select-button">删除</ns-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </template>
-          <template slot="pagination">
-            <el-pagination
-              class="label-dialog__pagination"
-              :page-sizes="pagination.sizeOpts"
-              :total="pagination.total"
-              :current-page.sync="pagination.page"
-              :page-size="pagination.size"
-              layout="total, prev, pager, next"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
-          </template>
-        </page-table>
+  <el-drawer
+    :visible.sync="unDrawer"
+    :direction="direction"
+    :before-close="handleClose"
+    size="720px"
+    :with-header="false"
+  >
+    <div>
+      <div class="close-view">
+        <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-    </el-drawer>
-     <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
-  </div>
+      <div class="unDrawer-title">未完成员工</div>
+      <el-select v-model="value" placeholder="所属员工：" class="unDrawer-select">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+      <div class="unDrawer-showinfo">
+        <div>
+          <span>未完成员工 100人</span>
+        </div>
+        <div class="unDrawer-output" @click="exportData">
+          导出CSV文件
+        </div>
+      </div>
+      <page-table style="padding-top:0">
+        <template slot="table">
+          <el-table :data="listData" class="new-table_border unDrawer-table">
+            <el-table-column prop="guideName" label="员工"> </el-table-column>
+            <el-table-column prop="shopName" label="所属门店">
+            </el-table-column>
+            <el-table-column prop="title" width="125px" label="操作">
+              <template>
+                <ns-button type="text" class="select-button">查看</ns-button>
+                <ns-button type="text" class="select-button">删除</ns-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="pagination.sizeOpts"
+            :total="pagination.total"
+            :current-page.sync="pagination.page"
+            :page-size="pagination.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </template>
+      </page-table>
+    </div>
+  </el-drawer>
 </template>
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
-import UnDetailList from './UnDetailList'
 export default {
-  name: 'detailList',
-  components: { ElDrawer, PageTable, UnDetailList },
+  name: 'unDetailList',
+  components: { ElDrawer, PageTable },
   props: {
     materialScriptId: {
       type: Number,
@@ -87,9 +74,9 @@ export default {
   },
   data () {
     return {
-      title: '自创明细',
+      title: '未完成员工',
       direction: 'rtl',
-      drawer: false,
+      unDrawer: false,
       listData: [],
       options: [
         {
@@ -115,7 +102,7 @@ export default {
       ],
       value: '',
       guideIdsStr: '',
-      isCompletion: 1,
+      isCompletion: 0,
       shopIdsStr: '',
       // 分页配置
       pagination: {
@@ -127,35 +114,33 @@ export default {
     }
   },
   methods: {
-    toUnDataList () {
-      this.$refs.unDetailList.closeDeawer()
-    },
     handleSizeChange (size) {
       this.pagination = {
         ...this.pagination,
         size,
         page: 1
       }
-      this.loadList()
+      this.unloadList()
     },
     handleCurrentChange (page) {
       this.pagination.page = page
-      this.loadList()
+      this.unloadList()
     },
     closeDeawer () {
-      this.drawer = !this.drawer
-      if (this.drawer) {
+      this.unDrawer = !this.unDrawer
+      if (this.unDrawer) {
         this.pagination = {
           size: 10,
           sizeOpts: [10],
           page: 1,
           total: 0
         }
-        this.loadList()
+        this.unloadList()
       }
     },
-    handleClose () {},
-    loadList () {
+    handleClose () {
+    },
+    unloadList () {
       const params = {
         searchMap: {
           materialScriptId: this.materialScriptId,
@@ -189,12 +174,10 @@ export default {
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
-        .then(resp => {
+      this.$http.fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
+        .then((resp) => {
           that.$notify.success('下载完成')
-        })
-        .catch(resp => {
+        }).catch((resp) => {
           if (!resp.size === 0) {
             that.$notify.error('导出报错，请联系管理员')
           } else {
@@ -214,14 +197,14 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
-.drawer-title {
+.unDrawer-title {
   height: 53px;
   font-size: 16px;
   color: #262626;
   line-height: 53px;
   padding-left: 16px;
 }
-.drawer-sub-title {
+.unDrawer-sub-title {
   font-size: 14px;
   color: #303133;
   line-height: 55px;
@@ -229,7 +212,7 @@ export default {
   padding-left: 32px;
   height: 55px;
 }
-.drawer-sub-cont {
+.unDrawer-sub-cont {
   font-size: 14px;
   color: #606266;
   line-height: 24px;
@@ -239,7 +222,7 @@ export default {
   padding-bottom: 33px;
   border-bottom: 1px solid #e8e8e8;
 }
-.drawer-sub-img {
+.unDrawer-sub-img {
   width: 375px;
   height: 257px;
   border: 1px solid #d9d9d9;
@@ -256,7 +239,7 @@ export default {
   width: 20px;
   height: 20px;
 }
-.drawer-showinfo {
+.unDrawer-showinfo {
   font-size: 14px;
   color: #595959;
   line-height: 22px;
@@ -268,12 +251,12 @@ export default {
   height: 65px;
   align-items: center;
 }
-.drawer-table {
+.unDrawer-table {
   padding: 0;
   font-size: 14px;
   font-weight: 400;
 }
-.drawer-output {
+.unDrawer-output {
   width: 116px;
   height: 32px;
   background: #ffffff;
@@ -282,7 +265,7 @@ export default {
   line-height: 32px;
   text-align: center;
 }
-.drawer-select {
+.unDrawer-select {
   margin-left: 16px;
   margin-top: 16px;
   width: 143px;
