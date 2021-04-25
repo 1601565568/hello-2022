@@ -39,9 +39,11 @@
         </el-form>
         <div class="drawer-showinfo">
           <div>
-            <span>已完成员工 {{numData.completionTotal}}人</span>
+            <span>已完成员工 {{ numData.completionTotal }}人</span>
             <span style="margin-left:46px" @click="toUnDataList"
-              >未完成员工 <span class="remind-text">{{numData.noCompletionTotal}}</span>人</span
+              >未完成员工
+              <span class="remind-text">{{ numData.noCompletionTotal }}</span
+              >人</span
             >
           </div>
           <div class="drawer-output" @click="exportData">
@@ -57,12 +59,17 @@
               <el-table-column prop="shopName" label="所属门店">
               </el-table-column>
               <el-table-column prop="title" width="125px" label="操作">
-                <template>
-                  <ns-button type="text" class="select-button">查看</ns-button>
+                <template slot-scope="scope">
                   <ns-button
                     type="text"
                     class="select-button"
-                    @click="deleteFile(row)"
+                    @click="lookMaterialDetail(scope.row)"
+                    >查看</ns-button
+                  >
+                  <ns-button
+                    type="text"
+                    class="select-button"
+                    @click="deleteFile(scope.row)"
                     >删除</ns-button
                   >
                 </template>
@@ -86,6 +93,7 @@
       </div>
     </el-drawer>
     <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
+    <InfoDialog ref="infoDialog" :metailInfo="metailInfo" />
   </div>
 </template>
 <script>
@@ -94,9 +102,10 @@ import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
 import UnDetailList from './UnDetailList'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import InfoDialog from './InfoDialog'
 export default {
   name: 'detailList',
-  components: { ElDrawer, PageTable, UnDetailList, NsGuideDialog },
+  components: { ElDrawer, PageTable, UnDetailList, NsGuideDialog, InfoDialog },
   props: {
     materialScriptId: {
       type: Number,
@@ -120,7 +129,9 @@ export default {
         page: 1,
         total: 0
       },
-      guideIds: []
+      guideIds: [],
+      numData: {},
+      metailInfo: {}
     }
   },
   methods: {
@@ -156,8 +167,27 @@ export default {
               total: 0
             }
             this.loadList()
+            this.loadNum()
           }
           this.$notify.success(`删除成功`)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
+    },
+    lookMaterialDetail (row) {
+      const params = {
+        guideId: row.guideId,
+        materialScriptId: this.materialScriptId
+      }
+      this.$http
+        .fetch(this.$api.guide.findScriptCompletionDetailByGuideId, params)
+        .then(resp => {
+          if (resp.success) {
+            this.metailInfo = { ...resp.result, ...row }
+            this.$refs.infoDialog.showDialog()
+          }
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg(this.title, resp))

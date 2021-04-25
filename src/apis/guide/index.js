@@ -167,6 +167,11 @@ export default {
     url: 'guide/material/getScriptCompletionNumber',
     method: 'post'
   },
+  findScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/findScriptCompletionDetailByGuideId',
+    method: 'post'
+  },
   /**
    * 素材标签
    */
