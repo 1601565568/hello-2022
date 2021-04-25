@@ -162,6 +162,11 @@ export default {
     url: 'guide/material/delScriptCompletionDetailByGuideId',
     method: 'post'
   },
+  getScriptCompletionNumber: {
+    // 获取剧本员工完成/未完成总数
+    url: 'guide/material/getScriptCompletionNumber',
+    method: 'post'
+  },
   /**
    * 素材标签
    */

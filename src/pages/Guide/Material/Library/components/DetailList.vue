@@ -39,9 +39,9 @@
         </el-form>
         <div class="drawer-showinfo">
           <div>
-            <span>已完成员工 100人</span>
+            <span>已完成员工 {{numData.completionTotal}}人</span>
             <span style="margin-left:46px" @click="toUnDataList"
-              >未完成员工 <span class="remind-text">100</span>人</span
+              >未完成员工 <span class="remind-text">{{numData.noCompletionTotal}}</span>人</span
             >
           </div>
           <div class="drawer-output" @click="exportData">
@@ -138,6 +138,7 @@ export default {
         total: 0
       }
       this.loadList()
+      this.loadNum()
     },
     deleteFile (row) {
       const params = {
@@ -174,6 +175,7 @@ export default {
         page: 1
       }
       this.loadList()
+      this.loadNum()
     },
     handleCurrentChange (page) {
       this.pagination.page = page
@@ -189,6 +191,7 @@ export default {
           total: 0
         }
         this.loadList()
+        this.loadNum()
       }
     },
     handleClose () {},
@@ -245,6 +248,25 @@ export default {
             link.click()
           }
         })
+    },
+    loadNum () {
+      const params = {
+        materialScriptId: this.materialScriptId,
+        guideIdsStr: this.guideIdsStr,
+        isCompletion: this.isCompletion,
+        shopIdsStr: this.shopIdsStr
+      }
+      this.$http
+        .fetch(this.$api.guide.getScriptCompletionNumber, params)
+        .then(resp => {
+          if (resp.success) {
+            this.numData = resp.result
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
     }
   }
 }

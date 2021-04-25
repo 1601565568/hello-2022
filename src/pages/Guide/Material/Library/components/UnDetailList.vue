@@ -18,9 +18,11 @@
             :appendToBody="true"
             :isButton="false"
             :auth="false"
-            type="primary"
+            type="icon"
             btnTitle=""
             dialogTitle="选择门店："
+            @input="handleChangeShop"
+            v-model="shopIds"
           >
             <template slot="btnIcon">
               <div class="self-btn">
@@ -29,7 +31,7 @@
                     ? `已选择${shopIds.length}个门店`
                     : '全部门店'
                 }}
-                <Icon type="shop" class="guideIds-icon"></Icon>
+                <Icon type="shop" class="shopIds-icon"></Icon>
               </div>
             </template>
           </NsShopDialog>
@@ -37,7 +39,7 @@
       </el-form>
       <div class="unDrawer-showinfo">
         <div>
-          <span>未完成员工 100人</span>
+          <span>未完成员工{{noCompletionTotal}}人</span>
         </div>
         <div class="unDrawer-output" @click="exportData">
           导出CSV文件
@@ -99,21 +101,38 @@ export default {
         total: 0
       },
       shopSelectData: [],
-      shopIds: []
+      shopIds: [],
+      noCompletionTotal: 0
     }
   },
   methods: {
+    handleChangeShop (value) {
+      this.shopIds = value
+      if (this.shopIds.length > 0) {
+        this.shopIdsStr = this.shopIds.join(',')
+      } else {
+        this.shopIdsStr = ''
+      }
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+      this.loadList()
+      this.loadNum()
+    },
     handleSizeChange (size) {
       this.pagination = {
         ...this.pagination,
         size,
         page: 1
       }
-      this.unloadList()
+      this.loadList()
     },
     handleCurrentChange (page) {
       this.pagination.page = page
-      this.unloadList()
+      this.loadList()
     },
     closeDeawer () {
       this.unDrawer = !this.unDrawer
@@ -124,11 +143,12 @@ export default {
           page: 1,
           total: 0
         }
-        this.unloadList()
+        this.loadList()
+        this.loadNum()
       }
     },
     handleClose () {},
-    unloadList () {
+    loadList () {
       const params = {
         searchMap: {
           materialScriptId: this.materialScriptId,
@@ -181,6 +201,25 @@ export default {
             link.click()
           }
         })
+    },
+    loadNum () {
+      const params = {
+        materialScriptId: this.materialScriptId,
+        guideIdsStr: this.guideIdsStr,
+        isCompletion: this.isCompletion,
+        shopIdsStr: this.shopIdsStr
+      }
+      this.$http
+        .fetch(this.$api.guide.getScriptCompletionNumber, params)
+        .then(resp => {
+          if (resp.success) {
+            this.noCompletionTotal = resp.result.noCompletionTotal ? resp.result.noCompletionTotal : 0
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg(this.title, resp))
+        })
+        .finally(() => {})
     }
   }
 }
@@ -282,7 +321,7 @@ export default {
   justify-content: space-between;
   font-size: 14px;
   color: #606266;
-  .guideIds-icon {
+  .shopIds-icon {
     color: #c0c4cc;
   }
 }
