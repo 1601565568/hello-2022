@@ -68,60 +68,6 @@ export default {
       return messageTypes.map(type => {
         return SOPMessageTypeToolTip[type]
       })
-    },
-    /**
-     * 查看活动的群
-     */
-    checkActivityGroup () {
-
-    },
-    /**
-     * 编辑活动
-     */
-    editActivity () {
-      window.console.log('编辑活动')
-    },
-    /**
-     * 查看活动
-     */
-    checkActivity () {
-      window.console.log('查看活动')
-    },
-    /**
-     * 提交活动审核
-     */
-    submitActivity () {
-      this.$confirm('提交后不可编辑内容，请再次确定是否要提交', '确定提交审核？', {
-        confirmButtonText: '提交',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '提交审核成功'
-        })
-      }).catch(() => {})
-    },
-    /**
-     * 删除活动
-     */
-    deleteActivity () {
-      this.$confirm('删除后不可恢复，请再次确定是否要删除', '确定删除？', {
-        confirmButtonText: '提交',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功'
-        })
-      }).catch(() => {})
-    },
-    /**
-     * 审核活动
-     */
-    examineActivity () {
-      window.console.log('审核')
     }
   }
 }

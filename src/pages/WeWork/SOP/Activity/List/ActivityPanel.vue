@@ -277,7 +277,6 @@ export default {
       }).then(async () => {
         try {
           const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, { id, status: SOPExamineStatus.Pending })
-          window.console.log('提交活动审核', resp)
           this.$message({
             type: 'success',
             message: '提交审核成功'
@@ -300,7 +299,6 @@ export default {
       }).then(() => {
         this.$http.fetch(this.$api.weWork.sop.delete, { id })
           .then(resp => {
-            window.console.log('删除结果', resp)
             this.$message({
               type: 'success',
               message: '删除成功'

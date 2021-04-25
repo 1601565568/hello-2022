@@ -46,7 +46,6 @@ export default {
       return true
     },
     onSuccess (uploadRes, file) {
-      console.log(uploadRes)
       this.loading = false
       if (uploadRes.success) {
         this.$emit('confirm', { ...this.defaultModel, mediaid: uploadRes.result.url })

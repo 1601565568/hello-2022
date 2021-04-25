@@ -338,8 +338,6 @@ export default {
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })
         .then(resp => {
-          window.console.log('getActivityDetailById', resp)
-          // this.model.code = resp.result
           this.model = resp.result
         }).catch(() => {
           this.$notify.error('获取活动详情失败')
@@ -351,7 +349,6 @@ export default {
     getActivityCode () {
       this.$http.fetch(this.$api.weWork.sop.getCode)
         .then(resp => {
-          window.console.log('任务编号', resp)
           this.model.code = resp.result
         }).catch(() => {
           this.$notify.error('获取活动任务编号失败')
@@ -415,7 +412,6 @@ export default {
      * 新增素材消息
      */
     addMessage (context) {
-      window.console.log('新消息来了', context)
       const { index, content, type } = context
       if (index > -1) {
         // 编辑消息
@@ -563,7 +559,7 @@ export default {
 }
 
 .message-table {
-  width: 626px;
+  width: 536px;
   height: 50px;
 
   ::-webkit-scrollbar {

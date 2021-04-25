@@ -122,7 +122,6 @@ export default {
       // 获取使用范围
       this.$http.fetch(this.$api.weWork.sop.getAuthRange)
         .then(resp => {
-          window.console.log('获取使用范围', resp)
           const { type, value } = resp.result
 
           this.type = type

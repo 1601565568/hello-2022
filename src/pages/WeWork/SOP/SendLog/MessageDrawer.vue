@@ -49,7 +49,6 @@ export default {
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })
         .then(resp => {
-          window.console.log('getActivityDetailById', resp)
           this.model = resp.result
         }).catch(() => {
           this.$notify.error('获取活动详情失败9090')

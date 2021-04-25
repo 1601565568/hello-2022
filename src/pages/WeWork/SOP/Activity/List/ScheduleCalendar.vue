@@ -67,7 +67,6 @@ export default {
         setTimeout(() => {
           const scrollTop = this.$refs.ListScrollbar.wrap
           if (moment(this.month).format('yyyy-MM') === moment().format('yyyy-MM')) {
-            window.console.log('保存进度条了', (moment().date() - 3) * 72)
             scrollTop.scrollTop = (moment().date() - 3) * 72
           } else {
             scrollTop.scrollTop = 0
@@ -76,15 +75,12 @@ export default {
       })
     },
     chooseMonth (date) {
-      window.console.log('chooseMonth', date)
-
       this.setScheludeDateList(date)
       this.saveScroll()
 
       this.initChooseDay()
     },
     chooseDay (day) {
-      window.console.log('chooseDay', day, this.month)
       this.day = `0${day}`.slice(-2)
 
       this.$emit('reload', `${moment(this.month).format('yyyy-MM')}-${this.day}`)

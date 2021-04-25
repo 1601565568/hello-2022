@@ -111,7 +111,6 @@ export default {
     init () {
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
         if (res.result && res.msg) {
-          window.console.log('配置信息', res)
           res.result.forEach((item) => {
             this.chatData[0].explanation.push(item)
           })

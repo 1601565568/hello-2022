@@ -202,7 +202,6 @@ export default {
         length: this.pagination.size
       })
         .then(resp => {
-          window.console.log('查询列表', resp)
           this.activityList = resp.result.list
           this.pagination.total = resp.result.count
         }).catch((respErr) => {

@@ -81,7 +81,6 @@ export default {
   },
   watch: {
     activityId (newVal, oldVal) {
-      window.console.log('activityId啊', newVal, oldVal)
       if (newVal !== oldVal || !oldVal) {
         this.model = { id: this.activityId }
         if (this.type === 'log') this.getSuccessTotal()
@@ -109,8 +108,6 @@ export default {
       this.getSuccessTotal()
     }
     this.searchForm()
-
-    window.console.log('data', this._data)
   },
   methods: {
     searchForm () {

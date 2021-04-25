@@ -72,7 +72,6 @@ export default {
       this.$emit('update:visible', false)
     },
     open () {
-      window.console.log('openPoster', this.content)
       if (this.content) {
         this.defaultModel = this.content
       }
