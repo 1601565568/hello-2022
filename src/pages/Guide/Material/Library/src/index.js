@@ -573,8 +573,14 @@ export default {
      * 删除素材、视频
      */
     removeItem (row) {
-      const { isDirectory } = row
-      this.$confirm(`此操作将永久删除该${isDirectory === 1 ? '文件夹' : '条数据'}，是否继续？`, '删除确认', {
+      const { isDirectory, materialScriptType } = row
+      let showStr = ''
+      if (materialScriptType === 2) {
+        showStr = '删除该剧本后，员工根据该剧本创建的素材也将被删除，是否删除？'
+      } else {
+        showStr = `此操作将永久删除该${isDirectory === 1 ? '文件夹' : '条数据'}，是否继续？`
+      }
+      this.$confirm(showStr, '删除确认', {
         type: 'warning',
         cancelButtonText: '取消',
         confirmButtonText: '确定'
