@@ -13,7 +13,10 @@
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 6}"
           placeholder="请输入"
-          v-model="remark">
+          v-model="remark"
+          :maxlength="100"
+          show-word-limit
+        >
         </el-input>
       </el-form-item>
     </el-form>
@@ -48,10 +51,10 @@ export default {
       this.$emit('update:visible', false)
     },
     open () {
-      window.console.log('open')
+      this.status = SOPExamineStatus.Succeed
+      this.remark = ''
     },
     confirm () {
-      window.console.log('confirm')
       this.$emit('confirm', { id: this.activityId, status: this.status, remark: this.remark })
       this.$emit('update:visible', false)
     }

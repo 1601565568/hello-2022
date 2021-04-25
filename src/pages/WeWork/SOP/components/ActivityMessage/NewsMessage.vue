@@ -49,6 +49,7 @@ export default {
 .link-message {
   width: 100%;
   max-height: 127px;
+  max-width: 242px;
   background: #ffffff;
   border-radius: 2px;
   .link-wrapper {

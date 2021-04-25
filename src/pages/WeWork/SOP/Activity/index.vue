@@ -115,7 +115,7 @@ export default {
         },
         {
           value: SOPExamineStatus.UnSubmit,
-          label: '未提交'
+          label: '待提交'
         },
         {
           value: SOPExamineStatus.Pending,

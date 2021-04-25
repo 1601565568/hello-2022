@@ -5,9 +5,9 @@
         :src="content.mediaid"
         @click="showPreview"
       >
-      <span v-if="preview" class="image-total">{{previewList.length}}张</span>
+      <span v-if="preview && total" class="image-total">{{previewList.length}}张</span>
     </div>
-    <NsPreview v-if="preview" ref="NsPreview"/>
+    <NsPreview v-if="preview" ref="NsPreview" :appendToBody="true"/>
   </div>
 </template>
 
@@ -29,6 +29,10 @@ export default {
       }
     },
     preview: { // 是否支持预览
+      type: Boolean,
+      default: false
+    },
+    total: { // 是否显示总数统计
       type: Boolean,
       default: false
     },

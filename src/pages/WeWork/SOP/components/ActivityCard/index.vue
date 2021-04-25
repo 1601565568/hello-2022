@@ -175,8 +175,13 @@ export default {
     margin-top: 8px;
     height: 161px;
     overflow: hidden;
-    // display: flex;
-    // flex-direction: column;
+    display: flex;
+    flex-direction: column;
+
+    div:nth-child(2) {
+      flex-shrink: 100;
+      max-height: 121px;
+    }
   }
   .activity-card_footer {
     .message-icons {

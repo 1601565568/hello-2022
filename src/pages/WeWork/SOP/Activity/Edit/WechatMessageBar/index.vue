@@ -100,9 +100,10 @@ export default {
     }
   },
   methods: {
+    messageLimit () {
+      this.$message.error('最多添加10条消息')
+    },
     addMessage (content) {
-      window.console.log('content', content)
-
       let msg = {}
       if (this.textMsg) msg = this.textMsg
       if (this.imageMsg) msg = this.imageMsg
@@ -110,7 +111,6 @@ export default {
       if (this.linkMsg) msg = this.linkMsg
       if (this.miniProgramMsg) msg = this.miniProgramMsg
       if (this.posterMsg) msg = this.posterMsg
-      window.console.log('content', this.textMsg)
 
       // 新增时，添加sop活动类型
       let type

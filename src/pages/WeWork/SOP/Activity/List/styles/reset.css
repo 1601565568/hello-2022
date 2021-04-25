@@ -7,5 +7,8 @@
     .el-radio__label {
       font-size: 14px;
     }
+    .el-input__count {
+      height: 10px;
+    }
   }
 }

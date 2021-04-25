@@ -19,7 +19,11 @@
       >
         <el-table-column prop="chatRoomName" label="群名称" ></el-table-column>
         <el-table-column prop="ownerName" label="群主"></el-table-column>
-        <el-table-column prop="ownerWorkNum" label="工号"></el-table-column>
+        <el-table-column prop="ownerWorkNum" label="工号">
+          <template slot-scope="scope">
+            {{ scope.row.ownerWorkNum || '-' }}
+          </template>
+        </el-table-column>
         <el-table-column prop="personNum" label="群成员数"></el-table-column>
         <el-table-column prop="workShopName" label="工作门店">
           <template slot-scope="scope">

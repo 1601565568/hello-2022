@@ -25,6 +25,7 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :clearable="false"
+              :picker-options="pickerOptions"
               @change="switchSearchDate"
             ></el-date-picker>
         </el-form-item>
@@ -122,6 +123,7 @@ export default {
         creatorName: '',
         code: '',
         name: '',
+        showDeleteData: true,
         timeStart: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 00:00:00`,
         timeEnd: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 23:59:59`
       },
@@ -134,6 +136,15 @@ export default {
         total: 0,
         sizeChange: this.pageSizeChange.bind(this),
         pageChange: this.pageChange.bind(this)
+      },
+      pickerOptions: {
+        disabledDate: (time) => {
+          // 半年前（180天） 至 今天
+          return (
+            time < Date.now() - 3600 * 1000 * 24 * 180 ||
+            time > Date.now()
+          )
+        }
       }
     }
   },

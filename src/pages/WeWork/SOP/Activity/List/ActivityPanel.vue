@@ -7,19 +7,21 @@
             v-for="(item, index) in list"
             :key="index"
             :activity="item"
+            class="activity-card"
           >
-            <template v-for="(message, messageIndex) in item.contentList">
+            <template v-for="(message, messageIndex) in cardList(item.contentList)">
                 <TextMessage
                   :key="messageIndex"
                   v-if="message.type === SOPActivityMessageType.Text"
-                  class="text-message"
+                  class="text-message test"
                   :content="message.content"
                 />
                 <ImageMessage
                   :key="messageIndex"
                   v-else-if="message.type === SOPActivityMessageType.Image || message.type === SOPActivityMessageType.Poster"
-                  class="image-message"
+                  class="image-message test"
                   :content="message.content"
+                  :total="true"
                   :preview="true"
                   :previewList="getImgPrewivewList(item.contentList)"
                 />
@@ -149,6 +151,25 @@ export default {
   },
   mounted () {},
   methods: {
+    cardList (contentList) {
+      const list = [ ...contentList ]
+      // 排序并去重
+      list.sort((a, b) => (a.type - b.type))
+      const uniqueTypeMsgObj = {}
+      list.forEach(item => {
+        if (!uniqueTypeMsgObj[item.type]) {
+          uniqueTypeMsgObj[item.type] = item
+        }
+      })
+      const uniqueTypeMsgList = Object.values(uniqueTypeMsgObj)
+      if (list[0].type === SOPActivityMessageType.Text) {
+        // 如果第一条是文本 返回前两条
+        return uniqueTypeMsgList.slice(0, 2)
+      } else {
+        // 如果第一条不是文本，直接显示一条
+        return uniqueTypeMsgList.slice(0, 1)
+      }
+    },
     /**
      * 是否显示按钮
      */
@@ -156,7 +177,7 @@ export default {
       // 活动日历页面
       if (this.panelType === 'activity') {
         // 编辑 提交审核 删除
-        if (btnType === 'edit' || btnType === 'submit' || btnType === 'delete') {
+        if (btnType === 'edit' || btnType === 'submit') {
           // 待提交、审核失败
           if (status === SOPExamineStatus.UnSubmit || status === SOPExamineStatus.Failed) {
             return true
@@ -173,6 +194,15 @@ export default {
         // 审核按钮
         if (btnType === 'examine') {
           return false
+        }
+
+        // 删除按钮
+        if (btnType === 'delete') {
+          if (status === SOPExamineStatus.UnSubmit || status === SOPExamineStatus.Failed || status === SOPExamineStatus.Succeed) {
+            return true
+          } else {
+            return false
+          }
         }
       } else if (this.panelType === 'examine') {
         // 审核页面
@@ -292,7 +322,6 @@ export default {
     async confirmExamineActivity (context) {
       try {
         const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
-        window.console.log('确认审核互动', context, resp)
         this.$message.success('审核成功')
       } catch (respErr) {
         this.$message.error('审核失败')

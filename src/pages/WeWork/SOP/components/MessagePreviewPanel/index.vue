@@ -14,11 +14,14 @@
         v-else-if="item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster"
         class="image-message"
         :content="item.content"
+        :preview="true"
+        :previewList="[item.content.mediaid]"
       />
       <VideoMessage
         v-else-if="item.type === SOPActivityMessageType.Video"
         class="video-message"
         :content="item.content"
+        :preview="true"
       />
       <NewsMessage
         v-else-if="item.type === SOPActivityMessageType.Link"
@@ -89,6 +92,7 @@ export default {
     line-height: 20px;
     background: #fff;
     border-radius: 2px;
+    -webkit-line-clamp: 7;
   }
 
   .image-message, .video-message {

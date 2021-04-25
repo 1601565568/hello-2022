@@ -4,14 +4,14 @@
       <img
         :src="videoThumbUrl"
       >
-      <span v-if="preview" class="video-total">3个</span>
+      <!-- <span v-if="preview" class="video-total">3个</span> -->
       <div class="video-mask" @click="showPreview">
         <div class="play-icon">
           <Icon class="icon" type="begin" />
         </div>
       </div>
     </div>
-    <NsPreview v-if="preview" ref="NsPreview"/>
+    <NsPreview v-if="preview" ref="NsPreview" :appendToBody="true"/>
   </div>
 </template>
 

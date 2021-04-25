@@ -83,7 +83,7 @@
                     height="520px"
                     :data="model.contentList"
                   >
-                    <el-table-column prop="content" style="max-height: 60px" label="消息内容" >
+                    <el-table-column prop="content" width="157px" style="max-height: 60px" label="消息内容" >
                       <template slot-scope="scope">
                         <TextMessage
                           v-if="scope.row.type === SOPActivityMessageType.Text"
@@ -112,12 +112,12 @@
                         />
                       </template>
                     </el-table-column>
-                    <el-table-column prop="type" label="内容类型">
+                    <el-table-column prop="type" label="内容类型" width="78px">
                       <template slot-scope="scope">
                         {{scope.row.type | msgTypeText}}
                       </template>
                     </el-table-column>
-                    <el-table-column label="发送顺序">
+                    <el-table-column label="发送顺序" width="156px">
                       <template slot-scope="scope">
                         <NsButton v-show="scope.$index !== 0" type="text" @click="sortMessage(scope.$index, 'top')">
                           <Icon type="zhiding"/>
@@ -133,7 +133,7 @@
                         </NsButton>
                       </template>
                     </el-table-column>
-                    <el-table-column label="操作">
+                    <el-table-column label="操作" width="128px">
                       <template slot-scope="scope">
                         <NsButton type="text" @click="editMessage(scope.row, scope.$index)">编辑</NsButton>
                         <NsButton type="text" @click="deleteMessage(scope.row, scope.$index)">删除</NsButton>
@@ -281,7 +281,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: ['blur', 'change'] },
-          { max: 10, message: '最多10个字符', trigger: 'blur' }
+          { max: 10, message: '最多可输入10个字符', trigger: ['blur', 'change'] }
         ],
         chatRoomIdList: [
           { required: true, message: '请选择群', trigger: 'change' },
@@ -326,8 +326,6 @@ export default {
     }
   },
   mounted () {
-    window.console.log('this.$route.parmas', this.$route.params)
-
     if (this.$route.params.id > 0) {
       // 编辑
       this.getActivityDetailById(this.$route.params.id)
@@ -380,7 +378,7 @@ export default {
             }).catch((respErr) => {
               if (respErr.success === false && respErr.code === '1031') {
                 this.getActivityCode()
-                this.$notify.error('活动编号已存在，请重新提交')
+                this.$notify.error('编号重复已自动更新，请重新保存')
               } else {
                 this.$notify.error('活动保存失败')
               }
@@ -424,7 +422,11 @@ export default {
         this.model.contentList.splice(index, 1, context)
       } else {
         // 新增消息
-        this.model.contentList.push(context)
+        if (this.model.contentList.length < 10) {
+          this.model.contentList.push(context)
+        } else {
+          this.$message.error('最多添加10条消息')
+        }
       }
     },
     /**

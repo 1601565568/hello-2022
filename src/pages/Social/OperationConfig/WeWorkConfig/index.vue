@@ -11,7 +11,7 @@
           <template slot-scope="scope">
             <div v-for="child in scope.row.explanation" :key="child.key">
               {{child.explain}}
-              <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
+              <Icon type="ns-thick-copy" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
           </template>
         </ElTableColumn>

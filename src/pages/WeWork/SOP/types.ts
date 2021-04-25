@@ -43,7 +43,7 @@ export const SOPMessageTypeToolTip = {
     icon: 'xiaochengxushouquan'
   },
   [SOPActivityMessageType.Poster]: {
-    tip: '海报',
+    tip: '二维码海报',
     icon: 'poster-1'
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="examine-container" v-loading="loading">
-    <el-tabs class="el-tabs" v-model="examineStatus" @tab-click="reloadActivityList">
+    <el-tabs class="el-tabs" v-model="examineStatus" @tab-click="tabSwitchActivityList">
       <el-tab-pane :label="`待审核 ${pendingExamineCount}`" :name="String(SOPExamineStatus.Pending)"></el-tab-pane>
       <el-tab-pane label="审核成功" :name="String(SOPExamineStatus.Succeed)"></el-tab-pane>
       <el-tab-pane label="审核失败" :name="String(SOPExamineStatus.Failed)"></el-tab-pane>
@@ -101,6 +101,7 @@ export default {
         code: '',
         name: '',
         creatorName: '',
+        desc: false,
         start: 0,
         length: 15
         // timeStart: `${moment().format('yyyy-MM-DD')} 00:00:00`,
@@ -141,7 +142,7 @@ export default {
       this.pagination = { ...this.pagination, page: 1 }
       this.getActivityList()
     },
-    reloadActivityList (date) {
+    reloadActivityList () {
       this.pagination = { ...this.pagination, page: 1 }
 
       this.model = {
@@ -150,6 +151,26 @@ export default {
         code: '',
         name: '',
         creatorName: ''
+      }
+
+      this.getCountByPendingStatus()
+      this.getActivityList()
+    },
+    tabSwitchActivityList () {
+      this.pagination = { ...this.pagination, page: 1 }
+
+      this.model = {
+        ...this.model,
+        type: SOPActivityMessageType.All,
+        code: '',
+        name: '',
+        creatorName: ''
+      }
+
+      if (Number(this.examineStatus) === SOPExamineStatus.Succeed || Number(this.examineStatus) === SOPExamineStatus.Failed) {
+        this.model.desc = true
+      } else {
+        this.model.desc = false
       }
 
       this.getCountByPendingStatus()
