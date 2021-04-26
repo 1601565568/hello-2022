@@ -152,22 +152,26 @@ export default {
   mounted () {},
   methods: {
     cardList (contentList) {
-      const list = [ ...contentList ]
-      // 排序并去重
-      list.sort((a, b) => (a.type - b.type))
-      const uniqueTypeMsgObj = {}
-      list.forEach(item => {
-        if (!uniqueTypeMsgObj[item.type]) {
-          uniqueTypeMsgObj[item.type] = item
+      if (contentList.length > 0) {
+        const list = [ ...contentList ]
+        // 排序并去重
+        list.sort((a, b) => (a.type - b.type))
+        const uniqueTypeMsgObj = {}
+        list.forEach(item => {
+          if (!uniqueTypeMsgObj[item.type]) {
+            uniqueTypeMsgObj[item.type] = item
+          }
+        })
+        const uniqueTypeMsgList = Object.values(uniqueTypeMsgObj)
+        if (list[0].type === SOPActivityMessageType.Text) {
+          // 如果第一条是文本 返回前两条
+          return uniqueTypeMsgList.slice(0, 2)
+        } else {
+          // 如果第一条不是文本，直接显示一条
+          return uniqueTypeMsgList.slice(0, 1)
         }
-      })
-      const uniqueTypeMsgList = Object.values(uniqueTypeMsgObj)
-      if (list[0].type === SOPActivityMessageType.Text) {
-        // 如果第一条是文本 返回前两条
-        return uniqueTypeMsgList.slice(0, 2)
       } else {
-        // 如果第一条不是文本，直接显示一条
-        return uniqueTypeMsgList.slice(0, 1)
+        return []
       }
     },
     /**
@@ -279,12 +283,14 @@ export default {
           const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, { id, status: SOPExamineStatus.Pending })
           this.$message({
             type: 'success',
-            message: '提交审核成功'
+            message: '提交成功'
           })
 
           this.$emit('reload')
         } catch (respErr) {
-          this.$message.error('提交审核失败')
+          this.$message.error('提交失败')
+        } finally {
+          this.visibleCheckActivityDrawer = false
         }
       })
     },
@@ -307,6 +313,8 @@ export default {
             this.$emit('reload')
           }).catch((respErr) => {
             this.$message.error('删除失败')
+          }).finally(() => {
+            this.visibleCheckActivityDrawer = false
           })
       }).catch(() => {})
     },

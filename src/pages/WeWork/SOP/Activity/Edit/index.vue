@@ -119,18 +119,20 @@
                     </el-table-column>
                     <el-table-column label="发送顺序" width="156px">
                       <template slot-scope="scope">
-                        <NsButton v-show="scope.$index !== 0" type="text" @click="sortMessage(scope.$index, 'top')">
-                          <Icon type="zhiding"/>
-                        </NsButton>
-                        <NsButton v-show="scope.$index !== 0" type="text" @click="sortMessage(scope.$index, 'up')">
-                          <Icon type="top-arr"/>
-                        </NsButton>
-                        <NsButton v-show="scope.$index !== model.contentList.length - 1" type="text" @click="sortMessage(scope.$index, 'down')">
-                          <Icon type="down-arr"/>
-                        </NsButton>
-                        <NsButton v-show="scope.$index !== model.contentList.length - 1" type="text" @click="sortMessage(scope.$index, 'bottom')">
-                          <Icon type="zhidi"/>
-                        </NsButton>
+                        <div class="send-sort" :class="{ 'first-line': scope.$index === 0 }">
+                          <NsButton v-show="scope.$index !== 0" type="text" @click="sortMessage(scope.$index, 'top')">
+                            <Icon type="zhiding"/>
+                          </NsButton>
+                          <NsButton v-show="scope.$index !== 0" type="text" @click="sortMessage(scope.$index, 'up')">
+                            <Icon type="top-arr"/>
+                          </NsButton>
+                          <NsButton v-show="scope.$index !== model.contentList.length - 1" type="text" @click="sortMessage(scope.$index, 'down')">
+                            <Icon type="down-arr"/>
+                          </NsButton>
+                          <NsButton v-show="scope.$index !== model.contentList.length - 1" type="text" @click="sortMessage(scope.$index, 'bottom')">
+                            <Icon type="zhidi"/>
+                          </NsButton>
+                        </div>
                       </template>
                     </el-table-column>
                     <el-table-column label="操作" width="128px">
@@ -438,6 +440,16 @@ export default {
 }
 </script>
 
+<style>
+.send-sort {
+  padding: 0 20px;
+}
+.first-line {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
+
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
 @import "./styles/reset.css";
@@ -519,14 +531,14 @@ export default {
     }
 
     .add-tip::before {
-        content: '';
-        display: inline-block;
-        background: #f2aa18;
-        height: 8px;
-        width: 8px;
-        border-radius: 50%;
-        margin-right: 8px;
-        margin-bottom: 1px;
+      content: '';
+      display: inline-block;
+      background: #f2aa18;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      margin-bottom: 1px;
     }
 
     .el-date-picker {
@@ -574,6 +586,10 @@ export default {
 
   .table-form_reset {
     font-size: 14px;
+  }
+
+  .el-table::before {
+    display: none;
   }
 
   .text-message {

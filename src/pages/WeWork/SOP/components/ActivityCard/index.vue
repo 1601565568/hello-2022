@@ -9,7 +9,12 @@
     <div class="activity-card_header">
       <span class="activity-id">{{activity.code}}</span>
       <span class="activity-name">{{activity.name}}</span>
-      <span class="activity-time">{{activity.sendType === 0 ? '立即发送' : activity.sendTime}}</span>
+      <span class="activity-time">
+        {{
+          activity.sendType === 0 && activity.status !== SOPExamineStatus.Succeed
+          ? '立即发送' : activity.sendTime
+        }}
+      </span>
     </div>
     <div class="activity-card_content">
       <slot></slot>

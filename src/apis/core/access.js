@@ -93,36 +93,36 @@ export default {
           uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
 
-        const arr = [
-          {
-            parentId: '3088',
-            id: '9999',
-            icon: 'yinxiaoshenghe',
-            'url': '/Marketing/EnterpriseMessage',
-            'name': '企微群营销',
-            'type': 'MENU'
-          },
-          {
-            parentId: '9999',
-            id: '10000',
-            'url': '/Marketing/EnterpriseMessage',
-            'name': '群营销'
-          },
-          {
-            parentId: '9999',
-            id: '10001',
-            'url': '/Marketing/SOP',
-            'name': '社群日历'
-          },
-          {
-            parentId: '3114',
-            id: '10002',
-            'url': '/Marketing/SOP/Examine',
-            'name': '社群日历审核'
-          }
-        ]
+        // const arr = [
+        //   {
+        //     parentId: '3088',
+        //     id: '9999',
+        //     icon: 'yinxiaoshenghe',
+        //     'url': '/Marketing/EnterpriseMessage',
+        //     'name': '企微群营销',
+        //     'type': 'MENU'
+        //   },
+        //   {
+        //     parentId: '9999',
+        //     id: '10000',
+        //     'url': '/Marketing/EnterpriseMessage',
+        //     'name': '群营销'
+        //   },
+        //   {
+        //     parentId: '9999',
+        //     id: '10001',
+        //     'url': '/Marketing/SOP',
+        //     'name': '社群日历'
+        //   },
+        //   {
+        //     parentId: '3114',
+        //     id: '10002',
+        //     'url': '/Marketing/SOP/Examine',
+        //     'name': '社群日历审核'
+        //   }
+        // ]
 
-        res.data.result.menus.push(...arr)
+        // res.data.result.menus.push(...arr)
 
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {

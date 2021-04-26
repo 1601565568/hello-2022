@@ -2,8 +2,8 @@
   <div class="miniprogram-message">
     <div class="miniprogram-wrapper">
       <div class="miniprogram-header">
-        <img src="http://taosha01-1253585015.cos.ap-shanghai.myqcloud.com/taosha/d620bec0-d61c-11ea-9c32-1172a154412d.png?imageMogr2/crop/100x100/center" alt="">
-        <span>你是怎么回事我的小老弟</span>
+        <span class="avatar"></span>
+        <span>小程序名称</span>
       </div>
       <div class="miniprogram-title">
         {{content.title}}
@@ -61,9 +61,11 @@ export default {
       height: 12px;
       display: flex;
       align-items: center;
-      img {
+      .avatar {
+        display: block;
         width: 12px;
         height: 12px;
+        background: #D9D9D9;
         border-radius: 50%;
       }
       span {

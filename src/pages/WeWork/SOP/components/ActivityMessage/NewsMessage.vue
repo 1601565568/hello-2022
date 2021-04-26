@@ -9,8 +9,8 @@
         <img :src="content.imgUrl"/>
       </div>
       <div class="link-footer">
-        <img src="http://taosha01-1253585015.cos.ap-shanghai.myqcloud.com/taosha/d620bec0-d61c-11ea-9c32-1172a154412d.png?imageMogr2/crop/100x100/center" alt="">
-        <span>我的小老弟</span>
+        <!-- <img src="" alt="">
+        <span>链接</span> -->
       </div>
     </div>
   </div>

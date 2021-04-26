@@ -162,9 +162,9 @@ export default {
         value
       })
         .then(resp => {
-          this.$message.success('设置成功')
+          this.$message.success(`设置使用成功`)
         }).catch((respErr) => {
-          this.$message.error('设置使用权限失败')
+          this.$message.error(`设置使用失败`)
         }).finally(() => {
           this.$emit('update:visible', false)
           this.loading = false
