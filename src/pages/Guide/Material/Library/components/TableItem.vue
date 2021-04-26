@@ -81,7 +81,6 @@ export default {
       this.imageList.forEach(item => {
         imgs.push(item.url)
       })
-      console.log(imgs)
       this.$emit('preview', current, imgs, type)
     }
   }
