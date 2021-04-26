@@ -218,65 +218,65 @@ export default {
         sendTime: '', // 发送时间 sendType = 1 定时发送时使用
         submitReview: 0, // 提交审核状态 0 不审核 1 审核
         contentList: [
-          {
-            content: {
-              type: 'text',
-              content: '{EMOJI_[太阳]}{#GUIDESHOP#}{#GUIDENAME#}你好啊',
-              htmlContent: '<wise id="r1619168721172d480" class="EMOJI_[太阳]">[太阳]</wise><wise id="r1619168717832d305" class="#GUIDESHOP#">导购门店名称</wise><wise id="r1619168717493d810" class="#GUIDENAME#">导购姓名</wise>你好啊',
-              textContent: '{[太阳]}{导购门店名称}{导购姓名}你好啊'
-            },
-            type: 0
-          },
-          {
-            content: {
-              type: 'image',
-              mediaid: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-            },
-            type: 1
-          },
-          {
-            content: {
-              type: 'video',
-              mediaid: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4'
-            },
-            type: 2
-          },
-          {
-            content: {
-              type: 'news',
-              link: 'https://search-operate.cdn.bcebos.com/d054b8892a7ab572cb296d62ec7f97b6.png',
-              title: '我是链接标题',
-              desc: '这个是一个链接描述',
-              imgUrl: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-            },
-            type: 3
-          },
-          {
-            content: {
-              type: 'miniprogram',
-              appid: 'wx8bd80126147df384',
-              title: 'this is title',
-              imgUrl: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-              page: '/index/page.html'
-            },
-            type: 4
-          },
-          {
-            content: {
-              type: 'poster',
-              mediaid: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-              model: {
-                createTime: '2021-04-08 17:46:31',
-                id: '108',
-                configId: '108',
-                loginAccount: '18961400576',
-                placard: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/GUIDE_WECHAT_QRCODE_PLACARD/80000002/0/a5376eba-0264-416e-a56d-216347033717.png',
-                title: '看看海报',
-                type: 1
-              }
-            },
-            type: 5
-          }
+          // {
+          //   content: {
+          //     type: 'text',
+          //     content: '{EMOJI_[太阳]}{#GUIDESHOP#}{#GUIDENAME#}你好啊',
+          //     htmlContent: '<wise id="r1619168721172d480" class="EMOJI_[太阳]">[太阳]</wise><wise id="r1619168717832d305" class="#GUIDESHOP#">导购门店名称</wise><wise id="r1619168717493d810" class="#GUIDENAME#">导购姓名</wise>你好啊',
+          //     textContent: '{[太阳]}{导购门店名称}{导购姓名}你好啊'
+          //   },
+          //   type: 0
+          // },
+          // {
+          //   content: {
+          //     type: 'image',
+          //     mediaid: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+          //   },
+          //   type: 1
+          // },
+          // {
+          //   content: {
+          //     type: 'video',
+          //     mediaid: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4'
+          //   },
+          //   type: 2
+          // },
+          // {
+          //   content: {
+          //     type: 'news',
+          //     link: 'https://search-operate.cdn.bcebos.com/d054b8892a7ab572cb296d62ec7f97b6.png',
+          //     title: '我是链接标题',
+          //     desc: '这个是一个链接描述',
+          //     imgUrl: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+          //   },
+          //   type: 3
+          // },
+          // {
+          //   content: {
+          //     type: 'miniprogram',
+          //     appid: 'wx8bd80126147df384',
+          //     title: 'this is title',
+          //     imgUrl: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+          //     page: '/index/page.html'
+          //   },
+          //   type: 4
+          // },
+          // {
+          //   content: {
+          //     type: 'poster',
+          //     mediaid: 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+          //     model: {
+          //       createTime: '2021-04-08 17:46:31',
+          //       id: '108',
+          //       configId: '108',
+          //       loginAccount: '18961400576',
+          //       placard: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/GUIDE_WECHAT_QRCODE_PLACARD/80000002/0/a5376eba-0264-416e-a56d-216347033717.png',
+          //       title: '看看海报',
+          //       type: 1
+          //     }
+          //   },
+          //   type: 5
+          // }
         ] // 发送消息详情集合 { content: {}, type, }
       },
       // 校验规则
