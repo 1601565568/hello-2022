@@ -16,7 +16,7 @@
         <div class="drawer-sub-title">坑位拍摄指南</div>
         <div class="drawer-sub-cont">{{ info.pitText }}</div>
       </div>
-      <div class="drawer-sub-title">示意图</div>
+      <div class="drawer-sub-title" v-if="info.url">示意图</div>
       <img class="drawer-sub-img" :src="info.url"  v-if="info.url"/>
     </div>
   </el-drawer>
