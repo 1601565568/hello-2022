@@ -3,9 +3,10 @@
     <el-drawer
       :visible.sync="drawer"
       :direction="direction"
-      :before-close="handleClose"
       size="720px"
       :with-header="false"
+      :modal="false"
+      @close='handleClose'
     >
       <div>
         <div class="close-view">
@@ -135,6 +136,9 @@ export default {
     }
   },
   methods: {
+    handleClose () {
+      this.drawer = false
+    },
     handleChangeGuide (value) {
       this.guideIds = value
       if (this.guideIds.length > 0) {
@@ -224,7 +228,6 @@ export default {
         this.loadNum()
       }
     },
-    handleClose () {},
     loadList () {
       const params = {
         searchMap: {
