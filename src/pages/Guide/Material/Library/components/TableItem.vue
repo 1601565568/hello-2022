@@ -15,18 +15,16 @@
       <div v-if="data.mType === 1" class="tableItem-content__imageBox">
         <ul>
           <li
-            v-for="(item, index) in imageList.slice(0, 3)"
+            v-for="(item, index) in imageList"
             :key="index"
             @click="showPreview(index)"
           >
-            <img
-              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
-              alt=""
-            />
+            <img :src="defaultImgUrl" alt="" v-if="item.pitType == 2"/>
+            <img :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" alt="" v-else/>
           </li>
-          <li v-if="imageList.length > 3">
+          <!-- <li v-if="imageList.length > 3">
             <div>…</div>
-          </li>
+          </li> -->
           <li v-if="data.codeType">
             <Icon type="erweima" />
           </li>
@@ -68,7 +66,10 @@ export default {
     data: Object
   },
   data () {
-    return {}
+    return {
+      defaultImgUrl:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
+    }
   },
   computed: {
     imageList () {
@@ -105,6 +106,7 @@ export default {
     }
     @e imageBox {
       overflow: hidden;
+      width: 200px;
       > ul {
         list-style: none;
         padding: 0;
@@ -130,8 +132,9 @@ export default {
             font-size: 12px;
           }
         }
-        li + li {
-          margin-left: 5px;
+        li {
+          margin-right: 5px;
+          margin-bottom: 5px;
         }
       }
     }
