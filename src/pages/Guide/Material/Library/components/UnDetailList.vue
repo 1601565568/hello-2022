@@ -2,9 +2,10 @@
   <el-drawer
     :visible.sync="unDrawer"
     :direction="direction"
-    :before-close="handleClose"
     size="720px"
     :with-header="false"
+    :modal="false"
+    @close='handleClose'
   >
     <div>
       <div class="close-view">
@@ -147,7 +148,9 @@ export default {
         this.loadNum()
       }
     },
-    handleClose () {},
+    handleClose () {
+      this.unDrawer = false
+    },
     loadList () {
       const params = {
         searchMap: {

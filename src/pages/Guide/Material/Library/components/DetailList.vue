@@ -200,7 +200,6 @@ export default {
     },
     toUnDataList () {
       this.$refs.unDetailList.closeDeawer()
-      this.drawer = false
     },
     handleSizeChange (size) {
       this.pagination = {
