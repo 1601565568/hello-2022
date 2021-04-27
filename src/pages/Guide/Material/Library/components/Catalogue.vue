@@ -124,19 +124,22 @@
                   v-else-if="item.mType === 1"
                   class="catalogue-materials__image"
                 >
-                  <img
-                    :style="{
-                      width: imageHeight + 'px',
-                      height: imageHeight + 'px'
-                    }"
-                    alt=""
-                    :src="
-                      img.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-                    "
-                    v-for="(img, index) in item.mediaList"
-                    :key="index"
-                    @click="showPreview(index, item)"
-                  />
+                  <li class="test-li" v-for="(img, index) in item.mediaList" :key="index">
+                    <img v-if="img.pitType == 2" :src="defaultImgUrl"  @click="showGuideInfo(index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
+                    <img
+                      v-else
+                      :style="{
+                        width: imageHeight + 'px',
+                        height: imageHeight + 'px'
+                      }"
+                      alt=""
+                      :src="
+                        img.url +
+                          '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+                      "
+                      @click="showPreview(index, item)"
+                    />
+                  </li>
                 </div>
                 <div v-else class="catalogue-materials__video">
                   <div v-if="item.mediaList">
@@ -288,7 +291,9 @@ export default {
       //
       materialShow: this.materials,
       //
-      selectItem: {}
+      selectItem: {},
+      defaultImgUrl:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
   },
   watch: {
@@ -410,16 +415,16 @@ export default {
     showPreview (current, row) {
       let type = +row.mType === 2 ? 'video' : 'img'
       let item = row.mediaList[current]
-      if (item.pitType === 2) {
-        this.guideInfo = item
-        this.$refs.guideInfo.closeDeawer()
-        return
-      }
       let imgs = []
       row.mediaList.forEach(item => {
         imgs.push(item.url)
       })
       this.$emit('preview', current, imgs, type)
+    },
+    showGuideInfo (current, row) {
+      let item = row.mediaList[current]
+      this.guideInfo = item
+      this.$refs.guideInfo.closeDeawer()
     },
     videoUrl (list) {
       if (list.mediaList && list.mediaList.length > 0) {
@@ -431,6 +436,12 @@ export default {
 }
 </script>
 <style scoped>
+.test-li {
+  /* display: flex;
+  flex-direction: row; */
+  margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
+  list-style: none;
+}
 @component-namespace catalogue {
   @b wrapper {
     margin-bottom: 10px;
@@ -700,6 +711,9 @@ export default {
     @e image {
       margin-right: -5px;
       margin-bottom: -5px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
       img {
         margin: 0 5px 5px 0;
         width: 78px;

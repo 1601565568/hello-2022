@@ -51,9 +51,8 @@
             v-for="(item, index) in mediaList"
             :key="index"
           >
-            <img
-              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
-            />
+            <img v-if="item.pitType == 2" :src="defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
+            <img v-else :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
             <div class="library-image__mask">
               <div v-if="item.pitType == 1">
                 <Icon type="zoom-in" @click="previewImage(index)" />
@@ -219,7 +218,8 @@
     >
       <div>
         <div class="guide-text">指南说明</div>
-        <el-input
+        <tag-area :maxlength="1000" placeholder="请输入" :showEmoji='true' v-model="guideText" :tools='tools'></tag-area>
+        <!-- <el-input
           class="library-guide-remind"
           type="textarea"
           placeholder="请输入"
@@ -228,7 +228,7 @@
           show-word-limit
           resize="none"
         >
-        </el-input>
+        </el-input> -->
       </div>
       <div>
         <div class="guide-text">示意图</div>
@@ -267,11 +267,11 @@ import { getErrorMsg } from '@/utils/toast'
 import SelectMarket from '../../components/selectMarket'
 import SelectGoods from '../../components/selectGoods'
 import GuideInfo from './GuideInfo'
-
+import TagArea from '@/components/NewUi/TagArea'
 export default {
   name: 'imageform',
   // components: { FolderTree, SelectMarket, SelectGoods },
-  components: { FolderTree, ElUpload, SelectMarket, SelectGoods, GuideInfo },
+  components: { FolderTree, ElUpload, SelectMarket, SelectGoods, GuideInfo, TagArea },
   props: {
     labelList: {
       type: Array,
@@ -361,7 +361,8 @@ export default {
       guideText: '',
       drawer: false,
       editIndex: 0,
-      showEidtImg: []
+      showEidtImg: [],
+      tools: []
     }
   },
   computed: {
@@ -404,9 +405,25 @@ export default {
     },
     handleSure () {
       // 根据选中下标更新用户信息
-      let item = this.mediaList[this.editIndex]
-      if (item) {
-        item.pitText = this.guideText
+      // let item = this.mediaList[this.editIndex]
+      // if (item) {
+      //   item.pitText = this.guideText
+      // }
+      if (this.model.mediaList.length < this.imageNum) {
+        let item = this.model.mediaList[this.editIndex]
+        if (item) {
+          item.pitText = this.guideText
+          item.url = this.defaultImgUrl
+          this.model.mediaList[this.editIndex] = item
+        } else {
+          let obj = {
+            pitType: 2,
+            pitText: this.guideText,
+            type: 1,
+            url: this.defaultImgUrl
+          }
+          this.model.mediaList.push(obj)
+        }
       }
       this.showEdit = false
     },
@@ -459,17 +476,21 @@ export default {
       item.url = res.result.url
     },
     addCustomImg () {
+      // 添加坑位
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
-      if (this.model.mediaList.length < this.imageNum) {
-        let obj = {
-          pitType: 2,
-          pitText: '',
-          type: 1,
-          url: this.defaultImgUrl
-        }
-        this.model.mediaList.push(obj)
-      }
+      this.guideText = ''
+      this.editIndex = this.model.mediaList.length
+      this.showEdit = true
+      // if (this.model.mediaList.length < this.imageNum) {
+      //   let obj = {
+      //     pitType: 2,
+      //     pitText: '',
+      //     type: 1,
+      //     url: this.defaultImgUrl
+      //   }
+      //   this.model.mediaList.push(obj)
+      // }
     },
     beforeGuideUpload (file) {
       this.beforeAvatarUpload(file)

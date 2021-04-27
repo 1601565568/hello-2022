@@ -16,7 +16,7 @@
         <div class="drawer-sub-cont">{{ info.pitText }}</div>
       </div>
       <div class="drawer-sub-title">示意图</div>
-      <img class="drawer-sub-img" :src="info.url" />
+      <img class="drawer-sub-img" :src="info.url"  v-if="info.url"/>
     </div>
   </el-drawer>
 </template>
