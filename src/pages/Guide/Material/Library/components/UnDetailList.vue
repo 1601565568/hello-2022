@@ -42,9 +42,6 @@
         <div>
           <span>未完成员工{{noCompletionTotal}}人</span>
         </div>
-        <div class="unDrawer-output" @click="exportData">
-          导出CSV文件
-        </div>
       </div>
       <page-table style="padding-top:0">
         <template slot="table">
@@ -174,35 +171,6 @@ export default {
           this.$notify.error(getErrorMsg(this.title, resp))
         })
         .finally(() => {})
-    },
-    exportData () {
-      const params = {
-        materialScriptId: this.materialScriptId,
-        guideIdsStr: this.guideIdsStr,
-        isCompletion: this.isCompletion,
-        shopIdsStr: this.shopIdsStr
-      }
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
-        .then(resp => {
-          that.$notify.success('下载完成')
-        })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            var fileName = '邀请好友明细表.CSV'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
     },
     loadNum () {
       const params = {
