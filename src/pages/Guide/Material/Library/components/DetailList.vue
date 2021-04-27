@@ -6,11 +6,12 @@
       size="720px"
       :with-header="false"
       :modal="false"
-      @close='handleClose'
+      @close="handleClose"
+      destroy-on-close
     >
       <div>
         <div class="close-view">
-          <Icon type="close" class="close-icon" @click="closeDeawer" />
+          <Icon type="close" class="close-icon" @click="handleClose" />
         </div>
         <div class="drawer-title">自创明细</div>
         <el-form :inline="true" class="form-inline_top">
@@ -24,6 +25,7 @@
               btnTitle=""
               dialogTitle="所属员工："
               @input="handleChangeGuide"
+              v-model="guideIds"
             >
               <template slot="selfBtn">
                 <div class="self-btn">
@@ -41,7 +43,12 @@
         <div class="drawer-showinfo">
           <div>
             <span>已完成员工 {{ numData.completionTotal }}人</span>
-            <span style="margin-left:46px" @click="toUnDataList">未完成员工<span class="remind-text">{{ numData.noCompletionTotal }}</span>人</span>
+            <span style="margin-left:46px" @click="toUnDataList"
+              >未完成员工<span class="remind-text">{{
+                numData.noCompletionTotal
+              }}</span
+              >人</span
+            >
           </div>
           <div class="drawer-output" @click="exportData">
             导出CSV文件
@@ -131,6 +138,12 @@ export default {
       metailInfo: {}
     }
   },
+  watch: {
+    materialScriptId (newValue, oldValue) {
+      this.loadList()
+      this.loadNum()
+    }
+  },
   methods: {
     handleClose () {
       this.drawer = false
@@ -211,7 +224,7 @@ export default {
       this.loadList()
     },
     closeDeawer () {
-      this.drawer = !this.drawer
+      this.drawer = true
       if (this.drawer) {
         this.pagination = {
           size: 10,
@@ -219,8 +232,6 @@ export default {
           page: 1,
           total: 0
         }
-        this.loadList()
-        this.loadNum()
       }
     },
     loadList () {
