@@ -205,6 +205,11 @@
                 </template>
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="编辑人" prop="addName" :min-width="130">
+                  <template slot-scope="scope">
+                    {{ scope.row.addName || '-' }}
+                  </template>
+              </el-table-column>
               <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
               <el-table-column label="操作" fixed="right" :width="150" >
                 <template slot-scope="scope" >
