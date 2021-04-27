@@ -172,8 +172,8 @@ export default {
      */
     setStyleHeight () {
       // 总高度 - 顶部菜单栏 - 设置菜单 - 底部footer
-      this.activityPanelHeight = `${window.innerHeight - 80 - 89 - 16 - 72}px`
-      this.scheludeCalendarHeight = `${window.innerHeight - 80 - 89 - 16}px`
+      this.activityPanelHeight = `${window.innerHeight - 80 - 89 - 16 - 72 - 5}px`
+      this.scheludeCalendarHeight = `${window.innerHeight - 80 - 89 - 16 - 5}px`
     },
     searchActivityList () {
       this.pagination = { ...this.pagination, page: 1 }

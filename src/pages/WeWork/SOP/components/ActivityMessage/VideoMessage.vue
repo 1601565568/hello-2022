@@ -48,21 +48,10 @@ export default {
       return `${this.content.mediaid}?x-oss-process=video/snapshot,t_0000,f_jpg,w_300,h_200,m_fast`
     }
   },
-  data () {
-    return {
-      url: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4',
-      srcList: [
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4',
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4',
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guide/202104/80000002/7033e4f2-75ff-4cbb-89ca-833474fea024.mp4'
-      ]
-    }
-  },
-  mounted () {},
   methods: {
     showPreview () {
       if (this.preview) {
-        this.$refs.NsPreview.toggleShow(1, this.srcList, 'video')
+        this.$refs.NsPreview.toggleShow(0, [this.content.mediaid], 'video')
       }
     }
   }

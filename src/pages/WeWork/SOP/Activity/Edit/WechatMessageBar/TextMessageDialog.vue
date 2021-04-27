@@ -2,6 +2,7 @@
   <el-dialog
     title="文本"
     width="658px"
+    height="400px"
     :visible="visible"
     @close="close"
     @open="open"
@@ -9,9 +10,9 @@
     append-to-body
   >
     <el-form class="text-message el-form-reset" label-width="6px" label-position="left" :model="defaultModel" :rules="rules" ref="ruleForm">
-      <el-form-item prop="htmlContent" :show-message="false">
+      <el-form-item prop="htmlContent">
         <span class="title">文本内容</span>
-        <tag-area ref="TagAreaText" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="inputLength"/>
+        <tag-area ref="TagAreaText" v-if="visible" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="inputLength"/>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -54,8 +55,9 @@ export default {
         textContent: ''
       },
       tooltags: [
-        { type: 'tag', text: `插入导购姓名`, id: '#GUIDENAME#', value: '导购姓名', icon: 'nicheng-2-x' },
-        { type: 'tag', text: `插入导购门店`, id: '#GUIDESHOP#', value: '导购门店名称', icon: 'mendian-2-x' }
+        { type: 'tag', text: `员工姓名`, id: 'GUIDENAME', value: '员工姓名', icon: 'nicheng-2-x' },
+        { type: 'tag', text: `员工门店名称`, id: 'GUIDESHOP', value: '员工门店名称', icon: 'mendian-2-x' },
+        { type: 'tag', text: `员工企业微信昵称`, id: 'GUIDENICKNAME', value: '员工企业微信昵称', icon: 'mendian-2-x' }
       ],
       rules: {
         htmlContent: [
@@ -93,6 +95,7 @@ export default {
             textContent
           })
 
+          this.$refs.ruleForm.clearValidate()
           this.close()
         }
       })

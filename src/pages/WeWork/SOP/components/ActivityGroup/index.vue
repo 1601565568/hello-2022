@@ -50,7 +50,7 @@
     </div>
     <el-pagination
       v-if="_data._pagination.enable"
-      class="template-table__pagination"
+      class="table-pagination"
       :page-sizes="_data._pagination.sizeOpts"
       :total="_data._pagination.total"
       :current-page="_data._pagination.page"
@@ -182,6 +182,11 @@ export default {
   .group-table {
     width: calc(100% - 32px);
     margin: 0 auto;
+
+    .table-form_reset {
+      font-size: 14px;
+    }
+
     .scope-name-tip {
       display: block;
       overflow: hidden;

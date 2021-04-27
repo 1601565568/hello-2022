@@ -23,6 +23,7 @@ export default {
     'content.textContent' (newVal, oldVal) {
       this.text2Emoji()
       this.tag2Html()
+      this.n2br()
     }
   },
   data () {
@@ -33,6 +34,7 @@ export default {
   mounted () {
     this.text2Emoji()
     this.tag2Html()
+    this.n2br()
   },
   methods: {
     text2Emoji () {
@@ -54,6 +56,10 @@ export default {
         tagDom.className = 'text-message-tag'
         return tagDom.outerHTML
       })
+    },
+    n2br () {
+      const strRegex = /\n/g
+      this.htmlContent = this.htmlContent.replace(strRegex, '<br>')
     }
   }
 }

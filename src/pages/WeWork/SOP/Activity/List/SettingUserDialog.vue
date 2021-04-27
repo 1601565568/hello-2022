@@ -1,12 +1,15 @@
 <template>
   <el-dialog
-    title="设置使用人员"
     width="842px"
+    height="206px"
     :visible="visible"
     @close="cancel"
     @open="open"
   >
-    <el-form class="setting-user el-form-reset" label-width="100px" label-position="left" v-loading="loading">
+    <template slot="title">
+      <h3 class="title">设置使用人员</h3>
+    </template>
+    <el-form class="setting-user el-form-reset" label-width="100px" label-position="left">
       <el-form-item label="选择人员">
         <el-radio-group v-model="type">
           <el-radio
@@ -176,6 +179,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "./styles/reset.css";
+.title {
+  font-size: 16px;
+}
+
 .setting-user {
   .select-area {
     margin-top: 11px;

@@ -313,19 +313,22 @@ export default {
           this.$notify.error('查询群信息失败')
         }).finally(() => {
           // 勾选默认值
+          this.selectedData = []
           this.employeeData.forEach(item => {
-            this.selectedData.forEach(selectedItem => {
-              if (selectedItem.chatId === item.chatId) {
-                this.$refs.employeeTable.toggleRowSelection(item, true)
-              }
-            })
-
-            this.selectedRoomIds.forEach(chatId => {
-              if (chatId === item.chatId) {
-                this.selectedData.push(item)
-                this.$refs.employeeTable.toggleRowSelection(item, true)
-              }
-            })
+            if (this.selectedRoomIds) {
+              this.selectedRoomIds.forEach(chatId => {
+                if (chatId === item.chatId) {
+                  this.selectedData.push(item)
+                  this.$refs.employeeTable.toggleRowSelection(item, true)
+                }
+              })
+            } else {
+              this.selectedData.forEach(selectedItem => {
+                if (selectedItem.chatId === item.chatId) {
+                  this.$refs.employeeTable.toggleRowSelection(item, true)
+                }
+              })
+            }
           })
           this.tableLoading = false
         })

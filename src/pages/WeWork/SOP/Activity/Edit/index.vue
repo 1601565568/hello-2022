@@ -4,7 +4,7 @@
       <div class='common-header flex-box'>
         <h3>社群日历</h3>
         <div class='common-btn'>
-          <ns-button class='customer-btn_cancel' size='large' @click="$router.go(-1)" :loading='btnLoading'>取消</ns-button>
+          <ns-button class='customer-btn_cancel' size='large' @click="$router.go(-1)" :loading="btnLoading">取消</ns-button>
           <ns-button class='customer-btn_save' type="primary" size='large' @click="saveActivity(SOPExamineStatus.UnSubmit)" :loading="btnLoading">保存</ns-button>
           <ns-button class='customer-btn_save' type="primary" size='large' @click="saveActivity(SOPExamineStatus.Pending)" :loading="btnLoading">保存并提交审核</ns-button>
         </div>
@@ -37,7 +37,16 @@
           </el-form-item>
           <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
               <el-radio-group v-model="model.sendType">
-              <el-radio :label="0">立即发送</el-radio>
+              <el-radio :label="0">
+                立即发送
+                <el-tooltip
+                  class="message-icons-item"
+                  content="审核成功后发送消息内容"
+                  placement="top"
+                >
+                  <Icon type="ns-help" className="icon"/>
+                </el-tooltip>
+              </el-radio>
               <el-radio :label="1">定时发送</el-radio>
             </el-radio-group>
             <el-form-grid v-if="model.sendType === 1">
@@ -382,7 +391,7 @@ export default {
                 this.$notify.error('活动保存失败')
               }
             }).finally(() => {
-              this.btnLoad = false
+              this.btnLoading = false
             })
         }
       })

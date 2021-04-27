@@ -29,10 +29,7 @@
             <ns-button type="text"  @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
           </ElFormGrid>
           <ElFormGrid>
-            <ns-button type="text" @click="insertPlaceHolderToWeb('{chatId}')"> &lt;好友微信ID&gt; </ns-button>
-          </ElFormGrid>
-          <ElFormGrid>
-            <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;导购userId&gt; </ns-button>
           </ElFormGrid>
         </el-form-item>
         <el-form-item>

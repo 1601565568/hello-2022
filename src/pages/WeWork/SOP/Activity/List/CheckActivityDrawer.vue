@@ -11,7 +11,13 @@
       <h3 class="title">查看</h3>
     </template>
     <div class="drawer_content" v-loading="loading">
-      <div class="drawer_content-header">
+      <div
+        class="drawer_content-header"
+        v-if="showBtn(activity.status, 'edit')
+          || showBtn(activity.status, 'submit')
+          || showBtn(activity.status, 'delete')
+          || showBtn(activity.status, 'examine')"
+      >
         <NsButton v-if="showBtn(activity.status, 'edit')" size="medium" @click="$emit('edit', activityId)">编辑</NsButton>
         <NsButton v-if="showBtn(activity.status, 'submit')" size="medium" @click="$emit('submit', activityId)">提交审核</NsButton>
         <NsButton v-if="showBtn(activity.status, 'delete')" size="medium" @click="$emit('delete', activityId)">删除</NsButton>
@@ -26,7 +32,7 @@
             <el-input :value="activity.name" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="创建人">
-            <el-input :value="activity.name" class="el-input" readonly></el-input>
+            <el-input :value="activity.creatorName" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="发送方式" v-if="activity.sendType === 0">
             <el-radio v-model="activity.sendType" :label="0">立即发送</el-radio>
@@ -200,9 +206,15 @@ export default {
   }
 
   .drawer_content {
+    position: relative;
     .drawer_content-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #fff;
       height: 65px;
-      margin-right: 14px;
+      width: 100%;
+      padding-right: 14px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -211,7 +223,7 @@ export default {
       .el-form-item {
         margin-bottom: 24px;
         .el-input {
-          width: 600px;
+          width: 610px;
         }
         .el-date-editor {
           width: 240px;

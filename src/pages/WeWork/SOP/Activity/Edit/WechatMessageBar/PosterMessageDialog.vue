@@ -81,7 +81,7 @@ export default {
 
       this.$emit('confirm', {
         type: 'poster',
-        mediaId: model.placard,
+        mediaid: model.placard,
         model: { model, configId: model.id }
       })
       this.close()

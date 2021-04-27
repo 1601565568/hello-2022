@@ -128,10 +128,13 @@ export default {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    div:nth-child(1) {
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
 
     div:nth-child(2) {
-      flex-shrink: 100;
-      max-height: 121px;
+      margin-top: 4px;
     }
   }
   .activity-card_footer {
@@ -148,14 +151,14 @@ export default {
         display: inline-block;
       }
       .message-icons-list {
-        margin-left: 5px;
+        margin-left: 3px;
         display: flex;
         align-items: center;
         height: 16px;
         font-size: 16px;
         width: 185px;
         .message-icons-item {
-          margin-left: 4px;
+          margin-left: 6.5px;
           flex-shrink: 1;
         }
 
