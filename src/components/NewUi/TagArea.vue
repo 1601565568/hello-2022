@@ -1,6 +1,19 @@
 <template>
   <div class="w-textarea" ref="wTextarea">
-    <div class="w-textarea_tools" v-if="tools.length > 0 || maxlength">
+    <span
+      :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
+      v-if="maxlength"
+    >
+      {{ count.text }}
+    </span>
+    <div class="w-textarea_tools__emoji" v-if="showEmoji">
+      <el-popover width="447" trigger="hover">
+        <i slot="reference"><Icon type="ns-expression" class="emoji-icon"/></i>
+        <!-- 可通过 emojiList 传入自定义的图标列表 -->
+        <emotion @emotion="addEmotion" :height="200" ref="emotion" />
+      </el-popover>
+    </div>
+    <div class="w-textarea_tools" v-if="tools.length > 0">
       <div class="w-textarea_tools_left">
         <el-tooltip
           v-for="item in tools"
@@ -23,21 +36,6 @@
             {{ item.text }}</span
           ></el-tooltip
         >
-        <span
-          :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
-          v-if="maxlength"
-        >
-          {{ count.text }}
-        </span>
-        <div class="w-textarea_tools__emoji" v-if='showEmoji'>
-          <el-popover
-            width="447"
-            trigger="hover">
-            <i slot="reference"><Icon type="ns-expression" class="emoji-icon"/></i>
-            <!-- 可通过 emojiList 传入自定义的图标列表 -->
-            <emotion @emotion="addEmotion" :height="200" ref='emotion'/>
-          </el-popover>
-        </div>
       </div>
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
@@ -84,13 +82,15 @@ export default {
       type: Boolean,
       default: false
     },
-    tag: { // 自定义模版标签的标签名
+    tag: {
+      // 自定义模版标签的标签名
       type: String,
       // 默认使用wise作为标签名，并添加了默认样式
       // 当使用其他标签名的时候，需要另写标签样式
       default: 'wise'
     },
-    tools: { // 自定义扩展功能：超链接'link'，模版标签'tag' 自定义类型'custom'：需传入自定义的回调函数
+    tools: {
+      // 自定义扩展功能：超链接'link'，模版标签'tag' 自定义类型'custom'：需传入自定义的回调函数
       type: Array,
       default () {
         return []
@@ -99,7 +99,8 @@ export default {
     placeholder: {
       type: String
     },
-    maxlength: { // 最大输入长度
+    maxlength: {
+      // 最大输入长度
       type: [String, Number],
       default: ''
     },
@@ -109,9 +110,13 @@ export default {
     }
   },
   computed: {
-    count () { // 字符长度记数
+    count () {
+      // 字符长度记数
       let num = this.maxlength - this.currentText.length
-      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
+      let text =
+        num < 0
+          ? `已超出${Math.abs(num)}个字符`
+          : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
     }
@@ -127,6 +132,7 @@ export default {
       const dom = document.getElementsByClassName('w-textarea_input')[0]
       this.currentText = dom.innerText
     }, 1000)
+    this.$refs.wTextareaContent.innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件
@@ -160,15 +166,20 @@ export default {
       this.showModal = false
     },
     openTagDialog (item) {
-      // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
-      if (item.type === 'custom') {
-        // 会调用传入的回调函数字段 callback
-        item.callback(item)
-      } else if (item.type === 'link') {
-        this.addLink(item.text, item.url)
-      } else {
-        this.addTag(item)
-      }
+      // 将事件抛给父组件处理
+      // 处理后需要调用 addTag() 或者 addLink() 将内容传回来
+      // this.$emit('add', item)
+      // // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
+      // if (item.type === 'custom') {
+      //   // 会调用传入的回调函数字段 callback
+      //   item.callback(item)
+      // } else if (item.type === 'link') {
+      //   this.addLink(item.text, item.url)
+      // } else {
+      //   this.addTag(item)
+      // }
+
+      this.addTag(item)
     },
     addTag (item) {
       // 创建模版标签
@@ -195,7 +206,8 @@ export default {
       node.innerText = text
       this.insertNode(node)
     },
-    insertNode (node) { // 判断是否第一次点击
+    insertNode (node) {
+      // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
         const dom = document.getElementsByClassName('w-textarea_input')[0]
         dom.focus()
@@ -206,7 +218,8 @@ export default {
         this.addNode(node)
       }
     },
-    addNode (node) { // 在内容中插入标签
+    addNode (node) {
+      // 在内容中插入标签
       // 删掉选中的内容（如有）
       // this.savedRange.deleteContents()
       // 插入链接
@@ -274,7 +287,7 @@ export default {
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
-        this.contentId
+          this.contentId
       ) {
         this.savedRange = range.cloneRange()
         // this.endDon = this.savedRange.endContainer
@@ -283,19 +296,32 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+      return html
+        .replace(/<wise.*?\bclass="/g, '{')
+        .replace(/">.*?<\/wise>/g, '}')
     },
     // 替换模板成标签
     stringTohtml (string) {
       if (this.$refs.emotion) {
         this.$refs.emotion.emojiList.map(item => {
-          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
-          string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${this.emojiClass}_[${item}]">${`[${item}]`}</wise>`)
+          const regexp = new RegExp(
+            '{' + this.emojiClass + '\\[' + item + '\\]}',
+            'g'
+          )
+          string = string.replace(
+            regexp,
+            `<wise id="${this.getGuid()}" class="${
+              this.emojiClass
+            }_[${item}]">${`[${item}]`}</wise>`
+          )
         })
       }
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
+        string = string.replace(
+          regexp,
+          `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
+        )
       })
       return string.replace(/\n/g, ' <br /> ')
     },
@@ -303,11 +329,16 @@ export default {
     stringTotext (string) {
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string.replace(regexp, '{' + item.value + '}').replace(/\n/g, ' <br /> ')
+        string = string
+          .replace(regexp, '{' + item.value + '}')
+          .replace(/\n/g, ' <br /> ')
       })
       if (this.$refs.emotion) {
         this.$refs.emotion.emojiList.map(item => {
-          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
+          const regexp = new RegExp(
+            '{' + this.emojiClass + '\\[' + item + '\\]}',
+            'g'
+          )
           string = string.replace(regexp, `[${item}]`)
         })
       }
@@ -315,13 +346,15 @@ export default {
     },
     // 替换标签成文字
     htmlToText (html) {
-      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}')
+      return html
+        .replace(/<wise.*?\bclass=".*?">/g, '{')
+        .replace(/<\/wise>/g, '}')
     }
   },
   watch: {
     value (val) {
       // 非锁定状态下，实时更新innerHTML
-      if (!this.isLocked) {
+      if (!this.isLocked && this.$refs.wTextareaContent) {
         this.$refs.wTextareaContent.innerHTML = val
       }
     }
@@ -347,7 +380,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-$borderColor: #D9D9D9;
+$borderColor: #d9d9d9;
 $bgColor: #f5f5f5;
 $textColor: #595959;
 
@@ -401,7 +434,7 @@ $textColor: #595959;
       color: $textColor;
       cursor: pointer;
       border-radius: 18px;
-      border:none;
+      border: none;
       line-height: 20px;
       background: #fff;
       transition: all 0.3s;
@@ -426,7 +459,7 @@ $textColor: #595959;
     }
     &__emoji {
       position: absolute;
-      bottom:0;
+      bottom: 0;
       left: 12px;
     }
     &__text {
@@ -438,9 +471,9 @@ $textColor: #595959;
       cursor: default;
       transition: all 0.3s;
       position: absolute;
-      bottom:0;
+      bottom: 0;
       right: 12px;
-      color: #C0C4CC;
+      color: #c0c4cc;
       &:hover {
         opacity: 1;
       }
@@ -452,7 +485,7 @@ $textColor: #595959;
   }
 }
 .emoji-icon {
-  font-size:16px;
-  color:#D9D9D9;
+  font-size: 16px;
+  color: #d9d9d9;
 }
 </style>

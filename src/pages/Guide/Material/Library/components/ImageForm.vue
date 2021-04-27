@@ -219,34 +219,22 @@
       <div>
         <div class="guide-text">指南说明</div>
         <tag-area :maxlength="1000" placeholder="请输入" :showEmoji='true' v-model="guideText" :tools='tools'></tag-area>
-        <!-- <el-input
-          class="library-guide-remind"
-          type="textarea"
-          placeholder="请输入"
-          v-model="guideText"
-          maxlength="1000"
-          show-word-limit
-          resize="none"
-        >
-        </el-input> -->
       </div>
       <div>
         <div class="guide-text">示意图</div>
         <div class="upload-view">
           <el-upload
             class="library-guide"
-            drag
             :action="this.$api.core.sgUploadFile('image')"
             :on-success="handleGuideSuccess"
             :before-upload="beforeAvatarUpload"
-            :file-list="showEidtImg"
             :on-remove="removeGuideImg"
           >
-            <div>
-              <Icon type="cloud-uploading" class="uploading-icon" />
-              <div class="el-upload-remind">点击或拖拽上传示意图</div>
-              <div class="el-upload-remind" slot="tip">
-                （建议：小于1M，jpg、png、jpeg格式）
+            <div style="width:90px;height:90px">
+              <div class="library-select-uploader" slot="reference">
+                <div class="el-upload--picture-card">
+                  <Icon type="plus" />
+                </div>
               </div>
             </div>
           </el-upload>
@@ -432,11 +420,8 @@ export default {
     },
     editImage (index) {
       this.editIndex = index
-      let item = this.mediaList[index]
-      this.guideText = item.pitText ? item.pitText : ''
-      let fileArr = item.url.split('/')
-      this.showEidtImg = [{ name: fileArr.pop(), url: item.url }]
-      // this.$refs.guideInfo.closeDeawer()
+      let item = this.model.mediaList[index]
+      this.guideText = item.pitText
       this.showEdit = !this.showEdit
     },
     handleImageType () {
@@ -618,7 +603,7 @@ export default {
   height: 140px;
 }
 .upload-view {
-  width: 100%;
+  width: 90px;
   background: #f5f5f5;
   border-radius: 2px;
   display: flex;
@@ -752,24 +737,19 @@ export default {
   }
   @b guide {
     background: #ffffff;
-    border: 1px dashed #d9d9d9;
     border-radius: ;
     display: block;
-    /* height: 112px; */
-    width: 100%;
-    margin: 16px;
+    width: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 16px;
     >>> .el-upload-dragger {
-      width: 100%;
-      height: 112px;
+      width: 90px;
+      height: 90px;
       border: none;
       background-color: transparent;
       &:hover {
-        /* border-color: var(--theme-color-primary); */
-        /* color: var(--theme-color-primary); */
+
       }
     }
     >>> .el-upload-remind {
