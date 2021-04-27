@@ -41,11 +41,7 @@
         <div class="drawer-showinfo">
           <div>
             <span>已完成员工 {{ numData.completionTotal }}人</span>
-            <span style="margin-left:46px" @click="toUnDataList"
-              >未完成员工
-              <span class="remind-text">{{ numData.noCompletionTotal }}</span
-              >人</span
-            >
+            <span style="margin-left:46px" @click="toUnDataList">未完成员工<span class="remind-text">{{ numData.noCompletionTotal }}</span>人</span>
           </div>
           <div class="drawer-output" @click="exportData">
             导出CSV文件
@@ -372,6 +368,7 @@ export default {
   border-radius: 2px;
   line-height: 32px;
   text-align: center;
+  cursor: pointer;
 }
 .drawer-select {
   margin-left: 16px;

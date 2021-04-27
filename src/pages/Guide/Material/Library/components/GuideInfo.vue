@@ -2,9 +2,10 @@
   <el-drawer
     :visible.sync="drawer"
     :direction="direction"
-    :before-close="handleClose"
     size="720px"
     :with-header="false"
+    :modal="false"
+    @close='handleClose'
   >
     <div>
       <div class="close-view">
@@ -47,7 +48,9 @@ export default {
     closeDeawer () {
       this.drawer = !this.drawer
     },
-    handleClose () {}
+    handleClose () {
+      this.drawer = false
+    }
   }
 }
 </script>
@@ -58,6 +61,7 @@ export default {
   color: #262626;
   line-height: 53px;
   padding-left: 16px;
+  font-weight: 500;
 }
 .drawer-sub-title {
   font-size: 14px;
