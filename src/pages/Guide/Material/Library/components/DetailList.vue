@@ -243,7 +243,6 @@ export default {
             this.listData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
           }
-          this.$notify.success(`${this.title}查询成功`)
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg(this.title, resp))

@@ -51,8 +51,16 @@
             v-for="(item, index) in mediaList"
             :key="index"
           >
-            <img v-if="item.pitType == 2" :src="defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
-            <img v-else :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
+            <img
+              v-if="item.pitType == 2"
+              :src="
+                defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+              "
+            />
+            <img
+              v-else
+              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
+            />
             <div class="library-image__mask">
               <div v-if="item.pitType == 1">
                 <Icon type="zoom-in" @click="previewImage(index)" />
@@ -218,7 +226,14 @@
     >
       <div>
         <div class="guide-text">指南说明</div>
-        <tag-area :maxlength="1000" placeholder="请输入" :showEmoji='true' v-model="guideText" :tools='tools'></tag-area>
+        <tag-area
+          :maxlength="1000"
+          placeholder="请输入"
+          :showEmoji="true"
+          v-model="guideText"
+          :tools="tools"
+          v-if="showEdit"
+        ></tag-area>
       </div>
       <div>
         <div class="guide-text">示意图</div>
@@ -229,11 +244,17 @@
             :on-success="handleGuideSuccess"
             :before-upload="beforeAvatarUpload"
             :on-remove="removeGuideImg"
+            :show-file-list="false"
           >
             <div style="width:90px;height:90px">
-              <div class="library-select-uploader" slot="reference">
-                <div class="el-upload--picture-card">
-                  <Icon type="plus" />
+              <div v-if="showEidtImg">
+                <img :src="showEidtImg" style="width:90px;height:90px" />
+              </div>
+              <div v-else>
+                <div class="library-select-uploader" slot="reference">
+                  <div class="el-upload--picture-card">
+                    <Icon type="plus" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -259,7 +280,14 @@ import TagArea from '@/components/NewUi/TagArea'
 export default {
   name: 'imageform',
   // components: { FolderTree, SelectMarket, SelectGoods },
-  components: { FolderTree, ElUpload, SelectMarket, SelectGoods, GuideInfo, TagArea },
+  components: {
+    FolderTree,
+    ElUpload,
+    SelectMarket,
+    SelectGoods,
+    GuideInfo,
+    TagArea
+  },
   props: {
     labelList: {
       type: Array,
@@ -305,8 +333,7 @@ export default {
         codeTarget: '',
         codeTargetName: '',
         mediaList: [],
-        materialScriptType: 1,
-        isUpdate: 0
+        materialScriptType: 1
       },
       rules: {
         name: [
@@ -349,7 +376,7 @@ export default {
       guideText: '',
       drawer: false,
       editIndex: 0,
-      showEidtImg: [],
+      showEidtImg: '',
       tools: []
     }
   },
@@ -375,7 +402,6 @@ export default {
         // }
       })
       this.model = tempModel
-      this.model.isUpdate = 1
       this.catalogue = parentIds.map((id, index) => ({
         id: +id,
         name: parentNames[index]
@@ -393,22 +419,18 @@ export default {
     },
     handleSure () {
       // 根据选中下标更新用户信息
-      // let item = this.mediaList[this.editIndex]
-      // if (item) {
-      //   item.pitText = this.guideText
-      // }
       if (this.model.mediaList.length < this.imageNum) {
         let item = this.model.mediaList[this.editIndex]
         if (item) {
           item.pitText = this.guideText
-          item.url = this.defaultImgUrl
+          item.url = this.showEidtImg
           this.model.mediaList[this.editIndex] = item
         } else {
           let obj = {
             pitType: 2,
             pitText: this.guideText,
             type: 1,
-            url: this.defaultImgUrl
+            url: this.showEidtImg
           }
           this.model.mediaList.push(obj)
         }
@@ -458,24 +480,27 @@ export default {
     },
     handleGuideSuccess (res, file) {
       let item = this.mediaList[this.editIndex]
-      item.url = res.result.url
+      if (item) {
+        item.url = res.result.url
+      } else {
+        let obj = {
+          pitType: 2,
+          pitText: this.guideText,
+          type: 1,
+          url: res.result.url
+        }
+        this.mediaList[this.editIndex] = obj
+      }
+      this.showEidtImg = res.result.url
     },
     addCustomImg () {
       // 添加坑位
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
       this.guideText = ''
+      this.showEidtImg = ''
       this.editIndex = this.model.mediaList.length
       this.showEdit = true
-      // if (this.model.mediaList.length < this.imageNum) {
-      //   let obj = {
-      //     pitType: 2,
-      //     pitText: '',
-      //     type: 1,
-      //     url: this.defaultImgUrl
-      //   }
-      //   this.model.mediaList.push(obj)
-      // }
     },
     beforeGuideUpload (file) {
       this.beforeAvatarUpload(file)
@@ -749,7 +774,6 @@ export default {
       border: none;
       background-color: transparent;
       &:hover {
-
       }
     }
     >>> .el-upload-remind {
