@@ -54,16 +54,16 @@ export default {
           { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
           { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
         ],
-        moneyMax: [
-          { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
-        ],
-        moneyMin: [
-          { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
-        ],
+        // moneyMax: [
+        //   { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
+        //   { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+        //   { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
+        // ],
+        // moneyMin: [
+        //   { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
+        //   { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+        //   { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
+        // ],
         benediction: [
           { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
         ]
@@ -83,7 +83,8 @@ export default {
       activityPost,
       staffPost,
       baguser,
-      fangRedpact
+      fangRedpact,
+      ValidateUtil
     }
   },
   computed: {
@@ -188,6 +189,9 @@ export default {
       this.posterInfo = this.$refs.fullDialog.checkItem || {}
       this.model.coverId = this.posterInfo.id
       this.changeVisible(false)
+    },
+    resetValite (ref) {
+      this.$refs.searchform.clearValidate('time')
     }
   },
   mounted () {

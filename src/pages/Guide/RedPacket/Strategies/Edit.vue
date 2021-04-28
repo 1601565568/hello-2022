@@ -60,12 +60,12 @@
               <el-form-item label='有效时间' required prop='timeType' class='larger-item'>
                 <el-radio-group v-model="model.timeType">
                   <template v-for='item in timeTypeList'>
-                    <el-radio :label="item.value" :key='item.value'>{{item.nick}}</el-radio>
+                    <el-radio :label="item.value" :key='item.value' @change="resetValite('timeItem')">{{item.nick}}</el-radio>
                   </template>
                 </el-radio-group>
                 <div class='form-item_time larger-item' v-if='model.timeType === timeTypeInterval'>
                   <div>时间范围</div>
-                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
+                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk ref='timeItem'>
                     <el-date-picker
                       v-model="model.time"
                       type="datetimerange"
@@ -85,7 +85,7 @@
               </el-form-item>
               <el-form-item label='单人单日发放个数上限（个）' required prop='limitType' class='larger-item'>
                 <div class='form-item_toptext'>
-                  <el-radio-group v-model="model.limitType">
+                  <el-radio-group v-model="model.limitType"  @change="resetValite('limitTypeItem')">
                     <el-radio :label="1">有限<el-tooltip content="达到上限后，不能再发送此红包"  placement="top">
                         <Icon type="question-circle" class='question-circle' />
                       </el-tooltip></el-radio>
@@ -93,7 +93,7 @@
                   </el-radio-group>
                 </div>
                 <div v-if='model.limitType === 1'>
-                  <el-form-item label-width="0px" label=' '  prop='everyoneLimit' hide-required-asterisk>
+                  <el-form-item label-width="0px" label=' '  prop='everyoneLimit' hide-required-asterisk  ref='limitTypeItem'>
                     <length-input v-model='model.everyoneLimit' placeholder="请输入单人单日发放个数上限" />
                   </el-form-item>
                 </div>
@@ -124,11 +124,19 @@
             </el-form-item>
             <el-form-item v-else-if='model.redpackType === luckyRed' label='红包总金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
-                <el-form-item label=' ' prop='moneyMin' class='larger-item'>
+                <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
+                    { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.intervalMoney.bind(this, 0.3, model.moneyMax || 5000), trigger: ['blur', 'change'] }
+                  ]">
                   <length-input v-model='model.moneyMin'/>
                 </el-form-item>
                 <span class='chain'></span>
-                <el-form-item label=' ' prop='moneyMax' class='larger-item'>
+                <el-form-item label=' ' prop='moneyMax' class='larger-item' :rules="[
+                    { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.intervalMoney.bind(this, model.moneyMin || 0.3, 5000), trigger: ['blur', 'change'] }
+                  ]">
                   <length-input v-model='model.moneyMax'/>
                 </el-form-item>
               </div>
