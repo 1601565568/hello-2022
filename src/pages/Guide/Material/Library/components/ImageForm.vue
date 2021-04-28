@@ -238,27 +238,36 @@
       <div>
         <div class="guide-text">示意图</div>
         <div class="upload-view">
-          <el-upload
-            class="library-guide"
-            :action="this.$api.core.sgUploadFile('image')"
-            :on-success="handleGuideSuccess"
-            :before-upload="beforeAvatarUpload"
-            :on-remove="removeGuideImg"
-            :show-file-list="false"
+          <div
+            v-if="showEidtImg"
+            style="width:114px;height:114x;position:relative;"
           >
-            <div style="width:90px;height:90px">
-              <div v-if="showEidtImg">
-                <img :src="showEidtImg" style="width:90px;height:90px" />
-              </div>
-              <div v-else>
-                <div class="library-select-uploader" slot="reference">
+            <div class="guide-mask">
+              <Icon type="delete" @click="removeGuideImage" />
+            </div>
+            <img
+              :src="showEidtImg"
+              style="width:114px;height:114px;border-radius: 2px;"
+            />
+          </div>
+          <div v-else>
+            <el-upload
+              class="library-guide"
+              :action="this.$api.core.sgUploadFile('image')"
+              :on-success="handleGuideSuccess"
+              :before-upload="beforeAvatarUpload"
+              :on-remove="removeGuideImg"
+              :show-file-list="false"
+            >
+              <div style="width:114px;height:114x;position:relative;">
+                <div class="library-select-guide-uploader" slot="reference">
                   <div class="el-upload--picture-card">
                     <Icon type="plus" />
                   </div>
                 </div>
               </div>
-            </div>
-          </el-upload>
+            </el-upload>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -412,6 +421,15 @@ export default {
     }
   },
   methods: {
+    removeGuideImage () {
+      this.showEidtImg = ''
+      let item = this.model.mediaList[this.editIndex]
+      if (item) {
+        item.url = ''
+        this.model.mediaList[this.editIndex] = item
+        this.showEidtImg = ''
+      }
+    },
     removeGuideImg () {
       let item = this.mediaList[this.editIndex]
       item.url = ''
@@ -439,6 +457,14 @@ export default {
     },
     handleCloseDia () {
       this.showEdit = false
+      this.guideText = ''
+      this.showEidtImg = ''
+      let item = this.model.mediaList[this.editIndex]
+      if (item) {
+        this.model.mediaList.splice(0, this.editIndex)
+      } else {
+        this.model.mediaList.pop()
+      }
     },
     editImage (index) {
       this.editIndex = index
@@ -628,12 +654,37 @@ export default {
   height: 140px;
 }
 .upload-view {
-  width: 90px;
+  width: 114px;
   background: #f5f5f5;
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.guide-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  line-height: 114px;
+  border-radius: var(--default-radius-mini);
+  &:hover {
+    opacity: 1;
+  }
+  svg {
+    cursor: pointer;
+  }
+  svg + svg {
+    margin-left: var(--default-margin-small);
+  }
 }
 
 @component-namespace library {
@@ -685,6 +736,21 @@ export default {
     }
   }
   @b uploader {
+    >>> .el-upload--picture-card {
+      width: 80px;
+      height: 80px;
+      border: none;
+      background-color: transparent;
+      color: #8c8c8c;
+      line-height: 80px;
+      border-radius: var(--default-radius-mini);
+      &:hover {
+        /* border-color: var(--theme-color-primary); */
+        /* color: var(--theme-color-primary); */
+      }
+    }
+  }
+  @b guide-uploader {
     >>> .el-upload--picture-card {
       width: 80px;
       height: 80px;
@@ -764,13 +830,13 @@ export default {
     background: #ffffff;
     border-radius: ;
     display: block;
-    width: 90px;
+    width: 114px;
     display: flex;
     align-items: center;
     justify-content: center;
     >>> .el-upload-dragger {
-      width: 90px;
-      height: 90px;
+      width: 114px;
+      height: 114px;
       border: none;
       background-color: transparent;
       &:hover {
