@@ -60,6 +60,9 @@ export default {
     // 返回列表
     handleCancel () {
       this.$router.push({ path: '/Social/SocialOperation/RedPacket/Poster/List' })
+    },
+    handleDownload () {
+      window.open('https://shopguide.oss-cn-hangzhou.aliyuncs.com/%E6%9C%8B%E5%8F%8B%E5%9C%88/202101/10000146/%E7%BA%A2%E5%8C%85%E5%B0%81%E9%9D%A2%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.zip')
     }
   },
   mounted () {

@@ -20,6 +20,7 @@
             <el-form-item label='红包背景图' required prop='background'>
               <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
               </drap-upload>
+              <ns-button type='text' style='margin-top:16px' @click='handleDownload'>下载设计模板</ns-button>
             </el-form-item>
           </template>
           <template slot='collapse-right'>

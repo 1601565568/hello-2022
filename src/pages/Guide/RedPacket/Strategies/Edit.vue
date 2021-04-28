@@ -86,7 +86,7 @@
               <el-form-item label='单人单日发放个数上限（个）' required prop='limitType' class='larger-item'>
                 <div class='form-item_toptext'>
                   <el-radio-group v-model="model.limitType">
-                    <el-radio :label="1">有限<el-tooltip content="可前往“系统设置->授权管理->支付配置”添加支付商户号"  placement="top">
+                    <el-radio :label="1">有限<el-tooltip content="达到上限后，不能再发送此红包"  placement="top">
                         <Icon type="question-circle" class='question-circle' />
                       </el-tooltip></el-radio>
                     <el-radio :label="2">不限</el-radio>
@@ -101,7 +101,14 @@
             </template>
             <template slot='collapse-right'>
               <div class='mobile-content'>
-
+                <img class='redpacket-userimg' :src='baguser'>
+                <div class='mobile-chat'>
+                  <h3 class='mobile-h3'>{{model.name|| '返利红包'}}</h3>
+                  <div class='mobile-detail'>
+                    <p class='mobile-p'>{{model.benediction || '大吉大利，恭喜发财'}}</p>
+                    <img :src='fangRedpact'>
+                  </div>
+                </div>
               </div>
               <p class='collapse-right__bottom'>好友收到红包消息预览图</p>
             </template>
@@ -112,26 +119,34 @@
         <recruitment-collapse title='红包信息' phoneTitle=''>
           <template slot='collapse-left'>
             <el-form-item v-if='model.redpackType === normalRed' label='单个红包金额（元）' required prop='money' class='larger-item'>
-              <length-input v-model='model.money' oninput="value=value.replace(/[^\d]/g,'')"/>
-              <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为1~200</p>
+              <length-input v-model='model.money' oninput="value=value.replace(/[^\d.]/g,'')"/>
+              <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为0.3~5000</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包总金额（元）' required prop='moneyMin' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包总金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
-                <length-input v-model='model.moneyMin'/>
+                <el-form-item label=' ' prop='moneyMin' class='larger-item'>
+                  <length-input v-model='model.moneyMin'/>
+                </el-form-item>
                 <span class='chain'></span>
-                <length-input v-model='model.moneyMax'/>
+                <el-form-item label=' ' prop='moneyMax' class='larger-item'>
+                  <length-input v-model='model.moneyMax'/>
+                </el-form-item>
               </div>
               <p class='prompt-text'><span class='yellow-point'></span>每个拼手气红包的总金额</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === diyRed' label='单个红包可发放金额（元）' required prop='moneyMin' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === diyRed' label='单个红包可发放金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
-                <length-input v-model='model.moneyMin'/>
+                <el-form-item label=' ' prop='moneyMin' class='larger-item'>
+                  <length-input v-model='model.moneyMin' oninput="value=value.replace(/[^\d.]/g,'')"/>
+                </el-form-item>
                 <span class='chain'></span>
-                <length-input v-model='model.moneyMax'/>
+                <el-form-item label=' ' prop='moneyMax' class='larger-item'>
+                  <length-input v-model='model.moneyMax' oninput="value=value.replace(/[^\d.]/g,'')"/>
+                </el-form-item>
               </div>
             </el-form-item>
             <el-form-item label='红包祝福语' prop='benediction' class='larger-item'>
-              <length-input v-model='model.benediction' type='textarea' placeholder="恭喜发财，大吉大利" :length='20'/>
+              <length-input type="textarea" v-model='model.benediction' placeholder="恭喜发财，大吉大利" :length='20'/>
               <el-checkbox v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
             </el-form-item>
             <el-form-item label='红包封面' prop='coverId' class='larger-item'>
@@ -142,14 +157,14 @@
                 </el-tooltip>
               </template>
               <div class='poster-container'>
-                <div class='poster-img'><RedPacket :bgImage='posterInfo.activityPoster' :bgHasFont='true'/></div>
+                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction' previewType='dialog' :bgHasFont='false'/></div>
                 <ns-button type='text' class='choose-poster' @click='handleChangePoster'>选择封面</ns-button>
               </div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
             <div class='preview-img'>
-              <RedPacketContent />
+              <RedPacketContent :money='model.money' :benediction='model.benediction' :moneyMax='model.moneyMax' :moneyMin='model.moneyMin' :redpackType='model.redpackType' />
             </div>
           </template>
           <template slot='collapse-right__bottom'>
@@ -166,7 +181,7 @@
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
       :visible="visible">
-      <PosterList ref='fullDialog'/>
+      <PosterList ref='fullDialog' :checked='model.coverId'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="changeVisible(false)">取 消</ns-button>
         <ns-button type="primary" @click="handleSure">确 定</ns-button>
@@ -185,8 +200,9 @@ import PageEdit from '@/components/NewUi/PageEdit'
 import RedPacket from '../components/RedPacket'
 import RedPacketContent from '../components/RedPacketContent'
 import PosterList from '../components/PosterList'
+import PreviewRedPacket from '../components/PreviewRedPacket'
 Index.components = {
-  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse, RedPacketContent, Box, PosterList
+  RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, RedPacket, SimpleCollapse, RedPacketContent, Box, PosterList, PreviewRedPacket
 }
 export default Index
 </script>
@@ -243,10 +259,81 @@ export default Index
       margin: 0 8px;
     }
   }
+  .mobile-content {
+    background: #F5F5F5;
+    padding: 53px 21px;
+    display: flex;
+    align-items: flex-start;
+    width: 326px;
+    box-sizing: border-box;
+    margin-left: 10%;
+    margin: 100px auto 8px auto;
+    .redpacket-userimg {
+      width: 40px;
+      height: 40px;
+      border-radius: 2px;
+    }
+    .mobile-chat {
+      background-color: #fff;
+      padding: 8px 12px 13px 18px;
+      margin-left: 8px;
+      width:238px;
+      box-sizing: border-box;
+      .mobile-h3 {
+        font-size: 16px;
+        color: #262626;
+        line-height: 20px;
+        word-break: break-all;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .mobile-detail {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        img {
+          width: 50px;
+          max-width: 50px;
+          height: 50px;
+          flex: 1;
+          margin-left: 24px;
+        }
+      }
+      .mobile-p {
+        margin-top: 4px;
+        font-size: 14px;
+        color: #8C8C8C;
+        line-height: 22px;
+        word-break: break-all;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
 </style>
 <style scoped>
 .out-content >>> .full-dialog{
   padding-bottom: 20px;
   box-sizing: content-box;
+}
+.input-chain {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
+  >>> .el-form-item__label {
+    width: 0 !important;
+  }
+  >>> .el-form-item__content {
+    margin-left: 0 !important;
+  }
+}
+.form-item_time {
+  >>> .el-form-item__label:before {
+    display: none !important ;
+  }
 }
 </style>

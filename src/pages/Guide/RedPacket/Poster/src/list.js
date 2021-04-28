@@ -3,7 +3,8 @@ export default {
   data () {
     return {
       model: {
-        name: ''
+        name: '',
+        operatorName: ''
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList
@@ -15,7 +16,7 @@ export default {
   },
   methods: {
     handleSearch () {
-      this.changeSearchfrom({ name: this.model.name })
+      this.changeSearchfrom(this.model)
     },
     /**
      * 修改搜索项
@@ -32,7 +33,11 @@ export default {
       })
     },
     // 删除封面
-    handleDelete (id) {
+    handleDelete (id, isDefault) {
+      if (isDefault) {
+        this.$notify.error('默认封面不能删除')
+        return false
+      }
       this.$confirm('删除后不可恢复，使用此封面的红包替换为默认封面', '确定删除？', {
         confirmButtonText: '确定',
         type: 'warning',
@@ -49,6 +54,21 @@ export default {
         }).catch(() => {
           this.$notify.error('操作失败')
         })
+    },
+    handleSort (data) {
+      this.changeSearchfrom({ sortName: data.prop, sortType: data.order === 'ascending' ? 1 : 0 })
+    },
+    handleChangeState (id, isDefault) {
+      if (isDefault) {
+        this.$notify.error('至少有一个默认封面')
+        return false
+      }
+      this.$http.fetch(this.$api.guide.redpacket.setDefault(id)).then(res => {
+        if (res.success) {
+          this.$notify.success('操作成功')
+          this.$searchAction$()
+        }
+      })
     }
   }
 }

@@ -24,8 +24,12 @@
                         </template>
                       </div>
                     </template>
-                    <template v-else-if='item.key === "linkApp"'>
-                      <div></div>
+                    <template v-else-if='item.key === "officialAccount"'>
+                      <div v-if='item.value' class='form-item card-value'>
+                        <img :src='item.value.headImgUrl' />
+                        <span>{{item.value.nickName}}</span>
+                      </div>
+                      <div v-else class='form-item card-value'>-</div>
                     </template>
                     <template v-else>
                       <div class='card-value'>{{item.value}}</div>
@@ -43,16 +47,16 @@
       title="支付设置"
       :visible.sync="visible"
       width="500px">
-      <el-form class='drawer-form' :model="drawerData" ref="form" label-width="95px">
-        <el-form-item label="支付商户号" required>
-          <el-input v-model="drawerData.mchid" placeholder="请输入支付商户号,最多输入32个字符" :length='32'></el-input>
+      <el-form class='drawer-form' :model="drawerData" ref="form" label-width="95px" :rules="rules">
+        <el-form-item label="支付商户号" prop='mchid' required>
+          <el-input v-model="drawerData.mchid" placeholder="请输入支付商户号" :length='32'></el-input>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取支付商户号</span>
             <ns-button type='text' @click='jumpGuide(1)'>立即查看</ns-button>
           </div>
         </el-form-item>
-        <el-form-item label="支付密钥" required>
+        <el-form-item label="支付密钥" prop='key' required>
           <el-input v-model="drawerData.key" placeholder="请输入支付密钥" :length='20' type='password'></el-input>
           <div class='label-tip'>
             <span class='label-point'></span>
@@ -60,11 +64,11 @@
             <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
           </div>
         </el-form-item>
-        <el-form-item label="API证书" required>
+        <el-form-item label="API证书" prop='cert' required>
           <el-upload
             class="upload-demo"
             accept=".p12,.P12"
-            :action="$api.core.sgUploadFile('test')"
+            :action="$api.core.uploadCert()"
             :on-remove='handleRemove'
             :show-file-list='false'
             :before-upload="beforeUpload"
@@ -72,14 +76,23 @@
           >
             <ns-button size="small" type="text">上传证书</ns-button>
           </el-upload>
+          <div class="el-upload-list el-upload-list--text" v-if='drawerData.cert'>
+            <div class='el-upload-list__item'>
+              <a class="el-upload-list__item-name">
+                <i class="el-icon-document"></i>
+                {{drawerData.cert}}
+              </a>
+            </div>
+          </div>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
             <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
           </div>
         </el-form-item>
-        <el-form-item label="证书有效期" required>
+        <el-form-item label="证书有效期" prop='time'>
           <el-date-picker
+            style='width:100%'
             v-model="drawerData.time"
             type="daterange"
             range-separator="至"
@@ -87,8 +100,15 @@
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="关联公众号" required>
-          <el-input v-model="drawerData.name" placeholder="请输入支付商户号" :length='32'></el-input>
+        <el-form-item label="关联公众号" prop='mchAppid' required>
+          <el-select v-model='drawerData.mchAppid' style='width:100%'>
+            <el-option
+              v-for="item in appIdList"
+              :key="item.appId"
+              :label="item.nickName"
+              :value="item.appId">
+            </el-option>
+          </el-select>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何关联公众号</span>
@@ -97,8 +117,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="visible = false">取消</ns-button>
-        <ns-button type="primary" @click="visible = false">确定</ns-button>
+        <ns-button @click="handleCancel" :loading='btnLoad'>取消</ns-button>
+        <ns-button type="primary" @click="handleSubmit" :loading='btnLoad'>确定</ns-button>
       </span>
     </el-dialog>
   </div>
@@ -118,6 +138,7 @@ export default Index
 @import "@components/NewUi/styles/reset.css";
 .card-warrper {
   padding: 0 8px;
+  margin-bottom: 16px;
   .card-content {
     background-color: #fff;
     border-radius: 5px;
@@ -170,6 +191,15 @@ export default Index
   }
   .label-text {
     margin: 0 16px 0 8px;
+  }
+}
+.form-item {
+  display: flex;
+  align-items: center;
+  img {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
   }
 }
 </style>

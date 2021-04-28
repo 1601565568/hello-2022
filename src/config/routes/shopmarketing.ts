@@ -184,6 +184,35 @@ export default {
           'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
         }
       ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Analysis',
+      'name': 'redPacketAnalysis',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketAnalysis'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Analysis',
+          'name': 'redPacketAnalysis',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/Analysis/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/ReceiveRecord',
+          'name': 'redPacketAnalysis',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/ReceiveRecord/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/SendRecord',
+          'name': 'redPacketAnalysis',
+          'title': '红包策略',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/SendRecord/index.vue')
+        }
+      ]
     }
   ]
 }

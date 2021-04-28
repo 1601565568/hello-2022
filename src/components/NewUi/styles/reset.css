@@ -227,3 +227,15 @@
 /* .NsUi_select {
   width: 100%;
 } */
+.blue-tip {
+  background: #F2F9FE;
+  border-radius: 2px;
+  padding: 9px 16px;
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

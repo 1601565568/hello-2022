@@ -1,5 +1,9 @@
 import { timeTypeInterval, timeTypeForever, redpacketTypeList, setTypeList, timeTypeList, normalRed, luckyRed, diyRed, staffPost, activityPost } from '../../const'
+import baguser from '@/assets/baguser.png'
+import fangRedpact from '@/assets/fangRedpact.png'
+import ValidateUtil from '@/utils/validateUtil'
 import { mapState } from 'vuex'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -14,7 +18,7 @@ export default {
         limitType: 1,
         everyoneLimit: '',
         money: '',
-        benediction: '',
+        benediction: '恭喜发财，大吉大利',
         coverId: null,
         customizeType: false,
         moneyMax: '',
@@ -31,17 +35,37 @@ export default {
           { required: true, message: '请选择支付商户号', trigger: ['blur', 'change'] }
         ],
         name: [
-          { required: true, message: '请填写红包名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 10, message: '长度在1-10个字符', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入红包名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 10, message: '长度在1-10字符', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
         total: [
-          { required: true, message: '请填写红包总数', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入红包总数', trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] }
         ],
         everyoneLimit: [
-          { required: true, message: '请填写 单人单日发放个数上限', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入单人单日发放个数上限', trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] }
+        ],
+        money: [
+          { required: true, message: '请输入金额', trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
+        ],
+        moneyMax: [
+          { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
+        ],
+        moneyMin: [
+          { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+          { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
+        ],
+        benediction: [
+          { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
         ]
       },
       visible: false,
@@ -57,7 +81,9 @@ export default {
       luckyRed,
       diyRed,
       activityPost,
-      staffPost
+      staffPost,
+      baguser,
+      fangRedpact
     }
   },
   computed: {
@@ -73,9 +99,18 @@ export default {
         this.$http.fetch(this.$api.guide.redpacket.getStrategies, { id }).then((res) => {
           if (res.success) {
             this.model = this.formatData(res.result, 'load')
+            this.posterInfo.background = res.result.background
           }
         }).catch((resp) => {
-
+          this.$notify.error(getErrorMsg('获取失败', resp))
+        })
+      } else {
+        this.$http.fetch(this.$api.guide.redpacket.getCoverList, { start: 0, length: 1 }).then((res) => {
+          if (res.success) {
+            this.model.coverId = res.result.data[0].id
+          }
+        }).catch((resp) => {
+          this.$notify.error(getErrorMsg('获取失败', resp))
         })
       }
     },
@@ -96,18 +131,21 @@ export default {
         limitType: data.limitType,
         everyoneLimit: data.everyoneLimit,
         benediction: data.benediction,
-        coverId: data.coverId,
-        moneyMax: data.moneyMax,
-        moneyMin: data.moneyMin,
-        money: data.money
+        coverId: data.coverId
       }
       if (type === 'load') {
         obj.time = [data.startTime, data.endTime]
         obj.customizeType = data.customizeType === 1
+        obj.moneyMax = data.moneyMax / 100
+        obj.moneyMin = data.moneyMin / 100
+        obj.money = data.money / 100
       } else {
         obj.startTime = data.time[0]
         obj.endTime = data.time[1]
         obj.customizeType = 2 - data.customizeType
+        obj.moneyMax = data.moneyMax * 100
+        obj.moneyMin = data.moneyMin * 100
+        obj.money = data.money * 100
       }
       return obj
     },
@@ -149,12 +187,13 @@ export default {
     handleSure () {
       this.posterInfo = this.$refs.fullDialog.checkItem || {}
       this.model.coverId = this.posterInfo.id
-      console.log(this.model.coverId)
       this.changeVisible(false)
     }
   },
   mounted () {
-    this.$store.dispatch('pay/getWxpayList')
+    this.$store.dispatch('pay/getWxpayList').then(res => {
+      this.model.payConfigId = res[0].id
+    })
     this.init()
   }
 }

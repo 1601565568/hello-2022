@@ -31,6 +31,18 @@ export default {
       method: 'POST'
     }
   },
+  // 设置默认封面
+  setDefault (id) {
+    return {
+      url: prefix + `cover/${id}/setDefault`,
+      method: 'POST'
+    }
+  },
+  // 茶轩员工或店铺列表
+  getShopOrGuideList: {
+    url: prefix + `send/setting/shopOrGuideList`,
+    method: 'POST'
+  },
   // 获取红包策略列表
   getStrategiesList: {
     url: prefix + 'policy/list',
@@ -59,6 +71,11 @@ export default {
   // 发红包列表
   getSendList: {
     url: prefix + 'send/setting/list',
+    method: 'post'
+  },
+  // 设置发红包状态
+  updateSendState: {
+    url: prefix + 'send/setting/updateState',
     method: 'post'
   }
 }

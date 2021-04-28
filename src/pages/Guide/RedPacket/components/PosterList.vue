@@ -34,7 +34,7 @@
               <template slot-scope="scope">
                 <div class="scope-title">
                   <el-radio :value="checkItem.id" :label="scope.row.id" @change='handleCheck(scope.row)'><span></span></el-radio>
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background'  previewType='dialog'/></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab" v-if='scope.row.isDefault'>
                     默认
@@ -97,8 +97,10 @@ export default {
   components: {
     PageTable, PreviewRedPacket
   },
+  props: ['checked'],
   mounted () {
     this.$reload()
+    this.checkItem.id = this.checked
   },
   methods: {
     handleSearch () {

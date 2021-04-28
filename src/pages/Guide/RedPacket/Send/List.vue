@@ -1,10 +1,10 @@
 <template>
   <div>
-    <page-table title='红包策略'>
+    <page-table title='发红包'>
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="参与员工：">
+          <el-form-item label="使用员工：">
             <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
               <template slot='selfBtn'>
                 <div class='self-btn'>
@@ -24,51 +24,76 @@
       <template slot='table'>
         <template>
           <el-table
-            :data="data"
+            :data="_data._table.data"
             class="new-table_border"
-            :row-style="tableRowClassName"
+            @sort-change="handleSort"
             style="width: 100%">
             <el-table-column
               prop="name"
               label="红包名称">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <img :src='redPacket' class='scope-img' />
-                  <div class="scope-title_text">
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
+                  <!-- <img :src='redPacket' class='scope-img' /> -->
+                  <div class="scope-title_tab">
                     {{scope.row.name}}
                   </div>
                 </div>
               </template>
             </el-table-column>
             <el-table-column
-              prop="guideNames"
+              prop="state"
               label="红包类型">
               <template slot-scope="scope">
-                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>
+                {{redpacketTypeMap[scope.row.redpackType]}}
               </template>
             </el-table-column>
             <el-table-column
-              prop="createName"
+              prop="money"
               label="单个金额">
+              <template slot-scope="scope">
+                <template v-if='scope.row.redpackType === normalRed'>
+                  {{$numeral(money/100).format('0,0.00')}}
+                </template>
+                <template v-else>
+                  {{$numeral(moneyMin/100).format('0,0.00')}} - {{$numeral(moneyMax/100).format('0,0.00')}}
+                </template>
+              </template>
             </el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="remainder"
               :sortable="'custom'"
               label="剩余个数">
             </el-table-column>
             <el-table-column
               align='center'
-              width='100px'
-              :sortable="'custom'"
               label="使用人员">
+              <div class="scope-name" slot-scope="scope">
+                <template v-if='scope.row.useType === 1'>
+                  全部员工
+                </template>
+                <template v-else>
+                  <ns-button type='text'  @click='handlePreview(scope.row.settingId,scope.row.useType)'>{{scope.row.useNum}}{{`${scope.row.useType === 2 ? '家门店': '名员工'}`}}</ns-button>
+                </template>
+              </div>
             </el-table-column>
             <el-table-column
               align='center'
+              width='300px'
               label="红包有效期">
+              <template slot-scope="scope">
+                {{scope.row.startTime}}-{{scope.row.endTime}}
+              </template>
             </el-table-column>
             <el-table-column
               align='center'
               label="状态">
+              <template slot-scope="scope">
+                <el-switch
+                  @change='handleChangeState(scope.row.settingId,scope.row.state)'
+                  :value="scope.row.state === 1">
+                </el-switch>
+              </template>
             </el-table-column>
           </el-table>
         </template>
@@ -89,14 +114,24 @@
       </template>
       <!-- 页面 end -->
     </page-table>
+    <el-dialog ref="friendsList" :visible.sync="visible"
+               title="使用员工"
+               width="960px">
+      <user-list v-if='visible' ref='employeeTable' :data="chooseItem"></user-list>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="visible = false">确定</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Index from './src/list'
 import PageTable from '@/components/NewUi/PageTablePro'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import PreviewRedPacket from '../components/PreviewRedPacket'
+import UserList from '../components/UserList'
 Index.components = {
-  PageTable, NsGuideDialog
+  PageTable, NsGuideDialog, PreviewRedPacket, UserList
 }
 export default Index
 </script>
@@ -106,7 +141,13 @@ export default Index
   font-size: 25px;
 }
 .scope-img {
-  height: 50px;
+  min-width: 38.66px;
+  max-width: 38.66px;
+  margin-right: 15.67px;
+}
+.scope-title {
+  display: flex;
+  align-items: center;
 }
 .self-btn {
   width: 150px;
@@ -119,4 +160,15 @@ export default Index
     color:#C0C4CC;
   }
 }
+.scope-name_text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    &.more:after {
+      content:'...'
+    }
+  }
 </style>

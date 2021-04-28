@@ -20,8 +20,8 @@ export const redpacketTypeList = [ // 红包类型列表
   }
 ]
 // 红包发放相关
-export const staffPost = 1
-export const activityPost = 2
+export const staffPost = 1 // 员工发放
+export const activityPost = 2 // 活动发放
 export const setTypeList = [ // 红包投放类型列表
   {
     label: '员工发放',

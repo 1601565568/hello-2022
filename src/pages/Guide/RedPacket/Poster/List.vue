@@ -10,7 +10,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+            <el-input v-model="model.operatorName" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
@@ -26,6 +26,7 @@
           <el-table
             :data="_data._table.data"
             class="new-table_border"
+            @sort-change="handleSort"
             style="width: 100%">
             <el-table-column
               prop="name"
@@ -46,20 +47,22 @@
             </el-table-column>
             <el-table-column
               prop="createTime"
-              align='center'
               :sortable="'custom'"
               label="创建时间">
             </el-table-column>
             <el-table-column
-              prop="operatorId"
-              align='center'
+              prop="operatorName"
               label="创建人">
+              <template slot-scope="scope">
+                {{scope.row.operatorName||'-'}}
+              </template>
             </el-table-column>
             <el-table-column
               align='center'
               label="默认封面">
               <template slot-scope="scope">
                 <el-switch
+                  @change='handleChangeState(scope.row.id,scope.row.isDefault)'
                   :value="scope.row.isDefault">
                 </el-switch>
               </template>
@@ -71,7 +74,7 @@
               <template slot-scope="scope">
                 <ns-button type="text" @click='handleDetail({id:scope.row.id})'>编辑</ns-button>
                 <PreviewRedPacket :bgImage='scope.row.background'><ns-button type="text">查看</ns-button></PreviewRedPacket>
-                <ns-button type="text" @click='handleDelete(scope.row.id)'>删除</ns-button>
+                <ns-button type="text" @click='handleDelete(scope.row.id,scope.row.isDefault)'>删除</ns-button>
               </template>
             </el-table-column>
           </el-table>

@@ -2,7 +2,7 @@
   <div>
     <page-table title='红包策略'>
       <!-- 搜索 start -->
-      <template slot='search' v-if='!isEmpty'>
+      <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
             <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
@@ -19,7 +19,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="有效期：" class='el-form__change'>
+          <el-form-item label="有效期：">
             <el-date-picker
               v-model="seachDate"
               type="datetimerange"
@@ -53,33 +53,23 @@
           </el-form-item>
         </el-form>
       </template>
-      <template slot='button' v-if='!isEmpty'>
+      <template slot='button'>
         <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
       <template slot='table'>
-        <template v-if='isEmpty'>
-          <div class='empty-content'>
-            <div class='empty'>
-              <img class='empty-img' :src='redPacketEmpty'/>
-              <p class='empty-p'>你还没有配置支付商户号哦~</p>
-              <div class='empty-div'>可前往【系统设置】->【授权管理】->【支付配置】进行配置 <ns-button type='text' class='empty-btn' @click='handleGoPay'>去配置</ns-button></div>
-            </div>
-          </div>
-        </template>
-        <template v-else>
+        <template>
           <el-table
             :data="_data._table.data"
             class="new-table_border"
-            @sort-change="handleSort"
             style="width: 100%">
             <el-table-column
               prop="name"
               label="红包名称">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab">
                     {{scope.row.name}}
@@ -96,7 +86,6 @@
             </el-table-column>
             <el-table-column
               prop="total"
-              :sortable="'custom'"
               label="红包总数">
             </el-table-column>
             <el-table-column
@@ -155,7 +144,7 @@
       </template>
       <!-- 表格 end -->
       <!-- 页面 start -->
-      <template slot='pagination' v-if='!isEmpty'>
+      <template slot='pagination'>
         <el-pagination v-if="_data._pagination.enable"
                         class="template-table__pagination"
                         :page-sizes="_data._pagination.sizeOpts"
@@ -172,11 +161,10 @@
   </div>
 </template>
 <script>
-import Index from './src/list'
+import Index from './src/index'
 import PageTable from '@/components/NewUi/PageTablePro'
-import PreviewRedPacket from '../components/PreviewRedPacket'
 Index.components = {
-  PageTable, PreviewRedPacket
+  PageTable
 }
 export default Index
 </script>
@@ -193,35 +181,5 @@ export default Index
 .scope-title {
   display: flex;
   align-items: center;
-}
-.empty-content {
-  height: calc(100vh - 280px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .empty-img {
-    display: block;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
-  }
-  .empty-p {
-    margin-top: 40px;
-    margin-bottom: 47px;
-    font-size: 14px;
-    color: #8C8C8C;
-    text-align: center;
-    line-height: 22px;
-  }
-  .empty-div {
-    font-size: 14px;
-    color: #262626;
-    text-align: center;
-    line-height: 22px;
-    .empty-btn {
-      font-size: 14px;
-      margin-left: 16px;
-    }
-  }
 }
 </style>

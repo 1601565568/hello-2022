@@ -1,3 +1,4 @@
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -15,7 +16,7 @@ export default {
           value: ''
         },
         {
-          key: 'expireApi',
+          key: 'cert',
           name: 'API证书',
           isRequire: true,
           value: ''
@@ -26,7 +27,7 @@ export default {
           value: ''
         },
         {
-          key: 'linkApp',
+          key: 'officialAccount',
           name: '关联公众号',
           isRequire: true,
           value: ''
@@ -35,7 +36,25 @@ export default {
       btnLoad: false,
       visible: false,
       drawerData: {},
-      data: []
+      drawerKey: '',
+      data: [],
+      appIdList: [],
+      rules: {
+        mchid: [
+          { required: true, message: '请输入支付商户号', trigger: ['blur', 'change'] },
+          { min: 1, max: 32, message: '长度在1-32个字符', trigger: ['blur', 'change'] }
+        ],
+        key: [
+          { required: true, message: '请输入支付密钥', trigger: ['blur', 'change'] },
+          { min: 1, max: 32, message: '长度在1-32个字符', trigger: ['blur', 'change'] }
+        ],
+        cert: [
+          { required: true, message: '请选择API证书', trigger: ['blur', 'change'] }
+        ],
+        mchAppid: [
+          { required: true, message: '请选择关联公众号', trigger: ['blur', 'change'] }
+        ]
+      }
     }
   },
   methods: {
@@ -50,9 +69,9 @@ export default {
      * 打开编辑
      */
     handleEdit (item) {
-      this.drawerData = item
+      this.drawerData = this.formatData(item, 'load')
+      this.drawerKey = item.key
       this.changeVisible(true)
-      console.log(this.drawerData)
     },
     /**
      * 修改visible
@@ -74,7 +93,9 @@ export default {
      */
     getWeChatOfficialAccounts () {
       this.$http.fetch(this.$api.guide.pay.getWeChatOfficialAccounts).then(res => {
-        console.log(res)
+        if (res.success) {
+          this.appIdList = res.result
+        }
       })
     },
     /**
@@ -96,9 +117,64 @@ export default {
       return list.map(item => {
         const mapList = this.mapItem.map(items => ({
           ...items,
-          value: item[items.key]
+          value: items.key === 'expireTime' ? (item.startTime && item.expireTime ? `${item.startTime} 至 ${item.expireTime}` : '-') : item[items.key]
         }))
         return { ...item, mapList }
+      })
+    },
+    handleCancel () {
+      this.$refs.form.resetFields()
+      this.changeVisible(false)
+      this.drawerData = {}
+      this.drawerKey = ''
+    },
+    /**
+     * 提交审核
+     */
+    handleSubmit () {
+      this.btnLoad = true
+      this.$refs.form.validate(async (valid) => {
+        if (!valid) {
+          this.btnLoad = false
+        } else {
+          this.onSubmit(this.formatData(this.drawerData, 'submit'))
+        }
+      })
+    },
+    /**
+     * 格式化model内容
+     * @param {*} data
+     * @param {*} type
+     */
+    formatData (data, type) {
+      const obj = {
+        cert: data.cert,
+        key: data.key,
+        mchAppid: data.mchAppid,
+        mchid: data.mchid,
+        id: data.id
+      }
+      if (type === 'load') {
+        obj.time = [data.startTime, data.expireTime]
+      } else {
+        if (data.key === this.drawerKey) {
+          obj.key = ''
+        }
+        obj.startTime = data.time ? data.time[0] : ''
+        obj.expireTime = data.time ? data.time[1] : ''
+      }
+      return obj
+    },
+    onSubmit (model) {
+      const url = model.id ? this.$api.guide.pay.updatePay(model.id) : this.$api.guide.pay.createPay
+      this.$http.fetch(url, model).then(() => {
+        this.btnLoad = false
+        this.getList()
+        this.$notify.success('保存成功')
+        this.handleCancel()
+      }).catch((resp) => {
+        this.btnLoad = false
+        this.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     handleRemove () {
@@ -107,8 +183,10 @@ export default {
     beforeUpload () {
 
     },
-    handleUploadSuccess () {
-
+    handleUploadSuccess (res) {
+      if (res.success) {
+        this.drawerData.cert = res.result.path
+      }
     }
   },
   mounted () {

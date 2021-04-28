@@ -1,17 +1,22 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redPacket from '@/assets/redPacket.png'
+import redPacketEmpty from '@/assets/redpactEmpty.png'
 import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList } from '../../const'
 export default {
   data () {
     return {
       redPacket,
+      redPacketEmpty,
       model: {
         endTime: '',
         launchType: null,
         name: '',
         payConfigId: null,
         redpackType: null,
-        startTime: ''
+        startTime: '',
+        orderType: '',
+        sortName: 'createTime',
+        sortType: 0
       },
       url: this.$api.guide.redpacket.getStrategiesList,
       redpacketTypeMap,
@@ -21,13 +26,19 @@ export default {
       payList: [],
       payMap: {},
       // 筛选日期
-      seachDate: []
+      seachDate: [],
+      isLoad: false
     }
   },
   mixins: [tableMixin],
   mounted () {
     this.getList()
     this.$reload()
+  },
+  computed: {
+    isEmpty () {
+      return !this.payList.length && this.isLoad
+    }
   },
   methods: {
     /**
@@ -40,7 +51,7 @@ export default {
           { label: '全部', value: null },
           ...data.map(item => {
             const value = item.id
-            const label = item.mchid + '-' + item.officialAccount.nickName
+            const label = item.mchid + '-' + (item.officialAccount ? item.officialAccount.nickName : '')
             payMap[value] = label
             return {
               value,
@@ -49,25 +60,8 @@ export default {
           })
         ]
         this.payMap = payMap
+        this.isLoad = true
       })
-      // this.$http.fetch(this.$api.guide.pay.getList, { statr: 0, length: 999 }).then(res => {
-      //   if (res.success) {
-      //     const payMap = {}
-      //     this.payList = [
-      //       { label: '全部', value: null },
-      //       ...res.result.data.map(item => {
-      //         const value = item.id
-      //         const label = item.mchid + '-' + item.officialAccount.nickName
-      //         payMap[value] = label
-      //         return {
-      //           value,
-      //           label
-      //         }
-      //       })
-      //     ]
-      //     this.payMap = payMap
-      //   }
-      // })
     },
     changeSearchfrom (obj = {}) {
       this.model = Object.assign(this.model, obj)
@@ -89,6 +83,14 @@ export default {
           this.data = this.formatList(res.result.data)
         }
       })
+    },
+    handleGoPay () {
+      this.$router.push({
+        path: '/Guide/Others/PaySet'
+      })
+    },
+    handleSort (data) {
+      this.changeSearchfrom({ sortName: data.prop, sortType: data.order === 'ascending' ? 1 : 0 })
     }
   },
   watch: {
