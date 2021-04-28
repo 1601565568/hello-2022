@@ -7,6 +7,7 @@ import { API_ROOT } from '@/config/http.js'
 import $ from 'jquery'
 import NsExportReport from '@nascent/ecrp-ecrm/src/components/NsExportReport'
 import 'vue-orgchart/dist/style.min.css'
+import ViewSelect from '@/components/NsViewSelect'
 
 export default {
   components: {
@@ -14,7 +15,8 @@ export default {
     businessEcharts,
     NsExportReport,
     NsDroptree,
-    ElSelectLoad
+    ElSelectLoad,
+    ViewSelect
   },
   data: function () {
     return {
@@ -25,7 +27,8 @@ export default {
         shopId: '',
         userName: '',
         wxNo: '',
-        shopArea: ''
+        shopArea: '',
+        viewId: ''
       },
       copyModel: {
         time: [moment().subtract(7, 'days').format('YYYY-MM-DD 00:00:00'), moment().subtract(1, 'days').format('YYYY-MM-DD 23:59:59')],
@@ -91,14 +94,44 @@ export default {
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
-      shopAreaData: []
+      shopAreaData: [],
+      viewList: [] // 视角列表
     }
   },
-  mounted: function () {
+  computed: {
+    /**
+     * 区域id
+     */
+    areaId () {
+      return this.$store.state.user.area.id
+    }
+  },
+  mounted () {
     this.getShopAreaAndShop()
-    this.getData()
+    this.findViewList()
   },
   methods: {
+    // 区域模式下 查询区域对应的视角列表
+    findViewList () {
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result.length) {
+              this.viewList = res.result
+              this.model.viewId = res.result[0].viewId
+
+              this.getData()
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
+    viewChange () {
+      this.getData()
+    },
     /**
      * 获取门店区域，所有门店选项
      */
@@ -109,7 +142,7 @@ export default {
         .then((resp) => {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
-          that.shopOptions = resp.result.shopOptions
+          that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(this.areaId) > -1)
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -272,6 +305,10 @@ export default {
       if (type === 'export') {
         params.tableData = JSON.stringify(that.tableData)
       }
+
+      // 视角id
+      params.viewId = this.model.viewId
+
       return params
     },
     getData () {

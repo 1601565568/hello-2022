@@ -1,13 +1,14 @@
 import avartar from '../images/avartar.png'
 import ElImage from '@nascent/nui/lib/image'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import ViewSelect from '@/components/NsViewSelect'
 export default {
   props: {
     userDetails: {
       type: Object
     }
   },
-  components: { ElImage },
+  components: { ElImage, ViewSelect },
   mixins: [tableMixin],
   data () {
     let integralPagination = {
@@ -37,26 +38,76 @@ export default {
       integralAccountArr: [],
       tableData: [],
       searchParam: {}, // 积分查询条件
-      items: {}
+      items: {},
+      viewList: [],
+      viewId: '',
+      shopId: '',
+      unionId: ''
     }
   },
   computed: {
-    viewId () {
-      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewId
+    /**
+     * 区域id
+     */
+    areaId () {
+      return this.$store.state.user.area.id
     }
   },
   mounted () {
     // this.init()
+    this.findViewList()
   },
   methods: {
-    showDetailDialog () {
+    async showDetailDialog (val) {
+      this.shopId = val.shopId
+      this.unionId = val.unionId
       this.shopKuhuShow = true
-      this.items = JSON.parse(JSON.stringify(this.userDetails))
-      if (Object.keys(this.items).length > 0) {
-        this.init()
+      this.customerGetDetail()
+    },
+    customerGetDetail () {
+      // 查询会员详情
+      // 无union_id则不支持查询详情
+      if (this.unionId && this.unionId !== '') {
+        this.$http.fetch(this.$api.guide.guide.customerGetDetail, {
+          unionId: this.unionId,
+          shopId: this.shopId,
+          viewId: this.viewId
+        }).then(resp => {
+          if (resp.success && resp.result != null) {
+            this.items = resp.result
+            if (Object.keys(this.items).length > 0) {
+              this.init()
+            }
+          }
+        }).catch((resp) => {
+          this.$notify.error('查询失败')
+        })
+      } else {
+        this.$notify.warning('好友UNION_ID不存在,不支持查询详情')
       }
     },
+    // 查询区域对应的视角列表
+    findViewList () {
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result.length) {
+              this.viewList = res.result
+              this.viewId = res.result[0].viewId
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
+    viewChange () {
+      this.customerGetDetail()
+    },
     closeDetailDialog () {
+      this.shopId = ''
+      this.unionId = ''
       this.shopKuhuShow = false
       this.selectedTabName = 'basic'
       this.startTime = null
@@ -229,7 +280,7 @@ export default {
           this.$set(this.tableData, tabName, resp.result.data)
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          this.$notify.error('查询失败')
         })
     },
     getCustomerRfmInfo (customerId, shopId) {
@@ -244,7 +295,7 @@ export default {
           this.rfmInfo = resp.result
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          this.$notify.error('查询失败')
         })
     }
   }
