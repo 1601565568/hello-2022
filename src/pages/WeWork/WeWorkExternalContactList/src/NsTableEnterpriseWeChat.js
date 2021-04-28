@@ -283,26 +283,7 @@ export default {
     },
     // 查询外部联系人详情，根据shopId和unionId查询
     onUserDetail (val) {
-      let _this = this
-      // 无union_id则不支持查询详情
-      if (val.unionId && val.unionId !== '') {
-        _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          'unionId': val.unionId,
-          'shopId': val.shopId
-        }).then(resp => {
-          if (resp.success && resp.result != null) {
-            _this.userDetails = resp.result
-            // console.log(_this.userDetails)
-            this.$nextTick(() => {
-              _this.$refs.NSUserDetails.showDetailDialog()
-            })
-          }
-        }).catch((resp) => {
-          _this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-      } else {
-        _this.$notify.warning('好友UNION_ID不存在,不支持查询详情')
-      }
+      this.$refs.NSUserDetails.showDetailDialog(val)
     }
   }
 }
