@@ -299,7 +299,7 @@ export default {
      */
     deleteActivity (id) {
       this.$confirm('删除后不可恢复，请再次确定是否要删除', '确定删除？', {
-        confirmButtonText: '提交',
+        confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
@@ -328,7 +328,7 @@ export default {
     async confirmExamineActivity (context) {
       try {
         const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
-        this.$message.success('审核成功')
+        this.$message.success('审核完成')
       } catch (respErr) {
         this.$message.error('审核失败')
       } finally {

@@ -67,7 +67,6 @@ export default {
       }
     }
   },
-  mounted () {},
   methods: {
     close () {
       this.defaultModel = {

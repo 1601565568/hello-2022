@@ -6,7 +6,6 @@
     accept=".jpg,.jpeg,.png"
     :on-success="onSuccess"
     :before-upload="beforeUpload"
-    v-loading="loading"
   >
     <slot>上传</slot>
   </ElUpload>
@@ -47,8 +46,7 @@ export default {
       this.loading = false
       if (uploadRes.success) {
         this.$emit('confirm', { ...this.defaultModel, mediaid: uploadRes.result.url })
-
-        this.$message.success('上传图片成功')
+        // this.$message.success('上传图片成功')
       } else {
         this.$message.error('上传图片失败')
       }

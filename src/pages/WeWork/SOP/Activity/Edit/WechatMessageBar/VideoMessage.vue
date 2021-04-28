@@ -6,7 +6,6 @@
     accept=".mp4"
     :on-success="onSuccess"
     :before-upload="beforeUpload"
-    v-loading="loading"
     modal-append-to-body
     append-to-body
   >
@@ -43,14 +42,15 @@ export default {
         return false
       }
 
+      this.$notify.info('上传中')
+
       return true
     },
     onSuccess (uploadRes, file) {
       this.loading = false
       if (uploadRes.success) {
         this.$emit('confirm', { ...this.defaultModel, mediaid: uploadRes.result.url })
-
-        this.$message.success('上传视频成功')
+        // this.$message.success('上传视频成功')
       } else {
         this.$message.error('上传视频失败')
       }

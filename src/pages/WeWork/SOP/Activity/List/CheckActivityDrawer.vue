@@ -49,7 +49,7 @@
           </el-form-item>
           <el-form-item label="发送内容">
             <div class="send-message">
-              <span>共10条消息</span>
+              <span>共{{activity.contentList && activity.contentList.length}}条消息</span>
               <MessagePreviewPanel
                 class="message-box"
                 :list="activity.contentList"
@@ -61,6 +61,7 @@
       <div class="drawer_content-group block-line">
         <ActivityGroup
           :activityId="activityId"
+          :reload="visible"
         />
       </div>
       <div class="drawer_content-examine-status block-line" v-if="activity.status === SOPExamineStatus.Failed || activity.status === SOPExamineStatus.Succeed">

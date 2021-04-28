@@ -1,9 +1,9 @@
 <template>
   <div class="examine-container" v-loading="loading">
     <el-tabs class="el-tabs" v-model="examineStatus" @tab-click="tabSwitchActivityList">
-      <el-tab-pane :label="`待审核 ${pendingExamineCount}`" :name="String(SOPExamineStatus.Pending)"></el-tab-pane>
-      <el-tab-pane label="审核成功" :name="String(SOPExamineStatus.Succeed)"></el-tab-pane>
-      <el-tab-pane label="审核失败" :name="String(SOPExamineStatus.Failed)"></el-tab-pane>
+      <el-tab-pane lazy :label="`待审核 ${pendingExamineCount}`" :name="String(SOPExamineStatus.Pending)"></el-tab-pane>
+      <el-tab-pane lazy label="审核成功" :name="String(SOPExamineStatus.Succeed)"></el-tab-pane>
+      <el-tab-pane lazy label="审核失败" :name="String(SOPExamineStatus.Failed)"></el-tab-pane>
     </el-tabs>
     <!-- 搜索 -->
     <div class="sop-schedule_activity-content">
@@ -85,6 +85,10 @@ export default {
           label: '视频'
         },
         {
+          value: SOPActivityMessageType.Link,
+          label: '链接'
+        },
+        {
           value: SOPActivityMessageType.MiniProgram,
           label: '小程序'
         },
@@ -131,7 +135,7 @@ export default {
       this.activityPanelHeight = `${window.innerHeight - 80 - 48 - 72 - 32}px`
     },
     pageSizeChange (size) {
-      this.pagination = { ...this.pagination, size }
+      this.pagination = { ...this.pagination, size, page: 1 }
       this.getActivityList()
     },
     pageChange (page) {

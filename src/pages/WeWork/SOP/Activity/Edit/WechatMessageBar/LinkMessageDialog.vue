@@ -183,7 +183,7 @@ export default {
       this.$refs.searchform.validate(valid => {
         if (valid) {
           this.$emit('confirm', this.defaultModel)
-          this.$emit('update:visible', false)
+          this.close()
         }
       })
     }

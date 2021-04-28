@@ -119,6 +119,9 @@ export default {
       }
 
       this.$emit('addMessage', { type, ...msg, content })
+
+      if (this.imageMsg) this.imageMsg = null
+      if (this.videoMsg) this.videoMsg = null
     },
     /**
      * 通过编辑消息打开素材消息的dialog

@@ -24,8 +24,8 @@
         <span class="message-icons-title">共{{activity.contentList.length}}条消息</span>
         <div class="message-icons-list">
           <el-tooltip
-              v-for="item in messageToolTipList(activity.contentList)"
-              :key="item.type"
+              v-for="(item, index) in messageToolTipList(activity.contentList)"
+              :key="index"
               class="message-icons-item"
               :content="item.tip"
               placement="top"
@@ -69,7 +69,7 @@ export default {
   mounted () {},
   methods: {
     messageToolTipList (list) {
-      const messageTypes = Array.from(new Set(list.map(item => item.type)))
+      const messageTypes = Array.from(new Set(list.map(item => item.type))).sort()
       return messageTypes.map(type => {
         return SOPMessageTypeToolTip[type]
       })

@@ -100,6 +100,10 @@ export default {
           label: '视频'
         },
         {
+          value: SOPActivityMessageType.Link,
+          label: '链接'
+        },
+        {
           value: SOPActivityMessageType.MiniProgram,
           label: '小程序'
         },
@@ -160,7 +164,7 @@ export default {
   },
   methods: {
     pageSizeChange (size) {
-      this.pagination = { ...this.pagination, size }
+      this.pagination = { ...this.pagination, size, page: 1 }
       this.getActivityList()
     },
     pageChange (page) {

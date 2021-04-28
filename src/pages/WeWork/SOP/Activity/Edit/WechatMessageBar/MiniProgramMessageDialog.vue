@@ -58,13 +58,14 @@
             </ElFormGrid>
           </ElFormItem>
           <ElFormItem label-width="83px">
-            <span class="text-primary">
-              <Icon type="exclamation-circle"/>&nbsp;请确认小程序配置信息输入正确！
+            <span style="color: #8C8C8C;">
+              请先在企业微信后台将小程序配置到工作台
+              <MiniConfigHelp/>
             </span>
           </ElFormItem>
           <ElFormItem label-width="83px">
-            <span class="text-primary">
-              &nbsp;注:小程序路径后需要带上.html，如 pages/member/test.html?id=1
+            <span style="color: #8C8C8C;">
+              注:小程序路径后需要带上.html，如 pages/member/test.html?id=1
             </span>
           </ElFormItem>
           <ElFormItem>
@@ -106,10 +107,12 @@
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
-import { getErrorMsg } from '@/utils/toast'
+import MiniConfigHelp from './MiniConfigHelp/index.vue'
+
 export default {
   components: {
-    ElUpload
+    ElUpload,
+    MiniConfigHelp
   },
   props: {
     visible: {

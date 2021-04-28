@@ -35,22 +35,23 @@
               </NsChatRoomDialog>
             </div>
           </el-form-item>
-          <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
+          <div style="position: relative">
+            <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
               <el-radio-group v-model="model.sendType">
-              <el-radio :label="0">
-                立即发送
-                <el-tooltip
-                  class="message-icons-item"
-                  content="审核成功后发送消息内容"
-                  placement="top"
-                >
-                  <Icon type="ns-help" className="icon"/>
-                </el-tooltip>
-              </el-radio>
-              <el-radio :label="1">定时发送</el-radio>
-            </el-radio-group>
-            <el-form-grid v-if="model.sendType === 1">
-              <el-form-item prop="sendTime" inline-message>
+                <el-radio :label="0">
+                  立即发送
+                  <el-tooltip
+                    class="message-icons-item"
+                    content="审核成功后发送消息内容"
+                    placement="top"
+                  >
+                    <Icon type="ns-help" className="icon"/>
+                  </el-tooltip>
+                </el-radio>
+                <el-radio :label="1">定时发送</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="model.sendType === 1" class="el-form-item_send-time" prop="sendTime" label-width="0">
               <el-date-picker
                 class="el-date-picker"
                 type="datetime"
@@ -61,8 +62,7 @@
                 v-model="model.sendTime"
               />
             </el-form-item>
-            </el-form-grid>
-          </el-form-item>
+          </div>
         </SimpleCollapse>
         <SimpleCollapse :title="'发布内容'">
           <PhoneBox>
@@ -147,7 +147,15 @@
                     <el-table-column label="操作" width="128px">
                       <template slot-scope="scope">
                         <NsButton type="text" @click="editMessage(scope.row, scope.$index)">编辑</NsButton>
-                        <NsButton type="text" @click="deleteMessage(scope.row, scope.$index)">删除</NsButton>
+                        <el-popconfirm
+                          confirm-button-text='删除'
+                          cancel-button-text='取消'
+                          icon="el-icon-info"
+                          title="确定删除吗？"
+                          @onConfirm="deleteMessage(scope.row, scope.$index)"
+                        >
+                          <NsButton slot="reference" type="text">删除</NsButton>
+                        </el-popconfirm>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -173,6 +181,7 @@ import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
 import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
 import WechatMessageBar from './WechatMessageBar'
 import { SOPActivityMessageType, SOPExamineStatus } from '../../types'
+import ElPopconfirm from '@nascent/nui/lib/popconfirm'
 
 export default {
   components: {
@@ -186,7 +195,8 @@ export default {
     VideoMessage,
     NewsMessage,
     MiniProgramMessage,
-    WechatMessageBar
+    WechatMessageBar,
+    ElPopconfirm
   },
   filters: {
     msgTypeText (type) {
@@ -346,6 +356,9 @@ export default {
     }
   },
   methods: {
+    test () {
+      window.console.log('删除')
+    },
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })
         .then(resp => {
@@ -503,6 +516,13 @@ export default {
       margin-top: 0;
     }
   }
+
+  .el-form-item_send-time {
+    position: absolute;
+    top: -30px;
+    left: 328px;
+  }
+
   .el-form-item {
     margin-top: 29px;
     .label-gap {

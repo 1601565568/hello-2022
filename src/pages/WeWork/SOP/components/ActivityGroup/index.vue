@@ -77,11 +77,13 @@ export default {
         return ['activity', 'log'].indexOf(value) !== -1
       }
     },
-    activityId: Number
+    activityId: Number,
+    reload: Boolean
   },
   watch: {
-    activityId (newVal, oldVal) {
-      if (newVal !== oldVal || !oldVal) {
+    reload (newVal, oldVal) {
+      window.console.log('reload', newVal, oldVal)
+      if (newVal) {
         this.model = { id: this.activityId }
         if (this.type === 'log') this.getSuccessTotal()
         this.searchForm()
