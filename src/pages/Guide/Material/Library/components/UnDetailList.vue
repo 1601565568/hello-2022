@@ -5,7 +5,7 @@
     size="720px"
     :with-header="false"
     :modal="false"
-    @close='handleClose'
+    @close="handleClose"
   >
     <div>
       <div class="close-view">
@@ -40,7 +40,7 @@
       </el-form>
       <div class="unDrawer-showinfo">
         <div>
-          <span>未完成员工{{noCompletionTotal}}人</span>
+          <span>未完成员工{{ noCompletionTotal }}人</span>
         </div>
       </div>
       <page-table style="padding-top:0">
@@ -48,7 +48,28 @@
           <el-table :data="listData" class="new-table_border unDrawer-table">
             <el-table-column prop="guideName" label="员工"> </el-table-column>
             <el-table-column prop="guideId" label="工号"> </el-table-column>
-            <el-table-column prop="shopName" label="所属门店"></el-table-column>
+            <el-table-column prop="shopNamesStr" label="所属门店">
+              <template slot-scope="scope">
+                <el-popover
+                  placement="top-start"
+                  width="300"
+                  trigger="hover"
+                  :disabled="scope.row.shopNamesStr.length <= 15"
+                >
+                  <div>{{ scope.row.shopNamesStr }}</div>
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopNamesStr.length <= 15"
+                    >{{ scope.row.shopNamesStr }}</span
+                  >
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopNamesStr.length > 15"
+                    >{{ scope.row.shopNamesStr.substr(0, 15) + '...' }}</span
+                  >
+                </el-popover>
+              </template>
+            </el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
@@ -184,7 +205,9 @@ export default {
         .fetch(this.$api.guide.getScriptCompletionNumber, params)
         .then(resp => {
           if (resp.success) {
-            this.noCompletionTotal = resp.result.noCompletionTotal ? resp.result.noCompletionTotal : 0
+            this.noCompletionTotal = resp.result.noCompletionTotal
+              ? resp.result.noCompletionTotal
+              : 0
           }
         })
         .catch(resp => {
