@@ -26,6 +26,9 @@
         </el-form-item>
         <el-form-item label="" label-width="100px" >
           <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
             <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;员工userid&gt; </ns-button>
           </ElFormGrid>
           <ElFormGrid>
@@ -83,6 +86,11 @@
             <img v-if="defaultModel.imgUrl" :src="defaultModel.imgUrl" class="message-upload__avatar">
             <Icon v-else type="plus" className="message-upload__tip"/>
           </el-upload>
+        </el-form-item>
+        <el-form-item label-width="83px">
+          <span style="color: #8C8C8C;">
+            请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
+          </span>
         </el-form-item>
       </ElForm>
     </div>
@@ -154,7 +162,7 @@ export default {
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isJPG = file.type === 'image/jpg' || 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG|PNG 格式!')

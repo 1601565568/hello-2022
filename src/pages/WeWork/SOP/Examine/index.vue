@@ -204,7 +204,7 @@ export default {
           const count = resp.result
           if (count > 0 && count < 100) {
             this.pendingExamineCount = count
-          } else if (this.pendingExamineCount >= 100) {
+          } else if (count >= 100) {
             this.pendingExamineCount = '99+'
           } else {
             this.pendingExamineCount = ''
