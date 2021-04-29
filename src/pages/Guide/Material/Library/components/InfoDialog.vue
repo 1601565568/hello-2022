@@ -1,5 +1,6 @@
 <template>
-  <el-dialog
+<div class="cus-guide-info">
+   <el-dialog
     title="自创明细查看"
     :visible.sync="dialogVisible"
     width="658px"
@@ -20,6 +21,7 @@
       </div>
     </div>
   </el-dialog>
+</div>
 </template>
 
 <script>
@@ -46,6 +48,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../styles/image.css';
 .dialog-view {
   padding: 8px;
 }
