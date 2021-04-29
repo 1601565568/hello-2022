@@ -211,7 +211,8 @@ export default {
       excludeQuery: ['content', 'subdivisionId', 'mType'],
       queryLoading: null,
       selectItem: {},
-      materialScriptId: 0
+      materialScriptId: 0,
+      matericalTitle: ''
     }
   },
   computed: {
@@ -593,6 +594,7 @@ export default {
      */
     showGuideLists (row) {
       this.materialScriptId = row.id
+      this.matericalTitle = row.name
       this.$refs.detailList.closeDeawer()
     },
     /**

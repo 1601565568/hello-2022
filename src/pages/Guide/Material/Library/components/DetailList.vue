@@ -107,6 +107,7 @@ import { getErrorMsg } from '@/utils/toast'
 import UnDetailList from './UnDetailList'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import InfoDialog from './InfoDialog'
+import moment from 'moment'
 export default {
   name: 'detailList',
   components: { ElDrawer, PageTable, UnDetailList, NsGuideDialog, InfoDialog },
@@ -114,6 +115,10 @@ export default {
     materialScriptId: {
       type: Number,
       default: 0
+    },
+    matericalTitle: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -280,7 +285,8 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            var fileName = '邀请好友明细表.CSV'
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName = '创建统计' + this.matericalTitle + curDate + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
