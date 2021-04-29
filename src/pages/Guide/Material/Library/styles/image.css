@@ -1,0 +1,17 @@
+/* >>>.el-select { */
+/* >>> .el-form-item__label {
+  color: red;
+} */
+
+>>> .el-select .el-tag__close.el-icon-close{
+  display: none;
+}
+
+/* >>> .el-tag__close {
+    display: none;
+    background: red;
+} */
+
+
+
+/* el-tag__close */

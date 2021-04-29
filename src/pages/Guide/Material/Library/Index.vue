@@ -194,6 +194,7 @@
                     filterable
                     multiple
                     collapse-tags
+                    style="width: 180px"
                   >
                     <el-option
                       v-for="item in subdivisionList"
@@ -268,6 +269,7 @@ export default Index
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+  @import './styles/image.css';
   .el-icon-arrow-down {
     font-size: 12px;
   }

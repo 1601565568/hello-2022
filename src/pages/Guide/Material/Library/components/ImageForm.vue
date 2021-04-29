@@ -19,7 +19,8 @@
           filterable
           style="width: 260px"
           multiple
-          collapse-tags
+          :collapse-tags='true'
+          :clearable='false'
         >
           <el-option
             v-for="item in labelList"
@@ -636,6 +637,7 @@ export default {
 </script>
 <style scoped>
 @import '@theme/variables.pcss';
+@import '../styles/image.css';
 .guide-text {
   height: 22px;
   font-size: 14px;

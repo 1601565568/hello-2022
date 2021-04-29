@@ -171,7 +171,7 @@
                       subdivisionChange(val, item)
                     }
                   "
-                  style="width: 150px"
+                  style="width: 180px"
                   multiple
                   collapse-tags
                 >
@@ -385,8 +385,10 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
-        this.$emit('subdivisionChange', this.selectItem)
-        this.selectItem = {}
+        if (this.selectItem.subdivisionIds && this.selectItem.subdivisionIds.length > 0) {
+          this.$emit('subdivisionChange', this.selectItem)
+          this.selectItem = {}
+        }
       }
     },
     subdivisionChange (val, item) {
@@ -436,6 +438,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../styles/image.css';
 .test-li {
   /* display: flex;
   flex-direction: row; */
