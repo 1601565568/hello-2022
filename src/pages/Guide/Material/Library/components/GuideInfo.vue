@@ -5,19 +5,25 @@
     size="720px"
     :with-header="false"
     :modal="false"
-    @close='handleClose'
+    @close="handleClose"
   >
     <div>
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
       <div class="drawer-title">拍摄指南</div>
-      <div v-if="info.pitText">
-        <div class="drawer-sub-title">坑位拍摄指南</div>
-        <div class="drawer-sub-cont">{{ info.pitText }}</div>
+      <div v-if="info.pitText || info.url">
+        <div v-if="info.pitText">
+          <div class="drawer-sub-title">坑位拍摄指南</div>
+          <div class="drawer-sub-cont">{{ info.pitText }}</div>
+        </div>
+        <div class="drawer-sub-title" v-if="info.url">示意图</div>
+        <img class="drawer-sub-img" :src="info.url" v-if="info.url" />
       </div>
-      <div class="drawer-sub-title" v-if="info.url">示意图</div>
-      <img class="drawer-sub-img" :src="info.url"  v-if="info.url"/>
+      <div v-else class="noddata-view">
+        <img :src="noDataUrl" class="nodata-img"/>
+        <div class="nodata-text">暂无指南～</div>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -41,7 +47,8 @@ export default {
   data () {
     return {
       direction: 'rtl',
-      drawer: false
+      drawer: false,
+      noDataUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/material-nodata.png'
     }
   },
   methods: {
@@ -97,5 +104,24 @@ export default {
   margin-left: 16px;
   width: 20px;
   height: 20px;
+}
+
+.noddata-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 126px;
+}
+.nodata-img {
+  width: 220px;
+  height: 220px;
+}
+.nodata-text {
+  font-size: 14px;
+  color: #8C8C8C;
+  text-align: center;
+  line-height: 22px;
+  font-weight: 400;
+  margin-top: 40px;
 }
 </style>
