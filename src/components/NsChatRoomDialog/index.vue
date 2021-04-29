@@ -31,6 +31,8 @@
             <div class="el-form__btns">
               <ns-button type="primary" @click="getChatRoomList(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
+              <ns-button v-if="isSelectAll" @click="selectAllGroups">全部选择</ns-button>
+              <ns-button v-if="isSelectAll" @click="clearAllGroups">清空</ns-button>
             </div>
           </el-form>
         </div>

@@ -26,6 +26,7 @@
                 :selectedRoomIds="model.chatRoomIdList"
                 @getChatRoomIds="selectedRoom"
                 ref="NsChatRoomDialog"
+                :isSelectAll="true"
               >
                 <div class="select-tips" @click="$refs.NsChatRoomDialog.onDialogOpen()">
                   <span v-if="!model.chatRoomIdList.length" class="un-selected">请选择群</span>

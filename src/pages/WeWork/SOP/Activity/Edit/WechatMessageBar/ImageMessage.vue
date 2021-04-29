@@ -34,8 +34,14 @@ export default {
       const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
 
-      if (!isPngOrJpg || !isLt2M) {
-        this.$message.error('请上传jpg、jpeg或png图片，大小不超过2M')
+      if (!isPngOrJpg) {
+        this.$message.error('上传jpg、jpeg、png图片')
+        this.loading = false
+        return false
+      }
+
+      if (!isLt2M) {
+        this.$message.error('大小不超过2M')
         this.loading = false
         return false
       }

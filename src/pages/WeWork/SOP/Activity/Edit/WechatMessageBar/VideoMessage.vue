@@ -36,8 +36,14 @@ export default {
       const isMp4 = file.type === 'video/mp4'
       const isLt10M = file.size / 1024 / 1024 < 10
 
-      if (!isMp4 || !isLt10M) {
-        this.$message.error('请上传mp4视频，大小不超过10M')
+      if (!isMp4) {
+        this.$message.error('上传mp4视频')
+        this.loading = false
+        return false
+      }
+
+      if (!isLt10M) {
+        this.$message.error('大小不超过10M')
         this.loading = false
         return false
       }

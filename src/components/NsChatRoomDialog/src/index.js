@@ -42,10 +42,15 @@ export default {
     showIcon: {
       type: Boolean,
       default: true
+    },
+    isSelectAll: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
     return {
+      allGroups: [],
       // 左边树的数据
       employeeData: [],
       // 右边已选择数据
@@ -117,8 +122,59 @@ export default {
         // ps: 这样会创建一个新的临时数据. 不会引用.
         let seledctDateReady = JSON.parse(JSON.stringify(this.selectedDataParent))
         this.selectedData = seledctDateReady
+        this.resetSearch()
       }
-      this.resetSearch()
+
+      if (Array.isArray(this.selectedRoomIds)) {
+        // 查询所有的群 筛选选中的
+        this.findAllGroups()
+      }
+    },
+    selectAllGroups () {
+      this.selectedData = [ ...this.allGroups ]
+      this.$refs.employeeTable.toggleAllSelection()
+    },
+    clearAllGroups () {
+      this.selectedData = []
+      this.$refs.employeeTable.clearSelection()
+    },
+    /**
+     * 查询所有的群 10w
+     */
+    findAllGroups () {
+      let param = {
+        start: 0,
+        length: 100000
+      }
+
+      this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
+        .then(resp => {
+          if (resp.result) {
+            if (resp.result.data && resp.result.data.length > 0) {
+              const allGroups = []
+              const selectedList = []
+              resp.result.data.forEach(item => {
+                let groupItem = {
+                  ...item,
+                  workShopName: item.workShopName.join(','),
+                  ownerWorkNum: item.owner_work_num,
+                  personNum: item.person_num,
+                  chatId: item.chat_id,
+                  ownerName: item.owner_name
+                }
+                allGroups.push(groupItem)
+                if (this.selectedRoomIds.indexOf(item.chat_id) > -1) {
+                  selectedList.push(groupItem)
+                }
+              })
+              this.allGroups = allGroups
+              this.selectedData = selectedList
+            }
+          }
+          this.resetSearch()
+        }).catch(() => {
+          this.$notify.error('查询群信息失败')
+        })
     },
     /**
      * 部门树点击事件(懒加载)
@@ -236,9 +292,7 @@ export default {
      * 群列表点击选择
      */
     selectChange (select, row) {
-      // console.log(select)
-      // console.log(row)
-      if (this.selectedData.length >= 100) {
+      if (this.selectedData.length >= 100 && this.isSelectAll === false) {
         this.$notify.error('群上限不允许超过100')
         this.$refs.employeeTable.toggleRowSelection(row, false)
         return
@@ -292,15 +346,20 @@ export default {
      */
     getChatRoomList (pageNo) {
       this.tableLoading = true
-      let searchMap = {}
-      searchMap.workShopId = this.departData.shopId
-      searchMap.departmentId = this.departData.selectedDepart.value
-      searchMap.name = this.departData.name
-      searchMap.ownerName = this.departData.ownerName
       if (pageNo) {
         this.pagination4Emp.page = pageNo
       }
-      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: searchMap }
+      let param = {
+        start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size,
+        length: this.pagination4Emp.size,
+        searchMap: {
+          workShopId: this.departData.shopId,
+          departmentId: this.departData.selectedDepart.value,
+          name: this.departData.name,
+          ownerName: this.departData.ownerName
+        }
+      }
+
       this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
         .then(resp => {
           if (resp.result) {
@@ -325,22 +384,12 @@ export default {
           this.$notify.error('查询群信息失败')
         }).finally(() => {
           // 勾选默认值
-          this.selectedData = []
           this.employeeData.forEach(item => {
-            if (this.selectedRoomIds) {
-              this.selectedRoomIds.forEach(chatId => {
-                if (chatId === item.chatId) {
-                  this.selectedData.push(item)
-                  this.$refs.employeeTable.toggleRowSelection(item, true)
-                }
-              })
-            } else {
-              this.selectedData.forEach(selectedItem => {
-                if (selectedItem.chatId === item.chatId) {
-                  this.$refs.employeeTable.toggleRowSelection(item, true)
-                }
-              })
-            }
+            this.selectedData.forEach(selectedItem => {
+              if (selectedItem.chatId === item.chatId) {
+                this.$refs.employeeTable.toggleRowSelection(item, true)
+              }
+            })
           })
           this.tableLoading = false
         })
