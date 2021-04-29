@@ -87,6 +87,8 @@ export default {
   margin-right: 32px;
   padding-bottom: 33px;
   border-bottom: 1px solid #e8e8e8;
+  max-height: 350px;
+  overflow: scroll;
 }
 .drawer-sub-img {
   width: 375px;

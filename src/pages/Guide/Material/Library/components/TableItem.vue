@@ -80,9 +80,11 @@ export default {
     showPreview (current, type) {
       let imgs = []
       this.imageList.forEach(item => {
-        imgs.push(item.url)
+        if (item.pitType === 1) {
+          imgs.push(item.url)
+        }
       })
-      this.$emit('preview', current, imgs, type)
+      this.$emit('preview', 0, imgs, type)
     }
   }
 }

@@ -419,9 +419,11 @@ export default {
       let item = row.mediaList[current]
       let imgs = []
       row.mediaList.forEach(item => {
-        imgs.push(item.url)
+        if (item.pitType === 1) {
+          imgs.push(item.url)
+        }
       })
-      this.$emit('preview', current, imgs, type)
+      this.$emit('preview', 0, imgs, type)
     },
     showGuideInfo (current, row) {
       let item = row.mediaList[current]
