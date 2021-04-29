@@ -3,11 +3,19 @@
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
-          <h3>新建红包</h3>
-          <div class='common-btn'>
-            <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
-          </div>
+          <template v-if='disabled'>
+            <h3>
+              <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleCancel'></Icon>
+              查看红包
+            </h3>
+          </template>
+          <template v-else>
+            <h3>新建红包</h3>
+            <div class='common-btn'>
+              <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
+              <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+            </div>
+          </template>
         </div>
       </template>
       <template slot='content'>
@@ -69,6 +77,7 @@
                     <el-date-picker
                       v-model="model.time"
                       type="datetimerange"
+                      :picker-options="pickerOptions"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       range-separator="至"
                       start-placeholder="请选择开始日期"

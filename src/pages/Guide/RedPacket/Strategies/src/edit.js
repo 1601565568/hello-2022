@@ -7,6 +7,11 @@ import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() < new Date(new Date().toLocaleDateString())
+        }
+      },
       model: {
         redpackType: normalRed, // 红包类型
         launchType: staffPost,
