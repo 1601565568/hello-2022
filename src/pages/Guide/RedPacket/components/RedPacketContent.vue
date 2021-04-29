@@ -33,7 +33,7 @@
       <div class='account-name'>红包封面</div>
       <img />
     </div>
-    <div class='account-num'><span>¥{{money?$numeral(money).format('0,0.00'):'0.00'}}</span></div>
+    <div class='account-num'><span>¥{{redpackType === normalRed ? (money?$numeral(money).format('0,0.00'):'0.00'):'0.00'}}</span></div>
     <div class='red-btn'><span>塞钱进红包</span></div>
   </div>
 </template>

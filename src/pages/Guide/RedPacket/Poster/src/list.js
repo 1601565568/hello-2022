@@ -1,4 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -56,7 +57,9 @@ export default {
         })
     },
     handleSort (data) {
-      this.changeSearchfrom({ sortName: data.prop, sortType: data.order === 'ascending' ? 1 : 0 })
+      const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
+      const sortName = sortType !== '' ? data.prop : ''
+      this.changeSearchfrom({ sortName, sortType })
     },
     handleChangeState (id, isDefault) {
       if (isDefault) {
@@ -68,6 +71,8 @@ export default {
           this.$notify.success('操作成功')
           this.$searchAction$()
         }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('操作失败', resp))
       })
     }
   }

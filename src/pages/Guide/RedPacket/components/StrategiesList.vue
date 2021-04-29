@@ -14,16 +14,17 @@
           </template>
         </el-scrollbar>
       </div>
-      <div class='dialog-content'>
+      <div class='dialog-content' v-if='checkItem.id'>
         <div class='packet-box'>
-          <RedPacket />
+          <RedPacket :bgImage='checkItem.background' :bagTip='checkItem.benediction'/>
         </div>
         <div class='packet-info'>
-          <h3 class='packet-name'>普通红包</h3>
-          <div class='packet-detail'>有效期：2021-01-01至2021-02-02</div>
-          <div class='packet-detail'>红包总数：200个</div>
-          <div class='packet-detail'>单个金额：1元</div>
-          <div class='packet-detail'>发放上限：100个/人/日</div>
+          <h3 class='packet-name'>{{redpacketTypeMap[checkItem.redpackType]}}</h3>
+          <div class='packet-detail'>有效期：{{checkItem.timeType === timeTypeForever ? '永久有效' : `${checkItem.startTime}至${checkItem.endTime}`}}</div>
+          <div class='packet-detail'>红包总数：{{checkItem.total}}个</div>
+          <div class='packet-detail' v-if='checkItem.redpackType === normalRed'>单个金额：{{$numeral(checkItem.money/100).format('0,0.00')}}元</div>
+          <div class='packet-detail' v-else>红包金额：{{$numeral(checkItem.moneyMin/100).format('0,0.00')}}-{{$numeral(checkItem.moneyMax/100).format('0,0.00')}}元（员工自定义）</div>
+          <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit}}个/人/日</div>
         </div>
       </div>
     </div>
@@ -44,6 +45,7 @@
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import RedPacket from './RedPacket'
+import { redpacketTypeMap, normalRed, luckyRed, diyRed, timeTypeForever } from '../const'
 export default {
   data () {
     return {
@@ -51,7 +53,12 @@ export default {
       model: {
         name: ''
       },
-      checkItem: {}
+      checkItem: {},
+      redpacketTypeMap,
+      normalRed,
+      luckyRed,
+      diyRed,
+      timeTypeForever
     }
   },
   components: { RedPacket },
@@ -64,7 +71,7 @@ export default {
       this.checkItem = value
     },
     handleSearch () {
-
+      this.$searchAction$()
     }
   }
 }
@@ -111,6 +118,7 @@ export default {
     margin-top: 40px;
     .packet-box {
       width: 200px;
+      min-width: 200px;
       font-size: 16px;
     }
     .packet-info {

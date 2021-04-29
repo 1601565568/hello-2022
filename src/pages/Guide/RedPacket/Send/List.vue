@@ -53,10 +53,10 @@
               label="单个金额">
               <template slot-scope="scope">
                 <template v-if='scope.row.redpackType === normalRed'>
-                  {{$numeral(money/100).format('0,0.00')}}
+                  {{$numeral(scope.row.money/100).format('0,0.00')}}
                 </template>
                 <template v-else>
-                  {{$numeral(moneyMin/100).format('0,0.00')}} - {{$numeral(moneyMax/100).format('0,0.00')}}
+                  {{$numeral(scope.row.moneyMin/100).format('0,0.00')}} - {{$numeral(scope.row.moneyMax/100).format('0,0.00')}}
                 </template>
               </template>
             </el-table-column>

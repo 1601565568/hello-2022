@@ -2,6 +2,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redPacket from '@/assets/redPacket.png'
 import redPacketEmpty from '@/assets/redpactEmpty.png'
 import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList } from '../../const'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -80,8 +81,10 @@ export default {
     handleChangeState (id, value) {
       this.$http.fetch(this.$api.guide.redpacket.changeStrategiesState, { id, state: 3 - value }).then(res => {
         if (res.success) {
-          this.data = this.formatList(res.result.data)
+          this.$searchAction$()
         }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('操作失败', resp))
       })
     },
     handleGoPay () {
@@ -90,7 +93,9 @@ export default {
       })
     },
     handleSort (data) {
-      this.changeSearchfrom({ sortName: data.prop, sortType: data.order === 'ascending' ? 1 : 0 })
+      const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
+      const sortName = sortType !== '' ? data.prop : ''
+      this.changeSearchfrom({ sortName, sortType })
     }
   },
   watch: {

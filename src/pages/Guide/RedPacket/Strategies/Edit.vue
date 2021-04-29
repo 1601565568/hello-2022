@@ -65,7 +65,7 @@
                 </el-radio-group>
                 <div class='form-item_time larger-item' v-if='model.timeType === timeTypeInterval'>
                   <div>时间范围</div>
-                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk ref='timeItem'>
+                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk ref='timeItem' key='time'>
                     <el-date-picker
                       v-model="model.time"
                       type="datetimerange"
@@ -144,11 +144,19 @@
             </el-form-item>
             <el-form-item v-else-if='model.redpackType === diyRed' label='单个红包可发放金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
-                <el-form-item label=' ' prop='moneyMin' class='larger-item'>
+                <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
+                    { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.intervalMoney.bind(this, 0.3, model.moneyMax || 5000), trigger: ['blur', 'change'] }
+                  ]">
                   <length-input v-model='model.moneyMin' oninput="value=value.replace(/[^\d.]/g,'')"/>
                 </el-form-item>
                 <span class='chain'></span>
-                <el-form-item label=' ' prop='moneyMax' class='larger-item'>
+                <el-form-item label=' ' prop='moneyMax' class='larger-item' :rules="[
+                    { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
+                    { validator: ValidateUtil.intervalMoney.bind(this, model.moneyMin || 0.3, 5000), trigger: ['blur', 'change'] }
+                  ]">
                   <length-input v-model='model.moneyMax' oninput="value=value.replace(/[^\d.]/g,'')"/>
                 </el-form-item>
               </div>

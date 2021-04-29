@@ -154,6 +154,7 @@ export default {
       if ([luckyRed, diyRed].includes(value)) {
         this.model.launchType = staffPost
       }
+      this.$refs.searchform.clearValidate()
     },
     handleChangePoster () {
       this.changeVisible(true)
@@ -191,7 +192,11 @@ export default {
       this.changeVisible(false)
     },
     resetValite (ref) {
-      this.$refs.searchform.clearValidate('time')
+      if (this.$refs[ref]) {
+        this.$nextTick(() => {
+          this.$refs[ref].clearValidate()
+        })
+      }
     }
   },
   mounted () {

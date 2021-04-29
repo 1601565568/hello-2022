@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redPacket from '@/assets/redPacket.png'
 import { redpacketTypeMap, normalRed, luckyRed, diyRed } from '../../const'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -40,6 +41,8 @@ export default {
         if (res.success) {
           this.$searchAction$()
         }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('操作失败', resp))
       })
     },
     handlePreview (settingId, useType) {
@@ -47,7 +50,9 @@ export default {
       this.visible = true
     },
     handleSort (data) {
-      this.changeSearchfrom({ sortName: data.prop, sortType: data.order === 'ascending' ? 1 : 0 })
+      const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
+      const sortName = sortType !== '' ? data.prop : ''
+      this.changeSearchfrom({ sortName, sortType })
     }
   }
 }
