@@ -19,8 +19,8 @@
           filterable
           style="width: 260px"
           multiple
-          :collapse-tags='true'
-          :clearable='false'
+          :collapse-tags="true"
+          :clearable="false"
         >
           <el-option
             v-for="item in labelList"
@@ -219,65 +219,69 @@
       :callBack="selectMarketBack"
     ></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
-    <el-dialog
-      :visible="showEdit"
-      title="指南"
-      width="658px"
-      @close="handleCloseDia"
-      custom-class='cus-dialog-view'
-    >
-      <div>
-        <div class="guide-text">指南说明</div>
-        <tag-area
-          :maxlength="1000"
-          placeholder="请输入"
-          :showEmoji="true"
-          v-model="guideText"
-          :tools="tools"
-          v-if="showEdit"
-          ref="tagArea"
-        ></tag-area>
-      </div>
-      <div>
-        <div class="guide-text">示意图</div>
-        <div class="upload-view">
-          <div
-            v-if="showEidtImg"
-            style="width:114px;height:114x;position:relative;"
-          >
-            <div class="guide-mask">
-              <Icon type="delete" @click="removeGuideImage" />
-            </div>
-            <img
-              :src="showEidtImg"
-              style="width:114px;height:114px;border-radius: 2px;"
-            />
-          </div>
-          <div v-else>
-            <el-upload
-              class="library-guide"
-              :action="this.$api.core.sgUploadFile('image')"
-              :on-success="handleGuideSuccess"
-              :before-upload="beforeAvatarUpload"
-              :on-remove="removeGuideImg"
-              :show-file-list="false"
+    <div class="cus-diglog-view">
+      <el-dialog
+        :visible="showEdit"
+        title="指南"
+        width="658px"
+        @close="handleCloseDia"
+      >
+        <div>
+          <div class="guide-text">指南说明</div>
+          <tag-area
+            :maxlength="1000"
+            placeholder="请输入"
+            :showEmoji="true"
+            v-model="guideText"
+            :tools="tools"
+            v-if="showEdit"
+            ref="tagArea"
+          ></tag-area>
+        </div>
+        <div>
+          <div class="guide-text">示意图</div>
+          <div class="upload-view">
+            <div
+              v-if="showEidtImg"
+              style="width:114px;height:114x;position:relative;"
             >
-              <div style="width:114px;height:114x;position:relative;">
-                <div class="library-select-guide-uploader" slot="reference">
-                  <div class="el-upload--picture-card">
-                    <Icon type="plus" />
+              <div class="guide-mask">
+                <Icon type="delete" @click="removeGuideImage" />
+              </div>
+              <img
+                :src="showEidtImg"
+                style="width:114px;height:114px;border-radius: 4px;"
+              />
+            </div>
+            <div v-else>
+              <el-upload
+                class="library-guide"
+                :action="this.$api.core.sgUploadFile('image')"
+                :on-success="handleGuideSuccess"
+                :before-upload="beforeAvatarUpload"
+                :on-remove="removeGuideImg"
+                :show-file-list="false"
+              >
+                <div style="width:114px;height:114x;position:relative;">
+                  <div class="library-select-guide-uploader" slot="reference">
+                    <div class="el-upload--picture-card">
+                      <Icon type="plus" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </el-upload>
+              </el-upload>
+            </div>
           </div>
         </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
-        <ns-button type="primary" @click="handleSure" class="diag-view">确定</ns-button>
-      </div>
-    </el-dialog>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
+          <ns-button type="primary" @click="handleSure" class="diag-view"
+            >确定</ns-button
+          >
+        </div>
+      </el-dialog>
+    </div>
+
     <GuideInfo ref="guideInfo" />
   </div>
 </template>
@@ -463,6 +467,7 @@ export default {
             type: 1,
             url: this.showEidtImg
           }
+          console.log(obj)
           this.model.mediaList.push(obj)
         }
       }
@@ -478,6 +483,7 @@ export default {
       this.editIndex = index
       let item = this.model.mediaList[index]
       this.guideText = item.pitText
+      this.showEidtImg = item.url
       this.showEdit = !this.showEdit
     },
     handleImageType () {
@@ -687,10 +693,6 @@ export default {
   }
 }
 
-.cus-dialog-view {
-  background-color: red;
-}
-
 .dialog-footer {
   margin-top: 47px;
 }
@@ -698,6 +700,9 @@ export default {
   width: 72px;
   height: 32px;
   margin-left: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 2px;
 }
 
 @component-namespace library {
@@ -772,6 +777,7 @@ export default {
       color: #8c8c8c;
       line-height: 80px;
       border-radius: var(--default-radius-mini);
+      border-radius: 2px;
       &:hover {
         /* border-color: var(--theme-color-primary); */
         /* color: var(--theme-color-primary); */
