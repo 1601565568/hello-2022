@@ -17,7 +17,7 @@ export default {
       type: Number | String,
       default: 0
     },
-    shopCateTree: {
+    shopAreaTree: {
       type: Array,
       default: []
     },
@@ -47,11 +47,11 @@ export default {
       },
       dialogVisible: false,
       departData: {
-        shopCate: {},
+        shopArea: {},
         value: null,
         shopType: '',
         shopOptions: [],
-        shopCateTree: [],
+        shopAreaTree: [],
         allShopOptions: []
       },
       shopId: '', // 记录门店勾选的状态
@@ -71,7 +71,7 @@ export default {
     }
   },
   watch: {
-    'departData.shopCate': function (o1, o2) {
+    'departData.shopArea': function (o1, o2) {
       let model = {
         auth: false,
         plan: 1,
@@ -99,7 +99,7 @@ export default {
     init () {
       this.dialogVisible = true
       this.departData.shopOptions = this.shopOptions
-      this.departData.shopCateTree = this.shopCateTree
+      this.departData.shopAreaTree = this.shopAreaTree
       this.departData.allShopOptions = this.allShopOptions
       this.model = {
         ...this.model,
@@ -119,10 +119,10 @@ export default {
           shopId: this.departData.value,
           shopType: this.departData.shopType
         }
-      } else if (this.departData.shopCate.value) {
+      } else if (this.departData.shopArea.value) {
         this.model = {
           ...this.model,
-          cateId: this.departData.shopCate.value,
+          areaId: this.departData.shopArea.value,
           shopType: this.departData.shopType
         }
       } else if (this.departData.shopType) {
@@ -141,20 +141,20 @@ export default {
         plan: 1,
         sameSystemShopId: this.sameSystemShopId
       }
-      this.departData.shopCate = {}
+      this.departData.shopArea = {}
       this.departData.value = ''
       this.departData.shopType = ''
       this.model = model
       this.$searchAction$()
     },
     /**
-     * 门店分类树点击事件(懒加载)
+     * 门店区域树点击事件(懒加载)
      * @param node
      * @param resolve
      * @returns {*}
      */
-    loadShopCateNode (node, resolve) {
-      let shopCateTree = this.shopCateTree
+    loadShopAreaNode (node, resolve) {
+      let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
         return resolve([{
           id: 0,
@@ -165,7 +165,7 @@ export default {
       }
       if (node.level >= 1) {
         // 点击之后触发
-        let filter = shopCateTree.filter(data => {
+        let filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {

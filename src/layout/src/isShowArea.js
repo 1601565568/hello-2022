@@ -14,8 +14,7 @@ export default ($route) => {
     '/EnterpriseGroupExamine',
     '/AnalysisWechatData/EnterpriseWechatFriendData',
     '/Marketing/EffectAnalysisEnterprise',
-    '/Marketing/EffectAnalysisEnterpriseGroup',
-    '/Guide/Customer/CustomerManage'
+    '/Marketing/EffectAnalysisEnterpriseGroup'
   ]
 
   return showAreaSelectPathList.indexOf($route.path) > -1

@@ -162,7 +162,8 @@ export default {
     }
   },
   async created () {
-    await this.findViewList()
+    // 隐藏根据区域查找视角列表
+    // await this.findViewList()
     this.initShopList()
   },
   beforeDestroy () {

@@ -68,7 +68,7 @@
                      @current-change="$currentChange$">
       </el-pagination>
     </ElScrollbar>
-    <NsPreview ref="NsPreview"></NsPreview>
+    <NsPreview ref="NsPreview" :appendToBody='true'></NsPreview>
   </div>
 </template>
 

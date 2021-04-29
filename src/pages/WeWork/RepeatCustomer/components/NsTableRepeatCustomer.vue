@@ -2,8 +2,8 @@
  * @Descripttion: 智能欢迎语列表组件
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-30 18:12:26
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-31 19:08:56
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -190,10 +190,8 @@
 <script>
 import NsTableRepeatCustomer from './src/NsTableRepeatCustomer.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import NsShopDialog from '@/components/NsShopDialog'
 NsTableRepeatCustomer.components = {
-  NsGuideDialog,
-  NsShopDialog
+  NsGuideDialog
 }
 export default NsTableRepeatCustomer
 </script>

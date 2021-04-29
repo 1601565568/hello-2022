@@ -81,7 +81,7 @@
     </el-row>
 
     <!-- 选择员工 -->
-    <NsEmployeeOrCustGroupDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="selectedEmployee"/>
+    <NsGuideDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="selectedEmployee"/>
     <!-- 打标签Dialog -->
     <AddTagsDialog
       :visible="addTagDialogVisible"
@@ -94,13 +94,13 @@
 import ElUpload from '@nascent/nui/lib/upload'
 import PosterPreviewPanel from './components/PosterPreviewPanel'
 import AddTagsDialog from './components/AddTagsDialog/index.vue'
-import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
+import NsGuideDialog from '@/components/NsGuideDialog'
 
 export default {
   components: {
     ElUpload,
     PosterPreviewPanel,
-    NsEmployeeOrCustGroupDialog,
+    NsGuideDialog,
     AddTagsDialog
   },
   computed: {

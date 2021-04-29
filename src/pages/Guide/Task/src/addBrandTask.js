@@ -135,6 +135,7 @@ export default {
     },
     // 选择区域
     chooseArea (areaId) {
+      this.model.areaId = areaId
       this.model.viewId = ''
       this.viewOptions = []
       // 根据选择区域查询视角列表
@@ -150,14 +151,13 @@ export default {
         })
     },
     // 选择视角
-    chooseView (obj) {
-      var param = {}
-      param.viewId = obj
+    chooseView (viewId) {
+      this.model.viewId = viewId
       this.subgroups = []
       this.model.subgroupId = null
       this.model.subgroupName = null
       this.$http
-        .fetch(this.$api.guide.querySubgroup, param)
+        .fetch(this.$api.guide.querySubgroup, { viewId })
         .then(resp => {
           if (resp.success) {
             for (var i = 0; i < resp.result.length; i++) {
@@ -217,8 +217,6 @@ export default {
       } else {
         that.model.targetIds = 0
       }
-
-      window.console.log('保存的数据', this.model)
 
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -294,10 +292,14 @@ export default {
             this.model.activityTime.push(obj.startTime)
             this.model.activityTime.push(obj.endTime)
             this.model.areaId = obj.areaId
+            this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
             if (obj.areaId) {
-              this.chooseView(obj.areaId)
+              this.chooseArea(obj.areaId)
+            }
+            if (obj.viewId) {
+              this.chooseView(obj.viewId)
             }
             if (obj.subgroupId) {
               this.chooseSubgroup(obj.subgroupId)

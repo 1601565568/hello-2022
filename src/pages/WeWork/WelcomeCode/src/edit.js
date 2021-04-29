@@ -6,7 +6,6 @@ import ElContainer from '@nascent/nui/lib/container'
 import ElAside from '@nascent/nui/lib/aside'
 import ElImage from '@nascent/nui/lib/image'
 import ElUpload from '@nascent/nui/lib/upload'
-import NsEmployeeOrCustGroupDialog from '@/components/NsGuideDialog'
 import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
@@ -24,7 +23,6 @@ export default {
     ElAside,
     ElImage,
     ElUpload,
-    NsEmployeeOrCustGroupDialog,
     NsGuideDialog,
     NsShopDialog,
     NsTextarea,
