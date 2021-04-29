@@ -69,7 +69,7 @@
         </ul>
         <div class="library-icon__extra">
           <Icon type="tishi"/>
-          <span>上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</span>
+          <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
         </div>
       </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule">
@@ -256,8 +256,8 @@ export default {
         return false
       }
       // 图片大小判断
-      if (file.size / 1024 > 1024) {
-        this.$notify.warning('上传图片不得大于1MB')
+      if (file.size / 1024 > 1024 * 2) {
+        this.$notify.warning('上传图片不得大于2MB')
         return false
       }
     },
