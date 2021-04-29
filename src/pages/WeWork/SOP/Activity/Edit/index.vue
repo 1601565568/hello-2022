@@ -69,6 +69,7 @@
             <template slot='collapse-left'>
               <el-form-item label="素材" prop="contentList" required>
                 <el-popover
+                  v-if="model.contentList.length < 10"
                   placement="top-start"
                   width="480"
                   trigger="hover"
@@ -82,6 +83,10 @@
                     @addMessage="addMessage"
                   />
                 </el-popover>
+                <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
+                  <Icon type="ns-add-border" class="icon"/>
+                  添加消息内容
+                </div>
                 <span class="add-tip label-gap">最多添加10条消息，图片最大2M，视频最大10M</span>
               </el-form-item>
               <el-form-item>
@@ -147,15 +152,7 @@
                     <el-table-column label="操作" width="128px">
                       <template slot-scope="scope">
                         <NsButton type="text" @click="editMessage(scope.row, scope.$index)">编辑</NsButton>
-                        <el-popconfirm
-                          confirm-button-text='删除'
-                          cancel-button-text='取消'
-                          icon="el-icon-info"
-                          title="确定删除吗？"
-                          @onConfirm="deleteMessage(scope.row, scope.$index)"
-                        >
-                          <NsButton slot="reference" type="text">删除</NsButton>
-                        </el-popconfirm>
+                        <NsButton type="text" @click="deleteMessage(scope.row, scope.$index)">删除</NsButton>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -181,7 +178,6 @@ import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
 import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
 import WechatMessageBar from './WechatMessageBar'
 import { SOPActivityMessageType, SOPExamineStatus } from '../../types'
-import ElPopconfirm from '@nascent/nui/lib/popconfirm'
 
 export default {
   components: {
@@ -195,8 +191,7 @@ export default {
     VideoMessage,
     NewsMessage,
     MiniProgramMessage,
-    WechatMessageBar,
-    ElPopconfirm
+    WechatMessageBar
   },
   filters: {
     msgTypeText (type) {
@@ -321,12 +316,12 @@ export default {
           { required: true, message: '请选择发送时间', trigger: 'change' },
           { validator: (rule, value, callback) => {
             if (Date.now() > (new Date(value)).getTime()) {
-              callback(new Error(`发送时间不能小于当前时间`))
+              callback(new Error(`发送时间必须大于当前时间`))
             } else {
               callback()
             }
           },
-          message: '发送时间小于当前时间',
+          message: '发送时间必须大于当前时间',
           trigger: ['blur', 'change']
           }
         ],
@@ -356,9 +351,6 @@ export default {
     }
   },
   methods: {
-    test () {
-      window.console.log('删除')
-    },
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })
         .then(resp => {

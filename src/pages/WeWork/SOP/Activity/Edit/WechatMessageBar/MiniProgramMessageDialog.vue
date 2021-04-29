@@ -45,16 +45,25 @@
               <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
-              <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;导购userId&gt; </ns-button>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;员工userid&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{workId}')"> &lt;员工账号&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{workNumber}')"> &lt;员工工号&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{guideId}')"> &lt;员工ID&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{shopId}')"> &lt;员工工作门店&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{random}')"> &lt;随机数标识&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{timestamp}')"> &lt;时间戳&gt; </ns-button>
             </ElFormGrid>
           </ElFormItem>
           <ElFormItem label-width="83px">
@@ -95,6 +104,11 @@
               <img v-if="defaultModel.imgUrl" :src="defaultModel.imgUrl" class="message-upload__avatar">
               <Icon type="plus" className="message-upload__tip" v-else/>
             </ElUpload>
+          </ElFormItem>
+          <ElFormItem label-width="83px">
+            <span style="color: #8C8C8C;">
+              请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
+            </span>
           </ElFormItem>
         </ElForm>
       </div>
@@ -193,7 +207,7 @@ export default {
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isJPG = file.type === 'image/jpg' || 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG|PNG 格式!')

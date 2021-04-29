@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/message-drawer-reset.css";
+@import "./styles/drawer-reset.css";
 .drawer {
   .title {
     font-size: 16px;

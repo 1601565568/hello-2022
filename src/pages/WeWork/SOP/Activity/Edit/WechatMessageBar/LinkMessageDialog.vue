@@ -26,10 +26,25 @@
         </el-form-item>
         <el-form-item label="" label-width="100px" >
           <ElFormGrid>
-            <ns-button type="text"  @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;员工userid&gt; </ns-button>
           </ElFormGrid>
           <ElFormGrid>
-            <ns-button type="text" @click="insertPlaceHolderToWeb('{userId}')"> &lt;导购userId&gt; </ns-button>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{workId}')"> &lt;员工账号&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{workNumber}')"> &lt;员工工号&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{guideId}')"> &lt;员工ID&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{shopId}')"> &lt;员工工作门店&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{random}')"> &lt;随机数标识&gt; </ns-button>
+          </ElFormGrid>
+          <ElFormGrid>
+            <ns-button type="text" @click="insertPlaceHolderToWeb('{timestamp}')"> &lt;时间戳&gt; </ns-button>
           </ElFormGrid>
         </el-form-item>
         <el-form-item>

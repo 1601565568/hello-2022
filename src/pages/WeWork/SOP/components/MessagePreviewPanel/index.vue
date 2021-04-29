@@ -78,6 +78,7 @@ export default {
   background: #F2F2F2;
   display: flex;
   flex-direction: column;
+  padding-bottom: 10px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -87,15 +88,18 @@ export default {
 
   .text-message {
     max-width: 175px;
-    max-height: 152px;
     padding: 8px;
     line-height: 20px;
     background: #fff;
     border-radius: 2px;
-    -webkit-line-clamp: 7;
   }
 
-  .image-message, .video-message {
+  .image-message {
+    max-width: 180px;
+    max-height: 140px;
+  }
+
+  .video-message {
     max-width: 180px;
     max-height: 140px;
   }

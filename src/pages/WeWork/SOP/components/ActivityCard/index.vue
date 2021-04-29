@@ -24,13 +24,13 @@
         <span class="message-icons-title">共{{activity.contentList.length}}条消息</span>
         <div class="message-icons-list">
           <el-tooltip
-              v-for="(item, index) in messageToolTipList(activity.contentList)"
-              :key="index"
-              class="message-icons-item"
-              :content="item.tip"
-              placement="top"
-            >
-              <Icon :type="item.icon" className="icon"/>
+            v-for="(item, index) in messageToolTipList(activity.contentList)"
+            :key="index"
+            class="message-icons-item"
+            :content="item.tip"
+            placement="top"
+          >
+            <span><Icon :type="item.icon" className="icon"/></span>
           </el-tooltip>
         </div>
       </div>

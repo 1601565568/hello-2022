@@ -2,7 +2,6 @@
   <el-dialog
     title="文本"
     width="658px"
-    height="400px"
     :visible="visible"
     @close="close"
     @open="open"
@@ -24,6 +23,9 @@
 
 <script>
 import TagArea from '@/components/NewUi/TagArea'
+import xingmingImg from './images/xingming.png'
+import nichengImg from './images/nicheng.png'
+import mendianImg from './images/mendian.png'
 
 export default {
   components: {
@@ -55,14 +57,24 @@ export default {
         textContent: ''
       },
       tooltags: [
-        { type: 'tag', text: `员工姓名`, id: 'GUIDENAME', value: '员工姓名', icon: 'nicheng-2-x' },
-        { type: 'tag', text: `员工门店名称`, id: 'GUIDESHOP', value: '员工门店名称', icon: 'mendian-2-x' },
-        { type: 'tag', text: `员工企业微信昵称`, id: 'GUIDENICKNAME', value: '员工企业微信昵称', icon: 'mendian-2-x' }
+        { type: 'tag', text: `员工姓名`, id: 'GUIDENAME', value: '员工姓名', img: xingmingImg },
+        { type: 'tag', text: `员工门店名称`, id: 'GUIDESHOP', value: '员工门店名称', img: mendianImg },
+        { type: 'tag', text: `员工企业微信昵称`, id: 'GUIDENICKNAME', value: '员工企业微信昵称', img: nichengImg }
       ],
       rules: {
         htmlContent: [
           { required: true, message: '请输入文本内容', trigger: ['blur', 'change'] },
-          { max: 1000, message: '最多1000个字符', trigger: ['blur', 'change'] }
+          { validator: (rule, value, callback) => {
+            const text = this.$refs.TagAreaText.htmlToText(value)
+            if (text.length > 1000) {
+              callback(new Error(rule.message))
+            } else {
+              callback()
+            }
+          },
+          message: '最多1000个字符',
+          trigger: ['blur', 'change']
+          }
         ]
       }
     }
@@ -117,7 +129,6 @@ export default {
     }
     .tag-area {
       width: 626px;
-      height: 232px;
     }
   }
 }

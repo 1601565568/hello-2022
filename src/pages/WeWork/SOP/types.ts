@@ -53,7 +53,7 @@ export const SOPMessageTypeToolTip = {
  */
 export enum SOPExamineStatus {
   Failed, // 审核失败
-  UnSubmit, // 未提交
+  UnSubmit, // 待提交
   Pending, // 待审核
   Succeed, // 审核成功
   // @ts-ignore

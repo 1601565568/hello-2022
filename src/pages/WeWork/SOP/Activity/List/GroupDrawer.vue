@@ -39,11 +39,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./styles/drawer-reset.css";
+
 .group-drawer {
+  overflow: auto;
   .title {
     font-size: 16px;
     color: #262626;
     line-height: 24px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #9093994d;
   }
 }
 </style>

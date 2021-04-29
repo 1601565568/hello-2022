@@ -35,6 +35,7 @@ export default {
     display: inline-block;
     margin: 0 16px;
     line-height: 57px;
+    color: #979797;
   }
 }
 </style>

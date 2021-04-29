@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     width="842px"
-    height="206px"
+    height="210px"
     :visible="visible"
     @close="cancel"
     @open="open"
@@ -63,7 +63,7 @@
               <div class="select-tips">
                 <span v-if="!guides.length" class="un-selected">请选择员工</span>
                 <span v-else class="selected">已选择{{guides.length}}个员工</span>
-                <Icon type="geren" class="icon"/>
+                <Icon type="ns-people" class="icon"/>
               </div>
             </template>
           </NsGuideDialog>

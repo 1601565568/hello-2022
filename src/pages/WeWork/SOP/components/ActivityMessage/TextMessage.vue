@@ -76,11 +76,9 @@ export default {
 .text-message {
   color: #383838;
   width: 100%;
-  max-height: 161px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 </style>

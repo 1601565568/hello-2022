@@ -10,40 +10,41 @@
             class="activity-card"
           >
             <template v-for="(message, messageIndex) in cardList(item.contentList)">
-                <TextMessage
-                  :key="messageIndex"
-                  v-if="message.type === SOPActivityMessageType.Text"
-                  class="text-message test"
-                  :content="message.content"
-                />
-                <ImageMessage
-                  :key="messageIndex"
-                  v-else-if="message.type === SOPActivityMessageType.Image || message.type === SOPActivityMessageType.Poster"
-                  class="image-message test"
-                  :content="message.content"
-                  :total="true"
-                  :preview="true"
-                  :previewList="getImgPrewivewList(item.contentList)"
-                />
-                <VideoMessage
-                  :key="messageIndex"
-                  v-else-if="message.type === SOPActivityMessageType.Video"
-                  class="video-message"
-                  :preview="true"
-                  :content="message.content"
-                />
-                <NewsMessage
-                  :key="messageIndex"
-                  v-else-if="message.type === SOPActivityMessageType.Link"
-                  class="news-message"
-                  :content="message.content"
-                />
-                <MiniProgramMessage
-                  :key="messageIndex"
-                  v-else-if="message.type === SOPActivityMessageType.MiniProgram"
-                  class="mini-message"
-                  :content="message.content"
-                />
+              <TextMessage
+                :key="messageIndex"
+                v-if="message.type === SOPActivityMessageType.Text"
+                class="text-message"
+                :class="[ cardList(item.contentList).length === 1 ? 'single-message' : 'multi-message' ]"
+                :content="message.content"
+              />
+              <ImageMessage
+                :key="messageIndex"
+                v-else-if="message.type === SOPActivityMessageType.Image || message.type === SOPActivityMessageType.Poster"
+                class="image-message"
+                :content="message.content"
+                :total="true"
+                :preview="true"
+                :previewList="getImgPrewivewList(item.contentList)"
+              />
+              <VideoMessage
+                :key="messageIndex"
+                v-else-if="message.type === SOPActivityMessageType.Video"
+                class="video-message"
+                :preview="true"
+                :content="message.content"
+              />
+              <NewsMessage
+                :key="messageIndex"
+                v-else-if="message.type === SOPActivityMessageType.Link"
+                class="news-message"
+                :content="message.content"
+              />
+              <MiniProgramMessage
+                :key="messageIndex"
+                v-else-if="message.type === SOPActivityMessageType.MiniProgram"
+                class="mini-message"
+                :content="message.content"
+              />
             </template>
             <template slot="footer">
               <div>
@@ -154,21 +155,20 @@ export default {
     cardList (contentList) {
       if (contentList.length > 0) {
         const list = [ ...contentList ]
-        // 排序并去重
-        list.sort((a, b) => (a.type - b.type))
+        const newList = []
         const uniqueTypeMsgObj = {}
         list.forEach(item => {
           if (!uniqueTypeMsgObj[item.type]) {
             uniqueTypeMsgObj[item.type] = item
+            newList.push(item)
           }
         })
-        const uniqueTypeMsgList = Object.values(uniqueTypeMsgObj)
         if (list[0].type === SOPActivityMessageType.Text) {
           // 如果第一条是文本 返回前两条
-          return uniqueTypeMsgList.slice(0, 2)
+          return newList.slice(0, 2)
         } else {
           // 如果第一条不是文本，直接显示一条
-          return uniqueTypeMsgList.slice(0, 1)
+          return newList.slice(0, 1)
         }
       } else {
         return []
@@ -327,6 +327,7 @@ export default {
     },
     async confirmExamineActivity (context) {
       try {
+        window.console.log('审核活动结果', context)
         const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
         this.$message.success('审核完成')
       } catch (respErr) {
@@ -406,6 +407,14 @@ export default {
   //     }
   //   }
   // }
+
+  .single-message {
+    -webkit-line-clamp: 8;
+  }
+
+  .multi-message {
+    -webkit-line-clamp: 2;
+  }
 
   .activity-card-scrollbar {
     height: calc(100% - 61px);

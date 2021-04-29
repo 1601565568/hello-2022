@@ -64,14 +64,19 @@
           :reload="visible"
         />
       </div>
-      <div class="drawer_content-examine-status block-line" v-if="activity.status === SOPExamineStatus.Failed || activity.status === SOPExamineStatus.Succeed">
+      <div
+        class="drawer_content-examine-status block-line"
+        v-if="!(panelType === 'examine' && activity.status === SOPExamineStatus.Pending)"
+      >
         <el-form class="el-form-reset" size="medium" label-width="80px" label-position="right">
           <el-form-item label="审核状态">
             <span v-if="activity.status === SOPExamineStatus.Failed">审核失败</span>
+            <span v-else-if="activity.status === SOPExamineStatus.UnSubmit">待提交</span>
+            <span v-else-if="activity.status === SOPExamineStatus.Pending">待审核</span>
             <span v-else-if="activity.status === SOPExamineStatus.Succeed">审核成功</span>
           </el-form-item>
-          <el-form-item label="失败原因" v-if="activity.status === SOPExamineStatus.Failed">
-            <span>{{activity.reamrk || '无'}}</span>
+          <el-form-item label="失败原因" v-if="activity.status === SOPExamineStatus.Failed && activity.reamrk">
+            <pre class="examine-failed-reason">{{activity.reamrk}}</pre>
           </el-form-item>
         </el-form>
       </div>
@@ -188,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/activity-drawer-reset.css";
+@import "./styles/drawer-reset.css";
 .drawer {
   .title {
     font-size: 16px;
@@ -251,6 +256,15 @@ export default {
           font-size: 14px;
           line-height: 20px;
         }
+      }
+      .examine-failed-reason {
+        margin-top: 5px;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #383838;
+        letter-spacing: 0;
+        line-height: 24px;
+        font-weight: 400;
       }
     }
     .block-line::before {
