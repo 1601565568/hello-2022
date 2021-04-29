@@ -224,6 +224,7 @@
       title="指南"
       width="658px"
       @close="handleCloseDia"
+      custom-class='cus-dialog-view'
     >
       <div>
         <div class="guide-text">指南说明</div>
@@ -234,6 +235,7 @@
           v-model="guideText"
           :tools="tools"
           v-if="showEdit"
+          ref="tagArea"
         ></tag-area>
       </div>
       <div>
@@ -272,8 +274,8 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="handleCloseDia">取消</ns-button>
-        <ns-button type="primary" @click="handleSure">确定</ns-button>
+        <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
+        <ns-button type="primary" @click="handleSure" class="diag-view">确定</ns-button>
       </div>
     </el-dialog>
     <GuideInfo ref="guideInfo" />
@@ -448,15 +450,16 @@ export default {
     handleSure () {
       //  点击拍摄指南确定
       if (this.model.mediaList.length < this.imageNum) {
+        let str = this.$refs.tagArea.htmlToString(this.guideText)
         const item = this.model.mediaList[this.editIndex]
         if (item) {
-          item.pitText = this.guideText
+          item.pitText = str
           item.url = this.showEidtImg
           this.model.mediaList[this.editIndex] = item
         } else {
           const obj = {
             pitType: 2,
-            pitText: this.guideText,
+            pitText: str,
             type: 1,
             url: this.showEidtImg
           }
@@ -682,6 +685,19 @@ export default {
   svg + svg {
     margin-left: var(--default-margin-small);
   }
+}
+
+.cus-dialog-view {
+  background-color: red;
+}
+
+.dialog-footer {
+  margin-top: 47px;
+}
+.diag-view {
+  width: 72px;
+  height: 32px;
+  margin-left: 16px;
 }
 
 @component-namespace library {

@@ -7,6 +7,19 @@
   display: none;
 }
 
+>>> .w-textarea_input {
+  height: 141px;
+}
+
+>>> .el-dialog {
+  padding: 8px;
+}
+>>> .el-dialog__title {
+  font-weight: 500;
+  font-size: 16px;
+  height: 36px;
+  line-height:36px;
+}
 /* >>> .el-tag__close {
     display: none;
     background: red;
