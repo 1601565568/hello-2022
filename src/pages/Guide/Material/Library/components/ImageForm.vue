@@ -435,16 +435,25 @@ export default {
       item.url = ''
       this.mediaList.splice(this.editIndex, 1)
     },
+    addCustomImg () {
+      // 添加坑位
+      this.$refs.imageForm.clearValidate()
+      this.$refs.popoverView.doClose()
+      this.guideText = ''
+      this.showEidtImg = ''
+      this.editIndex = this.model.mediaList.length
+      this.showEdit = true
+    },
     handleSure () {
-      // 根据选中下标更新用户信息
+      //  点击拍摄指南确定
       if (this.model.mediaList.length < this.imageNum) {
-        let item = this.model.mediaList[this.editIndex]
+        const item = this.model.mediaList[this.editIndex]
         if (item) {
           item.pitText = this.guideText
           item.url = this.showEidtImg
           this.model.mediaList[this.editIndex] = item
         } else {
-          let obj = {
+          const obj = {
             pitType: 2,
             pitText: this.guideText,
             type: 1,
@@ -453,18 +462,13 @@ export default {
           this.model.mediaList.push(obj)
         }
       }
+
       this.showEdit = false
     },
     handleCloseDia () {
       this.showEdit = false
       this.guideText = ''
       this.showEidtImg = ''
-      let item = this.model.mediaList[this.editIndex]
-      if (item) {
-        this.model.mediaList.splice(0, this.editIndex)
-      } else {
-        this.model.mediaList.pop()
-      }
     },
     editImage (index) {
       this.editIndex = index
@@ -518,15 +522,6 @@ export default {
         this.mediaList[this.editIndex] = obj
       }
       this.showEidtImg = res.result.url
-    },
-    addCustomImg () {
-      // 添加坑位
-      this.$refs.imageForm.clearValidate()
-      this.$refs.popoverView.doClose()
-      this.guideText = ''
-      this.showEidtImg = ''
-      this.editIndex = this.model.mediaList.length
-      this.showEdit = true
     },
     beforeGuideUpload (file) {
       this.beforeAvatarUpload(file)
