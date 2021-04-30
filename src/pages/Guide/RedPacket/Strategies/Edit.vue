@@ -3,22 +3,27 @@
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
+          <!-- 编辑进入 start -->
           <template v-if='disabled'>
             <h3>
-              <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleCancel'></Icon>
+              <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleCancel(listPath)'></Icon>
               查看红包
             </h3>
           </template>
+          <!-- 编辑进入 end -->
+          <!-- 新建进入 start -->
           <template v-else>
             <h3>新建红包</h3>
             <div class='common-btn'>
-              <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-              <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+              <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel(listPath)'>取消</ns-button>
+              <ns-button class='customer-btn_save' type="primary" size='large' @click='update(submitApi)' :loading='btnLoad'>保存</ns-button>
             </div>
           </template>
+          <!-- 新建进入 end -->
         </div>
       </template>
       <template slot='content'>
+        <!-- 红包配置 start -->
         <SimpleCollapse title='红包配置'>
           <Box :noborder='true'>
             <template slot='collapse-left'>
@@ -58,7 +63,8 @@
             </template>
           </Box>
         </SimpleCollapse>
-        <!-- 红包封面配置 start -->
+        <!-- 红包配置 end -->
+        <!-- 基本信息 start -->
         <SimpleCollapse title='基本信息'>
           <Box :noborder='true'>
             <template slot='collapse-left'>
@@ -123,8 +129,8 @@
             </template>
           </Box>
         </SimpleCollapse>
-         <!-- 红包封面配置 end -->
-        <!-- 红包封面配置 start -->
+         <!-- 基本信息 end -->
+        <!-- 红包信息 start -->
         <recruitment-collapse title='红包信息' phoneTitle=''>
           <template slot='collapse-left'>
             <el-form-item v-if='model.redpackType === normalRed' label='单个红包金额（元）' required prop='money' class='larger-item'>
@@ -196,7 +202,7 @@
             <p class='collapse-right__bottom'>好友领红包封面预览图</p>
           </template>
         </recruitment-collapse>
-         <!-- 红包封面配置 end -->
+         <!-- 红包信息 end -->
       </template>
     </page-edit>
     <el-dialog title="选择封面"

@@ -19,6 +19,8 @@ export const redpacketTypeList = [ // 红包类型列表
     value: diyRed
   }
 ]
+export const normalType = 1 // 正常状态（策略和放红包同）
+export const closeType = 2 // 关闭状态（策略和放红包同）
 // 红包发放相关
 export const staffPost = 1 // 员工发放
 export const activityPost = 2 // 活动发放
@@ -47,3 +49,4 @@ export const timeTypeList = [ // 时间类型列表
     nick: '不限'
   }
 ]
+export const BLESSING = '恭喜发财，大吉大利'

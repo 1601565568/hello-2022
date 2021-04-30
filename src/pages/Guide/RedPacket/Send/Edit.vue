@@ -5,8 +5,8 @@
         <div class='common-header flex-box'>
           <h3>发红包</h3>
           <div class='common-btn'>
-            <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+            <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel(listPath)'>取消</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='update(submitApi)' :loading='btnLoad'>保存</ns-button>
           </div>
         </div>
       </template>
@@ -25,9 +25,6 @@
               </el-radio-group>
               <div class='employee-content' v-if='model.useType === 2'>
                 <el-form-item label='参与门店' prop='shopIds'>
-                  <div class='flex-box form-item_toptext'>
-                    <span>{{shopTip}}</span>
-                  </div>
                   <html-area>
                     <div class='employee-list'>
                       <div v-if='model.shopIds.length>0' class='employee-text active'>

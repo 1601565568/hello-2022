@@ -5,7 +5,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="使用员工：">
-            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}">
               <template slot='selfBtn'>
                 <div class='self-btn'>
                   {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -17,7 +17,7 @@
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
+        <ns-button type="primary" size='large' @click="handleJump(detailPath,{})">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -34,7 +34,6 @@
               <template slot-scope="scope">
                 <div class="scope-title">
                   <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
-                  <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab">
                     {{scope.row.name}}
                   </div>

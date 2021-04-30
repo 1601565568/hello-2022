@@ -1,14 +1,15 @@
 import qychat from '@/assets/qychat.png'
-import { getErrorMsg } from '@/utils/toast'
+import redpacketEdit from '../../mixins/redpacketEdit'
 export default {
+  mixins: [redpacketEdit],
   data () {
     return {
       qychat,
       model: {
-        useType: 1,
-        guideIds: [],
-        redpackPolicyId: '',
-        shopIds: []
+        useType: 1, // 用户类型
+        guideIds: [], // 选中员工列表
+        redpackPolicyId: '', // 选中红包策略id
+        shopIds: [] // 选中的门店列表
       },
       rules: {
         useType: [
@@ -24,30 +25,46 @@ export default {
           { required: true, message: '请选择员工', trigger: ['blur', 'change'] }
         ]
       },
-      visible: false,
+      visible: false, // 选中红包策略列表
       btnLoad: false,
-      redpacketName: ''
+      redpacketName: '', // 红包策略名称，仅作展示
+      listPath: '/Social/SocialOperation/RedPacket/Strategies/List',
+      submitApi: this.$api.guide.redpacket.createSend
     }
   },
   methods: {
+    /**
+     * 选中导购
+     * @param {*} value
+     */
     handleChangeGuide (value) {
       this.model.guideIds = value.map(item => item.id)
       this.$refs.searchform && this.$refs.searchform.validateField('guideIds')
     },
+    /**
+     * 选中门店
+     * @param {*} value
+     */
     handleChangeShopList (value) {
       this.model.shopIds = value
       this.$refs.searchform && this.$refs.searchform.clearValidate('shopIds')
     },
-    // 返回列表
-    handleCancel () {
-      this.$router.push({ path: '/Social/SocialOperation/RedPacket/Send/List' })
-    },
+    /**
+     * 打开选择策略
+     */
     hanleChoose () {
       this.changeVisible(true)
     },
+    /**
+     * 策略弹框
+     * @param {*} visible
+     */
     changeVisible (visible) {
       this.visible = visible
     },
+    /**
+     * 完成策略选择
+     */
     handleSure () {
       const checkedItem = this.$refs.strategiesList.checkItem
       if (!checkedItem.id) {
@@ -57,25 +74,16 @@ export default {
       this.redpacketName = checkedItem.name
       this.changeVisible(false)
     },
-    update () {
-      this.btnLoad = true
-      this.$refs.searchform.validate(valid => {
-        if (valid) {
-          this.doUpdate()
-        } else {
-          this.btnLoad = false
-        }
-      })
-    },
-    doUpdate () {
-      this.$http.fetch(this.$api.guide.redpacket.createSend, this.model).then(() => {
-        this.btnLoad = false
-        this.$notify.success('保存成功')
-        this.handleCancel()
-      }).catch((resp) => {
-        this.btnLoad = false
-        this.$notify.error(getErrorMsg('保存失败', resp))
-      })
+    /**
+     * 格式化数据
+     */
+    formatData (obj) {
+      return {
+        useType: obj.useType,
+        guideIds: obj.guideIds,
+        redpackPolicyId: obj.redpackPolicyId,
+        shopIds: obj.shopIds
+      }
     }
   }
 }

@@ -5,14 +5,14 @@
       <template slot='search' v-if='!isEmpty'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="红包类型：">
             <el-select v-model="model.redpackType" placeholder="请选择" @change='(value)=>{changeSearchfrom({redpackType:value})}'>
               <el-option
-                v-for="item in redpacketTypeList"
+                v-for="item in redpacketTypeListSelect"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -44,7 +44,7 @@
           <el-form-item label="发放类型：" class='el-form__change'>
             <el-select v-model="model.launchType" placeholder="请选择" @change='(value)=>{changeSearchfrom({launchType:value})}'>
               <el-option
-                v-for="item in setTypeList"
+                v-for="item in setTypeListSelect"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -54,7 +54,7 @@
         </el-form>
       </template>
       <template slot='button' v-if='!isEmpty'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
+        <ns-button type="primary" size='large' @click="handleJump(detailPath,{})">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -64,7 +64,7 @@
             <div class='empty'>
               <img class='empty-img' :src='redPacketEmpty'/>
               <p class='empty-p'>你还没有配置支付商户号哦~</p>
-              <div class='empty-div'>可前往【系统设置】->【授权管理】->【支付配置】进行配置 <ns-button type='text' class='empty-btn' @click='handleGoPay'>去配置</ns-button></div>
+              <div class='empty-div'>可前往【系统设置】->【授权管理】->【支付配置】进行配置 <ns-button type='text' class='empty-btn' @click='handleJump(payPath)'>去配置</ns-button></div>
             </div>
           </div>
         </template>
@@ -80,7 +80,6 @@
               <template slot-scope="scope">
                 <div class="scope-title">
                   <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
-                  <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab">
                     {{scope.row.name}}
                   </div>
@@ -138,7 +137,7 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='(value)=>{handleChangeState(scope.row.id,scope.row.state)}'
-                  :value="scope.row.state === 1">
+                  :value="scope.row.state === normalType">
                 </el-switch>
               </template>
             </el-table-column>
@@ -147,7 +146,7 @@
               width='70px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({id:scope.row.id})'>查看</ns-button>
+                <ns-button type="text" @click='handleJump(detailPath,{id:scope.row.id})'>查看</ns-button>
               </template>
             </el-table-column>
           </el-table>

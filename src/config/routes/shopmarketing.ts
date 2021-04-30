@@ -151,13 +151,13 @@ export default {
         {
           'path': '/Social/SocialOperation/RedPacket/Poster/List',
           'name': 'redPacketPosterList',
-          'title': '红包策略',
+          'title': '红包封面',
           'component': () => import('@/pages/Guide/RedPacket/Poster/List.vue')
         },
         {
           'path': '/Social/SocialOperation/RedPacket/Poster/Edit',
           'name': 'redPacketPosterEdit',
-          'title': '新建红包策略',
+          'title': '新建红包封面',
           'component': () => import('@/pages/Guide/RedPacket/Poster/Edit.vue')
         }
       ]
@@ -174,13 +174,13 @@ export default {
         {
           'path': '/Social/SocialOperation/RedPacket/Send/List',
           'name': 'redPacketSendList',
-          'title': '红包策略',
+          'title': '发策略',
           'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
         },
         {
           'path': '/Social/SocialOperation/RedPacket/Send/Edit',
           'name': 'redPacketSendEdit',
-          'title': '新建红包策略',
+          'title': '新建发策略',
           'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
         }
       ]
@@ -197,19 +197,19 @@ export default {
         {
           'path': '/Social/SocialOperation/RedPacket/Analysis',
           'name': 'redPacketAnalysis',
-          'title': '红包策略',
+          'title': '数据概览',
           'component': () => import('@/pages/Guide/RedPacket/Analysis/Analysis/index.vue')
         },
         {
           'path': '/Social/SocialOperation/RedPacket/ReceiveRecord',
           'name': 'redPacketAnalysis',
-          'title': '红包策略',
+          'title': '领取记录',
           'component': () => import('@/pages/Guide/RedPacket/Analysis/ReceiveRecord/index.vue')
         },
         {
           'path': '/Social/SocialOperation/RedPacket/SendRecord',
           'name': 'redPacketAnalysis',
-          'title': '红包策略',
+          'title': '发放记录',
           'component': () => import('@/pages/Guide/RedPacket/Analysis/SendRecord/index.vue')
         }
       ]

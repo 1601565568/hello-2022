@@ -5,19 +5,19 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <el-input v-model="model.name" placeholder="请输入封面名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            <el-input v-model="model.name" placeholder="请输入封面名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="model.operatorName" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            <el-input v-model="model.operatorName" placeholder="请输入创建人名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
+        <ns-button type="primary" size='large' @click="handleJump(detailPath,{})">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -72,7 +72,7 @@
               width='170px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({id:scope.row.id})'>编辑</ns-button>
+                <ns-button type="text" @click='handleJump(detailPath,{id:scope.row.id})'>编辑</ns-button>
                 <PreviewRedPacket :bgImage='scope.row.background'><ns-button type="text">查看</ns-button></PreviewRedPacket>
                 <ns-button type="text" @click='handleDelete(scope.row.id,scope.row.isDefault)'>删除</ns-button>
               </template>

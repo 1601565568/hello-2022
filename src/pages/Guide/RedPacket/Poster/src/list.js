@@ -1,38 +1,22 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import { getErrorMsg } from '@/utils/toast'
+import redpacketTable from '../../mixins/redpacketTable'
 export default {
   data () {
     return {
       model: {
-        name: '',
-        operatorName: ''
+        name: '', // 封面名称
+        operatorName: '' // 创建人
       },
       drawer: false,
-      url: this.$api.guide.redpacket.getCoverList
+      url: this.$api.guide.redpacket.getCoverList,
+      detailPath: '/Social/SocialOperation/RedPacket/Poster/Edit'
     }
   },
-  mixins: [tableMixin],
+  mixins: [tableMixin, redpacketTable],
   mounted () {
     this.$reload()
   },
   methods: {
-    handleSearch () {
-      this.changeSearchfrom(this.model)
-    },
-    /**
-     * 修改搜索项
-     * @param {*} [obj]
-     */
-    changeSearchfrom (obj = {}) {
-      this.model = Object.assign(this.model, obj)
-      this.$searchAction$()
-    },
-    handleDetail (query = {}) {
-      this.$router.push({
-        path: '/Social/SocialOperation/RedPacket/Poster/Edit',
-        query
-      })
-    },
     // 删除封面
     handleDelete (id, isDefault) {
       if (isDefault) {
@@ -56,24 +40,18 @@ export default {
           this.$notify.error('操作失败')
         })
     },
-    handleSort (data) {
-      const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
-      const sortName = sortType !== '' ? data.prop : ''
-      this.changeSearchfrom({ sortName, sortType })
-    },
+    /**
+     * 修改状态
+     * @param {*} id
+     * @param {*} isDefault
+     * @return {*}
+     */
     handleChangeState (id, isDefault) {
       if (isDefault) {
         this.$notify.error('至少有一个默认封面')
         return false
       }
-      this.$http.fetch(this.$api.guide.redpacket.setDefault(id)).then(res => {
-        if (res.success) {
-          this.$notify.success('操作成功')
-          this.$searchAction$()
-        }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('操作失败', resp))
-      })
+      this.changeState(this.$api.guide.redpacket.setDefault(id))
     }
   }
 }

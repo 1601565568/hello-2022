@@ -1,37 +1,31 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import redPacket from '@/assets/redPacket.png'
+import redpacketTable from '../../mixins/redpacketTable'
 import redPacketEmpty from '@/assets/redpactEmpty.png'
-import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList } from '../../const'
-import { getErrorMsg } from '@/utils/toast'
 export default {
+  mixins: [tableMixin, redpacketTable],
   data () {
     return {
-      redPacket,
-      redPacketEmpty,
+      redPacketEmpty, // 红包空图
       model: {
-        endTime: '',
-        launchType: null,
-        name: '',
-        payConfigId: null,
-        redpackType: null,
-        startTime: '',
-        orderType: '',
-        sortName: 'createTime',
-        sortType: 0
+        startTime: '', // 起始时间
+        endTime: '', // 结束时间
+        launchType: null, // 发放类型
+        name: '', // 红包名称
+        payConfigId: null, // 支付商户
+        redpackType: null, // 红包类型
+        sortName: 'createTime', // 排序字段
+        sortType: 0 // 排序规则 0:倒叙  1:正序
       },
       url: this.$api.guide.redpacket.getStrategiesList,
-      redpacketTypeMap,
-      redpacketTypeList: [{ label: '全部', value: null }, ...redpacketTypeList],
-      timeTypeForever,
-      setTypeList: [{ label: '全部', value: null }, ...setTypeList],
-      payList: [],
-      payMap: {},
+      payList: [], // 支付商户列表用户列表筛选
+      payMap: {}, // 支付商户枚举用于列表‘支付商户号’字段
       // 筛选日期
-      seachDate: [],
-      isLoad: false
+      seachDate: [], // 时间筛选
+      isLoad: false, // 是否请求完成支付商户号列表
+      detailPath: '/Social/SocialOperation/RedPacket/Strategies/Edit', // 详情页路由
+      payPath: '/Guide/Others/PaySet' // 支付商户号配置页面，未配置商户号需要先配置
     }
   },
-  mixins: [tableMixin],
   mounted () {
     this.getList()
     this.$reload()
@@ -39,11 +33,17 @@ export default {
   computed: {
     isEmpty () {
       return !this.payList.length && this.isLoad
+    },
+    redpacketTypeListSelect () {
+      return [{ label: '全部', value: null }, ...this.redpacketTypeList]
+    },
+    setTypeListSelect () {
+      return [{ label: '全部', value: null }, ...this.setTypeList]
     }
   },
   methods: {
     /**
-     * 获取金额列表
+     * 获取支付商户号列表
      */
     getList () {
       this.$store.dispatch('pay/getWxpayList').then(data => {
@@ -64,38 +64,13 @@ export default {
         this.isLoad = true
       })
     },
-    changeSearchfrom (obj = {}) {
-      this.model = Object.assign(this.model, obj)
-      this.$searchAction$()
-    },
-    handleSearch () {
-      this.changeSearchfrom({ name: this.model.name })
-    },
-    handleDetail (query = {}) {
-      this.$router.push({
-        path: '/Social/SocialOperation/RedPacket/Strategies/Edit',
-        query
-      })
-    },
-    // 修改状态
+    /**
+     * 修改状态
+     * @param {*} id
+     * @param {*} value
+     */
     handleChangeState (id, value) {
-      this.$http.fetch(this.$api.guide.redpacket.changeStrategiesState, { id, state: 3 - value }).then(res => {
-        if (res.success) {
-          this.$searchAction$()
-        }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('操作失败', resp))
-      })
-    },
-    handleGoPay () {
-      this.$router.push({
-        path: '/Guide/Others/PaySet'
-      })
-    },
-    handleSort (data) {
-      const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
-      const sortName = sortType !== '' ? data.prop : ''
-      this.changeSearchfrom({ sortName, sortType })
+      this.changeState(this.$api.guide.redpacket.changeStrategiesState, { id, state: this.normalType + this.closeType - value })
     }
   },
   watch: {

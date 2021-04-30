@@ -1,10 +1,11 @@
-import { timeTypeInterval, timeTypeForever, redpacketTypeList, setTypeList, timeTypeList, normalRed, luckyRed, diyRed, staffPost, activityPost } from '../../const'
 import baguser from '@/assets/baguser.png'
 import fangRedpact from '@/assets/fangRedpact.png'
 import ValidateUtil from '@/utils/validateUtil'
 import { mapState } from 'vuex'
 import { getErrorMsg } from '@/utils/toast'
+import redpacketEdit from '../../mixins/redpacketEdit'
 export default {
+  mixins: [redpacketEdit],
   data () {
     return {
       pickerOptions: {
@@ -13,21 +14,21 @@ export default {
         }
       },
       model: {
-        redpackType: normalRed, // 红包类型
-        launchType: staffPost,
-        payConfigId: null,
-        name: '',
-        timeType: timeTypeInterval,
-        time: [],
-        total: '',
-        limitType: 1,
-        everyoneLimit: '',
-        money: '',
-        benediction: '恭喜发财，大吉大利',
-        coverId: null,
-        customizeType: false,
-        moneyMax: '',
-        moneyMin: ''
+        redpackType: null, // 红包类型
+        launchType: null, // 发放类型
+        payConfigId: null, // 支付商户
+        name: '', // 红包名称
+        timeType: null, // 时间类型
+        time: [], // 有限时间时间范围
+        total: '', // 红包总数
+        limitType: 1, // 单人单日发放个数上限
+        everyoneLimit: '', // 单人单日发放个数上限个数
+        money: '', // 单个红包金额（元）
+        benediction: null, // 祝福语
+        coverId: null, // 红包封面
+        customizeType: false, // 允许员工自定义红包祝福语
+        moneyMax: '', // 最大金额
+        moneyMin: '' // 最小金额
       },
       rules: {
         redpackType: [
@@ -59,37 +60,19 @@ export default {
           { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
           { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
         ],
-        // moneyMax: [
-        //   { required: true, message: '请输入最大金额', trigger: ['blur', 'change'] },
-        //   { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
-        //   { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
-        // ],
-        // moneyMin: [
-        //   { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
-        //   { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
-        //   { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
-        // ],
         benediction: [
           { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
         ]
       },
-      visible: false,
-      disabled: false,
-      posterInfo: {},
-      btnLoad: false,
-      redpacketTypeList,
-      setTypeList,
-      timeTypeInterval,
-      timeTypeForever,
-      timeTypeList,
-      normalRed,
-      luckyRed,
-      diyRed,
-      activityPost,
-      staffPost,
-      baguser,
+      visible: false, // 选择海报弹框
+      disabled: false, // 是否查看进入
+      posterInfo: {}, // 选中的海报信息
+      btnLoad: false, // 是否正在保存
+      ValidateUtil,
       fangRedpact,
-      ValidateUtil
+      baguser,
+      listPath: '/Social/SocialOperation/RedPacket/Strategies/List',
+      submitApi: this.$api.guide.redpacket.createStrategies
     }
   },
   computed: {
@@ -98,6 +81,9 @@ export default {
     })
   },
   methods: {
+    /**
+     * 初始化
+     */
     init () {
       const { id } = this.$route.query
       if (id) {
@@ -111,9 +97,16 @@ export default {
           this.$notify.error(getErrorMsg('获取失败', resp))
         })
       } else {
+        this.setDefault({
+          redpackType: this.normalRed,
+          launchType: this.staffPost,
+          timeType: this.timeTypeInterval,
+          benediction: this.BLESSING
+        })
         this.$http.fetch(this.$api.guide.redpacket.getCoverList, { start: 0, length: 1 }).then((res) => {
           if (res.success) {
             this.model.coverId = res.result.data[0].id
+            this.posterInfo = res.result.data[0]
           }
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('获取失败', resp))
@@ -155,42 +148,32 @@ export default {
       }
       return obj
     },
+    /**
+     * 切换红包类型
+     * @param {*} value
+     */
     handleChangeRedpackType (value) {
       if ([luckyRed, diyRed].includes(value)) {
         this.model.launchType = staffPost
       }
       this.$refs.searchform.clearValidate()
     },
+    /**
+     * 打开选封面弹框
+     */
     handleChangePoster () {
       this.changeVisible(true)
     },
+    /**
+     * 修改弹框状态
+     * @param {*} visible
+     */
     changeVisible (visible) {
       this.visible = visible
     },
-    // 返回列表
-    handleCancel () {
-      this.$router.push({ path: '/Social/SocialOperation/RedPacket/Strategies/List' })
-    },
-    update () {
-      this.btnLoad = true
-      this.$refs.searchform.validate(async (valid) => {
-        if (!valid) {
-          this.btnLoad = false
-        } else {
-          this.setStrategies(this.formatData(this.model, 'submit'))
-        }
-      })
-    },
-    setStrategies (model) {
-      this.$http.fetch(this.$api.guide.redpacket.createStrategies, model).then(() => {
-        this.btnLoad = false
-        this.$notify.success('保存成功')
-        this.handleCancel()
-      }).catch((resp) => {
-        this.btnLoad = false
-        this.$notify.error(getErrorMsg('保存失败', resp))
-      })
-    },
+    /**
+     * 选择完成红包封面
+     */
     handleSure () {
       this.posterInfo = this.$refs.fullDialog.checkItem || {}
       this.model.coverId = this.posterInfo.id
