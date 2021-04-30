@@ -139,7 +139,6 @@ export default {
         link: [
           { required: true, message: '请输入网页', trigger: 'blur' },
           { validator: (rule, value, callback) => {
-            window.console.log('Yanzheng', value)
             if (value.startsWith('http://') || value.startsWith('https://')) {
               callback()
             } else {

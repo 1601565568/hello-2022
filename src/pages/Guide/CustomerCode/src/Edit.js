@@ -289,8 +289,6 @@ export default {
     },
     // 保存
     handleSave () {
-      // const save = Object.assign(this.formatModel())
-      // window.console.log('保存', save)
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const prizeModel = await this.$refs.setPrize.onSave()
@@ -299,9 +297,7 @@ export default {
             this.btnLoad = false
             return false
           }
-          // console.log('prizeModel', prizeModel)
           const save = Object.assign(this.formatModel(), prizeModel)
-          // console.log(save)
           this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
             this.$notify.success('保存成功')
             this.handleCancel()

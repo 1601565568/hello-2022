@@ -109,7 +109,6 @@ export default {
       }
     },
     onRedactFun (row) {
-      window.console.log(row)
     },
     checkUrl (url) {
       if (url !== null && url !== '') {

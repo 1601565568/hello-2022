@@ -176,7 +176,6 @@ export default {
   mounted () {
     this.statisticsCount()
     this.searchform()
-    // window.console.log('员工明细列表', this._data)
   },
   methods: {
     searchform () {
@@ -188,7 +187,6 @@ export default {
         startTime: this.model.startTime,
         endTime: this.model.endTime
       })
-      // window.console.log('获取数据统计结果', res)
       if (res.success) {
         this.dataStatistics = res.result
         this.test = res.result.inviteFriendSumByDate

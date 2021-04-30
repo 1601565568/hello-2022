@@ -159,7 +159,6 @@ export default {
       var url = 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/quickWordExcel/template/%E5%BF%AB%E6%8D%B7%E8%AF%9D%E6%9C%AF%E3%80%81%E5%88%86%E7%B1%BB%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xlsx'
       window.location.replace(url)
       setTimeout(() => {
-        // window.console.log('定时时间执行')
         this.downloadIsShow = true
       }, 5000)
     }, // 确认更新
@@ -206,7 +205,6 @@ export default {
       if (response.success) {
         this.hintMsgIsShowTextDanger = false
         this.improtQuickExcelQuery.excelFileKey = response.result.excelFileKey
-        // window.console.log(response.result)
         this.updateDataisShow = true
         this.$notify.success(response.msg)
       } else {

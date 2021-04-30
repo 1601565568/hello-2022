@@ -176,7 +176,6 @@ export default {
     saveOrUpdate () {
       this.btnLoad = true
       const parmas = this.formatModel(this.model)
-      // window.console.log('hahaha', parmas)
       this.btnLoad = false
       this.$http.fetch(this.$api.guide.qrcodePoster.saveOrUpdate, parmas).then(res => {
         if (res.success) {

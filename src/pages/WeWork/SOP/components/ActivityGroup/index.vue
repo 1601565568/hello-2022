@@ -82,7 +82,6 @@ export default {
   },
   watch: {
     reload (newVal, oldVal) {
-      window.console.log('reload', newVal, oldVal)
       if (newVal) {
         this.model = { id: this.activityId }
         if (this.type === 'log') this.getSuccessTotal()

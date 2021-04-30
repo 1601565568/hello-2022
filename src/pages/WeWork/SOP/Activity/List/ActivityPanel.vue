@@ -327,7 +327,6 @@ export default {
     },
     async confirmExamineActivity (context) {
       try {
-        window.console.log('审核活动结果', context)
         const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
         this.$message.success('审核完成')
       } catch (respErr) {
