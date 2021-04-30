@@ -156,6 +156,7 @@ export default {
     },
     closeDeawer () {
       this.unDrawer = !this.unDrawer
+      this.shopIds = []
       if (this.unDrawer) {
         this.pagination = {
           size: 10,
@@ -169,6 +170,7 @@ export default {
     },
     handleClose () {
       this.unDrawer = false
+      this.shopIds = []
     },
     loadList () {
       const params = {

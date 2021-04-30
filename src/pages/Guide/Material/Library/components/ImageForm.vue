@@ -467,7 +467,6 @@ export default {
             type: 1,
             url: this.showEidtImg
           }
-          console.log(obj)
           this.model.mediaList.push(obj)
         }
       }
