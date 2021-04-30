@@ -114,7 +114,7 @@
         <div class="library-icon__extra">
           <Icon type="tishi" />
           <span
-            >上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</span
+            >上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span
           >
         </div>
       </el-form-item>
