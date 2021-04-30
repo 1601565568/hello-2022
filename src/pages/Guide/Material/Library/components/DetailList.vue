@@ -154,6 +154,7 @@ export default {
     handleClose () {
       this.drawer = false
       this.guideIds = []
+      this.guideIdsStr = ''
     },
     handleChangeGuide (value) {
       this.guideIds = value
@@ -233,6 +234,7 @@ export default {
     closeDeawer () {
       this.drawer = true
       this.guideIds = []
+      this.guideIdsStr = ''
       if (this.drawer) {
         this.pagination = {
           size: 10,

@@ -229,7 +229,7 @@
         <div>
           <div class="guide-text">指南说明</div>
           <tag-area
-            :maxlength="1000"
+            :maxlength="1500"
             placeholder="请输入"
             :showEmoji="true"
             v-model="guideText"
@@ -543,8 +543,8 @@ export default {
         return false
       }
       // 图片大小判断
-      if (file.size / 1024 > 1024) {
-        this.$notify.warning('上传图片不得大于1MB')
+      if (file.size / 1024 / 1024 > 2) {
+        this.$notify.warning('上传图片不得大于2MB')
         return false
       }
     },
