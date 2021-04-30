@@ -383,21 +383,13 @@ export default {
      */
     activityCouponTotal () {
       var _this = this
-      // window.console.log('折扣券个位数', _this.storeModel.remainingQuantity)
       var couponId = _this.activityModel.coupon_id
       if (couponId === 0 || couponId === null || couponId === '') {
         _this.activityModel.coupon_total = 0
         _this.$notify.info('请先选择优惠券')
         return
       }
-      // if (_this.storeModel.maxType <= 0) {
-      //   if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
-      //     _this.activityModel.coupon_total = 0
-      //     _this.$notify.info('配额不能大于优惠券剩余数量')
-      //   }
-      //   return
-      // }
-      // _this.storeModel.maxType = 0 代表不限额，不做数量校验
+
       if (!/^[0-9]*$/.test(_this.activityModel.coupon_total)) {
         _this.activityModel.coupon_total = 0
         _this.$notify.info('请输入正整数')
@@ -423,7 +415,6 @@ export default {
     //  type = 0 返回个位数  type= 1 返回小数
     splitCouponNumber (data, type) {
       const newData = typeof data === 'string' ? data : data.toString()
-      // window.console.log('折扣券', data)
       var indexOf = newData.indexOf('.')
       if (type === 0) {
         if (indexOf === 0) {
@@ -431,11 +422,9 @@ export default {
           return newData
         } else {
           this.isShowCouponNumber = true
-          // window.console.log('折扣券个位数', data.substr(0, indexOf))
           return newData.substr(0, indexOf)
         }
       } else {
-        // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
         return newData.substr(indexOf, newData.length)
       }
     },

@@ -174,14 +174,12 @@ export default {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
         this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
-        // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
       } else {
         this.$refs.uploadRef.clearFiles()
         if (response.code === '1') {
           this.$notify.error('导入文件失败:' + response.msg)
         } else {
           this.$notify.error('操作未成功!')
-          window.console.log('失败回调' + response.msg)
         }
       }
     },

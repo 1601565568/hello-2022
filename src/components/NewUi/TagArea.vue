@@ -176,15 +176,20 @@ export default {
       this.showModal = false
     },
     openTagDialog (item) {
-      // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
-      if (item.type === 'custom') {
-        // 会调用传入的回调函数字段 callback
-        item.callback(item)
-      } else if (item.type === 'link') {
-        this.addLink(item.text, item.url)
-      } else {
-        this.addTag(item)
-      }
+      // 将事件抛给父组件处理
+      // 处理后需要调用 addTag() 或者 addLink() 将内容传回来
+      // this.$emit('add', item)
+      // // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
+      // if (item.type === 'custom') {
+      //   // 会调用传入的回调函数字段 callback
+      //   item.callback(item)
+      // } else if (item.type === 'link') {
+      //   this.addLink(item.text, item.url)
+      // } else {
+      //   this.addTag(item)
+      // }
+
+      this.addTag(item)
     },
     addTag (item) {
       // 创建模版标签

@@ -9,9 +9,9 @@
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
           <template slot-scope="scope">
-            <div v-for="child in scope.row.explanation" :key="child">
+            <div v-for="child in scope.row.explanation" :key="child.key">
               {{child.explain}}
-              <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
+              <Icon type="ns-thick-copy" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
           </template>
         </ElTableColumn>
@@ -31,7 +31,7 @@
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
           <template slot-scope="scope">
-            <div v-for="child in scope.row.explanation" :key="child">
+            <div v-for="child in scope.row.explanation" :key="child.url">
               {{child.explain}}
               <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
