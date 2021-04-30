@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:31:11
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-20 09:52:45
+ * @LastEditTime: 2021-04-30 11:29:27
  */
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
@@ -14,6 +14,7 @@ import topicAnalysis from './topicAnalysis'
 import externalContact from './externalContact.js'
 import weWorkRooms from './weWorkRooms.js'
 import sop from './sop.js'
+import friendsCircle from './friendsCircle.js'
 export default {
   welcomeCode,
   behaviorData,
@@ -23,5 +24,6 @@ export default {
   topicAnalysis,
   externalContact,
   weWorkRooms,
-  sop
+  sop,
+  friendsCircle
 }

@@ -164,14 +164,14 @@ export default {
           ]
         },
         {
-          path: '/Guide/LBS/Friends',
+          path: '/Guide/LBS/Friends/Index',
           name: 'LBSFriends',
           title: 'LBS好友聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          redirect: {
-            path: '/Guide/LBS/Friends/Index'
-          },
+          // redirect: {
+          //   path: '/Guide/LBS/Friends/Index'
+          // },
           children: [
             {
               path: '/Guide/LBS/Friends/Index',
@@ -253,18 +253,15 @@ export default {
           ]
         },
         {
-          path: '/Guide/LBS/Group',
+          path: '/Guide/LBS/Group/Index',
           name: 'LBSGroup',
           title: 'LBS群聚合码',
           meta: { requiresAuth: true },
           component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          redirect: {
-            path: '/Guide/LBS/Group/Index'
-          },
           children: [
             {
               path: '/Guide/LBS/Group/Index',
-              name: 'GroupIndex',
+              name: 'LBSGroup',
               meta: { requiresAuth: true },
               title: 'LBS群聚合码',
               'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
@@ -314,7 +311,7 @@ export default {
         {
           'path': '/Guide/RecruitSet/NotMemberPageConfig',
           'name': 'NotMemberPageConfig',
-          'title': '非会员页面设置',
+          'title': '侧边栏会员招募',
           'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
         }
       ]
