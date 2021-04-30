@@ -76,7 +76,7 @@
             <span v-else-if="activity.status === SOPExamineStatus.Succeed">审核成功</span>
           </el-form-item>
           <el-form-item label="失败原因" v-if="activity.status === SOPExamineStatus.Failed && activity.reamrk">
-            <pre class="examine-failed-reason">{{activity.reamrk}}</pre>
+            <span class="examine-failed-reason">{{activity.reamrk}}</span>
           </el-form-item>
         </el-form>
       </div>
@@ -258,6 +258,8 @@ export default {
         }
       }
       .examine-failed-reason {
+        width: 610px;
+        white-space: pre-wrap;
         margin-top: 5px;
         font-family: PingFangSC-Regular;
         font-size: 14px;

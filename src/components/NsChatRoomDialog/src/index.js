@@ -132,6 +132,7 @@ export default {
     },
     selectAllGroups () {
       this.selectedData = [ ...this.allGroups ]
+      this.$refs.employeeTable.clearSelection()
       this.$refs.employeeTable.toggleAllSelection()
     },
     clearAllGroups () {

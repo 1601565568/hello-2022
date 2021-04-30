@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-04-26 17:06:49
- * @LastEditTime: 2021-04-26 18:11:28
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \ECRP-SG-WEBc:\Users\Administrator\Desktop\export default {.ts
- */
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
@@ -134,33 +126,22 @@ export default {
       },
       'children': [
         {
-          'path': '/Marketing/ActivityAuditList',
-          'name': 'ActivityAuditList',
-          'title': '活动审核',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
-          'redirect': {
-            'name': 'enterpriseExamine'
-          },
-          'children': [
-            {
-              'path': '/EnterpriseExamine',
-              'name': 'enterpriseExamine',
-              'title': '企业微信好友营销审核',
-              'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
-            },
-            {
-              'path': '/EnterpriseGroupExamine',
-              'name': 'enterpriseGroupExamine',
-              'title': '企业微信群营销审核',
-              'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
-            },
-            {
-              'path': '/Marketing/SOP/Examine',
-              'name': 'SOPExamine',
-              'title': '社群日历审核',
-              'component': () => import('@/pages/WeWork/SOP/Examine/index.vue')
-            }
-          ]
+          'path': '/EnterpriseExamine',
+          'name': 'enterpriseExamine',
+          'title': '企业微信好友营销审核',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+        },
+        {
+          'path': '/EnterpriseGroupExamine',
+          'name': 'enterpriseGroupExamine',
+          'title': '企业微信群营销审核',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+        },
+        {
+          'path': '/Marketing/SOP/Examine',
+          'name': 'SOPExamine',
+          'title': '社群日历审核',
+          'component': () => import('@/pages/WeWork/SOP/Examine/index.vue')
         }
       ]
     }

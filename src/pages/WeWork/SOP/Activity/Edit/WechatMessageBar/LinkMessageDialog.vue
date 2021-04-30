@@ -137,7 +137,18 @@ export default {
       },
       rules: {
         link: [
-          { required: true, message: '请输入网页', trigger: 'blur' }
+          { required: true, message: '请输入网页', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
+            window.console.log('Yanzheng', value)
+            if (value.startsWith('http://') || value.startsWith('https://')) {
+              callback()
+            } else {
+              callback(new Error(rule.message))
+            }
+          },
+          message: '网页地址格式错误，以http://或https://开头',
+          trigger: ['blur']
+          }
         ],
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
