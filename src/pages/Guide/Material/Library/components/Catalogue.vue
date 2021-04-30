@@ -385,7 +385,7 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
-        if (this.selectItem.subdivisionIds && this.selectItem.subdivisionIds.length > 0) {
+        if (this.selectItem.subdivisionIds) {
           this.$emit('subdivisionChange', this.selectItem)
           this.selectItem = {}
         }
@@ -393,7 +393,6 @@ export default {
     },
     subdivisionChange (val, item) {
       item.subdivisionIds = Array.from(val)
-      this.selectItem = item
       let arr = []
       for (let i = 0; i < this.materialShow.length; i++) {
         let dItem = this.materialShow[i]
@@ -403,6 +402,7 @@ export default {
         arr.push(dItem)
       }
       this.materialShow = arr
+      this.selectItem = item
       // this.$emit('subdivisionChange', item)
     },
     onSelect (row) {

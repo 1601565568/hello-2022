@@ -283,7 +283,7 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
-        if (this.selectItem.subdivisionIds && this.selectItem.subdivisionIds.length > 0) {
+        if (this.selectItem.subdivisionIds) {
           this.subdivisionChange(this.selectItem)
           this.selectItem = {}
         }
