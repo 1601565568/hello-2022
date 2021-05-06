@@ -15,13 +15,13 @@
       <div v-if="info.pitText || info.url">
         <div v-if="info.pitText">
           <div class="drawer-sub-title">坑位拍摄指南</div>
-          <div class="drawer-sub-cont">{{ info.pitText }}</div>
+          <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
         </div>
         <div class="drawer-sub-title" v-if="info.url">示意图</div>
         <img class="drawer-sub-img" :src="info.url" v-if="info.url" />
       </div>
       <div v-else class="noddata-view">
-        <img :src="noDataUrl" class="nodata-img"/>
+        <img :src="noDataUrl" class="nodata-img" />
         <div class="nodata-text">暂无指南～</div>
       </div>
     </div>
@@ -48,7 +48,8 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      noDataUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/material-nodata.png'
+      noDataUrl:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/material-nodata.png'
     }
   },
   methods: {
@@ -57,6 +58,18 @@ export default {
     },
     handleClose () {
       this.drawer = false
+    },
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
     }
   }
 }
@@ -120,7 +133,7 @@ export default {
 }
 .nodata-text {
   font-size: 14px;
-  color: #8C8C8C;
+  color: #8c8c8c;
   text-align: center;
   line-height: 22px;
   font-weight: 400;
