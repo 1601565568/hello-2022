@@ -250,10 +250,10 @@
               </div>
               <img
                 :src="showEidtImg"
-                style="width:114px;height:114px;border-radius: 4px;"
+                style="width:114px;height:114px;border-radius: 4px; object-fit: cover;"
               />
             </div>
-            <div v-else>
+            <div v-else class="show-uploader-view">
               <el-upload
                 class="library-guide"
                 :action="this.$api.core.sgUploadFile('image')"
