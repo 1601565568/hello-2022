@@ -21,7 +21,7 @@ export default {
       payMap: {}, // 支付商户枚举用于列表‘支付商户号’字段
       // 筛选日期
       seachDate: [], // 时间筛选
-      isLoad: false, // 是否请求完成支付商户号列表
+      isEmpty: false, // 是否有支付商户号列表
       detailPath: '/Social/SocialOperation/RedPacket/Strategies/Edit', // 详情页路由
       payPath: '/Guide/Others/PaySet' // 支付商户号配置页面，未配置商户号需要先配置
     }
@@ -31,9 +31,6 @@ export default {
     this.$reload()
   },
   computed: {
-    isEmpty () {
-      return !this.payList.length && this.isLoad
-    },
     redpacketTypeListSelect () {
       return [{ label: '全部', value: null }, ...this.redpacketTypeList]
     },
@@ -61,7 +58,7 @@ export default {
           })
         ]
         this.payMap = payMap
-        this.isLoad = true
+        this.isEmpty = !data.length
       })
     },
     /**
