@@ -481,8 +481,11 @@ export default {
     editImage (index) {
       this.editIndex = index
       let item = this.model.mediaList[index]
-      this.guideText = item.pitText
       this.showEidtImg = item.url
+      setTimeout(() => {
+        this.guideText = item.pitText
+        this.guideText = this.$refs.tagArea.stringTohtml(item.pitText)
+      }, 0)
       this.showEdit = !this.showEdit
     },
     handleImageType () {
