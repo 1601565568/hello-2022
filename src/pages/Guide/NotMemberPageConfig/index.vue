@@ -89,7 +89,7 @@
                             @change="handleChange"
                           >
                             <el-radio :label="1">h5</el-radio>
-                            <el-radio :label="2">小程序</el-radio>
+                            <!-- <el-radio :label="2">小程序</el-radio> -->
                           </el-radio-group>
                         </div>
                       </el-form-item>
