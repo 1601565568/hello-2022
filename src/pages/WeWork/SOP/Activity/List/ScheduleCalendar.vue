@@ -75,6 +75,7 @@ export default {
       })
     },
     chooseMonth (date) {
+      // window.console.log('你是谁', date)
       this.setScheludeDateList(date)
       this.saveScroll()
 
@@ -198,9 +199,11 @@ export default {
         text-align: center;
       }
       .date-item_activity-count {
-        margin-left: 119px;
+        margin-left: 90px;
         color: #0392FB;
         font-size: 14px;
+        width: 45px;
+        text-align: right;
       }
     }
 

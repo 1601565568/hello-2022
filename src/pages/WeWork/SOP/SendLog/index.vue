@@ -114,8 +114,8 @@ export default {
       visibleMessageDrawer: false,
       activeActivityId: 0,
       searchDate: [
-        `${moment().add(-1, 'days').format('yyyy-MM-DD')} 00:00:00`,
-        `${moment().add(-1, 'days').format('yyyy-MM-DD')} 23:59:59`
+        `${moment().format('yyyy-MM-DD')} 00:00:00`,
+        `${moment().format('yyyy-MM-DD')} 23:59:59`
       ],
       model: {
         status: SOPExamineStatus.Succeed,
@@ -124,8 +124,8 @@ export default {
         code: '',
         name: '',
         showDeleteData: true,
-        timeStart: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 00:00:00`,
-        timeEnd: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 23:59:59`
+        timeStart: `${moment().format('yyyy-MM-DD')} 00:00:00`,
+        timeEnd: `${moment().format('yyyy-MM-DD')} 23:59:59`
       },
       activityList: [],
       pagination: {

@@ -286,7 +286,7 @@ export default {
             message: '提交成功'
           })
 
-          this.$emit('reload')
+          this.$emit('change')
         } catch (respErr) {
           this.$message.error('提交失败')
         } finally {
@@ -310,7 +310,7 @@ export default {
               message: '删除成功'
             })
 
-            this.$emit('reload')
+            this.$emit('change')
           }).catch((respErr) => {
             this.$message.error('删除失败')
           }).finally(() => {
@@ -333,7 +333,7 @@ export default {
         this.$message.error('审核失败')
       } finally {
         this.visibleCheckActivityDrawer = false
-        this.$emit('reload')
+        this.$emit('change')
       }
     }
   }

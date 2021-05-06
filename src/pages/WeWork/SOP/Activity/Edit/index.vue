@@ -29,9 +29,9 @@
                 :isSelectAll="true"
               >
                 <div class="select-tips" @click="$refs.NsChatRoomDialog.onDialogOpen()">
-                  <span v-if="!model.chatRoomIdList.length" class="un-selected">请选择群</span>
-                  <span v-else class="selected">已选择{{model.chatRoomIdList.length}}个群</span>
-                  <Icon type="geren" class="icon"/>
+                  <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
+                    <Icon type="geren" class="icon" slot="suffix"></Icon>
+                  </el-input>
                 </div>
               </NsChatRoomDialog>
             </div>
@@ -214,6 +214,15 @@ export default {
       }
     }
   },
+  computed: {
+    selectedTip () {
+      if (this.model.chatRoomIdList.length) {
+        return `已选择${this.model.chatRoomIdList.length}个群`
+      } else {
+        return ''
+      }
+    }
+  },
   data () {
     return {
       SOPActivityMessageType: SOPActivityMessageType,
@@ -385,7 +394,10 @@ export default {
             .then(resp => {
               if (resp.success) {
                 this.$notify.success('保存成功')
-                this.$router.push('/Marketing/SOP')
+                this.$router.push({
+                  path: '/Marketing/SOP'
+                  // query: this.$route.query
+                })
               } else {
                 this.$notify.error('活动保存失败')
               }
@@ -473,31 +485,11 @@ export default {
 .select-area {
   width: 680px;
   .select-tips {
-    width: 626px;
-    height: 36px;
-    margin-left: 36px;
-    background: #fff;
-    cursor: pointer;
-    border: 1px solid #dcdfe6;
-    border-radius: 2px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span {
-      font-size: 14px;
-      padding: 0 25px 0 9px;
-      line-height: 32px;
-    }
-    .un-selected {
-      color: #BFBFBF;
-    }
-    .selected {
-      color: #606266;
-    }
     .icon {
       color: #BFBFBF;
-      font-size: 14px;
-      margin-right: 9px;
+      font-size: 24px;
+      margin-top: 4px;
+      margin-right: 4px;
     }
   }
 }
