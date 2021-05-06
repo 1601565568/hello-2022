@@ -79,9 +79,9 @@ export default {
             viewId: '' // 已选的视角id
           },
           area: {
-            // id: res.data.result.currentArea.areaId,
-            // name: res.data.result.currentArea.areaName,
-            // areaType: res.data.result.currentArea.areaType,
+            id: res.data.result.currentArea.areaId,
+            name: res.data.result.currentArea.areaName,
+            areaType: res.data.result.currentArea.areaType,
             isHyt: res.data.result.isHyt,
             gradeRuleStatus: res.data.result.gradeRuleStatus
           },
