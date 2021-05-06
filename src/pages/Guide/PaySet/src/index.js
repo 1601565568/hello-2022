@@ -185,7 +185,7 @@ export default {
     },
     handleUploadSuccess (res) {
       if (res.success) {
-        this.drawerData.cert = res.result.path
+        this.$set(this.drawerData, 'cert', res.result.path)
       }
     }
   },

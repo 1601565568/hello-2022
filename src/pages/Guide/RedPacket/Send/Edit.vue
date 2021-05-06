@@ -90,7 +90,7 @@
       class='full-dialog'
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
-      :visible="visible">
+      :visible.sync="visible">
       <StrategiesList :checked='{id:model.redpackPolicyId}' ref='strategiesList'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="changeVisible(false)">取 消</ns-button>
