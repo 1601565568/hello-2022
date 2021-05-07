@@ -83,6 +83,7 @@
               <div class="library-popover">
                 <div>
                   <el-upload
+                    ref="imageListUpload"
                     class="library-uploader"
                     :action="this.$api.core.sgUploadFile('image')"
                     :show-file-list="false"
@@ -393,7 +394,8 @@ export default {
       drawer: false,
       editIndex: 0,
       showEidtImg: '',
-      tools: []
+      tools: [],
+      limitIndex: 0
     }
   },
   computed: {
@@ -507,18 +509,44 @@ export default {
       this.model.mediaList.splice(index, 1)
       this.$refs.form.validateField('mediaList')
     },
-    handleAvatarSuccess (res, file) {
+    handleAvatarSuccess (res, file, fileList) {
+      this.limitIndex = this.limitIndex + 1
+      let custImgs = []
+      for (let item of this.model.mediaList) {
+        if (item.pitType === 2) {
+          custImgs.push(item)
+        }
+      }
+      if (this.model.mediaList.length < this.imageNum) {
+        const arr = Array.from(fileList)
+        if (this.limitIndex === arr.length) {
+          let num = this.imageNum - custImgs.length - this.model.mediaList.length
+          num = arr.length < num ? arr.length : num
+          for (let index = 0; index < num; index++) {
+            const item = arr[index]
+            if (item.response.success) {
+              const obj = {
+                pitType: 1,
+                pitText: '',
+                type: 1,
+                url: item.response.result.url
+              }
+              this.model.mediaList.push(obj)
+            }
+          }
+          this.limitIndex = 0
+          this.$refs.imageListUpload && this.$refs.imageListUpload.clearFiles()
+        }
+        // let obj = {
+        //   pitType: 1,
+        //   pitText: '',
+        //   type: 1,
+        //   url: res.result.url
+        // }
+        // this.model.mediaList.push(obj)
+      }
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
-      if (this.model.mediaList.length < this.imageNum) {
-        let obj = {
-          pitType: 1,
-          pitText: '',
-          type: 1,
-          url: res.result.url
-        }
-        this.model.mediaList.push(obj)
-      }
     },
     handleGuideSuccess (res, file) {
       let item = this.mediaList[this.editIndex]
