@@ -61,7 +61,7 @@ export default {
           { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
         ],
         benediction: [
-          { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
+          { min: 1, max: 25, message: '长度在1-25个字符', trigger: ['blur', 'change'] }
         ]
       },
       visible: false, // 选择海报弹框
@@ -189,7 +189,9 @@ export default {
   },
   mounted () {
     this.$store.dispatch('pay/getWxpayList').then(res => {
-      this.model.payConfigId = res[0].id
+      if (!this.$route.query.id) {
+        this.model.payConfigId = res[0].id
+      }
     })
     this.init()
   }

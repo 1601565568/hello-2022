@@ -71,7 +71,7 @@
               <el-form-item label='红包名称' required prop='name' class='larger-item'>
                 <length-input v-model='model.name' placeholder="请输入红包名称" :length='10' />
               </el-form-item>
-              <el-form-item label='有效时间' required prop='timeType' class='larger-item'>
+              <el-form-item label='有效期' required prop='timeType' class='larger-item'>
                 <el-radio-group v-model="model.timeType">
                   <template v-for='item in timeTypeList'>
                     <el-radio :label="item.value" :key='item.value' @change="resetValite('timeItem')">{{item.nick}}</el-radio>
@@ -133,11 +133,11 @@
         <!-- 红包信息 start -->
         <recruitment-collapse title='红包信息' phoneTitle=''>
           <template slot='collapse-left'>
-            <el-form-item v-if='model.redpackType === normalRed' label='单个红包金额（元）' required prop='money' class='larger-item'>
+            <el-form-item v-if='model.redpackType === normalRed' label='红包金额（元）' required prop='money' class='larger-item'>
               <length-input v-model='model.money' oninput="value=value.replace(/[^\d.]/g,'')"/>
               <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为0.3~5000</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包总金额（元）' prop='' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
                 <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
                     { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
@@ -157,7 +157,7 @@
               </div>
               <p class='prompt-text'><span class='yellow-point'></span>每个拼手气红包的总金额</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === diyRed' label='单个红包可发放金额（元）' prop='' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === diyRed' label='红包金额（元）' prop='' class='larger-item'>
               <div class='input-chain'>
                 <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
                     { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
@@ -177,7 +177,7 @@
               </div>
             </el-form-item>
             <el-form-item label='红包祝福语' prop='benediction' class='larger-item'>
-              <length-input type="textarea" v-model='model.benediction' placeholder="恭喜发财，大吉大利" :length='20'/>
+              <length-input type="textarea" v-model='model.benediction' placeholder="恭喜发财，大吉大利" :length='25'/>
               <el-checkbox v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
             </el-form-item>
             <el-form-item label='红包封面' prop='coverId' class='larger-item'>
