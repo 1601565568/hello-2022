@@ -18,7 +18,7 @@
           <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
         </div>
         <div class="drawer-sub-title" v-if="info.url">示意图</div>
-        <img class="drawer-sub-img" :src="info.url" v-if="info.url" />
+        <img class="drawer-sub-img" :src="info.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.url" />
       </div>
       <div v-else class="noddata-view">
         <img :src="noDataUrl" class="nodata-img" />
