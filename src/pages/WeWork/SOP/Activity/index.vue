@@ -54,6 +54,7 @@
           class="active-panel"
           :style="{ height: activityPanelHeight }"
           :list="activityList"
+          :date="model.timeStart.slice(0, 10)"
           :pagination="pagination"
           @change="changeActivityList"
         />
@@ -160,23 +161,19 @@ export default {
   mounted () {
     this.setStyleHeight()
 
-    // window.console.log('你看挂载了', this.$route.query)
-
-    if (this.$route.query.date) {
-      this.model.timeStart = `${this.$route.query.date} 00:00:00`
-      this.model.timeEnd = `${this.$route.query.date} 23:59:59`
-    }
-
-    this.getActivityList()
+    // if (this.$route.query.date) {
+    //   this.model.timeStart = `${this.$route.query.date} 00:00:00`
+    //   this.model.timeEnd = `${this.$route.query.date} 23:59:59`
+    // }
+    // this.getActivityList()
   },
   methods: {
     createActivity () {
       this.$router.push({
-        path: '/Marketing/SOP/Edit/0'
-        // query: {
-        //   date: this.model.timeStart.slice(0, 10),
-        //   page: this.pagination.page
-        // }
+        path: '/Marketing/SOP/Edit/0',
+        query: {
+          date: this.model.timeStart.slice(0, 10)
+        }
       })
     },
     pageSizeChange (size) {

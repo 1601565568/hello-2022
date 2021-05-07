@@ -138,7 +138,8 @@ export default {
     },
     pagination: {
       type: Object
-    }
+    },
+    date: String
   },
   data () {
     return {
@@ -261,7 +262,12 @@ export default {
      * 编辑活动
      */
     editActivity (id) {
-      this.$router.push(`/Marketing/SOP/Edit/${id}`)
+      this.$router.push({
+        path: `/Marketing/SOP/Edit/${id}`,
+        query: {
+          date: this.date
+        }
+      })
     },
     /**
      * 查看活动

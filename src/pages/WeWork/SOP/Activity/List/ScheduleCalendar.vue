@@ -55,8 +55,12 @@ export default {
     }
   },
   async mounted () {
+    if (this.$route.query.date) {
+      this.month = this.$route.query.date
+    }
+
     // 设置日历列表
-    await this.setScheludeDateList()
+    await this.setScheludeDateList(this.month)
     this.saveScroll()
 
     this.initChooseDay()
@@ -66,36 +70,58 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => {
           const scrollTop = this.$refs.ListScrollbar.wrap
-          if (moment(this.month).format('yyyy-MM') === moment().format('yyyy-MM')) {
-            scrollTop.scrollTop = (moment().date() - 3) * 72
+          let date
+          if (this.$route.query.date) {
+            date = moment(this.$route.query.date).date()
           } else {
-            scrollTop.scrollTop = 0
+            if (moment(this.month).format('yyyy-MM') === moment().format('yyyy-MM')) {
+              // 当前月份
+              date = moment().date()
+            } else {
+              date = 0
+            }
           }
+          scrollTop.scrollTop = (date - 3) * 72
         }, 13)
       })
     },
     chooseMonth (date) {
-      // window.console.log('你是谁', date)
       this.setScheludeDateList(date)
       this.saveScroll()
 
-      this.initChooseDay()
-    },
-    chooseDay (day) {
-      this.day = `0${day}`.slice(-2)
-
-      this.$emit('reload', `${moment(this.month).format('yyyy-MM')}-${this.day}`)
-    },
-    /**
-     * 初始化选择天
-     */
-    initChooseDay () {
       if (moment(this.month).format('yyyy-MM') === moment().format('yyyy-MM')) {
         // 当前月份 选择当天
         this.chooseDay(moment().date())
       } else {
         // 否则选择1号
         this.chooseDay(1)
+      }
+    },
+    chooseDay (day) {
+      this.day = `0${day}`.slice(-2)
+
+      this.$emit('reload', `${moment(this.month).format('yyyy-MM')}-${this.day}`)
+      this.$router.push({
+        path: '/Marketing/SOP',
+        query: {
+          date: `${moment(this.month).format('yyyy-MM')}-${this.day}`
+        }
+      })
+    },
+    /**
+     * 初始化选择天
+     */
+    initChooseDay () {
+      if (this.$route.query.date) {
+        this.chooseDay(moment(this.$route.query.date).date())
+      } else {
+        if (moment(this.month).format('yyyy-MM') === moment().format('yyyy-MM')) {
+          // 当前月份 选择当天
+          this.chooseDay(moment().date())
+        } else {
+          // 否则选择1号
+          this.chooseDay(1)
+        }
       }
     },
     /**

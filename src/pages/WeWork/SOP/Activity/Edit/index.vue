@@ -395,8 +395,8 @@ export default {
               if (resp.success) {
                 this.$notify.success('保存成功')
                 this.$router.push({
-                  path: '/Marketing/SOP'
-                  // query: this.$route.query
+                  path: '/Marketing/SOP',
+                  query: this.$route.query
                 })
               } else {
                 this.$notify.error('活动保存失败')
