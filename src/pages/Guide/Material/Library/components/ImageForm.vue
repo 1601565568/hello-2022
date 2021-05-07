@@ -47,70 +47,80 @@
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
         <ul class="library-image__list clearfix" style="z-index:200">
-          <li
-            class="library-image__item"
-            v-for="(item, index) in mediaList"
-            :key="index"
+          <draggable
+            v-model="mediaList"
+            class="library-image__list clearfix"
+            @update="datadragEnd"
+            :move="getdata"
           >
-            <img
-              v-if="item.pitType == 2"
-              :src="
-                defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-              "
-            />
-            <img
-              v-else
-              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
-            />
-            <div class="library-image__mask">
-              <div v-if="item.pitType == 1">
-                <Icon type="zoom-in" @click="previewImage(index)" />
-                <Icon type="delete" @click="removeImage(index)" />
-              </div>
-              <div v-else>
-                <Icon type="bianji" @click="editImage(index)" />
-                <Icon type="delete" @click="removeImage(index)" />
-              </div>
-            </div>
-          </li>
-          <li v-if="mediaList.length < imageNum">
-            <el-popover
-              placement="top-start"
-              width="160"
-              trigger="click"
-              ref="popoverView"
+            <li
+              class="library-image__item"
+              v-for="(item, index) in mediaList"
+              :key="index"
             >
-              <div class="library-popover">
-                <div>
-                  <el-upload
-                    ref="imageListUpload"
-                    class="library-uploader"
-                    :action="this.$api.core.sgUploadFile('image')"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeGuideUpload"
-                    accept=".jpg,.jpeg,.png"
-                    list-type="picture-card"
-                    multiple
-                  >
-                    <div class="popover-base">
-                      <Icon type="tupianbeifen-5" class="popover-icon"></Icon>
-                      <span class="popver-text">图片</span>
-                    </div>
-                  </el-upload>
+              <img
+                v-if="item.pitType == 2"
+                :src="
+                  defaultImgUrl +
+                    '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+                "
+              />
+              <img
+                v-else
+                :src="
+                  item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+                "
+              />
+              <div class="library-image__mask">
+                <div v-if="item.pitType == 1">
+                  <Icon type="zoom-in" @click="previewImage(index)" />
+                  <Icon type="delete" @click="removeImage(index)" />
                 </div>
-                <div class="popover-base" @click="addCustomImg">
-                  <Icon type="ns-edit" class="popover-icon"></Icon>
-                  <span class="popver-text">自建坑位</span>
-                </div>
-              </div>
-              <div class="library-select-uploader" slot="reference">
-                <div class="el-upload--picture-card">
-                  <Icon type="plus" />
+                <div v-else>
+                  <Icon type="bianji" @click="editImage(index)" />
+                  <Icon type="delete" @click="removeImage(index)" />
                 </div>
               </div>
-            </el-popover>
-          </li>
+            </li>
+            <li v-if="mediaList.length < imageNum">
+              <el-popover
+                placement="top-start"
+                width="160"
+                trigger="click"
+                ref="popoverView"
+              >
+                <div class="library-popover">
+                  <div>
+                    <el-upload
+                      ref="imageListUpload"
+                      class="library-uploader"
+                      :action="this.$api.core.sgUploadFile('image')"
+                      :show-file-list="false"
+                      :on-success="handleAvatarSuccess"
+                      :before-upload="beforeGuideUpload"
+                      accept=".jpg,.jpeg,.png"
+                      list-type="picture-card"
+                      multiple
+                    >
+                      <div class="popover-base">
+                        <Icon type="tupianbeifen-5" class="popover-icon"></Icon>
+                        <span class="popver-text">图片</span>
+                      </div>
+                    </el-upload>
+                  </div>
+                  <div class="popover-base" @click="addCustomImg">
+                    <Icon type="ns-edit" class="popover-icon"></Icon>
+                    <span class="popver-text">自建坑位</span>
+                  </div>
+                </div>
+                <div class="library-select-uploader" slot="reference">
+                  <div class="el-upload--picture-card">
+                    <Icon type="plus" />
+                  </div>
+                </div>
+              </el-popover>
+            </li>
+          </draggable>
         </ul>
         <div class="library-icon__extra">
           <Icon type="tishi" />
@@ -294,6 +304,7 @@ import SelectMarket from '../../components/selectMarket'
 import SelectGoods from '../../components/selectGoods'
 import GuideInfo from './GuideInfo'
 import TagArea from '@/components/NewUi/TagArea'
+import draggable from 'vuedraggable'
 export default {
   name: 'imageform',
   // components: { FolderTree, SelectMarket, SelectGoods },
@@ -303,7 +314,8 @@ export default {
     SelectMarket,
     SelectGoods,
     GuideInfo,
-    TagArea
+    TagArea,
+    draggable
   },
   props: {
     labelList: {
@@ -402,8 +414,19 @@ export default {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
     },
-    mediaList () {
-      return this.model.mediaList.slice(0, this.imageNum)
+    mediaList: {
+      get () {
+        return this.model.mediaList.slice(0, this.imageNum)
+      },
+      set (v) {
+        let arr = []
+        for (const item of v) {
+          if (item) {
+            arr.push(item)
+          }
+        }
+        this.model.mediaList = arr
+      }
     }
   },
   watch: {
@@ -430,6 +453,8 @@ export default {
     }
   },
   methods: {
+    getdata (data) {},
+    datadragEnd (evt) {},
     removeGuideImage () {
       this.showEidtImg = ''
       let item = this.model.mediaList[this.editIndex]
@@ -510,40 +535,41 @@ export default {
       this.$refs.form.validateField('mediaList')
     },
     handleAvatarSuccess (res, file, fileList) {
-      this.limitIndex = this.limitIndex + 1
-      let custImgs = []
-      for (let item of this.model.mediaList) {
-        if (item.pitType === 2) {
-          custImgs.push(item)
-        }
-      }
+      // this.limitIndex = this.limitIndex + 1
+      // let custImgs = []
+      // for (let item of this.model.mediaList) {
+      //   if (item.pitType === 2) {
+      //     custImgs.push(item)
+      //   }
+      // }
       if (this.model.mediaList.length < this.imageNum) {
-        const arr = Array.from(fileList)
-        if (this.limitIndex === arr.length) {
-          let num = this.imageNum - custImgs.length - this.model.mediaList.length
-          num = arr.length < num ? arr.length : num
-          for (let index = 0; index < num; index++) {
-            const item = arr[index]
-            if (item.response.success) {
-              const obj = {
-                pitType: 1,
-                pitText: '',
-                type: 1,
-                url: item.response.result.url
-              }
-              this.model.mediaList.push(obj)
-            }
-          }
-          this.limitIndex = 0
-          this.$refs.imageListUpload && this.$refs.imageListUpload.clearFiles()
-        }
-        // let obj = {
-        //   pitType: 1,
-        //   pitText: '',
-        //   type: 1,
-        //   url: res.result.url
+        // const arr = Array.from(fileList)
+        // if (this.limitIndex === arr.length) {
+        //   let num = this.imageNum - custImgs.length - this.model.mediaList.length
+        //   num = arr.length < num ? arr.length : num
+        //   for (let index = 0; index < num; index++) {
+        //     const item = arr[index]
+        //     if (item.response.success) {
+        //       const obj = {
+        //         pitType: 1,
+        //         pitText: '',
+        //         type: 1,
+        //         url: item.response.result.url
+        //       }
+        //       this.model.mediaList.push(obj)
+        //     }
+        //   }
+        //   this.limitIndex = 0
+        //   this.$refs.imageListUpload && this.$refs.imageListUpload.clearFiles()
         // }
-        // this.model.mediaList.push(obj)
+
+        let obj = {
+          pitType: 1,
+          pitText: '',
+          type: 1,
+          url: res.result.url
+        }
+        this.model.mediaList.push(obj)
       }
       this.$refs.imageForm.clearValidate()
       this.$refs.popoverView.doClose()
