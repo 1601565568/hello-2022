@@ -173,6 +173,17 @@ export default {
       this.loadNum()
     },
     deleteFile (row) {
+      this.$confirm('确认删除自创明细', '删除确认', {
+        type: 'warning',
+        cancelButtonText: '取消',
+        confirmButtonText: '确定'
+      })
+        .then(() => {
+          this.toDelete(row)
+        })
+        .catch(() => {})
+    },
+    toDelete (row) {
       const params = {
         guideId: row.guideId,
         materialScriptId: this.materialScriptId
