@@ -509,9 +509,10 @@ export default {
       this.editIndex = index
       let item = this.model.mediaList[index]
       this.showEidtImg = item.url
+      this.guideText = item.pitText
       setTimeout(() => {
-        this.guideText = item.pitText
         this.guideText = this.$refs.tagArea.stringTohtml(item.pitText)
+        this.$refs.tagArea.$refs[this.$refs.tagArea.className].innerHTML = this.guideText
       }, 0)
       this.showEdit = !this.showEdit
     },
@@ -525,7 +526,13 @@ export default {
       this.$emit('toggleLabel')
     },
     previewImage (index) {
-      this.$emit('togglePreview', index, this.mediaList, 'img')
+      let imgs = []
+      this.mediaList.forEach(item => {
+        if (item.pitType === 1) {
+          imgs.push(item.url)
+        }
+      })
+      this.$emit('togglePreview', 0, imgs, 'img')
     },
     handleFolder ({ catalogue }) {
       this.catalogue = catalogue
