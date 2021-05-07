@@ -95,7 +95,7 @@
                 </div>
               </el-form-item>
               <el-form-item label='红包总数（个）' required prop='total' class='larger-item'>
-                <length-input v-model='model.total' placeholder="请输入红包总数" oninput="value=value.replace(/[^\d]/g,'')"/>
+                <length-input v-model='model.total' placeholder="请输入红包总数" oninput="value=value.replace(/[^\d]/g,'')"  :length='10'/>
                 <p class='prompt-text'><span class='yellow-point'></span>控制此红包的总个数，全部发送完后，则不可发放此红包</p>
               </el-form-item>
               <el-form-item label='单人单日发放个数上限（个）' required prop='limitType' class='larger-item'>
@@ -109,7 +109,7 @@
                 </div>
                 <div v-if='model.limitType === 1'>
                   <el-form-item label-width="0px" label=' '  prop='everyoneLimit' hide-required-asterisk  ref='limitTypeItem'>
-                    <length-input v-model='model.everyoneLimit' placeholder="请输入单人单日发放个数上限" />
+                    <length-input v-model='model.everyoneLimit'  oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入单人单日发放个数上限" :length='10'/>
                   </el-form-item>
                 </div>
               </el-form-item>

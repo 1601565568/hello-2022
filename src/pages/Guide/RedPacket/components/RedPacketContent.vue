@@ -91,13 +91,15 @@ export default {
       word-break: break-all;
       font-size: 1.0625em;
       word-break: break-all;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .account-value {
       word-break: break-all;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-
     }
   }
   .account-num {

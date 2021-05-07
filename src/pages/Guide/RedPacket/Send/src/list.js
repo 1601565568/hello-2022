@@ -23,7 +23,7 @@ export default {
      * @param {*} value
      */
     handleChangeState (id, value) {
-      this.changeState(this.$api.guide.redpacket.changeStrategiesState, { id, state: this.normalType + this.closeType - value })
+      this.changeState(this.$api.guide.redpacket.updateSendState, { id, state: this.normalType + this.closeType - value })
     },
     /**
      * 展示员工弹框

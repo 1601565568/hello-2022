@@ -49,11 +49,13 @@ export default {
         ],
         total: [
           { required: true, message: '请输入红包总数', trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] }
+          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] },
+          { min: 1, max: 10, message: '最多输入10位数', trigger: ['blur', 'change'] }
         ],
         everyoneLimit: [
           { required: true, message: '请输入单人单日发放个数上限', trigger: ['blur', 'change'] },
-          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] }
+          { validator: ValidateUtil.isPositiveNumber, trigger: ['blur', 'change'] },
+          { min: 1, max: 10, message: '最多输入10位数', trigger: ['blur', 'change'] }
         ],
         money: [
           { required: true, message: '请输入金额', trigger: ['blur', 'change'] },
@@ -153,8 +155,8 @@ export default {
      * @param {*} value
      */
     handleChangeRedpackType (value) {
-      if ([luckyRed, diyRed].includes(value)) {
-        this.model.launchType = staffPost
+      if ([this.luckyRed, this.diyRed].includes(value)) {
+        this.model.launchType = this.staffPost
       }
       this.$refs.searchform.clearValidate()
     },
