@@ -14,13 +14,19 @@
       <!-- 图文素材 -->
       <div v-if="data.mType === 1" class="tableItem-content__imageBox">
         <ul>
-          <li
-            v-for="(item, index) in imageList"
-            :key="index"
-            @click="showPreview(index)"
-          >
-            <img :src="defaultImgUrl" alt="" v-if="item.pitType == 2"/>
-            <img :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" alt="" v-else/>
+          <li v-for="(item, index) in imageList" :key="index">
+            <img
+              :src="defaultImgUrl"
+              alt=""
+              v-if="item.pitType == 2"
+              @click="showGuideInfo(index, item)"
+            />
+            <img
+              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
+              alt=""
+              @click="showPreview(index)"
+              v-else
+            />
           </li>
           <!-- <li v-if="imageList.length > 3">
             <div>…</div>
@@ -45,7 +51,9 @@
       <div v-if="data.mType === 0" class="tableItem-content__articleBox">
         <img
           alt=""
-          :src="imageList[0].url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
+          :src="
+            imageList[0].url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+          "
           @click="showPreview(0)"
         />
         <el-tooltip
@@ -58,17 +66,22 @@
         </el-tooltip>
       </div>
     </div>
+    <GuideInfo ref="guideInfo" :info="guideInfo" />
   </div>
 </template>
 <script>
+import GuideInfo from './GuideInfo'
 export default {
+  components: { GuideInfo },
   props: {
     data: Object
   },
   data () {
     return {
       defaultImgUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      // 拍摄指南
+      guideInfo: {}
     }
   },
   computed: {
@@ -77,6 +90,10 @@ export default {
     }
   },
   methods: {
+    showGuideInfo (index, item) {
+      this.guideInfo = item
+      this.$refs.guideInfo.closeDeawer()
+    },
     showPreview (current, type) {
       let imgs = []
       this.imageList.forEach(item => {
