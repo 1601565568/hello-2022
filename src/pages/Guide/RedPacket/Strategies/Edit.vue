@@ -54,9 +54,9 @@
                   <el-select v-model="model.payConfigId" placeholder="请选择">
                     <el-option
                       v-for="item in wxpayList"
-                      :key="item.mchid"
-                      :label="item.mchid"
-                      :value="item.id">
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -188,7 +188,7 @@
                 </el-tooltip>
               </template>
               <div class='poster-container'>
-                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction' previewType='dialog' :bgHasFont='false'/></div>
+                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction' :bgHasFont='false'/></div>
                 <ns-button type='text' class='choose-poster' @click='handleChangePoster'>选择封面</ns-button>
               </div>
             </el-form-item>
@@ -211,8 +211,8 @@
       height='600px'
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
-      :visible="visible">
-      <PosterList ref='fullDialog' :checked='model.coverId'/>
+      :visible.sync="visible">
+      <PosterList v-if='visible' ref='fullDialog' :checked='model.coverId'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="changeVisible(false)">取 消</ns-button>
         <ns-button type="primary" @click="handleSure">确 定</ns-button>

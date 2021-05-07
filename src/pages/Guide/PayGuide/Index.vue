@@ -69,7 +69,7 @@
               <p>A：“正常健康交易“是微信支付根据商户行为的综合判断，如不满足，请先保持交易一段时间，并后续再尝试开通。</p>
             </div>
           </div>
-          <div id='step4' class='step step4'>
+          <div class='step step4'>
             <div class='header-title'>
               <div class='header-tip'>4</div>
               <div class='header-name'>将支付商户号相关信息填写到SCRM系统</div>
@@ -81,7 +81,7 @@
             <div class='content-image'>
               <img src='./images/step5.jpg' class='preview-img' />
             </div>
-            <div class='content'>
+            <div id='step4' class='content'>
               <p>4.2、选择关联公众号</p>
               <p>① 登录ECRP cloud系统，进入【系统设置】->【授权管理】->【公众号授权】，授权公众号</p>
             </div>
@@ -118,6 +118,7 @@
             </div>
           </div>
         </div>
+        <div v-if='!load' style='height:1000px'></div>
       </template>
     </page-edit>
   </div>

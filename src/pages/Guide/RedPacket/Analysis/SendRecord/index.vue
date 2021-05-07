@@ -1,5 +1,157 @@
 <template>
-  <div>
-
+  <div class='analysis'>
+    <div class='analysis-content'>
+      <el-form :inline="true" class='form-inline_top'>
+        <el-form-item label="支付商户号：" class='el-form__change'>
+          <el-select v-model="model.payConfigId" placeholder="请选择" @change='(value)=>{changeSearchfrom({payConfigId:value})}'>
+            <el-option
+              v-for="item in payList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class='analysis-content'>
+      <h3>出入账统计</h3>
+      <ColorfulDisplay />
+    </div>
+    <div class='analysis-content'>
+      <div class='flex-box'>
+        <DatePickerBar :dateList='dateList' :defaultPickDay='defaultPickDay'/>
+        <ns-button>导出CSV文件</ns-button>
+      </div>
+    </div>
+    <div class='analysis-content'>
+      <h3>数据报表</h3>
+      <el-row class="template-table__bar-base">
+        <!-- 搜索条件-->
+        <el-col :span='21' class="search-content">
+          <el-form :inline="true" class='form-inline_top'>
+            <el-form-item label="">
+              <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+                <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="发放类型：">
+              <el-select v-model="model.launchType" placeholder="请选择" @change='(value)=>{changeSearchfrom({launchType:value})}'>
+                <el-option
+                  v-for="item in setTypeList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="有效期：">
+              <el-date-picker
+                v-model="seachDate"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                range-separator="至"
+                start-placeholder="请选择开始日期"
+                end-placeholder="请选择结束日期"
+                :default-time="['00:00:00','23:59:59']"
+                align="right">
+              </el-date-picker>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <!-- 按钮-->
+        <el-col :span='3' class="btn-content">
+          <ns-button>导出CSV文件</ns-button>
+        </el-col>
+      </el-row>
+    </div>
+    <div class='analysis-content'>
+      <el-table
+        :data="_data._table.data"
+        class="new-table_border"
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="日期">
+        </el-table-column>
+        <el-table-column
+          prop="state"
+          label="今日转出金额（元）">
+        </el-table-column>
+        <el-table-column
+          prop="total"
+          label="员工转出金额（元）">
+        </el-table-column>
+        <el-table-column
+          prop="remainder"
+          label="裂变大师转出金额（元）">
+        </el-table-column>
+      </el-table>
+      <el-pagination v-if="_data._pagination.enable"
+                    class="template-table__pagination"
+                    :page-sizes="_data._pagination.sizeOpts"
+                    :total="_data._pagination.total"
+                    :current-page="_data._pagination.page"
+                    :page-size="_data._pagination.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="$sizeChange$"
+                    @current-change="$pageChange$">
+      </el-pagination>
+    </div>
   </div>
 </template>
+<script>
+import Index from './src/index'
+import ColorfulDisplay from '../components/ColorfulDisplay'
+import DatePickerBar from '@/components/NewUi/DatePickerBar'
+import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+export default Index
+Index.components = {
+  ColorfulDisplay, DatePickerBar, businessEcharts
+}
+</script>
+<style lang="scss" scoped>
+@import "@components/NewUi/styles/reset.css";
+.analysis {
+  .analysis-content {
+    padding: 16px;
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 16px;
+    h3 {
+      font-size: 16px;
+      color: #262626;
+      line-height: 24px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+  }
+}
+.template-table__bar-base {
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+  .search-content {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .btn-content {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    align-items: flex-start;
+  }
+}
+</style>
+<style scoped>
+.analysis >>> .el-form-item.el-form__change {
+  margin-bottom: 0px;
+}
+.align-top {
+  align-items: flex-start;
+}
+.template-table__pagination {
+  box-shadow: none !important;
+}
+</style>

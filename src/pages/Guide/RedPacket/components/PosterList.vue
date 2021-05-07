@@ -10,14 +10,11 @@
             </el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+            <el-input v-model="model.operatorName" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
-      </template>
-      <template slot='button'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -49,11 +46,10 @@
             <el-table-column
               prop="createTime"
               align='center'
-              :sortable="'custom'"
               label="创建时间">
             </el-table-column>
             <el-table-column
-              prop="operatorId"
+              prop="operatorName"
               align='center'
               label="创建人">
             </el-table-column>
@@ -86,7 +82,8 @@ export default {
   data () {
     return {
       model: {
-        name: ''
+        name: '',
+        operatorName: ''
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList,

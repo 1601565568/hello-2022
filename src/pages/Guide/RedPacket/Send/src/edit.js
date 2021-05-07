@@ -68,6 +68,7 @@ export default {
     handleSure () {
       const checkedItem = this.$refs.strategiesList.checkItem
       if (!checkedItem.id) {
+        this.$notify.error('请选择红包')
         return
       }
       this.model.redpackPolicyId = checkedItem.id

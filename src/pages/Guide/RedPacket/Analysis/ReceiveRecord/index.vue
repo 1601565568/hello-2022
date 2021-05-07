@@ -1,13 +1,18 @@
 <template>
   <div>
-    <page-table title='红包策略'>
+    <page-table title='领取记录'>
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="">
-            <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-            </el-input>
+          <el-form-item label="支付商户号：" class='el-form__change'>
+            <el-select v-model="model.payConfigId" placeholder="请选择" @change='(value)=>{changeSearchfrom({payConfigId:value})}'>
+              <el-option
+                v-for="item in payList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="红包类型：">
             <el-select v-model="model.redpackType" placeholder="请选择" @change='(value)=>{changeSearchfrom({redpackType:value})}'>
@@ -31,16 +36,6 @@
               align="right">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="支付商户号：" class='el-form__change'>
-            <el-select v-model="model.payConfigId" placeholder="请选择" @change='(value)=>{changeSearchfrom({payConfigId:value})}'>
-              <el-option
-                v-for="item in payList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item label="发放类型：" class='el-form__change'>
             <el-select v-model="model.launchType" placeholder="请选择" @change='(value)=>{changeSearchfrom({launchType:value})}'>
               <el-option
@@ -51,10 +46,15 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="">
+            <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            </el-input>
+          </el-form-item>
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button type="primary" size='large' @click="handleDetail({})">新建</ns-button>
+        <ns-button size='large'>导出CSV文件</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -66,23 +66,11 @@
             style="width: 100%">
             <el-table-column
               prop="name"
-              label="红包名称">
-              <template slot-scope="scope">
-                <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
-                  <!-- <img :src='redPacket' class='scope-img' /> -->
-                  <div class="scope-title_tab">
-                    {{scope.row.name}}
-                  </div>
-                </div>
-              </template>
+              label="领取人">
             </el-table-column>
             <el-table-column
               prop="state"
-              label="红包类型">
-              <template slot-scope="scope">
-                {{redpacketTypeMap[scope.row.redpackType]}}
-              </template>
+              label="发放类型">
             </el-table-column>
             <el-table-column
               prop="total"

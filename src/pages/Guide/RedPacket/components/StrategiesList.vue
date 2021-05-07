@@ -6,13 +6,17 @@
         <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
-        <el-scrollbar Zref="fullScreen" style='height:400px'>
+        <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='height:400px'>
           <template v-for='item in _data._table.data'>
             <div :key='item.id' class='radio-item'>
               <el-radio :value="checkItem.id" :label="item.id" @change='handleChangeCheckItem(item)'>{{item.name}}</el-radio>
             </div>
           </template>
         </el-scrollbar>
+        <template v-else>
+          <img :src='nodatabox' class='empty-img'>
+          <p class='empty-text'>没有数据哦～</p>
+        </template>
       </div>
       <div class='dialog-content' v-if='checkItem.id'>
         <div class='packet-box'>
@@ -24,11 +28,11 @@
           <div class='packet-detail'>红包总数：{{checkItem.total}}个</div>
           <div class='packet-detail' v-if='checkItem.redpackType === normalRed'>单个金额：{{$numeral(checkItem.money/100).format('0,0.00')}}元</div>
           <div class='packet-detail' v-else>红包金额：{{$numeral(checkItem.moneyMin/100).format('0,0.00')}}-{{$numeral(checkItem.moneyMax/100).format('0,0.00')}}元（员工自定义）</div>
-          <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit}}个/人/日</div>
+          <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>
         </div>
       </div>
     </div>
-    <div class='page-content'>
+    <div class='page-content' v-if='_data._table.data && _data._table.data.length'>
       <el-pagination v-if="_data._pagination.enable"
                     class="template-table__pagination"
                     :page-sizes="_data._pagination.sizeOpts"
@@ -45,19 +49,22 @@
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import RedPacket from './RedPacket'
+import nodatabox from '@/assets/nodatabox.png'
 import { redpacketTypeMap, normalRed, luckyRed, diyRed, timeTypeForever } from '../const'
 export default {
   data () {
     return {
       url: this.$api.guide.redpacket.getStrategiesList,
       model: {
-        name: ''
+        name: '',
+        state: 1
       },
       checkItem: {},
       redpacketTypeMap,
       normalRed,
       luckyRed,
       diyRed,
+      nodatabox,
       timeTypeForever
     }
   },
@@ -137,6 +144,17 @@ export default {
       }
     }
   }
+}
+.empty-img {
+  width: 220px;
+  height: 220px;
+  display: block;
+  margin: 40px auto;
+}
+.empty-text {
+  font-size: 14px;
+  color: #8C8C8C;
+  text-align: center;
 }
 </style>
 <style scoped>

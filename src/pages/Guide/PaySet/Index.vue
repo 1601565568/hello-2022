@@ -5,12 +5,13 @@
         <div class='common-header flex-box'>
           <h3>支付配置</h3>
           <div class='common-btn'>
+            <ns-button class='customer-btn_save' type="text" size='large' @click='jumpGuide(1)'>如何进行支付配置？</ns-button>
             <ns-button class='customer-btn_save' type="primary" size='large' @click='handleAdd'>新增授权</ns-button>
           </div>
         </div>
       </template>
       <template slot='content'>
-        <el-row>
+        <el-row v-if='!isEmpty'>
           <template v-for='itemData in data'>
             <el-col :span='8' class='card-warrper' :key='itemData.id'>
               <div class='card-content'>
@@ -41,23 +42,24 @@
             </el-col>
           </template>
         </el-row>
+        <NoWxpay v-else />
       </template>
     </page-edit>
     <el-dialog
       title="支付设置"
       :visible.sync="visible"
       width="500px">
-      <el-form class='drawer-form' :model="drawerData" ref="form" label-width="95px" :rules="rules">
+      <el-form v-if='visible' class='drawer-form' :model="drawerData" ref="form" label-width="95px" :rules="rules">
         <el-form-item label="支付商户号" prop='mchid' required>
-          <el-input v-model="drawerData.mchid" placeholder="请输入支付商户号" :length='32'></el-input>
+          <LengthInput v-model="drawerData.mchid" placeholder="请输入支付商户号" :length='32'></LengthInput>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取支付商户号</span>
             <ns-button type='text' @click='jumpGuide(1)'>立即查看</ns-button>
           </div>
         </el-form-item>
-        <el-form-item label="支付密钥" prop='key' required>
-          <el-input v-model="drawerData.key" placeholder="请输入支付密钥" :length='20' type='password'></el-input>
+        <el-form-item label="API密钥" prop='key' required>
+          <LengthInput v-model="drawerData.key" placeholder="请输入API密钥" :length='20' type='password'></LengthInput>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
@@ -94,6 +96,8 @@
           <el-date-picker
             style='width:100%'
             v-model="drawerData.time"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -101,7 +105,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="关联公众号" prop='mchAppid' required>
-          <el-select v-model='drawerData.mchAppid' style='width:100%'>
+          <el-select v-model='drawerData.mchAppid' style='width:100%' placeholder="请选择关联公众号">
             <el-option
               v-for="item in appIdList"
               :key="item.appId"
@@ -129,8 +133,9 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import PageEdit from '@/components/NewUi/PageEdit'
 import LengthInput from '@/components/NewUi/LengthInput'
 import ElUpload from '@nascent/nui/lib/upload'
+import NoWxpay from '../RedPacket/components/NoWxpay'
 Index.components = {
-  PageEdit, ElDrawer, LengthInput, ElUpload
+  PageEdit, ElDrawer, LengthInput, ElUpload, NoWxpay
 }
 export default Index
 </script>

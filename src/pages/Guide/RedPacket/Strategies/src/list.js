@@ -1,11 +1,9 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from '../../mixins/redpacketTable'
-import redPacketEmpty from '@/assets/redpactEmpty.png'
 export default {
   mixins: [tableMixin, redpacketTable],
   data () {
     return {
-      redPacketEmpty, // 红包空图
       model: {
         startTime: '', // 起始时间
         endTime: '', // 结束时间

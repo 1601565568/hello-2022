@@ -11,7 +11,7 @@ export default {
         },
         {
           key: 'key',
-          name: '支付密钥',
+          name: 'API密钥',
           isRequire: true,
           value: ''
         },
@@ -35,6 +35,7 @@ export default {
       ],
       btnLoad: false,
       visible: false,
+      isEmpty: false,
       drawerData: {},
       drawerKey: '',
       data: [],
@@ -45,7 +46,7 @@ export default {
           { min: 1, max: 32, message: '长度在1-32个字符', trigger: ['blur', 'change'] }
         ],
         key: [
-          { required: true, message: '请输入支付密钥', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入API密钥', trigger: ['blur', 'change'] },
           { min: 1, max: 32, message: '长度在1-32个字符', trigger: ['blur', 'change'] }
         ],
         cert: [
@@ -104,7 +105,12 @@ export default {
     getList () {
       this.$http.fetch(this.$api.guide.pay.getList, { statr: 0, length: 999 }).then(res => {
         if (res.success) {
-          this.data = this.formatList(res.result.data)
+          if (res.result.data && res.result.data.length) {
+            this.isEmpty = false
+            this.data = this.formatList(res.result.data)
+          } else {
+            this.isEmpty = true
+          }
         }
       })
     },
@@ -180,8 +186,15 @@ export default {
     handleRemove () {
       this.drawerData.expireApi = ''
     },
-    beforeUpload () {
-
+    // 上传之前钩子
+    beforeUpload (file) {
+      // this.fileList = [file]
+      // 图片格式判断
+      if (!/\.(p12|P12)$/.test(file.name)) {
+        this.$notify.error('仅支持上传p12文件')
+        return false
+      }
+      return true
     },
     handleUploadSuccess (res) {
       if (res.success) {

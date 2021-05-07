@@ -163,29 +163,6 @@ export default {
       ]
     },
     {
-      'path': '/Social/SocialOperation/RedPacket/Send/List',
-      'name': 'redPacketSend',
-      'title': '',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'redirect': {
-        'name': 'redPacketSendList'
-      },
-      'children': [
-        {
-          'path': '/Social/SocialOperation/RedPacket/Send/List',
-          'name': 'redPacketSendList',
-          'title': '发策略',
-          'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
-        },
-        {
-          'path': '/Social/SocialOperation/RedPacket/Send/Edit',
-          'name': 'redPacketSendEdit',
-          'title': '新建发策略',
-          'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
-        }
-      ]
-    },
-    {
       'path': '/Social/SocialOperation/RedPacket/Analysis',
       'name': 'redPacketAnalysis',
       'title': '',

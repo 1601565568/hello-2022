@@ -6,7 +6,15 @@ export default {
     return new Promise((resolve) => {
       http.fetch(api.guide.pay.getList, { statr: 0, length: 999 }).then(res => {
         if (res.success) {
-          commit('setWxpayList', res.result.data)
+          commit('setWxpayList', res.result.data.map(item => {
+            const value = item.id
+            const label = item.mchid + '-' + (item.officialAccount ? item.officialAccount.nickName : '')
+            return {
+              ...item,
+              value,
+              label
+            }
+          }))
           resolve(res.result.data)
         }
       }).catch(error => {

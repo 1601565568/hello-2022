@@ -60,13 +60,9 @@
       <!-- 表格 start -->
       <template slot='table'>
         <template v-if='isEmpty'>
-          <div class='empty-content'>
-            <div class='empty'>
-              <img class='empty-img' :src='redPacketEmpty'/>
-              <p class='empty-p'>你还没有配置支付商户号哦~</p>
-              <div class='empty-div'>可前往【系统设置】->【授权管理】->【支付配置】进行配置 <ns-button type='text' class='empty-btn' @click='handleJump(payPath)'>去配置</ns-button></div>
-            </div>
-          </div>
+          <NoWxpay>
+            <div class='empty-div'>可前往【系统设置】->【授权管理】->【支付配置】进行配置 <ns-button type='text' class='empty-btn' @click='handleJump(payPath)'>去配置</ns-button></div>
+          </NoWxpay>
         </template>
         <template v-else>
           <el-table
@@ -174,8 +170,9 @@
 import Index from './src/list'
 import PageTable from '@/components/NewUi/PageTablePro'
 import PreviewRedPacket from '../components/PreviewRedPacket'
+import NoWxpay from '../components/NoWxpay'
 Index.components = {
-  PageTable, PreviewRedPacket
+  PageTable, PreviewRedPacket, NoWxpay
 }
 export default Index
 </script>
@@ -193,34 +190,14 @@ export default Index
   display: flex;
   align-items: center;
 }
-.empty-content {
-  height: calc(100vh - 280px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .empty-img {
-    display: block;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
-  }
-  .empty-p {
-    margin-top: 40px;
-    margin-bottom: 47px;
+.empty-div {
+  font-size: 14px;
+  color: #262626;
+  text-align: center;
+  line-height: 22px;
+  .empty-btn {
     font-size: 14px;
-    color: #8C8C8C;
-    text-align: center;
-    line-height: 22px;
-  }
-  .empty-div {
-    font-size: 14px;
-    color: #262626;
-    text-align: center;
-    line-height: 22px;
-    .empty-btn {
-      font-size: 14px;
-      margin-left: 16px;
-    }
+    margin-left: 16px;
   }
 }
 </style>
