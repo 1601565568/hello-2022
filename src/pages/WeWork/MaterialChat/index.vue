@@ -80,9 +80,11 @@ export default {
     return {
       dataList: [
         { name: '素材发送次数总计', data: 782146816478, claseName: 'one' },
-        { name: '素材下载总次数', data: 7482969067892, claseName: 'two' },
-        { name: '今日素材发送次数', data: 89797, claseName: 'three' },
-        { name: '今日素材下载次数', data: 7896767, claseName: 'four' }
+        { name: '素材下载总次数', data: 782146816478, claseName: 'two' },
+        { name: '素材补全总次数', data: 782146816478, claseName: 'three' },
+        { name: '今日素材发送次数', data: 782146816478, claseName: 'four' },
+        { name: '今日素材下载次数', data: 782146816478, claseName: 'five' },
+        { name: '今日素材补全次数', data: 782146816478, claseName: 'six' }
       ],
       listData: [
         {
@@ -117,8 +119,10 @@ export default {
           data: [
             '素材发送次数总计',
             '素材下载总次数',
+            '素材补全总次数',
             '今日素材发送次数',
-            '今日素材下载次数'
+            '今日素材下载次数',
+            '今日素材补全次数'
           ],
           left: '0',
           bottom: '9%',
@@ -126,7 +130,7 @@ export default {
           itemWidth: 10,
           itemHeight: 10
         },
-        color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
+        color: ['#4287FF', '#722898', '#95DA73', '#F34CA7', '#7962EC', '#F5AD34'],
         grid: {
           left: 0,
           right: 0,
@@ -187,13 +191,25 @@ export default {
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
-            name: '今日素材发送次数',
+            name: '素材补全总次数',
             type: 'line',
             stack: '总量',
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
+            name: '今日素材发送次数',
+            type: 'line',
+            stack: '总量',
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
             name: '今日素材下载次数',
+            type: 'line',
+            stack: '总量',
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
+            name: '今日素材补全次数',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
@@ -230,7 +246,7 @@ export default {
     flex-direction: row;
   }
   .base-cell {
-    width: 282px;
+    width: 183px;
     height: 120px;
     background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
     border-radius: 4px;
@@ -256,16 +272,22 @@ export default {
     }
   }
   .one {
-    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
+    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
   }
   .two {
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
+    background-image: linear-gradient(269deg, #AD5489 0%, #702698 100%);
   }
   .three {
-    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
+    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
   }
   .four {
-    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
+    background-image: linear-gradient(269deg, #FC6767 0%, #EC008C 100%);
+  }
+  .five {
+    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
+  }
+  .six {
+    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
   }
 }
 .material-show {
