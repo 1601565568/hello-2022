@@ -137,7 +137,7 @@
               <length-input v-model='model.money' oninput="value=value.replace(/[^\d.]/g,'')"/>
               <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为0.3~5000</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包金额（元）' prop='' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === luckyRed' label='红包金额（元）' class='larger-item is-required'>
               <div class='input-chain'>
                 <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
                     { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },
@@ -157,7 +157,7 @@
               </div>
               <p class='prompt-text'><span class='yellow-point'></span>每个拼手气红包的总金额</p>
             </el-form-item>
-            <el-form-item v-else-if='model.redpackType === diyRed' label='红包金额（元）' prop='' class='larger-item'>
+            <el-form-item v-else-if='model.redpackType === diyRed' label='红包金额（元）' class='larger-item is-required'>
               <div class='input-chain'>
                 <el-form-item label=' ' prop='moneyMin' class='larger-item' :rules="[
                     { required: true, message: '请输入最小金额', trigger: ['blur', 'change'] },

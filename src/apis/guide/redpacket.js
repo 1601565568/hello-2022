@@ -77,5 +77,10 @@ export default {
   updateSendState: {
     url: prefix + 'send/setting/updateState',
     method: 'post'
+  },
+  // 红包领取记录列表
+  getReceiverList: {
+    url: prefix + 'record/receiver/list',
+    method: 'post'
   }
 }

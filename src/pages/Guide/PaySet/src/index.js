@@ -55,7 +55,8 @@ export default {
         mchAppid: [
           { required: true, message: '请选择关联公众号', trigger: ['blur', 'change'] }
         ]
-      }
+      },
+      certName: '' // 文件名称
     }
   },
   methods: {
@@ -161,7 +162,7 @@ export default {
         id: data.id
       }
       if (type === 'load') {
-        obj.time = [data.startTime, data.expireTime]
+        obj.time = data.startTime && data.expireTime ? [data.startTime, data.expireTime] : []
       } else {
         if (data.key === this.drawerKey) {
           obj.key = ''
@@ -194,6 +195,7 @@ export default {
         this.$notify.error('仅支持上传p12文件')
         return false
       }
+      this.certName = file.name
       return true
     },
     handleUploadSuccess (res) {

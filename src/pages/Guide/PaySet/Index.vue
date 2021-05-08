@@ -82,7 +82,7 @@
             <div class='el-upload-list__item'>
               <a class="el-upload-list__item-name">
                 <i class="el-icon-document"></i>
-                {{drawerData.cert}}
+                {{certName || drawerData.cert}}
               </a>
             </div>
           </div>

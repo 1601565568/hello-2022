@@ -1,4 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import redpacketTable from '../../../mixins/redpacketTable'
 export default {
   data () {
     return {
@@ -10,10 +11,10 @@ export default {
         redpackType: null,
         startTime: ''
       },
-      url: this.$api.guide.redpacket.getStrategiesList
+      url: this.$api.guide.redpacket.getReceiverList
     }
   },
-  mixins: [tableMixin],
+  mixins: [tableMixin, redpacketTable],
   mounted () {
     this.$reload()
   },
