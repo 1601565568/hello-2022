@@ -71,7 +71,7 @@
               <el-form-item label='红包名称' required prop='name' class='larger-item'>
                 <length-input v-model='model.name' placeholder="请输入红包名称" :length='10' />
               </el-form-item>
-              <el-form-item label='有效期' required prop='timeType' class='larger-item'>
+              <el-form-item label='有效期' required class='larger-item'>
                 <el-radio-group v-model="model.timeType">
                   <template v-for='item in timeTypeList'>
                     <el-radio :label="item.value" :key='item.value' @change="resetValite('timeItem')">{{item.nick}}</el-radio>
@@ -98,7 +98,7 @@
                 <length-input v-model='model.total' placeholder="请输入红包总数" oninput="value=value.replace(/[^\d]/g,'')"  :length='10'/>
                 <p class='prompt-text'><span class='yellow-point'></span>控制此红包的总个数，全部发送完后，则不可发放此红包</p>
               </el-form-item>
-              <el-form-item label='单人单日发放个数上限（个）' required prop='limitType' class='larger-item'>
+              <el-form-item label='单人单日发放个数上限（个）' required class='larger-item'>
                 <div class='form-item_toptext'>
                   <el-radio-group v-model="model.limitType"  @change="resetValite('limitTypeItem')">
                     <el-radio :label="1">有限<el-tooltip content="达到上限后，不能再发送此红包"  placement="top">

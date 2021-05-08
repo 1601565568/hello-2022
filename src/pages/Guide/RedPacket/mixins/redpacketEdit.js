@@ -1,5 +1,4 @@
 import { timeTypeInterval, timeTypeForever, redpacketTypeList, setTypeList, timeTypeList, normalRed, luckyRed, diyRed, staffPost, activityPost, BLESSING } from '../const'
-import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -44,7 +43,7 @@ export default {
         this.handleCancel()
       }).catch((resp) => {
         this.btnLoad = false
-        this.$notify.error(getErrorMsg('保存失败', resp))
+        this.$notify.error(resp.msg)
       })
     }
   }

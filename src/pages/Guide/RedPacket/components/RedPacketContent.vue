@@ -3,7 +3,7 @@
     <div class='account-item' v-if='redpackType === normalRed'>
       <div class='account-name'>金额</div>
       <div class='account-value'>
-        <span>{{money?$numeral(money).format('0,0.00'):'0.00'}}</span>元
+        <span>{{money?$numeral(setAccount(money)).format('0,0.00'):'0.00'}}</span>元
       </div>
     </div>
     <template v-if='redpackType === luckyRed'>
@@ -16,14 +16,14 @@
       <div class='account-item' v-if='redpackType === luckyRed'>
         <div class='account-name'>总金额</div>
         <div class='account-value'>
-          <span>{{moneyMin?$numeral(moneyMin).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(moneyMax).format('0,0.00'):'0.00'}}</span>元
+          <span>{{moneyMin?$numeral(setAccount(moneyMin)).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(setAccount(moneyMax)).format('0,0.00'):'0.00'}}</span>元
         </div>
       </div>
     </template>
     <div class='account-item' v-if='redpackType === diyRed'>
       <div class='account-name'>金额</div>
       <div class='account-value'>
-        <span>{{moneyMin?$numeral(moneyMin).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(moneyMax).format('0,0.00'):'0.00'}}</span>元
+        <span>{{moneyMin?$numeral(setAccount(moneyMin)).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(setAccount(moneyMax)).format('0,0.00'):'0.00'}}</span>元
       </div>
     </div>
     <div class='account-item'>
@@ -33,7 +33,7 @@
       <div class='account-name'>红包封面</div>
       <img />
     </div>
-    <div class='account-num'><span>¥{{redpackType === normalRed ? (money?$numeral(money).format('0,0.00'):'0.00'):'0.00'}}</span></div>
+    <div class='account-num'><span>¥{{redpackType === normalRed ? (money?$numeral(setAccount(money)).format('0,0.00'):'0.00'):'0.00'}}</span></div>
     <div class='red-btn'><span>塞钱进红包</span></div>
   </div>
 </template>
@@ -60,6 +60,14 @@ export default {
     },
     moneyMax: {
       default: '0.00'
+    }
+  },
+  methods: {
+    setAccount (money) {
+      if (money > 9999.99) {
+        return (money + '').substring(0, 4)
+      }
+      return money
     }
   }
 }
