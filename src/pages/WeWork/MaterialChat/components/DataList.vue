@@ -2,9 +2,10 @@
   <el-drawer
     :visible.sync="drawer"
     :direction="direction"
-    :before-close="handleClose"
     size="720px"
     :with-header="false"
+    destroy-on-close
+    :modal="false"
   >
     <div>
       <div class="close-view">
@@ -25,6 +26,34 @@
               </el-option>
             </el-select>
           </div>
+        </div>
+        <div>
+          <el-form :inline="true" class="form-inline_top">
+            <el-form-item label="门店/员工：">
+              <NsGuideDialog
+                :selfBtn="true"
+                :appendToBody="true"
+                :isButton="false"
+                :auth="false"
+                type="primary"
+                btnTitle=""
+                dialogTitle="门店/员工："
+                @input="handleChangeGuide"
+                v-model="guideIds"
+              >
+                <template slot="selfBtn">
+                  <div class="self-btn">
+                    {{
+                      guideIds && guideIds.length
+                        ? `已选择${guideIds.length}个员工`
+                        : '全部'
+                    }}
+                    <Icon type="geren" class="guideIds-icon"></Icon>
+                  </div>
+                </template>
+              </NsGuideDialog>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
       <page-table style="padding-top:0">
@@ -48,9 +77,10 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
+import NsGuideDialog from '@/components/NsGuideDialog'
 export default {
   name: 'dataList',
-  components: { ElDrawer, PageTable },
+  components: { ElDrawer, PageTable, NsGuideDialog },
   data () {
     return {
       direction: 'rtl',
@@ -123,6 +153,24 @@ export default {
 <style scoped >
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
+.form-inline_top {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+.self-btn {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color: #c0c4cc;
+  }
+}
 .el-tabs__item {
   font-size: 18px !important;
   padding: 10px 0 50px !important;
@@ -216,9 +264,8 @@ export default {
   display: flex;
   flex-direction: row;
   padding-left: 16px;
-  padding-right: 16px;
   align-items: center;
-  justify-content: space-between;
+  background-color: red;
 }
 
 .item-down {

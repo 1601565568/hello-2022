@@ -12,7 +12,7 @@
 
 .date-view >>> .el-input__inner {
   width: 256px;
-  height: 32px;
+  height: 35px;
 }
 .data-view >>> .el-range-input {
   font-size: 14px;
