@@ -94,7 +94,6 @@ export default {
           if (res.success) {
             this.model = this.formatData(res.result, 'load')
             this.posterInfo.background = res.result.background
-            this.rules = []
           }
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('获取失败', resp))
@@ -129,9 +128,7 @@ export default {
         payConfigId: data.payConfigId + '',
         name: data.name,
         timeType: data.timeType,
-        total: data.total,
         limitType: data.limitType,
-        everyoneLimit: data.everyoneLimit,
         benediction: data.benediction,
         coverId: data.coverId
       }
@@ -141,6 +138,8 @@ export default {
         obj.moneyMax = data.moneyMax / 100
         obj.moneyMin = data.moneyMin / 100
         obj.money = data.money / 100
+        obj.total = data.total + ''
+        obj.everyoneLimit = data.everyoneLimit + ''
       } else {
         obj.startTime = data.time[0]
         obj.endTime = data.time[1]
@@ -148,6 +147,8 @@ export default {
         obj.moneyMax = data.moneyMax * 100
         obj.moneyMin = data.moneyMin * 100
         obj.money = data.money * 100
+        obj.total = data.total
+        obj.everyoneLimit = data.everyoneLimit
       }
       return obj
     },
