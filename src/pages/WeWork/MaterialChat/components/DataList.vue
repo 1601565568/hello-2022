@@ -10,35 +10,21 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">发送群列表</div>
+      <div class="drawer-title">素材标题最多一行文字多的就点点点</div>
       <div class="menu-view">
-        <div class="item-view">
-          <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
-        </div>
         <div class="item-down">
-          <el-select v-model="actionValue" placeholder="动作">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="item-name">
-          <el-select v-model="actionValue" placeholder="门店/员工：">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="drawer-output">
-          导出CSV文件
+          <div class="name">动作:</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option='true'>
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
         </div>
       </div>
       <page-table style="padding-top:0">
@@ -48,8 +34,9 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="title" label="素材标题"> </el-table-column>
-            <el-table-column prop="status" label="动作"> </el-table-column>
+            <el-table-column prop="date" label="日期"> </el-table-column>
+            <el-table-column prop="status" label="动作"  :width='80'> </el-table-column>
+            <el-table-column prop="cardid" label="工号" :width='114'> </el-table-column>
             <el-table-column prop="name" label="员工"> </el-table-column>
             <el-table-column prop="address" label="所属门店"></el-table-column>
           </el-table>
@@ -70,31 +57,36 @@ export default {
       drawer: false,
       listData: [
         {
-          title: '素材标题素材标题',
+          date: '2021-04-21 17:47:48',
+          cardid: '123455353',
           status: '下载',
           name: '朱琴眉',
           address: '杭州转塘店'
         },
         {
-          title: '素材标题素材标题',
+          date: '2021-04-21 17:47:48',
+          cardid: '123455353',
           status: '下载',
           name: '朱琴眉',
           address: '杭州转塘店'
         },
         {
-          title: '素材标题素材标题',
+          date: '2021-04-21 17:47:48',
+          cardid: '123455353',
           status: '下载',
           name: '朱琴眉',
           address: '杭州转塘店'
         },
         {
-          title: '素材标题素材标题',
+          date: '2021-04-21 17:47:48',
+          cardid: '123455353',
           status: '下载',
           name: '朱琴眉',
           address: '杭州转塘店'
         },
         {
-          title: '素材标题素材标题',
+          date: '2021-04-21 17:47:48',
+          cardid: '123455353',
           status: '下载',
           name: '朱琴眉',
           address: '杭州转塘店'
@@ -116,7 +108,7 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: ''
+      actionValue: '全部动作'
     }
   },
   methods: {
@@ -130,6 +122,7 @@ export default {
 </script>
 <style scoped >
 @import '@components/NewUi/styles/reset.css';
+@import '../styles/index.css';
 .el-tabs__item {
   font-size: 18px !important;
   padding: 10px 0 50px !important;
@@ -228,23 +221,19 @@ export default {
   justify-content: space-between;
 }
 
-.item-view >>> .el-input__inner {
-  width: 200px;
-  height: 32px;
-  font-size: 14px;
-}
-
-.item-down >>> .el-input__inner {
+.item-down {
   width: 143px;
   height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
   font-size: 14px;
+  align-items: center;
+  .name {
+    width: 42px;
+    margin-left:8px;
+  }
 }
-
-.item-name >>> .el-input__inner {
-  width: 178px;
-  height: 32px;
-  font-size: 14px;
-  font-weight: 400;
-}
-
 </style>

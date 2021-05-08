@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="material-data">
-      <div class="title">素材库累计数据</div>
+      <div class="top-view">
+        <div class="title">素材库累计数据</div>
+        <div class="unDoneData">查看未执行统计</div>
+      </div>
       <div class="data-view">
         <div v-for="item in dataList" :key="item">
           <div class="base-cell" :class="item.claseName">
@@ -38,31 +41,63 @@
         <div class="title">数据分析</div>
         <NsEcharts :options="option" />
       </div>
-      <div class="material-list">
-        <div class="title">数据报表</div>
-        <page-table style="padding-top:0">
-          <template slot="table">
-            <el-table
-              :data="listData"
-              class="new-table_border drawer-table"
-              :row-style="{ height: '48px' }"
-            >
-              <el-table-column prop="time" label="日期"> </el-table-column>
-              <el-table-column prop="send" label="发送次数"> </el-table-column>
-              <el-table-column prop="dowm" label="下载次数"> </el-table-column>
-              <el-table-column prop="title" width="125px" label="操作">
-                <template>
-                  <ns-button
-                    type="text"
-                    class="select-button"
-                    @click="showMoreData"
-                    >查看数据</ns-button
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-          </template>
-        </page-table>
+    </div>
+    <div class="material-list">
+      <div class="title">数据报表</div>
+      <div class="select-data-view">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="按日期统计" name="first">
+            <page-table style="padding-top:0">
+              <template slot="table">
+                <el-table
+                  :data="listData"
+                  class="new-table_border drawer-table"
+                  :row-style="{ height: '48px' }"
+                >
+                  <el-table-column prop="time" label="日期"> </el-table-column>
+                  <el-table-column prop="send" label="发送次数"> </el-table-column>
+                  <el-table-column prop="dowm" label="下载次数"> </el-table-column>
+                  <el-table-column prop="title" width="125px" label="操作">
+                    <template>
+                      <ns-button
+                        type="text"
+                        class="select-button"
+                        @click="showMoreData"
+                        >查看数据</ns-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </template>
+            </page-table>
+          </el-tab-pane>
+          <el-tab-pane label="按素材统计" name="second">
+            <page-table style="padding-top:0">
+              <template slot="table">
+                <el-table
+                  :data="listData"
+                  class="new-table_border drawer-table"
+                  :row-style="{ height: '48px' }"
+                >
+                  <el-table-column prop="time" label="素材标题"> </el-table-column>
+                  <el-table-column prop="send" label="发送次数"> </el-table-column>
+                  <el-table-column prop="dowm" label="下载次数"> </el-table-column>
+                  <el-table-column prop="dowm" label="补全次数"> </el-table-column>
+                  <el-table-column prop="title" width="125px" label="操作">
+                    <template>
+                      <ns-button
+                        type="text"
+                        class="select-button"
+                        @click="showMoreData"
+                        >查看数据</ns-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </template>
+            </page-table>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
     <DataList ref="detaList" />
@@ -130,7 +165,14 @@ export default {
           itemWidth: 10,
           itemHeight: 10
         },
-        color: ['#4287FF', '#722898', '#95DA73', '#F34CA7', '#7962EC', '#F5AD34'],
+        color: [
+          '#4287FF',
+          '#722898',
+          '#95DA73',
+          '#F34CA7',
+          '#7962EC',
+          '#F5AD34'
+        ],
         grid: {
           left: 0,
           right: 0,
@@ -216,10 +258,14 @@ export default {
           }
         ]
       },
-      value1: ''
+      value1: '',
+      activeName: 'first'
     }
   },
   methods: {
+    handleClick () {
+
+    },
     showMoreData () {
       this.$refs.detaList.closeDeawer()
     }
@@ -229,11 +275,19 @@ export default {
 
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
-
+@import './styles/index.css';
 .material-data {
   background-color: white;
   width: 1206px;
   padding-bottom: 24px;
+  .top-view {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    height: 56px;
+  }
   .title {
     font-size: 16px;
     color: #262626;
@@ -244,6 +298,20 @@ export default {
   .data-view {
     display: flex;
     flex-direction: row;
+  }
+  .unDoneData {
+    width: 116px;
+    height: 32px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #595959;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 400;
+    line-height: 32px;
+    margin-right: 16px;
   }
   .base-cell {
     width: 183px;
@@ -272,22 +340,22 @@ export default {
     }
   }
   .one {
-    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
+    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
   }
   .two {
-    background-image: linear-gradient(269deg, #AD5489 0%, #702698 100%);
+    background-image: linear-gradient(269deg, #ad5489 0%, #702698 100%);
   }
   .three {
-    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
+    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
   }
   .four {
-    background-image: linear-gradient(269deg, #FC6767 0%, #EC008C 100%);
+    background-image: linear-gradient(269deg, #fc6767 0%, #ec008c 100%);
   }
   .five {
-    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
+    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
   }
   .six {
-    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
+    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
   }
 }
 .material-show {
@@ -305,14 +373,20 @@ export default {
       height: 56px;
     }
   }
-  .material-list {
-    .title {
-      font-size: 16px;
-      color: #262626;
-      line-height: 56px;
-      font-weight: 500;
-      height: 56px;
-    }
+}
+.material-list {
+  background-color: white;
+  width: 1206px;
+  .title {
+    font-size: 16px;
+    color: #262626;
+    line-height: 56px;
+    font-weight: 500;
+    height: 56px;
+    margin-left:16px;
+  }
+  .select-data-view {
+    margin: 0;
   }
 }
 .drawer-table {
@@ -338,7 +412,7 @@ export default {
 }
 
 .day-view {
-  border-right: 1px solid #E8E8E8;
+  border-right: 1px solid #e8e8e8;
   .base-text {
     font-size: 14px;
     color: #595959;
@@ -358,23 +432,12 @@ export default {
   height: 32px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  border-radius: 2px;
   line-height: 32px;
   text-align: center;
   font-size: 14px;
 }
 .date-view {
   margin-left: 16px;
-}
-.date-view >>> .el-input__inner {
-  width: 256px;
-  height: 32px;
-}
-.data-view >>> .el-range-input {
-  font-size: 14px;
-  text-align: center;
-}
-.data-view >>> .el-range-separator {
-  font-size: 14px;
 }
 </style>

@@ -1,0 +1,37 @@
+.select-data-view >>> .el-tabs__header {
+  border: none;
+}
+
+.select-data-view >>> .el-tabs__item.is-active {
+  color: #0094fc;
+}
+
+.select-data-view >>> .el-tabs__active-bar {
+  background: #0094fc;
+}
+
+.date-view >>> .el-input__inner {
+  width: 256px;
+  height: 32px;
+}
+.data-view >>> .el-range-input {
+  font-size: 14px;
+  text-align: center;
+}
+.data-view >>> .el-range-separator {
+  font-size: 14px;
+}
+
+.data-view >>> .el-range-editor--small .el-range-input {
+  font-size: 14px;
+}
+
+.item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+}
+
+.item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
+}
