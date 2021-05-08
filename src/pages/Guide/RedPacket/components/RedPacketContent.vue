@@ -27,11 +27,13 @@
       </div>
     </div>
     <div class='account-item'>
-      <div class='account-name'>{{benediction||'恭喜发财，大吉大利'}}</div>
+      <div class='account-name '>{{benediction ? benediction.substring(0,25):'恭喜发财，大吉大利'}}</div>
     </div>
     <div class='account-item'>
       <div class='account-name'>红包封面</div>
-      <img />
+      <div class='account-img'>
+        <RedPacket :bgHasFont='true' :bgImage='background' :bagTip='benediction' />
+      </div>
     </div>
     <div class='account-num'><span>¥{{redpackType === normalRed ? (money?$numeral(setAccount(money)).format('0,0.00'):'0.00'):'0.00'}}</span></div>
     <div class='red-btn'><span>塞钱进红包</span></div>
@@ -39,6 +41,7 @@
 </template>
 <script>
 import { normalRed, luckyRed, diyRed } from '../const'
+import RedPacket from './RedPacket'
 export default {
   data () {
     return {
@@ -60,8 +63,12 @@ export default {
     },
     moneyMax: {
       default: '0.00'
+    },
+    background: {
+      default: ''
     }
   },
+  components: { RedPacket },
   methods: {
     setAccount (money) {
       if (money > 9999.99) {
@@ -89,19 +96,11 @@ export default {
     border-radius: 0.25em;
     margin-bottom: 1.125em;
     word-break: break-all;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     span {
       margin-right: 0.5em;
     }
     .account-name {
-      word-break: break-all;
       font-size: 1.0625em;
-      word-break: break-all;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
     .account-value {
       word-break: break-all;
@@ -124,6 +123,9 @@ export default {
     span {
       font-size: 3em;
     }
+  }
+  .account-img {
+    width: 20px;
   }
   .red-btn {
     width: 11.0625em;

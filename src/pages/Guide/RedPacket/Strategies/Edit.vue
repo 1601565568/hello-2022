@@ -195,7 +195,7 @@
           </template>
           <template slot='collapse-right'>
             <div class='preview-img'>
-              <RedPacketContent :money='model.money' :benediction='model.benediction' :moneyMax='model.moneyMax' :moneyMin='model.moneyMin' :redpackType='model.redpackType' />
+              <RedPacketContent :money='model.money' :benediction='model.benediction' :moneyMax='model.moneyMax' :moneyMin='model.moneyMin' :redpackType='model.redpackType' :background='posterInfo.background'/>
             </div>
           </template>
           <template slot='collapse-right__bottom'>

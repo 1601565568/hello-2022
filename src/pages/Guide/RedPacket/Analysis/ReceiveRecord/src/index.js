@@ -6,17 +6,22 @@ export default {
       model: {
         endTime: '',
         launchType: null,
-        name: '',
+        customerNick: '',
         payConfigId: null,
         redpackType: null,
         startTime: ''
       },
-      url: this.$api.guide.redpacket.getReceiverList
+      url: this.$api.guide.redpacket.getReceiverList,
+      seachDate: [],
+      payList: [],
+      payMap: {}
     }
   },
   mixins: [tableMixin, redpacketTable],
   mounted () {
     this.$reload()
   },
-  methods: {}
+  methods: {
+    handleSearch () {}
+  }
 }

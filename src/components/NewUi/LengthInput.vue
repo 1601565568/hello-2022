@@ -32,7 +32,7 @@ export default {
   color: #C0C4CC;
   position: absolute;
   font-size: 12px;
-  bottom: 5px;
+  bottom: 32px;
   right: 10px;
 }
 </style>
