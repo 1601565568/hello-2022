@@ -79,8 +79,9 @@
                 </el-radio-group>
                 <div class='form-item_time larger-item' v-if='model.timeType === timeTypeInterval'>
                   <div>时间范围</div>
-                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk ref='timeItem' key='time'>
+                  <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk ref='timeItem' key='time'  class='el-form__change'>
                     <el-date-picker
+                      width='500px'
                       v-model="model.time"
                       type="datetimerange"
                       :picker-options="pickerOptions"

@@ -82,5 +82,10 @@ export default {
   getReceiverList: {
     url: prefix + 'record/receiver/list',
     method: 'post'
+  },
+  // 红包领取记录列表
+  getRecordList: {
+    url: prefix + 'record/list',
+    method: 'post'
   }
 }

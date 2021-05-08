@@ -12,7 +12,7 @@
         <span>{{bagName}}</span>
       </div>
       <div class='redpacket-tip'>
-        {{bagTip}}
+        {{bagTip || '恭喜发财，大吉大利'}}
       </div>
     </div>
   </div>
@@ -83,6 +83,12 @@ export default {
       margin-top: 0.6em;
       text-align: center;
       font-size:  0.933em;
+      word-break: break-all;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
   }
 }

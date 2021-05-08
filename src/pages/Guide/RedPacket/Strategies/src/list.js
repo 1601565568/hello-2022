@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from '../../mixins/redpacketTable'
+import { mapState } from 'vuex'
 export default {
   mixins: [tableMixin, redpacketTable],
   data () {
@@ -15,8 +16,6 @@ export default {
         sortType: 0 // 排序规则 0:倒叙  1:正序
       },
       url: this.$api.guide.redpacket.getStrategiesList,
-      payList: [], // 支付商户列表用户列表筛选
-      payMap: {}, // 支付商户枚举用于列表‘支付商户号’字段
       // 筛选日期
       seachDate: [], // 时间筛选
       isEmpty: false, // 是否有支付商户号列表
@@ -25,10 +24,17 @@ export default {
     }
   },
   mounted () {
-    this.getList()
+    this.$store.dispatch('pay/getWxpayList')
     this.$reload()
   },
   computed: {
+    ...mapState({
+      wxpayList: state => state.pay.wxpayList,
+      payMap: state => state.pay.wxpayMap
+    }),
+    payList () {
+      return [{ label: '全部', value: null }, ...this.wxpayList]
+    },
     redpacketTypeListSelect () {
       return [{ label: '全部', value: null }, ...this.redpacketTypeList]
     },
@@ -37,28 +43,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * 获取支付商户号列表
-     */
-    getList () {
-      this.$store.dispatch('pay/getWxpayList').then(data => {
-        const payMap = {}
-        this.payList = [
-          { label: '全部', value: null },
-          ...data.map(item => {
-            const value = item.id
-            const label = item.mchid + '-' + (item.officialAccount ? item.officialAccount.nickName : '')
-            payMap[value] = label
-            return {
-              value,
-              label
-            }
-          })
-        ]
-        this.payMap = payMap
-        this.isEmpty = !data.length
-      })
-    },
     /**
      * 修改状态
      * @param {*} id

@@ -17,14 +17,14 @@
           <el-form-item label="红包类型：">
             <el-select v-model="model.redpackType" placeholder="请选择" @change='(value)=>{changeSearchfrom({redpackType:value})}'>
               <el-option
-                v-for="item in redpacketTypeList"
+                v-for="item in redpacketTypeListSelect"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="有效期：">
+          <el-form-item label="有效期：" class='el-form__change'>
             <el-date-picker
               v-model="seachDate"
               type="datetimerange"
@@ -39,16 +39,26 @@
           <el-form-item label="发放类型：" class='el-form__change'>
             <el-select v-model="model.launchType" placeholder="请选择" @change='(value)=>{changeSearchfrom({launchType:value})}'>
               <el-option
-                v-for="item in setTypeList"
+                v-for="item in setTypeListSelect"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="发放人：" class='el-form__change'>
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{changeSearchfrom({guideIds:value})}">
+              <template slot='selfBtn'>
+                <div class='self-btn'>
+                  {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                  <Icon type="geren" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </NsGuideDialog>
+          </el-form-item>
           <el-form-item label="">
-            <el-input v-model="model.customerNick" placeholder="请输入客户昵称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-              <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+            <el-input v-model="model.customerNick" placeholder="请输入客户昵称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+              <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
             </el-input>
           </el-form-item>
         </el-form>
@@ -65,7 +75,7 @@
             class="new-table_border"
             style="width: 100%">
             <el-table-column
-              prop="name"
+              prop="receiverId"
               label="领取人">
             </el-table-column>
             <el-table-column
@@ -74,30 +84,20 @@
             </el-table-column>
             <el-table-column
               prop="total"
-              label="红包总数">
-            </el-table-column>
-            <el-table-column
-              prop="remainder"
-              :sortable="'custom'"
-              label="剩余个数">
-            </el-table-column>
-            <el-table-column
-              label="有效期">
+              label="领取金额（元）">
               <template slot-scope="scope">
-                <template v-if="scope.row.timeType === timeTypeForever">
-                  <span>永久有效</span>
-                </template>
-                <template v-else>
-                  <span>{{scope.row.startTime}}</span>
-                  至
-                  <span>{{scope.row.endTime}}</span>
+                <template>
+                  {{$numeral(scope.row.money/100).format('0,0.00')}}
                 </template>
               </template>
             </el-table-column>
             <el-table-column
-              prop="createTime"
-              :sortable="'custom'"
-              label="创建时间">
+              prop="remainder"
+              label="领取时间">
+            </el-table-column>
+            <el-table-column
+              prop="remainder"
+              label="红包名称">
             </el-table-column>
             <el-table-column
               prop="payConfigId"
@@ -151,8 +151,9 @@
 <script>
 import Index from './src/index'
 import PageTable from '@/components/NewUi/PageTablePro'
+import NsGuideDialog from '@/components/NsGuideDialog'
 Index.components = {
-  PageTable
+  PageTable, NsGuideDialog
 }
 export default Index
 </script>
@@ -170,4 +171,15 @@ export default Index
   display: flex;
   align-items: center;
 }
+.self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
+  }
 </style>

@@ -57,7 +57,8 @@ export default {
       url: this.$api.guide.redpacket.getStrategiesList,
       model: {
         name: '',
-        state: 1
+        state: 1,
+        launchType: 1
       },
       checkItem: {},
       redpacketTypeMap,
