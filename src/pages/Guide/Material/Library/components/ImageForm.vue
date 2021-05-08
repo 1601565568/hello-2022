@@ -480,6 +480,11 @@ export default {
     },
     handleSure () {
       //  点击拍摄指南确定
+      const text = this.$refs.tagArea.currentText
+      if (text.length > 1500) {
+        this.$notify.warning('最多1500个字符')
+        return
+      }
       if (this.model.mediaList.length < this.imageNum) {
         let str = this.$refs.tagArea.htmlToString(this.guideText)
         const item = this.model.mediaList[this.editIndex]
@@ -542,34 +547,7 @@ export default {
       this.$refs.form.validateField('mediaList')
     },
     handleAvatarSuccess (res, file, fileList) {
-      // this.limitIndex = this.limitIndex + 1
-      // let custImgs = []
-      // for (let item of this.model.mediaList) {
-      //   if (item.pitType === 2) {
-      //     custImgs.push(item)
-      //   }
-      // }
       if (this.model.mediaList.length < this.imageNum) {
-        // const arr = Array.from(fileList)
-        // if (this.limitIndex === arr.length) {
-        //   let num = this.imageNum - custImgs.length - this.model.mediaList.length
-        //   num = arr.length < num ? arr.length : num
-        //   for (let index = 0; index < num; index++) {
-        //     const item = arr[index]
-        //     if (item.response.success) {
-        //       const obj = {
-        //         pitType: 1,
-        //         pitText: '',
-        //         type: 1,
-        //         url: item.response.result.url
-        //       }
-        //       this.model.mediaList.push(obj)
-        //     }
-        //   }
-        //   this.limitIndex = 0
-        //   this.$refs.imageListUpload && this.$refs.imageListUpload.clearFiles()
-        // }
-
         let obj = {
           pitType: 1,
           pitText: '',

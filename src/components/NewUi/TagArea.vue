@@ -323,7 +323,7 @@ export default {
           `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
         )
       })
-      return string.replace(/\n/g, ' <br /> ')
+      return string.replace(/\n/g, '<br/>')
     },
     // 替换模板成文字
     stringTotext (string) {

@@ -4,7 +4,7 @@
 
 
 .cus-diglog-view >>> .w-textarea_input {
-  height: 141px;
+  min-height: 141px;
 }
 
 .cus-diglog-view >>> .el-dialog {
