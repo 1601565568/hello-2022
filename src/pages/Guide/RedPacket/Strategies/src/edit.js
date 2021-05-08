@@ -94,6 +94,7 @@ export default {
           if (res.success) {
             this.model = this.formatData(res.result, 'load')
             this.posterInfo.background = res.result.background
+            this.rules = []
           }
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('获取失败', resp))
