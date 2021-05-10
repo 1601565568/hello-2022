@@ -101,6 +101,7 @@
       </div>
     </div>
     <DataList ref="detaList" />
+    <TimeList ref="timeList" />
   </div>
 </template>
 
@@ -108,9 +109,10 @@
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import DataList from './components/DataList'
+import TimeList from './components/TimeList'
 export default {
   name: 'MaterialCahat',
-  components: { PageTable, NsEcharts, DataList },
+  components: { PageTable, NsEcharts, DataList, TimeList },
   data () {
     return {
       dataList: [
@@ -267,7 +269,8 @@ export default {
 
     },
     showMoreData () {
-      this.$refs.detaList.closeDeawer()
+      this.$refs.timeList.closeDeawer()
+      // this.$refs.detaList.closeDeawer()
     }
   }
 }

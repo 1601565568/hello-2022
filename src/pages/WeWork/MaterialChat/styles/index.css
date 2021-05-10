@@ -18,12 +18,15 @@
   font-size: 14px;
   text-align: center;
 }
-.data-view >>> .el-range-separator {
+
+.date-view >>> .el-range-input {
   font-size: 14px;
+  height: 33px;
 }
 
-.data-view >>> .el-range-editor--small .el-range-input {
-  font-size: 14px;
+.data-view >>> .el-range-editor--small .el-range-separator {
+  line-height: 27px;
+  font-size: 14px
 }
 
 .item-select >>> .el-input.el-input--small .el-input__inner {
@@ -34,4 +37,11 @@
 
 .item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
   display: none;
+}
+
+.input-view >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  height:32px;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
 }
