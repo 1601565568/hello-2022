@@ -20,7 +20,7 @@
               class="w-textarea_tools__img"
               :src="item.img"
             />
-            {{ item.icon }}{{ item.text }}</span
+            {{ item.text }}</span
           ></el-tooltip
         >
         <span
@@ -29,6 +29,15 @@
         >
           {{ count.text }}
         </span>
+        <div class="w-textarea_tools__emoji" v-if='showEmoji'>
+          <el-popover
+            width="447"
+            trigger="hover">
+            <i slot="reference"><Icon type="ns-expression" class="emoji-icon"/></i>
+            <!-- 可通过 emojiList 传入自定义的图标列表 -->
+            <emotion @emotion="addEmotion" :height="200" ref='emotion'/>
+          </el-popover>
+        </div>
       </div>
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
@@ -45,6 +54,7 @@
 </template>
 
 <script>
+import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
 export default {
   name: 'wTextarea',
   data () {
@@ -58,13 +68,21 @@ export default {
       // 记录当前选中tag的ID
       currentTagId: null,
       // 当前光标位置
-      savedRange: {}
+      savedRange: {},
+      // 表情class
+      emojiClass: 'EMOJI_',
+      endOffset: 0
     }
   },
+  components: { Emotion },
   props: {
     value: {
       type: String,
       default: ''
+    },
+    showEmoji: {
+      type: Boolean,
+      default: false
     },
     tag: { // 自定义模版标签的标签名
       type: String,
@@ -109,12 +127,22 @@ export default {
       const dom = document.getElementsByClassName('w-textarea_input')[0]
       this.currentText = dom.innerText
     }, 1000)
+    this.$refs.wTextareaContent.innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
+    addEmotion: function (val) {
+      // 创建模版标签
+      let node = document.createElement(this.tag)
+      node.innerText = val
+      // 添加id便于删除
+      node.id = this.getGuid()
+      node.className = this.emojiClass + val
+      this.insertNode(node)
+    },
     updateData (text) {
       this.$emit('input', text)
     },
@@ -133,15 +161,20 @@ export default {
       this.showModal = false
     },
     openTagDialog (item) {
-      // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
-      if (item.type === 'custom') {
-        // 会调用传入的回调函数字段 callback
-        item.callback(item)
-      } else if (item.type === 'link') {
-        this.addLink(item.text, item.url)
-      } else {
-        this.addTag(item)
-      }
+      // 将事件抛给父组件处理
+      // 处理后需要调用 addTag() 或者 addLink() 将内容传回来
+      // this.$emit('add', item)
+      // // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
+      // if (item.type === 'custom') {
+      //   // 会调用传入的回调函数字段 callback
+      //   item.callback(item)
+      // } else if (item.type === 'link') {
+      //   this.addLink(item.text, item.url)
+      // } else {
+      //   this.addTag(item)
+      // }
+
+      this.addTag(item)
     },
     addTag (item) {
       // 创建模版标签
@@ -183,8 +216,19 @@ export default {
       // 删掉选中的内容（如有）
       // this.savedRange.deleteContents()
       // 插入链接
+      // for (var s in this.endDon) {
+      //   console.log(s, this.endDon[s])
+      // }
+      // console.log(this.endDon)
+      // if (this.endDon.style) {
+      //   this.savedRange.setStartBefore(node)
+      // } else {
+      //   this.savedRange.setStart(this.endDon, this.endOffset)
+      // }
+      // this.savedRange.setStart(this.endDon, this.endOffset)
       this.savedRange.insertNode(node)
-
+      // this.endDon = node
+      // this.endOffset = this.savedRange.endOffset + 1
       // 更新双向绑定数据
       let target = this.$refs.wTextareaContent
       this.updateData(target.innerHTML)
@@ -238,14 +282,52 @@ export default {
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
         this.contentId
       ) {
-        this.savedRange = range
+        this.savedRange = range.cloneRange()
+        // this.endDon = this.savedRange.endContainer
+        // this.endOffset = this.savedRange.endOffset
       }
+    },
+    // 替换标签成模板
+    htmlToString (html) {
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+    },
+    // 替换模板成标签
+    stringTohtml (string) {
+      if (this.$refs.emotion) {
+        this.$refs.emotion.emojiList.map(item => {
+          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
+          string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${this.emojiClass}_[${item}]">${`[${item}]`}</wise>`)
+        })
+      }
+      this.tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
+      })
+      return string.replace(/\n/g, ' <br /> ')
+    },
+    // 替换模板成文字
+    stringTotext (string) {
+      this.tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, '{' + item.value + '}').replace(/\n/g, ' <br /> ')
+      })
+      if (this.$refs.emotion) {
+        this.$refs.emotion.emojiList.map(item => {
+          const regexp = new RegExp('{' + this.emojiClass + '\\[' + item + '\\]}', 'g')
+          string = string.replace(regexp, `[${item}]`)
+        })
+      }
+      return string
+    },
+    // 替换标签成文字
+    htmlToText (html) {
+      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}')
     }
   },
   watch: {
     value (val) {
       // 非锁定状态下，实时更新innerHTML
-      if (!this.isLocked) {
+      if (!this.isLocked && this.$refs.wTextareaContent) {
         this.$refs.wTextareaContent.innerHTML = val
       }
     }
@@ -289,6 +371,7 @@ $textColor: #595959;
     min-height: 100px;
     box-sizing: border-box;
     padding: 10px;
+    padding-bottom: 32px;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
@@ -340,11 +423,17 @@ $textColor: #595959;
     &__img {
       width: 16px;
       height: 16px;
+      margin-right: 4px;
       image-rendering: -moz-crisp-edges;
       image-rendering: -o-crisp-edges;
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
       -ms-interpolation-mode: nearest-neighbor;
+    }
+    &__emoji {
+      position: absolute;
+      bottom:0;
+      left: 12px;
     }
     &__text {
       display: inline-block;
@@ -367,5 +456,9 @@ $textColor: #595959;
       }
     }
   }
+}
+.emoji-icon {
+  font-size:16px;
+  color:#D9D9D9;
 }
 </style>
