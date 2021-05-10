@@ -47,7 +47,7 @@
         <template slot="table">
           <el-table :data="listData" class="new-table_border unDrawer-table">
             <el-table-column prop="guideName" label="员工"> </el-table-column>
-            <el-table-column prop="guideId" label="工号"> </el-table-column>
+            <el-table-column prop="employeeNumber" label="工号"> </el-table-column>
             <el-table-column prop="shopNamesStr" label="所属门店">
               <template slot-scope="scope">
                 <el-popover

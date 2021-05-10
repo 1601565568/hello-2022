@@ -60,7 +60,7 @@
               <el-table-column prop="completionTime" label="完成时间">
               </el-table-column>
               <el-table-column prop="guideName" label="员工"> </el-table-column>
-              <el-table-column prop="guideId" label="工号"> </el-table-column>
+              <el-table-column prop="employeeNumber" label="工号"> </el-table-column>
               <el-table-column prop="shopName" label="所属门店">
               </el-table-column>
               <el-table-column prop="title" width="125px" label="操作">
