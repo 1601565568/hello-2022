@@ -27,7 +27,7 @@
             </el-select>
           </div>
         </div>
-        <div>
+        <div class="user-view">
           <el-form :inline="true" class="form-inline_top">
             <el-form-item label="门店/员工：">
               <NsGuideDialog
@@ -153,6 +153,14 @@ export default {
 <style scoped >
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
+.user-view {
+  margin-left: 0;
+}
+.form-inline_top .el-form-item {
+  height: 32px;
+  margin-bottom: 0;
+  border: 1px solid #D9D9D9;
+}
 .form-inline_top {
   margin-left: 16px;
   display: flex;
@@ -265,7 +273,7 @@ export default {
   flex-direction: row;
   padding-left: 16px;
   align-items: center;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .item-down {
