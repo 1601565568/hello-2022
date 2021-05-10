@@ -12,6 +12,7 @@
           :model="activityModel"
           label-width="80px"
           class="form-main"
+          @submit.native.prevent
         >
           <el-form-item label="优惠券：" prop="coupon_id">
             <el-form-grid size="xmd">

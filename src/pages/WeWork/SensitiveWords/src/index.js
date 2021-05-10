@@ -200,20 +200,27 @@ export default {
       // 解决不了遮罩问题. 数据清空方便遮罩
       this.list = []
       this.table.tableData = []
-      this.$http
-        .fetch(this.$api.weWork.sensitiveWords.delete, { id })
-        .then(res => {
-          if (res.success) {
-            this.$notify.success(res.msg)
-            this.model.start = 0
-            this.getList()
-          }
-        })
-        .catch(err => {
-          this.$notify.error(err.msg || '删除失败')
-          this.listLoading = false
-          this.table.loading = false
-        })
+
+      this.$confirm('删除后不可恢复，请再次确定是否要删除', '确定删除？', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http
+          .fetch(this.$api.weWork.sensitiveWords.delete, { id })
+          .then(res => {
+            if (res.success) {
+              this.$notify.success(res.msg)
+              this.model.start = 0
+              this.getList()
+            }
+          })
+          .catch(err => {
+            this.$notify.error(err.msg || '删除失败')
+            this.listLoading = false
+            this.table.loading = false
+          })
+      }).catch(() => {})
     },
     /**
      * 敏感词列表添加列表弹窗事件
