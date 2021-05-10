@@ -173,10 +173,10 @@ export default {
       this.loadNum()
     },
     deleteFile (row) {
-      this.$confirm('确认删除自创明细', '删除确认', {
+      this.$confirm('删除该剧本后，员工根据该剧本创建的素材也将被删除，是否删除？', '确定删除？', {
         type: 'warning',
         cancelButtonText: '取消',
-        confirmButtonText: '确定'
+        confirmButtonText: '删除'
       })
         .then(() => {
           this.toDelete(row)
