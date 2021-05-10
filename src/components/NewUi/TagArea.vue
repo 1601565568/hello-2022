@@ -312,7 +312,7 @@ export default {
             regexp,
             `<wise id="${this.getGuid()}" class="${
               this.emojiClass
-            }_[${item}]">${`[${item}]`}</wise>`
+            }[${item}]">${`[${item}]`}</wise>`
           )
         })
       }
