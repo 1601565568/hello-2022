@@ -19,31 +19,35 @@
       <ColorfulDisplay />
     </div>
     <div class='analysis-content'>
-      <div class='flex-box'>
-        <DatePickerBar :dateList='dateList' :defaultPickDay='defaultPickDay'/>
-        <ns-button>导出CSV文件</ns-button>
-      </div>
-    </div>
-    <div class='analysis-content'>
       <h3>数据报表</h3>
       <el-row class="template-table__bar-base">
         <!-- 搜索条件-->
         <el-col :span='21' class="search-content">
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label="">
-              <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
-                <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+              <el-input v-model="model.redpackName" placeholder="请输入红包名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+                <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
               </el-input>
             </el-form-item>
             <el-form-item label="发放类型：">
               <el-select v-model="model.launchType" placeholder="请选择" @change='(value)=>{changeSearchfrom({launchType:value})}'>
                 <el-option
-                  v-for="item in setTypeList"
+                  v-for="item in setTypeListSelect"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label="发放人：">
+              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{changeSearchfrom({guideIds:value})}">
+                <template slot='selfBtn'>
+                  <div class='self-btn'>
+                    {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                    <Icon type="geren" class='guideIds-icon'></Icon>
+                  </div>
+                </template>
+              </NsGuideDialog>
             </el-form-item>
             <el-form-item label="有效期：">
               <el-date-picker
@@ -104,10 +108,10 @@
 import Index from './src/index'
 import ColorfulDisplay from '../components/ColorfulDisplay'
 import DatePickerBar from '@/components/NewUi/DatePickerBar'
-import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import NsGuideDialog from '@/components/NsGuideDialog'
 export default Index
 Index.components = {
-  ColorfulDisplay, DatePickerBar, businessEcharts
+  ColorfulDisplay, DatePickerBar, NsGuideDialog
 }
 </script>
 <style lang="scss" scoped>
@@ -141,6 +145,17 @@ Index.components = {
     justify-content: flex-end;
     height: 100%;
     align-items: flex-start;
+  }
+}
+.self-btn {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
   }
 }
 </style>

@@ -51,7 +51,7 @@ export default {
         this.$notify.error('至少有一个默认封面')
         return false
       }
-      this.changeState(this.$api.guide.redpacket.setDefault(id))
+      this.changeState(this.$api.guide.redpacket.setDefault(id), {}, true)
     }
   }
 }

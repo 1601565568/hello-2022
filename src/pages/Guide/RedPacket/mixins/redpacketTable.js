@@ -30,14 +30,19 @@ export default {
      * 修改状态
      * @param {*} api
      * @param {*} [payload={}]
+     * @param {boolean} isReload 是否回到列表第一页
      */
-    changeState (api, payload = {}) {
+    changeState (api, payload = {}, isReload = false) {
       this.$http.fetch(api, payload).then(res => {
         if (res.success) {
-          this.$searchAction$()
+          if (isReload) {
+            this.$searchAction$()
+          } else {
+            this.$reload()
+          }
         }
       }).catch((resp) => {
-        this.$notify.error(getErrorMsg('操作失败', resp))
+        this.$notify.error(resp.msg)
       })
     },
     /**

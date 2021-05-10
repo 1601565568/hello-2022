@@ -59,5 +59,10 @@ export default {
   },
   mounted () {
     this.init()
+  },
+  watch: {
+    'model.background' () {
+      this.$refs.imgItem && this.$refs.imgItem.clearValidate()
+    }
   }
 }

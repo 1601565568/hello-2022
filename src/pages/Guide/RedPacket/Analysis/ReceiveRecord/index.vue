@@ -75,7 +75,7 @@
             class="new-table_border"
             style="width: 100%">
             <el-table-column
-              prop="receiverId"
+              prop="nickname"
               label="领取人">
             </el-table-column>
             <el-table-column
@@ -172,14 +172,14 @@ export default Index
   align-items: center;
 }
 .self-btn {
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    color: #606266;
-    .guideIds-icon {
-      color:#C0C4CC;
-    }
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
   }
+}
 </style>

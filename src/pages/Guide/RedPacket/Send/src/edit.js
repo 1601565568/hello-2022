@@ -28,7 +28,7 @@ export default {
       visible: false, // 选中红包策略列表
       btnLoad: false,
       redpacketName: '', // 红包策略名称，仅作展示
-      listPath: '/Social/SocialOperation/RedPacket/Strategies/List',
+      listPath: '/Social/SocialOperation/RedPacket/Send/List',
       submitApi: this.$api.guide.redpacket.createSend
     }
   },
