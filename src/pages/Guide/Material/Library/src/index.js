@@ -595,7 +595,7 @@ export default {
     showGuideLists (row) {
       this.materialScriptId = row.id
       this.matericalTitle = row.name
-      this.$refs.detailList.closeDeawer()
+      this.$refs.detailList.closeDeawer(row.id)
     },
     /**
      * 批量删除素材、视频

@@ -43,7 +43,9 @@
                     </NsGuideDialog>
                   </el-form-item>
                 </el-form>
-                <span class="show-name">已完成员工 {{ numData.completionTotal }}人</span>
+                <span class="show-name"
+                  >已完成员工 {{ numData.completionTotal }}人</span
+                >
               </div>
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -56,6 +58,9 @@
                     <el-table-column prop="guideName" label="员工">
                     </el-table-column>
                     <el-table-column prop="employeeNumber" label="工号">
+                      <template slot-scope="scope">{{
+                        scope.row.employeeNumber || '-'
+                      }}</template>
                     </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
                     </el-table-column>
@@ -120,13 +125,23 @@
                     </NsShopDialog>
                   </el-form-item>
                 </el-form>
-                <span class="show-name">未完成员工 {{ numData.noCompletionTotal }}人</span>
+                <span class="show-name"
+                  >未完成员工 {{ numData.noCompletionTotal }}人</span
+                >
               </div>
               <page-table style="padding-top:0">
                 <template slot="table">
-                  <el-table :data="listData" class="new-table_border unDrawer-table">
-                    <el-table-column prop="guideName" label="员工"> </el-table-column>
-                    <el-table-column prop="employeeNumber" label="工号"> </el-table-column>
+                  <el-table
+                    :data="listData"
+                    class="new-table_border unDrawer-table"
+                  >
+                    <el-table-column prop="guideName" label="员工">
+                    </el-table-column>
+                    <el-table-column prop="employeeNumber" label="工号">
+                      <template slot-scope="scope">{{
+                        scope.row.employeeNumber || '-'
+                      }}</template>
+                    </el-table-column>
                     <el-table-column prop="shopNamesStr" label="所属门店">
                       <template slot-scope="scope">
                         <el-popover
@@ -144,7 +159,9 @@
                           <span
                             slot="reference"
                             v-if="scope.row.shopNamesStr.length > 15"
-                            >{{ scope.row.shopNamesStr.substr(0, 15) + '...' }}</span
+                            >{{
+                              scope.row.shopNamesStr.substr(0, 15) + '...'
+                            }}</span
                           >
                         </el-popover>
                       </template>
@@ -168,85 +185,8 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-        <!-- <el-form :inline="true" class="form-inline_top">
-          <el-form-item label="所属员工：">
-            <NsGuideDialog
-              :selfBtn="true"
-              :appendToBody="true"
-              :isButton="false"
-              :auth="false"
-              type="primary"
-              btnTitle=""
-              dialogTitle="所属员工："
-              @input="handleChangeGuide"
-              v-model="guideIds"
-            >
-              <template slot="selfBtn">
-                <div class="self-btn">
-                  {{
-                    guideIds && guideIds.length
-                      ? `已选择${guideIds.length}个员工`
-                      : '全部'
-                  }}
-                  <Icon type="geren" class="guideIds-icon"></Icon>
-                </div>
-              </template>
-            </NsGuideDialog>
-          </el-form-item>
-        </el-form> -->
-        <!-- <div class="drawer-showinfo">
-          <div>
-            <span>已完成员工 {{ numData.completionTotal }}人</span>
-            <span style="margin-left:46px" @click="toUnDataList">未完成员工<span class="remind-text">{{numData.noCompletionTotal}}</span>人</span>
-          </div>
-          <div class="drawer-output" @click="exportData">
-            导出CSV文件
-          </div>
-        </div> -->
-        <!-- <page-table style="padding-top:0">
-          <template slot="table">
-            <el-table :data="listData" class="new-table_border drawer-table">
-              <el-table-column prop="completionTime" label="完成时间">
-              </el-table-column>
-              <el-table-column prop="guideName" label="员工"> </el-table-column>
-              <el-table-column prop="employeeNumber" label="工号"> </el-table-column>
-              <el-table-column prop="shopName" label="所属门店">
-              </el-table-column>
-              <el-table-column prop="title" width="125px" label="操作">
-                <template slot-scope="scope">
-                  <ns-button
-                    type="text"
-                    class="select-button"
-                    @click="lookMaterialDetail(scope.row)"
-                    >查看</ns-button
-                  >
-                  <ns-button
-                    type="text"
-                    class="select-button"
-                    @click="deleteFile(scope.row)"
-                    >删除</ns-button
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-          </template>
-          <template slot="pagination">
-            <el-pagination
-              class="label-dialog__pagination"
-              :page-sizes="pagination.sizeOpts"
-              :total="pagination.total"
-              :current-page.sync="pagination.page"
-              :page-size="pagination.size"
-              layout="total, prev, pager, next"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
-          </template>
-        </page-table> -->
       </div>
     </el-drawer>
-    <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
     <InfoDialog ref="infoDialog" :metailInfo="metailInfo" />
   </div>
 </template>
@@ -254,19 +194,20 @@
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
-import UnDetailList from './UnDetailList'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsShopDialog from '@/components/NsShopDialog'
 import InfoDialog from './InfoDialog'
 import moment from 'moment'
 export default {
   name: 'detailList',
-  components: { ElDrawer, UnDetailList, InfoDialog, NsGuideDialog, PageTable, NsShopDialog },
+  components: {
+    ElDrawer,
+    InfoDialog,
+    NsGuideDialog,
+    PageTable,
+    NsShopDialog
+  },
   props: {
-    materialScriptId: {
-      type: Number,
-      default: 0
-    },
     matericalTitle: {
       type: String,
       default: ''
@@ -293,13 +234,8 @@ export default {
       numData: {},
       metailInfo: {},
       activeName: 'first',
-      shopIds: []
-    }
-  },
-  watch: {
-    materialScriptId (newValue, oldValue) {
-      this.loadList()
-      this.loadNum()
+      shopIds: [],
+      materialScriptId: 0
     }
   },
   methods: {
@@ -320,15 +256,19 @@ export default {
     },
     handleClick (val) {
       this.isCompletion = val.name === 'first' ? 1 : 0
-      this.guideIdsStr = val.name === 'second' ? '' : this.guideIdsStr
-      this.guideIds = val.name === 'second' ? [] : this.guideIds
-      this.shopIdsStr = val.name === 'first' ? '' : this.shopIdsStr
-      this.shopIds = val.name === 'first' ? [] : this.shopIds
+      if (val.name === 'first') {
+        this.shopIdsStr = ''
+        this.shopIds = []
+      }
+      if (val.name === 'second') {
+        this.guideIdsStr = ''
+        this.guideIds = []
+      }
       this.loadList()
     },
     handleClose () {
-      this.drawer = false
       this.drawerInitData()
+      this.drawer = false
     },
     handleChangeGuide (value) {
       this.guideIds = value
@@ -431,8 +371,9 @@ export default {
         total: 0
       }
     },
-    closeDeawer () {
+    closeDeawer (materialScriptId) {
       this.drawerInitData()
+      this.materialScriptId = materialScriptId
       this.drawer = true
       if (this.drawer) {
         this.loadList()
@@ -449,6 +390,9 @@ export default {
         },
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size
+      }
+      if (this.pagination.page === 1) {
+        this.listData = []
       }
       this.$http
         .fetch(this.$api.guide.findScriptCompletionDetailList, params)
@@ -651,7 +595,6 @@ export default {
 .form-inline_top .el-form-item {
   height: 32px;
   margin-bottom: 0;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
 }
-
 </style>
