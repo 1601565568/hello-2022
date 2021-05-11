@@ -573,7 +573,7 @@ export default {
           type: 1,
           url: res.result.url
         }
-        this.mediaList[this.editIndex] = obj
+        // this.mediaList[this.editIndex] = obj
       }
       this.showEidtImg = res.result.url
     },
