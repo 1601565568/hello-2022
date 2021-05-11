@@ -14,7 +14,119 @@
           <Icon type="close" class="close-icon" @click="handleClose" />
         </div>
         <div class="drawer-title">自创明细</div>
-        <el-form :inline="true" class="form-inline_top">
+        <div class="select-data-view">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="已完成员工" name="first">
+              <div class="finish-view">
+                <el-form :inline="true" class="form-inline_top">
+                  <el-form-item label="所属员工：">
+                    <NsGuideDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :auth="false"
+                      type="primary"
+                      btnTitle=""
+                      dialogTitle="所属员工："
+                      @input="handleChangeGuide"
+                      v-model="guideIds"
+                    >
+                      <template slot="selfBtn">
+                        <div class="self-btn">
+                          {{
+                            guideIds && guideIds.length
+                              ? `已选择${guideIds.length}个员工`
+                              : '全部'
+                          }}
+                          <Icon type="geren" class="guideIds-icon"></Icon>
+                        </div>
+                      </template>
+                    </NsGuideDialog>
+                  </el-form-item>
+                </el-form>
+                <span class="show-name">已完成员工 {{ numData.completionTotal }}人</span>
+              </div>
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table
+                    :data="listData"
+                    class="new-table_border drawer-table"
+                  >
+                    <el-table-column prop="completionTime" label="完成时间">
+                    </el-table-column>
+                    <el-table-column prop="guideName" label="员工">
+                    </el-table-column>
+                    <el-table-column prop="employeeNumber" label="工号">
+                    </el-table-column>
+                    <el-table-column prop="shopName" label="所属门店">
+                    </el-table-column>
+                    <el-table-column prop="title" width="125px" label="操作">
+                      <template slot-scope="scope">
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="lookMaterialDetail(scope.row)"
+                          >查看</ns-button
+                        >
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="deleteFile(scope.row)"
+                          >删除</ns-button
+                        >
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    class="label-dialog__pagination"
+                    :page-sizes="pagination.sizeOpts"
+                    :total="pagination.total"
+                    :current-page.sync="pagination.page"
+                    :page-size="pagination.size"
+                    layout="total, prev, pager, next"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
+            </el-tab-pane>
+            <el-tab-pane label="未完成员工" name="second">
+              <div class="un-finish-view">
+                <el-form :inline="true" class="form-inline_top">
+                  <el-form-item label="选择门店：">
+                    <NsShopDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :auth="false"
+                      type="icon"
+                      btnTitle=""
+                      dialogTitle="选择门店："
+                      @input="handleChangeShop"
+                      v-model="shopIds"
+                    >
+                      <template slot="btnIcon">
+                        <div class="self-btn">
+                          {{
+                            shopIds && shopIds.length
+                              ? `已选择${shopIds.length}个门店`
+                              : '全部门店'
+                          }}
+                          <Icon type="shop" class="shopIds-icon"></Icon>
+                        </div>
+                      </template>
+                    </NsShopDialog>
+                  </el-form-item>
+                </el-form>
+                <span class="show-name">未完成员工 {{ numData.completionTotal }}人</span>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+        <!-- <el-form :inline="true" class="form-inline_top">
           <el-form-item label="所属员工：">
             <NsGuideDialog
               :selfBtn="true"
@@ -39,22 +151,17 @@
               </template>
             </NsGuideDialog>
           </el-form-item>
-        </el-form>
-        <div class="drawer-showinfo">
+        </el-form> -->
+        <!-- <div class="drawer-showinfo">
           <div>
             <span>已完成员工 {{ numData.completionTotal }}人</span>
-            <span style="margin-left:46px" @click="toUnDataList"
-              >未完成员工<span class="remind-text">{{
-                numData.noCompletionTotal
-              }}</span
-              >人</span
-            >
+            <span style="margin-left:46px" @click="toUnDataList">未完成员工<span class="remind-text">{{numData.noCompletionTotal}}</span>人</span>
           </div>
           <div class="drawer-output" @click="exportData">
             导出CSV文件
           </div>
-        </div>
-        <page-table style="padding-top:0">
+        </div> -->
+        <!-- <page-table style="padding-top:0">
           <template slot="table">
             <el-table :data="listData" class="new-table_border drawer-table">
               <el-table-column prop="completionTime" label="完成时间">
@@ -94,7 +201,7 @@
             >
             </el-pagination>
           </template>
-        </page-table>
+        </page-table> -->
       </div>
     </el-drawer>
     <UnDetailList ref="unDetailList" :materialScriptId="materialScriptId" />
@@ -107,11 +214,12 @@ import PageTable from '@/components/NewUi/PageTable'
 import { getErrorMsg } from '@/utils/toast'
 import UnDetailList from './UnDetailList'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsShopDialog from '@/components/NsShopDialog'
 import InfoDialog from './InfoDialog'
 import moment from 'moment'
 export default {
   name: 'detailList',
-  components: { ElDrawer, PageTable, UnDetailList, NsGuideDialog, InfoDialog },
+  components: { ElDrawer, UnDetailList, InfoDialog, NsGuideDialog, PageTable, NsShopDialog },
   props: {
     materialScriptId: {
       type: Number,
@@ -141,7 +249,9 @@ export default {
       },
       guideIds: [],
       numData: {},
-      metailInfo: {}
+      metailInfo: {},
+      activeName: 'first',
+      shopIds: []
     }
   },
   watch: {
@@ -151,6 +261,23 @@ export default {
     }
   },
   methods: {
+    handleChangeShop (value) {
+      this.shopIds = value
+      if (this.shopIds.length > 0) {
+        this.shopIdsStr = this.shopIds.join(',')
+      } else {
+        this.shopIdsStr = ''
+      }
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+      // this.loadList()
+      // this.loadNum()
+    },
+    handleClick () {},
     handleClose () {
       this.drawer = false
       this.guideIds = []
@@ -334,6 +461,31 @@ export default {
 <style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/reset.css';
+@import '../styles/datalist.css';
+.un-finish-view {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .show-name {
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+    font-weight: 400;
+  }
+}
+.finish-view {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .show-name {
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+    font-weight: 400;
+  }
+}
 .drawer-title {
   height: 53px;
   font-size: 16px;
@@ -438,4 +590,11 @@ export default {
   display: flex;
   align-items: center;
 }
+
+.form-inline_top .el-form-item {
+  height: 32px;
+  margin-bottom: 0;
+  border: 1px solid #D9D9D9;
+}
+
 </style>
