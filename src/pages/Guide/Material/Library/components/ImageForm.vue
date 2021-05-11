@@ -547,6 +547,9 @@ export default {
       this.$refs.form.validateField('mediaList')
     },
     handleAvatarSuccess (res, file, fileList) {
+      if (file.size / 1024 / 1024 > 2) {
+        return
+      }
       if (this.model.mediaList.length < this.imageNum) {
         let obj = {
           pitType: 1,
