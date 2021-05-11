@@ -92,5 +92,15 @@ export default {
   getSendStatistics: {
     url: prefix + 'record/sendStatistics',
     method: 'post'
+  },
+  // 出入帐统计
+  getDataAnalysisList: {
+    url: prefix + 'dataAnalysis/list',
+    method: 'post'
+  },
+  // 数据分析列表
+  getRecordStatistics: {
+    url: prefix + 'dataAnalysis/recordStatistics',
+    method: 'post'
   }
 }

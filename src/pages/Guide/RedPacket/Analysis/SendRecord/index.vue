@@ -3,7 +3,7 @@
     <div class='analysis-content'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="支付商户号：" class='el-form__change'>
-          <el-select v-model="model.payConfigId" placeholder="请选择" @change='(value)=>{changeSearchfrom({payConfigId:value})}'>
+          <el-select v-model="model.payConfigId" placeholder="请选择" @change='handleChange'>
             <el-option
               v-for="item in payList"
               :key="item.value"
@@ -15,11 +15,11 @@
       </el-form>
     </div>
     <div class='analysis-content'>
-      <h3>出入账统计</h3>
-      <ColorfulDisplay />
+      <h3>红包发放统计</h3>
+      <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class='analysis-content'>
-      <h3>数据报表</h3>
+      <h3>红包发放明细</h3>
       <el-row class="template-table__bar-base">
         <!-- 搜索条件-->
         <el-col :span='21' class="search-content">
@@ -106,11 +106,8 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="payConfigId"
+          prop="mchMsg"
           label="支付商户号">
-          <template slot-scope="scope">
-            {{payMap[scope.row.mchid]||''}}
-          </template>
         </el-table-column>
         <el-table-column
           prop="name"

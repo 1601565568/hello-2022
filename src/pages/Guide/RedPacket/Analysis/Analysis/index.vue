@@ -18,11 +18,8 @@
       <h3>出入账统计</h3>
       <ColorfulDisplay />
     </div>
-    <div class='analysis-content'>
-      <div class='flex-box'>
-        <DatePickerBar :dateList='dateList' :defaultPickDay='defaultPickDay'/>
-        <ns-button>导出CSV文件</ns-button>
-      </div>
+    <div class='analysis-content form-inline_top'>
+      <DatePickerBar ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate'/>
     </div>
     <div class='analysis-content'>
       <h3>数据分析</h3>

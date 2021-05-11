@@ -13,7 +13,29 @@ export default {
         guideIds: []
       },
       url: this.$api.guide.redpacket.getRecordList,
-      seachDate: []
+      seachDate: [],
+      dataList: [
+        {
+          key: 'sendTotalMoney',
+          nick: '累计发放金额（元）',
+          value: 0
+        },
+        {
+          key: 'todaySendMoney',
+          nick: '今日发放金额（元）',
+          value: 0
+        },
+        {
+          key: 'sendTotalNum',
+          nick: '累计发放红包个数',
+          value: 0
+        },
+        {
+          key: 'todaySendNum',
+          nick: '今日发放红包个数',
+          value: 0
+        }
+      ]
     }
   },
   mixins: [tableMixin, redpacketTable],
@@ -35,10 +57,30 @@ export default {
   mounted () {
     this.$store.dispatch('pay/getWxpayList')
     this.$reload()
+    this.getSendStatistics()
   },
   methods: {
     handlePreview () {
 
+    },
+    handleChange (value) {
+      this.getSendStatistics()
+      this.changeSearchfrom({ payConfigId: value })
+    },
+    getSendStatistics () {
+      this.$http.fetch(this.$api.guide.redpacket.getSendStatistics, { payConfigId: this.model.payConfigId }).then(res => {
+        if (res.success) {
+          // 是否是金额格式
+          const moneyItem = ['sendTotalMoney', 'todaySendMoney']
+          this.dataList = this.dataList.map(item => ({
+            ...item,
+            value: res.result[item.key],
+            isMoney: moneyItem.includes(item.key)
+          }))
+        }
+      }).catch((resp) => {
+        this.$notify.error(resp.msg)
+      })
     }
   },
   watch: {

@@ -1,4 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import redpacketTable from '../../../mixins/redpacketTable'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -7,8 +9,7 @@ export default {
         payConfigId: null,
         startTime: ''
       },
-      url: this.$api.guide.redpacket.getStrategiesList,
-      payList: [],
+      url: this.$api.guide.redpacket.getDataAnalysisList,
       dateList: [
         {
           label: 2,
@@ -121,12 +122,70 @@ export default {
             data: [320, 332, 301, 334, 390, 330, 320]
           }
         ]
-      }
+      },
+      dataList: [
+        {
+          key: 'sendTotalMoney',
+          nick: '累计转出金额（元）',
+          value: 0
+        },
+        {
+          key: 'todaySendMoney',
+          nick: '今日转出金额（元）',
+          value: 0
+        },
+        {
+          key: 'sendTotalNum',
+          nick: '员工转出金额（元）',
+          value: 0
+        },
+        {
+          key: 'todaySendNum',
+          nick: '裂变大师转出金额（元）',
+          value: 0
+        }
+      ]
     }
   },
-  mixins: [tableMixin],
-  mounted () {
-    this.$reload()
+  mixins: [tableMixin, redpacketTable],
+  computed: {
+    ...mapState({
+      wxpayList: state => state.pay.wxpayList,
+      payMap: state => state.pay.wxpayMap
+    }),
+    payList () {
+      return [{ label: '全部', value: null }, ...this.wxpayList]
+    }
   },
-  methods: {}
+  mounted () {
+    this.$store.dispatch('pay/getWxpayList')
+    this.changeDate(this.$refs.datePickerBar.getDuringDateArray(7))
+    this.$reload()
+    this.getSendStatistics()
+  },
+  methods: {
+    getSendStatistics () {
+      this.$http.fetch(this.$api.guide.redpacket.getRecordStatistics, this.model).then(res => {
+        if (res.success) {
+          this.dataList = this.dataList.map(item => ({
+            ...item,
+            value: res.result[item.key],
+            isMoney: true
+          }))
+        }
+      }).catch((resp) => {
+        this.$notify.error(resp.msg)
+      })
+    },
+    changeDate (value) {
+      if (value && value.length) {
+        this.model.startTime = value[0]
+        this.model.endTime = value[1]
+      }
+    },
+    handleChangeDate (value) {
+      this.changeDate(value)
+      this.changeSearchfrom(this.model)
+    }
+  }
 }

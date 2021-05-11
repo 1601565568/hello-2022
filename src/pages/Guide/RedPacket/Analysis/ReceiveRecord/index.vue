@@ -103,11 +103,8 @@
               label="红包名称">
             </el-table-column>
             <el-table-column
-              prop="payConfigId"
+              prop="mchMsg"
               label="支付商户号">
-              <template slot-scope="scope">
-                {{payMap[scope.row.mchid]||''}}
-              </template>
             </el-table-column>
             <el-table-column
               prop="sendName"
