@@ -1,5 +1,6 @@
 .select-data-view >>> .el-tabs__header {
   border: none;
+  color: #999999;
 }
 
 .select-data-view >>> .el-tabs__item.is-active {

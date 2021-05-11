@@ -44,7 +44,7 @@
                   </el-form-item>
                 </el-form>
                 <span class="show-name"
-                  >已完成员工 {{ listData.length || 0 }}人</span
+                  >已完成员工 {{ recordsTotal || 0 }}人</span
                 >
               </div>
               <page-table style="padding-top:0">
@@ -126,7 +126,7 @@
                   </el-form-item>
                 </el-form>
                 <span class="show-name"
-                  >未完成员工 {{ listData.length || 0 }}人</span
+                  >未完成员工 {{ recordsTotal || 0 }}人</span
                 >
               </div>
               <page-table style="padding-top:0">
@@ -236,7 +236,8 @@ export default {
       metailInfo: {},
       activeName: 'first',
       shopIds: [],
-      materialScriptId: 0
+      materialScriptId: 0,
+      recordsTotal: 0
     }
   },
   methods: {
@@ -397,6 +398,7 @@ export default {
           if (resp.success) {
             this.listData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
+            this.recordsTotal = resp.result.recordsTotal || 0
           }
         })
         .catch(resp => {
@@ -490,6 +492,7 @@ export default {
   color: #262626;
   line-height: 53px;
   padding-left: 16px;
+  font-weight: 500;
 }
 .drawer-sub-title {
   font-size: 14px;
