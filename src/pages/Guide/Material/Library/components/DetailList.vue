@@ -184,6 +184,7 @@
               </page-table>
             </el-tab-pane>
           </el-tabs>
+          <div class="output-file-view" @click="exportData">导出CSV文件</div>
         </div>
       </div>
     </el-drawer>
@@ -410,9 +411,9 @@ export default {
     exportData () {
       const params = {
         materialScriptId: this.materialScriptId,
-        guideIdsStr: this.guideIdsStr,
+        guideIdsStr: '',
         isCompletion: 1,
-        shopIdsStr: this.shopIdsStr
+        shopIdsStr: ''
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -596,5 +597,25 @@ export default {
   height: 32px;
   margin-bottom: 0;
   border: 1px solid #d9d9d9;
+}
+
+.select-data-view {
+  position: relative;
+}
+.output-file-view {
+  width: 116px;
+  height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #595959;
+  text-align: center;
+  line-height: 32px;
+  font-weight: 400;
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  cursor: pointer;
 }
 </style>
