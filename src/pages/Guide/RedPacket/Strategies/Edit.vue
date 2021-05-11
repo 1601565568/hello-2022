@@ -36,6 +36,7 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+                  <p class='prompt-text' v-if='model.redpackType === luckyRed'><span class='yellow-point'></span>拼手气红包仅可在群聊中使用</p>
                 </el-form-item>
                 <el-form-item label='发放类型' required prop='launchType' class='larger-item'>
                   <el-radio-group v-model="model.launchType">
@@ -66,7 +67,7 @@
         <!-- 红包配置 end -->
         <!-- 基本信息 start -->
         <SimpleCollapse title='基本信息'>
-          <Box :noborder='true'>
+          <Box>
             <template slot='collapse-left'>
               <el-form-item label='红包名称' required prop='name' class='larger-item'>
                 <length-input v-model='model.name' placeholder="请输入红包名称" :length='10' />

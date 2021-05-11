@@ -48,7 +48,7 @@ export default {
      */
     handleChangeState (id, isDefault) {
       if (isDefault) {
-        this.$notify.error('至少有一个默认封面')
+        this.$notify.error('至少保留一个默认封面')
         return false
       }
       this.changeState(this.$api.guide.redpacket.setDefault(id), {}, true)

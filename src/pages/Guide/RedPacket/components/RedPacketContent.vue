@@ -3,7 +3,7 @@
     <div class='account-item' v-if='redpackType === normalRed'>
       <div class='account-name'>金额</div>
       <div class='account-value'>
-        <span>{{money?$numeral(setAccount(money)).format('0,0.00'):'0.00'}}</span>元
+        <span>{{money | omitMoney | moneyStr}}</span>元
       </div>
     </div>
     <template v-if='redpackType === luckyRed'>
@@ -16,18 +16,18 @@
       <div class='account-item' v-if='redpackType === luckyRed'>
         <div class='account-name'>总金额</div>
         <div class='account-value'>
-          <span>{{moneyMin?$numeral(setAccount(moneyMin)).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(setAccount(moneyMax)).format('0,0.00'):'0.00'}}</span>元
+          <span>{{moneyMin | omitMoney | moneyStr}}-{{moneyMax | omitMoney | moneyStr}}</span>元
         </div>
       </div>
     </template>
     <div class='account-item' v-if='redpackType === diyRed'>
       <div class='account-name'>金额</div>
       <div class='account-value'>
-        <span>{{moneyMin?$numeral(setAccount(moneyMin)).format('0,0.00'):'0.00'}}-{{moneyMax?$numeral(setAccount(moneyMax)).format('0,0.00'):'0.00'}}</span>元
+        <span>{{moneyMin | omitMoney | moneyStr}}-{{moneyMax | omitMoney | moneyStr}}</span>元
       </div>
     </div>
     <div class='account-item'>
-      <div class='account-name '>{{benediction ? benediction.substring(0,25):'恭喜发财，大吉大利'}}</div>
+      <div class='account-name '>{{benediction | omitText}}</div>
     </div>
     <div class='account-item'>
       <div class='account-name'>红包封面</div>
@@ -35,7 +35,10 @@
         <RedPacket :bgHasFont='true' :bgImage='background' :bagTip='benediction' />
       </div>
     </div>
-    <div class='account-num'><span>¥{{redpackType === normalRed ? (money?$numeral(setAccount(money)).format('0,0.00'):'0.00'):'0.00'}}</span></div>
+    <div class='account-num'>
+      <span v-if='redpackType === normalRed'>¥{{money | omitMoney | moneyStr}}</span>
+      <span v-else>¥0.00</span>
+    </div>
     <div class='red-btn'><span>塞钱进红包</span></div>
   </div>
 </template>
@@ -69,12 +72,18 @@ export default {
     }
   },
   components: { RedPacket },
-  methods: {
-    setAccount (money) {
+  filters: {
+    omitMoney (money) {
+      if (!money) {
+        return '0.00'
+      }
       if (money > 9999.99) {
         return (money + '').substring(0, 4)
       }
       return money
+    },
+    omitText (benediction) {
+      return benediction ? benediction.substring(0, 25) : '恭喜发财，大吉大利'
     }
   }
 }

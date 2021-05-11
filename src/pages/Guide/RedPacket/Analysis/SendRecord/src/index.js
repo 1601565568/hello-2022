@@ -36,7 +36,11 @@ export default {
     this.$store.dispatch('pay/getWxpayList')
     this.$reload()
   },
-  methods: {},
+  methods: {
+    handlePreview () {
+
+    }
+  },
   watch: {
     seachDate (newVal) {
       const date = newVal || [null, null]

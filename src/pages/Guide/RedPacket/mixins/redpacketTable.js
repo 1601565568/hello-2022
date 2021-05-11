@@ -1,9 +1,9 @@
-import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval } from '../const'
+import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap } from '../const'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
-      redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval
+      redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap
     }
   },
   methods: {

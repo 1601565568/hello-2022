@@ -81,51 +81,46 @@
             <el-table-column
               prop="state"
               label="发放类型">
+              <template slot-scope="scope">
+                {{setTypeMap[scope.row.launchType]}}
+              </template>
             </el-table-column>
             <el-table-column
               prop="total"
               label="领取金额（元）">
               <template slot-scope="scope">
                 <template>
-                  {{$numeral(scope.row.money/100).format('0,0.00')}}
+                  {{scope.row.money/100 | moneyStr}}
                 </template>
               </template>
             </el-table-column>
             <el-table-column
-              prop="remainder"
+              prop="payTime"
               label="领取时间">
             </el-table-column>
             <el-table-column
-              prop="remainder"
+              prop="redpackName"
               label="红包名称">
             </el-table-column>
             <el-table-column
               prop="payConfigId"
               label="支付商户号">
               <template slot-scope="scope">
-                {{payMap[scope.row.payConfigId]||''}}
+                {{payMap[scope.row.mchid]||''}}
               </template>
             </el-table-column>
             <el-table-column
-              prop="createName"
-              label="创建人">
+              prop="sendName"
+              label="发放人">
             </el-table-column>
             <el-table-column
-              label="状态">
-              <template slot-scope="scope">
-                <el-switch
-                  @change='(value)=>{handleChangeState(scope.row.id,scope.row.state)}'
-                  :value="scope.row.state === 1">
-                </el-switch>
-              </template>
+              prop="workNumber"
+              label="工号">
             </el-table-column>
             <el-table-column
-              prop="address"
-              width='70px'
-              label="操作">
-              <template slot-scope="scope">
-                <ns-button type="text" @click='handleDetail({id:scope.row.id})'>查看</ns-button>
-              </template>
+              prop="shopNames"
+              show-overflow-tooltip
+              label="工作门店">
             </el-table-column>
           </el-table>
         </template>

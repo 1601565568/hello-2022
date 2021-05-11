@@ -11,11 +11,22 @@
         </div>
       </template>
       <template slot='content'>
-        <!-- 红包封面配置 start -->
         <recruitment-collapse title='发红包配置' phoneTitle=''>
+          <template slot='title'>
+            <div class='flex-box'>
+              <div>发红包配置</div>
+              <div class='tip-title'>员工可在企业微信聊天工具栏发此红包</div>
+            </div>
+          </template>
           <template slot='collapse-left'>
             <el-form-item label='可发红包' prop='redpackPolicyId' class='larger-item'>
-              <span class='choose-redpact' v-if='redpacketName'>{{redpacketName}}</span><ns-button type='text' @click="hanleChoose">选择红包</ns-button>
+              <template slot='label' class='larger-item_icon'>
+                <span>可发红包</span>
+                <el-tooltip content="可前往“内容管理->红包工具->红包策略”添加“员工发放”的红包"  placement="top">
+                  <Icon type="question-circle" class='question-circle' />
+                </el-tooltip>
+              </template>
+              <span class='choose-redpact' v-if='chooseItem.name'>{{chooseItem.name}}</span><ns-button type='text' @click="hanleChoose">选择红包</ns-button>
             </el-form-item>
             <el-form-item label='选择人员' required prop='useType' class='larger-item'>
               <el-radio-group v-model="model.useType">
@@ -59,7 +70,7 @@
                     </div>
                     <template slot='suffix'>
                       <div class='employee-suffix'>
-                        <NsGuideDialog ref='nsGuideDialog' :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
+                        <NsGuideDialog ref='nsGuideDialog' :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="true"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                           <template slot='selfBtn'>
                             <Icon type="icon-ns-people" class='suffix-icon'></Icon>
                           </template>
@@ -82,7 +93,6 @@
             </div>
           </template>
         </recruitment-collapse>
-         <!-- 红包封面配置 end -->
       </template>
     </page-edit>
     <el-dialog title="选择红包"
@@ -91,7 +101,7 @@
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
       :visible.sync="visible">
-      <StrategiesList :checked='{id:model.redpackPolicyId}' ref='strategiesList'/>
+      <StrategiesList v-if='visible' :chooseItem='chooseItem' ref='strategiesList'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="changeVisible(false)">取 消</ns-button>
         <ns-button type="primary" @click="handleSure">确 定</ns-button>
@@ -190,5 +200,19 @@ export default Index
   .choose-redpact {
     font-size: 14px;
     margin-right: 12px;
+  }
+  .tip-title {
+    font-size: 12px;
+    color: #595959;
+    line-height: 20px;
+    &:before {
+      content: ' ';
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      background-color: #F2AA18;
+      border-radius: 8px;
+      margin: 0 8px 0 28px;
+    }
   }
 </style>

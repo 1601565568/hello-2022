@@ -141,14 +141,14 @@ export default {
         obj.total = data.total + ''
         obj.everyoneLimit = data.everyoneLimit + ''
       } else {
-        obj.startTime = data.time[0]
-        obj.endTime = data.time[1]
+        obj.startTime = data.timeType === this.timeTypeInterval ? data.time[0] : ''
+        obj.endTime = data.timeType === this.timeTypeInterval ? data.time[1] : ''
         obj.customizeType = 2 - data.customizeType
         obj.moneyMax = data.moneyMax * 100
         obj.moneyMin = data.moneyMin * 100
         obj.money = data.money * 100
         obj.total = data.total
-        obj.everyoneLimit = data.everyoneLimit
+        obj.everyoneLimit = data.limitType === 1 ? data.everyoneLimit : ''
       }
       return obj
     },

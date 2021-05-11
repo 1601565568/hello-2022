@@ -34,6 +34,10 @@ export const setTypeList = [ // 红包投放类型列表
     value: activityPost
   }
 ]
+export const setTypeMap = { // 红包投放类型列表
+  [staffPost]: '员工发放',
+  [activityPost]: '活动发放'
+}
 // 时间相关
 export const timeTypeForever = 2 // 永久有效的时间类型
 export const timeTypeInterval = 1 // 区间时间类型

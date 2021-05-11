@@ -1,4 +1,4 @@
-import qychat from '@/assets/qychat.png'
+import qychat from '@/assets/qychat.jpg'
 import redpacketEdit from '../../mixins/redpacketEdit'
 export default {
   mixins: [redpacketEdit],
@@ -27,9 +27,9 @@ export default {
       },
       visible: false, // 选中红包策略列表
       btnLoad: false,
-      redpacketName: '', // 红包策略名称，仅作展示
       listPath: '/Social/SocialOperation/RedPacket/Send/List',
-      submitApi: this.$api.guide.redpacket.createSend
+      submitApi: this.$api.guide.redpacket.createSend,
+      chooseItem: {} // 选择策略对象，回显
     }
   },
   methods: {
@@ -72,7 +72,7 @@ export default {
         return
       }
       this.model.redpackPolicyId = checkedItem.id
-      this.redpacketName = checkedItem.name
+      this.chooseItem = checkedItem
       this.changeVisible(false)
     },
     /**

@@ -52,10 +52,10 @@
               label="单个金额">
               <template slot-scope="scope">
                 <template v-if='scope.row.redpackType === normalRed'>
-                  {{$numeral(scope.row.money/100).format('0,0.00')}}
+                  {{scope.row.money/100 | moneyStr}}
                 </template>
                 <template v-else>
-                  {{$numeral(scope.row.moneyMin/100).format('0,0.00')}} - {{$numeral(scope.row.moneyMax/100).format('0,0.00')}}
+                  {{scope.row.moneyMin/100 | moneyStr}} - {{scope.row.moneyMax/100 | moneyStr}}
                 </template>
               </template>
             </el-table-column>
@@ -66,7 +66,7 @@
             </el-table-column>
             <el-table-column
               align='center'
-              label="使用人员">
+              label="使用范围">
               <div class="scope-name" slot-scope="scope">
                 <template v-if='scope.row.useType === 1'>
                   全部员工
@@ -115,11 +115,11 @@
       <!-- 页面 end -->
     </page-table>
     <el-dialog ref="friendsList" :visible.sync="visible"
-               title="使用员工"
+               :title="model.useType === 2?'使用门店':'使用员工'"
                width="960px">
       <user-list v-if='visible' ref='employeeTable' :data="chooseItem"></user-list>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="visible = false">确定</ns-button>
+        <ns-button @click="visible = false">关闭</ns-button>
       </div>
     </el-dialog>
   </div>

@@ -49,7 +49,7 @@
                 </template>
               </NsGuideDialog>
             </el-form-item>
-            <el-form-item label="有效期：">
+            <el-form-item label="有效期：" class='el-form__change'>
               <el-date-picker
                 v-model="seachDate"
                 type="datetimerange"
@@ -65,7 +65,7 @@
         </el-col>
         <!-- 按钮-->
         <el-col :span='3' class="btn-content">
-          <ns-button>导出CSV文件</ns-button>
+          <ns-button size='large'>导出CSV文件</ns-button>
         </el-col>
       </el-row>
     </div>
@@ -75,21 +75,77 @@
         class="new-table_border"
         style="width: 100%">
         <el-table-column
-          prop="name"
-          label="日期">
+          prop="sendName"
+          label="发放人">
+        </el-table-column>
+        <el-table-column
+          prop="workNumber"
+          label="工号">
+        </el-table-column>
+        <el-table-column
+          prop="shopNames"
+          show-overflow-tooltip
+          label="工作门店">
         </el-table-column>
         <el-table-column
           prop="state"
-          label="今日转出金额（元）">
+          label="发放类型">
+          <template slot-scope="scope">
+            {{setTypeMap[scope.row.launchType]}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="total"
-          label="员工转出金额（元）">
+          prop="createDate"
+          label="发送时间">
         </el-table-column>
         <el-table-column
-          prop="remainder"
-          label="裂变大师转出金额（元）">
+          prop="redpackType"
+          label="红包类型">
+          <template slot-scope="scope">
+            {{redpacketTypeMap[scope.row.redpackType]}}
+          </template>
         </el-table-column>
+        <el-table-column
+          prop="payConfigId"
+          label="支付商户号">
+          <template slot-scope="scope">
+            {{payMap[scope.row.mchid]||''}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="红包名称">
+        </el-table-column>
+        <el-table-column
+          prop="remark"
+          label="备注">
+          <template slot-scope="scope">
+            {{scope.row.remark || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="redpackName"
+          label="发放红包金额（元）">
+          <template slot-scope="scope">
+            {{scope.row.money/100 | moneyStr}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="redpackName"
+          label="领取成功金额（元）">
+          <template slot-scope="scope">
+            <template>
+              {{scope.row.takeMoney/100 | moneyStr}}
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column
+              prop="address"
+              label="操作">
+              <template slot-scope="scope">
+                <ns-button type="text" @click='handlePreview(scope.row.id)'>领取详情</ns-button>
+              </template>
+            </el-table-column>
       </el-table>
       <el-pagination v-if="_data._pagination.enable"
                     class="template-table__pagination"
@@ -160,9 +216,6 @@ Index.components = {
 }
 </style>
 <style scoped>
-.analysis >>> .el-form-item.el-form__change {
-  margin-bottom: 0px;
-}
 .align-top {
   align-items: flex-start;
 }

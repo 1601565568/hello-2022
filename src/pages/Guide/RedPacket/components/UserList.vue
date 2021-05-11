@@ -37,7 +37,7 @@
           <el-table ref="table"  :data="_data._table.data" stripe
           v-loading.lock="_data._table.loadingtable"
           :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="shopName" label="门店姓名" align="left">
+            <el-table-column prop="shopName" label="门店名称" align="left">
             </el-table-column>
             <el-table-column prop="status" label="门店状态" align="center" width="120">
               <template slot-scope="scope">

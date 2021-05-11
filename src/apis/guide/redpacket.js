@@ -83,9 +83,14 @@ export default {
     url: prefix + 'record/receiver/list',
     method: 'post'
   },
-  // 红包领取记录列表
+  // 红包发放记录列表
   getRecordList: {
     url: prefix + 'record/list',
+    method: 'post'
+  },
+  // 红包发放记录>发放统计
+  getSendStatistics: {
+    url: prefix + 'record/sendStatistics',
     method: 'post'
   }
 }
