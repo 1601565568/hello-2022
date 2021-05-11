@@ -133,7 +133,7 @@
                 <template slot="table">
                   <el-table
                     :data="listData"
-                    class="new-table_border unDrawer-table"
+                    class="new-table_border drawer-table"
                   >
                     <el-table-column prop="guideName" label="员工">
                     </el-table-column>
