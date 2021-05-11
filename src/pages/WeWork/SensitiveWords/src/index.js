@@ -192,20 +192,19 @@ export default {
      * PS:会触发滚动事件
      */
     listDeleteItem (id) {
-      // 防止滚动事件
-      this.listIsScroll = true
-      this.listLoading = true
-      this.table.loading = true
-      this.select = null
-      // 解决不了遮罩问题. 数据清空方便遮罩
-      this.list = []
-      this.table.tableData = []
-
       this.$confirm('删除后不可恢复，请再次确定是否要删除', '确定删除？', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        // 防止滚动事件
+        this.listIsScroll = true
+        this.listLoading = true
+        this.table.loading = true
+        this.select = null
+        // 解决不了遮罩问题. 数据清空方便遮罩
+        this.list = []
+        this.table.tableData = []
         this.$http
           .fetch(this.$api.weWork.sensitiveWords.delete, { id })
           .then(res => {
