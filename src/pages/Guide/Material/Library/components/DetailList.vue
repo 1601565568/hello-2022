@@ -7,7 +7,6 @@
       :with-header="false"
       :modal="false"
       @close="handleClose"
-      destroy-on-close
     >
       <div>
         <div class="close-view">
@@ -121,8 +120,51 @@
                     </NsShopDialog>
                   </el-form-item>
                 </el-form>
-                <span class="show-name">未完成员工 {{ numData.completionTotal }}人</span>
+                <span class="show-name">未完成员工 {{ numData.noCompletionTotal }}人</span>
               </div>
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table :data="listData" class="new-table_border unDrawer-table">
+                    <el-table-column prop="guideName" label="员工"> </el-table-column>
+                    <el-table-column prop="employeeNumber" label="工号"> </el-table-column>
+                    <el-table-column prop="shopNamesStr" label="所属门店">
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.shopNamesStr.length <= 15"
+                        >
+                          <div>{{ scope.row.shopNamesStr }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopNamesStr.length <= 15"
+                            >{{ scope.row.shopNamesStr }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopNamesStr.length > 15"
+                            >{{ scope.row.shopNamesStr.substr(0, 15) + '...' }}</span
+                          >
+                        </el-popover>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    class="label-dialog__pagination"
+                    :page-sizes="pagination.sizeOpts"
+                    :total="pagination.total"
+                    :current-page.sync="pagination.page"
+                    :page-size="pagination.size"
+                    layout="total, prev, pager, next"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -274,14 +316,19 @@ export default {
         page: 1,
         total: 0
       }
-      // this.loadList()
-      // this.loadNum()
+      this.loadList()
     },
-    handleClick () {},
+    handleClick (val) {
+      this.isCompletion = val.name === 'first' ? 1 : 0
+      this.guideIdsStr = val.name === 'second' ? '' : this.guideIdsStr
+      this.guideIds = val.name === 'second' ? [] : this.guideIds
+      this.shopIdsStr = val.name === 'first' ? '' : this.shopIdsStr
+      this.shopIds = val.name === 'first' ? [] : this.shopIds
+      this.loadList()
+    },
     handleClose () {
       this.drawer = false
-      this.guideIds = []
-      this.guideIdsStr = ''
+      this.drawerInitData()
     },
     handleChangeGuide (value) {
       this.guideIds = value
@@ -369,17 +416,27 @@ export default {
       this.pagination.page = page
       this.loadList()
     },
-    closeDeawer () {
-      this.drawer = true
+    drawerInitData () {
       this.guideIds = []
       this.guideIdsStr = ''
+      this.activeName = 'first'
+      this.shopIds = []
+      this.shopIdsStr = ''
+      this.isCompletion = 1
+      this.listData = []
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+    },
+    closeDeawer () {
+      this.drawerInitData()
+      this.drawer = true
       if (this.drawer) {
-        this.pagination = {
-          size: 10,
-          sizeOpts: [10],
-          page: 1,
-          total: 0
-        }
+        this.loadList()
+        this.loadNum()
       }
     },
     loadList () {
@@ -410,7 +467,7 @@ export default {
       const params = {
         materialScriptId: this.materialScriptId,
         guideIdsStr: this.guideIdsStr,
-        isCompletion: this.isCompletion,
+        isCompletion: 1,
         shopIdsStr: this.shopIdsStr
       }
       let that = this
