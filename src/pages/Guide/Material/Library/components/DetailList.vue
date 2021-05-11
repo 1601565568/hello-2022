@@ -44,7 +44,7 @@
                   </el-form-item>
                 </el-form>
                 <span class="show-name"
-                  >已完成员工 {{ numData.completionTotal }}人</span
+                  >已完成员工 {{ listData.length || 0 }}人</span
                 >
               </div>
               <page-table style="padding-top:0">
@@ -126,7 +126,7 @@
                   </el-form-item>
                 </el-form>
                 <span class="show-name"
-                  >未完成员工 {{ numData.noCompletionTotal }}人</span
+                  >未完成员工 {{ listData.length || 0 }}人</span
                 >
               </div>
               <page-table style="padding-top:0">
@@ -285,7 +285,6 @@ export default {
         total: 0
       }
       this.loadList()
-      this.loadNum()
     },
     deleteFile (row) {
       this.$confirm('将删除改员工本条自建素材，是否删除？', '确定删除？', {
@@ -314,7 +313,6 @@ export default {
               total: 0
             }
             this.loadList()
-            this.loadNum()
           }
           this.$notify.success(`删除成功`)
         })
@@ -351,7 +349,6 @@ export default {
         page: 1
       }
       this.loadList()
-      this.loadNum()
     },
     handleCurrentChange (page) {
       this.pagination.page = page
@@ -378,7 +375,6 @@ export default {
       this.drawer = true
       if (this.drawer) {
         this.loadList()
-        this.loadNum()
       }
     },
     loadList () {
