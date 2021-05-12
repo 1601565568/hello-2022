@@ -71,7 +71,7 @@ export default {
           }
         },
         yAxis: {
-          name: '数量',
+          name: '发放金额',
           nameTextStyle: {
             color: 'rgba(0,0,0,0.25)',
             padding: [4, 4, 4, 24],
@@ -79,8 +79,6 @@ export default {
             lineHeight: 24
           },
           type: 'value',
-          minInterval: 1,
-          min: 10,
           axisLine: {
             show: false
           },
@@ -188,19 +186,16 @@ export default {
         {
           name: '今日转出金额',
           type: 'line',
-          stack: '总量',
           data: []
         },
         {
           name: '员工转出金额',
           type: 'line',
-          stack: '总量',
           data: []
         },
         {
           name: '裂变大师转出金额',
           type: 'line',
-          stack: '总量',
           data: []
         }
       ]
@@ -213,7 +208,7 @@ export default {
       this.$http.fetch(this.url, { start: 0, length: 30, searchMap }).then(res => {
         if (res.success) {
           this.saleOption.xAxis.data = this.xAxisDate
-          this.saleOption.series = this.formatChart(res.result, this.xAxisDate)
+          this.saleOption.series = this.formatChart(res.result.data, this.xAxisDate)
         }
       })
     },
@@ -227,8 +222,10 @@ export default {
       const data = this.setDefaultChartData()
       dateList.map(item => {
         if (list.length) {
-          if (item === dateList[0].time) {
-            this.setChartData(0, 0, 0, data)
+          if (item === list[0].dayTime) {
+            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[0]
+            this.setChartData(todaySendMoney / 100, guideSendMoney / 100, fissionSendMoney / 100, data)
+            list.shift()
           } else {
             this.setChartData(0, 0, 0, data)
           }
@@ -236,6 +233,7 @@ export default {
           this.setChartData(0, 0, 0, data)
         }
       })
+      console.log(data)
       return data
     },
     /**

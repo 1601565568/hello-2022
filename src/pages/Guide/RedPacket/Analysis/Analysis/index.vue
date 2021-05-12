@@ -33,20 +33,29 @@
         class="new-table_border"
         style="width: 100%">
         <el-table-column
-          prop="name"
+          prop="dayTime"
           label="日期">
         </el-table-column>
         <el-table-column
-          prop="state"
+          prop="todaySendMoney"
           label="今日转出金额（元）">
+          <template slot-scope="scope">
+            {{scope.row.todaySendMoney/100 | moneyStr}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="total"
+          prop="guideSendMoney"
           label="员工转出金额（元）">
+          <template slot-scope="scope">
+            {{scope.row.guideSendMoney/100 | moneyStr}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="remainder"
+          prop="fissionSendMoney"
           label="裂变大师转出金额（元）">
+          <template slot-scope="scope">
+            {{scope.row.fissionSendMoney/100 | moneyStr}}
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination v-if="_data._pagination.enable"
