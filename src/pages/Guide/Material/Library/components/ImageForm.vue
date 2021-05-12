@@ -666,7 +666,6 @@ export default {
     },
     doSave () {
       const params = { ...this.detail, ...this.model, mType: this.mType }
-      console.log(params)
       // 控制图片数量
       params.mediaList = this.mediaList
       // 带码状态
