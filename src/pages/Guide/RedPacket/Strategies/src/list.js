@@ -18,13 +18,15 @@ export default {
       url: this.$api.guide.redpacket.getStrategiesList,
       // 筛选日期
       seachDate: [], // 时间筛选
-      isEmpty: false, // 是否有支付商户号列表
+      isLoad: false,
       detailPath: '/Social/SocialOperation/RedPacket/Strategies/Edit', // 详情页路由
       payPath: '/Guide/Others/PaySet' // 支付商户号配置页面，未配置商户号需要先配置
     }
   },
   mounted () {
-    this.$store.dispatch('pay/getWxpayList')
+    this.$store.dispatch('pay/getWxpayList').then(() => {
+      this.isLoad = true
+    })
     this.$reload()
   },
   computed: {
@@ -40,6 +42,9 @@ export default {
     },
     setTypeListSelect () {
       return [{ label: '全部', value: null }, ...this.setTypeList]
+    },
+    isEmpty () {
+      return this.wxpayList.length === 0 && this.isLoad
     }
   },
   methods: {

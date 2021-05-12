@@ -1,5 +1,4 @@
 import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap } from '../const'
-import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
@@ -53,6 +52,28 @@ export default {
       const sortType = data.order === 'ascending' ? 1 : data.order === 'descending' ? 0 : ''
       const sortName = sortType !== '' ? data.prop : ''
       this.changeSearchfrom({ sortName, sortType })
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
+    },
+    /**
+     * 导出
+     * @param {*} data
+     */
+    handleExport (data) {
+      const url = this.exportApi
+      const form = document.createElement('form')
+      Object.keys(data).map(item => {
+        form.appendChild(this.generateHideElement(item, data[item]))
+      })
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
     }
   }
 }

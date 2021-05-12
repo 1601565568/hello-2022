@@ -1,3 +1,4 @@
+import { API_ROOT } from '@/config/http.js'
 const prefix = '/redpack/'
 export default {
   // 获取红包封面
@@ -102,5 +103,29 @@ export default {
   getRecordStatistics: {
     url: prefix + 'dataAnalysis/recordStatistics',
     method: 'post'
-  }
+  },
+  // 红包发放记录>领取详情
+  getRecordDetail: {
+    url: prefix + 'record/receiveDetail',
+    method: 'post'
+  },
+  // // 红包发放记录列表导出
+  // exportRecordList: {
+  //   url: prefix + 'record/export',
+  //   method: 'post'
+  // },
+  // // 红包领取记录列表导出
+  // exportReceiverList: {
+  //   url: prefix + 'record/receiver/export',
+  //   method: 'post'
+  // },
+  // // 数据分析列表导出
+  // exportDataAnalysisList: {
+  //   url: prefix + 'dataAnalysis/export',
+  //   method: 'post'
+  // },
+  // 导出
+  exportRecordList: `${API_ROOT}/${prefix}record/export`, // 群门店
+  exportReceiverList: `${API_ROOT}/${prefix}record/receiver/export`, // 群成员
+  exportDataAnalysisList: `${API_ROOT}/${prefix}dataAnalysis/export` // 好友门店
 }

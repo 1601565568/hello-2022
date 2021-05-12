@@ -65,7 +65,7 @@
         </el-col>
         <!-- 按钮-->
         <el-col :span='3' class="btn-content">
-          <ns-button size='large'>导出CSV文件</ns-button>
+          <ns-button size='large' @click='handleExport(model)'>导出CSV文件</ns-button>
         </el-col>
       </el-row>
     </div>
@@ -155,20 +155,35 @@
                     @current-change="$pageChange$">
       </el-pagination>
     </div>
+    <el-drawer
+      title="我是标题"
+      :modal='false'
+      size='50%'
+      @close='changeDrawer(false)'
+      append-to-body
+      :visible.sync="drawer"
+      :with-header="false">
+      <DetailDrawer v-if='drawer' :id='activeId' @onClose='changeDrawer(false)' />
+    </el-drawer>
   </div>
 </template>
 <script>
 import Index from './src/index'
 import ColorfulDisplay from '../components/ColorfulDisplay'
+import DetailDrawer from '../components/DetailDrawer'
 import DatePickerBar from '@/components/NewUi/DatePickerBar'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import ElDrawer from '@nascent/nui/lib/drawer'
 export default Index
 Index.components = {
-  ColorfulDisplay, DatePickerBar, NsGuideDialog
+  ColorfulDisplay, DatePickerBar, NsGuideDialog, ElDrawer, DetailDrawer
 }
 </script>
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
+.search-icon {
+  font-size: 25px;
+}
 .analysis {
   .analysis-content {
     padding: 16px;

@@ -14,6 +14,7 @@ export default {
         startTime: ''
       },
       url: this.$api.guide.redpacket.getReceiverList,
+      exportApi: this.$api.guide.redpacket.exportReceiverList,
       seachDate: []
     }
   },

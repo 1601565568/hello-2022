@@ -64,7 +64,7 @@
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button size='large'>导出CSV文件</ns-button>
+        <ns-button size='large' @click='handleExport(model)'>导出CSV文件</ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->

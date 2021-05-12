@@ -13,6 +13,7 @@ export default {
         guideIds: []
       },
       url: this.$api.guide.redpacket.getRecordList,
+      exportApi: this.$api.guide.redpacket.exportRecordList,
       seachDate: [],
       dataList: [
         {
@@ -35,7 +36,9 @@ export default {
           nick: '今日发放红包个数',
           value: 0
         }
-      ]
+      ],
+      drawer: false,
+      activeId: null
     }
   },
   mixins: [tableMixin, redpacketTable],
@@ -60,8 +63,12 @@ export default {
     this.getSendStatistics()
   },
   methods: {
-    handlePreview () {
-
+    handlePreview (id) {
+      this.activeId = id
+      this.changeDrawer(true)
+    },
+    changeDrawer (drawer = !this.drawer) {
+      this.drawer = drawer
     },
     handleChange (value) {
       this.getSendStatistics()
