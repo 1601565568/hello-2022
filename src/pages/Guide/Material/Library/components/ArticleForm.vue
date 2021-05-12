@@ -14,11 +14,13 @@
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
-          v-model="model.subdivisionId"
+          v-model="model.subdivisionIds"
           placeholder="请选择"
           filterable
-          clearable
           style="width: 260px"
+          multiple
+          :collapse-tags="true"
+          :clearable="false"
         >
           <el-option
             v-for="item in labelList"
@@ -159,7 +161,7 @@ export default {
         title: '',
         content: '',
         textContent: '',
-        subdivisionId: null,
+        subdivisionIds: null,
         imageList: [],
         cardStyle: {}
       },
@@ -274,6 +276,7 @@ export default {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.imageList = this.imageList
+      params.materialScriptType = 1
       delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('保存成功')
@@ -292,6 +295,7 @@ export default {
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+  @import '../styles/image.css';
   @component-namespace library {
     @b card {
       padding: var(--default-padding-larger);
