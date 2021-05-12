@@ -30,6 +30,7 @@
               type="datetimerange"
               value-format="yyyy-MM-dd HH:mm:ss"
               range-separator="至"
+              :picker-options="pickerOptions"
               start-placeholder="请选择开始日期"
               end-placeholder="请选择结束日期"
               :default-time="['00:00:00','23:59:59']"
@@ -57,7 +58,7 @@
             </NsGuideDialog>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="model.customerNick" placeholder="请输入客户昵称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+            <el-input v-model.trim="model.customerNick" placeholder="请输入客户昵称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
             </el-input>
           </el-form-item>

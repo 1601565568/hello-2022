@@ -103,7 +103,7 @@
               label="有效期">
               <template slot-scope="scope">
                 <template v-if="scope.row.timeType === timeTypeForever">
-                  <span>永久有效</span>
+                  <span>不限</span>
                 </template>
                 <template v-else>
                   <span>{{scope.row.startTime}}</span>

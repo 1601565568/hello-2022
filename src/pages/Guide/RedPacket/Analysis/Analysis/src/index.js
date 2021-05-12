@@ -79,6 +79,8 @@ export default {
             lineHeight: 24
           },
           type: 'value',
+          minInterval: 1,
+          min: 10,
           axisLine: {
             show: false
           },
@@ -122,7 +124,24 @@ export default {
           nick: '裂变大师转出金额（元）',
           value: 0
         }
-      ]
+      ],
+      selectDate: '',
+      pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
+        disabledDate: (time) => {
+          if (this.selectDate !== '') {
+            const one = 30 * 24 * 3600 * 1000
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
+        }
+      }
     }
   },
   mixins: [tableMixin, redpacketTable],

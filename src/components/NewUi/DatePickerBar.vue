@@ -18,6 +18,7 @@
       value-format="yyyy-MM-dd HH:mm:ss"
       :default-time="['00:00:00','23:59:59']"
       range-separator="至"
+      :picker-options='pickerOptions'
       start-placeholder="开始日期"
       end-placeholder="结束日期"
     ></el-date-picker>
@@ -58,6 +59,11 @@ export default {
             value: '近30天'
           }
         ]
+      }
+    },
+    pickerOptions: {
+      default () {
+        return {}
       }
     }
   },

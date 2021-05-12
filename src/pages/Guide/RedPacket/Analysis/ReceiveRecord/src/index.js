@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from '../../../mixins/redpacketTable'
+import { getCurrentMonthArray } from '@/utils/date'
 import { mapState } from 'vuex'
 export default {
   data () {
@@ -35,11 +36,12 @@ export default {
     }
   },
   mounted () {
+    // 设置时间筛选默认当月
+    this.seachDate = getCurrentMonthArray()
+    this.model.startTime = this.seachDate[0]
+    this.model.endTime = this.seachDate[1]
     this.$store.dispatch('pay/getWxpayList')
     this.$reload()
-  },
-  methods: {
-    handleSearch () {}
   },
   watch: {
     seachDate (newVal) {

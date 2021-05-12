@@ -25,7 +25,7 @@
         <el-col :span='21' class="search-content">
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label="">
-              <el-input v-model="model.redpackName" placeholder="请输入红包名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
+              <el-input v-model.trim="model.redpackName" placeholder="请输入红包名称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
                 <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
               </el-input>
             </el-form-item>
@@ -54,6 +54,7 @@
                 v-model="seachDate"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
+                :picker-options="pickerOptions"
                 range-separator="至"
                 start-placeholder="请选择开始日期"
                 end-placeholder="请选择结束日期"
@@ -81,6 +82,9 @@
         <el-table-column
           prop="workNumber"
           label="工号">
+          <template slot-scope="scope">
+            {{scope.row.workNumber || '-'}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="shopNames"

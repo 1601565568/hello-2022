@@ -2,7 +2,22 @@ import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, norm
 export default {
   data () {
     return {
-      redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap
+      redpacketTypeMap,
+      timeTypeForever,
+      redpacketTypeList,
+      setTypeList,
+      normalType,
+      closeType,
+      normalRed,
+      luckyRed,
+      diyRed,
+      timeTypeInterval,
+      setTypeMap,
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() < new Date(new Date().toLocaleDateString()) - 182 * 24 * 3600 * 1000
+        }
+      }
     }
   },
   methods: {
@@ -68,7 +83,11 @@ export default {
       const url = this.exportApi
       const form = document.createElement('form')
       Object.keys(data).map(item => {
-        form.appendChild(this.generateHideElement(item, data[item]))
+        if (Array.isArray(data[item])) {
+          form.appendChild(this.generateHideElement(item, data[item].join(',')))
+        } else {
+          form.appendChild(this.generateHideElement(item, data[item]))
+        }
       })
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
