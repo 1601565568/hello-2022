@@ -7,8 +7,9 @@
           :enterable="true"
           popper-class="table-body__tooltip"
         >
-          <div slot="content">{{ data.content }}</div>
-          <div class="tableItem-content__ellipsis">{{ data.content }}</div>
+          <div slot="content" v-html="strToRichText(data.content)"></div>
+          <div v-html="strToRichText(data.content)" class="tableItem-content__ellipsis"></div>
+          <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
       </div>
       <!-- 图文素材 -->
@@ -91,6 +92,18 @@ export default {
     }
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     showGuideInfo (index, item) {
       this.guideInfo = item
       this.$refs.guideInfo.closeDeawer()

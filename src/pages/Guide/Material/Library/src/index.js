@@ -271,6 +271,18 @@ export default {
     }
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     /**
      * 标签筛选
      */

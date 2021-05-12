@@ -171,7 +171,7 @@
                 <template slot-scope="scope">
                   <span :class="scope.row.isDirectory === 1 ? 'library-table__folder' : 'library-table__material'" @click="onEnter(scope.row)">
                     <Icon type="wenjianjia-new" />
-                    <span>{{scope.row.name}}</span>
+                    <span v-html="strToRichText(scope.row.name)"></span>
                   </span>
                 </template>
               </el-table-column>
