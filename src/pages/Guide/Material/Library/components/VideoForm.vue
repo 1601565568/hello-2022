@@ -2,7 +2,17 @@
   <div class="library-video">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <el-input
+        <div class="top-title-view">
+          <tag-area
+            :maxlength="150"
+            placeholder="请输入标题，长度在150个字符以内"
+            :showEmoji="true"
+            v-model="pitTitle"
+            :tools="tools"
+            ref="tagTitle"
+          ></tag-area>
+        </div>
+        <!-- <el-input
           type="textarea"
           maxlength="150"
           v-model="model.name"
@@ -10,14 +20,14 @@
           style="width: 260px"
           :input="model.name=model.name.replace(/\s+/g,'')"
           clearable
-        ></el-input>
+        ></el-input> -->
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
           v-model="model.subdivisionIds"
           placeholder="请选择"
           filterable
-          style="width: 260px"
+          style="width: 626px"
           multiple
           :collapse-tags="true"
           :clearable="false"
@@ -36,14 +46,24 @@
         </span>
       </el-form-item>
       <el-form-item label="推广文案：" prop="content">
-        <el-input
+        <div class="top-title-view">
+          <tag-area
+            :maxlength="1500"
+            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
+            :showEmoji="true"
+            v-model="pitContent"
+            :tools="tools"
+            ref="tagContent"
+          ></tag-area>
+        </div>
+        <!-- <el-input
           resize="none"
           type="textarea"
           maxlength="1500"
           v-model="model.content"
           placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
           style="width: 340px"
-        ></el-input>
+        ></el-input> -->
       </el-form-item>
       <el-form-item label="素材视频：" ref="imageForm" prop="mediaList">
         <div class="library-video__form">
@@ -94,10 +114,10 @@
 import FolderTree from './FolderTree'
 import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
-
+import TagArea from '@/components/NewUi/TagArea'
 export default {
   name: 'videoform',
-  components: { FolderTree, ElUpload },
+  components: { FolderTree, ElUpload, TagArea },
   props: {
     labelList: {
       type: Array,
@@ -129,11 +149,11 @@ export default {
         subdivisionIds: null
       },
       rules: {
-        name: [
+        pitTitle: [
           { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
           { min: 0, max: 150, message: '限制长度在150个字符以内', trigger: ['blur', 'change'] }
         ],
-        content: [
+        pitContent: [
           { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
           { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
@@ -143,7 +163,10 @@ export default {
       },
       mType: 2,
       imageNum: 1,
-      catalogue: [{ id: 0, name: '素材库' }]
+      catalogue: [{ id: 0, name: '素材库' }],
+      pitTitle: '',
+      tools: [],
+      pitContent: ''
     }
   },
   computed: {
@@ -166,6 +189,8 @@ export default {
         // }
       })
       this.model = tempModel
+      this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
+      this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
     }
   },
@@ -230,14 +255,16 @@ export default {
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-        this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-        this.loading = false
-        return
-      }
+      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
+      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
+      //   this.loading = false
+      //   return
+      // }
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.mediaList = this.mediaList
+      params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
+      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.materialScriptType = 1
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('保存成功')
@@ -257,6 +284,10 @@ export default {
 <style scoped>
   @import "@theme/variables.pcss";
   @import '../styles/image.css';
+  .top-title-view {
+    width: 626px;
+    height: 144px;
+  }
   @component-namespace library {
     @b catalogue {
       @e text {
