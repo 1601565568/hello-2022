@@ -100,6 +100,7 @@
                   class="catalogue-materials__article"
                 >
                   <img
+                    v-if="item.mediaList"
                     alt=""
                     :src="
                       item.mediaList[0].url +

@@ -45,10 +45,10 @@
           style="width: 340px"
         ></el-input>
       </el-form-item>
-      <el-form-item label="素材视频：" ref="imageForm" prop="imageList">
+      <el-form-item label="素材视频：" ref="imageForm" prop="mediaList">
         <div class="library-video__form">
-          <div v-if="model.imageList && model.imageList.length" class="library-video__item">
-            <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
+          <div v-if="model.mediaList && model.mediaList.length" class="library-video__item">
+            <video :src="model.mediaList[0].url">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
             <div class="library-video__mask" @click="previewVideo">
               <div class="library-video__wrapper">
                 <Icon type="begin" />
@@ -125,7 +125,7 @@ export default {
         isDirectory: 0,
         name: '',
         content: '',
-        imageList: [],
+        mediaList: [],
         subdivisionIds: null
       },
       rules: {
@@ -137,7 +137,7 @@ export default {
           { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
           { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
-        imageList: [
+        mediaList: [
           { required: true, message: '请添加素材视频', trigger: 'change' }
         ]
       },
@@ -150,8 +150,8 @@ export default {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
     },
-    imageList () {
-      return this.model.imageList.slice(0, this.imageNum)
+    mediaList () {
+      return this.model.mediaList.slice(0, this.imageNum)
     }
   },
   watch: {
@@ -161,9 +161,9 @@ export default {
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        if (k === 'imageList') {
-          tempModel[k] = tempModel[k].filter(v => /\.(mp4)$/.test(v))
-        }
+        // if (k === 'mediaList') {
+        //   tempModel[k] = tempModel[k].filter(v => /\.(mp4)$/.test(v))
+        // }
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -177,17 +177,26 @@ export default {
       this.$emit('toggleLabel')
     },
     previewVideo () {
-      this.$emit('togglePreview', 0, this.imageList, 'video')
+      let arr = []
+      for (let item of this.mediaList) {
+        arr.push(item.url)
+      }
+      this.$emit('togglePreview', 0, arr, 'video')
     },
     handleFolder ({ catalogue }) {
       this.catalogue = catalogue
     },
     removeVideo (index) {
-      this.model.imageList = []
-      this.$refs.form.validateField('imageList')
+      this.model.mediaList = []
+      this.$refs.form.validateField('mediaList')
     },
     handleVideoSuccess (res, file) {
-      this.model.imageList = [res.result.url]
+      let obj = {
+        pitType: 1,
+        type: 1,
+        url: res.result.url
+      }
+      this.model.mediaList = [obj]
       this.$refs.imageForm.clearValidate()
       this.uploader && this.uploader.close()
     },
@@ -228,7 +237,7 @@ export default {
       }
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
-      params.imageList = this.imageList
+      params.mediaList = this.mediaList
       params.materialScriptType = 1
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('保存成功')
