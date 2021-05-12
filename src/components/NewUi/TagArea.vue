@@ -40,6 +40,7 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
+      contenteditable="true" :placeholder="placeholder"
       :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
       ref="wTextareaContent"
       :id="contentId"
@@ -384,6 +385,15 @@ $borderColor: #d9d9d9;
 $bgColor: #f5f5f5;
 $textColor: #595959;
 
+.w-textarea_input:empty:before{
+  content: attr(placeholder);
+  color: #BFBFBF;
+  font-size: 14px;
+}
+.w-textarea_input:focus:before{
+  content:none;
+}
+
 .w-textarea {
   width: 100%;
   box-sizing: border-box;
@@ -392,7 +402,6 @@ $textColor: #595959;
   margin-bottom: 15px;
   overflow: hidden;
   position: relative;
-
   &_input {
     width: 100%;
     min-height: 100px;
@@ -400,6 +409,7 @@ $textColor: #595959;
     padding: 10px;
     padding-bottom: 32px;
     line-height: 1.5;
+    font-size: 14px;
     word-break: break-word;
     // 允许编辑，禁止富文本
     -webkit-user-modify: read-write-plaintext-only !important;
@@ -486,6 +496,6 @@ $textColor: #595959;
 }
 .emoji-icon {
   font-size: 16px;
-  color: #0091FA;
+  color: #0091fa;
 }
 </style>

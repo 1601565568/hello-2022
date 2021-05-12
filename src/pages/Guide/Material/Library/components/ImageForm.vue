@@ -2,7 +2,17 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <el-input
+        <div class="top-title-view">
+          <tag-area
+            :maxlength="150"
+            placeholder="请输入标题，长度在150个字符以内"
+            :showEmoji="true"
+            v-model="pitTitle"
+            :tools="tools"
+            ref="tagTitle"
+          ></tag-area>
+        </div>
+        <!-- <el-input
           type="textarea"
           maxlength="150"
           v-model="model.name"
@@ -10,14 +20,14 @@
           style="width: 260px"
           :input="(model.name = model.name.replace(/\s+/g, ''))"
           clearable
-        ></el-input>
+        ></el-input> -->
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
           v-model="model.subdivisionIds"
           placeholder="请选择"
           filterable
-          style="width: 260px"
+          style="width: 626px"
           multiple
           :collapse-tags="true"
           :clearable="false"
@@ -36,14 +46,24 @@
         </span>
       </el-form-item>
       <el-form-item label="推广文案：" prop="content">
-        <el-input
+        <div class="top-title-view">
+          <tag-area
+            :maxlength="1500"
+            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
+            :showEmoji="true"
+            v-model="pitContent"
+            :tools="tools"
+            ref="tagContent"
+          ></tag-area>
+        </div>
+        <!-- <el-input
           resize="none"
           type="textarea"
           maxlength="1500"
           v-model="model.content"
           placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
           style="width: 340px"
-        ></el-input>
+        ></el-input> -->
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
         <ul class="library-image__list clearfix" style="z-index:200">
@@ -135,7 +155,7 @@
           placeholder="请选择"
           clearable
           @change="codeModuleChange"
-          style="width: 240px"
+          style="width: 626px"
         >
           <el-option
             v-for="item in wechatPageTypeList"
@@ -365,7 +385,7 @@ export default {
         materialScriptType: 1
       },
       rules: {
-        name: [
+        pitTitle: [
           {
             required: true,
             message: '请输入标题',
@@ -378,7 +398,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        content: [
+        pitContent: [
           {
             required: true,
             message: '请输入推广文案',
@@ -407,7 +427,9 @@ export default {
       editIndex: 0,
       showEidtImg: '',
       tools: [],
-      limitIndex: 0
+      limitIndex: 0,
+      pitTitle: '',
+      pitContent: ''
     }
   },
   computed: {
@@ -443,6 +465,8 @@ export default {
         // }
       })
       this.model = tempModel
+      this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
+      this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
       this.catalogue = parentIds.map((id, index) => ({
         id: +id,
         name: parentNames[index]
@@ -642,6 +666,7 @@ export default {
     },
     doSave () {
       const params = { ...this.detail, ...this.model, mType: this.mType }
+      console.log(params)
       // 控制图片数量
       params.mediaList = this.mediaList
       // 带码状态
@@ -656,16 +681,18 @@ export default {
           break
         }
       }
+      params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
+      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-        this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-        this.loading = false
-        return
-      }
+      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
+      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
+      //   this.loading = false
+      //   return
+      // }
       this.$http
         .fetch(this.$api.guide.materialEdit, params)
         .then(resp => {
@@ -691,6 +718,12 @@ export default {
 <style scoped>
 @import '@theme/variables.pcss';
 @import '../styles/image.css';
+
+.top-title-view {
+  width: 626px;
+  height: 144px;
+}
+
 .guide-text {
   height: 22px;
   font-size: 14px;
@@ -711,7 +744,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 .guide-mask {
   position: absolute;
   top: 0;

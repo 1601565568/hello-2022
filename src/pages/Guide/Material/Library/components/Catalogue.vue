@@ -66,8 +66,8 @@
               <div
                 class="catalogue-materials__item--title catalogue-ellipsis"
                 :title="item.name"
+                v-html="strToRichText(item.name)"
               >
-                {{ item.name }}
               </div>
               <div class="catalogue-materials__item--desc">
                 <span>发布方：</span>
@@ -90,8 +90,8 @@
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <div slot="content">{{ item.content }}</div>
-                  <div>{{ item.content }}</div>
+                  <div slot="content" v-html="strToRichText(item.content)"></div>
+                  <div v-html="strToRichText(item.content)"></div>
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
@@ -361,6 +361,18 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     // 设置卡片容器宽度
     setWrapperW () {
       const wrapper = document.querySelector('.catalogue-wrapper')

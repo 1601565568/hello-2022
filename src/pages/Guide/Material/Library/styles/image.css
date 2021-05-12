@@ -17,6 +17,10 @@
   line-height:36px;
 }
 
+.top-title-view >>> .w-textarea_input {
+  min-height: 144px;
+}
+
 .cus-guide-info >>> .el-dialog {
   padding: 4px;
 }
