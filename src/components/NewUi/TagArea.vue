@@ -486,6 +486,6 @@ $textColor: #595959;
 }
 .emoji-icon {
   font-size: 16px;
-  color: #d9d9d9;
+  color: #0091FA;
 }
 </style>

@@ -113,9 +113,9 @@ export default {
 .drawer-sub-img {
   width: 375px;
   height: 257px;
-  border: 1px solid #d9d9d9;
   border-radius: 2px;
   margin-left: 32px;
+  object-fit: contain;
 }
 .close-view {
   height: 49px;
