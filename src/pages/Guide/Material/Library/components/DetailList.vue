@@ -266,6 +266,13 @@ export default {
         this.guideIdsStr = ''
         this.guideIds = []
       }
+      this.pagination = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+      // this.drawerInitData()
       this.loadList()
     },
     handleClose () {

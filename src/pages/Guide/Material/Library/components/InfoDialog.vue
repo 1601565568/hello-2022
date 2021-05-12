@@ -1,31 +1,30 @@
 <template>
-<div class="cus-guide-info">
-   <el-dialog
-    title="自创明细查看"
-    :visible.sync="dialogVisible"
-    width="658px"
-  >
-    <div class="dialog-view">
-      <div class="guide-info">
-        <span class="right">{{ metailInfo.shopName }}</span>
-        <span class="right">{{ metailInfo.guideName }}</span>
-        <span>{{ metailInfo.completionTime }}</span>
-      </div>
-      <div class="content-view">
-        {{ metailInfo.content }}
-      </div>
-      <div class="images-view">
-        <div v-for="(item, index) in metailInfo.mediaList" :key="index">
-          <img class="base-one" :src="item.url" />
+  <div class="cus-guide-info">
+    <el-dialog title="自创明细查看" :visible.sync="dialogVisible" width="658px">
+      <div class="dialog-view">
+        <div class="guide-info">
+          <span class="right">{{ metailInfo.shopName }}</span>
+          <span class="right">{{ metailInfo.guideName }}</span>
+          <span>{{ metailInfo.completionTime }}</span>
+        </div>
+        <div class="content-view">
+          {{ metailInfo.content }}
+        </div>
+        <div class="images-view">
+          <div v-for="(item, index) in metailInfo.mediaList" :key="index">
+            <img class="base-one" :src="item.url" @click="showPreview(index)" />
+          </div>
         </div>
       </div>
-    </div>
-  </el-dialog>
-</div>
+    </el-dialog>
+    <preview ref="preview"></preview>
+  </div>
 </template>
 
 <script>
+import Preview from '@/components/NsPreview'
 export default {
+  components: { Preview },
   name: 'infoDialog',
   props: {
     metailInfo: {
@@ -41,6 +40,13 @@ export default {
     }
   },
   methods: {
+    showPreview (index) {
+      let imgs = []
+      for (let item of this.metailInfo.mediaList) {
+        imgs.push(item.url)
+      }
+      this.$refs.preview.toggleShow(index, imgs, 'img')
+    },
     showDialog () {
       this.dialogVisible = true
     }

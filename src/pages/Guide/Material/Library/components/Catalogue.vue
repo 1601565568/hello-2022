@@ -91,7 +91,7 @@
                   popper-class="table-body__tooltip"
                 >
                   <div slot="content" v-html="strToRichText(item.content)"></div>
-                  <div v-html="strToRichText(item.content)"></div>
+                  <div v-html="strToRichText(item.content)" class="showContent"></div>
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
@@ -637,10 +637,9 @@ export default {
       }
       @m content {
         margin: 5px 0;
-        height: 40px;
         font-size: 12px;
         color: #606266;
-        line-height: 20px;
+        line-height: 22px;
       }
       @m action {
         margin: 15px 0;
