@@ -126,7 +126,7 @@
                   class="catalogue-materials__image"
                 >
                   <li class="test-li" v-for="(img, index) in item.mediaList" :key="index">
-                    <img v-if="img.pitType == 2" :src="defaultImgUrl"  @click="showGuideInfo(index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
+                    <img class="pit-img-view" v-if="img.pitType == 2" :src="defaultImgUrl"  @click="showGuideInfo(index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
                     <img
                       v-else
                       :style="{
@@ -447,6 +447,10 @@ export default {
   flex-direction: row; */
   margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
   list-style: none;
+}
+.pit-img-view {
+  border: 1px dashed #D9D9D9;
+  background-color: white;
 }
 @component-namespace catalogue {
   @b wrapper {

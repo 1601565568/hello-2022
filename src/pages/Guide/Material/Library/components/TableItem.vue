@@ -20,6 +20,7 @@
               alt=""
               v-if="item.pitType == 2"
               @click="showGuideInfo(index, item)"
+              class="pit-img-view"
             />
             <img
               :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
@@ -107,6 +108,10 @@ export default {
 }
 </script>
 <style scoped>
+.pit-img-view {
+  border: 1px dashed #D9D9D9;
+  background-color: white;
+}
 @component-namespace tableItem {
   @b content {
     @e tooltip {
