@@ -2,8 +2,8 @@
   <div class='analysis'>
     <div class='analysis-content'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="支付商户号：" class='el-form__change'>
-          <el-select v-model="model.payConfigId" placeholder="请选择" @change='(value)=>{changeSearchfrom({payConfigId:value})}'>
+        <el-form-item label="支付商户号：" class='el-form__change no-margin'>
+          <el-select v-model="model.payConfigId" placeholder="请选择" @change='handleChangePay'>
             <el-option
               v-for="item in payList"
               :key="item.value"
@@ -100,7 +100,7 @@ Index.components = {
 }
 </style>
 <style scoped>
-.analysis >>> .el-form-item.el-form__change {
+.analysis >>> .el-form-item.el-form__change.no-margin {
   margin-bottom: 0px;
 }
 .align-top {

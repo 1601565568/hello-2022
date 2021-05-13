@@ -67,6 +67,7 @@
         <template v-else>
           <el-table
             :data="_data._table.data"
+            v-loading.lock="_data._table.loadingtable"
             class="new-table_border"
             @sort-change="handleSort"
             style="width: 100%">

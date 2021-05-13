@@ -67,17 +67,32 @@ export default {
     this.getSendStatistics()
   },
   methods: {
+    /**
+     * 查看领取详情
+     * @param {*} id
+     */
     handlePreview (id) {
       this.activeId = id
       this.changeDrawer(true)
     },
+    /**
+     * 领取详情弹框开关
+     * @param {*} [drawer=!this.drawer]
+     */
     changeDrawer (drawer = !this.drawer) {
       this.drawer = drawer
     },
+    /**
+     * 修改支付
+     * @param {*} value
+     */
     handleChange (value) {
       this.getSendStatistics()
       this.changeSearchfrom({ payConfigId: value })
     },
+    /**
+     * 获取头部概览
+     */
     getSendStatistics () {
       this.$http.fetch(this.$api.guide.redpacket.getSendStatistics, { payConfigId: this.model.payConfigId }).then(res => {
         if (res.success) {

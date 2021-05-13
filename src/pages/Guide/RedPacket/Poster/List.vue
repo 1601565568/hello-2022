@@ -26,6 +26,7 @@
           <el-table
             :data="_data._table.data"
             class="new-table_border"
+            v-loading.lock="_data._table.loadingtable"
             @sort-change="handleSort"
             style="width: 100%">
             <el-table-column

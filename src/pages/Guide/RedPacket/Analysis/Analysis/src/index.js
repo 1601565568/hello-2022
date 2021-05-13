@@ -291,6 +291,17 @@ export default {
       this.changeDate(value)
       this.getEChateData()
       this.changeSearchfrom(this.model)
+    },
+    /**
+     * 修改支付配置
+     * @param {*} value
+     */
+    handleChangePay (value) {
+      // 头部概览数据
+      this.getSendStatistics()
+      // 图表数据
+      this.getEChateData()
+      this.changeSearchfrom({ payConfigId: value })
     }
   }
 }

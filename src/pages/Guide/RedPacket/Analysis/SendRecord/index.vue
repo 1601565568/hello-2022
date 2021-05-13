@@ -2,7 +2,7 @@
   <div class='analysis'>
     <div class='analysis-content'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="支付商户号：" class='el-form__change'>
+        <el-form-item label="支付商户号：" class='el-form__change no-margin'>
           <el-select v-model="model.payConfigId" placeholder="请选择" @change='handleChange'>
             <el-option
               v-for="item in payList"
@@ -73,6 +73,7 @@
     <div class='analysis-content'>
       <el-table
         :data="_data._table.data"
+        v-loading.lock="_data._table.loadingtable"
         class="new-table_border"
         style="width: 100%">
         <el-table-column
@@ -232,6 +233,9 @@ Index.components = {
 }
 </style>
 <style scoped>
+.analysis >>> .el-form-item.el-form__change.no-margin {
+  margin-bottom: 0px;
+}
 .align-top {
   align-items: flex-start;
 }

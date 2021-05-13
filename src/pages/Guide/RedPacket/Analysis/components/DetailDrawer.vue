@@ -19,6 +19,9 @@
                 <el-table-column
                   prop="nickname"
                   label="领取人">
+                  <template slot-scope="scope">
+                    {{scope.row.nickname || '-'}}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="payTime"
