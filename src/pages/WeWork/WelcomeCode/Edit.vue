@@ -671,7 +671,8 @@
             <el-form-grid>
               <div class="tmp-tips text-info">
                 <Icon type="info-circle" theme="filled" />
-                请确认小程序配置信息输入正确！
+                请先在企业微信后台将小程序配置到工作台
+                <MiniConfigHelp/>
               </div>
             </el-form-grid>
           </el-form-item>
