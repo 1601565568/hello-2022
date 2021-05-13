@@ -50,16 +50,8 @@ export default {
     let start = new Date(new Date().getTime() - 1 * 24 * 3600 * 1000)
     let date = new Date(start.getTime() - 6 * 24 * 3600 * 1000)
     let timeArr = []
-    if (date.getMonth() < 10) {
-      timeArr[0] = date.getFullYear() + '-' + '0' + (date.getMonth() + 1) + '-' + date.getDate()
-    } else {
-      timeArr[0] = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-    }
-    if (start.getMonth() < 10) {
-      timeArr[1] = start.getFullYear() + '-' + '0' + (start.getMonth() + 1) + '-' + start.getDate()
-    } else {
-      timeArr[1] = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-    }
+    timeArr[0] = this.getDate(date)
+    timeArr[1] = this.getDate(start)
     let model = Object.assign({},
       { 'guideIds': '', 'TheDate': '' },
       { TheDate: timeArr })
@@ -229,6 +221,14 @@ export default {
   methods: {
     resetInputAction: function () {
       this.$resetInputAction$()
+    },
+    getDate: function (date) {
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      month = month < 10 ? '0' + month : month
+      day = day < 10 ? '0' + day : day
+      return year + '-' + month + '-' + day
     },
     changeChartDataType: function () {
       let _this = this

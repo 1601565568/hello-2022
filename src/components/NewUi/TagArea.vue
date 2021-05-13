@@ -43,7 +43,7 @@
     </div>
     <div
       :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
-      :contenteditable='!disabled'
+      :contenteditable='contenteditable'
       :ref="className"
       :id="contentId"
       @blur="handleBlur()"
@@ -120,6 +120,14 @@ export default {
       let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
+    },
+    contenteditable () {
+      const userAgent = navigator.userAgent
+      // 火狐只支持true 不支持 plaintext-only
+      if (userAgent.indexOf('Firefox') > -1) {
+        return !this.disabled
+      }
+      return this.disabled ? false : 'plaintext-only'
     }
   },
   mounted () {
@@ -133,6 +141,7 @@ export default {
       const dom = document.getElementsByClassName(this.className)[0]
       this.currentText = dom.innerText
     }, 1000)
+    this.$refs[this.className].innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件
@@ -145,8 +154,8 @@ export default {
       node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
-      node.className = this.emojiClass + val
       node.setAttribute('contenteditable', false)
+      node.className = this.emojiClass + val
       this.addNode(node)
     },
     updateData (text) {
@@ -223,6 +232,9 @@ export default {
       // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
       // console.log(this.savedRange)
+      if (this.disabled) {
+        return false
+      }
       this.savedRange.insertNode(node)
       this.endDon = node
       this.endOffset = this.savedRange.endOffset
@@ -297,7 +309,7 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {
@@ -329,17 +341,19 @@ export default {
     },
     // 替换标签成文字
     htmlToText (html) {
-      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     }
   },
   watch: {
-    value: {
-      handler (val) {
-        this.$nextTick(() => {
-          this.$refs[this.className].innerHTML = val
-        })
-      },
-      immediate: true
+    value (val) {
+      // 非锁定状态下，实时更新innerHTML
+      // if (!this.isLocked) {
+      //   // this.$refs.wTextareaContent.innerHTML = val
+      // }
+      // this.$refs.wTextareaContent.innerHTML = val
+      if (this.disabled) {
+        this.$refs[this.className].innerHTML = val
+      }
     }
   }
 }
