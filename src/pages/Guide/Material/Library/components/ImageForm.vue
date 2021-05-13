@@ -387,7 +387,7 @@ export default {
         materialScriptType: 1
       },
       rules: {
-        pitTitle: [
+        name: [
           {
             required: true,
             message: '请输入标题',
@@ -400,7 +400,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        pitContent: [
+        content: [
           {
             required: true,
             message: '请输入推广文案',

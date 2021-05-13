@@ -151,11 +151,11 @@ export default {
         subdivisionIds: null
       },
       rules: {
-        pitTitle: [
+        name: [
           { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
           { min: 0, max: 150, message: '限制长度在150个字符以内', trigger: ['blur', 'change'] }
         ],
-        pitContent: [
+        content: [
           { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
           { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
