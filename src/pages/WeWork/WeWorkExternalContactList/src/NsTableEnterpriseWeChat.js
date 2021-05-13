@@ -54,7 +54,8 @@ export default {
         employeeIds: [],
         externalName: '',
         addFriendChannel: '',
-        addTime: []
+        addTime: [],
+        areaId: this.$store.state.user.area.id
       }, {})
 
     quickInput.map(item => {
@@ -121,7 +122,6 @@ export default {
     NsWechatEmoji,
     NsEmployeeSelect
   },
-  watch: {},
   methods: {
     // 批量打标点击事件
     batchMarking: function () {

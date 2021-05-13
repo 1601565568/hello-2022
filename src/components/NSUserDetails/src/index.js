@@ -80,7 +80,7 @@ export default {
             }
           }
         }).catch((resp) => {
-          this.$notify.error('查询失败')
+          this.$notify.error('好友在视角中不存在，无法查看详情')
         })
       } else {
         this.$notify.warning('好友UNION_ID不存在,不支持查询详情')
