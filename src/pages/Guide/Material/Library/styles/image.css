@@ -44,3 +44,10 @@
   font-size: 14px;
   color: #BFBFBF;
 }
+
+.top-input-view >>> .el-textarea input::-moz-input-placeholder {
+  color:#BFBFBF;
+}
+.top-input-view >>> .el-textarea__inner::-webkit-input-placeholder {
+  color:#BFBFBF;
+}
