@@ -2,25 +2,27 @@
   <div class="library-video">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <div class="top-title-view">
+        <!-- <div class="top-title-view">
           <tag-area
             :maxlength="150"
             placeholder="请输入标题，长度在150个字符以内"
-            :showEmoji="true"
+            :showEmoji="false"
             v-model="pitTitle"
             :tools="tools"
             ref="tagTitle"
           ></tag-area>
+        </div> -->
+        <div class="top-input-view">
+          <el-input
+            type="textarea"
+            maxlength="150"
+            v-model="model.name"
+            placeholder="请输入标题，长度在150个字符以内"
+            style="width: 626px"
+            :input="model.name=model.name.replace(/\s+/g,'')"
+            clearable
+          ></el-input>
         </div>
-        <!-- <el-input
-          type="textarea"
-          maxlength="150"
-          v-model="model.name"
-          placeholder="请输入标题，长度在150个字符以内"
-          style="width: 260px"
-          :input="model.name=model.name.replace(/\s+/g,'')"
-          clearable
-        ></el-input> -->
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
@@ -263,7 +265,7 @@ export default {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.mediaList = this.mediaList
-      params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
+      // params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.materialScriptType = 1
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {

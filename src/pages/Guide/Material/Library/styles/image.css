@@ -19,6 +19,8 @@
 
 .top-title-view >>> .w-textarea_input {
   min-height: 144px;
+  max-height: 144px;
+  overflow: scroll;
 }
 
 .cus-guide-info >>> .el-dialog {
@@ -37,4 +39,8 @@
   width:114px;
   height:100%;
   line-height: 114px;
+}
+.top-input-view >>> .el-input--small {
+  font-size: 14px;
+  color: #BFBFBF;
 }
