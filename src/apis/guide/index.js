@@ -90,6 +90,11 @@ export default {
   /**
    * 素材相关接口
    */
+  findMaterialListByShare: {
+    // 素材分享
+    url: '/guide/material/findMaterialListByShare',
+    method: 'post'
+  },
   materialList: {
     // 素材列表
     url: '/guide/material/findMaterialList',
