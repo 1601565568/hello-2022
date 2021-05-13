@@ -467,7 +467,7 @@ export default {
         // }
       })
       this.model = tempModel
-      this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
+      // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
       this.catalogue = parentIds.map((id, index) => ({
         id: +id,
