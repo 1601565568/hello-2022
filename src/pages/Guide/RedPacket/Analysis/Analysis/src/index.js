@@ -233,7 +233,6 @@ export default {
           this.setChartData(0, 0, 0, data)
         }
       })
-      console.log(data)
       return data
     },
     /**
