@@ -9,11 +9,11 @@
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
-          <el-form-item label="">
+          <!-- <el-form-item label="">
             <el-input v-model="model.operatorName" placeholder="请输入创建人名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </template>
       <!-- 搜索 end -->
