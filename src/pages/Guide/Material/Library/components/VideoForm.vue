@@ -193,6 +193,7 @@ export default {
       this.model = tempModel
       // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
     },
     pitContent (newObj) {
