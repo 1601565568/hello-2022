@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container out-content ' :model='model' :rules="rules"  size='medium' :disabled='disabled'>
+  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container out-content ' :model='model' :rules="rules"  size='medium' :disabled='disabled' @submit.native.prevent>
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>

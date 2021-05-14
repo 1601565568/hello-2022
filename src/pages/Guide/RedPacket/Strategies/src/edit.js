@@ -7,6 +7,13 @@ import redpacketEdit from '../../mixins/redpacketEdit'
 export default {
   mixins: [redpacketEdit],
   data () {
+    const validateLength = (length, rule, value, callback) => {
+      if (value.length > length) {
+        callback(new Error(`长度在1-${length}字符`))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions: {
         disabledDate (time) {
@@ -42,7 +49,8 @@ export default {
         ],
         name: [
           { required: true, message: '请输入红包名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 10, message: '长度在1-10字符', trigger: ['blur', 'change'] }
+          { validator: validateLength.bind(this, 10), trigger: ['blur', 'change'] }
+          // { min: 1, max: 10, message: '长度在1-10字符', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
@@ -63,7 +71,9 @@ export default {
           { validator: ValidateUtil.intervalMoney.bind(this, 0.3, 5000), trigger: ['blur', 'change'] }
         ],
         benediction: [
-          { min: 1, max: 25, message: '长度在1-25个字符', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入红包祝福语', trigger: ['blur', 'change'] },
+          { validator: validateLength.bind(this, 25), trigger: ['blur', 'change'] }
+          // { min: 1, max: 25, message: '长度在1-25个字符', trigger: ['blur', 'change'] },
         ]
       },
       visible: false, // 选择海报弹框
