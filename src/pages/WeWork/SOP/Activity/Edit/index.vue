@@ -19,7 +19,7 @@
           <el-form-item label="名称" prop="name" required>
             <el-input v-model="model.name" placeholder="请输入名称" class="el-input" :length="10"></el-input>
           </el-form-item>
-          <el-form-item label="发送群" prop="chatRoomIdList" required>
+          <!-- <el-form-item label="发送群" prop="chatRoomIdList" required>
             <div class="select-area">
               <NsChatRoomDialog
                 btnTitle="选择已有群聊"
@@ -34,6 +34,22 @@
                   </el-input>
                 </div>
               </NsChatRoomDialog>
+            </div>
+          </el-form-item> -->
+          <el-form-item label="发送群" prop="chatRoomIdList" required>
+            <NsRoomDialog
+              :visible.sync="roomDialogVisible"
+              :chatIds.sync="model.chatRoomIdList"
+            />
+            <div class="select-area">
+              <div
+                class="select-tips"
+                @click="roomDialogVisible = true"
+              >
+                <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
+                  <Icon type="geren" class="icon" slot="suffix"></Icon>
+                </el-input>
+              </div>
             </div>
           </el-form-item>
           <div style="position: relative">
@@ -175,6 +191,7 @@ import PageEdit from '@/components/NewUi/PageEdit'
 import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import NsChatRoomDialog from '@/components/NsChatRoomDialog'
+import NsRoomDialog from '@/components/NsRoomDialog'
 import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
 import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
 import WechatMessageBar from './WechatMessageBar'
@@ -185,7 +202,8 @@ export default {
     PageEdit,
     SimpleCollapse,
     PhoneBox,
-    NsChatRoomDialog,
+    // NsChatRoomDialog,
+    NsRoomDialog,
     MessagePreviewPanel,
     TextMessage,
     ImageMessage,
@@ -225,6 +243,8 @@ export default {
   },
   data () {
     return {
+      test: [ 'wraQfGDQAAJgQCRn4aIOsbN1balDuV3Q', 'wraQfGDQAA20PS7x3olaip6zWb6N9vmg', 'wraQfGDQAAb6YBajyT4sFqVsB0rbxr1A' ],
+      roomDialogVisible: false,
       SOPActivityMessageType: SOPActivityMessageType,
       SOPExamineStatus: SOPExamineStatus,
       btnLoading: false,
