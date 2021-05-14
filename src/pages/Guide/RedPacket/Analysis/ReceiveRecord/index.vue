@@ -109,12 +109,22 @@
               label="支付商户号">
             </el-table-column>
             <el-table-column
+              prop="redpackType"
+              label="红包类型">
+              <template slot-scope="scope">
+                {{redpacketTypeMap[scope.row.redpackType]}}
+              </template>
+            </el-table-column>
+            <el-table-column
               prop="sendName"
               label="发放人">
             </el-table-column>
             <el-table-column
               prop="workNumber"
               label="工号">
+              <template slot-scope="scope">
+                {{scope.row.workNumber || '-'}}
+              </template>
             </el-table-column>
             <el-table-column
               prop="shopNames"

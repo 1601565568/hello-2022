@@ -80,19 +80,35 @@ export default {
      * @param {*} data
      */
     handleExport (data) {
+      this.$notify.info('导出中，请稍后片刻')
       const url = this.exportApi
       const form = document.createElement('form')
+      // let str = ''
       Object.keys(data).map(item => {
         if (Array.isArray(data[item])) {
           form.appendChild(this.generateHideElement(item, data[item].join(',')))
+          // str += `${item}=${data[item].join(',')}&`
         } else {
+          // str += `${item}=${data[item]}&`
           form.appendChild(this.generateHideElement(item, data[item]))
         }
       })
+      // this.$http.fetch({ url: 'redpack/record/receiver/export',
+      //   method: 'post',
+      //   responseType: 'blob',
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded'
+      //   } }, str)
+      //   .then(data => {
+      //   })
+      //   .catch(error => {
+      //   })
+      // console.log(this.$http.fetch)
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
       form.submit()
+      // console.log(form.submit)
     }
   }
 }
