@@ -464,6 +464,9 @@ export default {
   border: 1px dashed #D9D9D9;
   background-color: white;
 }
+.showContent {
+  word-break: break-all;
+}
 @component-namespace catalogue {
   @b wrapper {
     margin-bottom: 10px;

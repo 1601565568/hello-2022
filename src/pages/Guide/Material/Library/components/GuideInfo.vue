@@ -108,7 +108,15 @@ export default {
   padding-bottom: 33px;
   border-bottom: 1px solid #e8e8e8;
   max-height: 350px;
-  overflow: scroll;
+  overflow: auto;
+}
+.drawer-sub-cont::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.drawer-sub-cont::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #9093994d;
 }
 .drawer-sub-img {
   width: 375px;
