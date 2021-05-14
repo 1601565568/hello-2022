@@ -476,6 +476,9 @@ export default {
     },
     'model.codeType' (newVal) {
       this.imageNum = newVal === 2 ? 8 : 9
+    },
+    pitContent (newObj) {
+      this.model.content = this.$refs.tagContent.htmlToString(newObj)
     }
   },
   methods: {

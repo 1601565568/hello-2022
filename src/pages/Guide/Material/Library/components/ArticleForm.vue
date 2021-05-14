@@ -291,6 +291,9 @@ export default {
         id: +id,
         name: parentNames[index]
       }))
+    },
+    pitContent (newObj) {
+      this.model.content = this.$refs.tagContent.htmlToString(newObj)
     }
   },
   methods: {

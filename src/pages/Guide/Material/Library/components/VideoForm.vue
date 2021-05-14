@@ -194,6 +194,9 @@ export default {
       // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+    },
+    pitContent (newObj) {
+      this.model.content = this.$refs.tagContent.htmlToString(newObj)
     }
   },
   methods: {
