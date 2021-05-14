@@ -97,11 +97,11 @@
               <div class="library-image__mask">
                 <div v-if="item.pitType == 1">
                   <Icon type="zoom-in" @click="previewImage(index)" />
-                  <Icon type="delete" @click="removeImage(index)" />
+                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
                 </div>
                 <div v-else>
                   <Icon type="bianji" @click="editImage(index)" />
-                  <Icon type="delete" @click="removeImage(index)" />
+                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
                 </div>
               </div>
             </li>
@@ -281,7 +281,7 @@
               style="width:114px;height:114x;position:relative;"
             >
               <div class="guide-mask">
-                <Icon type="delete" @click="removeGuideImage" />
+                <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
               </div>
               <img
                 :src="showEidtImg"
