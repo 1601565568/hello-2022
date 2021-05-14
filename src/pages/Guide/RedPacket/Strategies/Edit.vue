@@ -97,7 +97,7 @@
                 </div>
               </el-form-item>
               <el-form-item label='红包总数（个）' required prop='total' class='larger-item'>
-                <length-input v-model='model.total' placeholder="请输入红包总数" oninput="value=value.replace(/[^\d]/g,'')"  :length='10'/>
+                <length-input v-model='model.total' placeholder="请输入红包总数" @input="(value)=>{model.total = value.replace(/[^\d]/g,'')}"  :length='10'/>
                 <p class='prompt-text'><span class='yellow-point'></span>控制此红包的总个数，全部发送完后，则不可发放此红包</p>
               </el-form-item>
               <el-form-item label='单人单日发放个数上限（个）' required class='larger-item'>
@@ -111,7 +111,7 @@
                 </div>
                 <div v-if='model.limitType === 1'>
                   <el-form-item label-width="0px" label=' '  prop='everyoneLimit' hide-required-asterisk  ref='limitTypeItem'>
-                    <length-input v-model='model.everyoneLimit'  oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入单人单日发放个数上限" :length='10'/>
+                    <length-input v-model='model.everyoneLimit' @input="(value)=>{model.everyoneLimit = value.replace(/[^\d]/g,'')}" placeholder="请输入单人单日发放个数上限" :length='10'/>
                   </el-form-item>
                 </div>
               </el-form-item>
@@ -136,7 +136,7 @@
         <recruitment-collapse title='红包信息' phoneTitle=''>
           <template slot='collapse-left'>
             <el-form-item v-if='model.redpackType === normalRed' label='红包金额（元）' required prop='money' class='larger-item'>
-              <length-input v-model='model.money' oninput="value=value.replace(/[^\d.]/g,'')"/>
+              <length-input v-model='model.money' @input="(value)=>{model.money = value.replace(/[^\d.]/g,'')}"/>
               <p class='prompt-text'><span class='yellow-point'></span>单红包金额的范围为0.3~5000</p>
             </el-form-item>
             <el-form-item v-else-if='model.redpackType === luckyRed' label='红包金额（元）' class='larger-item is-required'>
@@ -146,7 +146,7 @@
                     { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
                     { validator: ValidateUtil.intervalMoney.bind(this, 0.3, model.moneyMax || 5000), trigger: ['blur', 'change'] }
                   ]">
-                  <length-input v-model='model.moneyMin'/>
+                  <length-input v-model='model.moneyMin' @input="(value)=>{model.moneyMin = value.replace(/[^\d.]/g,'')}"/>
                 </el-form-item>
                 <span class='chain'></span>
                 <el-form-item label=' ' prop='moneyMax' class='larger-item' :rules="[
@@ -154,7 +154,7 @@
                     { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
                     { validator: ValidateUtil.intervalMoney.bind(this, model.moneyMin || 0.3, 5000), trigger: ['blur', 'change'] }
                   ]">
-                  <length-input v-model='model.moneyMax'/>
+                  <length-input v-model='model.moneyMax' @input="(value)=>{model.moneyMax = value.replace(/[^\d.]/g,'')}"/>
                 </el-form-item>
               </div>
               <p class='prompt-text'><span class='yellow-point'></span>每个拼手气红包的总金额</p>
@@ -166,7 +166,7 @@
                     { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
                     { validator: ValidateUtil.intervalMoney.bind(this, 0.3, model.moneyMax || 5000), trigger: ['blur', 'change'] }
                   ]">
-                  <length-input v-model='model.moneyMin' oninput="value=value.replace(/[^\d.]/g,'')"/>
+                  <length-input v-model='model.moneyMin' @input="(value)=>{model.moneyMin = value.replace(/[^\d.]/g,'')}"/>
                 </el-form-item>
                 <span class='chain'></span>
                 <el-form-item label=' ' prop='moneyMax' class='larger-item' :rules="[
@@ -174,7 +174,7 @@
                     { validator: ValidateUtil.isPositiveMoney, trigger: ['blur', 'change'] },
                     { validator: ValidateUtil.intervalMoney.bind(this, model.moneyMin || 0.3, 5000), trigger: ['blur', 'change'] }
                   ]">
-                  <length-input v-model='model.moneyMax' oninput="value=value.replace(/[^\d.]/g,'')"/>
+                  <length-input v-model='model.moneyMax' @input="(value)=>{model.moneyMax = value.replace(/[^\d.]/g,'')}"/>
                 </el-form-item>
               </div>
             </el-form-item>

@@ -41,11 +41,11 @@
             </el-table-column>
             <el-table-column prop="status" label="门店状态" align="center" width="120">
               <template slot-scope="scope">
-                <div v-if="scope.row.status === 2">
-                  <p>关店</p>
-                </div>
-                <div v-else>
-                  <p>营业中</p>
+                <div>
+                  {{scope.row.shopStatus === -2 ? '暂停' : ''}}
+                  {{scope.row.shopStatus === -1 ? '关店' : ''}}
+                  {{scope.row.shopStatus === -0 ? '删除' : ''}}
+                  {{scope.row.shopStatus === 1 ? '正常' : ''}}
                 </div>
               </template>
             </el-table-column>
