@@ -4,7 +4,7 @@
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="使用员工：">
+          <el-form-item label="使用范围：">
             <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}">
               <template slot='selfBtn'>
                 <div class='self-btn'>
@@ -116,7 +116,7 @@
       <!-- 页面 end -->
     </page-table>
     <el-dialog ref="friendsList" :visible.sync="visible"
-               :title="model.useType === 2?'使用门店':'使用员工'"
+               :title="chooseItem.useType === 2?'使用门店':'使用员工'"
                width="960px">
       <user-list v-if='visible' ref='employeeTable' :data="chooseItem"></user-list>
       <div slot="footer" class="dialog-footer">

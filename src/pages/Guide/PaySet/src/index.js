@@ -181,7 +181,7 @@ export default {
         this.handleCancel()
       }).catch((resp) => {
         this.btnLoad = false
-        this.$notify.error(getErrorMsg('保存失败', resp))
+        this.$notify.error(resp.msg)
       })
     },
     handleRemove () {
