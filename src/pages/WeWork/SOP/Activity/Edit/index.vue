@@ -19,7 +19,7 @@
           <el-form-item label="名称" prop="name" required>
             <el-input v-model="model.name" placeholder="请输入名称" class="el-input" :length="10"></el-input>
           </el-form-item>
-          <!-- <el-form-item label="发送群" prop="chatRoomIdList" required>
+          <el-form-item label="发送群" prop="chatRoomIdList" required>
             <div class="select-area">
               <NsChatRoomDialog
                 btnTitle="选择已有群聊"
@@ -35,8 +35,8 @@
                 </div>
               </NsChatRoomDialog>
             </div>
-          </el-form-item> -->
-          <el-form-item label="发送群" prop="chatRoomIdList" required>
+          </el-form-item>
+          <!-- <el-form-item label="发送群" prop="chatRoomIdList" required>
             <NsRoomDialog
               :visible.sync="roomDialogVisible"
               :chatIds.sync="model.chatRoomIdList"
@@ -51,7 +51,7 @@
                 </el-input>
               </div>
             </div>
-          </el-form-item>
+          </el-form-item> -->
           <div style="position: relative">
             <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
               <el-radio-group v-model="model.sendType">
@@ -202,8 +202,8 @@ export default {
     PageEdit,
     SimpleCollapse,
     PhoneBox,
-    // NsChatRoomDialog,
-    NsRoomDialog,
+    NsChatRoomDialog,
+    // NsRoomDialog,
     MessagePreviewPanel,
     TextMessage,
     ImageMessage,
