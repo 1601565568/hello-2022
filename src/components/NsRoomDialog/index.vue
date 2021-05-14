@@ -389,7 +389,6 @@ export default {
     async findChatRoomsByRoomId (roomIds) {
       try {
         const res = await this.$http.fetch(this.$api.guide.chatRoomConfig.findByChatIds, { chatIds: roomIds })
-        window.console.log('群列表详情', res)
         return res.result
       } catch (error) {
         this.$notify.error('查询已选群失败')
@@ -401,7 +400,6 @@ export default {
     getAreasAndShops () {
       this.$http.fetch(this.$api.core.sysShop.getShopTree)
         .then((resp) => {
-          window.console.log('获取区域树', resp)
           this.areas = resp.result.shopAreaTree
           this.allShops = resp.result.shopOptions
           this.shops = resp.result.shopOptions
