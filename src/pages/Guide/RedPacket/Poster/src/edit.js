@@ -3,6 +3,13 @@ import redpacketEdit from '../../mixins/redpacketEdit'
 export default {
   mixins: [redpacketEdit],
   data () {
+    const validateLength = (length, rule, value, callback) => {
+      if (value.length > length) {
+        callback(new Error(`长度在1-${length}字符`))
+      } else {
+        callback()
+      }
+    }
     return {
       model: {
         name: '', // 封面名称
@@ -12,7 +19,8 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入封面名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 10, message: '长度在1-10个字符', trigger: ['blur', 'change'] }
+          // { min: 1, max: 10, message: '长度在1-10个字符', trigger: ['blur', 'change'] },
+          { validator: validateLength.bind(this, 10), trigger: ['blur', 'change'] }
         ],
         background: [
           { required: true, message: '请选择红包背景图', trigger: ['blur', 'change'] }

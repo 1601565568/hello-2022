@@ -3,7 +3,7 @@
     <page-table title=''>
       <!-- 搜索 start -->
       <template slot='search'>
-        <el-form :inline="true" class='form-inline_top'>
+        <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
           <el-form-item label="">
             <el-input v-model="model.name" placeholder="请输入封面名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
