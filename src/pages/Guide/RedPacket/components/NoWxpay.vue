@@ -17,11 +17,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .empty-content {
-  height: calc(100vh - 280px);
+  height: calc(100vh - 228px);
   display: flex;
   justify-content: center;
   background-color: #fff;
   align-items: center;
+  .empty {
+    position: relative;
+    top: -40px;
+  }
   .empty-img {
     display: block;
     width: 220px;
