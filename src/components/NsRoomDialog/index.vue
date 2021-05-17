@@ -68,7 +68,7 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" prop="person_num" label="群成员"/>
-          <el-table-column :show-overflow-tooltip="true" prop="workShopName" label="群主工作门店"/>
+          <el-table-column :show-overflow-tooltip="true" prop="workShopName" label="群主工作门店" width="100"/>
         </el-table>
         <el-pagination
           v-if="_data._pagination.enable"

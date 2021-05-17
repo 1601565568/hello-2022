@@ -109,10 +109,10 @@ export default {
           this.$refs.ruleForm.clearValidate()
           this.close()
         } else {
-          const text = this.$refs.TagAreaText.htmlToText(this.defaultModel.htmlContent)
-          if (text.length === 0) {
+          if (!this.defaultModel.htmlContent) {
             this.$notify.warning('请输入文本内容')
           }
+          const text = this.$refs.TagAreaText.htmlToText(this.defaultModel.htmlContent)
           if (text.length > 1000) {
             this.$notify.warning('最多1000个字符')
           }
