@@ -26,6 +26,7 @@
           <h3 class='packet-name'>{{redpacketTypeMap[checkItem.redpackType]}}</h3>
           <div class='packet-detail'>有效期：{{checkItem.timeType === timeTypeForever ? '永久有效' : `${checkItem.startTime}至${checkItem.endTime}`}}</div>
           <div class='packet-detail'>红包总数：{{checkItem.total}}个</div>
+          <div class='packet-detail'>剩余个数：{{checkItem.remainder}}个</div>
           <div class='packet-detail' v-if='checkItem.redpackType === normalRed'>单个金额：{{checkItem.money/100 | moneyStr}}元</div>
           <div class='packet-detail' v-else>红包金额：{{checkItem.moneyMin/100 | moneyStr}}-{{checkItem.moneyMax/100 | moneyStr}}元（员工自定义）</div>
           <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>

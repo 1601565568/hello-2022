@@ -72,6 +72,7 @@ export default {
      */
     handleEdit (item) {
       this.drawerData = this.formatData(item, 'load')
+      this.certName = this.drawerData.cert
       this.drawerKey = item.key
       this.changeVisible(true)
     },
@@ -133,6 +134,7 @@ export default {
       this.$refs.form.resetFields()
       this.changeVisible(false)
       this.drawerData = {}
+      this.certName = ''
       this.drawerKey = ''
     },
     /**
