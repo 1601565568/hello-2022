@@ -222,10 +222,11 @@ export default {
       const data = this.setDefaultChartData()
       dateList.map(item => {
         if (list.length) {
-          if (item === list[0].dayTime) {
-            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[0]
+          const zIndex = list.findIndex((cTime) => cTime.dayTime === item)
+          if (zIndex !== -1) {
+            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[zIndex]
             this.setChartData(todaySendMoney / 100, guideSendMoney / 100, fissionSendMoney / 100, data)
-            list.shift()
+            // list.shift()
           } else {
             this.setChartData(0, 0, 0, data)
           }

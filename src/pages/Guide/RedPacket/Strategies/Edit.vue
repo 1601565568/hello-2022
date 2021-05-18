@@ -214,7 +214,7 @@
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
       :visible.sync="visible">
-      <PosterList v-if='visible' ref='fullDialog' :checked='model.coverId'/>
+      <PosterList v-if='visible' ref='fullDialog' :background='posterInfo.background' :checked='model.coverId'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="changeVisible(false)">取 消</ns-button>
         <ns-button type="primary" @click="handleSure">确 定</ns-button>

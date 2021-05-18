@@ -87,17 +87,21 @@ export default {
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList,
-      checkItem: { id: null }
+      checkItem: {
+        id: null,
+        background: ''
+      }
     }
   },
   mixins: [tableMixin],
   components: {
     PageTable, PreviewRedPacket
   },
-  props: ['checked'],
+  props: ['checked', 'background'],
   mounted () {
     this.$reload()
     this.checkItem.id = this.checked
+    this.checkItem.background = this.background
   },
   methods: {
     handleSearch () {

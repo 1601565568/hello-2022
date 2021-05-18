@@ -83,7 +83,7 @@
               label="红包有效期">
               <template slot-scope="scope">
                 <template v-if='scope.row.timeType === timeTypeInterval'>{{scope.row.startTime}}-{{scope.row.endTime}}</template>
-                <template v-else>永久有效</template>
+                <template v-else>不限</template>
               </template>
             </el-table-column>
             <el-table-column
