@@ -138,7 +138,8 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: '全部动作'
+      actionValue: '全部动作',
+      guideIds: []
     }
   },
   methods: {
@@ -146,7 +147,8 @@ export default {
       this.drawer = !this.drawer
     },
     handleClose () {},
-    handleClick (tab, event) {}
+    handleClick (tab, event) {},
+    handleChangeGuide () {}
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
-        <div v-for="item in dataList" :key="item">
+        <div v-for="(item,index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
@@ -274,7 +274,7 @@ export default {
 
     },
     showMoreData () {
-      this.$refs.timeList.closeDeawer()
+      // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
     }
   }
@@ -286,7 +286,7 @@ export default {
 @import './styles/index.css';
 .material-data {
   background-color: white;
-  width: 1206px;
+  /* width: 1206px; */
   padding-bottom: 24px;
   .top-view {
     display: flex;
@@ -322,7 +322,7 @@ export default {
     margin-right: 16px;
   }
   .base-cell {
-    width: 183px;
+    width: 245px;
     height: 120px;
     background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
     border-radius: 4px;
@@ -371,7 +371,8 @@ export default {
   background-color: white;
   padding-left: 16px;
   padding-right: 16px;
-  width: 1206px;
+  width: 100%;
+  /* width: 1206px; */
   .material-chat {
     .title {
       font-size: 16px;
@@ -384,7 +385,7 @@ export default {
 }
 .material-list {
   background-color: white;
-  width: 1206px;
+  /* width: 1206px; */
   .title {
     font-size: 16px;
     color: #262626;

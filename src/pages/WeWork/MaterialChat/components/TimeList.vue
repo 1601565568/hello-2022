@@ -148,7 +148,8 @@ export default {
         }
       ],
       actionValue: '全部动作',
-      inputTime: ''
+      inputTime: '',
+      guideIds: []
     }
   },
   methods: {
@@ -156,7 +157,8 @@ export default {
       this.drawer = !this.drawer
     },
     handleClose () {},
-    handleClick (tab, event) {}
+    handleClick (tab, event) {},
+    handleChangeGuide () {}
   }
 }
 </script>
