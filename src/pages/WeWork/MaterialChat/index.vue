@@ -3,7 +3,7 @@
     <div class="material-data">
       <div class="top-view">
         <div class="title">素材库累计数据</div>
-        <div class="unDoneData">查看未执行统计</div>
+        <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
         <div v-for="item in dataList" :key="item">
@@ -265,12 +265,17 @@ export default {
     }
   },
   methods: {
+    lookNoStatistical () {
+      this.$router.push({
+        path: '/Social/OperationData/NoStatistical'
+      })
+    },
     handleClick () {
 
     },
     showMoreData () {
       this.$refs.timeList.closeDeawer()
-      // this.$refs.detaList.closeDeawer()
+      this.$refs.detaList.closeDeawer()
     }
   }
 }
