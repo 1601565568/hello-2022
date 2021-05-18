@@ -51,6 +51,7 @@
         </template>
       </page-table>
     </div>
+    <UnDone ref="undone"/>
   </div>
 </template>
 
@@ -58,12 +59,14 @@
 import PageTable from '@/components/NewUi/PageTable'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
+import UnDone from './components/UnDone'
 export default {
   name: 'noStatistical',
   components: {
     PageTable,
     ElBreadcrumb,
-    ElBreadcrumbItem
+    ElBreadcrumbItem,
+    UnDone
   },
   data () {
     return {
@@ -94,7 +97,9 @@ export default {
     }
   },
   methods: {
-    showMoreData () {}
+    showMoreData () {
+      this.$refs.undone.closeDeawer()
+    }
   }
 }
 </script>
