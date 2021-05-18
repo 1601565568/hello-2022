@@ -1,9 +1,22 @@
 <template>
   <div>
+    <div class="header-view">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>数据运营</el-breadcrumb-item>
+        <el-breadcrumb-item>企微运营数据</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/OperationData/MaterialChat' }">素材库行为统计</el-breadcrumb-item>
+        <el-breadcrumb-item>未执行统计</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="name-view">未执行统计</div>
     <div class="output-view">
       <div class="no-input-view">
-        <el-input v-model="input" placeholder="请输入素材标题">
-          <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px"></Icon>
+        <el-input v-model="inputTitle" placeholder="请输入素材标题">
+          <Icon
+            type="ns-search-copy"
+            slot="suffix"
+            style="font-size: 24px; margin-top: 2px"
+          ></Icon>
         </el-input>
       </div>
       <div class="output-button">导出CSV文件</div>
@@ -43,10 +56,14 @@
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 export default {
   name: 'noStatistical',
   components: {
-    PageTable
+    PageTable,
+    ElBreadcrumb,
+    ElBreadcrumbItem
   },
   data () {
     return {
@@ -72,14 +89,19 @@ export default {
           send: '789787',
           dowm: '47867979'
         }
-      ]
+      ],
+      inputTitle: ''
     }
+  },
+  methods: {
+    showMoreData () {}
   }
 }
 </script>
 
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
+@import '@theme/variables.pcss';
 @import './styles/index.css';
 .output-view {
   background-color: white;
@@ -96,8 +118,8 @@ export default {
 .output-button {
   width: 116px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   font-size: 14px;
   color: #595959;
@@ -105,6 +127,7 @@ export default {
   line-height: 22px;
   font-weight: 400;
   line-height: 32px;
+  cursor: pointer;
 }
 .chat-bg {
   background-color: white;
@@ -114,7 +137,7 @@ export default {
   padding-left: 16px;
   margin-left: 16px;
   margin-right: 16px;
-  background: #F2F9FE;
+  background: #f2f9fe;
   border-radius: 2px;
   height: 40px;
   font-size: 14px;
@@ -132,5 +155,27 @@ export default {
   font-size: 14px;
   color: #0094fc;
   font-weight: 400;
+}
+.name-view {
+  height: 48px;
+  background-color: white;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: 500;
+  line-height: 48px;
+  padding-left: 16px;
+}
+.header-view {
+  background-color: white;
+  height: 46px;
+  font-size: 14px;
+  line-height: 46px;
+  padding-left: 16px;
+  line-height: 46px;
+}
+.header-view >>> .el-breadcrumb {
+  line-height: 46px;
 }
 </style>

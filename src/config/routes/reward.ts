@@ -73,7 +73,7 @@ export default {
         },
         {
           path: '/Social/OperationData/NoStatistical',
-          name: 'MaterialChat',
+          name: 'NoStatistical',
           title: '未执行统计',
           component: () => import('@/pages/WeWork/MaterialChat/noStatistical.vue')
         }
