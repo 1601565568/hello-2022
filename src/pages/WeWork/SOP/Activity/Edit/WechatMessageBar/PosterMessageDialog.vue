@@ -78,13 +78,14 @@ export default {
     },
     confirm () {
       const model = this.$refs.qrcode.onSave()
-
-      this.$emit('confirm', {
-        type: 'poster',
-        mediaid: model.placard,
-        model: { model, configId: model.id }
-      })
-      this.close()
+      if (model) {
+        this.$emit('confirm', {
+          type: 'poster',
+          mediaid: model.placard,
+          model: { model, configId: model.id }
+        })
+        this.close()
+      }
     }
   }
 }
