@@ -11,7 +11,7 @@
   >
     <el-form class="room-search el-form-reset" label-width="80px" inline>
       <el-form-item label="群名称：">
-        <el-input :maxlength="20" placeholder="请输入群名称"/>
+        <el-input v-model="model.name" :maxlength="20" placeholder="请输入群名称"/>
       </el-form-item>
       <el-form-item label="工作门店：">
         <el-form-grid >
