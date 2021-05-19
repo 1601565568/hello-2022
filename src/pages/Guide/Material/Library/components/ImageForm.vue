@@ -516,7 +516,7 @@ export default {
         this.$notify.warning('最多1500个字符')
         return
       }
-      if (this.model.mediaList.length < this.imageNum) {
+      if (this.model.mediaList.length <= this.imageNum) {
         let str = this.$refs.tagArea.htmlToString(this.guideText)
         const item = this.model.mediaList[this.editIndex]
         if (item) {
