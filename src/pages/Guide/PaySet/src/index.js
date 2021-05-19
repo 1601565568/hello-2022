@@ -147,7 +147,6 @@ export default {
      */
     handleSubmit () {
       // this.editFlag 为true的时候是编辑状态这时要加一个二级弹窗
-      console.log(this.editFlag, 888)
       if (this.editFlag) {
         this.innerVisible = true
         return false
