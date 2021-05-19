@@ -35,8 +35,10 @@ export default {
       ],
       btnLoad: false,
       visible: false,
+      innerVisible: false,
       isEmpty: false,
       drawerData: {},
+      editFlag: false,
       drawerKey: '',
       data: [],
       appIdList: [],
@@ -71,6 +73,7 @@ export default {
      * 打开编辑
      */
     handleEdit (item) {
+      this.editFlag = true
       this.drawerData = this.formatData(item, 'load')
       this.certName = this.drawerData.cert
       this.drawerKey = item.key
@@ -131,6 +134,8 @@ export default {
       })
     },
     handleCancel () {
+      this.innerVisible = false
+      this.editFlag = false
       this.$refs.form.resetFields()
       this.changeVisible(false)
       this.drawerData = {}
@@ -141,6 +146,12 @@ export default {
      * 提交审核
      */
     handleSubmit () {
+      // this.editFlag 为true的时候是编辑状态这时要加一个二级弹窗
+      console.log(this.editFlag, 888)
+      if (this.editFlag) {
+        this.innerVisible = true
+        return false
+      }
       this.btnLoad = true
       this.$refs.form.validate(async (valid) => {
         if (!valid) {
@@ -149,6 +160,13 @@ export default {
           this.onSubmit(this.formatData(this.drawerData, 'submit'))
         }
       })
+    },
+    /**
+     * 编辑状态下二次确认提交审核
+     */
+    continueToSave () {
+      this.editFlag = false
+      this.handleSubmit()
     },
     /**
      * 格式化model内容

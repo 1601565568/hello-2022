@@ -47,6 +47,7 @@
     </page-edit>
     <el-dialog
       title="支付设置"
+      append-to-body
       :visible.sync="visible"
       width="500px">
       <el-form v-if='visible' class='drawer-form' :model="drawerData" ref="form" label-width="95px" :rules="rules">
@@ -124,6 +125,21 @@
         <ns-button @click="handleCancel" :loading='btnLoad'>取消</ns-button>
         <ns-button type="primary" @click="handleSubmit" :loading='btnLoad'>确定</ns-button>
       </span>
+      <el-dialog
+        width="480px"
+        title="提示"
+        custom-class='embedded_dialog'
+        :visible.sync="innerVisible"
+        append-to-body>
+        <div class="dialog_main">
+          <div class="u_v1"><img class="v_img" src="./image/warning.png" alt="">修改支付配置后，已创建的红包策略将变更为新的支付配置。</div>
+          <div class="u_v1">若不变更已创建的红包策略，请新增支付配置</div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <ns-button @click="handleCancel" :loading='btnLoad'>取消</ns-button>
+          <ns-button type="primary" @click="continueToSave" :loading='btnLoad'>继续保存</ns-button>
+        </span>
+      </el-dialog>
     </el-dialog>
   </div>
 </template>
@@ -216,5 +232,30 @@ export default Index
   >>> .el-form-item--small.el-form-item  {
     margin-bottom: 26px;
   }
+}
+</style>
+<style lang="scss">
+.embedded_dialog{
+ .dialog_main{
+   .v_img{
+     margin-left: 7px;
+     margin-right: 9px;
+     margin-bottom: 1px;
+   }
+   .u_v1{
+     display: block;
+     height: 22px;
+     line-height: 22px;
+      font-size: 14px;
+     &:first-child{
+       color: #262626;
+       margin-top: 16px;
+     }
+     &:last-child{
+       color: #8C8C8C;
+       margin: 4px 0 18px 30px;
+     }
+   }
+ }
 }
 </style>
