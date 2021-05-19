@@ -718,9 +718,12 @@ export default {
         .fetch(this.$api.guide.queryCompanyPlan, {})
         .then(resp => {
           if (resp.success) {
-            let productCode = resp.result.productCode || ''
-            if (productCode === 'ecrp-wm') {
-              this.showMiniCode = true
+            let list = resp.result || []
+            for (const item of list) {
+              if (item.productCode === 'ecrp-wm') {
+                this.showMiniCode = true
+                break
+              }
             }
           }
         })
