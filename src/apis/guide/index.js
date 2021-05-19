@@ -105,6 +105,10 @@ export default {
     url: '/guide/material/saveMaterial',
     method: 'post'
   },
+  queryCompanyPlan: {
+    url: '/guide/material/queryCompanyPlan',
+    method: 'get'
+  },
   queryMaterial: {
     // 素材详情
     url: '/guide/material/queryMaterial',

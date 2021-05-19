@@ -152,7 +152,7 @@
           >
         </div>
       </el-form-item>
-      <el-form-item label="小程序链接：" prop="codeModule">
+      <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select
           v-model="model.codeModule"
           placeholder="请选择"
@@ -432,7 +432,8 @@ export default {
       tools: [],
       limitIndex: 0,
       pitTitle: '',
-      pitContent: ''
+      pitContent: '',
+      showMiniCode: false
     }
   },
   computed: {
@@ -711,9 +712,26 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    loadCompanyPlan () {
+      this.$http
+        .fetch(this.$api.guide.queryCompanyPlan, {})
+        .then(resp => {
+          if (resp.success) {
+            let productCode = resp.result.productCode || ''
+            if (productCode === 'ecrp-wm') {
+              this.showMiniCode = true
+            }
+          }
+        })
+        .catch(resp => {
+        })
+        .finally(() => {
+        })
     }
   },
   mounted () {
+    this.loadCompanyPlan()
     this.catalogue =
       this.breadcrumb && this.breadcrumb.length
         ? this.breadcrumb
