@@ -3,7 +3,7 @@
     <page-table title=''>
       <!-- 搜索 start -->
       <template slot='search'>
-        <el-form :inline="true" class='form-inline_top'>
+        <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
           <el-form-item label="">
             <el-input v-model="model.name" placeholder="请输入封面名称"  @keyup.enter.native="handleSearch" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
@@ -87,17 +87,21 @@ export default {
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList,
-      checkItem: { id: null }
+      checkItem: {
+        id: null,
+        background: ''
+      }
     }
   },
   mixins: [tableMixin],
   components: {
     PageTable, PreviewRedPacket
   },
-  props: ['checked'],
+  props: ['checked', 'background'],
   mounted () {
     this.$reload()
     this.checkItem.id = this.checked
+    this.checkItem.background = this.background
   },
   methods: {
     handleSearch () {

@@ -5,7 +5,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="使用范围：">
-            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}">
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}">
               <template slot='selfBtn'>
                 <div class='self-btn'>
                   {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -83,7 +83,7 @@
               label="红包有效期">
               <template slot-scope="scope">
                 <template v-if='scope.row.timeType === timeTypeInterval'>{{scope.row.startTime}}-{{scope.row.endTime}}</template>
-                <template v-else>永久有效</template>
+                <template v-else>不限</template>
               </template>
             </el-table-column>
             <el-table-column

@@ -61,11 +61,16 @@
             </el-table-column>
             <el-table-column prop="status" label="在职状态" align="center" width="120">
               <template slot-scope="scope">
-                <div v-if="scope.row.status === 2">
-                  <p>已离职</p>
+                <div v-if="scope.row.state === 0">
+                  <p>已删除</p>
                 </div>
                 <div v-else>
-                  <p>在职</p>
+                  <div v-if="scope.row.status === 2">
+                    <p>已离职</p>
+                  </div>
+                  <div v-else>
+                    <p>在职</p>
+                  </div>
                 </div>
               </template>
             </el-table-column>

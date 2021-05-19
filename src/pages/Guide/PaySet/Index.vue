@@ -59,7 +59,7 @@
           </div>
         </el-form-item>
         <el-form-item label="API密钥" prop='key' required>
-          <LengthInput v-model="drawerData.key" placeholder="请输入API密钥" :length='20' type='password'></LengthInput>
+          <LengthInput v-model="drawerData.key" placeholder="请输入API密钥" :length='32' type='password'></LengthInput>
           <div class='label-tip'>
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
