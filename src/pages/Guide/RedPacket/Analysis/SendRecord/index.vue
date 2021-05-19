@@ -53,6 +53,8 @@
               <el-date-picker
                 v-model="seachDate"
                 type="datetimerange"
+                popper-class='date-filter'
+                :clearable='false'
                 value-format="yyyy-MM-dd HH:mm:ss"
                 :picker-options="pickerOptions"
                 range-separator="至"

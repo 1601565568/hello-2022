@@ -19,7 +19,7 @@
       <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class='analysis-content form-inline_top'>
-      <DatePickerBar ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
+      <DatePickerBar :clear='false' ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
     </div>
     <div class='analysis-content'>
       <h3>数据分析</h3>

@@ -29,6 +29,8 @@
               v-model="seachDate"
               type="datetimerange"
               value-format="yyyy-MM-dd HH:mm:ss"
+              popper-class='date-filter'
+              :clearable='false'
               range-separator="至"
               :picker-options="pickerOptions"
               start-placeholder="请选择开始日期"

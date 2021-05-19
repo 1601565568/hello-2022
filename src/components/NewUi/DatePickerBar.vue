@@ -11,8 +11,24 @@
     </el-radio-group>
     <span class="line"></span>
     <el-date-picker
+      v-if="clear"
       class="date-filter"
       v-model="searchDate"
+      @change="switchSearchDate"
+      type="datetimerange"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00','23:59:59']"
+      range-separator="至"
+      :picker-options='pickerOptions'
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+    ></el-date-picker>
+    <el-date-picker
+      v-if="!clear"
+      class="date-filter"
+      v-model="searchDate"
+      popper-class='date-filter'
+      :clearable='false'
       @change="switchSearchDate"
       type="datetimerange"
       value-format="yyyy-MM-dd HH:mm:ss"
@@ -39,6 +55,10 @@ import moment from 'moment'
 
 export default {
   props: {
+    clear: {
+      type: Boolean,
+      default: true
+    },
     defaultPickDay: {
       default: 'all',
       validator: function (value) {
