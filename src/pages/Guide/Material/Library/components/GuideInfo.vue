@@ -16,7 +16,8 @@
         <div v-if="info.pitText || info.url">
           <div v-if="info.pitText">
             <div class="drawer-sub-title">坑位拍摄指南</div>
-            <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
+            <div class="drawer-sub-cont">{{info.pitText}}</div>
+            <!-- <div class="drawer-sub-cont" v-html="strToRichText()"></div> -->
           </div>
           <div class="drawer-sub-title" v-if="info.url">示意图</div>
           <img class="drawer-sub-img" :src="info.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.url"  @click="showPreview(info.url)"/>
@@ -109,6 +110,8 @@ export default {
   border-bottom: 1px solid #e8e8e8;
   max-height: 350px;
   overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .drawer-sub-cont::-webkit-scrollbar {
   width: 6px;
