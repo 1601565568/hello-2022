@@ -58,6 +58,12 @@ export default {
               'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/GroupData',
+          'name': 'WeComExternalContactList',
+          'title': '群分析',
+          'component': () => import('@/pages/WeWork/GroupData/index.vue')
         }
       ]
     },
