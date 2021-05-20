@@ -58,12 +58,6 @@ export default {
               'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
             }
           ]
-        },
-        {
-          'path': '/Social/WeComCustomerOperation/GroupData',
-          'name': 'WeComExternalContactList',
-          'title': '群分析',
-          'component': () => import('@/pages/WeWork/GroupData/index.vue')
         }
       ]
     },
@@ -87,6 +81,12 @@ export default {
           'name': 'WeComRoomMemberList',
           'title': '企微群成员列表',
           'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/GroupData',
+          'name': 'WeComExternalContactList',
+          'title': '群分析',
+          'component': () => import('@/pages/WeWork/GroupData/index.vue')
         }
       ]
     }
