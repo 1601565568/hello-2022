@@ -37,9 +37,11 @@
             导出CSV文件
           </div>
         </div>
-        <div class="title">数据分析</div>
-        <NsEcharts :options="option" />
       </div>
+    </div>
+    <div class="chat-view">
+      <div class="title">数据分析</div>
+      <NsEcharts :options="option" />
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
@@ -244,7 +246,21 @@ export default {
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
+.chat-view {
+  background-color: white;
+  margin-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 4px;
+  .title {
+    font-size: 16px;
+    color: #262626;
+    line-height: 56px;
+    font-weight: 500;
+  }
+}
 .material-data {
+  border-radius: 4px;
   background-color: white;
   /* width: 1206px; */
   padding-bottom: 24px;
