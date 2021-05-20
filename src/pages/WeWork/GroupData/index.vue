@@ -18,7 +18,7 @@
         <div class="chat-select">
           <div class="left-select">
             <div class="day-view">
-              <span class="base-text">近七天</span>
+              <span class="base-text-select">近七天</span>
               <span class="base-text">近30天</span>
             </div>
             <div class="date-view">
@@ -445,7 +445,18 @@ export default {
     line-height: 22px;
     font-weight: 400;
     margin-right: 16px;
-    background: #f5fbff;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 5px 9px;
+  }
+  .base-text-select {
+    font-size: 14px;
+    color: #0091FA;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 500;
+    margin-right: 16px;
+    background:  #F5FBFF;
     border-radius: 4px;
     display: inline-block;
     padding: 5px 9px;
