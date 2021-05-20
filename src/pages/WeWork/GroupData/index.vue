@@ -32,6 +32,20 @@
               >
               </el-date-picker>
             </div>
+            <div class="item-down">
+              <div class="name">发放类型:</div>
+              <div class="item-select">
+                <el-select v-model="actionValue" :default-first-option='true'>
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
           </div>
           <div class="drawer-output">
             导出CSV文件
@@ -223,7 +237,22 @@ export default {
         ]
       },
       value1: '',
-      activeName: 'first'
+      activeName: 'first',
+      options: [
+        {
+          value: '选项1',
+          label: '全部动作'
+        },
+        {
+          value: '选项2',
+          label: '下载'
+        },
+        {
+          value: '选项3',
+          label: '发送'
+        }
+      ],
+      actionValue: '全部动作'
     }
   },
   methods: {
@@ -421,5 +450,22 @@ export default {
 }
 .date-view {
   margin-left: 16px;
+}
+
+.item-down {
+  width: 171px;
+  height: 30px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  align-items: center;
+  margin-left: 16px;
+  .name {
+    width: 70px;
+    margin-left:8px;
+  }
 }
 </style>
