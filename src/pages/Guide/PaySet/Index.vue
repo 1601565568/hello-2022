@@ -63,7 +63,7 @@
           <LengthInput v-model="drawerData.key" placeholder="请输入API密钥" :length='32' type='password'></LengthInput>
           <div class='label-tip'>
             <span class='label-point'></span>
-            <span class='label-text'>如何获取API证书</span>
+            <span class='label-text'>如何获取API密钥</span>
             <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
           </div>
         </el-form-item>

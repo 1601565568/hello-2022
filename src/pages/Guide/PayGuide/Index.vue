@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pay-container">
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
@@ -84,6 +84,7 @@
             <div id='step4' class='content'>
               <p>4.2、选择关联公众号</p>
               <p>① 登录ECRP cloud系统，进入【系统设置】->【授权管理】->【公众号授权】，授权公众号</p>
+              <p class='prompt-text'><span class='yellow-point'></span>公众号必须与企业微信在同一个开放平台</p>
             </div>
             <div class='content-image'>
               <img src='./images/step6.jpg' class='preview-img' />
@@ -134,6 +135,14 @@ export default Index
 </script>
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
+.pay-container .container{
+  background: #fff;
+  padding: 30px 32px;
+  padding-top: 0px;
+  .step {
+    padding-top: 30px;
+  }
+}
 .hidden {
   display: none;
 }
@@ -188,6 +197,21 @@ export default Index
 }
 .container {
   padding-left: 18px;
+}
+.prompt-text {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #595959;
+  .yellow-point {
+    background: #F2AA18;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
 }
 </style>
 <style scoped>
