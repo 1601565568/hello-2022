@@ -42,7 +42,7 @@
         panelType="examine"
         :list="activityList"
         :pagination="pagination"
-        @reload="reloadActivityList"
+        @change="changeActivityList"
       />
     </div>
   </div>
@@ -157,6 +157,14 @@ export default {
         creatorName: ''
       }
 
+      this.getCountByPendingStatus()
+      this.getActivityList()
+    },
+    changeActivityList () {
+      // 如果当前页非第一页且剩最后一条，翻页到上一页
+      if (this.pagination.page > 1 && this.activityList.length === 1) {
+        this.pagination = { ...this.pagination, page: this.pagination.page - 1 }
+      }
       this.getCountByPendingStatus()
       this.getActivityList()
     },

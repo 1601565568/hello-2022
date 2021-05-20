@@ -11,7 +11,7 @@
           根据实际情况选择【添加第三方应用】或【创建应用】，创建应用中可以快速关联已有小程序。
         </p>
       </div>
-      <div class="dialog-img"><img src="./image/img.png" /></div>
+      <div class="dialog-img"><img src="./image/img.jpg" /></div>
     </el-dialog>
   </div>
 </template>
@@ -58,5 +58,10 @@ export default {
 }
 .dialog-img img {
   width: 100%;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:-o-crisp-edges;
+  image-rendering:-webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode:nearest-neighbor;
 }
 </style>
