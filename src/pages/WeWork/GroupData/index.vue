@@ -173,9 +173,9 @@ export default {
         },
         color: [
           '#4287FF',
-          '#722898',
+          '#F7B586',
           '#95DA73',
-          '#F34CA7'
+          '#7962EC'
         ],
         grid: {
           left: 0,
