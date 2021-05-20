@@ -141,7 +141,7 @@
                     >
                     </el-option>
                   </el-select>
-                  <div v-if="model.viewId&&model.subgroupId">会员分组名称 <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
+                  <div v-if="model.viewId&&model.subgroupId">{{model.subgroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
                 </div>
                 <span class='newTask-content__item-tip'>
                   选择区域后，可选择零售CRM客户洞察的客户分组

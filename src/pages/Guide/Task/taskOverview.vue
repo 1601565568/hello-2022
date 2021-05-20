@@ -26,6 +26,7 @@
             <el-tag type="info" v-if="taskMsg.state === 3">已完成</el-tag>
             <el-tag type="warning" v-if="taskMsg.state === 5">未开始</el-tag>
             <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
+            <div class='task-group__name'>分组名称{{taskMsg.subGroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
@@ -190,6 +191,10 @@
       direction="rtl">
       <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
+    <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
+      <div class='table-top_tip'>任务下发前会实时获取最新的客户名单，任务下发后客户名单将不再变化</div>
+      <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId"></lookCardList>
+    </ElDialog>
   </div>
 </template>
 <script>
@@ -217,6 +222,11 @@ export default taskOverview
       margin: 0 var(--default-margin-larger) 0 var(--default-margin-small);
     }
   }
+}
+.task-group__name {
+  margin-left: 32px;
+  position: relative;
+  top: -2px;
 }
 
 /* 素材模版样式 */
@@ -513,5 +523,13 @@ export default taskOverview
   .degreecompletionIcon {
     font-size: 26px;
     color: rgb(65,197,0);
+  }
+  .table-top_tip {
+    background: #F2F9FE;
+    height: 40px;
+    padding: 0 16px;
+    line-height: 40px;
+    font-size: 12px;
+    margin-bottom: 16px;
   }
 </style>

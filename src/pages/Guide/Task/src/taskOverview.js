@@ -6,6 +6,7 @@ import drawerTable from '../drawerTable'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
+import lookCardList from '../lookCardList'
 import moment from 'moment'
 // import { init } from '@sentry/browser'
 export default {
@@ -15,7 +16,8 @@ export default {
     ElBreadcrumbItem,
     ElDrawer,
     drawerTable,
-    ShopSelectLoad
+    ShopSelectLoad,
+    lookCardList
   },
   data () {
     const pagination = {
@@ -89,7 +91,8 @@ export default {
       shopId: null,
       shopName: null,
       runType: null,
-      queryTime: null
+      queryTime: null,
+      dialogVisible: false
     }
   },
   computed: {
@@ -150,6 +153,8 @@ export default {
             this.taskMsg.viewId = obj.viewId
             this.taskMsg.subgroupId = obj.subgroupId
             this.taskMsg.state = obj.state
+            this.taskMsg.subGroupName = obj.subGroupName
+            this.taskMsg.subGroupId = obj.subGroupId
             // 指定门店
             if (obj.targetIds === '0') {
               this.taskMsg.shopRangeType = 0
@@ -256,6 +261,10 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
+    },
+    // 查看分组名称弹框
+    showSubgroupMsg () {
+      this.dialogVisible = true
     }
   },
   mounted: function () {
