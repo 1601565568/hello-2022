@@ -46,6 +46,20 @@
                 </el-select>
               </div>
             </div>
+            <div class="item-down">
+              <div class="name">选择员工:</div>
+              <div class="item-select">
+                <el-select v-model="actionValue" :default-first-option='true'>
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
           </div>
           <div class="drawer-output">
             导出CSV文件
@@ -454,7 +468,7 @@ export default {
 
 .item-down {
   width: 171px;
-  height: 30px;
+  height: 32px;
   background: #FFFFFF;
   border: 1px solid #D9D9D9;
   border-radius: 2px;
