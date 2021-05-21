@@ -28,5 +28,17 @@ export default {
   general: {
     url: '/chat-room/statistics/general',
     method: 'get'
+  },
+  page_list_by_date: {
+    url: '/chat-room/statistics/page_list_by_date',
+    method: 'post'
+  },
+  page_list_by_owner: {
+    url: '/chat-room/statistics/page_list_by_owner',
+    method: 'post'
+  },
+  list: {
+    url: '/chat-room/statistics/list',
+    method: 'post'
   }
 }
