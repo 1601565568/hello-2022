@@ -154,8 +154,8 @@ export default {
         obj.startTime = data.timeType === this.timeTypeInterval ? data.time[0] : ''
         obj.endTime = data.timeType === this.timeTypeInterval ? data.time[1] : ''
         obj.customizeType = 2 - data.customizeType
-        obj.moneyMax = data.redpackType === this.normalRed ? 0 : data.moneyMax * 100
-        obj.moneyMin = data.redpackType === this.normalRed ? 0 : data.moneyMin * 100
+        obj.moneyMax = data.redpackType === this.normalRed ? 0 : (data.moneyMax * 100)
+        obj.moneyMin = data.redpackType === this.normalRed ? 0 : (data.moneyMin * 100)
         obj.money = data.redpackType === this.normalRed ? data.money * 100 : 0
         obj.total = data.total
         obj.everyoneLimit = data.limitType === 1 ? data.everyoneLimit : ''
