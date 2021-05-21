@@ -15,6 +15,10 @@
       <div class="user-info-view">
         <div class="user-img">
           <img :src="userImg" class="user-img-rad"/>
+          <div class="sex-view">
+            <Icon type="ns-boy" style="color: #1890FF;"/>
+            <!-- <Icon type="ns-girl" style="color: #F75961;"/> -->
+          </div>
         </div>
         <div class="user-info">
           <div class="user-info-text">昵称：张三</div>
@@ -228,10 +232,25 @@ export default {
 }
 .user-img {
   margin-right: 32px;
+  width: 80px;
+  height: 80px;
+  position: relative;
 }
 .user-img-rad {
   width: 80px;
   height: 80px;
   border-radius: 40px;
+}
+.sex-view {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  top: 0;
+  right: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

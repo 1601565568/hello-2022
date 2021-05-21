@@ -14,6 +14,9 @@
             </el-option>
           </el-select>
         </div>
+        <div class="icon-view">
+          <Icon type="ns-arrow-drowdown" style="color: #8C8C8C;"/>
+        </div>
       </div>
     </div>
     <div class="data-view">
@@ -40,6 +43,19 @@
             </el-table-column>
           </el-table>
         </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="pagination.sizeOpts"
+            :total="pagination.total"
+            :current-page.sync="pagination.page"
+            :page-size="pagination.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+          </template>
       </page-table>
     </div>
     <DataList ref="datalist"/>
@@ -105,7 +121,14 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: '全部动作'
+      actionValue: '全部动作',
+      // 分页配置
+      pagination: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
@@ -151,9 +174,15 @@ export default {
   font-size: 14px;
   align-items: center;
   margin-left: 16px;
+  cursor: pointer;
   .name {
     width: 70px;
     margin-left:8px;
+  }
+  .icon-view {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
   }
 }
 </style>
