@@ -3,6 +3,9 @@ export default {
   props: {
     subgroupId: {
       type: String
+    },
+    formSource: { // 1 新增进入 2 报表进入
+      default: 1
     }
   },
   mixins: [tableMixin],
@@ -18,8 +21,12 @@ export default {
       model: {
         subgroupId: this.subgroupId
       },
-      pagination: pagination,
-      url: this.$api.guide.querySubgroupMsg
+      pagination: pagination
+    }
+  },
+  computed: {
+    url () {
+      return formSource === 2 ? this.$api.guide.queryDetailSubgroupMsg : this.$api.guide.querySubgroupMsg
     }
   },
   methods: {},

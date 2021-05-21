@@ -192,7 +192,19 @@
       <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
     <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
-      <div class='table-top_tip'>任务下发前会实时获取最新的客户名单，任务下发后客户名单将不再变化</div>
+      <el-form :inline="true" v-if='taskMsg.runType === 1'>
+        <el-form-item label="执行时间：">
+          <el-date-picker
+            :clearable='false'
+            value-format="yyyy-MM-dd HH:mm:ss"
+            v-model="taskTime"
+            :picker-options="pickerOptions"
+            type="datetime"
+            placeholder="选择日期时间"
+            default-time="12:00:00">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
       <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId"></lookCardList>
     </ElDialog>
   </div>
@@ -523,13 +535,5 @@ export default taskOverview
   .degreecompletionIcon {
     font-size: 26px;
     color: rgb(65,197,0);
-  }
-  .table-top_tip {
-    background: #F2F9FE;
-    height: 40px;
-    padding: 0 16px;
-    line-height: 40px;
-    font-size: 12px;
-    margin-bottom: 16px;
   }
 </style>

@@ -92,7 +92,8 @@ export default {
       shopName: null,
       runType: null,
       queryTime: null,
-      dialogVisible: false
+      dialogVisible: false,
+      taskTime: ''
     }
   },
   computed: {
@@ -161,17 +162,22 @@ export default {
             } else {
               this.taskMsg.shopRangeType = 1
             }
+            // 1 循环任务  0 一次性任务
             if (this.taskMsg.runType === 1) {
               let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
               // let todatEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1) // 当天23:59
               // const start = new Date()
               if (new Date(obj.startTime) >= start) {
                 this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
+                this.taskTime = moment(obj.startTime).format('YYYY-MM-DD  HH:mm:ss')
               } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
                 this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+                this.taskTime = moment(new Date().getTime).format('YYYY-MM-DD  HH:mm:ss')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
+                this.taskTime = moment(obj.endTime).format('YYYY-MM-DD  HH:mm:ss')
               }
+              console.log(this.taskTime)
             }
             // 素材任务时
             if (obj.materialId) {
