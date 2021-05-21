@@ -156,7 +156,7 @@ export default {
         obj.customizeType = 2 - data.customizeType
         obj.moneyMax = data.moneyMax * 100
         obj.moneyMin = data.moneyMin * 100
-        obj.money = data.money * 100
+        obj.money = data.redpackType === this.normalRed ? data.money * 100 : 0
         obj.total = data.total
         obj.everyoneLimit = data.limitType === 1 ? data.everyoneLimit : ''
       }

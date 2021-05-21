@@ -5,7 +5,12 @@
     <el-drawer
       title="红包封面预览"
       :append-to-body='true'
+      :with-header="false"
       :visible.sync="drawer">
+      <div class='master-close'>
+        <i class="el-icon-close" @click="handleClose"></i>
+      </div>
+      <h3 class='drawer-title'>红包封面预览</h3>
       <div class='packet-box'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' /></div>
     </el-drawer>
     <el-dialog title="封面预览" :visible.sync="visible" :append-to-body='true'>
@@ -45,6 +50,9 @@ export default {
       } else {
         this.visible = true
       }
+    },
+    handleClose () {
+      this.drawer = false
     }
   }
 }
@@ -62,5 +70,19 @@ export default {
   &.bottom {
     padding-bottom: 40px;
   }
+}
+.master-close {
+  font-size: 16px;
+  padding: 16px 16px 4px 16px;
+  .el-icon-close {
+    cursor: pointer;
+  }
+}
+.drawer-title {
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: 500;
+  padding:16px;
 }
 </style>
