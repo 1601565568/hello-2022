@@ -5,7 +5,7 @@
         <div class="title">群分析</div>
       </div>
       <div class="data-view">
-        <div v-for="(item,index) in dataList" :key="index">
+        <div v-for="(item, index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
@@ -18,8 +18,14 @@
         <div class="chat-select">
           <div class="left-select">
             <div class="day-view">
-              <span class="base-text-select">近七天</span>
-              <span class="base-text">近30天</span>
+              <span
+                :class="{ 'base-text-select': selectToday }"
+                class="base-text"
+                @click="selectTodayClick('seven')">近七天</span>
+              <span
+                :class="{ 'base-text-select': !selectToday }"
+                class="base-text"
+                @click="selectTodayClick('thirty')">近30天</span>
             </div>
             <div class="date-view">
               <el-date-picker
@@ -35,7 +41,7 @@
             <div class="item-down">
               <div class="name">发放类型:</div>
               <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option='true'>
+                <el-select v-model="actionValue" :default-first-option="true">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -49,7 +55,7 @@
             <div class="item-down">
               <div class="name">选择员工:</div>
               <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option='true'>
+                <el-select v-model="actionValue" :default-first-option="true">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -84,10 +90,14 @@
                   :row-style="{ height: '48px' }"
                 >
                   <el-table-column prop="time" label="日期"> </el-table-column>
-                  <el-table-column prop="send" label="今日群总数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群管理客户数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群新增客户数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群流失客户数"> </el-table-column>
+                  <el-table-column prop="send" label="今日群总数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群管理客户数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群新增客户数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群流失客户数">
+                  </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
@@ -114,10 +124,14 @@
                   :row-style="{ height: '48px' }"
                 >
                   <el-table-column prop="time" label="员工"> </el-table-column>
-                  <el-table-column prop="send" label="今日群总数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群管理客户数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群新增客户数"> </el-table-column>
-                  <el-table-column prop="dowm" label="群流失客户数"> </el-table-column>
+                  <el-table-column prop="send" label="今日群总数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群管理客户数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群新增客户数">
+                  </el-table-column>
+                  <el-table-column prop="dowm" label="群流失客户数">
+                  </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
@@ -150,10 +164,10 @@ export default {
   data () {
     return {
       dataList: [
-        { name: '今日总群数', data: 98, claseName: 'one' },
-        { name: '群管理好友数', data: 12, claseName: 'two' },
-        { name: '今日群新增好友数', data: 33, claseName: 'three' },
-        { name: '今日群流失好友数', data: 4, claseName: 'four' }
+        { name: '今日总群数', data: 0, claseName: 'one' },
+        { name: '群管理好友数', data: 0, claseName: 'two' },
+        { name: '今日群新增好友数', data: 0, claseName: 'three' },
+        { name: '今日群流失好友数', data: 0, claseName: 'four' }
       ],
       listData: [
         {
@@ -197,12 +211,7 @@ export default {
           itemWidth: 10,
           itemHeight: 10
         },
-        color: [
-          '#4287FF',
-          '#F7B586',
-          '#95DA73',
-          '#7962EC'
-        ],
+        color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
         grid: {
           left: 0,
           right: 0,
@@ -298,22 +307,44 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 4
-      }
+      },
+      selectToday: true
     }
   },
   methods: {
+    selectTodayClick (val) {
+      this.selectToday = val === 'seven'
+    },
     lookNoStatistical () {
       this.$router.push({
         path: '/Social/OperationData/NoStatistical'
       })
     },
-    handleClick () {
-
-    },
+    handleClick () {},
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
+    },
+    loadTopData () {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
+        if (res.success) {
+          const json = res.result || {}
+          const oneNum = json.chat_totals || 0
+          const twoNum = json.member_totals || 0
+          const threeNum = json.new_member_cnts || 0
+          const fourNum = json.member_loss_cnts || 0
+          this.dataList = [
+            { name: '今日总群数', data: oneNum, claseName: 'one' },
+            { name: '群管理好友数', data: twoNum, claseName: 'two' },
+            { name: '今日群新增好友数', data: new_chat_cnts, claseName: 'three' },
+            { name: '今日群流失好友数', data: fourNum, claseName: 'four' }
+          ]
+        }
+      })
     }
+  },
+  mounted () {
+    this.loadTopData()
   }
 }
 </script>
@@ -402,16 +433,16 @@ export default {
     }
   }
   .one {
-    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
+    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
   }
   .two {
-    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
+    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
   }
   .three {
-    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
+    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
   }
   .four {
-   background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
+    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
   }
 }
 .material-show {
@@ -440,7 +471,7 @@ export default {
     line-height: 56px;
     font-weight: 500;
     height: 56px;
-    margin-left:16px;
+    margin-left: 16px;
   }
   .select-data-view {
     margin: 0;
@@ -480,18 +511,20 @@ export default {
     border-radius: 4px;
     display: inline-block;
     padding: 5px 9px;
+    cursor: pointer;
   }
   .base-text-select {
     font-size: 14px;
-    color: #0091FA;
+    color: #0091fa;
     text-align: center;
     line-height: 22px;
     font-weight: 500;
     margin-right: 16px;
-    background:  #F5FBFF;
+    background: #f5fbff;
     border-radius: 4px;
     display: inline-block;
     padding: 5px 9px;
+    cursor: pointer;
   }
 }
 
@@ -512,8 +545,8 @@ export default {
 .item-down {
   width: 171px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   display: flex;
   flex-direction: row;
@@ -522,7 +555,7 @@ export default {
   margin-left: 16px;
   .name {
     width: 70px;
-    margin-left:8px;
+    margin-left: 8px;
   }
 }
 </style>

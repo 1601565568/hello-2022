@@ -24,5 +24,9 @@ export default {
   queryWeWorkRoomsMemberTable: {
     url: '/wework/weworkRoomMember/queryWeWorkRoomsMemberTable',
     method: 'post'
+  },
+  general: {
+    url: '/chat-room/statistics/general',
+    method: 'get'
   }
 }
