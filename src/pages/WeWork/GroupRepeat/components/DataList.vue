@@ -89,7 +89,10 @@ export default {
   },
   methods: {
     closeDeawer () {
-      this.drawer = !this.drawer
+      this.drawer = false
+    },
+    openDeawer () {
+      this.drawer = true
     },
     handleClose () {},
     handleClick (tab, event) {}

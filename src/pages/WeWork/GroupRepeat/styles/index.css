@@ -42,6 +42,7 @@
   font-size: 14px;
   border: none;
   width: 80px;
+  color: #262626;
 }
 
 .item-select >>> .el-input__suffix .el-input__icon.el-select__caret {

@@ -4,7 +4,7 @@
       <div class="item-down">
         <div class="name">企微群:</div>
         <div class="item-select">
-          <el-select v-model="actionValue" :default-first-option='true'>
+          <el-select v-model="actionValue" :default-first-option='true' @visible-change="selectOptionClick">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -15,7 +15,7 @@
           </el-select>
         </div>
         <div class="icon-view">
-          <Icon type="ns-arrow-drowdown" style="color: #8C8C8C;"/>
+          <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
         </div>
       </div>
     </div>
@@ -127,13 +127,19 @@ export default {
         size: 10,
         sizeOpts: [10],
         page: 1,
-        total: 0
-      }
+        total: 4
+      },
+      flag: false
     }
   },
   methods: {
+    handleCurrentChange () {},
+    handleSizeChange () {},
     showMoreData () {
-      this.$refs.datalist.closeDeawer()
+      this.$refs.datalist.openDeawer()
+    },
+    selectOptionClick (val) {
+      this.flag = val
     }
   }
 }
@@ -185,4 +191,20 @@ export default {
     cursor: pointer;
   }
 }
+.drawer-table {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+.arrowTransform{
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(0deg);
+}
+.arrowTransformReturn{
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(180deg);
+}
+
 </style>
