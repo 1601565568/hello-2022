@@ -119,7 +119,7 @@
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 export default {
-  name: 'MaterialCahat',
+  name: 'GroupData',
   components: { PageTable, NsEcharts },
   data () {
     return {
