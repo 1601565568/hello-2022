@@ -35,24 +35,25 @@
             <el-table-column prop="time" label="首次入群时间"> </el-table-column>
             <el-table-column prop="dowm" label="操作">
               <template>
-                <ns-button type="text" class="select-button" @click="showMoreData"
-                  >操作</ns-button
-                >
+                <ns-button type="text" class="select-button" @click="showMoreData">详情</ns-button>
               </template>
             </el-table-column>
           </el-table>
         </template>
       </page-table>
     </div>
+    <DataList ref="datalist"/>
   </div>
 </template>
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
+import DataList from './components/DataList'
 export default {
   name: 'GroupRepeat',
   components: {
-    PageTable
+    PageTable,
+    DataList
   },
   data () {
     return {
@@ -108,7 +109,9 @@ export default {
     }
   },
   methods: {
-    showMoreData () {}
+    showMoreData () {
+      this.$refs.datalist.closeDeawer()
+    }
   }
 }
 </script>
