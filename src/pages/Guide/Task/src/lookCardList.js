@@ -6,6 +6,15 @@ export default {
     },
     formSource: { // 1 新增进入 2 报表进入
       default: 1
+    },
+    time: {
+      type: String
+    },
+    runType: {
+      type: String | Number
+    },
+    taskId: {
+      type: String | Number
     }
   },
   mixins: [tableMixin],
@@ -19,14 +28,23 @@ export default {
     }
     return {
       model: {
-        subgroupId: this.subgroupId
+        subgroupId: this.subgroupId,
+        runType: this.runType,
+        time: this.time,
+        taskId: this.taskId
       },
       pagination: pagination
     }
   },
   computed: {
     url () {
-      return formSource === 2 ? this.$api.guide.queryDetailSubgroupMsg : this.$api.guide.querySubgroupMsg
+      return this.formSource === 2 ? this.$api.guide.queryDetailSubgroupMsg : this.$api.guide.querySubgroupMsg
+    }
+  },
+  watch: {
+    time (newVal) {
+      this.model.time = newVal
+      this.$searchAction$()
     }
   },
   methods: {},

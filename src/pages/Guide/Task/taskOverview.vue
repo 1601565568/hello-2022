@@ -205,7 +205,7 @@
           </el-date-picker>
         </el-form-item>
       </el-form>
-      <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId"></lookCardList>
+      <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId" :formSource='2' :time='taskTime' :runType='taskMsg.runType' :taskId='taskMsg.id'></lookCardList>
     </ElDialog>
   </div>
 </template>
