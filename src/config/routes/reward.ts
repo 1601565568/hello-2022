@@ -145,6 +145,12 @@ export default {
           'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
           'title': '客户会话统计',
           'component': () => import('@/pages/Guide/CustomerChat/index.vue')
+        },
+        {
+          'path': '/Customer/Group/CustomerGroup',
+          'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
+          'title': '群会话统计',
+          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
         }
       ]
     },
