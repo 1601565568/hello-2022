@@ -55,7 +55,7 @@
             @current-change="handleCurrentChange"
           >
           </el-pagination>
-          </template>
+        </template>
       </page-table>
     </div>
     <DataList ref="datalist"/>

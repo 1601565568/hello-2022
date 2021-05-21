@@ -90,6 +90,19 @@
                   <el-table-column prop="dowm" label="群流失客户数"> </el-table-column>
                 </el-table>
               </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="pagination.sizeOpts"
+                  :total="pagination.total"
+                  :current-page.sync="pagination.page"
+                  :page-size="pagination.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                >
+                </el-pagination>
+              </template>
             </page-table>
           </el-tab-pane>
           <el-tab-pane label="按员工显示" name="second">
@@ -106,6 +119,19 @@
                   <el-table-column prop="dowm" label="群新增客户数"> </el-table-column>
                   <el-table-column prop="dowm" label="群流失客户数"> </el-table-column>
                 </el-table>
+              </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="pagination.sizeOpts"
+                  :total="pagination.total"
+                  :current-page.sync="pagination.page"
+                  :page-size="pagination.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                >
+                </el-pagination>
               </template>
             </page-table>
           </el-tab-pane>
@@ -266,7 +292,13 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: '全部动作'
+      actionValue: '全部动作',
+      pagination: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 4
+      }
     }
   },
   methods: {
