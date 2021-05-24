@@ -7,9 +7,7 @@
           <span class="right">{{ metailInfo.guideName }}</span>
           <span>{{ metailInfo.completionTime }}</span>
         </div>
-        <div class="content-view">
-          {{ metailInfo.content }}
-        </div>
+        <div class="content-view" v-html="strToRichText(metailInfo.content)"></div>
         <div class="images-view">
           <div v-for="(item, index) in metailInfo.mediaList" :key="index">
             <img class="base-one" :src="item.url" @click="showPreview(index)" />
@@ -49,6 +47,18 @@ export default {
     },
     showDialog () {
       this.dialogVisible = true
+    },
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
     }
   }
 }
