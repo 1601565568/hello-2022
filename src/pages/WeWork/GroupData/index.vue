@@ -373,12 +373,28 @@ export default {
         })
     },
     handleSizeChangeForDate (size) {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size,
+        page: 1
+      }
+      this.loadDateList()
     },
     handleCurrentChangeForDate (page) {
+      this.paginationToDate.page = page
+      this.loadDateList()
     },
     handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadPersonList()
     },
     handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadPersonList()
     }
   },
   mounted () {
