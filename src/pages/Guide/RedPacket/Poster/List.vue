@@ -73,9 +73,9 @@
               width='170px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" @click='handleJump(detailPath,{id:scope.row.id})'>编辑</ns-button>
+                <ns-button  style='margin-right:5px;' type="text" @click='handleJump(detailPath,{id:scope.row.id})'>编辑</ns-button>
                 <PreviewRedPacket :bgImage='scope.row.background'><ns-button type="text">查看</ns-button></PreviewRedPacket>
-                <ns-button type="text" @click='handleDelete(scope.row.id,scope.row.isDefault)'>删除</ns-button>
+                <ns-button type="text"  style='margin-left:5px;' @click='handleDelete(scope.row.id,scope.row.isDefault)'>删除</ns-button>
               </template>
             </el-table-column>
           </el-table>

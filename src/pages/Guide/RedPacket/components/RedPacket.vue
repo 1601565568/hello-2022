@@ -40,7 +40,7 @@ export default {
     },
     bagName: {
       type: String,
-      default: '#员工姓名#发出的红包'
+      default: '员工姓名发出的红包'
     },
     bagTip: {
       type: String,
