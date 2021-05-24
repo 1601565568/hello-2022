@@ -42,7 +42,34 @@
               >
               </el-date-picker>
             </div>
-            <div class="item-down">
+            <div>
+              <el-form :inline="true" class="form-inline_top">
+                <el-form-item label="选择员工：">
+                  <NsGuideDialog
+                    :selfBtn="true"
+                    :appendToBody="true"
+                    :isButton="false"
+                    :auth="false"
+                    type="primary"
+                    btnTitle=""
+                    dialogTitle="选择员工："
+                    v-model="guideIds"
+                  >
+                    <template slot="selfBtn">
+                      <div class="self-btn">
+                        {{
+                          guideIds && guideIds.length
+                            ? `已选择${guideIds.length}个员工`
+                            : '全部'
+                        }}
+                        <Icon type="geren" class="guideIds-icon"></Icon>
+                      </div>
+                    </template>
+                  </NsGuideDialog>
+                </el-form-item>
+              </el-form>
+            </div>
+            <!-- <div class="item-down">
               <div class="name">员工:</div>
               <div class="item-select">
                 <el-select v-model="actionValue" :default-first-option='true'>
@@ -55,7 +82,7 @@
                   </el-option>
                 </el-select>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="outputCsvFile" @click="outputCsvFile">
             导出CSV文件
@@ -143,9 +170,10 @@
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
+import NsGuideDialog from '@/components/NsGuideDialog'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts },
+  components: { PageTable, NsEcharts, NsGuideDialog },
   data () {
     return {
       dataList: [
@@ -287,7 +315,8 @@ export default {
       selectToday: true,
       today: '',
       last7: '',
-      lart30: ''
+      lart30: '',
+      guideIds: []
     }
   },
   methods: {
@@ -636,6 +665,36 @@ export default {
   .name {
     width: 70px;
     margin-left:8px;
+  }
+}
+.form-inline_top {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+}
+.form-inline_top .el-form-item.addgroup-btn {
+  padding: 0 16px;
+  line-height: 30px;
+  height: 30px;
+  border-radius: 2px;
+  >>> .el-button--small {
+    font-size: 14px;
+    padding: 7px 0 !important;
+  }
+}
+.form-inline_top .el-form-item {
+  height: 32px;
+}
+.self-btn {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color: #c0c4cc;
   }
 }
 </style>
