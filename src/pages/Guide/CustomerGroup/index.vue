@@ -47,7 +47,7 @@
               </div>
             </div>
           </div>
-          <div class="drawer-output">
+          <div class="outputCsvFile" @click="outputCsvFile">
             导出CSV文件
           </div>
         </div>
@@ -276,6 +276,30 @@ export default {
     }
   },
   methods: {
+    outputCsvFile () {
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.session_list_export, {})
+        .then(resp => {
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName = '群会话统计' + curDate + '.csv'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     lookNoStatistical () {
       this.$router.push({
         path: '/Social/OperationData/NoStatistical'
@@ -555,7 +579,7 @@ export default {
   }
 }
 
-.drawer-output {
+.outputCsvFile {
   width: 116px;
   height: 32px;
   background: #ffffff;
@@ -564,6 +588,7 @@ export default {
   line-height: 32px;
   text-align: center;
   font-size: 14px;
+  cursor: pointer;
 }
 .date-view {
   margin-left: 16px;

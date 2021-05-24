@@ -53,5 +53,11 @@ export default {
     method: 'post',
     responseType: 'blob',
     timeout: 600000
+  },
+  session_list_export: {
+    url: '/chat-room/statistics/session_list_export',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }

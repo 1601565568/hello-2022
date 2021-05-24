@@ -324,7 +324,6 @@ export default {
   },
   methods: {
     outputCsvFile () {
-      console.log('outputCsvFile')
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
@@ -341,7 +340,7 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群分析' + curDate + '.xlsx'
+            let fileName = '群分析' + curDate + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
