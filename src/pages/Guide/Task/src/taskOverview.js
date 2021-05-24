@@ -155,7 +155,7 @@ export default {
             this.taskMsg.subgroupId = obj.subgroupId
             this.taskMsg.state = obj.state
             this.taskMsg.subGroupName = obj.subGroupName
-            this.taskMsg.subGroupId = obj.subGroupId
+            this.taskMsg.subGroupId = obj.subgroupId
             // 指定门店
             if (obj.targetIds === '0') {
               this.taskMsg.shopRangeType = 0
