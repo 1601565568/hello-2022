@@ -71,10 +71,10 @@
                 >
                   <el-table-column prop="stat_time" label="日期"> </el-table-column>
                   <el-table-column prop="chat_totals" label="好友群总数"> </el-table-column>
-                  <el-table-column prop="member_totals" label="新增群聊数"> </el-table-column>
-                  <el-table-column prop="new_member_cnts" label="有过消息的好友群数"> </el-table-column>
-                  <el-table-column prop="member_loss_cnts" label="发过消息的群成员数"> </el-table-column>
-                  <el-table-column prop="member_loss_cnts" label="好友群消息总数"> </el-table-column>
+                  <el-table-column prop="new_chat_cnt" label="新增群聊数"> </el-table-column>
+                  <el-table-column prop="chat_has_msg" label="有过消息的好友群数"> </el-table-column>
+                  <el-table-column prop="member_has_msg" label="发过消息的群成员数"> </el-table-column>
+                  <el-table-column prop="msg_total" label="好友群消息总数"> </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
@@ -102,10 +102,10 @@
                 >
                   <el-table-column prop="owner_name" label="员工"> </el-table-column>
                   <el-table-column prop="chat_total" label="好友群总数"> </el-table-column>
-                  <el-table-column prop="member_total" label="新增群聊数"> </el-table-column>
-                  <el-table-column prop="member_loss_cnt" label="有过消息的好友群数量"> </el-table-column>
-                  <el-table-column prop="member_loss_cnt" label="发过消息的群成员数"> </el-table-column>
-                  <el-table-column prop="member_loss_cnt" label="好友群消息总数"> </el-table-column>
+                  <el-table-column prop="new_chat_cnt" label="新增群聊数"> </el-table-column>
+                  <el-table-column prop="chat_has_msg" label="有过消息的好友群数量"> </el-table-column>
+                  <el-table-column prop="member_has_msg" label="发过消息的群成员数"> </el-table-column>
+                  <el-table-column prop="msg_total" label="好友群消息总数"> </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
@@ -292,7 +292,7 @@ export default {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
           const json = res.result || {}
-          const oneNum = json.chat_totals || 0
+          const oneNum = json.chat_total || 0
           const twoNum = json.chat_has_msg || 0
           const threeNum = json.member_has_msg || 0
           const fourNum = json.msg_total || 0
