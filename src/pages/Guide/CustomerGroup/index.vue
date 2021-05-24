@@ -112,10 +112,10 @@ export default {
   data () {
     return {
       dataList: [
-        { name: '好友群总数', data: 98, claseName: 'one' },
-        { name: '有过消息的好友群数', data: 12, claseName: 'two' },
-        { name: '发过消息的群成员数', data: 33, claseName: 'three' },
-        { name: '好友群消息总数', data: 4, claseName: 'four' }
+        { name: '好友群总数', data: 0, claseName: 'one' },
+        { name: '有过消息的好友群数', data: 0, claseName: 'two' },
+        { name: '发过消息的群成员数', data: 0, claseName: 'three' },
+        { name: '好友群消息总数', data: 0, claseName: 'four' }
       ],
       listData: [
         {
@@ -254,7 +254,21 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: '全部动作'
+      actionValue: '全部动作',
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      },
+      paginationToDate: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      },
+      listDate: [],
+      listPerson: []
     }
   },
   methods: {
@@ -269,7 +283,27 @@ export default {
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
+    },
+    loadTopData () {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
+        if (res.success) {
+          const json = res.result || {}
+          const oneNum = json.chat_totals || 0
+          const twoNum = json.chat_has_msg || 0
+          const threeNum = json.member_has_msg || 0
+          const fourNum = json.msg_total || 0
+          this.dataList = [
+            { name: '好友群总数', data: oneNum, claseName: 'one' },
+            { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
+            { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
+            { name: '好友群消息总数', data: fourNum, claseName: 'four' }
+          ]
+        }
+      })
     }
+  },
+  mounted () {
+    this.loadTopData()
   }
 }
 </script>

@@ -319,10 +319,10 @@ export default {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
           const json = res.result || {}
-          const oneNum = json.chat_totals
-          const twoNum = json.member_totals
-          const threeNum = json.new_member_cnts
-          const fourNum = json.member_loss_cnts
+          const oneNum = json.chat_totals || 0
+          const twoNum = json.member_totals || 0
+          const threeNum = json.new_member_cnts || 0
+          const fourNum = json.member_loss_cnts || 0
           this.dataList = [
             { name: '今日总群数', data: oneNum, claseName: 'one' },
             { name: '群管理好友数', data: twoNum, claseName: 'two' },
