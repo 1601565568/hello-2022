@@ -102,7 +102,7 @@
               </div> -->
             </div>
           </div>
-          <div class="drawer-output">
+          <div class="drawer-output" @click="outputCsvFile">
             导出CSV文件
           </div>
         </div>
@@ -323,6 +323,31 @@ export default {
     }
   },
   methods: {
+    outputCsvFile () {
+      console.log('outputCsvFile')
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, {})
+        .then(resp => {
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName = '群分析' + curDate + '.xlsx'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     chatNameChange (val) {
       this.loadChatList()
     },

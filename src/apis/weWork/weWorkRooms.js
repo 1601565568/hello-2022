@@ -47,5 +47,11 @@ export default {
   list: {
     url: '/chat-room/statistics/list',
     method: 'post'
+  },
+  chat_room_list_export: {
+    url: '/chat-room/statistics/chat_room_list_export',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }
