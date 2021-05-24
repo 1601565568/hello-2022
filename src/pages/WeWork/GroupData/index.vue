@@ -39,13 +39,19 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 align="center"
+                @change="datePickerChange"
+                value-format="yyyy-MM-dd"
               >
               </el-date-picker>
             </div>
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
-                <el-select v-model="chatRoomValue" :default-first-option="true" @visible-change="selectOptionOwnerClick">
+                <el-select
+                  v-model="chatRoomValue"
+                  :default-first-option="true"
+                  @visible-change="selectOptionOwnerClick"
+                >
                   <el-option
                     v-for="item in chatRoomOwner"
                     :key="item.value"
@@ -56,13 +62,24 @@
                 </el-select>
               </div>
               <div class="icon-view">
-                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !ownerFlag, 'arrowTransformReturn': ownerFlag}" style="color: #8C8C8C;"/>
+                <Icon
+                  type="ns-arrow-drowdown"
+                  :class="{
+                    arrowTransform: !ownerFlag,
+                    arrowTransformReturn: ownerFlag
+                  }"
+                  style="color: #8C8C8C;"
+                />
               </div>
             </div>
             <div class="item-down">
               <div class="name">群名称：</div>
               <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option="true" @visible-change="selectOptionClick">
+                <el-select
+                  v-model="actionValue"
+                  :default-first-option="true"
+                  @visible-change="selectOptionClick"
+                >
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -73,7 +90,11 @@
                 </el-select>
               </div>
               <div class="icon-view">
-                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
+                <Icon
+                  type="ns-arrow-drowdown"
+                  :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+                  style="color: #8C8C8C;"
+                />
               </div>
             </div>
           </div>
@@ -99,7 +120,8 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="stat_time" label="日期"> </el-table-column>
+                  <el-table-column prop="stat_time" label="日期">
+                  </el-table-column>
                   <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理客户数">
@@ -133,7 +155,8 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="owner_name" label="员工"> </el-table-column>
+                  <el-table-column prop="owner_name" label="员工">
+                  </el-table-column>
                   <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理客户数">
@@ -299,10 +322,18 @@ export default {
       flag: false,
       today: '',
       last7: '',
-      lart30: ''
+      lart30: '',
+      datePickerArr: []
     }
   },
   methods: {
+    datePickerChange (val) {
+      this.datePickerArr = val || []
+      if (this.datePickerArr.length === 0) {
+        this.selectToday = true
+      }
+      this.loadChatList()
+    },
     selectOptionClick (val) {
       this.flag = val
     },
@@ -363,7 +394,8 @@ export default {
     loadPersonList () {
       const parms = {
         searchMap: {},
-        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        start:
+          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
       }
       if (this.paginationToPerson.page === 1) {
@@ -405,37 +437,50 @@ export default {
       this.loadPersonList()
     },
     loadChatList () {
-      let startTime = this.selectToday ? this.last7 : this.lart30
+      let startTime
+      let endTime
+      if (this.datePickerArr.length > 0) {
+        startTime = this.datePickerArr[0]
+        endTime = this.datePickerArr[1]
+      } else {
+        startTime = this.selectToday ? this.last7 : this.lart30
+        endTime = this.today
+      }
       const parms = {
         chatRoomId: '',
-        endTime: this.today,
+        endTime: endTime,
         owner: '',
         startTime: startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
-
         }
       })
     },
     queryChatroomLeaderOptions () {
-      this.$http.fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions)
-        .then((resp) => {
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions)
+        .then(resp => {
           this.chatRoomOwner = resp.result
-        }).catch((resp) => {
         })
+        .catch(resp => {})
     },
     queryWeWorkRoomsNameOptions () {
-      this.$http.fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions)
-        .then((resp) => {
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions)
+        .then(resp => {
           this.options = resp.result
-        }).catch((resp) => {
         })
+        .catch(resp => {})
     },
     dealTime () {
       this.today = moment().format('YYYY-MM-DD')
-      this.last7 = moment().subtract('days', 6).format('YYYY-MM-DD')
-      this.lart30 = moment().subtract('days', 29).format('YYYY-MM-DD')
+      this.last7 = moment()
+        .subtract('days', 6)
+        .format('YYYY-MM-DD')
+      this.lart30 = moment()
+        .subtract('days', 29)
+        .format('YYYY-MM-DD')
     }
   },
   mounted () {
@@ -659,12 +704,12 @@ export default {
     margin-left: 8px;
   }
 }
-.arrowTransform{
+.arrowTransform {
   transition: 0.2s;
   transform-origin: center;
   transform: rotateZ(0deg);
 }
-.arrowTransformReturn{
+.arrowTransformReturn {
   transition: 0.2s;
   transform-origin: center;
   transform: rotateZ(180deg);
