@@ -41,12 +41,12 @@
 .item-select >>> .el-input.el-input--small .el-input__inner {
   font-size: 14px;
   border: none;
-  width: 80px;
+  /* width: 80px; */
 }
 
-.item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+/* .item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
   display: none;
-}
+} */
 
 .input-view >>> .el-input.el-input--small .el-input__inner {
   font-size: 14px;

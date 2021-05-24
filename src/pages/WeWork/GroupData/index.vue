@@ -48,9 +48,11 @@
               <div class="name">群主：</div>
               <div class="item-select">
                 <el-select
-                  v-model="chatRoomValue"
+                  clearable
+                  v-model="chatOwnerName"
                   :default-first-option="true"
                   @visible-change="selectOptionOwnerClick"
+                  @change="owenerChange"
                 >
                   <el-option
                     v-for="item in chatRoomOwner"
@@ -61,7 +63,7 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="icon-view">
+              <!-- <div class="icon-view">
                 <Icon
                   type="ns-arrow-drowdown"
                   :class="{
@@ -70,15 +72,17 @@
                   }"
                   style="color: #8C8C8C;"
                 />
-              </div>
+              </div> -->
             </div>
             <div class="item-down">
-              <div class="name">群名称：</div>
+              <div class="nameNext">群名称：</div>
               <div class="item-select">
                 <el-select
+                  clearable
                   v-model="actionValue"
                   :default-first-option="true"
                   @visible-change="selectOptionClick"
+                  @change="chatNameChange"
                 >
                   <el-option
                     v-for="item in options"
@@ -89,13 +93,13 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="icon-view">
+              <!-- <div class="icon-view">
                 <Icon
                   type="ns-arrow-drowdown"
                   :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
                   style="color: #8C8C8C;"
                 />
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="drawer-output">
@@ -316,7 +320,7 @@ export default {
       listDate: [],
       listPerson: [],
       chatRoomOwner: [],
-      chatRoomValue: '',
+      chatOwnerName: '',
       actionValue: '',
       ownerFlag: false,
       flag: false,
@@ -327,6 +331,12 @@ export default {
     }
   },
   methods: {
+    chatNameChange (val) {
+      this.loadChatList()
+    },
+    owenerChange (val) {
+      this.loadChatList()
+    },
     datePickerChange (val) {
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
@@ -447,9 +457,9 @@ export default {
         endTime = this.today
       }
       const parms = {
-        chatRoomId: '',
+        chatRoomId: this.actionValue,
         endTime: endTime,
-        owner: '',
+        owner: this.chatOwnerName,
         startTime: startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
@@ -683,6 +693,7 @@ export default {
   line-height: 32px;
   text-align: center;
   font-size: 14px;
+  cursor: pointer;
 }
 .date-view {
   margin-left: 16px;
@@ -699,10 +710,14 @@ export default {
   font-size: 14px;
   align-items: center;
   margin-left: 16px;
-  .name {
-    width: 70px;
-    margin-left: 8px;
-  }
+}
+.name {
+  width: 60px;
+  margin-left: 8px;
+}
+.nameNext {
+  width: 90px;
+  margin-left: 8px;
 }
 .arrowTransform {
   transition: 0.2s;
