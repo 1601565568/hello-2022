@@ -18,8 +18,18 @@
         <div class="chat-select">
           <div class="left-select">
             <div class="day-view">
-              <span class="base-text-select">近七天</span>
-              <span class="base-text">近30天</span>
+              <span
+                :class="{ 'base-text-select': selectToday }"
+                class="base-text"
+                @click="selectTodayClick('seven')"
+                >近七天</span
+              >
+              <span
+                :class="{ 'base-text-select': !selectToday }"
+                class="base-text"
+                @click="selectTodayClick('thirty')"
+                >近30天</span
+              >
             </div>
             <div class="date-view">
               <el-date-picker
@@ -132,6 +142,7 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import moment from 'moment'
 export default {
   name: 'GroupData',
   components: { PageTable, NsEcharts },
@@ -272,10 +283,17 @@ export default {
         total: 0
       },
       listDate: [],
-      listPerson: []
+      listPerson: [],
+      selectToday: true,
+      today: '',
+      last7: '',
+      lart30: ''
     }
   },
   methods: {
+    selectTodayClick (val) {
+      this.selectToday = val === 'seven'
+    },
     outputCsvFile () {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -392,9 +410,19 @@ export default {
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
       this.loadPersonList()
+    },
+    dealTime () {
+      this.today = moment().format('YYYY-MM-DD')
+      this.last7 = moment()
+        .subtract('days', 6)
+        .format('YYYY-MM-DD')
+      this.lart30 = moment()
+        .subtract('days', 29)
+        .format('YYYY-MM-DD')
     }
   },
   mounted () {
+    this.dealTime()
     this.loadTopData()
     this.loadDateList()
     this.loadPersonList()
