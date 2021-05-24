@@ -21,11 +21,15 @@
               <span
                 :class="{ 'base-text-select': selectToday }"
                 class="base-text"
-                @click="selectTodayClick('seven')">近七天</span>
+                @click="selectTodayClick('seven')"
+                >近七天</span
+              >
               <span
                 :class="{ 'base-text-select': !selectToday }"
                 class="base-text"
-                @click="selectTodayClick('thirty')">近30天</span>
+                @click="selectTodayClick('thirty')"
+                >近30天</span
+              >
             </div>
             <div class="date-view">
               <el-date-picker
@@ -85,28 +89,28 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listDate"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="日期"> </el-table-column>
-                  <el-table-column prop="send" label="今日群总数">
+                  <el-table-column prop="stat_time" label="日期"> </el-table-column>
+                  <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群管理客户数">
+                  <el-table-column prop="member_totals" label="群管理客户数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群新增客户数">
+                  <el-table-column prop="new_member_cnts" label="群新增客户数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群流失客户数">
+                  <el-table-column prop="member_loss_cnts" label="群流失客户数">
                   </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
                 <el-pagination
                   class="label-dialog__pagination"
-                  :page-sizes="pagination.sizeOpts"
-                  :total="pagination.total"
-                  :current-page.sync="pagination.page"
-                  :page-size="pagination.size"
+                  :page-sizes="paginationToDate.sizeOpts"
+                  :total="paginationToDate.total"
+                  :current-page.sync="paginationToDate.page"
+                  :page-size="paginationToDate.size"
                   layout="total, prev, pager, next"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
@@ -119,28 +123,28 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listPerson"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="员工"> </el-table-column>
-                  <el-table-column prop="send" label="今日群总数">
+                  <el-table-column prop="owner_name" label="员工"> </el-table-column>
+                  <el-table-column prop="chat_total" label="今日群总数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群管理客户数">
+                  <el-table-column prop="member_total" label="群管理客户数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群新增客户数">
+                  <el-table-column prop="new_member_cnt" label="群新增客户数">
                   </el-table-column>
-                  <el-table-column prop="dowm" label="群流失客户数">
+                  <el-table-column prop="member_loss_cnt" label="群流失客户数">
                   </el-table-column>
                 </el-table>
               </template>
               <template slot="pagination">
                 <el-pagination
                   class="label-dialog__pagination"
-                  :page-sizes="pagination.sizeOpts"
-                  :total="pagination.total"
-                  :current-page.sync="pagination.page"
-                  :page-size="pagination.size"
+                  :page-sizes="paginationToPerson.sizeOpts"
+                  :total="paginationToPerson.total"
+                  :current-page.sync="paginationToPerson.page"
+                  :page-size="paginationToPerson.size"
                   layout="total, prev, pager, next"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
@@ -168,28 +172,6 @@ export default {
         { name: '群管理好友数', data: 0, claseName: 'two' },
         { name: '今日群新增好友数', data: 0, claseName: 'three' },
         { name: '今日群流失好友数', data: 0, claseName: 'four' }
-      ],
-      listData: [
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        }
       ],
       option: {
         title: {
@@ -302,13 +284,21 @@ export default {
         }
       ],
       actionValue: '全部动作',
-      pagination: {
+      paginationToPerson: {
         size: 10,
         sizeOpts: [10],
         page: 1,
-        total: 4
+        total: 0
       },
-      selectToday: true
+      paginationToDate: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      },
+      selectToday: true,
+      listDate: [],
+      listPerson: []
     }
   },
   methods: {
@@ -329,22 +319,58 @@ export default {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
           const json = res.result || {}
-          const oneNum = json.chat_totals || 0
-          const twoNum = json.member_totals || 0
-          const threeNum = json.new_member_cnts || 0
-          const fourNum = json.member_loss_cnts || 0
+          const oneNum = json.chat_totals
+          const twoNum = json.member_totals
+          const threeNum = json.new_member_cnts
+          const fourNum = json.member_loss_cnts
           this.dataList = [
             { name: '今日总群数', data: oneNum, claseName: 'one' },
             { name: '群管理好友数', data: twoNum, claseName: 'two' },
-            { name: '今日群新增好友数', data: new_chat_cnts, claseName: 'three' },
+            { name: '今日群新增好友数', data: threeNum, claseName: 'three' },
             { name: '今日群流失好友数', data: fourNum, claseName: 'four' }
           ]
         }
       })
+    },
+    loadDateList () {
+      const parms = {
+        searchMap: {},
+        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+        length: this.paginationToDate.size
+      }
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_date, parms)
+        .then(res => {
+          if (res.success) {
+            const json = res.result
+            const arr = json.data || []
+            this.listDate = arr
+            this.paginationToDate.total = parseInt(res.result.recordsTotal)
+          }
+        })
+    },
+    loadPersonList () {
+      const parms = {
+        searchMap: {},
+        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
+      }
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_owner, parms)
+        .then(res => {
+          if (res.success) {
+            const json = res.result
+            const arr = json.data || []
+            this.listPerson = arr
+            this.paginationToPerson.total = parseInt(res.result.recordsTotal)
+          }
+        })
     }
   },
   mounted () {
     this.loadTopData()
+    this.loadDateList()
+    this.loadPersonList()
   }
 }
 </script>
