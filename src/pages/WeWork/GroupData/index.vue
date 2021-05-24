@@ -112,8 +112,8 @@
                   :current-page.sync="paginationToDate.page"
                   :page-size="paginationToDate.size"
                   layout="total, prev, pager, next"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
+                  @size-change="handleSizeChangeForDate"
+                  @current-change="handleCurrentChangeForDate"
                 >
                 </el-pagination>
               </template>
@@ -146,8 +146,8 @@
                   :current-page.sync="paginationToPerson.page"
                   :page-size="paginationToPerson.size"
                   layout="total, prev, pager, next"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
+                  @size-change="handleSizeChangeForPerson"
+                  @current-change="handleCurrentChangeForPerson"
                 >
                 </el-pagination>
               </template>
@@ -338,6 +338,9 @@ export default {
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
       }
+      if (this.paginationToDate.page === 1) {
+        this.listDate = []
+      }
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.page_list_by_date, parms)
         .then(res => {
@@ -355,6 +358,9 @@ export default {
         start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
       }
+      if (this.paginationToPerson.page === 1) {
+        this.listPerson = []
+      }
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.page_list_by_owner, parms)
         .then(res => {
@@ -365,6 +371,14 @@ export default {
             this.paginationToPerson.total = parseInt(res.result.recordsTotal)
           }
         })
+    },
+    handleSizeChangeForDate (size) {
+    },
+    handleCurrentChangeForDate (page) {
+    },
+    handleSizeChangeForPerson (size) {
+    },
+    handleCurrentChangeForPerson (page) {
     }
   },
   mounted () {
