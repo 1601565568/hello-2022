@@ -275,20 +275,7 @@ export default {
       },
       value1: '',
       activeName: 'first',
-      options: [
-        {
-          value: '选项1',
-          label: '全部动作'
-        },
-        {
-          value: '选项2',
-          label: '下载'
-        },
-        {
-          value: '选项3',
-          label: '发送'
-        }
-      ],
+      options: [],
       paginationToPerson: {
         size: 10,
         sizeOpts: [10],
@@ -415,9 +402,9 @@ export default {
     loadChatList () {
       const parms = {
         chatRoomId: '',
-        endTime: '',
+        endTime: '2021-05-12',
         owner: '',
-        startTime: ''
+        startTime: '2021-05-19'
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
@@ -431,6 +418,13 @@ export default {
           this.chatRoomOwner = resp.result
         }).catch((resp) => {
         })
+    },
+    queryWeWorkRoomsNameOptions () {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions)
+        .then((resp) => {
+          this.options = resp.result
+        }).catch((resp) => {
+        })
     }
   },
   mounted () {
@@ -439,6 +433,7 @@ export default {
     this.loadPersonList()
     this.loadChatList()
     this.queryChatroomLeaderOptions()
+    this.queryWeWorkRoomsNameOptions()
   }
 }
 </script>

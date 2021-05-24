@@ -19,6 +19,13 @@ export default {
     method: 'post'
   },
   /**
+   * @msg: 查询企微群名称
+   */
+  queryWeWorkRoomsNameOptions: {
+    url: '/wework/weworkRooms/queryWeWorkRoomsNameOptions',
+    method: 'post'
+  },
+  /**
    * @msg: 查询企微群群成员信息
    */
   queryWeWorkRoomsMemberTable: {
