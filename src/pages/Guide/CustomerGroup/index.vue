@@ -65,17 +65,30 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listDate"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="日期"> </el-table-column>
-                  <el-table-column prop="send" label="好友群总数"> </el-table-column>
-                  <el-table-column prop="dowm" label="新增群聊数"> </el-table-column>
-                  <el-table-column prop="time" label="有过消息的好友群数"> </el-table-column>
-                  <el-table-column prop="send" label="发过消息的群成员数"> </el-table-column>
-                  <el-table-column prop="dowm" label="好友群消息总数"> </el-table-column>
+                  <el-table-column prop="stat_time" label="日期"> </el-table-column>
+                  <el-table-column prop="chat_totals" label="好友群总数"> </el-table-column>
+                  <el-table-column prop="member_totals" label="新增群聊数"> </el-table-column>
+                  <el-table-column prop="new_member_cnts" label="有过消息的好友群数"> </el-table-column>
+                  <el-table-column prop="member_loss_cnts" label="发过消息的群成员数"> </el-table-column>
+                  <el-table-column prop="member_loss_cnts" label="好友群消息总数"> </el-table-column>
                 </el-table>
+              </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="paginationToDate.sizeOpts"
+                  :total="paginationToDate.total"
+                  :current-page.sync="paginationToDate.page"
+                  :page-size="paginationToDate.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChangeForDate"
+                  @current-change="handleCurrentChangeForDate"
+                >
+                </el-pagination>
               </template>
             </page-table>
           </el-tab-pane>
@@ -83,17 +96,30 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listPerson"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="员工"> </el-table-column>
-                  <el-table-column prop="send" label="好友群总数"> </el-table-column>
-                  <el-table-column prop="dowm" label="新增群聊数"> </el-table-column>
-                  <el-table-column prop="time" label="有过消息的好友群数量"> </el-table-column>
-                  <el-table-column prop="send" label="发过消息的群成员数"> </el-table-column>
-                  <el-table-column prop="dowm" label="好友群消息总数"> </el-table-column>
+                  <el-table-column prop="owner_name" label="员工"> </el-table-column>
+                  <el-table-column prop="chat_total" label="好友群总数"> </el-table-column>
+                  <el-table-column prop="member_total" label="新增群聊数"> </el-table-column>
+                  <el-table-column prop="member_loss_cnt" label="有过消息的好友群数量"> </el-table-column>
+                  <el-table-column prop="member_loss_cnt" label="发过消息的群成员数"> </el-table-column>
+                  <el-table-column prop="member_loss_cnt" label="好友群消息总数"> </el-table-column>
                 </el-table>
+              </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="paginationToPerson.sizeOpts"
+                  :total="paginationToPerson.total"
+                  :current-page.sync="paginationToPerson.page"
+                  :page-size="paginationToPerson.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChangeForPerson"
+                  @current-change="handleCurrentChangeForPerson"
+                >
+                </el-pagination>
               </template>
             </page-table>
           </el-tab-pane>
@@ -116,28 +142,6 @@ export default {
         { name: '有过消息的好友群数', data: 0, claseName: 'two' },
         { name: '发过消息的群成员数', data: 0, claseName: 'three' },
         { name: '好友群消息总数', data: 0, claseName: 'four' }
-      ],
-      listData: [
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        }
       ],
       option: {
         title: {
@@ -300,10 +304,76 @@ export default {
           ]
         }
       })
+    },
+    loadDateList () {
+      const parms = {
+        searchMap: {},
+        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+        length: this.paginationToDate.size
+      }
+      if (this.paginationToDate.page === 1) {
+        this.listDate = []
+      }
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_date, parms)
+        .then(res => {
+          if (res.success) {
+            const json = res.result
+            const arr = json.data || []
+            this.listDate = arr
+            this.paginationToDate.total = parseInt(res.result.recordsTotal)
+          }
+        })
+    },
+    loadPersonList () {
+      const parms = {
+        searchMap: {},
+        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
+      }
+      if (this.paginationToPerson.page === 1) {
+        this.listPerson = []
+      }
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_owner, parms)
+        .then(res => {
+          if (res.success) {
+            const json = res.result
+            const arr = json.data || []
+            this.listPerson = arr
+            this.paginationToPerson.total = parseInt(res.result.recordsTotal)
+          }
+        })
+    },
+    handleSizeChangeForDate (size) {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size,
+        page: 1
+      }
+      this.loadDateList()
+    },
+    handleCurrentChangeForDate (page) {
+      this.paginationToDate.page = page
+      this.loadDateList()
+    },
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadPersonList()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadPersonList()
     }
   },
   mounted () {
     this.loadTopData()
+    this.loadDateList()
+    this.loadPersonList()
   }
 }
 </script>
