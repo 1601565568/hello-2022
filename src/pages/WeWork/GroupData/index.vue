@@ -168,6 +168,7 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import moment from 'moment'
 export default {
   name: 'GroupData',
   components: { PageTable, NsEcharts },
@@ -295,7 +296,10 @@ export default {
       chatRoomValue: '',
       actionValue: '',
       ownerFlag: false,
-      flag: false
+      flag: false,
+      today: '',
+      last7: '',
+      lart30: ''
     }
   },
   methods: {
@@ -307,6 +311,7 @@ export default {
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
+      this.loadChatList()
     },
     lookNoStatistical () {
       this.$router.push({
@@ -400,11 +405,12 @@ export default {
       this.loadPersonList()
     },
     loadChatList () {
+      let startTime = this.selectToday ? this.last7 : this.lart30
       const parms = {
         chatRoomId: '',
-        endTime: '2021-05-12',
+        endTime: this.today,
         owner: '',
-        startTime: '2021-05-19'
+        startTime: startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
@@ -425,9 +431,15 @@ export default {
           this.options = resp.result
         }).catch((resp) => {
         })
+    },
+    dealTime () {
+      this.today = moment().format('YYYY-MM-DD')
+      this.last7 = moment().subtract('days', 6).format('YYYY-MM-DD')
+      this.lart30 = moment().subtract('days', 29).format('YYYY-MM-DD')
     }
   },
   mounted () {
+    this.dealTime()
     this.loadTopData()
     this.loadDateList()
     this.loadPersonList()
