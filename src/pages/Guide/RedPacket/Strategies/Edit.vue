@@ -100,7 +100,7 @@
                 <length-input v-model='model.total' placeholder="请输入红包总数" @input="(value)=>{model.total = value.replace(/[^\d]/g,'')}"  :length='10'/>
                 <p class='prompt-text'><span class='yellow-point'></span>控制此红包的总个数，全部发送完后，则不可发放此红包</p>
               </el-form-item>
-              <el-form-item label='单人单日发放个数上限（个）' required class='larger-item'>
+              <el-form-item v-if='model.launchType !== activityPost' label='单人单日发放个数上限（个）' required class='larger-item'>
                 <div class='form-item_toptext'>
                   <el-radio-group v-model="model.limitType"  @change="resetValite('limitTypeItem')">
                     <el-radio :label="1">有限<el-tooltip content="达到上限后，不能再发送此红包"  placement="top">
@@ -180,7 +180,7 @@
             </el-form-item>
             <el-form-item label='红包祝福语' prop='benediction' class='larger-item'>
               <length-input type="textarea" v-model='model.benediction' placeholder="恭喜发财，大吉大利" :length='25'/>
-              <el-checkbox v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
+              <el-checkbox  v-if='model.launchType !== activityPost' v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
             </el-form-item>
             <el-form-item label='红包封面' prop='coverId' class='larger-item'>
               <template slot='label' class='larger-item_icon'>

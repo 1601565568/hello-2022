@@ -1,4 +1,4 @@
-import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap } from '../const'
+import { redpacketTypeMap, timeTypeForever, redpacketTypeList, setTypeList, normalType, closeType, normalRed, luckyRed, diyRed, timeTypeInterval, setTypeMap, activityPost } from '../const'
 export default {
   data () {
     return {
@@ -13,6 +13,7 @@ export default {
       diyRed,
       timeTypeInterval,
       setTypeMap,
+      activityPost,
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() < new Date(new Date().toLocaleDateString()) - 182 * 24 * 3600 * 1000
