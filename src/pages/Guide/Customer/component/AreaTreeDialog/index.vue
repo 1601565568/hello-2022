@@ -83,7 +83,6 @@ export default {
     open () {
       this.currentArea = this.area
       this.saveScroll()
-      window.console.log('open')
     },
     confirm () {
       this.scrollTop = this.$refs.AreaTree.$parent.wrap.scrollTop
@@ -95,7 +94,6 @@ export default {
       return data.label.indexOf(value) !== -1
     },
     selectAreaNode (data) {
-      window.console.log(data)
       this.currentArea = { id: data.id, label: data.label }
     }
   }

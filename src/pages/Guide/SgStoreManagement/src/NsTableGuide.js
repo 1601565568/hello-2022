@@ -241,7 +241,6 @@ export default {
     },
     onClickNode (data) {
       // 重置所有参数
-      console.log(data, 'datadatadata')
       this.$resetInput$()
       this.model.areaId = data.id
       // if (data.ext1) {
@@ -335,10 +334,6 @@ export default {
           if (resp.success && resp.result !== null) {
             this.shopTreePage.total = Number(resp.result.recordsTotal)
             _this.digitalShopList = resp.result.data
-            console.log(
-              _this.digitalShopList[0].id,
-              '_this.digitalShopList[0].id'
-            )
             _this.model.areaId = _this.digitalShopList[0].id
             // if (typeof _this.$init === 'function') {
             // } else {
