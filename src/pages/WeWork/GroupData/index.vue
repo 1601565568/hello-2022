@@ -45,7 +45,7 @@
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
-                <el-select v-model="chatRoomValue" :default-first-option="true" @visible-change="selectOptionClick">
+                <el-select v-model="chatRoomValue" :default-first-option="true" @visible-change="selectOptionOwnerClick">
                   <el-option
                     v-for="item in chatRoomOwner"
                     :key="item.value"
@@ -56,13 +56,13 @@
                 </el-select>
               </div>
               <div class="icon-view">
-                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
+                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !ownerFlag, 'arrowTransformReturn': ownerFlag}" style="color: #8C8C8C;"/>
               </div>
             </div>
             <div class="item-down">
               <div class="name">群名称：</div>
               <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option="true">
+                <el-select v-model="actionValue" :default-first-option="true" @visible-change="selectOptionClick">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -71,6 +71,9 @@
                   >
                   </el-option>
                 </el-select>
+              </div>
+              <div class="icon-view">
+                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
               </div>
             </div>
           </div>
@@ -304,12 +307,16 @@ export default {
       chatRoomOwner: [],
       chatRoomValue: '',
       actionValue: '',
+      ownerFlag: false,
       flag: false
     }
   },
   methods: {
     selectOptionClick (val) {
       this.flag = val
+    },
+    selectOptionOwnerClick (val) {
+      this.ownerFlag = val
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
