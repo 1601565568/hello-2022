@@ -239,15 +239,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: [
-            '2018/08/06',
-            '2018/08/07',
-            '2018/08/09',
-            '2018/08/10',
-            '2018/08/11',
-            '2018/08/12',
-            '2018/08/13'
-          ],
+          data: [],
           axisLine: {
             show: false
           },
@@ -279,25 +271,25 @@ export default {
             name: '今日总群数',
             type: 'line',
             stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: []
           },
           {
             name: '群管理好友数',
             type: 'line',
             stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           },
           {
             name: '今日群新增好友数',
             type: 'line',
             stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            data: []
           },
           {
             name: '今日群流失好友数',
             type: 'line',
             stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            data: []
           }
         ]
       },
@@ -464,6 +456,41 @@ export default {
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
+          const charts = res.result || []
+          let timeArr = []
+          let todayGroup = []
+          let groupFriends = []
+          let todayFriends = []
+          let todayLoss = []
+          for (const item of charts) {
+            timeArr.push(item.stat_time)
+            todayGroup.push(item.chat_totals)
+            groupFriends.push(item.member_totals)
+            todayFriends.push(item.new_member_cnts)
+            todayLoss.push(item.member_loss_cnts)
+          }
+          this.option.xAxis.data = timeArr
+          this.option.series = [
+            {
+              name: '今日总群数',
+              type: 'line',
+              stack: '总量',
+              data: todayGroup
+            },
+            {
+              name: '群管理好友数',
+              type: 'line',
+              stack: '总量',
+              data: groupFriends
+            },
+            {
+              name: '今日群新增好友数',
+              type: 'line',
+              stack: '总量',
+              data: todayFriends
+            },
+            { name: '今日群流失好友数', type: 'line', stack: '总量', data: todayLoss }
+          ]
         }
       })
     },
