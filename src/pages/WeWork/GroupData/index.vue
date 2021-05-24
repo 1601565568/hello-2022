@@ -43,11 +43,11 @@
               </el-date-picker>
             </div>
             <div class="item-down">
-              <div class="name">发放类型:</div>
+              <div class="name">群主：</div>
               <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option="true">
+                <el-select v-model="chatRoomValue" :default-first-option="true" @visible-change="selectOptionClick">
                   <el-option
-                    v-for="item in options"
+                    v-for="item in chatRoomOwner"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -55,9 +55,12 @@
                   </el-option>
                 </el-select>
               </div>
+              <div class="icon-view">
+                <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
+              </div>
             </div>
             <div class="item-down">
-              <div class="name">选择员工:</div>
+              <div class="name">群名称：</div>
               <div class="item-select">
                 <el-select v-model="actionValue" :default-first-option="true">
                   <el-option
@@ -128,13 +131,13 @@
                   :row-style="{ height: '48px' }"
                 >
                   <el-table-column prop="owner_name" label="员工"> </el-table-column>
-                  <el-table-column prop="chat_total" label="今日群总数">
+                  <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
-                  <el-table-column prop="member_total" label="群管理客户数">
+                  <el-table-column prop="member_totals" label="群管理客户数">
                   </el-table-column>
-                  <el-table-column prop="new_member_cnt" label="群新增客户数">
+                  <el-table-column prop="new_member_cnts" label="群新增客户数">
                   </el-table-column>
-                  <el-table-column prop="member_loss_cnt" label="群流失客户数">
+                  <el-table-column prop="member_loss_cnts" label="群流失客户数">
                   </el-table-column>
                 </el-table>
               </template>
@@ -283,7 +286,6 @@ export default {
           label: '发送'
         }
       ],
-      actionValue: '全部动作',
       paginationToPerson: {
         size: 10,
         sizeOpts: [10],
@@ -298,10 +300,17 @@ export default {
       },
       selectToday: true,
       listDate: [],
-      listPerson: []
+      listPerson: [],
+      chatRoomOwner: [],
+      chatRoomValue: '',
+      actionValue: '',
+      flag: false
     }
   },
   methods: {
+    selectOptionClick (val) {
+      this.flag = val
+    },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
     },
@@ -395,12 +404,34 @@ export default {
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
       this.loadPersonList()
+    },
+    loadChatList () {
+      const parms = {
+        chatRoomId: '',
+        endTime: '',
+        owner: '',
+        startTime: ''
+      }
+      this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
+        if (res.success) {
+
+        }
+      })
+    },
+    queryChatroomLeaderOptions () {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions)
+        .then((resp) => {
+          this.chatRoomOwner = resp.result
+        }).catch((resp) => {
+        })
     }
   },
   mounted () {
     this.loadTopData()
     this.loadDateList()
     this.loadPersonList()
+    this.loadChatList()
+    this.queryChatroomLeaderOptions()
   }
 }
 </script>
@@ -613,5 +644,20 @@ export default {
     width: 70px;
     margin-left: 8px;
   }
+}
+.arrowTransform{
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(0deg);
+}
+.arrowTransformReturn{
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(180deg);
+}
+.icon-view {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>
