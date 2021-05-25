@@ -21,8 +21,18 @@
         <div class="chat-select">
           <div class="left-select">
             <div class="day-view">
-              <span class="base-text">近七天</span>
-              <span class="base-text">近30天</span>
+              <span
+                :class="{ 'base-text-select': selectToday }"
+                class="base-text"
+                @click="selectTodayClick('seven')"
+                >近七天</span
+              >
+              <span
+                :class="{ 'base-text-select': !selectToday }"
+                class="base-text"
+                @click="selectTodayClick('thirty')"
+                >近30天</span
+              >
             </div>
             <div class="date-view">
               <el-date-picker
@@ -308,10 +318,15 @@ export default {
         page: 1,
         total: 0
       },
-      listMaterial: []
+      listMaterial: [],
+      selectToday: true
     }
   },
   methods: {
+    selectTodayClick (val) {
+      this.selectToday = val === 'seven'
+      // this.loadChatList()
+    },
     handleSizeChangeForDate (size) {
       this.paginationToDate = {
         ...this.paginationToDate,
@@ -573,10 +588,23 @@ export default {
     line-height: 22px;
     font-weight: 400;
     margin-right: 16px;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 5px 9px;
+    cursor: pointer;
+  }
+  .base-text-select {
+    font-size: 14px;
+    color: #0091fa;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 500;
+    margin-right: 16px;
     background: #f5fbff;
     border-radius: 4px;
     display: inline-block;
     padding: 5px 9px;
+    cursor: pointer;
   }
 }
 
