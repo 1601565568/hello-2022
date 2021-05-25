@@ -26,7 +26,7 @@
         <div class="item-down">
           <div class="name">动作:</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
+            <el-select v-model="actionValue" :default-first-option="true" @change="selectAction">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -130,16 +130,20 @@ export default {
       activeName: 'first',
       options: [
         {
-          value: '选项1',
+          value: 0,
           label: '全部动作'
         },
         {
-          value: '选项2',
+          value: 16,
           label: '下载'
         },
         {
-          value: '选项3',
+          value: 14,
           label: '发送'
+        },
+        {
+          value: 18,
+          label: '补充'
         }
       ],
       actionValue: '全部动作',
@@ -151,10 +155,15 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      selectActionValue: 0
     }
   },
   methods: {
+    selectAction (val) {
+      this.selectActionValue = val
+      this.loadDetail()
+    },
     transText (val) {
       if (val === 14) {
         return '发送'
