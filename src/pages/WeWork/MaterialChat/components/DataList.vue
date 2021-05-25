@@ -16,7 +16,7 @@
         <div class="item-down">
           <div class="name">动作:</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
+            <el-select v-model="actionValue" :default-first-option="true" @change="selectAction">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -111,23 +111,21 @@ export default {
       direction: 'rtl',
       drawer: false,
       listData: [],
-      inputValue: '',
-      activeName: 'first',
       options: [
         {
-          value: '选项1',
+          value: 0,
           label: '全部动作'
         },
         {
-          value: '16',
+          value: 16,
           label: '下载'
         },
         {
-          value: '14',
+          value: 14,
           label: '发送'
         },
         {
-          value: '18',
+          value: 18,
           label: '补充'
         }
       ],
@@ -139,10 +137,15 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      selectActionValue: 0
     }
   },
   methods: {
+    selectAction (val) {
+      this.selectActionValue = val
+      this.loadDetail()
+    },
     transText (val) {
       if (val === 14) {
         return '发送'
@@ -171,17 +174,19 @@ export default {
     },
     openDeawer (item, startTime, endTime) {
       this.item = item
+      this.item.startTime = startTime
+      this.item.endTime = endTime
       this.drawer = true
-      this.loadDetail(startTime, endTime)
+      this.loadDetail()
     },
     handleClose () {},
     handleClick (tab, event) {},
     handleChangeGuide () {},
     loadDetail (startTime, endTime) {
       const parms = {
-        endTime: endTime,
-        startTime: startTime,
-        eventType: '',
+        endTime: this.item.endTime,
+        startTime: this.item.startTime,
+        eventType: this.selectActionValue,
         guideIdsStr: '',
         shopIdsStr: '',
         materialId: this.item.materialId,
