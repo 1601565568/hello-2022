@@ -111,6 +111,19 @@
                   </el-table-column>
                 </el-table>
               </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="paginationToPerson.sizeOpts"
+                  :total="paginationToPerson.total"
+                  :current-page.sync="paginationToPerson.page"
+                  :page-size="paginationToPerson.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChangeForPerson"
+                  @current-change="handleCurrentChangeForPerson"
+                >
+                </el-pagination>
+              </template>
             </page-table>
           </el-tab-pane>
         </el-tabs>
@@ -288,7 +301,13 @@ export default {
         page: 1,
         total: 0
       },
-      listDate: []
+      listDate: [],
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {

@@ -89,6 +89,15 @@ export default {
   },
 
   /**
+   * 以素材为纬度,获取统计报表
+   */
+  getStatisticsListByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsListByMaterial',
+    method: 'post'
+  },
+
+  /**
    * 以日期为纬度,获取统计报表
    */
   getStatisticsListByDate: {
