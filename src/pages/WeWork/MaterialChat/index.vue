@@ -43,6 +43,8 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 align="center"
+                @change="datePickerChange"
+                value-format="yyyy-MM-dd"
               >
               </el-date-picker>
             </div>
@@ -262,10 +264,20 @@ export default {
         total: 0
       },
       listMaterial: [],
-      selectToday: true
+      selectToday: true,
+      datePickerArr: []
     }
   },
   methods: {
+    datePickerChange (val) {
+      this.datePickerArr = val || []
+      if (this.datePickerArr.length === 0) {
+        this.selectToday = true
+      }
+      this.loadDateList()
+      this.loadMaterialList()
+      this.loadChartData()
+    },
     outputClick () {
       const obj = this.dealSelectTime()
       const parms = {
@@ -486,11 +498,11 @@ export default {
     dealSelectTime () {
       let startTime
       let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
+      if (this.datePickerArr.length > 0) {
+        startTime = this.datePickerArr[0]
+        endTime = this.datePickerArr[1]
       } else {
-        startTime = this.lart30
+        startTime = this.selectToday ? this.last7 : this.lart30
         endTime = this.today
       }
       return { startTime, endTime }
