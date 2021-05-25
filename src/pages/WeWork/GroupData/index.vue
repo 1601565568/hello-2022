@@ -159,7 +159,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="owner_name" label="员工">
+                  <el-table-column prop="user_name" label="员工">
                   </el-table-column>
                   <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>

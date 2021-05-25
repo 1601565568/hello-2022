@@ -39,6 +39,7 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 align="center"
+                @change='datePickerChange'
               >
               </el-date-picker>
             </div>
@@ -50,6 +51,7 @@
                     :appendToBody="true"
                     :isButton="false"
                     :auth="false"
+                    @inputAllData="handleChangeGuide"
                     type="primary"
                     btnTitle=""
                     dialogTitle="选择员工："
@@ -137,7 +139,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="owner_name" label="员工"> </el-table-column>
+                  <el-table-column prop="user_name" label="员工"> </el-table-column>
                   <el-table-column prop="chat_totals" label="好友群总数"> </el-table-column>
                   <el-table-column prop="new_chat_cnts" label="新增群聊数"> </el-table-column>
                   <el-table-column prop="chat_has_msgs" label="有过消息的好友群数量"> </el-table-column>
@@ -219,15 +221,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: [
-            '2018/08/06',
-            '2018/08/07',
-            '2018/08/09',
-            '2018/08/10',
-            '2018/08/11',
-            '2018/08/12',
-            '2018/08/13'
-          ],
+          data: [],
           axisLine: {
             show: false
           },
@@ -259,25 +253,25 @@ export default {
             name: '好友群总数',
             type: 'line',
             stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: []
           },
           {
             name: '有过消息的好友群数',
             type: 'line',
             stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           },
           {
             name: '发过消息的群成员数',
             type: 'line',
             stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           },
           {
             name: '好友群消息总数',
             type: 'line',
             stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           }
         ]
       },
@@ -316,13 +310,11 @@ export default {
       today: '',
       last7: '',
       lart30: '',
-      guideIds: []
+      guideIds: [],
+      datePickerArr: []
     }
   },
   methods: {
-    selectTodayClick (val) {
-      this.selectToday = val === 'seven'
-    },
     outputCsvFile () {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -448,6 +440,81 @@ export default {
       this.lart30 = moment()
         .subtract('days', 29)
         .format('YYYY-MM-DD')
+    },
+    // 时间选择筛选
+    datePickerChange (val) {
+      this.datePickerArr = val || []
+      if (this.datePickerArr.length === 0) {
+        this.selectToday = true
+      }
+      this.loadChatList()
+    },
+    // 选择日期
+    selectTodayClick (val) {
+      this.selectToday = val === 'seven'
+      this.loadChatList()
+    },
+    // 选择员工之后的图标刷新请求
+    handleChangeGuide (value) {
+      this.guideIds = [].concat(value)
+      this.loadChatList()
+    },
+    // 获取图表数据
+    loadChatList () {
+      let startTime
+      let endTime
+      if (this.datePickerArr.length > 0) {
+        startTime = this.datePickerArr[0]
+        endTime = this.datePickerArr[1]
+      } else {
+        startTime = this.selectToday ? this.last7 : this.lart30
+        endTime = this.today
+      }
+      let arrList = this.guideIds.length > 0 && this.guideIds.map(item => item.id)
+      const parms = {
+        userIds: arrList,
+        endTime: endTime,
+        startTime: startTime
+      }
+      this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
+        if (res.success) {
+          const charts = res.result || []
+          let timeArr = []
+          let todayGroup = []
+          let groupFriends = []
+          let todayFriends = []
+          let todayLoss = []
+          for (const item of charts) {
+            timeArr.push(item.stat_time)
+            todayGroup.push(item.chat_totals)
+            groupFriends.push(item.chat_has_msgs)
+            todayFriends.push(item.member_has_msgs)
+            todayLoss.push(item.msg_totals)
+          }
+          this.option.xAxis.data = timeArr
+          this.option.series = [
+            {
+              name: '好友群总数',
+              type: 'line',
+              stack: '总量',
+              data: todayGroup
+            },
+            {
+              name: '有过消息的好友群数',
+              type: 'line',
+              stack: '总量',
+              data: groupFriends
+            },
+            {
+              name: '发过消息的群成员数',
+              type: 'line',
+              stack: '总量',
+              data: todayFriends
+            },
+            { name: '好友群消息总数', type: 'line', stack: '总量', data: todayLoss }
+          ]
+        }
+      })
     }
   },
   mounted () {
@@ -455,6 +522,7 @@ export default {
     this.loadTopData()
     this.loadDateList()
     this.loadPersonList()
+    this.loadChatList()
   }
 }
 </script>

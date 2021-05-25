@@ -41,9 +41,10 @@ export default {
     method: 'post'
   },
   page_list_by_owner: {
-    url: '/chat-room/statistics/page_list_by_owner',
+    url: '/chat-room/statistics/page_list_by_user',
     method: 'post'
   },
+  // 获取群会话(群分析)统计图表接口
   list: {
     url: '/chat-room/statistics/list',
     method: 'post'
