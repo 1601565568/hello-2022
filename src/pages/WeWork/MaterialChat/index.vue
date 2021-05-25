@@ -61,6 +61,7 @@
       <div class="title">数据报表</div>
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
+          <div class="remind-data-view">一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           <el-tab-pane label="按日期统计" name="first">
             <page-table style="padding-top:0">
               <template slot="table">
@@ -704,5 +705,17 @@ export default {
   color: #8c8c8c;
   line-height: 24px;
   font-weight: 400;
+}
+.remind-data-view {
+  height: 57px;
+  background: #F3F9FF;
+  border-radius: 4px;
+  margin: 16px 16px 0 16px;
+  font-size: 14px;
+  color: #979797;
+  letter-spacing: 0;
+  font-weight: 400;
+  line-height: 57px;
+  padding-left: 16px;
 }
 </style>
