@@ -21,7 +21,7 @@
           ></Icon>
         </el-input>
       </div>
-      <div class="output-button">导出CSV文件</div>
+      <div class="output-button" @click="outputCsvFile">导出CSV文件</div>
     </div>
     <div class="chat-bg">
       <div></div>
@@ -108,6 +108,31 @@ export default {
     }
   },
   methods: {
+    outputCsvFile () {
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.guide.exportExcelByNoComplete, {})
+        .then(resp => {
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName =
+              '素材库未执行统计' + curDate + '.xlsx'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     handleSizeChangeForDate (size) {
       this.paginationToDate = {
         ...this.paginationToDate,
