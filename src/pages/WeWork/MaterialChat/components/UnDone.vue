@@ -97,59 +97,9 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      listData: [
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        }
-      ],
+      listData: [],
       inputValue: '',
       activeName: 'first',
-      options: [
-        {
-          value: '选项1',
-          label: '全部动作'
-        },
-        {
-          value: '选项2',
-          label: '下载'
-        },
-        {
-          value: '选项3',
-          label: '发送'
-        }
-      ],
       item: {},
       guideIdsStr: '',
       paginationToPerson: {

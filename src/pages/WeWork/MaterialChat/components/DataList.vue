@@ -117,11 +117,11 @@ export default {
           label: '全部动作'
         },
         {
-          value: 16,
+          value: 14,
           label: '下载'
         },
         {
-          value: 14,
+          value: 16,
           label: '发送'
         },
         {
