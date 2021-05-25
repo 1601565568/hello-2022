@@ -56,7 +56,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="date" label="日期"> </el-table-column>
+                  <el-table-column prop="trackTime" label="日期"> </el-table-column>
                   <el-table-column prop="nowSendSum" label="发送次数"> </el-table-column>
                   <el-table-column prop="nowDownloadSum" label="下载次数"> </el-table-column>
                   <el-table-column prop="nowCompletionSum" label="补全次数"> </el-table-column>
