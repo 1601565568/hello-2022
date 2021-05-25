@@ -136,7 +136,7 @@
           <div class="u_v1">若不变更已创建的红包策略，请新增支付配置</div>
         </div>
         <span slot="footer" class="dialog-footer">
-          <ns-button @click="handleCancel" :loading='btnLoad'>取消</ns-button>
+          <ns-button @click="innerVisible = false" :loading='btnLoad'>取消</ns-button>
           <ns-button type="primary" @click="continueToSave" :loading='btnLoad'>继续保存</ns-button>
         </span>
       </el-dialog>
