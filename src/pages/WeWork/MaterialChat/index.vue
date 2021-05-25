@@ -2,7 +2,9 @@
   <div>
     <div class="material-data">
       <div class="top-view">
-        <div class="title">素材库累计数据</div>
+        <div class="title">素材库累计数据
+          <span class="sub-title">（数据统计至前一日）</span>
+        </div>
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
@@ -119,9 +121,9 @@ export default {
         { name: '素材发送次数总计', data: 782146816478, claseName: 'one' },
         { name: '素材下载总次数', data: 782146816478, claseName: 'two' },
         { name: '素材补全总次数', data: 782146816478, claseName: 'three' },
-        { name: '今日素材发送次数', data: 782146816478, claseName: 'four' },
-        { name: '今日素材下载次数', data: 782146816478, claseName: 'five' },
-        { name: '今日素材补全次数', data: 782146816478, claseName: 'six' }
+        { name: '昨日素材发送次数', data: 782146816478, claseName: 'four' },
+        { name: '昨日素材下载次数', data: 782146816478, claseName: 'five' },
+        { name: '昨日素材补全次数', data: 782146816478, claseName: 'six' }
       ],
       listData: [
         {
@@ -157,9 +159,9 @@ export default {
             '素材发送次数总计',
             '素材下载总次数',
             '素材补全总次数',
-            '今日素材发送次数',
-            '今日素材下载次数',
-            '今日素材补全次数'
+            '昨日素材发送次数',
+            '昨日素材下载次数',
+            '昨日素材补全次数'
           ],
           left: '0',
           bottom: '9%',
@@ -241,19 +243,19 @@ export default {
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
-            name: '今日素材发送次数',
+            name: '昨日素材发送次数',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
           },
           {
-            name: '今日素材下载次数',
+            name: '昨日素材下载次数',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
           },
           {
-            name: '今日素材补全次数',
+            name: '昨日素材补全次数',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
@@ -448,5 +450,11 @@ export default {
 }
 .date-view {
   margin-left: 16px;
+}
+.sub-title {
+  font-size: 16px;
+  color: #8C8C8C;
+  line-height: 24px;
+  font-weight: 400;
 }
 </style>
