@@ -84,7 +84,9 @@ export default {
       phone: null, // 联系电话
       area_region: null, // 所属地区
       shopStatus: null, // 营业状态
-      area: [] // 所属区域
+      area: [], // 所属区域
+      areaId: '',
+      areaName: ''
     }
     let model = Object.assign({}, findVo)
     return {
@@ -164,6 +166,7 @@ export default {
   mounted: function () {
     var vm = this
     vm.initDigitalShopList()
+    window.console.log('aaaa', this.$data)
     // let limitHeight =
     //   window.innerHeight -
     //   40 -
@@ -243,13 +246,7 @@ export default {
       // 重置所有参数
       this.$resetInput$()
       this.model.areaId = data.id
-      // if (data.ext1) {
-      //   this.model.areaId = data.ext1
-      // } else if (data.id !== '0') {
-      //   this.model.areaId = '0'
-      // } else if (data.id === '0') {
-      //   this.model.areaId = null
-      // }
+      this.model.areaName = data.label
       this._data._table.searchMap = $.extend(true, {}, this.model)
       this.loading = true
       this.$reload().then(rep => {
@@ -322,7 +319,7 @@ export default {
     initDigitalShopList (page) {
       this.shopTreePage.page = page || 1
       var _this = this
-      _this.$http
+      this.$http
         .fetch(_this.$api.guide.shop.findDigitalShopList, {
           start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
           length: this.shopTreePage.size,
@@ -333,13 +330,10 @@ export default {
         .then(resp => {
           if (resp.success && resp.result !== null) {
             this.shopTreePage.total = Number(resp.result.recordsTotal)
-            _this.digitalShopList = resp.result.data
-            _this.model.areaId = _this.digitalShopList[0].id
-            // if (typeof _this.$init === 'function') {
-            // } else {
-            //   _this.$reload()
-            // }
-            _this.$searchAction$()
+            this.digitalShopList = resp.result.data
+            this.model.areaId = this.digitalShopList[0].id
+            this.model.areaName = this.digitalShopList[0].label
+            this.$searchAction$()
           }
         })
         .catch(resp => {

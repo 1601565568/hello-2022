@@ -8,9 +8,22 @@
                 @click="initDigitalShopList(1)"/>
         </el-input>
         <el-scrollbar ref='pageLeft' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
-          <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
-                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :current-node-key='currentNodeKey'
-                   :filter-node-method="onFilterNode"  :render-content="renderNode" @node-click="onClickNode">
+          <el-tree
+            v-if="model.areaId"
+            class="filter-tree"
+            ref="shopTree"
+            :data="digitalShopList"
+            highlight-current
+            node-key="id"
+            :show-checkbox="false"
+            :default-expand-all="false"
+            :expand-on-click-node="false"
+            :current-node-key="model.areaId"
+            :default-expanded-keys="[model.areaId]"
+            :filter-node-method="onFilterNode"
+            :render-content="renderNode"
+            @node-click="onClickNode"
+          >
             <div class="subdivision-tree-node" slot-scope="{ node }">
               <span>{{node.label}}</span>
               <span v-if="node.label === '全部'">
@@ -32,10 +45,9 @@
       </div>
       <div class="template-page__row-right">
         <el-scrollbar ref="pageRight">
-          <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
           <nsPageTable @synchronousStores="$emit('synchronousStores')" @showShop="$emit('showShop')"
                          @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
-            <template slot="head"><div class="head">集团区域<span>{{_data._pagination.total}}个</span></div></template>
+            <template slot="head"><div class="head">{{model.areaName}}<span>{{_data._pagination.total}}个</span></div></template>
             <!-- 按钮 -->
             <template slot="buttons">
               <div class="template-table-buttons">
@@ -119,7 +131,6 @@
 
                 <el-form-item label="门店地址："  prop="area">
                   <el-form-grid width="200" prop="area">
-                    <!-- <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area> -->
                     <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area"
                              clearable></ns-area>
                   </el-form-grid>
