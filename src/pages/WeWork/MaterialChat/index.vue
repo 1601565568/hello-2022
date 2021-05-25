@@ -172,28 +172,7 @@ export default {
         { name: '昨日素材下载次数', data: 0, claseName: 'five' },
         { name: '昨日素材补全次数', data: 0, claseName: 'six' }
       ],
-      listData: [
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          time: '2021-02-14',
-          send: '789787',
-          dowm: '47867979'
-        }
-      ],
+      listData: [],
       option: {
         title: {
           text: ''
@@ -235,15 +214,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: [
-            '2018/08/06',
-            '2018/08/07',
-            '2018/08/09',
-            '2018/08/10',
-            '2018/08/11',
-            '2018/08/12',
-            '2018/08/13'
-          ],
+          data: [],
           axisLine: {
             show: false
           },
@@ -270,44 +241,7 @@ export default {
             lineHeight: 20
           }
         },
-        series: [
-          {
-            name: '素材发送次数总计',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '素材下载总次数',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '素材补全总次数',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '昨日素材发送次数',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '昨日素材下载次数',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '昨日素材补全次数',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          }
-        ]
+        series: []
       },
       value1: '',
       activeName: 'first',
@@ -535,6 +469,89 @@ export default {
         })
         .catch(resp => {})
         .finally(() => {})
+    },
+    loadChartData () {
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
+      const parms = {
+        endTime: endTime,
+        startTime: startTime,
+        eventType: 0,
+        guideIdsStr: '',
+        shopIdsStr: ''
+      }
+      this.$http
+        .fetch(this.$api.guide.getChartData, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result || []
+            const arr = json.reverse()
+            let times = []
+            let sendTotal = []
+            let downTotal = []
+            let addTotal = []
+            let ySendTotal = []
+            let yDownTotal = []
+            let yAddTotal = []
+            for (const item of arr) {
+              times.push(item.date)
+              sendTotal.push(item.sendSum)
+              downTotal.push(item.downloadSum)
+              addTotal.push(item.completionSum)
+              ySendTotal.push(item.nowSendSum)
+              yDownTotal.push(item.nowDownloadSum)
+              yAddTotal.push(item.nowCompletionSum)
+            }
+            this.option.xAxis.data = times
+            this.option.series = [
+              {
+                name: '素材发送次数总计',
+                type: 'line',
+                stack: '总量',
+                data: sendTotal
+              },
+              {
+                name: '素材下载总次数',
+                type: 'line',
+                stack: '总量',
+                data: downTotal
+              },
+              {
+                name: '素材补全总次数',
+                type: 'line',
+                stack: '总量',
+                data: addTotal
+              },
+              {
+                name: '昨日素材发送次数',
+                type: 'line',
+                stack: '总量',
+                data: ySendTotal
+              },
+              {
+                name: '昨日素材下载次数',
+                type: 'line',
+                stack: '总量',
+                data: yDownTotal
+              },
+              {
+                name: '昨日素材补全次数',
+                type: 'line',
+                stack: '总量',
+                data: yAddTotal
+              }
+            ]
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     }
   },
   mounted () {
@@ -542,6 +559,7 @@ export default {
     this.loadTopData()
     this.loadDateList()
     this.loadMaterialList()
+    this.loadChartData()
   }
 }
 </script>
