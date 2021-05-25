@@ -267,18 +267,10 @@ export default {
   },
   methods: {
     outputClick () {
-      let startTime
-      let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
-      } else {
-        startTime = this.lart30
-        endTime = this.today
-      }
+      const obj = this.dealSelectTime()
       const parms = {
-        endTime: endTime,
-        startTime: startTime
+        endTime: obj.endTime,
+        startTime: obj.startTime
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -308,7 +300,7 @@ export default {
       this.selectToday = val === 'seven'
       this.loadDateList()
       this.loadMaterialList()
-      // this.loadChatList()
+      this.loadChartData()
     },
     handleSizeChangeForDate (size) {
       this.paginationToDate = {
@@ -353,16 +345,8 @@ export default {
       this.$refs.timeList.openDeawer(row)
     },
     showMoreToPerson (row) {
-      let startTime
-      let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
-      } else {
-        startTime = this.lart30
-        endTime = this.today
-      }
-      this.$refs.detaList.openDeawer(row, startTime, endTime)
+      const obj = this.dealSelectTime()
+      this.$refs.detaList.openDeawer(row, obj.startTime, obj.endTime)
     },
     loadTopData () {
       this.$http
@@ -408,19 +392,11 @@ export default {
         .finally(() => {})
     },
     loadDateList () {
-      let startTime
-      let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
-      } else {
-        startTime = this.lart30
-        endTime = this.today
-      }
+      const obj = this.dealSelectTime()
       const parms = {
         searchMap: {
-          endTime: endTime,
-          startTime: startTime
+          endTime: obj.endTime,
+          startTime: obj.startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
@@ -439,19 +415,11 @@ export default {
         .finally(() => {})
     },
     loadMaterialList () {
-      let startTime
-      let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
-      } else {
-        startTime = this.lart30
-        endTime = this.today
-      }
+      const obj = this.dealSelectTime()
       const parms = {
         searchMap: {
-          endTime: endTime,
-          startTime: startTime
+          endTime: obj.endTime,
+          startTime: obj.startTime
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -471,18 +439,10 @@ export default {
         .finally(() => {})
     },
     loadChartData () {
-      let startTime
-      let endTime
-      if (this.selectToday) {
-        startTime = this.last7
-        endTime = this.today
-      } else {
-        startTime = this.lart30
-        endTime = this.today
-      }
+      const obj = this.dealSelectTime()
       const parms = {
-        endTime: endTime,
-        startTime: startTime,
+        endTime: obj.endTime,
+        startTime: obj.startTime,
         eventType: 0,
         guideIdsStr: '',
         shopIdsStr: ''
@@ -493,13 +453,13 @@ export default {
           if (resp.success) {
             const json = resp.result || []
             const arr = json.reverse()
-            let times = []
-            let sendTotal = []
-            let downTotal = []
-            let addTotal = []
-            let ySendTotal = []
-            let yDownTotal = []
-            let yAddTotal = []
+            const times = []
+            const sendTotal = []
+            const downTotal = []
+            const addTotal = []
+            const ySendTotal = []
+            const yDownTotal = []
+            const yAddTotal = []
             for (const item of arr) {
               times.push(item.date)
               sendTotal.push(item.sendSum)
@@ -511,47 +471,29 @@ export default {
             }
             this.option.xAxis.data = times
             this.option.series = [
-              {
-                name: '素材发送次数总计',
-                type: 'line',
-                stack: '总量',
-                data: sendTotal
-              },
-              {
-                name: '素材下载总次数',
-                type: 'line',
-                stack: '总量',
-                data: downTotal
-              },
-              {
-                name: '素材补全总次数',
-                type: 'line',
-                stack: '总量',
-                data: addTotal
-              },
-              {
-                name: '昨日素材发送次数',
-                type: 'line',
-                stack: '总量',
-                data: ySendTotal
-              },
-              {
-                name: '昨日素材下载次数',
-                type: 'line',
-                stack: '总量',
-                data: yDownTotal
-              },
-              {
-                name: '昨日素材补全次数',
-                type: 'line',
-                stack: '总量',
-                data: yAddTotal
-              }
+              { name: '素材发送次数总计', type: 'line', stack: '总量', data: sendTotal },
+              { name: '素材下载总次数', type: 'line', stack: '总量', data: downTotal },
+              { name: '素材补全总次数', type: 'line', stack: '总量', data: addTotal },
+              { name: '昨日素材发送次数', type: 'line', stack: '总量', data: ySendTotal },
+              { name: '昨日素材下载次数', type: 'line', stack: '总量', data: yDownTotal },
+              { name: '昨日素材补全次数', type: 'line', stack: '总量', data: yAddTotal }
             ]
           }
         })
         .catch(resp => {})
         .finally(() => {})
+    },
+    dealSelectTime () {
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
+      return { startTime, endTime }
     }
   },
   mounted () {
