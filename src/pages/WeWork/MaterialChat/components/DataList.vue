@@ -75,9 +75,9 @@
               }}</template>
             </el-table-column>
             <el-table-column prop="guideName" label="员工"> </el-table-column>
-            <el-table-column prop="address" label="所属门店">
+            <el-table-column prop="shopName" label="所属门店">
               <template slot-scope="scope">{{
-                  scope.row.address || '-'
+                  scope.row.shopName || '-'
               }}</template>
             </el-table-column>
           </el-table>
