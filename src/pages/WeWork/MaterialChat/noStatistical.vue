@@ -4,14 +4,16 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>数据运营</el-breadcrumb-item>
         <el-breadcrumb-item>企微运营数据</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/Social/OperationData/MaterialChat' }">素材库行为统计</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/OperationData/MaterialChat' }"
+          >素材库行为统计</el-breadcrumb-item
+        >
         <el-breadcrumb-item>未执行统计</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="name-view">未执行统计</div>
     <div class="output-view">
       <div class="no-input-view">
-        <el-input v-model="inputTitle" placeholder="请输入素材标题">
+        <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inpuutClick">
           <Icon
             type="ns-search-copy"
             slot="suffix"
@@ -29,29 +31,55 @@
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table
-            :data="listData"
+            :data="listDate"
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="title" label="素材标题"> </el-table-column>
-            <el-table-column prop="send" label="未发送人次"> </el-table-column>
-            <el-table-column prop="dowm" label="未下载人次"> </el-table-column>
-            <el-table-column prop="dowm" label="未补全人次"> </el-table-column>
+            <el-table-column prop="materialTitle" label="素材标题">
+            </el-table-column>
+            <el-table-column prop="noCompleteSend" label="未发送人次">
+              <template slot-scope="scope">{{
+                scope.row.noCompleteSend || '-'
+              }}</template>
+            </el-table-column>
+            <el-table-column prop="noCompleteDownload" label="未下载人次">
+              <template slot-scope="scope">{{
+                scope.row.noCompleteDownload || '-'
+              }}</template>
+            </el-table-column>
+            <el-table-column prop="noCompleteCompletion" label="未补全人次">
+              <template slot-scope="scope">{{
+                scope.row.noCompleteCompletion || '-'
+              }}</template>
+            </el-table-column>
             <el-table-column prop="status" width="125px" label="操作">
               <template>
                 <ns-button
                   type="text"
                   class="select-button"
                   @click="showMoreData"
-                  >查看数据</ns-button
+                  >查看明细</ns-button
                 >
               </template>
             </el-table-column>
           </el-table>
         </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="paginationToDate.sizeOpts"
+            :total="paginationToDate.total"
+            :current-page.sync="paginationToDate.page"
+            :page-size="paginationToDate.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChangeForDate"
+            @current-change="handleCurrentChangeForDate"
+          >
+          </el-pagination>
+        </template>
       </page-table>
     </div>
-    <UnDone ref="undone"/>
+    <UnDone ref="undone" />
   </div>
 </template>
 
@@ -70,36 +98,58 @@ export default {
   },
   data () {
     return {
-      name: 'zhang san',
-      listData: [
-        {
-          title: '素材标题素材标题素材标题素材标题素材标题素…',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          title: '素材标题素材标题素材标题素材标题素材标题素…',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          title: '素材标题素材标题素材标题素材标题素材标题素…',
-          send: '789787',
-          dowm: '47867979'
-        },
-        {
-          title: '素材标题素材标题素材标题素材标题素材标题素…',
-          send: '789787',
-          dowm: '47867979'
-        }
-      ],
-      inputTitle: ''
+      inputTitle: '',
+      paginationToDate: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
+    handleSizeChangeForDate (size) {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size,
+        page: 1
+      }
+      this.loadList()
+    },
+    handleCurrentChangeForDate (page) {
+      this.paginationToDate.page = page
+      this.loadList()
+    },
+    inpuutClick () {
+      this.loadList()
+    },
     showMoreData () {
       this.$refs.undone.closeDeawer()
+    },
+    loadList () {
+      const parms = {
+        searchMap: {
+          materialTitle: this.inputTitle
+        },
+        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+        length: this.paginationToDate.size
+      }
+      this.$http
+        .fetch(this.$api.guide.getNoCompleteStatisticsByMaterial, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result
+            const arr = json.data || []
+            this.listDate = arr
+            this.paginationToDate.total = parseInt(json.recordsTotal)
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     }
+  },
+  mounted () {
+    this.loadList()
   }
 }
 </script>

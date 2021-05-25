@@ -89,6 +89,15 @@ export default {
   },
 
   /**
+   * 素材纬度:获取素材未完成统计列表
+   */
+  getNoCompleteStatisticsByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getNoCompleteStatisticsByMaterial',
+    method: 'post'
+  },
+
+  /**
    * 获取日期完成明细
    */
   getStatisticsDetailByDate: {
