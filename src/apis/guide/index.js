@@ -89,6 +89,26 @@ export default {
   },
 
   /**
+   * 完成统计:EXCEL导出
+   */
+  exportExcelByComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 数据统计图表数据
+   */
+  getChartData: {
+    // 素材列表
+    url: '/guide/material/statistics/getChartData',
+    method: 'post'
+  },
+
+  /**
    * 以素材为纬度,获取统计报表
    */
   getStatisticsListByMaterial: {

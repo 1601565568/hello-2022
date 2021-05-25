@@ -2,13 +2,14 @@
   <div>
     <div class="material-data">
       <div class="top-view">
-        <div class="title">素材库累计数据
+        <div class="title">
+          素材库累计数据
           <span class="sub-title">（数据统计至前一日）</span>
         </div>
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
-        <div v-for="(item,index) in dataList" :key="index">
+        <div v-for="(item, index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
@@ -46,7 +47,7 @@
               </el-date-picker>
             </div>
           </div>
-          <div class="drawer-output">
+          <div class="drawer-output" @click="outputClick">
             导出CSV文件
           </div>
         </div>
@@ -66,10 +67,14 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="trackTime" label="日期"> </el-table-column>
-                  <el-table-column prop="nowSendSum" label="发送次数"> </el-table-column>
-                  <el-table-column prop="nowDownloadSum" label="下载次数"> </el-table-column>
-                  <el-table-column prop="nowCompletionSum" label="补全次数"> </el-table-column>
+                  <el-table-column prop="trackTime" label="日期">
+                  </el-table-column>
+                  <el-table-column prop="nowSendSum" label="发送次数">
+                  </el-table-column>
+                  <el-table-column prop="nowDownloadSum" label="下载次数">
+                  </el-table-column>
+                  <el-table-column prop="nowCompletionSum" label="补全次数">
+                  </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
                     <template>
                       <ns-button
@@ -105,10 +110,14 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="materialTitle" label="素材标题"> </el-table-column>
-                  <el-table-column prop="sendSum" label="发送次数"> </el-table-column>
-                  <el-table-column prop="completionSum" label="下载次数"> </el-table-column>
-                  <el-table-column prop="downloadSum" label="补全次数"> </el-table-column>
+                  <el-table-column prop="materialTitle" label="素材标题">
+                  </el-table-column>
+                  <el-table-column prop="sendSum" label="发送次数">
+                  </el-table-column>
+                  <el-table-column prop="completionSum" label="下载次数">
+                  </el-table-column>
+                  <el-table-column prop="downloadSum" label="补全次数">
+                  </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
                     <template>
                       <ns-button
@@ -323,6 +332,44 @@ export default {
     }
   },
   methods: {
+    outputClick () {
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
+      const parms = {
+        endTime: endTime,
+        startTime: startTime
+      }
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.guide.exportExcelByComplete, parms)
+        .then(resp => {
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName =
+              '素材行为数据统计' + startTime + '至' + endTime + '.xlsx'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
       this.loadDateList()
@@ -367,29 +414,53 @@ export default {
         path: '/Social/OperationData/NoStatistical'
       })
     },
-    handleClick () {
-
-    },
+    handleClick () {},
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
     },
     loadTopData () {
-      this.$http.fetch(this.$api.guide.getSumData, {}).then(resp => {
-        if (resp.success) {
-          const json = resp.result || {}
-          this.dataList = [
-            { name: '素材发送次数总计', data: json.sendSum || 0, claseName: 'one' },
-            { name: '素材下载总次数', data: json.downloadSum || 0, claseName: 'two' },
-            { name: '素材补全总次数', data: json.completionSum || 0, claseName: 'three' },
-            { name: '昨日素材发送次数', data: json.nowSendSum || 0, claseName: 'four' },
-            { name: '昨日素材下载次数', data: json.nowDownloadSum || 0, claseName: 'five' },
-            { name: '昨日素材补全次数', data: json.nowCompletionSum || 0, claseName: 'six' }
-          ]
-        }
-      }).catch(resp => {
-      }).finally(() => {
-      })
+      this.$http
+        .fetch(this.$api.guide.getSumData, {})
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result || {}
+            this.dataList = [
+              {
+                name: '素材发送次数总计',
+                data: json.sendSum || 0,
+                claseName: 'one'
+              },
+              {
+                name: '素材下载总次数',
+                data: json.downloadSum || 0,
+                claseName: 'two'
+              },
+              {
+                name: '素材补全总次数',
+                data: json.completionSum || 0,
+                claseName: 'three'
+              },
+              {
+                name: '昨日素材发送次数',
+                data: json.nowSendSum || 0,
+                claseName: 'four'
+              },
+              {
+                name: '昨日素材下载次数',
+                data: json.nowDownloadSum || 0,
+                claseName: 'five'
+              },
+              {
+                name: '昨日素材补全次数',
+                data: json.nowCompletionSum || 0,
+                claseName: 'six'
+              }
+            ]
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     },
     loadDateList () {
       let startTime
@@ -409,16 +480,18 @@ export default {
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
       }
-      this.$http.fetch(this.$api.guide.getStatisticsListByDate, parms).then(resp => {
-        if (resp.success) {
-          const json = resp.result
-          const arr = json.data || []
-          this.listDate = arr
-          this.paginationToDate.total = parseInt(json.recordsTotal)
-        }
-      }).catch(resp => {
-      }).finally(() => {
-      })
+      this.$http
+        .fetch(this.$api.guide.getStatisticsListByDate, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result
+            const arr = json.data || []
+            this.listDate = arr
+            this.paginationToDate.total = parseInt(json.recordsTotal)
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     },
     loadMaterialList () {
       let startTime
@@ -435,19 +508,22 @@ export default {
           endTime: endTime,
           startTime: startTime
         },
-        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        start:
+          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
       }
-      this.$http.fetch(this.$api.guide.getStatisticsListByMaterial, parms).then(resp => {
-        if (resp.success) {
-          const json = resp.result
-          const arr = json.data || []
-          this.listMaterial = arr
-          this.paginationToPerson.total = parseInt(json.recordsTotal)
-        }
-      }).catch(resp => {
-      }).finally(() => {
-      })
+      this.$http
+        .fetch(this.$api.guide.getStatisticsListByMaterial, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result
+            const arr = json.data || []
+            this.listMaterial = arr
+            this.paginationToPerson.total = parseInt(json.recordsTotal)
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     }
   },
   mounted () {
@@ -570,7 +646,7 @@ export default {
     line-height: 56px;
     font-weight: 500;
     height: 56px;
-    margin-left:16px;
+    margin-left: 16px;
   }
   .select-data-view {
     margin: 0;
@@ -642,7 +718,7 @@ export default {
 }
 .sub-title {
   font-size: 16px;
-  color: #8C8C8C;
+  color: #8c8c8c;
   line-height: 24px;
   font-weight: 400;
 }
