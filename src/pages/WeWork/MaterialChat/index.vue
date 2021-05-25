@@ -325,6 +325,8 @@ export default {
   methods: {
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
+      this.loadDateList()
+      this.loadMaterialList()
       // this.loadChatList()
     },
     handleSizeChangeForDate (size) {
@@ -390,10 +392,19 @@ export default {
       })
     },
     loadDateList () {
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
       const parms = {
         searchMap: {
-          endTime: this.today,
-          startTime: this.last7
+          endTime: endTime,
+          startTime: startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
@@ -410,11 +421,19 @@ export default {
       })
     },
     loadMaterialList () {
-      // listMaterial
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
       const parms = {
         searchMap: {
-          endTime: this.today,
-          startTime: this.last7
+          endTime: endTime,
+          startTime: startTime
         },
         start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
