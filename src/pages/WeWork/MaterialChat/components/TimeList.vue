@@ -20,6 +20,7 @@
             autofocus="false"
             type="text"
             v-model="inputTitle"
+            @change="inputChange"
           >
           </el-input>
         </div>
@@ -161,6 +162,9 @@ export default {
     }
   },
   methods: {
+    inputChange () {
+      this.loadDetail()
+    },
     selectAction (val) {
       this.selectActionValue = val
       this.loadDetail()
