@@ -128,7 +128,6 @@ export default {
       drawer: false,
       listData: [],
       inputValue: '',
-      activeName: 'first',
       options: [
         {
           value: 0,
@@ -192,9 +191,24 @@ export default {
       this.loadDetail()
     },
     openDeawer (item) {
+      this.initData()
       this.drawer = true
       this.item = item
       this.loadDetail()
+    },
+    initData () {
+      this.item = {}
+      this.actionValue = '全部动作'
+      this.guideIds = []
+      this.eventType = 0
+      this.guideIdsStr = ''
+      this.inputTitle = ''
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     },
     closeDeawer () {
       this.drawer = !this.drawer
