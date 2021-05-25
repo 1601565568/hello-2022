@@ -180,6 +180,19 @@ export default {
       this.drawer = true
       this.loadDetail()
     },
+    initData () {
+      this.item = {}
+      this.selectActionValue = 0
+      this.guideIdsStr = ''
+      this.guideIds = []
+      this.actionValue = '全部动作'
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
+    },
     handleClose () {},
     handleClick (tab, event) {},
     handleChangeGuide (val) {

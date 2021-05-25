@@ -200,7 +200,7 @@ export default {
       this.item = {}
       this.actionValue = '全部动作'
       this.guideIds = []
-      this.eventType = 0
+      this.selectActionValue = 0
       this.guideIdsStr = ''
       this.inputTitle = ''
       this.paginationToPerson = {
