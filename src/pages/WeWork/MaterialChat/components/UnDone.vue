@@ -145,9 +145,17 @@ export default {
       this.loadDetail()
     },
     closeDeawer () {
-      this.drawer = !this.drawer
+      this.drawer = false
+    },
+    initData () {
+      this.eventType = 16
+      this.item = {}
+      this.guideIdsStr = ''
+      this.guideIds = []
+      this.activeName = 'first'
     },
     openDeawer (item) {
+      this.initData()
       this.item = item
       this.drawer = true
       this.loadDetail()
