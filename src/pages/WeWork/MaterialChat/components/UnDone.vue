@@ -11,7 +11,7 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">素材标题XXXXXXXXX</div>
+      <div class="drawer-title">{{item.materialTitle}}</div>
       <div class="menu-view">
         <div class="user-view">
           <el-form :inline="true" class="form-inline_top">
@@ -56,11 +56,31 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="cardid" label="工号" :width="199">
+            <el-table-column prop="employeeNumber" label="工号" :width="114">
+              <template slot-scope="scope">{{
+                  scope.row.employeeNumber || '-'
+              }}</template>
             </el-table-column>
             <el-table-column prop="name" label="员工"> </el-table-column>
-            <el-table-column prop="address" label="所属门店"></el-table-column>
+            <el-table-column prop="shopNamesStr" label="所属门店">
+              <template slot-scope="scope">{{
+                  scope.row.shopNamesStr || '-'
+              }}</template>
+            </el-table-column>
           </el-table>
+        </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="paginationToPerson.sizeOpts"
+            :total="paginationToPerson.total"
+            :current-page.sync="paginationToPerson.page"
+            :page-size="paginationToPerson.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChangeForPerson"
+            @current-change="handleCurrentChangeForPerson"
+          >
+          </el-pagination>
         </template>
       </page-table>
     </div>
@@ -129,17 +149,60 @@ export default {
           value: '选项3',
           label: '发送'
         }
-      ]
+      ],
+      item: {},
+      guideIdsStr: '',
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadDetail()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadDetail()
+    },
     handleClick () {
-      console.log('handleClick')
     },
     closeDeawer () {
       this.drawer = !this.drawer
     },
-    handleClose () {}
+    openDeawer (item) {
+      this.item = item
+      this.drawer = true
+      this.loadDetail()
+    },
+    handleClose () {},
+    loadDetail () {
+      const parms = {
+        eventType: 16,
+        guideIdsStr: this.guideIdsStr,
+        materialId: this.item.materialId,
+        start:
+          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
+      }
+      this.$http
+        .fetch(this.$api.guide.getNoCompleteStatisticsDetailByMaterial, parms)
+        .then(resp => {
+          const json = resp.result
+          const arr = json.data || []
+          this.listData = arr
+          this.paginationToPerson.total = parseInt(json.recordsTotal)
+        })
+        .catch(resp => {})
+    }
   }
 }
 </script>

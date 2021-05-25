@@ -53,11 +53,11 @@
               }}</template>
             </el-table-column>
             <el-table-column prop="status" width="125px" label="操作">
-              <template>
+              <template slot-scope="scope">
                 <ns-button
                   type="text"
                   class="select-button"
-                  @click="showMoreData"
+                  @click="showMoreData(scope.row)"
                   >查看明细</ns-button
                 >
               </template>
@@ -148,8 +148,8 @@ export default {
     inpuutClick () {
       this.loadList()
     },
-    showMoreData () {
-      this.$refs.undone.closeDeawer()
+    showMoreData (item) {
+      this.$refs.undone.openDeawer(item)
     },
     loadList () {
       const parms = {
