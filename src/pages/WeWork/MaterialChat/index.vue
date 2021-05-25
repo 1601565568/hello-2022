@@ -118,12 +118,12 @@ export default {
   data () {
     return {
       dataList: [
-        { name: '素材发送次数总计', data: 782146816478, claseName: 'one' },
-        { name: '素材下载总次数', data: 782146816478, claseName: 'two' },
-        { name: '素材补全总次数', data: 782146816478, claseName: 'three' },
-        { name: '昨日素材发送次数', data: 782146816478, claseName: 'four' },
-        { name: '昨日素材下载次数', data: 782146816478, claseName: 'five' },
-        { name: '昨日素材补全次数', data: 782146816478, claseName: 'six' }
+        { name: '素材发送次数总计', data: 0, claseName: 'one' },
+        { name: '素材下载总次数', data: 0, claseName: 'two' },
+        { name: '素材补全总次数', data: 0, claseName: 'three' },
+        { name: '昨日素材发送次数', data: 0, claseName: 'four' },
+        { name: '昨日素材下载次数', data: 0, claseName: 'five' },
+        { name: '昨日素材补全次数', data: 0, claseName: 'six' }
       ],
       listData: [
         {
@@ -278,7 +278,27 @@ export default {
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
+    },
+    loadTopData () {
+      this.$http.fetch(this.$api.guide.getSumData, {}).then(resp => {
+        if (resp.success) {
+          const json = resp.result || {}
+          this.dataList = [
+            { name: '素材发送次数总计', data: json.sendSum || 0, claseName: 'one' },
+            { name: '素材下载总次数', data: json.downloadSum || 0, claseName: 'two' },
+            { name: '素材补全总次数', data: json.completionSum || 0, claseName: 'three' },
+            { name: '昨日素材发送次数', data: json.nowSendSum || 0, claseName: 'four' },
+            { name: '昨日素材下载次数', data: json.nowDownloadSum || 0, claseName: 'five' },
+            { name: '昨日素材补全次数', data: json.nowCompletionSum || 0, claseName: 'six' }
+          ]
+        }
+      }).catch(resp => {
+      }).finally(() => {
+      })
     }
+  },
+  mounted () {
+    this.loadTopData()
   }
 }
 </script>

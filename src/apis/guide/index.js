@@ -87,6 +87,15 @@ export default {
     url: '/core/sgshop/getBrandList',
     method: 'get'
   },
+
+  /**
+   * 数据统计总数
+   */
+  getSumData: {
+    // 素材列表
+    url: '/guide/material/statistics/getSumData',
+    method: 'post'
+  },
   /**
    * 素材相关接口
    */
