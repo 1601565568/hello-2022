@@ -52,13 +52,14 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listDate"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="日期"> </el-table-column>
-                  <el-table-column prop="send" label="发送次数"> </el-table-column>
-                  <el-table-column prop="dowm" label="下载次数"> </el-table-column>
+                  <el-table-column prop="date" label="日期"> </el-table-column>
+                  <el-table-column prop="nowSendSum" label="发送次数"> </el-table-column>
+                  <el-table-column prop="nowDownloadSum" label="下载次数"> </el-table-column>
+                  <el-table-column prop="nowCompletionSum" label="补全次数"> </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
                     <template>
                       <ns-button
@@ -70,6 +71,19 @@
                     </template>
                   </el-table-column>
                 </el-table>
+              </template>
+              <template slot="pagination">
+                <el-pagination
+                  class="label-dialog__pagination"
+                  :page-sizes="paginationToDate.sizeOpts"
+                  :total="paginationToDate.total"
+                  :current-page.sync="paginationToDate.page"
+                  :page-size="paginationToDate.size"
+                  layout="total, prev, pager, next"
+                  @size-change="handleSizeChangeForDate"
+                  @current-change="handleCurrentChangeForDate"
+                >
+                </el-pagination>
               </template>
             </page-table>
           </el-tab-pane>
@@ -112,6 +126,7 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import DataList from './components/DataList'
 import TimeList from './components/TimeList'
+import moment from 'moment'
 export default {
   name: 'MaterialCahat',
   components: { PageTable, NsEcharts, DataList, TimeList },
@@ -263,10 +278,29 @@ export default {
         ]
       },
       value1: '',
-      activeName: 'first'
+      activeName: 'first',
+      today: '',
+      last7: '',
+      lart30: '',
+      paginationToDate: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      },
+      listDate: []
     }
   },
   methods: {
+    dealTime () {
+      this.today = moment().format('YYYY-MM-DD')
+      this.last7 = moment()
+        .subtract('days', 6)
+        .format('YYYY-MM-DD')
+      this.lart30 = moment()
+        .subtract('days', 29)
+        .format('YYYY-MM-DD')
+    },
     lookNoStatistical () {
       this.$router.push({
         path: '/Social/OperationData/NoStatistical'
@@ -295,10 +329,32 @@ export default {
       }).catch(resp => {
       }).finally(() => {
       })
+    },
+    loadDateList () {
+      const parms = {
+        searchMap: {
+          endTime: this.today,
+          startTime: this.last7
+        },
+        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+        length: this.paginationToDate.size
+      }
+      this.$http.fetch(this.$api.guide.getStatisticsListByDate, parms).then(resp => {
+        if (resp.success) {
+          const json = resp.result
+          const arr = json.data || []
+          this.listDate = arr
+          this.paginationToDate.total = parseInt(json.recordsTotal)
+        }
+      }).catch(resp => {
+      }).finally(() => {
+      })
     }
   },
   mounted () {
+    this.dealTime()
     this.loadTopData()
+    this.loadDateList()
   }
 }
 </script>
