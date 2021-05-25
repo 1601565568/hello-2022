@@ -153,6 +153,12 @@ export default {
       this.guideIdsStr = ''
       this.guideIds = []
       this.activeName = 'first'
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     },
     openDeawer (item) {
       this.initData()
