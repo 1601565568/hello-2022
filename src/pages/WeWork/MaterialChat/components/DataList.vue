@@ -138,7 +138,8 @@ export default {
         page: 1,
         total: 0
       },
-      selectActionValue: 0
+      selectActionValue: 0,
+      guideIdsStr: ''
     }
   },
   methods: {
@@ -181,13 +182,16 @@ export default {
     },
     handleClose () {},
     handleClick (tab, event) {},
-    handleChangeGuide () {},
+    handleChangeGuide (val) {
+      this.guideIdsStr = val.join(',')
+      this.loadDetail()
+    },
     loadDetail (startTime, endTime) {
       const parms = {
         endTime: this.item.endTime,
         startTime: this.item.startTime,
         eventType: this.selectActionValue,
-        guideIdsStr: '',
+        guideIdsStr: this.guideIdsStr,
         shopIdsStr: '',
         materialId: this.item.materialId,
         start:
