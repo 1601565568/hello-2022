@@ -312,6 +312,30 @@ export default {
     }
   },
   methods: {
+    handleSizeChangeForDate (size) {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size,
+        page: 1
+      }
+      this.loadDateList()
+    },
+    handleCurrentChangeForDate (page) {
+      this.paginationToDate.page = page
+      this.loadDateList()
+    },
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadMaterialList()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadMaterialList()
+    },
     dealTime () {
       this.today = moment().format('YYYY-MM-DD')
       this.last7 = moment()
