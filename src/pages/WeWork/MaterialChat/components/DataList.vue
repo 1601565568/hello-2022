@@ -63,14 +63,27 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="date" label="日期"> </el-table-column>
-            <el-table-column prop="status" label="动作" :width="80">
+            <el-table-column prop="trackTime" label="日期"> </el-table-column>
+            <el-table-column prop="eventType" label="动作" :width="80">
             </el-table-column>
-            <el-table-column prop="cardid" label="工号" :width="114">
+            <el-table-column prop="employeeNumber" label="工号" :width="114">
             </el-table-column>
-            <el-table-column prop="name" label="员工"> </el-table-column>
+            <el-table-column prop="guideName" label="员工"> </el-table-column>
             <el-table-column prop="address" label="所属门店"></el-table-column>
           </el-table>
+        </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="paginationToPerson.sizeOpts"
+            :total="paginationToPerson.total"
+            :current-page.sync="paginationToPerson.page"
+            :page-size="paginationToPerson.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChangeForPerson"
+            @current-change="handleCurrentChangeForPerson"
+          >
+          </el-pagination>
         </template>
       </page-table>
     </div>
@@ -87,43 +100,7 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      listData: [
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          date: '2021-04-21 17:47:48',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        }
-      ],
+      listData: [],
       inputValue: '',
       activeName: 'first',
       options: [
@@ -146,12 +123,31 @@ export default {
       ],
       actionValue: '全部动作',
       guideIds: [],
-      item: {}
+      item: {},
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadDetail()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadDetail()
+    },
     closeDeawer () {
       this.drawer = !this.drawer
+      this.item = {}
     },
     openDeawer (item, startTime, endTime) {
       this.item = item
@@ -168,11 +164,19 @@ export default {
         eventType: '',
         guideIdsStr: '',
         shopIdsStr: '',
-        materialId: this.item.materialId
+        materialId: this.item.materialId,
+        start:
+          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
       }
       this.$http
         .fetch(this.$api.guide.getStatisticsDetailByMaterial, parms)
-        .then(resp => {})
+        .then(resp => {
+          const json = resp.result
+          const arr = json.data || []
+          this.listData = arr
+          this.paginationToPerson.total = parseInt(json.recordsTotal)
+        })
         .catch(resp => {})
     }
   }
