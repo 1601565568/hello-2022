@@ -66,7 +66,7 @@
                         type="text"
                         class="select-button"
                         @click="showMoreData"
-                        >查看数据</ns-button
+                        >查看明细</ns-button
                       >
                     </template>
                   </el-table-column>
@@ -91,21 +91,21 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
-                  :data="listData"
+                  :data="listMaterial"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="time" label="素材标题"> </el-table-column>
-                  <el-table-column prop="send" label="发送次数"> </el-table-column>
-                  <el-table-column prop="dowm" label="下载次数"> </el-table-column>
-                  <el-table-column prop="dowm" label="补全次数"> </el-table-column>
+                  <el-table-column prop="materialTitle" label="素材标题"> </el-table-column>
+                  <el-table-column prop="sendSum" label="发送次数"> </el-table-column>
+                  <el-table-column prop="completionSum" label="下载次数"> </el-table-column>
+                  <el-table-column prop="downloadSum" label="补全次数"> </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
                     <template>
                       <ns-button
                         type="text"
                         class="select-button"
                         @click="showMoreData"
-                        >查看数据</ns-button
+                        >查看明细</ns-button
                       >
                     </template>
                   </el-table-column>
@@ -307,7 +307,8 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      listMaterial: []
     }
   },
   methods: {
@@ -368,12 +369,34 @@ export default {
       }).catch(resp => {
       }).finally(() => {
       })
+    },
+    loadMaterialList () {
+      // listMaterial
+      const parms = {
+        searchMap: {
+          endTime: this.today,
+          startTime: this.last7
+        },
+        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
+      }
+      this.$http.fetch(this.$api.guide.getStatisticsListByMaterial, parms).then(resp => {
+        if (resp.success) {
+          const json = resp.result
+          const arr = json.data || []
+          this.listMaterial = arr
+          this.paginationToPerson.total = parseInt(json.recordsTotal)
+        }
+      }).catch(resp => {
+      }).finally(() => {
+      })
     }
   },
   mounted () {
     this.dealTime()
     this.loadTopData()
     this.loadDateList()
+    this.loadMaterialList()
   }
 }
 </script>
