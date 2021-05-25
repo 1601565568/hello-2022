@@ -156,7 +156,8 @@ export default {
         page: 1,
         total: 0
       },
-      selectActionValue: 0
+      selectActionValue: 0,
+      guideIdsStr: ''
     }
   },
   methods: {
@@ -180,11 +181,11 @@ export default {
         size,
         page: 1
       }
-      // this.loadDetail()
+      this.loadDetail()
     },
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
-      // this.loadDetail()
+      this.loadDetail()
     },
     openDeawer (item) {
       this.drawer = true
@@ -196,7 +197,10 @@ export default {
     },
     handleClose () {},
     handleClick (tab, event) {},
-    handleChangeGuide () {},
+    handleChangeGuide (val) {
+      this.guideIdsStr = val.join(',')
+      this.loadDetail()
+    },
     loadDetail () {
       const parms = {
         startTime: this.item.trackTime,
