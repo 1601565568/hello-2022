@@ -27,7 +27,8 @@
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
+        <AreaTree />
+        <!-- <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
         </el-input>
@@ -46,8 +47,6 @@
             <div class="subdivision-tree-node" slot-scope="{ node }" >
               <span>{{node.label}}</span>
               <span v-if="node.label === '全部'"></span>
-              <!-- 后端返回的是组件，不建议增加status字段 -->
-              <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
             </div>
           </el-tree>
         </el-scrollbar>
@@ -58,7 +57,7 @@
                        :current-page.sync="shopTreePage.page"
                        @current-change="initShopList">
           <span>{{shopTreePage.page + '/' + (Math.ceil(shopTreePage.total/ shopTreePage.size) || 1)}}</span>
-        </el-pagination>
+        </el-pagination> -->
       </div>
       <div class="template-page__row-right">
         <!-- 分类 start -->
@@ -81,8 +80,9 @@
 import Index from './src/Analysis'
 import NsDataAnalysisCharts from './NsDataAnalysisCharts'
 import PageTable from '@/components/NewUi/PageTablePro'
+import AreaTree from '@/components/NewUi/AreaTree'
 Index.components = {
-  PageTable, NsDataAnalysisCharts
+  PageTable, NsDataAnalysisCharts, AreaTree
 }
 export default Index
 </script>

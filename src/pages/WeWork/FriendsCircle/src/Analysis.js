@@ -275,7 +275,7 @@ export default {
           this.shopFindList = list
           if (this.shopFindList.length > 0) {
             this.$nextTick(function () {
-              this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
+              this.$refs.guideTree && this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
             })
             this.onClickNode(this.shopFindList[0])
           } else {
