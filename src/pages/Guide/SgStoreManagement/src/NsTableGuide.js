@@ -166,7 +166,6 @@ export default {
   mounted: function () {
     var vm = this
     vm.initDigitalShopList()
-    window.console.log('aaaa', this.$data)
     // let limitHeight =
     //   window.innerHeight -
     //   40 -
