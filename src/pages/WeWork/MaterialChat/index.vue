@@ -76,11 +76,11 @@
                   <el-table-column prop="nowCompletionSum" label="补全次数">
                   </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
-                    <template>
+                    <template slot-scope="scope">
                       <ns-button
                         type="text"
                         class="select-button"
-                        @click="showMoreToDate"
+                        @click="showMoreToDate(scope.row)"
                         >查看明细</ns-button
                       >
                     </template>
@@ -415,8 +415,8 @@ export default {
       })
     },
     handleClick () {},
-    showMoreToDate () {
-      this.$refs.timeList.closeDeawer()
+    showMoreToDate (row) {
+      this.$refs.timeList.openDeawer(row)
     },
     showMoreToPerson (row) {
       let startTime

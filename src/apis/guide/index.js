@@ -89,6 +89,15 @@ export default {
   },
 
   /**
+   * 获取日期完成明细
+   */
+  getStatisticsDetailByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByDate',
+    method: 'post'
+  },
+
+  /**
    * 素材纬度:获取完成明细
    */
   getStatisticsDetailByMaterial: {

@@ -11,21 +11,22 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">2020-12-13数据明细</div>
+      <div class="drawer-title">{{item.trackTime}}数据明细</div>
       <div class="menu-view">
         <div class="input-view">
           <el-input
             placeholder="请输入素材标题"
             suffix-icon="el-icon-search"
-            autofocus='false'
+            autofocus="false"
             type="text"
-            v-model="inputTime">
+            v-model="inputTitle"
+          >
           </el-input>
         </div>
         <div class="item-down">
           <div class="name">动作:</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option='true'>
+            <el-select v-model="actionValue" :default-first-option="true">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -72,12 +73,42 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="title" label="素材标题"> </el-table-column>
-            <el-table-column prop="status" label="动作"  :width='80'> </el-table-column>
-            <el-table-column prop="cardid" label="工号" :width='114'> </el-table-column>
-            <el-table-column prop="name" label="员工"> </el-table-column>
-            <el-table-column prop="address" label="所属门店"></el-table-column>
+            <el-table-column prop="materialTitle" label="素材标题">
+            </el-table-column>
+            <el-table-column prop="eventType" label="动作" :width="80">
+              <template slot-scope="scope">{{
+                transText(scope.row.eventType)
+              }}</template>
+            </el-table-column>
+            <el-table-column prop="employeeNumber" label="工号" :width="114">
+              <template slot-scope="scope">{{
+                scope.row.employeeNumber || '-'
+              }}</template>
+            </el-table-column>
+            <el-table-column prop="guideName" label="员工">
+              <template slot-scope="scope">{{
+                scope.row.guideName || '-'
+              }}</template>
+            </el-table-column>
+            <el-table-column prop="shopName" label="所属门店">
+              <template slot-scope="scope">{{
+                scope.row.shopName || '-'
+              }}</template>
+            </el-table-column>
           </el-table>
+        </template>
+        <template slot="pagination">
+          <el-pagination
+            class="label-dialog__pagination"
+            :page-sizes="paginationToPerson.sizeOpts"
+            :total="paginationToPerson.total"
+            :current-page.sync="paginationToPerson.page"
+            :page-size="paginationToPerson.size"
+            layout="total, prev, pager, next"
+            @size-change="handleSizeChangeForPerson"
+            @current-change="handleCurrentChangeForPerson"
+          >
+          </el-pagination>
         </template>
       </page-table>
     </div>
@@ -94,43 +125,7 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      listData: [
-        {
-          title: '素材标题素材标题',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          title: '素材标题素材标题',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          title: '素材标题素材标题',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          title: '素材标题素材标题',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        },
-        {
-          title: '素材标题素材标题',
-          cardid: '123455353',
-          status: '下载',
-          name: '朱琴眉',
-          address: '杭州转塘店'
-        }
-      ],
+      listData: [],
       inputValue: '',
       activeName: 'first',
       options: [
@@ -148,21 +143,76 @@ export default {
         }
       ],
       actionValue: '全部动作',
-      inputTime: '',
-      guideIds: []
+      inputTitle: '',
+      guideIds: [],
+      item: {},
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
+    transText (val) {
+      if (val === 14) {
+        return '发送'
+      } else if (val === 16) {
+        return '下载'
+      } else if (val === 18) {
+        return '补充'
+      }
+      return '-'
+    },
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      // this.loadDetail()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      // this.loadDetail()
+    },
+    openDeawer (item) {
+      this.drawer = true
+      this.item = item
+      this.loadDetail()
+    },
     closeDeawer () {
       this.drawer = !this.drawer
     },
     handleClose () {},
     handleClick (tab, event) {},
-    handleChangeGuide () {}
+    handleChangeGuide () {},
+    loadDetail () {
+      const parms = {
+        startTime: this.item.trackTime,
+        eventType: this.selectActionValue,
+        guideIdsStr: this.guideIdsStr,
+        shopIdsStr: '',
+        materialTitle: this.inputTitle,
+        start:
+          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
+      }
+      this.$http
+        .fetch(this.$api.guide.getStatisticsDetailByDate, parms)
+        .then(resp => {
+          const json = resp.result
+          const arr = json.data || []
+          this.listData = arr
+          this.paginationToPerson.total = parseInt(json.recordsTotal)
+        })
+        .catch(resp => {})
+    }
   }
 }
 </script>
-<style scoped >
+<style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
 .input-view {
@@ -174,7 +224,7 @@ export default {
 .form-inline_top .el-form-item {
   height: 32px;
   margin-bottom: 0;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
 }
 .form-inline_top {
   margin-left: 16px;
@@ -294,8 +344,8 @@ export default {
 .item-down {
   width: 143px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   display: flex;
   flex-direction: row;
@@ -303,7 +353,7 @@ export default {
   align-items: center;
   .name {
     width: 42px;
-    margin-left:8px;
+    margin-left: 8px;
   }
 }
 </style>
