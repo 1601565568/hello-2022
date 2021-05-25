@@ -65,11 +65,21 @@
           >
             <el-table-column prop="trackTime" label="日期"> </el-table-column>
             <el-table-column prop="eventType" label="动作" :width="80">
+              <template slot-scope="scope">{{
+                  transText(scope.row.eventType)
+              }}</template>
             </el-table-column>
             <el-table-column prop="employeeNumber" label="工号" :width="114">
+              <template slot-scope="scope">{{
+                  scope.row.employeeNumber || '-'
+              }}</template>
             </el-table-column>
             <el-table-column prop="guideName" label="员工"> </el-table-column>
-            <el-table-column prop="address" label="所属门店"></el-table-column>
+            <el-table-column prop="address" label="所属门店">
+              <template slot-scope="scope">{{
+                  scope.row.address || '-'
+              }}</template>
+            </el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
@@ -133,6 +143,16 @@ export default {
     }
   },
   methods: {
+    transText (val) {
+      if (val === 14) {
+        return '发送'
+      } else if (val === 16) {
+        return '下载'
+      } else if (val === 18) {
+        return '补充'
+      }
+      return '-'
+    },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
         ...this.paginationToPerson,
