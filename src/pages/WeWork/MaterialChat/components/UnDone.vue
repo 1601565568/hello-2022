@@ -107,10 +107,16 @@ export default {
         sizeOpts: [10],
         page: 1,
         total: 0
-      }
+      },
+      eventType: 16,
+      guideIds: []
     }
   },
   methods: {
+    handleChangeGuide (val) {
+      this.guideIdsStr = val.join(',')
+      this.loadDetail()
+    },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
         ...this.paginationToPerson,
@@ -123,7 +129,20 @@ export default {
       this.paginationToPerson.page = page
       this.loadDetail()
     },
-    handleClick () {
+    handleClick (val) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size: 10,
+        page: 1
+      }
+      if (val.name === 'first') {
+        this.eventType = 16
+      } else if (val.name === 'second') {
+        this.eventType = 14
+      } else if (val.name === 'third') {
+        this.eventType = 18
+      }
+      this.loadDetail()
     },
     closeDeawer () {
       this.drawer = !this.drawer
@@ -136,7 +155,7 @@ export default {
     handleClose () {},
     loadDetail () {
       const parms = {
-        eventType: 16,
+        eventType: this.eventType,
         guideIdsStr: this.guideIdsStr,
         materialId: this.item.materialId,
         start:
