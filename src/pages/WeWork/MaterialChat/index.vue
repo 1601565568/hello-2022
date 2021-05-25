@@ -80,7 +80,7 @@
                       <ns-button
                         type="text"
                         class="select-button"
-                        @click="showMoreData"
+                        @click="showMoreToDate"
                         >查看明细</ns-button
                       >
                     </template>
@@ -119,11 +119,11 @@
                   <el-table-column prop="downloadSum" label="补全次数">
                   </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
-                    <template>
+                    <template slot-scope="scope">
                       <ns-button
                         type="text"
                         class="select-button"
-                        @click="showMoreData"
+                        @click="showMoreToPerson(scope.row)"
                         >查看明细</ns-button
                       >
                     </template>
@@ -415,9 +415,20 @@ export default {
       })
     },
     handleClick () {},
-    showMoreData () {
-      // this.$refs.timeList.closeDeawer()
-      this.$refs.detaList.closeDeawer()
+    showMoreToDate () {
+      this.$refs.timeList.closeDeawer()
+    },
+    showMoreToPerson (row) {
+      let startTime
+      let endTime
+      if (this.selectToday) {
+        startTime = this.last7
+        endTime = this.today
+      } else {
+        startTime = this.lart30
+        endTime = this.today
+      }
+      this.$refs.detaList.openDeawer(row, startTime, endTime)
     },
     loadTopData () {
       this.$http

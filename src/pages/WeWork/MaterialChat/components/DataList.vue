@@ -11,12 +11,12 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">素材标题最多一行文字多的就点点点</div>
+      <div class="drawer-title">{{ item.materialTitle }}</div>
       <div class="menu-view">
         <div class="item-down">
           <div class="name">动作:</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option='true'>
+            <el-select v-model="actionValue" :default-first-option="true">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -64,8 +64,10 @@
             :row-style="{ height: '48px' }"
           >
             <el-table-column prop="date" label="日期"> </el-table-column>
-            <el-table-column prop="status" label="动作"  :width='80'> </el-table-column>
-            <el-table-column prop="cardid" label="工号" :width='114'> </el-table-column>
+            <el-table-column prop="status" label="动作" :width="80">
+            </el-table-column>
+            <el-table-column prop="cardid" label="工号" :width="114">
+            </el-table-column>
             <el-table-column prop="name" label="员工"> </el-table-column>
             <el-table-column prop="address" label="所属门店"></el-table-column>
           </el-table>
@@ -130,29 +132,53 @@ export default {
           label: '全部动作'
         },
         {
-          value: '选项2',
+          value: '16',
           label: '下载'
         },
         {
-          value: '选项3',
+          value: '14',
           label: '发送'
+        },
+        {
+          value: '18',
+          label: '补充'
         }
       ],
       actionValue: '全部动作',
-      guideIds: []
+      guideIds: [],
+      item: {}
     }
   },
   methods: {
     closeDeawer () {
       this.drawer = !this.drawer
     },
+    openDeawer (item, startTime, endTime) {
+      this.item = item
+      this.drawer = true
+      this.loadDetail(startTime, endTime)
+    },
     handleClose () {},
     handleClick (tab, event) {},
-    handleChangeGuide () {}
+    handleChangeGuide () {},
+    loadDetail (startTime, endTime) {
+      const parms = {
+        endTime: endTime,
+        startTime: startTime,
+        eventType: '',
+        guideIdsStr: '',
+        shopIdsStr: '',
+        materialId: this.item.materialId
+      }
+      this.$http
+        .fetch(this.$api.guide.getStatisticsDetailByMaterial, parms)
+        .then(resp => {})
+        .catch(resp => {})
+    }
   }
 }
 </script>
-<style scoped >
+<style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
 .user-view {
@@ -161,7 +187,7 @@ export default {
 .form-inline_top .el-form-item {
   height: 32px;
   margin-bottom: 0;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
 }
 .form-inline_top {
   margin-left: 16px;
@@ -281,8 +307,8 @@ export default {
 .item-down {
   width: 143px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   display: flex;
   flex-direction: row;
@@ -290,7 +316,7 @@ export default {
   align-items: center;
   .name {
     width: 42px;
-    margin-left:8px;
+    margin-left: 8px;
   }
 }
 </style>

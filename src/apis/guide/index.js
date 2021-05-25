@@ -89,6 +89,15 @@ export default {
   },
 
   /**
+   * 素材纬度:获取完成明细
+   */
+  getStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
    * 完成统计:EXCEL导出
    */
   exportExcelByComplete: {
