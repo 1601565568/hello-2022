@@ -54,6 +54,10 @@
   border-radius: 2px;
 }
 
+.input-view >>> .el-input__suffix {
+  height: 30px;
+}
+
 .no-input-view >>> .el-input.el-input--small .el-input__inner {
   font-size: 14px;
   height:32px;

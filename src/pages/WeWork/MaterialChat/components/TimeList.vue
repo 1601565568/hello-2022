@@ -16,12 +16,12 @@
         <div class="input-view">
           <el-input
             placeholder="请输入素材标题"
-            suffix-icon="el-icon-search"
             autofocus="false"
             type="text"
             v-model="inputTitle"
             @change="inputChange"
           >
+            <i slot="suffix" class="el-input__icon el-icon-date"></i>
           </el-input>
         </div>
         <div class="item-down">

@@ -13,7 +13,7 @@
     <div class="name-view">未执行统计</div>
     <div class="output-view">
       <div class="no-input-view">
-        <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inpuutClick">
+        <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inputClick">
           <Icon
             type="ns-search-copy"
             slot="suffix"
@@ -146,7 +146,12 @@ export default {
       this.paginationToDate.page = page
       this.loadList()
     },
-    inpuutClick () {
+    inputClick () {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size: 10,
+        page: 1
+      }
       this.loadList()
     },
     showMoreData (item) {
@@ -159,6 +164,10 @@ export default {
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
+      }
+      if (this.paginationToDate.page === 1) {
+        this.listDate = []
+        this.paginationToDate.total = 0
       }
       this.$http
         .fetch(this.$api.guide.getNoCompleteStatisticsByMaterial, parms)
