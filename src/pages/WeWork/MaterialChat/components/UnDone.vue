@@ -115,6 +115,11 @@ export default {
   methods: {
     handleChangeGuide (val) {
       this.guideIdsStr = val.join(',')
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size: 10,
+        page: 1
+      }
       this.loadDetail()
     },
     handleSizeChangeForPerson (size) {
@@ -177,6 +182,10 @@ export default {
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
+      }
+      if (this.paginationToPerson.page === 1) {
+        this.listData = []
+        this.paginationToPerson.total = []
       }
       this.$http
         .fetch(this.$api.guide.getNoCompleteStatisticsDetailByMaterial, parms)
