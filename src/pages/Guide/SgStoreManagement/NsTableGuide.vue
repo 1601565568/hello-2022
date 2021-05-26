@@ -21,26 +21,12 @@
             :filter-node-method="onFilterNode"
             @node-click="onClickNode"
           >
-             <span
-              style="display: flex;
-              align-items: center;"
+            <span
+              class="filter-tree-node"
               slot-scope="{ node }"
-             >
-              <Icon style="color:#0091fa;font-size: 14px" type="cate" />
-              <span
-                :title="node.label"
-                class="area-tree__item"
-                style="font-size: 12px;
-                width: 80%;
-                margin-left:3px;
-                display: inline-block;
-                text-overflow:ellipsis;
-                white-space: nowrap;
-                word-break:break-all;
-                overflow: hidden;"
-              >
-                {{node.label}}
-              </span>
+            >
+              <Icon class="icon" type="cate" />
+              <span class="item">{{node.label}}</span>
             </span>
           </el-tree>
         </el-scrollbar>
@@ -334,8 +320,23 @@ export default guide
   >>> .el-pagination__jump {
     margin-left: unset !important;
   }
-  .subdivision-tree-node>span {
-    margin-left: var(--default-margin-base);
+  .filter-tree-node {
+    display: flex;
+    align-items: center;
+  }
+  .filter-tree-node > .icon {
+    color:#0091fa;
+    font-size: 14px
+  }
+  .filter-tree-node > .item {
+    font-size: 12px;
+    width: 80%;
+    margin-left: 3px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+    overflow: hidden;
   }
   .question-circle {
     margin-left: -5px;
