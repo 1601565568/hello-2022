@@ -183,6 +183,7 @@ export default {
       this._data.option.legend.data = []
       this.externalLogQuery.shopId = this.model.shopId
       this.externalLogQuery.profileId = this.model.profileId
+      this.externalLogQuery.areaId = this.model.areaId
       this.$http.fetch(_this.$api.weWork.friendsCircle.logPvAndUv,
         this.externalLogQuery)
         .then((resp) => {
@@ -214,6 +215,7 @@ export default {
     // 日期导购列表
     tableReload: function () {
       this.logByTypeQuery.shopId = this.model.shopId
+      this.logByTypeQuery.areaId = this.model.areaId
       this.logByTypeQuery.profileId = this.model.profileId
       this.logByTypeQuery.length = this._data._pagination.size
       this.logByTypeQuery.start = (this._data._pagination.page - 1) * (this._data._pagination.size)

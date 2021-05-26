@@ -102,6 +102,7 @@ export default {
       // 时间选择的值
       dateValue: '1day',
       areaId: null, // 区域id
+      shopList: [],
       debounce: null // 点击获取图表时防抖
     }
   },
@@ -307,17 +308,12 @@ export default {
       return this.checkBelongToChooseNode(value, data, node)
     },
     // 门店树选择
-    onClickNode (data) {
+    onClickNode (id) {
       // 方式
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
-        var _this = this
-        if (data.code !== 'root') {
-          _this.$refs.table.$data.model.shopId = data.id
-        } else {
-          _this.$refs.table.$data.model.shopId = null
-        }
-        _this.$refs.table.$searchAction$()
+        this.$refs.table.$data.model.areaId = id
+        this.$refs.table.$searchAction$()
       }, 500)
     }
     // 下拉门店树相关方法====结束

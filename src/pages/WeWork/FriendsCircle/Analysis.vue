@@ -4,6 +4,17 @@
       <div class="title-box">
         <div class="title-analysis">对外信息效果分析</div>
         <div class="title-right">
+          <div class='shop-content'>
+            <span>参与门店：</span>
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn>
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(shopList&&shopList.length)?`已选择${shopList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
+          </div>
           <el-tabs class="title-right_time" v-model="dateValue" :timeModel="model" @tab-click="handleChangeDateType">
             <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
           </el-tabs>
@@ -27,7 +38,7 @@
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <AreaTree v-model='areaId'/>
+        <AreaTree v-model='areaId' @input='onClickNode'/>
         <!-- <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
@@ -81,8 +92,9 @@ import Index from './src/Analysis'
 import NsDataAnalysisCharts from './NsDataAnalysisCharts'
 import PageTable from '@/components/NewUi/PageTablePro'
 import AreaTree from '@/components/NewUi/AreaTree'
+import shopSelect from '../../Guide/components/selectShops'
 Index.components = {
-  PageTable, NsDataAnalysisCharts, AreaTree
+  PageTable, NsDataAnalysisCharts, AreaTree, shopSelect
 }
 export default Index
 </script>
@@ -205,5 +217,26 @@ export default Index
   }
   .template-page__row-left {
     position: relative;
+  }
+  .shop-content {
+    display: flex;
+    font-size: 14px;
+    border: 1px solid #D9D9D9;
+    height: 32px;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 2px;
+    margin-right: 16px;
+  }
+  .self-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      margin-left: 10px;
+      color:#8C8C8C;
+    }
   }
 </style>
