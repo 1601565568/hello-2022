@@ -356,8 +356,8 @@ export default {
     },
     outputClick () {
       const parms = {
-        endTime: this.endTime,
-        startTime: this.startTime
+        endTime: this.endTime + ' 23:59:59',
+        startTime: this.startTime + ' 00:00:00'
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -496,8 +496,8 @@ export default {
     loadDateList () {
       const parms = {
         searchMap: {
-          endTime: this.endTime,
-          startTime: this.startTime
+          endTime: this.endTime + ' 23:59:59',
+          startTime: this.startTime + ' 00:00:00'
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
@@ -522,8 +522,8 @@ export default {
     loadMaterialList () {
       const parms = {
         searchMap: {
-          endTime: this.endTime,
-          startTime: this.startTime
+          endTime: this.endTime + ' 23:59:59',
+          startTime: this.startTime + ' 00:00:00'
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -548,8 +548,8 @@ export default {
     },
     loadChartData () {
       const parms = {
-        endTime: this.endTime,
-        startTime: this.startTime,
+        endTime: this.endTime + ' 23:59:59',
+        startTime: this.startTime + ' 00:00:00',
         eventType: 0,
         guideIdsStr: '',
         shopIdsStr: ''
