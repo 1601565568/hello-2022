@@ -23,8 +23,10 @@
       @node-click="selectAreaNode"
     >
       <span class="area-tree-node" slot-scope="{ node }">
-        <Icon class="area-node-icon" type="cate" />
-        <span class="area-node-title">{{ node.label }}</span>
+        <el-radio v-model="currentArea.id" :label="node.id">
+          <Icon class="area-node-icon" type="cate" />
+          <span class="area-node-title">{{ node.label }}</span>
+        </el-radio>
       </span>
     </el-tree>
     <span slot="footer" class="dialog-footer">
