@@ -49,7 +49,7 @@
             </el-table-column>
             <el-table-column prop="noCompleteCompletion" label="未补全人次">
               <template slot-scope="scope">{{
-                scope.row.noCompleteCompletion || '-'
+                scope.row.materialScriptType === 2 ? scope.row.noCompleteCompletion || '-' : '-'
               }}</template>
             </el-table-column>
             <el-table-column prop="status" width="125px" label="操作">
