@@ -9,12 +9,16 @@
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
-        <div v-for="(item, index) in dataList" :key="index">
-          <div class="base-cell" :class="item.claseName">
-            <div class="text">{{ item.name }}</div>
-            <div class="number">{{ item.data }}</div>
-          </div>
-        </div>
+        <el-row :gutter="36">
+          <template v-for="item in dataList">
+            <el-col :key="item.name" :span="4">
+              <div class="base-cell" :class="item.claseName">
+                <div class="text">{{ item.name }}</div>
+                <div class="number">{{ item.data }}</div>
+              </div>
+            </el-col>
+          </template>
+        </el-row>
       </div>
     </div>
     <div class="material-show">
@@ -55,10 +59,10 @@
         </div>
         <div class="title">数据分析</div>
         <div v-if="echartList.length">
-          <NsEcharts :options="option"/>
+          <NsEcharts :options="option" />
         </div>
         <div v-else class="no-echart-list-view">
-          <img src="@/assets/no-data.png" alt="暂无数据">
+          <img src="@/assets/no-data.png" alt="暂无数据" />
         </div>
       </div>
     </div>
@@ -66,7 +70,9 @@
       <div class="title">数据报表</div>
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <div class="remind-data-view">一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
+          <div class="remind-data-view">
+            一条素材包括多项可发送元素时，每次发送都会记一次发送次数
+          </div>
           <el-tab-pane label="按日期统计" name="first">
             <page-table style="padding-top:0">
               <template slot="table">
@@ -491,12 +497,42 @@ export default {
             }
             this.option.xAxis.data = times
             this.option.series = [
-              { name: '素材发送次数总计', type: 'line', stack: '总量', data: sendTotal },
-              { name: '素材下载总次数', type: 'line', stack: '总量', data: downTotal },
-              { name: '素材补全总次数', type: 'line', stack: '总量', data: addTotal },
-              { name: '昨日素材发送次数', type: 'line', stack: '总量', data: ySendTotal },
-              { name: '昨日素材下载次数', type: 'line', stack: '总量', data: yDownTotal },
-              { name: '昨日素材补全次数', type: 'line', stack: '总量', data: yAddTotal }
+              {
+                name: '素材发送次数总计',
+                type: 'line',
+                stack: '总量',
+                data: sendTotal
+              },
+              {
+                name: '素材下载总次数',
+                type: 'line',
+                stack: '总量',
+                data: downTotal
+              },
+              {
+                name: '素材补全总次数',
+                type: 'line',
+                stack: '总量',
+                data: addTotal
+              },
+              {
+                name: '昨日素材发送次数',
+                type: 'line',
+                stack: '总量',
+                data: ySendTotal
+              },
+              {
+                name: '昨日素材下载次数',
+                type: 'line',
+                stack: '总量',
+                data: yDownTotal
+              },
+              {
+                name: '昨日素材补全次数',
+                type: 'line',
+                stack: '总量',
+                data: yAddTotal
+              }
             ]
           }
         })
@@ -549,8 +585,8 @@ export default {
     padding-left: 16px;
   }
   .data-view {
-    display: flex;
-    flex-direction: row;
+    margin-left: 16px;
+    margin-right: 16px;
   }
   .unDoneData {
     width: 116px;
@@ -567,12 +603,11 @@ export default {
     margin-right: 16px;
   }
   .base-cell {
-    width: 245px;
-    height: 120px;
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
+    color: #FFFFFF;
+    text-align: center;
     border-radius: 4px;
-    margin-left: 16px;
-    display: flex;
+    height: 120px;
+     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -715,7 +750,7 @@ export default {
 }
 .remind-data-view {
   height: 57px;
-  background: #F3F9FF;
+  background: #f3f9ff;
   border-radius: 4px;
   margin: 16px 16px 0 16px;
   font-size: 14px;
