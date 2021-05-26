@@ -31,6 +31,7 @@
               v-model="actionValue"
               :default-first-option="true"
               @change="selectAction"
+              @visible-change="selectOptionClick"
             >
               <el-option
                 v-for="item in options"
@@ -40,6 +41,13 @@
               >
               </el-option>
             </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
           </div>
         </div>
         <div class="user-view">
@@ -161,10 +169,14 @@ export default {
         total: 0
       },
       selectActionValue: 0,
-      guideIdsStr: ''
+      guideIdsStr: '',
+      flag: false
     }
   },
   methods: {
+    selectOptionClick (val) {
+      this.flag = val
+    },
     inputChange () {
       this.loadDetail()
     },
@@ -392,5 +404,21 @@ export default {
     width: 42px;
     margin-left: 8px;
   }
+}
+
+.arrowTransform {
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(0deg);
+}
+.arrowTransformReturn {
+  transition: 0.2s;
+  transform-origin: center;
+  transform: rotateZ(180deg);
+}
+.icon-view {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>
