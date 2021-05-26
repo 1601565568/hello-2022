@@ -649,6 +649,7 @@ export default {
     font-weight: 400;
     line-height: 32px;
     margin-right: 16px;
+    cursor: pointer;
   }
   .base-cell {
     color: #ffffff;
