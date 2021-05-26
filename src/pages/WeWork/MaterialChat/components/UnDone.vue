@@ -63,9 +63,28 @@
             </el-table-column>
             <el-table-column prop="name" label="员工"> </el-table-column>
             <el-table-column prop="shopNamesStr" label="所属门店">
-              <template slot-scope="scope">{{
-                  scope.row.shopNamesStr || '-'
-              }}</template>
+              <template slot-scope="scope">
+                <el-popover
+                  placement="top-start"
+                  width="300"
+                  trigger="hover"
+                  :disabled="scope.row.shopNamesStr.length <= 15"
+                >
+                  <div>{{ scope.row.shopNamesStr }}</div>
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopNamesStr.length <= 15"
+                    >{{ scope.row.shopNamesStr }}</span
+                  >
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopNamesStr.length > 15"
+                    >{{
+                      scope.row.shopNamesStr.substr(0, 15) + '...'
+                    }}</span
+                  >
+                </el-popover>
+              </template>
             </el-table-column>
           </el-table>
         </template>
@@ -185,7 +204,7 @@ export default {
       }
       if (this.paginationToPerson.page === 1) {
         this.listData = []
-        this.paginationToPerson.total = []
+        this.paginationToPerson.total = 0
       }
       this.$http
         .fetch(this.$api.guide.getNoCompleteStatisticsDetailByMaterial, parms)
