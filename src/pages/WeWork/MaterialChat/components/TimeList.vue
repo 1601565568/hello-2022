@@ -178,10 +178,22 @@ export default {
       this.flag = val
     },
     inputChange () {
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
       this.loadDetail()
     },
     selectAction (val) {
       this.selectActionValue = val
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
       this.loadDetail()
     },
     transText (val) {
@@ -232,6 +244,12 @@ export default {
     handleClose () {},
     handleClick (tab, event) {},
     handleChangeGuide (val) {
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
       this.guideIdsStr = val.join(',')
       this.loadDetail()
     },
@@ -247,6 +265,10 @@ export default {
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
+      }
+      if (this.paginationToPerson.page === 1) {
+        this.listData = []
+        this.paginationToPerson.total = 0
       }
       this.$http
         .fetch(this.$api.guide.getStatisticsDetailByDate, parms)
