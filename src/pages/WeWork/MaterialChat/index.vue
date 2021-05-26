@@ -54,7 +54,12 @@
           </div>
         </div>
         <div class="title">数据分析</div>
-        <NsEcharts :options="option" />
+        <div v-if="echartList.length">
+          <NsEcharts :options="option"/>
+        </div>
+        <div v-else class="no-echart-list-view">
+          <img src="@/assets/no-data.png" alt="暂无数据">
+        </div>
       </div>
     </div>
     <div class="material-list">
@@ -266,7 +271,8 @@ export default {
       },
       listMaterial: [],
       selectToday: true,
-      datePickerArr: []
+      datePickerArr: [],
+      echartList: []
     }
   },
   methods: {
@@ -466,6 +472,7 @@ export default {
           if (resp.success) {
             const json = resp.result || []
             const arr = json.reverse()
+            this.echartList = arr
             const times = []
             const sendTotal = []
             const downTotal = []
@@ -717,5 +724,11 @@ export default {
   font-weight: 400;
   line-height: 57px;
   padding-left: 16px;
+}
+
+.no-echart-list-view {
+  margin: 0 auto;
+  width: 320px;
+  height: 220px;
 }
 </style>
