@@ -38,7 +38,14 @@
                 @click="selectTodayClick('seven')"
                 >近七天</span
               >
-              <span :class="showTodaySelect ? selectToday ? '' : 'base-text-select' : 'base-un-active'"
+              <span
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? ''
+                      : 'base-text-select'
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('thirty')"
                 >近30天</span
@@ -212,7 +219,12 @@ export default {
           bottom: '9%',
           icon: 'roundRect',
           itemWidth: 10,
-          itemHeight: 10
+          itemHeight: 10,
+          selected: {
+            '素材发送次数总计': false,
+            '素材下载总次数': false,
+            '素材补全总次数': false
+          }
         },
         color: [
           '#4287FF',
@@ -342,7 +354,11 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '素材行为数据统计' + this.startTime + '至' + this.endTime + '.xlsx'
+              '素材行为数据统计' +
+              this.startTime +
+              '至' +
+              this.endTime +
+              '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
