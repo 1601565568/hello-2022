@@ -4,14 +4,15 @@
       <div class="top-view">
         <div class="title">群会话统计</div>
       </div>
-      <div class="data-view">
+      <!-- <div class="data-view">
         <div v-for="(item,index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
           </div>
         </div>
-      </div>
+      </div> -->
+      <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class="material-show">
       <div class="material-chat">
@@ -173,9 +174,10 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import ColorfulDisplay from '../components/ColorfulDisplay'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, NsGuideDialog },
+  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay },
   data () {
     return {
       dataList: [
@@ -359,12 +361,17 @@ export default {
           const twoNum = json.chat_has_msg || 0
           const threeNum = json.member_has_msg || 0
           const fourNum = json.msg_total || 0
-          this.dataList = [
-            { name: '好友群总数', data: oneNum, claseName: 'one' },
-            { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
-            { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
-            { name: '好友群消息总数', data: fourNum, claseName: 'four' }
-          ]
+          // this.dataList = [
+          //   { name: '好友群总数', data: oneNum, claseName: 'one' },
+          //   { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
+          //   { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
+          //   { name: '好友群消息总数', data: fourNum, claseName: 'four' }
+          // ]
+          this.dataList = this.dataList.map(item => ({
+            ...item,
+            value: res.result[item.key],
+            isMoney: true
+          }))
         }
       })
     },
