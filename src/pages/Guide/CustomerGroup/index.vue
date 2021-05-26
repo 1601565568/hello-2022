@@ -35,6 +35,7 @@
             <div class="date-view">
               <el-date-picker
                 v-model="value1"
+                value-format="yyyy-MM-dd"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -602,7 +603,6 @@ export default {
     },
     // 时间选择筛选
     datePickerChange (val) {
-      console.log(val, 999)
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
         this.selectToday = true
