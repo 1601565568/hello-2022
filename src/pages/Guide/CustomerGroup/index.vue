@@ -95,7 +95,8 @@
     </div>
     <div class="chat-view">
       <div class="title">数据分析</div>
-      <NsEcharts :options="option" />
+      <!-- <NsEcharts :options="option" /> -->
+      <business-echarts :options="option" class="oscillogram" auto-resize></business-echarts>
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
@@ -171,13 +172,14 @@
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
-import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+// import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ColorfulDisplay from './components/ColorfulDisplay'
+import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay },
+  components: { PageTable, NsGuideDialog, ColorfulDisplay, businessEcharts },
   data () {
     return {
       dataList: [
