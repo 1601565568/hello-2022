@@ -135,7 +135,7 @@ export default {
       options: [
         {
           value: 0,
-          label: '全部动作'
+          label: '全部'
         },
         {
           value: 14,
@@ -150,7 +150,7 @@ export default {
           label: '补充'
         }
       ],
-      actionValue: '全部动作',
+      actionValue: '全部',
       inputTitle: '',
       guideIds: [],
       item: {},
@@ -202,7 +202,7 @@ export default {
     },
     initData () {
       this.item = {}
-      this.actionValue = '全部动作'
+      this.actionValue = '全部'
       this.guideIds = []
       this.selectActionValue = 0
       this.guideIdsStr = ''

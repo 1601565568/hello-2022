@@ -114,7 +114,7 @@ export default {
       options: [
         {
           value: 0,
-          label: '全部动作'
+          label: '全部'
         },
         {
           value: 14,
@@ -129,7 +129,7 @@ export default {
           label: '补充'
         }
       ],
-      actionValue: '全部动作',
+      actionValue: '全部',
       guideIds: [],
       item: {},
       paginationToPerson: {
@@ -185,7 +185,7 @@ export default {
       this.selectActionValue = 0
       this.guideIdsStr = ''
       this.guideIds = []
-      this.actionValue = '全部动作'
+      this.actionValue = '全部'
       this.paginationToPerson = {
         size: 10,
         sizeOpts: [10],
