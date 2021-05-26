@@ -218,15 +218,15 @@ export default {
      * @param {*} dateList
      * @return {*}
      */
-    formatChart (list, dateList) {
+    formatChart (resList, dateList) {
       const data = this.setDefaultChartData()
+      const list = [...resList].reverse()
       dateList.map(item => {
         if (list.length) {
-          const zIndex = list.findIndex((cTime) => cTime.dayTime === item)
-          if (zIndex !== -1) {
-            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[zIndex]
+          if (item === list[0].dayTime) {
+            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[0]
             this.setChartData(todaySendMoney / 100, guideSendMoney / 100, fissionSendMoney / 100, data)
-            // list.shift()
+            list.shift()
           } else {
             this.setChartData(0, 0, 0, data)
           }
