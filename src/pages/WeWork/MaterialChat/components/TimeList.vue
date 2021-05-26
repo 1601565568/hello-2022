@@ -104,9 +104,28 @@
               }}</template>
             </el-table-column>
             <el-table-column prop="shopName" label="所属门店">
-              <template slot-scope="scope">{{
-                scope.row.shopName || '-'
-              }}</template>
+              <template slot-scope="scope">
+                <el-popover
+                  placement="top-start"
+                  width="300"
+                  trigger="hover"
+                  :disabled="scope.row.shopName.length <= 10"
+                >
+                  <div>{{ scope.row.shopName }}</div>
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopName.length <= 10"
+                    >{{ scope.row.shopName }}</span
+                  >
+                  <span
+                    slot="reference"
+                    v-if="scope.row.shopName.length > 10"
+                    >{{
+                      scope.row.shopName.substr(0, 10) + '...'
+                    }}</span
+                  >
+                </el-popover>
+              </template>
             </el-table-column>
           </el-table>
         </template>
