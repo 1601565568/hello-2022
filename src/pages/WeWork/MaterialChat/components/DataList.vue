@@ -156,6 +156,12 @@ export default {
     },
     selectAction (val) {
       this.selectActionValue = val
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
       this.loadDetail()
     },
     transText (val) {
@@ -185,6 +191,7 @@ export default {
       this.item = {}
     },
     openDeawer (item, startTime, endTime) {
+      this.initData()
       this.item = item
       this.item.startTime = startTime
       this.item.endTime = endTime
@@ -207,6 +214,12 @@ export default {
     handleClose () {},
     handleClick (tab, event) {},
     handleChangeGuide (val) {
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [10],
+        page: 1,
+        total: 0
+      }
       this.guideIdsStr = val.join(',')
       this.loadDetail()
     },
@@ -223,6 +236,10 @@ export default {
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
+      }
+      if (this.paginationToPerson.page === 1) {
+        this.listData = []
+        this.paginationToPerson.total = 0
       }
       this.$http
         .fetch(this.$api.guide.getStatisticsDetailByMaterial, parms)
