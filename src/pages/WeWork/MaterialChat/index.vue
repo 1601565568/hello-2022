@@ -329,7 +329,7 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '素材行为数据统计' + startTime + '至' + endTime + '.xlsx'
+              '素材行为数据统计' + this.startTime + '至' + this.endTime + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
