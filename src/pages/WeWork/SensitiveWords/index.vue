@@ -60,8 +60,8 @@
                 {{ item.count }}
               </div>
               <span class="del" @click.stop="listDeleteItem(item.id)">
-                <Icon type="delete"
-              /></span>
+                <Icon type="delete"/>
+              </span>
             </li>
           </ul>
           <p class="getMoreloading" v-if="getListMore && !listLoading">
