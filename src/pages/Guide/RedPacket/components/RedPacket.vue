@@ -54,7 +54,7 @@ export default {
   width: 100%;
   padding-bottom: 19%;
   position: relative;
-  background-color: #DF6754;
+  background-color: #F25642;
   background-size:100% 100%;
   .red-image {
     width:100%;

@@ -1,6 +1,6 @@
 export default {
   getWeChatOfficialAccounts: {
-    url: '/wechatOfficial/getWeChatOfficialAccounts',
+    url: '/wxpay/wechatOfficial/getWeChatOfficialAccounts',
     method: 'get'
   },
   getList: {
