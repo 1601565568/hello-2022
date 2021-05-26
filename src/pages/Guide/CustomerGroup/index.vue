@@ -470,7 +470,7 @@ export default {
         startTime = this.selectToday ? this.last7 : this.lart30
         endTime = this.today
       }
-      let arrList = this.guideIds.length > 0 && this.guideIds.map(item => item.id)
+      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         userIds: arrList,
         endTime: endTime,
