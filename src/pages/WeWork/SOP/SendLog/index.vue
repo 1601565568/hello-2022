@@ -35,6 +35,7 @@
     <BaseContainer class="sendlog-table-container" v-loading="loading">
       <el-table
         class="table-form_reset sendlog-table"
+        :row-style="tableRowClassName"
         :data="activityList"
       >
         <el-table-column prop="code" label="编号"></el-table-column>
@@ -42,7 +43,7 @@
         <el-table-column prop="sendTime" label="发送时间"></el-table-column>
         <el-table-column prop="msgNum" label="发送消息">
           <template slot-scope="scope">
-            <NsButton type="text" @click="checkActivityMessage(scope.row.id)">{{scope.row.msgNum}}</NsButton>条
+            <NsButton type="text" @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.msgNum}}</NsButton>条
           </template>
         </el-table-column>
         <el-table-column prop="sendType" label="发送消息类型">
@@ -62,7 +63,7 @@
         </el-table-column>
         <el-table-column prop="chatroomNum" label="发送结果">
           <template slot-scope="scope">
-            <NsButton type="text" @click="checkActivityGroup(scope.row.id)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
+            <NsButton type="text" @click="checkActivityGroup(scope.row.id, scope.$index)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
           </template>
         </el-table-column>
       </el-table>
@@ -79,6 +80,7 @@
       />
     </BaseContainer>
     <!-- 参加活动群drawer -->
+      <!-- :update:visible="clearActiveIndex" -->
     <GroupDrawer
       :visible.sync="visibleGroupDrawer"
       :activityId="activeActivityId"
@@ -106,6 +108,18 @@ export default {
     MessageDrawer
   },
   mixins: [tableMixin],
+  watch: {
+    visibleGroupDrawer (val) {
+      if (!val) {
+        this.activeIndex = -1
+      }
+    },
+    visibleMessageDrawer (val) {
+      if (!val) {
+        this.activeIndex = -1
+      }
+    }
+  },
   data () {
     return {
       loading: false,
@@ -113,9 +127,10 @@ export default {
       visibleGroupDrawer: false,
       visibleMessageDrawer: false,
       activeActivityId: 0,
+      activeIndex: -1,
       searchDate: [
-        `${moment().add(-1, 'days').format('yyyy-MM-DD')} 00:00:00`,
-        `${moment().add(-1, 'days').format('yyyy-MM-DD')} 23:59:59`
+        `${moment().format('yyyy-MM-DD')} 00:00:00`,
+        `${moment().format('yyyy-MM-DD')} 23:59:59`
       ],
       model: {
         status: SOPExamineStatus.Succeed,
@@ -124,8 +139,8 @@ export default {
         code: '',
         name: '',
         showDeleteData: true,
-        timeStart: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 00:00:00`,
-        timeEnd: `${moment().add(-1, 'days').format('yyyy-MM-DD')} 23:59:59`
+        timeStart: `${moment().format('yyyy-MM-DD')} 00:00:00`,
+        timeEnd: `${moment().format('yyyy-MM-DD')} 23:59:59`
       },
       activityList: [],
       pagination: {
@@ -152,6 +167,10 @@ export default {
     this.getActivityList()
   },
   methods: {
+    clearActiveIndex (state) {
+      window.console.log('哈哈哈', state)
+      // this.visibleGroupDrawer = state
+    },
     messageToolTipList (list) {
       const messageTypes = Array.from(new Set(list.map(item => item.type)))
       return messageTypes.map(type => {
@@ -161,14 +180,16 @@ export default {
     /**
      * 查看活动的群
      */
-    checkActivityGroup (id) {
+    checkActivityGroup (id, index) {
+      this.activeIndex = index
       this.activeActivityId = id
       this.visibleGroupDrawer = true
     },
     /**
      * 查看发送的消息
      */
-    checkActivityMessage (id) {
+    checkActivityMessage (id, index) {
+      this.activeIndex = index
       this.activeActivityId = id
       this.visibleMessageDrawer = true
     },
@@ -238,6 +259,12 @@ export default {
         }).catch((resp) => {
           this.$notify.error('导出报错，请联系管理员')
         })
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     }
   }
 }

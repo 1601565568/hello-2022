@@ -19,4 +19,8 @@
   >>> .employee-talbe-header-cell {
     background: #F5F5F5;
   }
+
+  >>> .el-table__row {
+    height: 48px;
+  }
 }

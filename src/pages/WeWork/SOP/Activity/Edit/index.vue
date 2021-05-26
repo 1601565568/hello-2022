@@ -19,7 +19,7 @@
           <el-form-item label="名称" prop="name" required>
             <el-input v-model="model.name" placeholder="请输入名称" class="el-input" :length="10"></el-input>
           </el-form-item>
-          <el-form-item label="发送群" prop="chatRoomIdList" required>
+          <!-- <el-form-item label="发送群" prop="chatRoomIdList" required>
             <div class="select-area">
               <NsChatRoomDialog
                 btnTitle="选择已有群聊"
@@ -29,11 +29,27 @@
                 :isSelectAll="true"
               >
                 <div class="select-tips" @click="$refs.NsChatRoomDialog.onDialogOpen()">
-                  <span v-if="!model.chatRoomIdList.length" class="un-selected">请选择群</span>
-                  <span v-else class="selected">已选择{{model.chatRoomIdList.length}}个群</span>
-                  <Icon type="geren" class="icon"/>
+                  <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
+                    <Icon type="geren" class="icon" slot="suffix"></Icon>
+                  </el-input>
                 </div>
               </NsChatRoomDialog>
+            </div>
+          </el-form-item> -->
+          <el-form-item label="发送群" prop="chatRoomIdList" required>
+            <NsRoomDialog
+              :visible.sync="roomDialogVisible"
+              :chatIds.sync="model.chatRoomIdList"
+            />
+            <div class="select-area">
+              <div
+                class="select-tips"
+                @click="roomDialogVisible = true"
+              >
+                <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
+                  <Icon type="geren" class="icon" slot="suffix"></Icon>
+                </el-input>
+              </div>
             </div>
           </el-form-item>
           <div style="position: relative">
@@ -174,7 +190,8 @@
 import PageEdit from '@/components/NewUi/PageEdit'
 import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import PhoneBox from '@/components/NewUi/PhoneBox'
-import NsChatRoomDialog from '@/components/NsChatRoomDialog'
+// import NsChatRoomDialog from '@/components/NsChatRoomDialog'
+import NsRoomDialog from '@/components/NsRoomDialog'
 import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
 import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
 import WechatMessageBar from './WechatMessageBar'
@@ -185,7 +202,8 @@ export default {
     PageEdit,
     SimpleCollapse,
     PhoneBox,
-    NsChatRoomDialog,
+    // NsChatRoomDialog,
+    NsRoomDialog,
     MessagePreviewPanel,
     TextMessage,
     ImageMessage,
@@ -214,8 +232,19 @@ export default {
       }
     }
   },
+  computed: {
+    selectedTip () {
+      if (this.model.chatRoomIdList.length) {
+        return `已选择${this.model.chatRoomIdList.length}个群`
+      } else {
+        return ''
+      }
+    }
+  },
   data () {
     return {
+      test: [ 'wraQfGDQAAJgQCRn4aIOsbN1balDuV3Q', 'wraQfGDQAA20PS7x3olaip6zWb6N9vmg', 'wraQfGDQAAb6YBajyT4sFqVsB0rbxr1A' ],
+      roomDialogVisible: false,
       SOPActivityMessageType: SOPActivityMessageType,
       SOPExamineStatus: SOPExamineStatus,
       btnLoading: false,
@@ -385,7 +414,10 @@ export default {
             .then(resp => {
               if (resp.success) {
                 this.$notify.success('保存成功')
-                this.$router.push('/Marketing/SOP')
+                this.$router.push({
+                  path: '/Marketing/SOP',
+                  query: this.$route.query
+                })
               } else {
                 this.$notify.error('活动保存失败')
               }
@@ -473,31 +505,11 @@ export default {
 .select-area {
   width: 680px;
   .select-tips {
-    width: 626px;
-    height: 36px;
-    margin-left: 36px;
-    background: #fff;
-    cursor: pointer;
-    border: 1px solid #dcdfe6;
-    border-radius: 2px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span {
-      font-size: 14px;
-      padding: 0 25px 0 9px;
-      line-height: 32px;
-    }
-    .un-selected {
-      color: #BFBFBF;
-    }
-    .selected {
-      color: #606266;
-    }
     .icon {
       color: #BFBFBF;
-      font-size: 14px;
-      margin-right: 9px;
+      font-size: 24px;
+      margin-top: 4px;
+      margin-right: 4px;
     }
   }
 }

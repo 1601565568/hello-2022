@@ -9,7 +9,7 @@
     append-to-body
   >
     <el-form class="text-message el-form-reset" label-width="6px" label-position="left" :model="defaultModel" :rules="rules" ref="ruleForm">
-      <el-form-item prop="htmlContent">
+      <el-form-item prop="htmlContent" :show-message="false">
         <span class="title">文本内容</span>
         <tag-area ref="TagAreaText" v-if="visible" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="inputLength"/>
       </el-form-item>
@@ -108,6 +108,14 @@ export default {
 
           this.$refs.ruleForm.clearValidate()
           this.close()
+        } else {
+          if (!this.defaultModel.htmlContent) {
+            this.$notify.warning('请输入文本内容')
+          }
+          const text = this.$refs.TagAreaText.htmlToText(this.defaultModel.htmlContent)
+          if (text.length > 1000) {
+            this.$notify.warning('最多1000个字符')
+          }
         }
       })
     },
