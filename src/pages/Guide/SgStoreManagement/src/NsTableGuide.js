@@ -221,11 +221,7 @@ export default {
       this.$resetInput$()
       this.model.areaId = data.id
       this.model.areaName = data.label
-      this._data._table.searchMap = $.extend(true, {}, this.model)
-      this.loading = true
-      this.$reload().then(rep => {
-        this.loading = this._data._loading
-      })
+      this.$searchAction$()
     },
     // 树节点过滤
     onFilterNode (value, data, node) {

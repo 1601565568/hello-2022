@@ -18,12 +18,19 @@
                 @keyup.enter.native="initShopList(1)">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
       </el-input>
-      <div style="display: flex;padding-left: 8px" class="changeShopStatus">
-        <p style="margin-right: 5px">状态:</p>
-        <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList">
+      <div style="display: flex;padding-left: 5px" class="changeShopStatus">
+        <p style="margin-right: 5px;white-space: nowrap;">门店状态</p>
+        <el-checkbox-group style="display: flex;" @change="changeStatus" v-model="checkShopStatus">
           <el-checkbox label =  '1' >正常</el-checkbox>
           <el-checkbox label = '-1' >暂停</el-checkbox>
           <el-checkbox label = '-2' >关店</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div style="display: flex;padding-left: 5px" class="changeShopStatus">
+        <p style="margin-right: 5px">员工状态</p>
+        <el-checkbox-group @change="changeStatus" v-model="checkGuideStatus">
+          <el-checkbox label =  '1' >在职</el-checkbox>
+          <el-checkbox label = '2' >离职</el-checkbox>
         </el-checkbox-group>
       </div>
       <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
