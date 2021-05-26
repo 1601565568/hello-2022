@@ -203,4 +203,7 @@ export default Index
   .changeShopStatus >>> .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #606266!important;
   }
+  .template-page__row-left {
+    position: relative;
+  }
 </style>
