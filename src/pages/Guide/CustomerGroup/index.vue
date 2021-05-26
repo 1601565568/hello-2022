@@ -456,10 +456,10 @@ export default {
         searchMap: {
           userIds: arrList,
           endTime: this.endTime,
-          startTime: this.startTime,
-          start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
-          length: this.paginationToDate.size
-        }
+          startTime: this.startTime
+        },
+        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+        length: this.paginationToDate.size
       }
       if (this.paginationToDate.page === 1) {
         this.listDate = []
@@ -488,10 +488,10 @@ export default {
         searchMap: {
           userIds: arrList,
           endTime: this.endTime,
-          startTime: this.startTime,
-          start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
-          length: this.paginationToPerson.size
-        }
+          startTime: this.startTime
+        },
+        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+        length: this.paginationToPerson.size
       }
       if (this.paginationToPerson.page === 1) {
         this.listPerson = []
