@@ -125,7 +125,7 @@ export default {
   //   method: 'post'
   // },
   // 导出
-  exportRecordList: `${API_ROOT}/${prefix}record/export`, // 群门店
-  exportReceiverList: `${API_ROOT}/${prefix}record/receiver/export`, // 群成员
-  exportDataAnalysisList: `${API_ROOT}/${prefix}dataAnalysis/export` // 好友门店
+  exportRecordList: `${API_ROOT}${prefix}record/export`, // 群门店
+  exportReceiverList: `${API_ROOT}${prefix}record/receiver/export`, // 群成员
+  exportDataAnalysisList: `${API_ROOT}${prefix}dataAnalysis/export` // 好友门店
 }
