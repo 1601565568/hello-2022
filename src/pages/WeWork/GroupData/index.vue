@@ -4,14 +4,15 @@
       <div class="top-view">
         <div class="title">群分析</div>
       </div>
-      <div class="data-view">
+      <!-- <div class="data-view">
         <div v-for="(item, index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
           </div>
         </div>
-      </div>
+      </div> -->
+      <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class="material-show">
       <div class="material-chat">
@@ -195,46 +196,65 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts },
+  components: { PageTable, NsEcharts, ColorfulDisplay },
   data () {
     return {
+      checkId: 1,
+      endTime: '',
+      startTime: '',
       dataList: [
-        { name: '今日总群数', data: 0, claseName: 'one' },
-        { name: '群管理好友数', data: 0, claseName: 'two' },
-        { name: '今日群新增好友数', data: 0, claseName: 'three' },
-        { name: '今日群流失好友数', data: 0, claseName: 'four' }
+        {
+          key: 'chat_totals',
+          nick: '今日总群数',
+          value: 0
+        },
+        {
+          key: 'member_totals',
+          nick: '群管理好友数',
+          value: 0
+        },
+        {
+          key: 'new_member_cnts',
+          nick: '今日群新增好友数',
+          value: 0
+        },
+        {
+          key: 'member_loss_cnts',
+          nick: '今日群流失好友数',
+          value: 0
+        }
       ],
       option: {
-        title: {
-          text: ''
-        },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: [
-            '今日总群数',
-            '群管理好友数',
-            '今日群新增好友数',
-            '今日群流失好友数'
-          ],
-          left: '0',
-          bottom: '9%',
-          icon: 'roundRect',
-          itemWidth: 10,
-          itemHeight: 10
-        },
-        color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
-        grid: {
-          left: 0,
-          right: 0,
           bottom: 0,
-          containLabel: true,
-          top: '4%',
-          height: 291
+          left: 0,
+          data: [{
+            icon: 'rect',
+            name: '今日总群数'
+          }, {
+            icon: 'rect',
+            name: '群管理好友数'
+          }, {
+            icon: 'rect',
+            name: '今日群新增好友数'
+          }, {
+            icon: 'rect',
+            name: '今日群流失好友数'
+          }]
+        },
+        grid: {
+          left: 46,
+          right: 46,
+          top: 50,
+          bottom: 50,
+          containLabel: true
         },
         xAxis: {
           type: 'category',
@@ -247,12 +267,24 @@ export default {
             show: false
           },
           axisLabel: {
-            fontsize: 12,
-            color: '#BFBFBF',
-            lineHeight: 20
+            color: 'rgba(0,0,0,0.25)',
+            lineHeight: 24
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(0,0,0,0.25)'
+            }
           }
         },
+        color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
         yAxis: {
+          name: '数量',
+          nameTextStyle: {
+            color: 'rgba(0,0,0,0.25)',
+            padding: [4, 4, 4, 24],
+            verticalAlign: 'bottom',
+            lineHeight: 24
+          },
           type: 'value',
           axisLine: {
             show: false
@@ -261,37 +293,19 @@ export default {
             show: false
           },
           axisLabel: {
-            fontsize: 12,
-            color: '#BFBFBF',
-            lineHeight: 20
+            color: 'rgba(0,0,0,0.25)',
+            inside: true,
+            margin: 0,
+            verticalAlign: 'bottom',
+            lineHeight: 24
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(0,0,0,0.25)'
+            }
           }
         },
-        series: [
-          {
-            name: '今日总群数',
-            type: 'line',
-            stack: '总量',
-            data: []
-          },
-          {
-            name: '群管理好友数',
-            type: 'line',
-            stack: '总量',
-            data: []
-          },
-          {
-            name: '今日群新增好友数',
-            type: 'line',
-            stack: '总量',
-            data: []
-          },
-          {
-            name: '今日群流失好友数',
-            type: 'line',
-            stack: '总量',
-            data: []
-          }
-        ]
+        series: this.setDefaultChartData()
       },
       value1: '',
       activeName: 'first',
@@ -322,7 +336,41 @@ export default {
       datePickerArr: []
     }
   },
+  computed: {
+    xAxisDate () { // 根据时间区间计算出每一日期
+      let dateList = []
+      const startTime = this.getDate(this.startTime)
+      const endTime = this.getDate(this.endTime)
+      while ((endTime.getTime() - startTime.getTime()) >= 0) {
+        const year = startTime.getFullYear()
+        const month = startTime.getMonth() + 1 < 10 ? '0' + (startTime.getMonth() + 1) : startTime.getMonth() + 1
+        const day = startTime.getDate().toString().length === 1 ? '0' + startTime.getDate() : startTime.getDate()
+        dateList.push(year + '-' + month + '-' + day)
+        startTime.setDate(startTime.getDate() + 1)
+      }
+      return dateList
+    }
+  },
+  mounted () {
+    this.dealTime()
+    this.loadTopData()
+    this.loadDateList()
+    this.loadChatList()
+    this.queryChatroomLeaderOptions()
+    this.queryWeWorkRoomsNameOptions()
+  },
   methods: {
+    /**
+   * 格式化日期格式
+   * @param {*} datestr
+   * @return {*}
+   */
+    getDate (datestr) {
+      const noTime = datestr.split(' ')[0]
+      const temp = noTime.split('-')
+      const date = new Date(temp[0], temp[1] - 1, temp[2])
+      return date
+    },
     outputCsvFile () {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -340,7 +388,7 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群分析' + curDate + '.csv'
+            let fileName = '群分析' + this.startTime.replaceAll('-', '') + '-' + this.endTime.replaceAll('-', '') + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -349,14 +397,29 @@ export default {
     },
     chatNameChange (val) {
       this.loadChatList()
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
     },
     owenerChange (val) {
       this.loadChatList()
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
     },
     datePickerChange (val) {
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
         this.selectToday = true
+      }
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
       }
       this.loadChatList()
     },
@@ -369,13 +432,30 @@ export default {
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
       this.loadChatList()
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
     },
     lookNoStatistical () {
       this.$router.push({
         path: '/Social/OperationData/NoStatistical'
       })
     },
-    handleClick () {},
+    // 点击tab切换
+    handleClick (tab) {
+      if ((this.activeName === 'first' && this.checkId === 1) || (this.activeName === 'second' && this.checkId === 2)) {
+        return false
+      }
+      if (tab.name === 'second') {
+        this.checkId = 2
+        this.loadPersonList()
+      } else {
+        this.checkId = 1
+        this.loadDateList()
+      }
+    },
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
@@ -383,25 +463,24 @@ export default {
     loadTopData () {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
-          const json = res.result || {}
-          const oneNum = json.chat_totals || 0
-          const twoNum = json.member_totals || 0
-          const threeNum = json.new_member_cnts || 0
-          const fourNum = json.member_loss_cnts || 0
-          this.dataList = [
-            { name: '今日总群数', data: oneNum, claseName: 'one' },
-            { name: '群管理好友数', data: twoNum, claseName: 'two' },
-            { name: '今日群新增好友数', data: threeNum, claseName: 'three' },
-            { name: '今日群流失好友数', data: fourNum, claseName: 'four' }
-          ]
+          this.dataList = this.dataList.map(item => ({
+            ...item,
+            value: res.result[item.key],
+            isMoney: false
+          }))
         }
       })
     },
     loadDateList () {
       const parms = {
-        searchMap: {},
-        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
-        length: this.paginationToDate.size
+        searchMap: {
+          chatRoomId: this.actionValue,
+          endTime: this.endTime,
+          owner: this.chatOwnerName,
+          startTime: this.startTime,
+          start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+          length: this.paginationToDate.size
+        }
       }
       if (this.paginationToDate.page === 1) {
         this.listDate = []
@@ -419,16 +498,20 @@ export default {
     },
     loadPersonList () {
       const parms = {
-        searchMap: {},
-        start:
-          (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
-        length: this.paginationToPerson.size
+        searchMap: {
+          chatRoomId: this.actionValue,
+          endTime: this.endTime,
+          owner: this.chatOwnerName,
+          startTime: this.startTime,
+          start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+          length: this.paginationToPerson.size
+        }
       }
       if (this.paginationToPerson.page === 1) {
         this.listPerson = []
       }
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.page_list_by_owner, parms)
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_user, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
@@ -462,59 +545,78 @@ export default {
       this.paginationToPerson.page = page
       this.loadPersonList()
     },
+    setDefaultChartData () {
+      return [
+        {
+          name: '今日总群数',
+          type: 'line',
+          data: []
+        },
+        {
+          name: '群管理好友数',
+          type: 'line',
+          data: []
+        },
+        {
+          name: '今日群新增好友数',
+          type: 'line',
+          data: []
+        },
+        {
+          name: '今日群流失好友数',
+          type: 'line',
+          data: []
+        }
+      ]
+    },
+    /**
+   * 格式化图表数据 没有值的天数默认0
+   * @param {*} list
+   * @param {*} dateList
+   * @return {*}
+   */
+    formatChart (resList, dateList) {
+      const data = this.setDefaultChartData()
+      const list = [...resList].reverse()
+      dateList.map(item => {
+        if (list.length) {
+          if (item === list[0].stat_time) {
+            this.setChartData(list[0].chat_totals, list[0].member_totals, list[0].new_member_cnts, list[0].member_loss_cnts, data)
+            list.shift()
+          } else {
+            this.setChartData(0, 0, 0, 0, data)
+          }
+        } else {
+          this.setChartData(0, 0, 0, 0, data)
+        }
+      })
+      return data
+    },
+    setChartData (item1, item2, item3, item4, list) {
+      list[0].data.push(item1)
+      list[1].data.push(item2)
+      list[2].data.push(item3)
+      list[3].data.push(item4)
+    },
+    // 获取图表信息
     loadChatList () {
-      let startTime
-      let endTime
       if (this.datePickerArr.length > 0) {
-        startTime = this.datePickerArr[0]
-        endTime = this.datePickerArr[1]
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
       } else {
-        startTime = this.selectToday ? this.last7 : this.lart30
-        endTime = this.today
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
       }
       const parms = {
         chatRoomId: this.actionValue,
-        endTime: endTime,
+        endTime: this.endTime,
         owner: this.chatOwnerName,
-        startTime: startTime
+        startTime: this.startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
-          const charts = res.result || []
-          let timeArr = []
-          let todayGroup = []
-          let groupFriends = []
-          let todayFriends = []
-          let todayLoss = []
-          for (const item of charts) {
-            timeArr.push(item.stat_time)
-            todayGroup.push(item.chat_totals)
-            groupFriends.push(item.member_totals)
-            todayFriends.push(item.new_member_cnts)
-            todayLoss.push(item.member_loss_cnts)
-          }
-          this.option.xAxis.data = timeArr
-          this.option.series = [
-            {
-              name: '今日总群数',
-              type: 'line',
-              stack: '总量',
-              data: todayGroup
-            },
-            {
-              name: '群管理好友数',
-              type: 'line',
-              stack: '总量',
-              data: groupFriends
-            },
-            {
-              name: '今日群新增好友数',
-              type: 'line',
-              stack: '总量',
-              data: todayFriends
-            },
-            { name: '今日群流失好友数', type: 'line', stack: '总量', data: todayLoss }
-          ]
+          this.option.xAxis.data = this.xAxisDate
+          this.option.series = this.formatChart(res.result, this.xAxisDate)
         }
       })
     },
@@ -543,20 +645,11 @@ export default {
         .subtract('days', 29)
         .format('YYYY-MM-DD')
     }
-  },
-  mounted () {
-    this.dealTime()
-    this.loadTopData()
-    this.loadDateList()
-    this.loadPersonList()
-    this.loadChatList()
-    this.queryChatroomLeaderOptions()
-    this.queryWeWorkRoomsNameOptions()
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
 .chat-view {

@@ -181,6 +181,7 @@ export default {
   components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay },
   data () {
     return {
+      checkId: 1,
       endTime: '',
       startTime: '',
       dataList: [
@@ -253,6 +254,12 @@ export default {
             }
           }
         },
+        color: [
+          '#4287FF',
+          '#F7B586',
+          '#95DA73',
+          '#7962EC'
+        ],
         yAxis: {
           name: '数量',
           nameTextStyle: {
@@ -283,97 +290,6 @@ export default {
         },
         series: this.setDefaultChartData()
       },
-      // option: {
-      //   title: {
-      //     text: ''
-      //   },
-      //   tooltip: {
-      //     trigger: 'axis'
-      //   },
-      //   legend: {
-      //     data: [
-      //       '好友群总数',
-      //       '有过消息的好友群数',
-      //       '发过消息的群成员数',
-      //       '好友群消息总数'
-      //     ],
-      //     left: '0',
-      //     bottom: '9%',
-      //     icon: 'roundRect',
-      //     itemWidth: 10,
-      //     itemHeight: 10
-      //   },
-      //   color: [
-      //     '#4287FF',
-      //     '#F7B586',
-      //     '#95DA73',
-      //     '#7962EC'
-      //   ],
-      //   grid: {
-      //     left: 0,
-      //     right: 0,
-      //     bottom: 0,
-      //     containLabel: true,
-      //     top: '4%',
-      //     height: 291
-      //   },
-      //   xAxis: {
-      //     type: 'category',
-      //     boundaryGap: false,
-      //     data: [],
-      //     axisLine: {
-      //       show: false
-      //     },
-      //     axisTick: {
-      //       show: false
-      //     },
-      //     axisLabel: {
-      //       fontsize: 12,
-      //       color: '#BFBFBF',
-      //       lineHeight: 20
-      //     }
-      //   },
-      //   yAxis: {
-      //     type: 'value',
-      //     axisLine: {
-      //       show: false
-      //     },
-      //     axisTick: {
-      //       show: false
-      //     },
-      //     axisLabel: {
-      //       fontsize: 12,
-      //       color: '#BFBFBF',
-      //       lineHeight: 20
-      //     }
-      //   },
-      //   series: [
-      //     {
-      //       name: '好友群总数',
-      //       type: 'line',
-      //       stack: '总量',
-      //       data: []
-      //     },
-      //     {
-      //       name: '有过消息的好友群数',
-      //       type: 'line',
-      //       stack: '总量',
-      //       data: []
-      //     },
-      //     {
-      //       name: '发过消息的群成员数',
-      //       type: 'line',
-      //       stack: '总量',
-      //       data: []
-      //     },
-      //     {
-      //       name: '好友群消息总数',
-      //       type: 'line',
-      //       stack: '总量',
-      //       data: []
-      //     }
-      //   ]
-      // },
       value1: '',
       activeName: 'first',
       options: [
@@ -487,7 +403,7 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群会话统计' + curDate + '.csv'
+            let fileName = '群会话统计' + this.startTime.replaceAll('-', '') + '-' + this.endTime.replaceAll('-', '') + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -499,8 +415,18 @@ export default {
         path: '/Social/OperationData/NoStatistical'
       })
     },
-    handleClick () {
-
+    // 点击tab切换
+    handleClick (tab) {
+      if ((this.activeName === 'first' && this.checkId === 1) || (this.activeName === 'second' && this.checkId === 2)) {
+        return false
+      }
+      if (tab.name === 'second') {
+        this.checkId = 2
+        this.loadPersonList()
+      } else {
+        this.checkId = 1
+        this.loadDateList()
+      }
     },
     showMoreData () {
       // this.$refs.timeList.closeDeawer()
@@ -509,17 +435,6 @@ export default {
     loadTopData () {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
-          // const json = res.result || {}
-          // const oneNum = json.chat_total || 0
-          // const twoNum = json.chat_has_msg || 0
-          // const threeNum = json.member_has_msg || 0
-          // const fourNum = json.msg_total || 0
-          // this.dataList = [
-          //   { name: '好友群总数', data: oneNum, claseName: 'one' },
-          //   { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
-          //   { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
-          //   { name: '好友群消息总数', data: fourNum, claseName: 'four' }
-          // ]
           this.dataList = this.dataList.map(item => ({
             ...item,
             value: res.result[item.key],
@@ -529,10 +444,22 @@ export default {
       })
     },
     loadDateList () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
+      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
-        searchMap: {},
-        start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
-        length: this.paginationToDate.size
+        searchMap: {
+          userIds: arrList,
+          endTime: this.endTime,
+          startTime: this.startTime,
+          start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
+          length: this.paginationToDate.size
+        }
       }
       if (this.paginationToDate.page === 1) {
         this.listDate = []
@@ -549,16 +476,28 @@ export default {
         })
     },
     loadPersonList () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
+      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
-        searchMap: {},
-        start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
-        length: this.paginationToPerson.size
+        searchMap: {
+          userIds: arrList,
+          endTime: this.endTime,
+          startTime: this.startTime,
+          start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
+          length: this.paginationToPerson.size
+        }
       }
       if (this.paginationToPerson.page === 1) {
         this.listPerson = []
       }
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.page_list_by_owner, parms)
+        .fetch(this.$api.weWork.weWorkRooms.page_list_by_user, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
@@ -607,17 +546,32 @@ export default {
       if (this.datePickerArr.length === 0) {
         this.selectToday = true
       }
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
       this.loadChatList()
     },
     // 选择日期
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
       this.loadChatList()
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
     },
     // 选择员工之后的图标刷新请求
     handleChangeGuide (value) {
       this.guideIds = [].concat(value)
       this.loadChatList()
+      if (this.checkId === 1) {
+        this.loadDateList()
+      } else {
+        this.loadPersonList()
+      }
     },
     /**
    * 格式化图表数据 没有值的天数默认0
@@ -644,8 +598,6 @@ export default {
     },
     // 获取图表数据
     loadChatList () {
-      // let startTime
-      // let endTime
       if (this.datePickerArr.length > 0) {
         this.startTime = this.datePickerArr[0]
         this.endTime = this.datePickerArr[1]
@@ -705,14 +657,13 @@ export default {
   mounted () {
     this.dealTime()
     this.loadTopData()
-    this.loadDateList()
-    this.loadPersonList()
     this.loadChatList()
+    this.loadDateList()
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
 .chat-view {

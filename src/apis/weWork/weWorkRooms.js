@@ -40,7 +40,7 @@ export default {
     url: '/chat-room/statistics/page_list_by_date',
     method: 'post'
   },
-  page_list_by_owner: {
+  page_list_by_user: {
     url: '/chat-room/statistics/page_list_by_user',
     method: 'post'
   },
