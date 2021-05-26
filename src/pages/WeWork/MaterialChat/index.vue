@@ -137,6 +137,28 @@
                   :row-style="{ height: '48px' }"
                 >
                   <el-table-column prop="materialTitle" label="素材标题">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="top-start"
+                        width="300"
+                        trigger="hover"
+                        :disabled="scope.row.materialTitle.length <= 15"
+                      >
+                        <div>{{ scope.row.materialTitle }}</div>
+                        <span
+                          slot="reference"
+                          v-if="scope.row.materialTitle.length <= 15"
+                          >{{ scope.row.materialTitle }}</span
+                        >
+                        <span
+                          slot="reference"
+                          v-if="scope.row.materialTitle.length > 15"
+                          >{{
+                            scope.row.materialTitle.substr(0, 15) + '...'
+                          }}</span
+                        >
+                      </el-popover>
+                    </template>
                   </el-table-column>
                   <el-table-column prop="sendSum" label="发送次数">
                   </el-table-column>
