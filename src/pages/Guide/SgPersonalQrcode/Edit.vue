@@ -60,8 +60,8 @@
                   </ElTableColumn>
                   <ElTableColumn prop="num" v-if="memberManagePlan == 2  || (memberManagePlan == 1 && personalQrcode.type != 0)" align="center" width="150">
                     <template slot="header">
-                      每日添加好友次数
-                      <el-tooltip content="该子码每日最多添加好友数量。如一个子码归属于多个聚合码中，子码每日最多添加人数以设置最大数为基准。子码在当前聚合码中添加好友数量达到最大时该子码在该聚合码中不再显示。">
+                      每日子码扫描上限
+                      <el-tooltip content="聚合二维码被扫描后，该子码每日内能出现的次数。">
                         <Icon type="question-circle"/>
                       </el-tooltip>
                     </template>
