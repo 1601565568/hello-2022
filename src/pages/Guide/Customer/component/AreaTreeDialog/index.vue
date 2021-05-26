@@ -22,8 +22,8 @@
       :current-node-key="currentArea.id"
       @node-click="selectAreaNode"
     >
-      <span class="area-tree-node" slot-scope="{ node }">
-        <el-radio v-model="currentArea.id" :label="node.id">
+      <span class="area-tree-node" slot-scope="{ node,data }">
+        <el-radio :value="currentArea.id" :label="data.id">
           <Icon class="area-node-icon" type="cate" />
           <span class="area-node-title">{{ node.label }}</span>
         </el-radio>
