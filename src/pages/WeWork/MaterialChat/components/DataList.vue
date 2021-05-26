@@ -201,12 +201,14 @@ export default {
     },
     loadDetail (startTime, endTime) {
       const parms = {
-        endTime: this.item.endTime,
-        startTime: this.item.startTime,
-        eventType: this.selectActionValue,
-        guideIdsStr: this.guideIdsStr,
-        shopIdsStr: '',
-        materialId: this.item.materialId,
+        searchMap: {
+          endTime: this.item.endTime,
+          startTime: this.item.startTime,
+          eventType: this.selectActionValue,
+          guideIdsStr: this.guideIdsStr,
+          shopIdsStr: '',
+          materialId: this.item.materialId
+        },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size

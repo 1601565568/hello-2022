@@ -169,9 +169,11 @@ export default {
     handleClose () {},
     loadDetail () {
       const parms = {
-        eventType: this.eventType,
-        guideIdsStr: this.guideIdsStr,
-        materialId: this.item.materialId,
+        searchMap: {
+          eventType: this.eventType,
+          guideIdsStr: this.guideIdsStr,
+          materialId: this.item.materialId
+        },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size

@@ -11,7 +11,7 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">{{item.trackTime}}数据明细</div>
+      <div class="drawer-title">{{ item.trackTime }}数据明细</div>
       <div class="menu-view">
         <div class="input-view">
           <el-input
@@ -27,7 +27,11 @@
         <div class="item-down">
           <div class="name">动作:</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true" @change="selectAction">
+            <el-select
+              v-model="actionValue"
+              :default-first-option="true"
+              @change="selectAction"
+            >
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -221,11 +225,13 @@ export default {
     },
     loadDetail () {
       const parms = {
-        startTime: this.item.trackTime,
-        eventType: this.selectActionValue,
-        guideIdsStr: this.guideIdsStr,
-        shopIdsStr: '',
-        materialTitle: this.inputTitle,
+        searchMap: {
+          startTime: this.item.trackTime,
+          eventType: this.selectActionValue,
+          guideIdsStr: this.guideIdsStr,
+          shopIdsStr: '',
+          materialTitle: this.inputTitle
+        },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
