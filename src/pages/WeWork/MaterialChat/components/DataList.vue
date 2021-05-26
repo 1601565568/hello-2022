@@ -245,8 +245,8 @@ export default {
     loadDetail (startTime, endTime) {
       const parms = {
         searchMap: {
-          endTime: this.item.endTime,
-          startTime: this.item.startTime,
+          endTime: this.item.endTime + ' 23:59:59',
+          startTime: this.item.startTime + ' 00:00:00',
           eventType: this.selectActionValue,
           guideIdsStr: this.guideIdsStr,
           shopIdsStr: '',
