@@ -52,7 +52,7 @@ export default {
         quickSearchMap: {}
       },
       checkShopStatus: ['1', '-1'],
-      checkGuideStatus: ['1', '2'],
+      checkGuideStatus: ['1'],
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
