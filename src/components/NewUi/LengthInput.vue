@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-bind="$attrs" :type='type' :value='value' @input='(value)=>{$emit("input",value)}' class='length-input suffix-input'>
-      <template slot='suffix' v-if='length && type==="text"'>
+      <template slot='suffix' v-if='length && (type==="text"||type==="password")'>
         <div class='input-length'>{{textLength ? textLength :value.length}}/{{length}}</div>
       </template>
     </el-input>
@@ -37,7 +37,7 @@ export default {
   color: #C0C4CC;
   position: absolute;
   font-size: 12px;
-  bottom: 5px;
+  top: 27px;
   right: 10px;
 }
 </style>

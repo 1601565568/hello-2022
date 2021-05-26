@@ -1,12 +1,17 @@
+
 <template>
   <el-form :inline="true" class="date-picker-bar">
     <el-radio-group class="alalysis-radio" v-model="analysisDateField" @change="switchSearchDate">
-      <el-radio :label="1" border>全部</el-radio>
+      <template v-for='item in dateList'>
+        <el-radio :label="item.label" border :key='item.label'>{{item.value}}</el-radio>
+      </template>
+      <!-- <el-radio :label="1" border>全部</el-radio>
       <el-radio :label="2" border>近7天</el-radio>
-      <el-radio :label="3" border>近30天</el-radio>
+      <el-radio :label="3" border>近30天</el-radio> -->
     </el-radio-group>
     <span class="line"></span>
     <el-date-picker
+      v-if="clear"
       class="date-filter"
       v-model="searchDate"
       @change="switchSearchDate"
@@ -14,6 +19,22 @@
       value-format="yyyy-MM-dd HH:mm:ss"
       :default-time="['00:00:00','23:59:59']"
       range-separator="至"
+      :picker-options='pickerOptions'
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+    ></el-date-picker>
+    <el-date-picker
+      v-if="!clear"
+      class="date-filter"
+      v-model="searchDate"
+      popper-class='date-filter'
+      :clearable='false'
+      @change="switchSearchDate"
+      type="datetimerange"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00','23:59:59']"
+      range-separator="至"
+      :picker-options='pickerOptions'
       start-placeholder="开始日期"
       end-placeholder="结束日期"
     ></el-date-picker>
@@ -34,10 +55,35 @@ import moment from 'moment'
 
 export default {
   props: {
+    clear: {
+      type: Boolean,
+      default: true
+    },
     defaultPickDay: {
       default: 'all',
       validator: function (value) {
         return [ 'all', 7, 30 ].indexOf(value) !== -1
+      }
+    },
+    dateList: {
+      default () {
+        return [
+          {
+            label: 1,
+            value: '全部'
+          }, {
+            label: 2,
+            value: '近7天'
+          }, {
+            label: 3,
+            value: '近30天'
+          }
+        ]
+      }
+    },
+    pickerOptions: {
+      default () {
+        return {}
       }
     }
   },

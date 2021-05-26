@@ -2,6 +2,7 @@
   <ElDrawer
     size="378px"
     class="drawer"
+    :modal="false"
     :visible="visible"
     direction="rtl"
     @close="$emit('update:visible', false)"
