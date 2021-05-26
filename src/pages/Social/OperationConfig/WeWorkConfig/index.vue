@@ -64,9 +64,6 @@ export default {
           explain: '企业微信后台（我的企业-外部沟通管理），可配置在企业微信中查看外部联系人时，可查看企业应用中的客户详情',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#profile/wxcontacts/mngConfigView'
-        }, {
-          explain: '客户详情：pages/member/memberData',
-          value: 'pages/member/memberData'
         }]
       }],
       operationData: [{
@@ -109,9 +106,16 @@ export default {
       oInput.remove()
     },
     init () {
+      const customerDetail = 'customerDetail'
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
         if (res.result && res.msg) {
           res.result.forEach((item) => {
+            if (item.key === customerDetail) {
+              this.chatData[1].explanation.push({
+                ...item,
+                explain: `客户详情：${item.value}`
+              })
+            }
             this.chatData[0].explanation.push(item)
           })
         }
