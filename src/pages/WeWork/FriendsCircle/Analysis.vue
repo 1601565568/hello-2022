@@ -6,7 +6,7 @@
         <div class="title-right">
           <div class='shop-content'>
             <span>参与门店：</span>
-            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn>
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn :areaId='areaId'>
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(shopList&&shopList.length)?`已选择${shopList.length}个门店`:'全部'}}

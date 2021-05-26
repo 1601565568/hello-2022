@@ -141,6 +141,9 @@ export default {
       default: '1'
     },
     params: {},
+    areaId: {
+      default: null
+    },
     callBack: Function// 选择完后的回调
   },
   mixins: [listPageMixin, tableMixin],
@@ -222,6 +225,14 @@ export default {
         })
         this.shopOptions = shopOptions
       }
+    },
+    areaId: {
+      handler (newVal) {
+        if (newVal) {
+          this.param.shopArea = newVal
+        }
+      },
+      immediate: true
     }
   },
   methods: {
