@@ -27,13 +27,18 @@
           <div class="left-select">
             <div class="day-view">
               <span
-                :class="{ 'base-text-select': selectToday }"
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? 'base-text-select'
+                      : ''
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('seven')"
                 >近七天</span
               >
-              <span
-                :class="{ 'base-text-select': !selectToday }"
+              <span :class="showTodaySelect ? selectToday ? '' : 'base-text-select' : 'base-un-active'"
                 class="base-text"
                 @click="selectTodayClick('thirty')"
                 >近30天</span
@@ -41,7 +46,7 @@
             </div>
             <div class="date-view">
               <el-date-picker
-                v-model="value1"
+                v-model="datePickerValue"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -257,7 +262,6 @@ export default {
         },
         series: []
       },
-      value1: '',
       activeName: 'first',
       today: '',
       last7: '',
@@ -278,24 +282,35 @@ export default {
       listMaterial: [],
       selectToday: true,
       datePickerArr: [],
-      echartList: []
+      echartList: [],
+      showTodaySelect: true,
+      startTime: '',
+      endTime: '',
+      datePickerValue: []
     }
   },
   methods: {
     datePickerChange (val) {
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
-        this.selectToday = true
+        this.showTodaySelect = false
+        this.startTime = ''
+        this.endTime = ''
+      } else {
+        this.showTodaySelect = false
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
       }
+      this.selectToday = false
+      this.datePickerValue = [this.startTime, this.endTime]
       this.loadDateList()
       this.loadMaterialList()
       this.loadChartData()
     },
     outputClick () {
-      const obj = this.dealSelectTime()
       const parms = {
-        endTime: obj.endTime,
-        startTime: obj.startTime
+        endTime: this.endTime,
+        startTime: this.startTime
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -323,6 +338,14 @@ export default {
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
+      if (this.selectToday) {
+        this.startTime = this.last7
+      } else {
+        this.startTime = this.lart30
+      }
+      this.endTime = this.today
+      this.datePickerValue = [this.startTime, this.endTime]
+      this.showTodaySelect = true
       this.loadDateList()
       this.loadMaterialList()
       this.loadChartData()
@@ -359,6 +382,9 @@ export default {
       this.lart30 = moment()
         .subtract('days', 29)
         .format('YYYY-MM-DD')
+      this.startTime = this.last7
+      this.endTime = this.today
+      this.datePickerValue = [this.startTime, this.endTime]
     },
     lookNoStatistical () {
       this.$router.push({
@@ -370,8 +396,7 @@ export default {
       this.$refs.timeList.openDeawer(row)
     },
     showMoreToPerson (row) {
-      const obj = this.dealSelectTime()
-      this.$refs.detaList.openDeawer(row, obj.startTime, obj.endTime)
+      this.$refs.detaList.openDeawer(row, this.startTime, this.endTime)
     },
     loadTopData () {
       this.$http
@@ -417,11 +442,10 @@ export default {
         .finally(() => {})
     },
     loadDateList () {
-      const obj = this.dealSelectTime()
       const parms = {
         searchMap: {
-          endTime: obj.endTime,
-          startTime: obj.startTime
+          endTime: this.endTime,
+          startTime: this.startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
@@ -440,11 +464,10 @@ export default {
         .finally(() => {})
     },
     loadMaterialList () {
-      const obj = this.dealSelectTime()
       const parms = {
         searchMap: {
-          endTime: obj.endTime,
-          startTime: obj.startTime
+          endTime: this.endTime,
+          startTime: this.startTime
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -464,10 +487,9 @@ export default {
         .finally(() => {})
     },
     loadChartData () {
-      const obj = this.dealSelectTime()
       const parms = {
-        endTime: obj.endTime,
-        startTime: obj.startTime,
+        endTime: this.endTime,
+        startTime: this.startTime,
         eventType: 0,
         guideIdsStr: '',
         shopIdsStr: ''
@@ -538,18 +560,6 @@ export default {
         })
         .catch(resp => {})
         .finally(() => {})
-    },
-    dealSelectTime () {
-      let startTime
-      let endTime
-      if (this.datePickerArr.length > 0) {
-        startTime = this.datePickerArr[0]
-        endTime = this.datePickerArr[1]
-      } else {
-        startTime = this.selectToday ? this.last7 : this.lart30
-        endTime = this.today
-      }
-      return { startTime, endTime }
     }
   },
   mounted () {
@@ -603,11 +613,11 @@ export default {
     margin-right: 16px;
   }
   .base-cell {
-    color: #FFFFFF;
+    color: #ffffff;
     text-align: center;
     border-radius: 4px;
     height: 120px;
-     display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -652,7 +662,6 @@ export default {
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;
-  /* width: 1206px; */
   .material-chat {
     .title {
       font-size: 16px;
@@ -665,7 +674,6 @@ export default {
 }
 .material-list {
   background-color: white;
-  /* width: 1206px; */
   .title {
     font-size: 16px;
     color: #262626;
@@ -715,17 +723,12 @@ export default {
     cursor: pointer;
   }
   .base-text-select {
-    font-size: 14px;
     color: #0091fa;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 500;
-    margin-right: 16px;
     background: #f5fbff;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 5px 9px;
-    cursor: pointer;
+  }
+  .base-un-active {
+    color: #595959;
+    background-color: white;
   }
 }
 
