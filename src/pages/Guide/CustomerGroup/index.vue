@@ -4,14 +4,15 @@
       <div class="top-view">
         <div class="title">群会话统计</div>
       </div>
-      <div class="data-view">
+      <!-- <div class="data-view">
         <div v-for="(item,index) in dataList" :key="index">
           <div class="base-cell" :class="item.claseName">
             <div class="text">{{ item.name }}</div>
             <div class="number">{{ item.data }}</div>
           </div>
         </div>
-      </div>
+      </div> -->
+      <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class="material-show">
       <div class="material-chat">
@@ -173,9 +174,10 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import ColorfulDisplay from './components/ColorfulDisplay'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, NsGuideDialog },
+  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay },
   data () {
     return {
       endTime: '',
