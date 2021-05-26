@@ -2,11 +2,10 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
-import scrollTable from '@/mixins/scrollTable'
 
 export default {
   name: 'NsTableGuide',
-  mixins: [tableMixin, scrollTable, scrollHeight],
+  mixins: [tableMixin, scrollHeight],
   props: {
     url: Object
   },
@@ -20,68 +19,72 @@ export default {
     }
     const tableButtons = [
       {
-        'func': function () {
+        func: function () {
           this.$emit('synchronousStores')
         },
-        'name': '批量下载招募码',
-        'code': true,
-        'auth': false
+        name: '批量下载招募码',
+        code: true,
+        auth: false
       }
     ]
     const operateButtons = [
       {
-        'func': function (args) {
+        func: function (args) {
           this.$emit('onAddCustomer', args.row)
         },
-        'icon': '',
-        'name': '编辑',
-        'auth': '',
-        'visible': ''
+        icon: '',
+        name: '编辑',
+        auth: '',
+        visible: ''
       },
       {
-        'func': function (args) {
+        func: function (args) {
           this.$emit('ondelete', args.row)
         },
-        'icon': '',
-        'name': '删除',
-        'auth': '',
-        'visible': '',
-        'color': '#f00'
+        icon: '',
+        name: '删除',
+        auth: '',
+        visible: '',
+        color: '#f00'
       },
       {
-        'func': function (args) {
+        func: function (args) {
           this.$emit('quit', args.row)
         },
-        'icon': '',
-        'name': '离职',
-        'auth': '',
-        'visible': ''
+        icon: '',
+        name: '离职',
+        auth: '',
+        visible: ''
       }
     ]
-    let quickInput = [{
-      'template': '',
-      'inline': false,
-      'name': 'name',
-      'text': '任务名称',
-      'placeholder': '请输入任务名称',
-      'type': 'text',
-      'value': ''
-    }]
+    let quickInput = [
+      {
+        template: '',
+        inline: false,
+        name: 'name',
+        text: '任务名称',
+        placeholder: '请输入任务名称',
+        type: 'text',
+        value: ''
+      }
+    ]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     var findVo = {
-      'viewId': null, // 视角id
-      'name': null,
-      'shopName': null, // 门店名称
-      'shopId': null, // 门店ID
-      'city': null, // 门点所在区域市
-      'district': null, // 门点所在区域区
-      'province': null, // 门点所在区域省
-      'shopType': null, // 门店类型
-      'phone': null, // 联系电话
-      'area_region': null, // 所属地区
-      'shopStatus': null, // 营业状态
-      'area': [] // 所属区域
+      viewId: null, // 视角id
+      name: null,
+      shopName: null, // 门店名称
+      shopId: null, // 门店ID
+      city: null, // 门点所在区域市
+      district: null, // 门点所在区域区
+      province: null, // 门点所在区域省
+      shopType: null, // 门店类型
+      phone: null, // 联系电话
+      area_region: null, // 所属地区
+      shopStatus: null, // 营业状态
+      area: [], // 所属区域
+      areaId: '',
+      areaName: ''
     }
     let model = Object.assign({}, findVo)
     return {
@@ -113,26 +116,34 @@ export default {
       digitalShopList: [],
       digitalShopListLength: [],
       offsetHeight: false,
-      shopLeiXing: [{
-        value: 'LYD',
-        label: '联营店'
-      }, {
-        value: 'ZYD',
-        label: '直营店'
-      }, {
-        value: 'JMD',
-        label: '加盟店'
-      }],
-      operatingStatus: [{
-        value: -2,
-        label: '关店'
-      }, {
-        value: -1,
-        label: '暂停'
-      }, {
-        value: 1,
-        label: '正常'
-      }],
+      shopLeiXing: [
+        {
+          value: 'LYD',
+          label: '联营店'
+        },
+        {
+          value: 'ZYD',
+          label: '直营店'
+        },
+        {
+          value: 'JMD',
+          label: '加盟店'
+        }
+      ],
+      operatingStatus: [
+        {
+          value: -2,
+          label: '已关店'
+        },
+        {
+          value: -1,
+          label: '暂停营业'
+        },
+        {
+          value: 1,
+          label: '正常营业'
+        }
+      ],
       searchform: {
         // 区域选择相关start
         key: {
@@ -146,25 +157,25 @@ export default {
         total: 0,
         page: 1,
         size: 50,
-        shopName: ''
+        areaName: ''
       }
     }
   },
-
   mounted: function () {
     var vm = this
     vm.initDigitalShopList()
-    if (typeof this.$init === 'function') {
-    } else {
-      this.$reload()
-    }
-    let limitHeight = window.innerHeight - 40 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
-    this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
-    this.$searchAction$()
+    // let limitHeight =
+    //   window.innerHeight -
+    //   40 -
+    //   10 -
+    //   this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    // this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
   },
   updated () {
     if (this.$refs.elTree) {
-      this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+      this.$refs.elTree.offsetHeight > window.screen.availHeight
+        ? (this.offsetHeight = true)
+        : (this.offsetHeight = false)
     }
   },
   computed: {
@@ -172,11 +183,16 @@ export default {
      * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
      */
     viewRange () {
-      return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
+      return this.$store.state.user.remumber.remumber_login_info.productConfig
+        .viewRange
+    },
+    currentNodeKey () {
+      return this.digitalShopList.length > 0 ? this.digitalShopList[0].id : '0'
     }
   },
   methods: {
-    async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
+    async scopeRowCountAndviewDetails (succeedObj) {
+      // 查看门店详情和查看所属区域详情
       let that = this
       let obj = {}
       obj.templateId = succeedObj.template_id
@@ -203,24 +219,16 @@ export default {
     onClickNode (data) {
       // 重置所有参数
       this.$resetInput$()
-      this.model.shopIds = null
-      if (data.ext1) {
-        this.model.shopIds = data.ext1
-      } else if (data.id !== '0') {
-        this.model.shopIds = '0'
-      } else if (data.id === '0') {
-        this.model.shopIds = null
-      }
-      this._data._table.searchMap = $.extend(true, {}, this.model)
-      this.loading = true
-      this.$reload().then(rep => {
-        this.loading = this._data._loading
-      })
+      this.model.areaId = data.id
+      this.model.areaName = data.label
+      this.$searchAction$()
     },
     // 树节点过滤
     onFilterNode (value, data, node) {
       // 如果什么都没填就直接返回
-      if (!value) { return true }
+      if (!value) {
+        return true
+      }
       // 如果传入的value和data中的label相同说明是匹配到了
       if (data.label.indexOf(value) !== -1) {
         return true
@@ -252,44 +260,59 @@ export default {
       return false
     },
     elIconMenu (row) {
-      this.$http.fetch(this.$api.guide.shop.findIsShopLegal, {
-        shopId: row.id
-        // viewId: this.model.viewId
-      }).then(resp => {
-        if (resp.success) {
-          this.$emit('elIconMenu', { row, viewId: this.model.viewId })
-        }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('下载失败', resp))
-      })
+      this.$http
+        .fetch(this.$api.guide.shop.findIsShopLegal, {
+          shopId: row.id
+          // viewId: this.model.viewId
+        })
+        .then(resp => {
+          if (resp.success) {
+            this.$emit('elIconMenu', { row, viewId: this.model.viewId })
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('下载失败', resp))
+        })
     },
-    scopeRowCount (data) { // 查看数字门店详情
+    scopeRowCount (data) {
+      // 查看数字门店详情
       this.$emit('scopeRowCount', data)
     },
-    onAreaChange () { // 城市切换进行赋值
+    onAreaChange () {
+      // 城市切换进行赋值
       let that = this
       that.model.district = that.model.area[2]
       that.model.city = that.model.area[1]
       that.model.province = that.model.area[0]
     },
-    // 数字门店列表
+    // 区域列表
     initDigitalShopList (page) {
       this.shopTreePage.page = page || 1
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findDigitalShopList, {
-        start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
-        length: this.shopTreePage.size,
-        searchMap: {
-          shopName: this.shopTreePage.shopName
-        }
-      }).then(resp => {
-        if (resp.success && resp.result !== null) {
-          this.shopTreePage.total = Number(resp.result.recordsTotal)
-          _this.digitalShopList = resp.result.data
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      this.$http
+        .fetch(_this.$api.guide.shop.findDigitalShopList, {
+          start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
+          length: this.shopTreePage.size,
+          searchMap: {
+            areaName: this.shopTreePage.areaName
+          }
+        })
+        .then(resp => {
+          if (resp.success && resp.result !== null) {
+            if (resp.result.data.length) {
+              this.shopTreePage.total = Number(resp.result.recordsTotal)
+              this.digitalShopList = resp.result.data
+              this.model.areaId = this.digitalShopList[0].id
+              this.model.areaName = this.digitalShopList[0].label
+              this.$searchAction$()
+            } else {
+              this.$notify.info('暂无区域')
+            }
+          }
+        })
+        .catch(resp => {
+          _this.$notify.error(getErrorMsg('查询失败', resp))
+        })
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
@@ -309,7 +332,7 @@ export default {
     // 选择门店
     handleSelectionChange (val) {
       this.selectedArr = val
-      val.length > 0 ? this.select = false : this.select = true
+      val.length > 0 ? (this.select = false) : (this.select = true)
     },
     // 批量下载门店二维码
     downloadQrod () {
@@ -323,7 +346,10 @@ export default {
           shopId.push(shop.id)
         }
       })
-      this.$emit('batchElIconMenu', { row: shopId.join(','), viewId: this.model.viewId })
+      this.$emit('batchElIconMenu', {
+        row: shopId.join(','),
+        viewId: this.model.viewId
+      })
     },
     onRedactFun (val) {
       this.$emit('onRedactFun', val)
@@ -355,23 +381,29 @@ export default {
     },
     changeState (state, id) {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
-        guideId: id,
-        status: state
-      }).then(resp => {
-        if (resp.success) {
-          _this.$notify.success('切换成功！')
-        } else {
-          _this.$notify.error(getErrorMsg('切换失败，原因', resp))
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      _this.$http
+        .fetch(_this.$api.guide.guide.updateGuideStatus, {
+          guideId: id,
+          status: state
+        })
+        .then(resp => {
+          if (resp.success) {
+            _this.$notify.success('切换成功！')
+          } else {
+            _this.$notify.error(getErrorMsg('切换失败，原因', resp))
+          }
+        })
+        .catch(resp => {
+          _this.$notify.error(getErrorMsg('查询失败', resp))
+        })
     }
   },
   watch: {
     // 导购树过滤
     filterTreeText (val) {
+      this.$refs.shopTree.filter(val)
+    },
+    'shopTreePage.areaName' (val) {
       this.$refs.shopTree.filter(val)
     }
   }

@@ -8,11 +8,12 @@ import LabelManage from '../components/LabelManage'
 import LabelMake from '../components/LabelMake'
 import Catalogue from '../components/Catalogue'
 import Preview from '@/components/NsPreview'
+import DetailList from '../components/DetailList'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview, DetailList },
   data: function () {
     return {
       // 表格顶部
@@ -129,6 +130,12 @@ export default {
             'func': (scope) => {
               this.removeItem(scope.row)
             }
+          },
+          {
+            'name': '自创明细',
+            'func': (scope) => {
+              this.showGuideLists(scope.row)
+            }
           }
         ]
       },
@@ -174,6 +181,13 @@ export default {
             'func': (row) => {
               this.removeItem(row)
             }
+          },
+          {
+            'name': '自创明细',
+            'icon': 'shanchu',
+            'func': (row) => {
+              this.showGuideLists(row)
+            }
           }
         ]
       },
@@ -195,7 +209,10 @@ export default {
       queryNum: 0,
       // 搜索时，排除文件夹的字段
       excludeQuery: ['content', 'subdivisionId', 'mType'],
-      queryLoading: null
+      queryLoading: null,
+      selectItem: {},
+      materialScriptId: 0,
+      matericalTitle: ''
     }
   },
   computed: {
@@ -254,6 +271,18 @@ export default {
     }
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     /**
      * 标签筛选
      */
@@ -266,14 +295,26 @@ export default {
     subdivisionVisible (val) {
       if (!val) {
         this.filterValue = ''
+        if (this.selectItem.subdivisionIds) {
+          this.subdivisionChange(this.selectItem)
+          this.selectItem = {}
+        }
       }
+    },
+    /**
+     * 标签
+     */
+    updateSubs (val, item) {
+      item.subdivisionIds = Array.from(val)
+      this.selectItem = item
+      // this.subdivisionChange(item)
     },
     /**
      * 标签改变
      */
     subdivisionChange (item) {
       const params = {
-        subdivisionId: item.subdivisionId || null,
+        subdivisionIds: item.subdivisionIds || [],
         itemList: [{
           id: item.id,
           isDirectory: item.isDirectory,
@@ -545,14 +586,28 @@ export default {
      * 删除素材、视频
      */
     removeItem (row) {
-      const { isDirectory } = row
-      this.$confirm(`此操作将永久删除该${isDirectory === 1 ? '文件夹' : '条数据'}，是否继续？`, '删除确认', {
+      const { isDirectory, materialScriptType } = row
+      let showStr = ''
+      if (materialScriptType === 2) {
+        showStr = '删除该剧本后，员工根据该剧本创建的素材也将被删除，是否删除？'
+      } else {
+        showStr = `此操作将永久删除该${isDirectory === 1 ? '文件夹' : '条数据'}，是否继续？`
+      }
+      this.$confirm(showStr, '确定删除', {
         type: 'warning',
         cancelButtonText: '取消',
-        confirmButtonText: '确定'
+        confirmButtonText: '删除'
       }).then(() => {
         this.toDelete([row])
       }).catch(() => {})
+    },
+    /**
+     * 自创明细
+     */
+    showGuideLists (row) {
+      this.materialScriptId = row.id
+      this.matericalTitle = row.name
+      this.$refs.detailList.closeDeawer(row.id)
     },
     /**
      * 批量删除素材、视频

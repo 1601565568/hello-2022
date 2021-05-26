@@ -12,7 +12,7 @@
       </template>
       <template slot='content'>
         <!-- 基础信息 start -->
-        <recruitment-collapse title='基本信息' phoneTitle='' :phoneBar='styleData.webTitle || "客户"' :isShowPhone='!!model.profileId'>
+        <recruitment-collapse title='基本信息' phoneTitle='' :phoneBar='styleData.name || "客户"' :isShowPhone='!!model.profileId'>
           <template slot='collapse-left'>
             <el-form-item label='内容' prop='content' :rules="[
               { required: true, message: '请输入内容', trigger: ['blur', 'change'] },
@@ -22,6 +22,7 @@
             </el-form-item>
             <el-form-item label='附件' prop='mediaList'>
               <MoveUpload :value='model.mediaList' @input='handleChangeMedia' :mediaType='model.type' :disabled='isEdit'/>
+              <p class='prompt-text'><span class='yellow-point'></span>支持小于2M的jpg、jpeg、png格式图片或小于20M的MP4格式视频</p>
             </el-form-item>
             <el-form-item label='热度' prop='hotLevel' class='larger-item'>
               <star v-model='model.hotLevel' :img='sohot' :voidImg='nothot' :disabled='isEdit'/>
@@ -222,6 +223,18 @@ export default Index
     font-size: 14px;
     color: #595959;
     line-height: 22px;
+  }
+  .prompt-text {
+    display: flex;
+    align-items: center;
+    .yellow-point {
+      background: #F2AA18;
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
   }
 </style>
 <style scoped>

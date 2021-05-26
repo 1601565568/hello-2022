@@ -161,7 +161,7 @@ export default {
       node.id = this.getGuid()
       node.setAttribute('contenteditable', false)
       node.className = this.emojiClass + val
-      this.insertNode(node)
+      this.addNode(node)
     },
     updateData (text) {
       this.$emit('input', text)

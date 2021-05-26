@@ -189,12 +189,12 @@
                         <!-- 展示图片结构 -->
                         <div class='catalogue-materials__image' v-if="model.materialType === 1">
                           <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
-                            <img :src='item' />
+                            <img :src='item.url' />
                           </div>
                         </div>
                         <div class='catalogue-materials__video' v-if="model.materialType === 2">
                           <video
-                            :src='model.materialMsg.imageList[0]'
+                            :src='model.materialMsg.imageList[0].url'
                             style='width: 107px; height: 60px'
                           >
                             您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
@@ -206,7 +206,7 @@
                           </div>
                         </div>
                         <div class="catalogue-materials__article" v-if="model.materialType === 0">
-                          <img :src="model.materialMsg.imageList[0]">
+                          <img :src="model.materialMsg.imageList[0].url">
                           <p>{{model.materialMsg.name}}</p>
                         </div>
                       </div>
