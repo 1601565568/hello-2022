@@ -78,6 +78,7 @@ export default {
             if (this.digitalShopList && this.digitalShopList.length) {
               this.areaId = this.digitalShopList[0].id
               this.areaName = this.digitalShopList[0].label
+              this.$emit('input', this.areaId)
             }
           }
         })

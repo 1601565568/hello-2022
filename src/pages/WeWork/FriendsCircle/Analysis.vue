@@ -27,7 +27,7 @@
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <AreaTree />
+        <AreaTree v-model='areaId'/>
         <!-- <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>

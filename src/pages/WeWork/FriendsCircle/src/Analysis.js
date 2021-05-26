@@ -101,6 +101,7 @@ export default {
       date: this.changeDate(1),
       // 时间选择的值
       dateValue: '1day',
+      areaId: null, // 区域id
       debounce: null // 点击获取图表时防抖
     }
   },
