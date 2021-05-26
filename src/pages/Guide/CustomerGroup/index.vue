@@ -178,6 +178,8 @@ export default {
   components: { PageTable, NsEcharts, NsGuideDialog },
   data () {
     return {
+      endTime: '',
+      startTime: '',
       dataList: [
         { name: '好友群总数', data: 0, claseName: 'one' },
         { name: '有过消息的好友群数', data: 0, claseName: 'two' },
@@ -395,8 +397,8 @@ export default {
   computed: {
     xAxisDate () { // 根据时间区间计算出每一日期
       let dateList = []
-      const startTime = this.getDate(this.model.startTime)
-      const endTime = this.getDate(this.model.endTime)
+      const startTime = this.getDate(this.startTime)
+      const endTime = this.getDate(this.endTime)
       while ((endTime.getTime() - startTime.getTime()) >= 0) {
         const year = startTime.getFullYear()
         const month = startTime.getMonth() + 1 < 10 ? '0' + (startTime.getMonth() + 1) : startTime.getMonth() + 1
@@ -408,6 +410,17 @@ export default {
     }
   },
   methods: {
+    /**
+   * 格式化日期格式
+   * @param {*} datestr
+   * @return {*}
+   */
+    getDate (datestr) {
+      const noTime = datestr.split(' ')[0]
+      const temp = noTime.split('-')
+      const date = new Date(temp[0], temp[1] - 1, temp[2])
+      return date
+    },
     setDefaultChartData () {
       return [
         {
@@ -432,29 +445,11 @@ export default {
         }
       ]
     },
-    /**
-   * 格式化图表数据 没有值的天数默认0
-   * @param {*} list
-   * @param {*} dateList
-   * @return {*}
-   */
-    formatChart (list, dateList) {
-      const data = this.setDefaultChartData()
-      dateList.map(item => {
-        if (list.length) {
-          const zIndex = list.findIndex((cTime) => cTime.dayTime === item)
-          if (zIndex !== -1) {
-            const { fissionSendMoney, guideSendMoney, todaySendMoney } = list[zIndex]
-            this.setChartData(todaySendMoney / 100, guideSendMoney / 100, fissionSendMoney / 100, data)
-            // list.shift()
-          } else {
-            this.setChartData(0, 0, 0, data)
-          }
-        } else {
-          this.setChartData(0, 0, 0, data)
-        }
-      })
-      return data
+    setChartData (item1, item2, item3, item4, list) {
+      list[0].data.push(item1)
+      list[1].data.push(item2)
+      list[2].data.push(item3)
+      list[3].data.push(item4)
     },
     outputCsvFile () {
       let that = this
@@ -495,19 +490,17 @@ export default {
     loadTopData () {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
-          // // const json = res.result || {}
-          // // const oneNum = json.chat_total || 0
-          // // const twoNum = json.chat_has_msg || 0
-          // // const threeNum = json.member_has_msg || 0
-          // // const fourNum = json.msg_total || 0
-          // // this.dataList = [
-          // //   { name: '好友群总数', data: oneNum, claseName: 'one' },
-          // //   { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
-          // //   { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
-          // //   { name: '好友群消息总数', data: fourNum, claseName: 'four' }
-          // ]
-          this.option.xAxis.data = this.xAxisDate
-          this.option.series = this.formatChart(res.result.data, this.xAxisDate)
+          const json = res.result || {}
+          const oneNum = json.chat_total || 0
+          const twoNum = json.chat_has_msg || 0
+          const threeNum = json.member_has_msg || 0
+          const fourNum = json.msg_total || 0
+          this.dataList = [
+            { name: '好友群总数', data: oneNum, claseName: 'one' },
+            { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
+            { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
+            { name: '好友群消息总数', data: fourNum, claseName: 'four' }
+          ]
         }
       })
     },
@@ -602,60 +595,85 @@ export default {
       this.guideIds = [].concat(value)
       this.loadChatList()
     },
+    /**
+   * 格式化图表数据 没有值的天数默认0
+   * @param {*} list
+   * @param {*} dateList
+   * @return {*}
+   */
+    formatChart (resList, dateList) {
+      const data = this.setDefaultChartData()
+      const list = [...resList].reverse()
+      dateList.map(item => {
+        if (list.length) {
+          if (item === list[0].stat_time) {
+            this.setChartData(list[0].chat_totals, list[0].chat_has_msgs, list[0].member_has_msgs, list[0].msg_totals, data)
+            list.shift()
+          } else {
+            this.setChartData(0, 0, 0, 0, data)
+          }
+        } else {
+          this.setChartData(0, 0, 0, 0, data)
+        }
+      })
+      return data
+    },
     // 获取图表数据
     loadChatList () {
-      let startTime
-      let endTime
+      // let startTime
+      // let endTime
       if (this.datePickerArr.length > 0) {
-        startTime = this.datePickerArr[0]
-        endTime = this.datePickerArr[1]
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
       } else {
-        startTime = this.selectToday ? this.last7 : this.lart30
-        endTime = this.today
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
       }
-      let arrList = this.guideIds.length > 0 && this.guideIds.map(item => item.id)
+      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         userIds: arrList,
-        endTime: endTime,
-        startTime: startTime
+        endTime: this.endTime,
+        startTime: this.startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
         if (res.success) {
-          const charts = res.result || []
-          let timeArr = []
-          let todayGroup = []
-          let groupFriends = []
-          let todayFriends = []
-          let todayLoss = []
-          for (const item of charts) {
-            timeArr.push(item.stat_time)
-            todayGroup.push(item.chat_totals)
-            groupFriends.push(item.chat_has_msgs)
-            todayFriends.push(item.member_has_msgs)
-            todayLoss.push(item.msg_totals)
-          }
-          this.option.xAxis.data = timeArr
-          this.option.series = [
-            {
-              name: '好友群总数',
-              type: 'line',
-              stack: '总量',
-              data: todayGroup
-            },
-            {
-              name: '有过消息的好友群数',
-              type: 'line',
-              stack: '总量',
-              data: groupFriends
-            },
-            {
-              name: '发过消息的群成员数',
-              type: 'line',
-              stack: '总量',
-              data: todayFriends
-            },
-            { name: '好友群消息总数', type: 'line', stack: '总量', data: todayLoss }
-          ]
+          this.option.xAxis.data = this.xAxisDate
+          this.option.series = this.formatChart(res.result, this.xAxisDate)
+          // const charts = res.result || []
+          // let timeArr = []
+          // let todayGroup = []
+          // let groupFriends = []
+          // let todayFriends = []
+          // let todayLoss = []
+          // for (const item of charts) {
+          //   timeArr.push(item.stat_time)
+          //   todayGroup.push(item.chat_totals)
+          //   groupFriends.push(item.chat_has_msgs)
+          //   todayFriends.push(item.member_has_msgs)
+          //   todayLoss.push(item.msg_totals)
+          // }
+          // this.option.xAxis.data = timeArr
+          // this.option.series = [
+          //   {
+          //     name: '好友群总数',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: todayGroup
+          //   },
+          //   {
+          //     name: '有过消息的好友群数',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: groupFriends
+          //   },
+          //   {
+          //     name: '发过消息的群成员数',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: todayFriends
+          //   },
+          //   { name: '好友群消息总数', type: 'line', stack: '总量', data: todayLoss }
+          // ]
         }
       })
     }
