@@ -236,6 +236,17 @@ export default {
             that.$notify.error('请选择素材')
             return
           }
+
+          if (this.model.areaId && !this.model.viewId) {
+            this.$notify.error('请选择视角')
+            return
+          }
+
+          if (this.model.areaId && this.model.viewId && !this.model.subgroupId) {
+            this.$notify.error('请选择会员分组')
+            return
+          }
+
           that.doSave()
         }
       })

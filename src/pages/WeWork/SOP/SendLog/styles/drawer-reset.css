@@ -1,0 +1,7 @@
+>>> .el-drawer__header {
+  margin-bottom: 0px;
+}
+
+>>> .el-drawer__body {
+  overflow: auto;
+}

@@ -12,6 +12,7 @@ require('@nascent/ecrp-ecrm/build/setAppInfo')
 module.exports = {
   publicPath: process.env.PUBLIC_PATH,
   productionSourceMap: false,
+  configureWebpack: { devtool: process.env.NODE_ENV === 'development' ? 'source-map' : false },
   transpileDependencies: [resolve('node_modules/@nascent/ecrp-ecrm/src')],
   chainWebpack: config => {
     config.resolve.alias

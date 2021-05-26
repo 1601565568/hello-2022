@@ -104,13 +104,8 @@ function cancelSend () {
 function sendWord () {
   let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '')
   let content = $('#word' + id).text()
-  // let text = content.replace(/\n/g, codeCompile('<br>'))
-  // let text = content.replace(/\\n/g, '\\n')
-  window.console.log('替换前=>' + content)
   let text = content.replace(/\n/g, '%5cn')
-  // String.raw({ raw: content } ,0, 1, 2)
   let url = '{"type":1,"content":"' + text + '","exit":true}'
-  window.console.log('替换后=>' + text)
   window.location.href = host + url
 }
 /**
@@ -233,12 +228,7 @@ function getQuickList (quicklyWord) {
           if (item !== '') {
             $('.quick__list').append("<div class='item'>" +
               "<div class='item__radio' id='radioByword" + item.id + "' onclick='clickWord(this)'></div>" +
-              // "<div class='item__text' id='word" + item.id + "'onclick='clickWordByWord(this)'>" + codeCompile(item.content) + '</div> </div>')
               "<div class='item__text' id='word" + item.id + "'onclick='clickWordByWord(this)'> <pre style='font-size: 14px; white-space: pre-wrap; color:rgb(38, 38, 38);font-family: Microsoft YaHei'>" + codeCompile(item.content) + '</pre></div></div>')
-            // $('#word' + item.id).append(codeCompile(item.content)).html()
-            // $('#word' + item.id).val(codeCompile(item.content))
-            // window.console.log(' 话术内容=> ' + item.content)
-            // window.console.log('话术内容 转义后=>' + codeCompile(item.content))
           }
         })
         isShowList(true)

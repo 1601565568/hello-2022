@@ -289,8 +289,6 @@ export default {
     },
     // 保存
     handleSave () {
-      // const save = Object.assign(this.formatModel())
-      // window.console.log('保存', save)
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const prizeModel = await this.$refs.setPrize.onSave()
@@ -299,9 +297,7 @@ export default {
             this.btnLoad = false
             return false
           }
-          // console.log('prizeModel', prizeModel)
           const save = Object.assign(this.formatModel(), prizeModel)
-          // console.log(save)
           this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
             this.$notify.success('保存成功')
             this.handleCancel()
@@ -315,7 +311,7 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {
