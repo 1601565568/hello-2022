@@ -49,6 +49,9 @@ export default {
       this.dialogVisible = true
     },
     strToRichText (text) {
+      if (!text) {
+        return ''
+      }
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
       const str = text
