@@ -106,10 +106,12 @@ export default {
 
   .news-message {
     width: 175px;
+    border: 1px solid #EEEEEE;
   }
 
   .mini-message {
     width: 140px;
+    border: 1px solid #EEEEEE;
   }
 
 }

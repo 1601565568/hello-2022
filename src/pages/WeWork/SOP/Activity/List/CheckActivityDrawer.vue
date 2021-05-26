@@ -2,6 +2,7 @@
   <ElDrawer
     size="720px"
     class="drawer"
+    :modal="false"
     :visible="visible"
     direction="rtl"
     @close="$emit('update:visible', false)"
@@ -10,7 +11,7 @@
     <template slot="title">
       <h3 class="title">查看</h3>
     </template>
-    <div class="drawer_content" v-loading="loading">
+    <div class="drawer_content" v-loading="loading" ref="DrawerContent">
       <div
         class="drawer_content-header"
         v-if="showBtn(activity.status, 'edit')
@@ -51,6 +52,7 @@
             <div class="send-message">
               <span>共{{activity.contentList && activity.contentList.length}}条消息</span>
               <MessagePreviewPanel
+                ref="MessagePreviewPanel"
                 class="message-box"
                 :list="activity.contentList"
               />
@@ -118,7 +120,6 @@ export default {
       activity: {}
     }
   },
-  mounted () {},
   methods: {
     /**
      * 是否显示按钮
@@ -184,9 +185,14 @@ export default {
         .then(resp => {
           this.activity = resp.result
           this.loading = false
+          this.resetScroll()
         }).catch(() => {
           this.$notify.error('获取活动详情失败')
         })
+    },
+    resetScroll () {
+      this.$refs.DrawerContent.parentElement.scrollTop = 0
+      this.$refs.MessagePreviewPanel.$el.scrollTop = 0
     }
   }
 }
@@ -254,7 +260,7 @@ export default {
           max-width: 600px;
           display: inline-block;
           font-size: 14px;
-          line-height: 20px;
+          line-height: 22px;
         }
       }
       .examine-failed-reason {

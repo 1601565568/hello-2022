@@ -48,14 +48,15 @@
               </el-input>
             </el-form-item>
           </el-form>
-          <NsButton type="primary" class="add-button" size="large" @click="$router.push(`/Marketing/SOP/Edit/0`)">新建</NsButton>
+          <NsButton type="primary" class="add-button" size="large" @click="createActivity">新建</NsButton>
         </BaseContainer>
         <ActivityPanel
           class="active-panel"
           :style="{ height: activityPanelHeight }"
           :list="activityList"
+          :date="model.timeStart.slice(0, 10)"
           :pagination="pagination"
-          @reload="reloadActivityList"
+          @change="changeActivityList"
         />
       </div>
     </div>
@@ -160,9 +161,21 @@ export default {
   mounted () {
     this.setStyleHeight()
 
-    this.getActivityList()
+    // if (this.$route.query.date) {
+    //   this.model.timeStart = `${this.$route.query.date} 00:00:00`
+    //   this.model.timeEnd = `${this.$route.query.date} 23:59:59`
+    // }
+    // this.getActivityList()
   },
   methods: {
+    createActivity () {
+      this.$router.push({
+        path: '/Marketing/SOP/Edit/0',
+        query: {
+          date: this.model.timeStart.slice(0, 10)
+        }
+      })
+    },
     pageSizeChange (size) {
       this.pagination = { ...this.pagination, size, page: 1 }
       this.getActivityList()
@@ -203,6 +216,13 @@ export default {
         }
       }
 
+      this.getActivityList()
+    },
+    changeActivityList () {
+      // 如果当前页非第一页且剩最后一条，翻页到上一页
+      if (this.pagination.page > 1 && this.activityList.length === 1) {
+        this.pagination = { ...this.pagination, page: this.pagination.page - 1 }
+      }
       this.getActivityList()
     },
     getActivityList () {

@@ -110,7 +110,7 @@
                   <el-select
                     v-if="(viewRange === 2 && model.areaId) || viewRange === 1"
                     filterable
-                    :clearable='true'
+                    :clearable='false'
                     v-model='model.viewId'
                     placeholder='请选择视角'
                     @change='chooseView'
