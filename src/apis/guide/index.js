@@ -270,6 +270,11 @@ export default {
     url: '/guide/task/querySubgroupMsg',
     method: 'post'
   },
+  queryDetailSubgroupMsg: {
+    // 根据视角信息和时间获取分组列表
+    url: '/guide/task/queryDetailSubgroupMsg',
+    method: 'post'
+  },
   importFileAndManual: {
     // 上传外部店铺编码 和 EXCEL文件
     url: '/guide/task/importFileAndManual',

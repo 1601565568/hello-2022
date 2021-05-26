@@ -26,6 +26,7 @@
             <el-tag type="info" v-if="taskMsg.state === 3">已完成</el-tag>
             <el-tag type="warning" v-if="taskMsg.state === 5">未开始</el-tag>
             <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
+            <div class='task-group__name' v-if='taskMsg.subGroupId'>{{taskMsg.subGroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
@@ -190,6 +191,22 @@
       direction="rtl">
       <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
+    <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
+      <el-form :inline="true" v-if='taskMsg.runType === 1'>
+        <el-form-item label="执行时间：">
+          <el-date-picker
+            :clearable='false'
+            value-format="yyyy-MM-dd HH:mm:ss"
+            v-model="taskTime"
+            :picker-options="pickerOptions"
+            type="datetime"
+            placeholder="选择日期时间"
+            default-time="12:00:00">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId" :formSource='2' :time='taskTime' :runType='taskMsg.runType' :taskId='taskMsg.id'></lookCardList>
+    </ElDialog>
   </div>
 </template>
 <script>
@@ -217,6 +234,11 @@ export default taskOverview
       margin: 0 var(--default-margin-larger) 0 var(--default-margin-small);
     }
   }
+}
+.task-group__name {
+  margin-left: 32px;
+  position: relative;
+  top: -2px;
 }
 
 /* 素材模版样式 */
