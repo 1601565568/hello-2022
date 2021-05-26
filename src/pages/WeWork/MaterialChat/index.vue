@@ -290,6 +290,18 @@ export default {
     }
   },
   methods: {
+    initPageData () {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size: 10,
+        page: 1
+      }
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size: 10,
+        page: 1
+      }
+    },
     datePickerChange (val) {
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
@@ -303,6 +315,7 @@ export default {
       }
       this.selectToday = false
       this.datePickerValue = [this.startTime, this.endTime]
+      this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
       this.loadChartData()
@@ -346,6 +359,7 @@ export default {
       this.endTime = this.today
       this.datePickerValue = [this.startTime, this.endTime]
       this.showTodaySelect = true
+      this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
       this.loadChartData()
@@ -450,6 +464,10 @@ export default {
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
         length: this.paginationToDate.size
       }
+      if (this.paginationToDate.page === 1) {
+        this.listDate = []
+        this.paginationToDate.total = 0
+      }
       this.$http
         .fetch(this.$api.guide.getStatisticsListByDate, parms)
         .then(resp => {
@@ -472,6 +490,10 @@ export default {
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
         length: this.paginationToPerson.size
+      }
+      if (this.paginationToPerson.page === 1) {
+        this.listMaterial = []
+        this.paginationToPerson.total = 0
       }
       this.$http
         .fetch(this.$api.guide.getStatisticsListByMaterial, parms)
