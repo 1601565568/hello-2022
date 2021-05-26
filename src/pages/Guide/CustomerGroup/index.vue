@@ -183,10 +183,26 @@ export default {
       endTime: '',
       startTime: '',
       dataList: [
-        { name: '好友群总数', data: 0, claseName: 'one' },
-        { name: '有过消息的好友群数', data: 0, claseName: 'two' },
-        { name: '发过消息的群成员数', data: 0, claseName: 'three' },
-        { name: '好友群消息总数', data: 0, claseName: 'four' }
+        {
+          key: 'chat_totals',
+          nick: '好友群总数',
+          value: 0
+        },
+        {
+          key: 'chat_has_msgs',
+          nick: '有过消息的好友群数',
+          value: 0
+        },
+        {
+          key: 'member_has_msgs',
+          nick: '发过消息的群成员数',
+          value: 0
+        },
+        {
+          key: 'msg_totals',
+          nick: '好友群消息总数',
+          value: 0
+        }
       ],
       option: {
         tooltip: {
@@ -237,7 +253,7 @@ export default {
           }
         },
         yAxis: {
-          name: '发放金额',
+          name: '数量',
           nameTextStyle: {
             color: 'rgba(0,0,0,0.25)',
             padding: [4, 4, 4, 24],
@@ -492,17 +508,22 @@ export default {
     loadTopData () {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
         if (res.success) {
-          const json = res.result || {}
-          const oneNum = json.chat_total || 0
-          const twoNum = json.chat_has_msg || 0
-          const threeNum = json.member_has_msg || 0
-          const fourNum = json.msg_total || 0
-          this.dataList = [
-            { name: '好友群总数', data: oneNum, claseName: 'one' },
-            { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
-            { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
-            { name: '好友群消息总数', data: fourNum, claseName: 'four' }
-          ]
+          // const json = res.result || {}
+          // const oneNum = json.chat_total || 0
+          // const twoNum = json.chat_has_msg || 0
+          // const threeNum = json.member_has_msg || 0
+          // const fourNum = json.msg_total || 0
+          // this.dataList = [
+          //   { name: '好友群总数', data: oneNum, claseName: 'one' },
+          //   { name: '有过消息的好友群数', data: twoNum, claseName: 'two' },
+          //   { name: '发过消息的群成员数', data: threeNum, claseName: 'three' },
+          //   { name: '好友群消息总数', data: fourNum, claseName: 'four' }
+          // ]
+          this.dataList = this.dataList.map(item => ({
+            ...item,
+            value: res.result[item.key],
+            isMoney: false
+          }))
         }
       })
     },
@@ -581,6 +602,7 @@ export default {
     },
     // 时间选择筛选
     datePickerChange (val) {
+      console.log(val, 999)
       this.datePickerArr = val || []
       if (this.datePickerArr.length === 0) {
         this.selectToday = true
