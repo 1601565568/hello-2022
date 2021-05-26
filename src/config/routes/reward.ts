@@ -64,6 +64,12 @@ export default {
               component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
             }
           ]
+        },
+        {
+          'path': '/Marketing/SOP/SendLog',
+          'name': 'SOPLog',
+          'title': '社群日历发送日志',
+          'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
         }
       ]
     },

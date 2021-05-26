@@ -176,7 +176,6 @@ export default {
     saveOrUpdate () {
       this.btnLoad = true
       const parmas = this.formatModel(this.model)
-      // window.console.log('hahaha', parmas)
       this.btnLoad = false
       this.$http.fetch(this.$api.guide.qrcodePoster.saveOrUpdate, parmas).then(res => {
         if (res.success) {
@@ -210,7 +209,7 @@ export default {
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/(<(.[^>]*)>)/g, '')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {
@@ -223,7 +222,7 @@ export default {
     // 替换标签成文本
     htmlToText (html) {
       const newHtml = html
-      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '').substring(0, 64)
+      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '').substring(0, 64)
     }
   }
 }

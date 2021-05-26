@@ -1,0 +1,14 @@
+.el-form-reset {
+  >>> .el-form-item {
+    font-size: 14px;
+    .el-form-item__label {
+      font-size: 14px;
+    }
+    .el-radio__label {
+      font-size: 14px;
+    }
+    .el-input__count {
+      height: 10px;
+    }
+  }
+}

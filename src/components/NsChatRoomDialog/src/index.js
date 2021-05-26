@@ -15,6 +15,13 @@ export default {
         return []
       }
     },
+    // 右边已选择的id数组
+    selectedRoomIds: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
     // 是否添加登录账号店铺数据权限
     auth: {
       type: Boolean,
@@ -35,10 +42,15 @@ export default {
     showIcon: {
       type: Boolean,
       default: true
+    },
+    isSelectAll: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
     return {
+      allGroups: [],
       // 左边树的数据
       employeeData: [],
       // 右边已选择数据
@@ -60,12 +72,12 @@ export default {
         name: '',
         shopId: '',
         shopIds: '',
-        // 门店分类
-        shopCate: {},
+        // 门店区域
+        shopArea: {},
         ownerName: ''
       },
-      // 门店分类树
-      shopCateTree: [],
+      // 门店区域树
+      shopAreaTree: [],
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
@@ -81,7 +93,7 @@ export default {
   },
   computed: {},
   watch: {
-    'departData.shopCate': function (o1, o2) {
+    'departData.shopArea': function (o1, o2) {
       let shopOptions = []
       this.departData.shopId = ''
       this.departData.shopIds = ''
@@ -110,8 +122,60 @@ export default {
         // ps: 这样会创建一个新的临时数据. 不会引用.
         let seledctDateReady = JSON.parse(JSON.stringify(this.selectedDataParent))
         this.selectedData = seledctDateReady
+        this.resetSearch()
       }
-      this.resetSearch()
+
+      if (Array.isArray(this.selectedRoomIds)) {
+        // 查询所有的群 筛选选中的
+        this.findAllGroups()
+      }
+    },
+    selectAllGroups () {
+      this.selectedData = [ ...this.allGroups ]
+      this.$refs.employeeTable.clearSelection()
+      this.$refs.employeeTable.toggleAllSelection()
+    },
+    clearAllGroups () {
+      this.selectedData = []
+      this.$refs.employeeTable.clearSelection()
+    },
+    /**
+     * 查询所有的群 10w
+     */
+    findAllGroups () {
+      let param = {
+        start: 0,
+        length: 100000
+      }
+
+      this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
+        .then(resp => {
+          if (resp.result) {
+            if (resp.result.data && resp.result.data.length > 0) {
+              const allGroups = []
+              const selectedList = []
+              resp.result.data.forEach(item => {
+                let groupItem = {
+                  ...item,
+                  workShopName: item.workShopName.join(','),
+                  ownerWorkNum: item.owner_work_num,
+                  personNum: item.person_num,
+                  chatId: item.chat_id,
+                  ownerName: item.owner_name
+                }
+                allGroups.push(groupItem)
+                if (this.selectedRoomIds.indexOf(item.chat_id) > -1) {
+                  selectedList.push(groupItem)
+                }
+              })
+              this.allGroups = allGroups
+              this.selectedData = selectedList
+            }
+          }
+          this.resetSearch()
+        }).catch(() => {
+          this.$notify.error('查询群信息失败')
+        })
     },
     /**
      * 部门树点击事件(懒加载)
@@ -139,19 +203,14 @@ export default {
      * @param resolve
      * @returns {*}
      */
-    loadShopCateNode (node, resolve) {
-      let shopCateTree = this.shopCateTree
+    loadShopAreaNode (node, resolve) {
+      let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve([{
-          id: 0,
-          parentId: -1,
-          code: 0,
-          label: '全部'
-        }])
+        return resolve(this.getRootTree(this.shopAreaTree))
       }
       if (node.level >= 1) {
         // 点击之后触发
-        let filter = shopCateTree.filter(data => {
+        let filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
         if (filter && filter.length > 0) {
@@ -160,6 +219,23 @@ export default {
           resolve([])
         }
       }
+    },
+    getRootTree (shopAreaTree) {
+      const rootTree = []
+      for (let item of shopAreaTree) {
+        let parentId = item.parentId // 每一项的父级id
+        let flag = false
+        for (let item of shopAreaTree) {
+          if (parentId === item.id) {
+            flag = true
+            break
+          }
+        }
+        if (!flag) {
+          rootTree.push(item)
+        }
+      }
+      return rootTree
     },
     /**
      * 初始化部门树数据
@@ -175,13 +251,13 @@ export default {
         })
     },
     /**
-     * 获取门店分类，所有门店选项
+     * 获取区域分类，所有门店选项
      */
-    getShopCateAndShop: function () {
+    getShopAreaAndShop: function () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
-          that.shopCateTree = resp.result.shopCateTree
+          that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
         }).catch(() => {
@@ -194,7 +270,7 @@ export default {
     resetSearch: function () {
       this.departData.name = ''
       this.departData.selectedDepart = {}
-      this.departData.shopCate = {} // 选择的门店分类
+      this.departData.shopArea = {} // 选择的门店分类
       this.departData.shopId = '' // 选择的门店
       this.departData.ownerName = '' // 选择的门店
       this.getChatRoomList(1)
@@ -217,9 +293,7 @@ export default {
      * 群列表点击选择
      */
     selectChange (select, row) {
-      // console.log(select)
-      // console.log(row)
-      if (this.selectedData.length >= 100) {
+      if (this.selectedData.length >= 100 && this.isSelectAll === false) {
         this.$notify.error('群上限不允许超过100')
         this.$refs.employeeTable.toggleRowSelection(row, false)
         return
@@ -273,15 +347,20 @@ export default {
      */
     getChatRoomList (pageNo) {
       this.tableLoading = true
-      let searchMap = {}
-      searchMap.workShopId = this.departData.shopId
-      searchMap.departmentId = this.departData.selectedDepart.value
-      searchMap.name = this.departData.name
-      searchMap.ownerName = this.departData.ownerName
       if (pageNo) {
         this.pagination4Emp.page = pageNo
       }
-      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: searchMap }
+      let param = {
+        start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size,
+        length: this.pagination4Emp.size,
+        searchMap: {
+          workShopId: this.departData.shopId,
+          departmentId: this.departData.selectedDepart.value,
+          name: this.departData.name,
+          ownerName: this.departData.ownerName
+        }
+      }
+
       this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
         .then(resp => {
           if (resp.result) {
@@ -337,6 +416,8 @@ export default {
       }
       let selectData = this.selectedData
       this.$emit('getChatRoomData', selectData)
+      // 群id数组
+      this.$emit('getChatRoomIds', selectData.map(item => item.chatId))
       vm.visible = false
     },
     /**
@@ -351,7 +432,7 @@ export default {
       // 获取部门树
       vm.getDepartmentTree()
       // 分类树
-      vm.getShopCateAndShop()
+      vm.getShopAreaAndShop()
     },
     emptyData () {
       this.selectedData = []

@@ -97,7 +97,6 @@ export default {
   },
   mounted () {
     this.searchform()
-    // window.console.log('添加明细列表', this._data)
   },
   methods: {
     searchform () {

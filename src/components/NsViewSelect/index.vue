@@ -71,15 +71,6 @@ export default {
       }
     }
   },
-  watch: {
-    '$store.state.user.area' (newVal, oldVal) {
-      // 请求接口，获取当前区域id下的视角
-      // window.console.log('区域切换了', newVal, oldVal)
-    }
-  },
-  created () {
-    // this.setViewList()
-  },
   methods: {
     /**
      * 设置组件渲染的视角列表

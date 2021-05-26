@@ -151,7 +151,6 @@
                 suffix-icon="el-icon-search"
                 v-model="select" class="code-space">
               </ElInput>
-              <!--<div class="text-primary code-space">全部 /20</div>-->
               <ElScrollbar>
                 <ElTree
                   :data="selectData"
@@ -177,7 +176,6 @@
                 suffix-icon="el-icon-search"
                 v-model="selected" class="code-space">
               </ElInput>
-              <!--<div class="text-primary code-space">全部 /33</div>-->
               <ElScrollbar>
                 <ElTree
                   :data="selectedData"
@@ -187,7 +185,6 @@
                   :expand-on-click-node="false" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
-              <!--<span>{{ data.children ? '/' + data.children.length : '' }}</span>-->
               <span>
                 <ns-button
                   type="text"
@@ -500,7 +497,7 @@ export default {
     vm.init()
   },
   mounted () {
-    this.initSubTree()
+    // this.initSubTree()
     this.initEmpTree()
     this.verifyProductToCRM()
   },

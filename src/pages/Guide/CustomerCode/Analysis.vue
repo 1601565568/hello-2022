@@ -74,7 +74,6 @@
 </template>
 <script>
 import Analysis from './src/Analysis'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from './components/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import MasterDrawer from './components/Analysis/MasterDrawer'
@@ -85,7 +84,7 @@ import MasterTable from './components/Analysis/MasterTable'
 import RewardTable from './components/Analysis/RewardTable'
 export default Analysis
 Analysis.components = {
-  NsGuideDialog, PageTable, ElDrawer, MasterDrawer, FriendDrawer, EmployeeTable, FriendTable, MasterTable, RewardTable
+  PageTable, ElDrawer, MasterDrawer, FriendDrawer, EmployeeTable, FriendTable, MasterTable, RewardTable
 }
 </script>
 <style lang="scss" scoped>

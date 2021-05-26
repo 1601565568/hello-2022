@@ -2,8 +2,9 @@
   <div class="NsTableGuide_main">
     <div class="template-page__title-bar">
       <div class="title">客户列表</div>
-      <div class="line" v-if="openGroupOperation === 0"></div>
-      <view-select v-if="openGroupOperation === 0" :viewList="viewList" ref="viewSelect" v-model="model.viewId" @change="viewChange"/>
+      <!-- 视角改造去掉视角选择 -->
+      <!-- <div class="line" v-if="openGroupOperation === 0"></div>
+      <view-select v-if="openGroupOperation === 0" :viewList="viewList" ref="viewSelect" v-model="model.viewId" @change="viewChange"/> -->
     </div>
     <div class="template-page__row-left">
       <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable

@@ -32,7 +32,6 @@ export default {
   methods: {
     searchform () {
       this.$searchAction$()
-      window.console.log('渠道明细列表', this._data)
     },
     setSearchDate (searchDate) {
       if (searchDate.length) {

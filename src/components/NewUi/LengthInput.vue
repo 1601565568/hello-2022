@@ -2,23 +2,28 @@
   <div>
     <el-input v-bind="$attrs" :type='type' :value='value' @input='(value)=>{$emit("input",value)}' class='length-input suffix-input'>
       <template slot='suffix' v-if='length && (type==="text"||type==="password")'>
-        <div class='input-length'>{{value?value.length:0}}/{{length}}</div>
+        <div class='input-length'>{{textLength ? textLength :value.length}}/{{length}}</div>
       </template>
     </el-input>
     <span class='el-input__count' v-if='length && type==="textarea"'>
-      {{value?value.length:0}}/{{length}}
+      {{textLength ? textLength :value.length}}/{{length}}
     </span>
   </div>
 </template>
 <script>
 export default {
   props: {
-    value: {},
+    value: {
+      default: ''
+    },
     length: {
       type: Number
     },
     type: {
       default: 'text'
+    },
+    textLength: {
+      default: 0
     }
   }
 }

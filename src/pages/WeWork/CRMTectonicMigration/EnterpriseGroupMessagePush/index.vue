@@ -478,7 +478,7 @@ export default {
           if (resp && resp.result) {
             that.roomsData.offEmployees = JSON.parse(JSON.stringify(resp.result))
           }
-        }).catch(() => {
+        }).catch((aaa) => {
           that.$notify.error('导购员工列表加载失败！')
         })
     },

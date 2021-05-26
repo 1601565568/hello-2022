@@ -37,7 +37,7 @@
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
               <el-form-grid v-if="personalQrcode.type === 0">
-                <NsEmployeeOrCustGroupDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                <NsGuideDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsGuideDialog>
               </el-form-grid>
               <ElFormGrid v-if="personalQrcode.type === 0">
                 已选择<span class="text-primary">{{employeeSelectData.length}}</span>个员工
@@ -238,7 +238,7 @@ import Edit from './src/Edit'
 import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
 import ElUpload from '@nascent/nui/lib/upload'
-import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
+import NsGuideDialog from '@/components/NsGuideDialog'
 import AddTagsDialog from './components/AddTagsDialog/index.vue'
 import PosterPreviewPanel from './components/PosterPreviewPanel'
 
@@ -246,7 +246,7 @@ Edit.components = {
   index,
   ElTree,
   ElUpload,
-  NsEmployeeOrCustGroupDialog,
+  NsGuideDialog,
   AddTagsDialog,
   PosterPreviewPanel
 }

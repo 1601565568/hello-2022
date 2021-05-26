@@ -5,7 +5,7 @@
         <template slot='title'>
           <slot name='title'></slot>
         </template>
-        <PhoneBox :phoneTitle='phoneTitle' :phoneBar='phoneBar'>
+        <PhoneBox :phoneTitle='phoneTitle' :phoneBar='phoneBar' :isShowPhone='isShowPhone'>
           <template slot='collapse-left'>
             <slot name='collapse-left'></slot>
           </template>
@@ -30,6 +30,10 @@ export default {
     }
   },
   props: {
+    isShowPhone: {
+      type: Boolean,
+      default: true
+    },
     title: {
       type: String
     },

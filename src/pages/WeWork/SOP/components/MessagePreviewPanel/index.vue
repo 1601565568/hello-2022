@@ -1,0 +1,118 @@
+<template>
+  <div class="message-panel">
+    <MessageItem
+      v-for="(item, index) in list"
+      :key="index"
+      :avatar="avatar"
+    >
+       <TextMessage
+        v-if="item.type === SOPActivityMessageType.Text"
+        class="text-message"
+        :content="item.content"
+      />
+      <ImageMessage
+        v-else-if="item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster"
+        class="image-message"
+        :content="item.content"
+        :preview="true"
+        :previewList="[item.content.mediaid]"
+      />
+      <VideoMessage
+        v-else-if="item.type === SOPActivityMessageType.Video"
+        class="video-message"
+        :content="item.content"
+        :preview="true"
+      />
+      <NewsMessage
+        v-else-if="item.type === SOPActivityMessageType.Link"
+        class="news-message"
+        :content="item.content"
+      />
+      <MiniProgramMessage
+        v-else-if="item.type === SOPActivityMessageType.MiniProgram"
+        class="mini-message"
+        :content="item.content"
+      />
+    </MessageItem>
+  </div>
+</template>
+
+<script>
+import MessageItem from './MessageItem.vue'
+import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../ActivityMessage/index.vue'
+import { SOPActivityMessageType } from '../../types'
+
+export default {
+  components: {
+    MessageItem,
+    TextMessage,
+    ImageMessage,
+    VideoMessage,
+    NewsMessage,
+    MiniProgramMessage
+  },
+  props: {
+    list: {
+      type: Array
+    },
+    avatar: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data () {
+    return {
+      SOPActivityMessageType: SOPActivityMessageType
+    }
+  },
+  mounted () {},
+  methods: {}
+}
+</script>
+
+<style lang="scss" scoped>
+.message-panel {
+  overflow: auto;
+  width: 320px;
+  padding-top: 26px;
+  background: #F2F2F2;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 6px;
+    height: 6px;
+  }
+
+  .text-message {
+    max-width: 175px;
+    padding: 8px;
+    line-height: 20px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  .image-message {
+    max-width: 180px;
+    max-height: 140px;
+  }
+
+  .video-message {
+    max-width: 180px;
+    max-height: 140px;
+  }
+
+  .news-message {
+    width: 175px;
+    border: 1px solid #EEEEEE;
+  }
+
+  .mini-message {
+    width: 140px;
+    border: 1px solid #EEEEEE;
+  }
+
+}
+</style>

@@ -44,7 +44,7 @@
               <NsGuideDialog
                 :isButton="false"
                 :validNull="true"
-                :auth="false"
+                :auth="true"
                 type="primary"
                 btnTitle="选择"
                 dialogTitle="选择员工"
@@ -210,10 +210,10 @@
       :visible.sync="showBatchMarkingVisible"
       response-limit :show-scroll-x=false
     >
-      <div v-for="item in tagGroupList" v-bind:key="item" class="dialog-tag">
+      <div v-for="item in tagGroupList" v-bind:key="item.tagId" class="dialog-tag">
         <h3 class="dialog-tag__title padding-base">{{item.tagName}}</h3>
         <el-checkbox-group v-model="checkedTagList" class="padding-base">
-            <span v-for="item1 in tagList" v-bind:key="item1">
+            <span v-for="item1 in tagList" v-bind:key="item1.tagId">
               <el-checkbox v-if="item1.parentTagId === item.tagId" :key="item1.tagId" :value="item1.tagId" :label="item1.tagId">{{item1.tagName}}</el-checkbox>
             </span>
         </el-checkbox-group>

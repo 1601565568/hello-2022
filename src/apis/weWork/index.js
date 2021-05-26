@@ -2,8 +2,8 @@
  * @Descripttion: 企业微信
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:31:11
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-05-18 16:11:32
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-04-30 11:29:27
  */
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
@@ -13,6 +13,8 @@ import sensitiveWords from './sensitiveWords'
 import topicAnalysis from './topicAnalysis'
 import externalContact from './externalContact.js'
 import weWorkRooms from './weWorkRooms.js'
+import sop from './sop.js'
+import friendsCircle from './friendsCircle.js'
 export default {
   welcomeCode,
   behaviorData,
@@ -21,5 +23,7 @@ export default {
   sensitiveWords,
   topicAnalysis,
   externalContact,
-  weWorkRooms
+  weWorkRooms,
+  sop,
+  friendsCircle
 }

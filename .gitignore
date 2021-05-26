@@ -29,3 +29,4 @@ yarn-error.log*
 
 # eslint files
 .eslintrc.js
+.prettierrc.json
