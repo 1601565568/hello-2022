@@ -27,6 +27,4 @@ yarn-error.log*
 .temp
 /public/temp
 
-# eslint files
-.eslintrc.js
 .prettierrc.json
