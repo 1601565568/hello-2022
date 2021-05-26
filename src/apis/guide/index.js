@@ -94,6 +94,11 @@ export default {
   /**
    * 素材相关接口
    */
+  findMaterialListByShare: {
+    // 素材分享
+    url: '/guide/material/findMaterialListByShare',
+    method: 'post'
+  },
   materialList: {
     // 素材列表
     url: '/guide/material/findMaterialList',
@@ -103,6 +108,10 @@ export default {
     // 素材编辑
     url: '/guide/material/saveMaterial',
     method: 'post'
+  },
+  queryCompanyPlan: {
+    url: '/guide/material/queryCompanyPlan',
+    method: 'get'
   },
   queryMaterial: {
     // 素材详情
@@ -148,6 +157,33 @@ export default {
     // 获取文件夹路径
     url: 'guide/material/getParentPath',
     method: 'get'
+  },
+  findScriptCompletionDetailList: {
+    // 指定导购补充素材明细
+    url: 'guide/material/findScriptCompletionDetailList',
+    method: 'post'
+  },
+  exportMaterialCompletionByExcel: {
+    // 导出剧本素材自创明细EXCEL
+    url: 'guide/material/exportMaterialCompletionByExcel',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  delScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/delScriptCompletionDetailByGuideId',
+    method: 'post'
+  },
+  getScriptCompletionNumber: {
+    // 获取剧本员工完成/未完成总数
+    url: 'guide/material/getScriptCompletionNumber',
+    method: 'post'
+  },
+  findScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/findScriptCompletionDetailByGuideId',
+    method: 'post'
   },
   /**
    * 素材标签

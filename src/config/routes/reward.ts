@@ -66,10 +66,16 @@ export default {
           ]
         },
         {
-          'path': '/Marketing/SOP/SendLog',
-          'name': 'SOPLog',
-          'title': '社群日历发送日志',
-          'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
+          path: '/Social/OperationData/MaterialData',
+          name: 'MaterialData',
+          title: '素材库明细统计',
+          component: () => import('@/pages/WeWork/MaterialData/index.vue')
+        },
+        {
+          path: '/Social/OperationData/MaterialChat',
+          name: 'MaterialChat',
+          title: '素材库累计数据',
+          component: () => import('@/pages/WeWork/MaterialChat/index.vue')
         }
       ]
     },
