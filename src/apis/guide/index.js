@@ -39,6 +39,8 @@ import custom from './custom'
 import channel from './channel'
 import qrcodePoster from './qrcodePoster'
 import lbs from './lbs'
+import redpacket from './redpacket'
+import pay from './pay'
 export default {
   secruitmentSet,
   guide,
@@ -81,6 +83,8 @@ export default {
   channel,
   qrcodePoster,
   lbs,
+  redpacket,
+  pay,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
