@@ -148,7 +148,7 @@ export default {
         },
         {
           'path': '/Customer/Group/CustomerGroup',
-          'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
+          'name': 'CustomerGroupCustomerGroup',
           'title': '群会话统计',
           'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
         }

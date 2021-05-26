@@ -84,7 +84,7 @@ export default {
         },
         {
           'path': '/Social/WeComCustomerOperation/GroupData',
-          'name': 'WeComExternalContactList',
+          'name': 'WeComCustomerOperationGroupData',
           'title': '群分析',
           'component': () => import('@/pages/WeWork/GroupData/index.vue')
         },
