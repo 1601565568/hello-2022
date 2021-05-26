@@ -333,10 +333,10 @@ export default guide
     width: 80%;
     margin-left: 3px;
     display: inline-block;
-    text-overflow: ellipsis;
     white-space: nowrap;
     word-break: break-all;
-    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    /* overflow: hidden; */
   }
   .question-circle {
     margin-left: -5px;
