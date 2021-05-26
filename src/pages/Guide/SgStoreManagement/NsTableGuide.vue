@@ -2,10 +2,8 @@
   <div calss="template-page">
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <el-input ref="quickText" v-model="shopTreePage.areaName" placeholder="请输入区域名称" clearable
-                  @keyup.enter.native="initDigitalShopList(1)">
-          <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
-                @click="initDigitalShopList(1)"/>
+        <el-input ref="quickText" v-model="shopTreePage.areaName" placeholder="请输入区域名称" clearable>
+          <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"/>
         </el-input>
         <el-scrollbar ref='pageLeft' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
           <el-tree
@@ -21,17 +19,29 @@
             :current-node-key="model.areaId"
             :default-expanded-keys="[model.areaId]"
             :filter-node-method="onFilterNode"
-            :render-content="renderNode"
             @node-click="onClickNode"
           >
-            <div class="subdivision-tree-node" slot-scope="{ node }">
-              <span>{{node.label}}</span>
-              <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的线下门店">
-                 <i class="question-circle"><Icon type="question-circle" /></i>
-              </el-tooltip>
+             <span
+              style="display: flex;
+              align-items: center;"
+              slot-scope="{ node }"
+             >
+              <Icon style="color:#0091fa;font-size: 14px" type="cate" />
+              <span
+                :title="node.label"
+                class="area-tree__item"
+                style="font-size: 12px;
+                width: 80%;
+                margin-left:3px;
+                display: inline-block;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                word-break:break-all;
+                overflow: hidden;"
+              >
+                {{node.label}}
+              </span>
             </span>
-            </div>
           </el-tree>
         </el-scrollbar>
         <el-pagination style='text-align: center' small
