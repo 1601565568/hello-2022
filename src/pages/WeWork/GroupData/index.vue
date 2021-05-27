@@ -14,13 +14,25 @@
           <div class="left-select">
             <div class="day-view">
               <span
-                :class="{ 'base-text-select': selectToday }"
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? 'base-text-select'
+                      : ''
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('seven')"
                 >近七天</span
               >
               <span
-                :class="{ 'base-text-select': !selectToday }"
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? ''
+                      : 'base-text-select'
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('thirty')"
                 >近30天</span
@@ -747,17 +759,12 @@ export default {
     cursor: pointer;
   }
   .base-text-select {
-    font-size: 14px;
     color: #0091fa;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 500;
-    margin-right: 16px;
     background: #f5fbff;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 5px 9px;
-    cursor: pointer;
+  }
+  .base-un-active {
+    color: #595959;
+    background-color: white;
   }
 }
 
