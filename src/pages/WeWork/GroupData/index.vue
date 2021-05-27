@@ -437,10 +437,10 @@ export default {
     },
     loadTopData () {
       this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
-        if (res.success) {
+        if (res.success && res.result) {
           this.dataList = this.dataList.map(item => ({
             ...item,
-            value: res.result[item.key],
+            value: res.result[item.key] || 0,
             isMoney: false
           }))
         }
