@@ -293,7 +293,7 @@ export default {
         },
         series: this.setDefaultChartData()
       },
-      datePickerValue: '',
+      datePickerValue: [],
       activeName: 'first',
       options: [],
       paginationToPerson: {

@@ -14,13 +14,25 @@
           <div class="left-select">
             <div class="day-view">
               <span
-                :class="{ 'base-text-select': selectToday }"
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? 'base-text-select'
+                      : ''
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('seven')"
                 >近七天</span
               >
               <span
-                :class="{ 'base-text-select': !selectToday }"
+                :class="
+                  showTodaySelect
+                    ? selectToday
+                      ? ''
+                      : 'base-text-select'
+                    : 'base-un-active'
+                "
                 class="base-text"
                 @click="selectTodayClick('thirty')"
                 >近30天</span
@@ -28,7 +40,7 @@
             </div>
             <div class="date-view">
               <el-date-picker
-                v-model="value1"
+                v-model="datePickerValue"
                 value-format="yyyy-MM-dd"
                 type="daterange"
                 range-separator="至"
@@ -67,20 +79,6 @@
                 </el-form-item>
               </el-form>
             </div>
-            <!-- <div class="item-down">
-              <div class="name">员工:</div>
-              <div class="item-select">
-                <el-select v-model="actionValue" :default-first-option='true'>
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div> -->
           </div>
           <div class="outputCsvFile" @click="outputCsvFile">
             导出CSV文件
@@ -284,7 +282,7 @@ export default {
         },
         series: this.setDefaultChartData()
       },
-      value1: '',
+      datePickerValue: [],
       activeName: 'first',
       options: [
         {
@@ -320,7 +318,8 @@ export default {
       last7: '',
       lart30: '',
       guideIds: [],
-      datePickerArr: []
+      datePickerArr: [],
+      showTodaySelect: true
     }
   },
   computed: {
@@ -339,6 +338,9 @@ export default {
     }
   },
   methods: {
+    dealInitTime () {
+      this.datePickerValue = [this.last7, this.today]
+    },
     /**
    * 格式化日期格式
    * @param {*} datestr
@@ -536,9 +538,19 @@ export default {
     // 时间选择筛选
     datePickerChange (val) {
       this.datePickerArr = val || []
+      let startTime
+      let endTime
       if (this.datePickerArr.length === 0) {
-        this.selectToday = true
+        this.showTodaySelect = false
+        startTime = ''
+        endTime = ''
+      } else {
+        this.showTodaySelect = false
+        startTime = this.datePickerArr[0]
+        endTime = this.datePickerArr[1]
       }
+      this.selectToday = false
+      this.datePickerValue = [startTime, endTime]
       if (this.checkId === 1) {
         this.loadDateList()
       } else {
@@ -549,6 +561,9 @@ export default {
     // 选择日期
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
+      const startTime = this.selectToday ? this.last7 : this.lart30
+      this.showTodaySelect = true
+      this.datePickerValue = [startTime, this.today]
       this.loadChatList()
       if (this.checkId === 1) {
         this.loadDateList()
@@ -614,6 +629,7 @@ export default {
   },
   mounted () {
     this.dealTime()
+    this.dealInitTime()
     this.loadTopData()
     this.loadChatList()
     this.loadDateList()
@@ -745,18 +761,15 @@ export default {
     border-radius: 4px;
     display: inline-block;
     padding: 5px 9px;
+    cursor: pointer;
   }
   .base-text-select {
-    font-size: 14px;
-    color: #0091FA;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 500;
-    margin-right: 16px;
-    background:  #F5FBFF;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 5px 9px;
+    color: #0091fa;
+    background: #f5fbff;
+  }
+  .base-un-active {
+    color: #595959;
+    background-color: white;
   }
 }
 
