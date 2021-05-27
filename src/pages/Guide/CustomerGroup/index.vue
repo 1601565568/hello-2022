@@ -341,6 +341,18 @@ export default {
     dealInitTime () {
       this.datePickerValue = [this.last7, this.today]
     },
+    initPageData () {
+      this.paginationToDate = {
+        ...this.paginationToDate,
+        size: 10,
+        page: 1
+      }
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size: 10,
+        page: 1
+      }
+    },
     /**
    * 格式化日期格式
    * @param {*} datestr
@@ -553,6 +565,7 @@ export default {
       }
       this.selectToday = false
       this.datePickerValue = [startTime, endTime]
+      this.initPageData()
       if (this.checkId === 1) {
         this.loadDateList()
       } else {
@@ -566,6 +579,7 @@ export default {
       const startTime = this.selectToday ? this.last7 : this.lart30
       this.showTodaySelect = true
       this.datePickerValue = [startTime, this.today]
+      this.initPageData()
       this.loadChatList()
       if (this.checkId === 1) {
         this.loadDateList()
@@ -576,6 +590,7 @@ export default {
     // 选择员工之后的图标刷新请求
     handleChangeGuide (value) {
       this.guideIds = [].concat(value)
+      this.initPageData()
       this.loadChatList()
       if (this.checkId === 1) {
         this.loadDateList()
