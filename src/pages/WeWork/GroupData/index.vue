@@ -4,15 +4,9 @@
       <div class="top-view">
         <div class="title">群分析</div>
       </div>
-      <!-- <div class="data-view">
-        <div v-for="(item, index) in dataList" :key="index">
-          <div class="base-cell" :class="item.claseName">
-            <div class="text">{{ item.name }}</div>
-            <div class="number">{{ item.data }}</div>
-          </div>
-        </div>
-      </div> -->
-      <ColorfulDisplay :dataList='dataList'/>
+      <div style="margin-left:16px;margin-right:16px">
+        <ColorfulDisplay :dataList='dataList'/>
+      </div>
     </div>
     <div class="material-show">
       <div class="material-chat">
@@ -34,7 +28,7 @@
             </div>
             <div class="date-view">
               <el-date-picker
-                v-model="value1"
+                v-model="datePickerValue"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -64,16 +58,6 @@
                   </el-option>
                 </el-select>
               </div>
-              <!-- <div class="icon-view">
-                <Icon
-                  type="ns-arrow-drowdown"
-                  :class="{
-                    arrowTransform: !ownerFlag,
-                    arrowTransformReturn: ownerFlag
-                  }"
-                  style="color: #8C8C8C;"
-                />
-              </div> -->
             </div>
             <div class="item-down">
               <div class="nameNext">群名称：</div>
@@ -94,13 +78,6 @@
                   </el-option>
                 </el-select>
               </div>
-              <!-- <div class="icon-view">
-                <Icon
-                  type="ns-arrow-drowdown"
-                  :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-                  style="color: #8C8C8C;"
-                />
-              </div> -->
             </div>
           </div>
           <div class="drawer-output" @click="outputCsvFile">
@@ -233,28 +210,25 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          bottom: 0,
-          left: 0,
-          data: [{
-            icon: 'rect',
-            name: '今日总群数'
-          }, {
-            icon: 'rect',
-            name: '群管理好友数'
-          }, {
-            icon: 'rect',
-            name: '今日群新增好友数'
-          }, {
-            icon: 'rect',
-            name: '今日群流失好友数'
-          }]
+          data: [
+            '今日总群数',
+            '群管理好友数',
+            '今日群新增好友数',
+            '今日群流失好友数'
+          ],
+          left: '0',
+          bottom: '9%',
+          icon: 'roundRect',
+          itemWidth: 10,
+          itemHeight: 10
         },
         grid: {
-          left: 46,
-          right: 46,
-          top: 50,
-          bottom: 50,
-          containLabel: true
+          left: 16,
+          right: 16,
+          bottom: 0,
+          containLabel: true,
+          top: '40',
+          height: 291
         },
         xAxis: {
           type: 'category',
@@ -307,7 +281,7 @@ export default {
         },
         series: this.setDefaultChartData()
       },
-      value1: '',
+      datePickerValue: '',
       activeName: 'first',
       options: [],
       paginationToPerson: {
@@ -333,7 +307,8 @@ export default {
       today: '',
       last7: '',
       lart30: '',
-      datePickerArr: []
+      datePickerArr: [],
+      showTodaySelect: true
     }
   },
   computed: {
@@ -668,7 +643,6 @@ export default {
 .material-data {
   border-radius: 4px;
   background-color: white;
-  /* width: 1206px; */
   padding-bottom: 24px;
   .top-view {
     display: flex;
@@ -684,13 +658,6 @@ export default {
     line-height: 56px;
     font-weight: 500;
     padding-left: 16px;
-  }
-  .data-view {
-    display: flex;
-    flex-direction: row;
-    margin-left: 16px;
-    margin-right: 16px;
-    /* justify-content: space-between; */
   }
   .unDoneData {
     width: 116px;
@@ -764,7 +731,6 @@ export default {
 }
 .material-list {
   background-color: white;
-  /* width: 1206px; */
   .title {
     font-size: 16px;
     color: #262626;
