@@ -454,7 +454,7 @@ export default {
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         searchMap: {
-          userIds: arrList,
+          userIds: arrList.join(','),
           endTime: this.endTime,
           startTime: this.startTime
         },
@@ -486,7 +486,7 @@ export default {
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         searchMap: {
-          userIds: arrList,
+          userIds: arrList.join(','),
           endTime: this.endTime,
           startTime: this.startTime
         },
@@ -607,7 +607,7 @@ export default {
       }
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
-        userIds: arrList,
+        userIds: arrList.join(','),
         endTime: this.endTime,
         startTime: this.startTime
       }

@@ -481,7 +481,7 @@ export default {
       this.$refs.detaList.closeDeawer()
     },
     loadTopData () {
-      this.$http.fetch(this.$api.weWork.weWorkRooms.general, {}).then(res => {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.analysis_general, {}).then(res => {
         if (res.success && res.result) {
           this.dataList = this.dataList.map(item => ({
             ...item,
@@ -507,7 +507,7 @@ export default {
         this.paginationToDate.total = 0
       }
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.page_list_by_date, parms)
+        .fetch(this.$api.weWork.weWorkRooms.analysis_page_list_by_date, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
@@ -533,7 +533,7 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.page_list_by_user, parms)
+        .fetch(this.$api.weWork.weWorkRooms.analysis_page_list_by_user, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
@@ -635,7 +635,7 @@ export default {
         owner: this.chatOwnerName,
         startTime: this.startTime
       }
-      this.$http.fetch(this.$api.weWork.weWorkRooms.list, parms).then(res => {
+      this.$http.fetch(this.$api.weWork.weWorkRooms.analysis_list, parms).then(res => {
         if (res.success) {
           this.option.xAxis.data = this.xAxisDate
           this.option.series = this.formatChart(res.result, this.xAxisDate)

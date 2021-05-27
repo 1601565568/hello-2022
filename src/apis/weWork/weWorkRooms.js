@@ -32,31 +32,52 @@ export default {
     url: '/wework/weworkRoomMember/queryWeWorkRoomsMemberTable',
     method: 'post'
   },
+  // 群分析
+  analysis_general: {
+    url: '/chat-room/analysis/general',
+    method: 'get'
+  },
+  analysis_page_list_by_date: {
+    url: '/chat-room/analysis/page_list_by_date',
+    method: 'post'
+  },
+  analysis_page_list_by_user: {
+    url: '/chat-room/analysis/page_list_by_user',
+    method: 'post'
+  },
+  // 获取群会话(群分析)统计图表接口
+  analysis_list: {
+    url: '/chat-room/analysis/list',
+    method: 'post'
+  },
+  // 群会话统计
   general: {
-    url: '/chat-room/statistics/general',
+    url: '/chat-room/session-statistics/general',
     method: 'get'
   },
   page_list_by_date: {
-    url: '/chat-room/statistics/page_list_by_date',
+    url: '/chat-room/session-statistics/page_list_by_date',
     method: 'post'
   },
   page_list_by_user: {
-    url: '/chat-room/statistics/page_list_by_user',
+    url: '/chat-room/session-statistics/page_list_by_user',
     method: 'post'
   },
   // 获取群会话(群分析)统计图表接口
   list: {
-    url: '/chat-room/statistics/list',
+    url: '/chat-room/session-statistics/list',
     method: 'post'
   },
+  // 群分析导出
   chat_room_list_export: {
-    url: '/chat-room/statistics/chat_room_list_export',
+    url: '/chat-room/analysis/list_export',
     method: 'post',
     responseType: 'blob',
     timeout: 600000
   },
+  // 群会话导出
   session_list_export: {
-    url: '/chat-room/statistics/session_list_export',
+    url: '/chat-room/session-statistics/list_export',
     method: 'post',
     responseType: 'blob',
     timeout: 600000
