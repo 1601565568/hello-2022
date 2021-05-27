@@ -31,7 +31,7 @@
             <div class="catalogue-folders__item--btns">
               <Icon
                 :type="btn.icon"
-                v-for="btn in operate_buttons"
+                v-for="btn in operate_buttons.slice(0, 3)"
                 :key="btn.name"
                 @click="btn.func(item)"
               />
