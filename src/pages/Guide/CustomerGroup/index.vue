@@ -458,6 +458,7 @@ export default {
       }
       if (this.paginationToDate.page === 1) {
         this.listDate = []
+        this.paginationToDate.total = 0
       }
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.page_list_by_date, parms)
@@ -490,6 +491,7 @@ export default {
       }
       if (this.paginationToPerson.page === 1) {
         this.listPerson = []
+        this.paginationToPerson.total = 0
       }
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.page_list_by_user, parms)
