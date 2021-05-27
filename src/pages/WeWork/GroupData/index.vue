@@ -328,6 +328,7 @@ export default {
   },
   mounted () {
     this.dealTime()
+    this.dealInitTime()
     this.loadTopData()
     this.loadDateList()
     this.loadChatList()
@@ -335,6 +336,9 @@ export default {
     this.queryWeWorkRoomsNameOptions()
   },
   methods: {
+    dealInitTime () {
+      this.datePickerValue = [this.last7, this.today]
+    },
     /**
    * 格式化日期格式
    * @param {*} datestr
@@ -406,6 +410,8 @@ export default {
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
+      const startTime = this.selectToday ? this.last7 : this.lart30
+      this.datePickerValue = [startTime, this.today]
       this.loadChatList()
       if (this.checkId === 1) {
         this.loadDateList()
