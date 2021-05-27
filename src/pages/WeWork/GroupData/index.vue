@@ -404,9 +404,19 @@ export default {
     },
     datePickerChange (val) {
       this.datePickerArr = val || []
+      let startTime
+      let endTime
       if (this.datePickerArr.length === 0) {
-        this.selectToday = true
+        this.showTodaySelect = false
+        startTime = ''
+        endTime = ''
+      } else {
+        this.showTodaySelect = false
+        startTime = this.datePickerArr[0]
+        endTime = this.datePickerArr[1]
       }
+      this.selectToday = false
+      this.datePickerValue = [startTime, endTime]
       if (this.checkId === 1) {
         this.loadDateList()
       } else {
@@ -423,6 +433,7 @@ export default {
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
       const startTime = this.selectToday ? this.last7 : this.lart30
+      this.showTodaySelect = true
       this.datePickerValue = [startTime, this.today]
       this.loadChatList()
       if (this.checkId === 1) {
