@@ -423,7 +423,6 @@ export default {
       }
     },
     showMoreData () {
-      // this.$refs.timeList.closeDeawer()
       this.$refs.detaList.closeDeawer()
     },
     loadTopData () {
@@ -609,41 +608,6 @@ export default {
         if (res.success) {
           this.option.xAxis.data = this.xAxisDate
           this.option.series = this.formatChart(res.result, this.xAxisDate)
-          // const charts = res.result || []
-          // let timeArr = []
-          // let todayGroup = []
-          // let groupFriends = []
-          // let todayFriends = []
-          // let todayLoss = []
-          // for (const item of charts) {
-          //   timeArr.push(item.stat_time)
-          //   todayGroup.push(item.chat_totals)
-          //   groupFriends.push(item.chat_has_msgs)
-          //   todayFriends.push(item.member_has_msgs)
-          //   todayLoss.push(item.msg_totals)
-          // }
-          // this.option.xAxis.data = timeArr
-          // this.option.series = [
-          //   {
-          //     name: '好友群总数',
-          //     type: 'line',
-          //     stack: '总量',
-          //     data: todayGroup
-          //   },
-          //   {
-          //     name: '有过消息的好友群数',
-          //     type: 'line',
-          //     stack: '总量',
-          //     data: groupFriends
-          //   },
-          //   {
-          //     name: '发过消息的群成员数',
-          //     type: 'line',
-          //     stack: '总量',
-          //     data: todayFriends
-          //   },
-          //   { name: '好友群消息总数', type: 'line', stack: '总量', data: todayLoss }
-          // ]
         }
       })
     }
@@ -713,44 +677,6 @@ export default {
     font-weight: 400;
     line-height: 32px;
     margin-right: 16px;
-  }
-  .base-cell {
-    width: 300px;
-    height: 120px;
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-right: 16px;
-    .number {
-      font-size: 24px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 32px;
-      font-weight: 500;
-    }
-    .text {
-      font-size: 16px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 24px;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-  }
-  .one {
-    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
-  }
-  .two {
-    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
-  }
-  .three {
-    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
-  }
-  .four {
-   background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
   }
 }
 .material-show {
