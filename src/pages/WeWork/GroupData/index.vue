@@ -673,44 +673,6 @@ export default {
     line-height: 32px;
     margin-right: 16px;
   }
-  .base-cell {
-    width: 300px;
-    height: 120px;
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-right: 16px;
-    .number {
-      font-size: 24px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 32px;
-      font-weight: 500;
-    }
-    .text {
-      font-size: 16px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 24px;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-  }
-  .one {
-    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
-  }
-  .two {
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
-  }
-  .three {
-    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
-  }
-  .four {
-    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
-  }
 }
 .material-show {
   margin-top: 16px;
@@ -718,7 +680,6 @@ export default {
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;
-  /* width: 1206px; */
   .material-chat {
     .title {
       font-size: 16px;
