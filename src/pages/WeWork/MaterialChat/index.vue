@@ -233,9 +233,9 @@ export default {
             '素材发送次数总计',
             '素材下载总次数',
             '素材补全总次数',
-            '昨日素材发送次数',
-            '昨日素材下载次数',
-            '昨日素材补全次数'
+            '每日素材发送次数',
+            '每日素材下载次数',
+            '每日素材补全次数'
           ],
           left: '0',
           bottom: '9%',
@@ -600,19 +600,19 @@ export default {
                 data: addTotal
               },
               {
-                name: '昨日素材发送次数',
+                name: '每日素材发送次数',
                 type: 'line',
                 stack: '总量',
                 data: ySendTotal
               },
               {
-                name: '昨日素材下载次数',
+                name: '每日素材下载次数',
                 type: 'line',
                 stack: '总量',
                 data: yDownTotal
               },
               {
-                name: '昨日素材补全次数',
+                name: '每日素材补全次数',
                 type: 'line',
                 stack: '总量',
                 data: yAddTotal
