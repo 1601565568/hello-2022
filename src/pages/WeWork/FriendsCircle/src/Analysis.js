@@ -320,6 +320,7 @@ export default {
     handleChangeShop (ids) {
       this.$refs.table.$data.model.shopId = ids.join(',')
       this.$refs.table.$searchAction$()
+      this.shopList = ids
     }
   }
 }
