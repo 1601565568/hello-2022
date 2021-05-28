@@ -1,14 +1,12 @@
 <template>
   <div>
     <div class="header-view">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>数据运营</el-breadcrumb-item>
-        <el-breadcrumb-item>企微运营数据</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-weight:400" :to="{ path: '/Social/OperationData/MaterialChat' }"
-          >素材库行为统计</el-breadcrumb-item
-        >
-        <el-breadcrumb-item>未执行统计</el-breadcrumb-item>
-      </el-breadcrumb>
+      <div class="top-menus-view">
+        <span>数据运营 /</span>
+        <span> 企微运营数据 /</span>
+        <span @click="handleBack" style="cursor: pointer;"> 素材库行为统计 /</span>
+        <span style="color: #303133;cursor: pointer;"> 未执行统计</span>
+      </div>
     </div>
     <div class="name-view">未执行统计</div>
     <div class="output-view">
@@ -115,8 +113,6 @@ export default {
   name: 'noStatistical',
   components: {
     PageTable,
-    ElBreadcrumb,
-    ElBreadcrumbItem,
     UnDone
   },
   data () {
@@ -132,6 +128,9 @@ export default {
     }
   },
   methods: {
+    handleBack () {
+      this.$router.back(-1)
+    },
     outputCsvFile () {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
@@ -289,6 +288,13 @@ export default {
   line-height: 46px;
 }
 .header-view >>> .el-breadcrumb {
+  line-height: 46px;
+}
+.top-menus-view {
+  font-size: 14px;
+  color: #909399;
+  line-height: 22px;
+  font-weight: 400;
   line-height: 46px;
 }
 </style>
