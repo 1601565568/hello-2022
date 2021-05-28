@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>数据运营</el-breadcrumb-item>
         <el-breadcrumb-item>企微运营数据</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-weight:400" :to="{ path: '/Social/OperationData/MaterialChat' }"
+        <el-breadcrumb-item style="font-weight" :to="{ path: '/Social/OperationData/MaterialChat' }"
           >素材库行为统计</el-breadcrumb-item
         >
         <el-breadcrumb-item>未执行统计</el-breadcrumb-item>
@@ -110,6 +110,7 @@ import PageTable from '@/components/NewUi/PageTable'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import UnDone from './components/UnDone'
+import moment from 'moment'
 export default {
   name: 'noStatistical',
   components: {
