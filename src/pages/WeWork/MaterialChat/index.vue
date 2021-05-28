@@ -9,7 +9,7 @@
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
-        <el-row :gutter="20">
+        <el-row :gutter="15">
           <template v-for="item in dataList">
             <el-col :key="item.name" :span="4">
               <div class="base-cell" :class="item.claseName">
