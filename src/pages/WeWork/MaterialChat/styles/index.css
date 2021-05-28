@@ -69,3 +69,7 @@
   width:30px;
   height:30px;
 }
+
+.no-input-view >>> .el-input__suffix:before {
+  border-left: none;
+}
