@@ -7,7 +7,7 @@
     destroy-on-close
     :modal="false"
   >
-    <div class="content-view">
+    <div>
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
@@ -51,42 +51,45 @@
       </div>
       <page-table style="padding-top:0">
         <template slot="table">
-          <el-table
-            :data="listData"
-            class="new-table_border drawer-table"
-            :row-style="{ height: '48px' }"
-          >
-            <el-table-column prop="employeeNumber" label="工号" :width="114">
-              <template slot-scope="scope">{{
-                  scope.row.employeeNumber || '-'
-              }}</template>
-            </el-table-column>
-            <el-table-column prop="name" label="员工"> </el-table-column>
-            <el-table-column prop="shopNamesStr" label="所属门店">
-              <template slot-scope="scope">
-                <el-popover
-                  placement="top-start"
-                  width="300"
-                  trigger="hover"
-                  :disabled="scope.row.shopNamesStr.length <= 15"
-                >
-                  <div>{{ scope.row.shopNamesStr }}</div>
-                  <span
-                    slot="reference"
-                    v-if="scope.row.shopNamesStr.length <= 15"
-                    >{{ scope.row.shopNamesStr }}</span
+          <div class="content-view">
+            <el-table
+              :data="listData"
+              class="new-table_border drawer-table"
+              :row-style="{ height: '48px' }"
+              :row-key="getRowKey"
+            >
+              <el-table-column prop="employeeNumber" label="工号" :width="114">
+                <template slot-scope="scope">{{
+                    scope.row.employeeNumber || '-'
+                }}</template>
+              </el-table-column>
+              <el-table-column prop="name" label="员工"> </el-table-column>
+              <el-table-column prop="shopNamesStr" label="所属门店">
+                <template slot-scope="scope">
+                  <el-popover
+                    placement="top-start"
+                    width="300"
+                    trigger="hover"
+                    :disabled="scope.row.shopNamesStr.length <= 15"
                   >
-                  <span
-                    slot="reference"
-                    v-if="scope.row.shopNamesStr.length > 15"
-                    >{{
-                      scope.row.shopNamesStr.substr(0, 15) + '...'
-                    }}</span
-                  >
-                </el-popover>
-              </template>
-            </el-table-column>
-          </el-table>
+                    <div>{{ scope.row.shopNamesStr }}</div>
+                    <span
+                      slot="reference"
+                      v-if="scope.row.shopNamesStr.length <= 15"
+                      >{{ scope.row.shopNamesStr }}</span
+                    >
+                    <span
+                      slot="reference"
+                      v-if="scope.row.shopNamesStr.length > 15"
+                      >{{
+                        scope.row.shopNamesStr.substr(0, 15) + '...'
+                      }}</span
+                    >
+                  </el-popover>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </template>
         <template slot="pagination">
           <el-pagination
@@ -132,6 +135,9 @@ export default {
     }
   },
   methods: {
+    getRowKey (row) {
+      return row.id
+    },
     handleChangeGuide (val) {
       this.guideIdsStr = val.join(',')
       this.paginationToPerson = {
@@ -361,8 +367,8 @@ export default {
   }
 }
 .content-view {
-  height: 100vh;
   overflow: scroll;
+  height: 420px;
 }
 
 .content-view::-webkit-scrollbar {
