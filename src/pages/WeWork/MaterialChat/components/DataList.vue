@@ -7,7 +7,7 @@
     destroy-on-close
     :modal="false"
   >
-    <div>
+    <div class="content-view">
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
@@ -429,5 +429,19 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+
+.content-view {
+  height: 100vh;
+  overflow: scroll;
+}
+
+.content-view::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.content-view::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #9093994d;
 }
 </style>
