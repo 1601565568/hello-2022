@@ -91,7 +91,7 @@
             :total="paginationToDate.total"
             :current-page.sync="paginationToDate.page"
             :page-size="paginationToDate.size"
-            layout="total, prev, pager, next"
+            layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleSizeChangeForDate"
             @current-change="handleCurrentChangeForDate"
           >
@@ -120,7 +120,7 @@ export default {
       inputTitle: '',
       paginationToDate: {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       },
