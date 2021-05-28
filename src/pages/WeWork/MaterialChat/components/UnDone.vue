@@ -11,7 +11,7 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">{{item.materialTitle}}</div>
+      <div class="drawer-title">{{item.materialTitle.substr(0, 25) + '...'}}</div>
       <div class="menu-view">
         <div class="user-view">
           <el-form :inline="true" class="form-inline_top">
@@ -46,7 +46,7 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="未发送" name="first"></el-tab-pane>
           <el-tab-pane label="未下载" name="second"></el-tab-pane>
-          <el-tab-pane label="未补全" name="third"></el-tab-pane>
+          <el-tab-pane label="未补全" name="third" v-if="item.materialScriptType === 2"></el-tab-pane>
         </el-tabs>
       </div>
       <page-table style="padding-top:0">
@@ -185,6 +185,7 @@ export default {
       }
     },
     openDeawer (item) {
+      // materialScriptType
       this.initData()
       this.item = item
       this.drawer = true
