@@ -359,6 +359,8 @@ export default {
         endTime: this.endTime + ' 23:59:59',
         startTime: this.startTime + ' 00:00:00'
       }
+      const csvStartTime = this.startTime.replace(/-/g, '')
+      const csvEndTime = this.endTime.replace(/-/g, '')
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
@@ -377,9 +379,9 @@ export default {
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
               '素材行为数据统计' +
-              this.startTime +
+              csvStartTime +
               '至' +
-              this.endTime +
+              csvEndTime +
               '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
