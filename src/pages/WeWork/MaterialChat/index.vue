@@ -162,9 +162,9 @@
                   </el-table-column>
                   <el-table-column prop="sendSum" label="发送次数">
                   </el-table-column>
-                  <el-table-column prop="completionSum" label="下载次数">
+                  <el-table-column prop="downloadSum" label="下载次数">
                   </el-table-column>
-                  <el-table-column prop="downloadSum" label="补全次数">
+                  <el-table-column prop="completionSum" label="补全次数">
                   </el-table-column>
                   <el-table-column prop="title" width="125px" label="操作">
                     <template slot-scope="scope">
