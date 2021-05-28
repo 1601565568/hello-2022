@@ -21,7 +21,7 @@
             v-model="inputTitle"
             @change="inputChange"
           >
-            <i slot="suffix" class="el-input__icon el-icon-date"></i>
+            <i slot="suffix" class="el-input__icon el-icon-search"></i>
           </el-input>
         </div>
         <div class="item-down">

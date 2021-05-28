@@ -11,7 +11,7 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">{{ item.materialTitle }}</div>
+      <div class="drawer-title">{{ item.materialTitle.length > 25 ? item.materialTitle.substr(0, 25) + '...' : item.materialTitle }}</div>
       <div class="menu-view">
         <div class="item-down">
           <div class="name">动作:</div>
