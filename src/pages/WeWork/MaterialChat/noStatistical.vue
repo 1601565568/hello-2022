@@ -147,7 +147,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
+            let curDate = moment().format('YYYYMMDD')
             let fileName =
               '素材库未执行统计' + curDate + '.xlsx'
             link.setAttribute('download', fileName)
