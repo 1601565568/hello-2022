@@ -79,6 +79,7 @@ export default {
               this.areaId = this.digitalShopList[0].id
               this.areaName = this.digitalShopList[0].label
               this.$emit('input', this.areaId)
+              this.$emit('inputName', this.areaName)
             }
           }
         })
@@ -90,6 +91,7 @@ export default {
       this.areaId = data.id
       this.areaName = data.label
       this.$emit('input', this.areaId)
+      this.$emit('inputName', this.areaName)
     },
     renderNode (h, { node, data, store }) {
       return (

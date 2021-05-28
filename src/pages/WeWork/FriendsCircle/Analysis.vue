@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class='friendCircle'>
     <template>
       <div class="title-box">
         <div class="title-analysis">对外信息效果分析</div>
         <div class="title-right">
           <div class='shop-content'>
             <span>参与门店：</span>
-            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn :areaId='areaId'>
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn :areaId='areaId' :areaName='areaName'>
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(shopList&&shopList.length)?`已选择${shopList.length}个门店`:'全部'}}
@@ -38,7 +38,7 @@
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <AreaTree v-model='areaId' @input='onClickNode'/>
+        <AreaTree v-model='areaId' @input='onClickNode' @inputName='(value)=>{areaName = value}'/>
         <!-- <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
@@ -81,7 +81,7 @@
         </div>
         <!-- 分类 end -->
         <!-- 数据图表 start -->
-          <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType"></ns-data-analysis-charts>
+          <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType" :areaId='areaId'></ns-data-analysis-charts>
         <!-- 数据图表 end -->
       </div>
     </div>
@@ -239,4 +239,9 @@ export default Index
       color:#8C8C8C;
     }
   }
+</style>
+<style scoped>
+.friendCircle >>> .el-pagination{
+  box-shadow: none;
+}
 </style>

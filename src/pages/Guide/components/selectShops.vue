@@ -15,8 +15,8 @@
           <div class="searchAction_top">
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
                 <el-form-item label="门店名称：">
-                  <el-form-grid>
-                    <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  clearable></ns-droptree>
+                  <el-form-grid v-if='dialogVisible'>
+                    <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  :clearable='!areaId'></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">
@@ -144,6 +144,7 @@ export default {
     areaId: {
       default: null
     },
+    areaName: {},
     callBack: Function// 选择完后的回调
   },
   mixins: [listPageMixin, tableMixin],
@@ -226,10 +227,10 @@ export default {
         this.shopOptions = shopOptions
       }
     },
-    areaId: {
+    areaName: {
       handler (newVal) {
         if (newVal) {
-          this.param.shopArea = newVal
+          this.param.shopArea = { value: this.areaId, text: newVal }
         }
       },
       immediate: true
@@ -267,7 +268,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, this.areaId))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -281,7 +282,10 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    /**
+     * 如果父组件传入areaId 则此areaId 作为最大的父级
+     */
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -292,7 +296,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -343,7 +349,7 @@ export default {
      * */
     resetInputAction () { // 重置功能
       this.param.shopId = null
-      this.param.shopArea = 0
+      this.param.shopArea = this.areaId ? { value: this.areaId, text: this.areaName } : 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
@@ -468,7 +474,7 @@ export default {
     // 打开弹窗回显已经选择的门店
     openFun () {
       this.param.shopId = null
-      this.param.shopArea = 0
+      this.param.shopArea = this.areaId ? { value: this.areaId, text: this.areaName } : 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
