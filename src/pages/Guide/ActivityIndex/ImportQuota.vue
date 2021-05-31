@@ -152,7 +152,6 @@ export default {
       document.body.appendChild(form)
       form.submit()
       setTimeout(() => {
-        window.console.log('定时时间执行')
         this.downloadIsShow = true
       }, 5000)
     }, // 确认更新
@@ -193,7 +192,6 @@ export default {
         this.updateDataisShow = true
         this.uploadSuccee = true
       } else {
-        window.console.log('失败回调' + response.msg)
         this.hintMsgIsShowTextDanger = false
         if (response.code === '1') {
           this.uploadFailMsgShow = true

@@ -271,6 +271,18 @@ export default {
     }
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     /**
      * 标签筛选
      */
@@ -581,10 +593,10 @@ export default {
       } else {
         showStr = `此操作将永久删除该${isDirectory === 1 ? '文件夹' : '条数据'}，是否继续？`
       }
-      this.$confirm(showStr, '删除确认', {
+      this.$confirm(showStr, '确定删除', {
         type: 'warning',
         cancelButtonText: '取消',
-        confirmButtonText: '确定'
+        confirmButtonText: '删除'
       }).then(() => {
         this.toDelete([row])
       }).catch(() => {})
@@ -595,7 +607,7 @@ export default {
     showGuideLists (row) {
       this.materialScriptId = row.id
       this.matericalTitle = row.name
-      this.$refs.detailList.closeDeawer()
+      this.$refs.detailList.closeDeawer(row.id)
     },
     /**
      * 批量删除素材、视频

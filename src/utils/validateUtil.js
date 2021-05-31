@@ -260,5 +260,33 @@ export default {
       }
     }
     callbackResult(isPass, callback, error)
+  },
+  /**
+   * 判断数字大小（min, max两个参数必须指定，若不验证最小，设置min为null即可，不验证max同理）
+   * @param min 最小长度
+   * @param max 最大长度
+   * @param rule 规则
+   * @param value 值
+   * @param callback 回调
+   */
+  intervalMoney (min = Number.MIN_VALUE, max = Number.MAX_VALUE, rule, value, callback) {
+    let isPass = true
+    let msg = ''
+    if (value) {
+      value = parseFloat(value)
+      if (!isNaN(min)) {
+        if (value < min) {
+          isPass = false
+          msg = '最小输入' + min
+        }
+      }
+      if (!isNaN(max)) {
+        if (value > max) {
+          isPass = false
+          msg = '最大输入' + max
+        }
+      }
+    }
+    callbackResult(isPass, callback, msg)
   }
 }

@@ -7,8 +7,9 @@
           :enterable="true"
           popper-class="table-body__tooltip"
         >
-          <div slot="content">{{ data.content }}</div>
-          <div class="tableItem-content__ellipsis">{{ data.content }}</div>
+          <div slot="content" v-html="strToRichText(data.content)"></div>
+          <div v-html="strToRichText(data.content)" class="tableItem-content__ellipsis"></div>
+          <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
       </div>
       <!-- 图文素材 -->
@@ -20,6 +21,7 @@
               alt=""
               v-if="item.pitType == 2"
               @click="showGuideInfo(index, item)"
+              class="pit-img-view"
             />
             <img
               :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
@@ -90,6 +92,18 @@ export default {
     }
   },
   methods: {
+    strToRichText (text) {
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     showGuideInfo (index, item) {
       this.guideInfo = item
       this.$refs.guideInfo.closeDeawer()
@@ -107,6 +121,10 @@ export default {
 }
 </script>
 <style scoped>
+.pit-img-view {
+  border: 1px dashed #D9D9D9;
+  background-color: white;
+}
 @component-namespace tableItem {
   @b content {
     @e tooltip {

@@ -54,7 +54,7 @@
                     <el-tooltip  effect='light' popper-class='popperClass' placement="right-end">
                       <ns-button type='text' class='tip-text'>查看示例</ns-button>
                       <template slot='content'>
-                        <img src='./images/pyq.png' class='tip-img'>
+                        <img src='./images/pyq.jpg' class='tip-img'>
                       </template>
                     </el-tooltip>
                   </div>

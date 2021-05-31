@@ -3,7 +3,7 @@ import list from './common'
 
 export interface VueNotificationsPlugin {
   installed: boolean,
-    install: (vue: VueConstructor, pluginOptions?: ComponentOptions<Vue>) => void,
+  install: (vue: VueConstructor, pluginOptions?: ComponentOptions<Vue>) => void,
 }
 
 const Index: VueNotificationsPlugin = {

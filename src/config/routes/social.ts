@@ -8,47 +8,50 @@ export default {
   },
   'children': [
     {
-      'path': '/Social/WeComMarketing',
-      'name': 'WeComMarketing',
-      'title': '企微营销',
+      'path': '/Marketing/EnterpriseMessage',
+      'name': 'EnterpriseMessage',
+      'title': '企微好友营销',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'EnterpriseMessage'
+      },
       'children': [
         {
           'path': '/Marketing/EnterpriseMessage',
           'name': 'EnterpriseMessage',
           'title': '企微好友营销',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'EnterpriseMessage'
-          },
-          'children': [
-            {
-              'path': '/Marketing/EnterpriseMessage',
-              'name': 'EnterpriseMessage',
-              'title': '企微好友营销',
-              'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessage/index.vue')
-            },
-            {
-              'path': '/Marketing/EnterpriseMessagePush',
-              'name': 'EnterpriseMessagePush',
-              'title': '企微好友营销新增',
-              'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessagePush/index.vue')
-            },
-            {
-              'path': '/Marketing/EffectAnalysisEnterprise',
-              'name': 'EffectAnalysisEnterprise',
-              'title': '企微好友营销分析',
-              'component': () => import('@/pages/WeWork/CRMTectonicMigration/EffectAnalysis/EffectAnalysisEnterprise/index.vue')
-            }
-          ]
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessage/index.vue')
         },
+        {
+          'path': '/Marketing/EnterpriseMessagePush',
+          'name': 'EnterpriseMessagePush',
+          'title': '企微好友营销新增',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessagePush/index.vue')
+        },
+        {
+          'path': '/Marketing/EffectAnalysisEnterprise',
+          'name': 'EffectAnalysisEnterprise',
+          'title': '企微好友营销分析',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EffectAnalysis/EffectAnalysisEnterprise/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Marketing/EnterpriseGroupMessage',
+      'name': 'EnterpriseGroupMessage',
+      'title': '企微群营销',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'EnterpriseGroupMessage'
+      },
+      'children': [
         {
           'path': '/Marketing/EnterpriseGroupMessage',
           'name': 'EnterpriseGroupMessage',
           'title': '企微群营销',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
-            'name': 'EnterpriseGroupMessage'
+            'path': '/Marketing/EnterpriseGroupMessage'
           },
           'children': [
             {
@@ -72,10 +75,50 @@ export default {
           ]
         },
         {
-          'path': '/Marketing/EnterpriseFriendCircle',
-          'name': 'EnterpriseFriendCircle',
-          'title': '朋友圈营销',
-          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseFriendCircle/index.vue')
+          'path': '/Marketing/SOP',
+          'name': 'SOP',
+          'title': '社群日历',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': '/Marketing/SOP'
+          },
+          'children': [
+            {
+              'path': '/Marketing/SOP',
+              'name': 'SOP',
+              'title': '社群日历',
+              'component': () => import('@/pages/WeWork/SOP/Activity/index.vue')
+            },
+            {
+              'path': '/Marketing/SOP/Edit/:id',
+              'name': 'SOP',
+              'title': '社群日历新增、编辑',
+              'component': () => import('@/pages/WeWork/SOP/Activity/Edit/index.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/Send/List',
+          'name': 'redPacketSend',
+          'title': '',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'redPacketSendList'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/RedPacket/Send/List',
+              'name': 'redPacketSendList',
+              'title': '发红包',
+              'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/RedPacket/Send/Edit',
+              'name': 'redPacketSendEdit',
+              'title': '新建发红包',
+              'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
+            }
+          ]
         }
       ]
     },
@@ -137,6 +180,52 @@ export default {
           'name': 'FriendsCircleAnalysis',
           'title': '对外信息内容管理',
           'component': () => import('@/pages/WeWork/FriendsCircle/Analysis.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Marketing/EnterpriseFriendCircle',
+      'name': 'EnterpriseFriendCircle',
+      'title': '朋友圈营销',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'EnterpriseFriendCircle'
+      },
+      'children': [
+        {
+          'path': '/Marketing/EnterpriseFriendCircle',
+          'name': 'EnterpriseFriendCircle',
+          'title': '朋友圈营销',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseFriendCircle/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Marketing/ActivityAuditList',
+      'name': 'ActivityAuditList',
+      'title': '活动审核',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'ActivityAuditList'
+      },
+      'children': [
+        {
+          'path': '/EnterpriseExamine',
+          'name': 'enterpriseExamine',
+          'title': '企业微信好友营销审核',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+        },
+        {
+          'path': '/EnterpriseGroupExamine',
+          'name': 'enterpriseGroupExamine',
+          'title': '企业微信群营销审核',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+        },
+        {
+          'path': '/Marketing/SOP/Examine',
+          'name': 'SOPExamine',
+          'title': '社群日历审核',
+          'component': () => import('@/pages/WeWork/SOP/Examine/index.vue')
         }
       ]
     }

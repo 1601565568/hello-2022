@@ -39,6 +39,8 @@ import custom from './custom'
 import channel from './channel'
 import qrcodePoster from './qrcodePoster'
 import lbs from './lbs'
+import redpacket from './redpacket'
+import pay from './pay'
 export default {
   secruitmentSet,
   guide,
@@ -81,6 +83,8 @@ export default {
   channel,
   qrcodePoster,
   lbs,
+  redpacket,
+  pay,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
@@ -184,6 +188,11 @@ export default {
   /**
    * 素材相关接口
    */
+  findMaterialListByShare: {
+    // 素材分享
+    url: '/guide/material/findMaterialListByShare',
+    method: 'post'
+  },
   materialList: {
     // 素材列表
     url: '/guide/material/findMaterialList',
@@ -193,6 +202,10 @@ export default {
     // 素材编辑
     url: '/guide/material/saveMaterial',
     method: 'post'
+  },
+  queryCompanyPlan: {
+    url: '/guide/material/queryCompanyPlan',
+    method: 'get'
   },
   queryMaterial: {
     // 素材详情
@@ -349,6 +362,11 @@ export default {
   querySubgroupMsg: {
     // 根据视角信息获取分组列表
     url: '/guide/task/querySubgroupMsg',
+    method: 'post'
+  },
+  queryDetailSubgroupMsg: {
+    // 根据视角信息和时间获取分组列表
+    url: '/guide/task/queryDetailSubgroupMsg',
     method: 'post'
   },
   importFileAndManual: {

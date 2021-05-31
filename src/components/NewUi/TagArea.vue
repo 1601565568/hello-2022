@@ -40,11 +40,11 @@
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
-      ref="wTextareaContent"
+      :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
+      :contenteditable='contenteditable'
+      :ref="className"
       :id="contentId"
-      @focus="isLocked = true"
-      @blur="isLocked = false"
+      @blur="handleBlur()"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
@@ -69,11 +69,17 @@ export default {
       savedRange: {},
       // 表情class
       emojiClass: 'EMOJI_',
-      endOffset: 0
+      endOffset: -1,
+      endDon: null,
+      isFrist: true
     }
   },
   components: { Emotion },
   props: {
+    className: {
+      type: String,
+      default: 'w-textarea__input'
+    },
     value: {
       type: String,
       default: ''
@@ -119,6 +125,14 @@ export default {
           : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
+    },
+    contenteditable () {
+      const userAgent = navigator.userAgent
+      // 火狐只支持true 不支持 plaintext-only
+      if (userAgent.indexOf('Firefox') > -1) {
+        return !this.disabled
+      }
+      return this.disabled ? false : 'plaintext-only'
     }
   },
   mounted () {
@@ -129,10 +143,10 @@ export default {
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      const dom = document.getElementsByClassName(this.className)[0]
       this.currentText = dom.innerText
     }, 1000)
-    this.$refs.wTextareaContent.innerHTML = this.value
+    this.$refs[this.className].innerHTML = this.value
   },
   beforeDestroy () {
     // 卸载事件
@@ -145,8 +159,9 @@ export default {
       node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
+      node.setAttribute('contenteditable', false)
       node.className = this.emojiClass + val
-      this.insertNode(node)
+      this.addNode(node)
     },
     updateData (text) {
       this.$emit('input', text)
@@ -185,6 +200,7 @@ export default {
       // 创建模版标签
       let node = document.createElement(this.tag)
       node.innerText = item.value
+      node.setAttribute('contenteditable', false)
       // 添加id便于删除
       node.id = this.getGuid()
       node.className = item.id
@@ -209,7 +225,7 @@ export default {
     insertNode (node) {
       // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
-        const dom = document.getElementsByClassName('w-textarea_input')[0]
+        const dom = document.getElementsByClassName(`${this.className}`)[0]
         dom.focus()
         setTimeout(() => {
           this.addNode(node)
@@ -226,18 +242,21 @@ export default {
       // for (var s in this.endDon) {
       //   console.log(s, this.endDon[s])
       // }
-      // console.log(this.endDon)
-      // if (this.endDon.style) {
-      //   this.savedRange.setStartBefore(node)
-      // } else {
-      //   this.savedRange.setStart(this.endDon, this.endOffset)
-      // }
       // this.savedRange.setStart(this.endDon, this.endOffset)
+      // console.log(this.savedRange)
+      if (this.disabled) {
+        return false
+      }
       this.savedRange.insertNode(node)
-      // this.endDon = node
-      // this.endOffset = this.savedRange.endOffset + 1
+      this.endDon = node
+      this.endOffset = this.savedRange.endOffset
       // 更新双向绑定数据
-      let target = this.$refs.wTextareaContent
+      if (this.endDon.style) {
+        this.savedRange.setStartAfter(this.endDon)
+      } else {
+        this.savedRange.setStart(this.endDon, this.endOffset)
+      }
+      let target = this.$refs[this.className]
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
     },
@@ -251,12 +270,16 @@ export default {
       if (this.currentTagId) {
         // 若已选中模版标签，直接删除dom节点
         let t = document.getElementById(this.currentTagId)
-        this.$refs.wTextareaContent.removeChild(t)
+        this.$refs[this.className].removeChild(t)
         this.currentTagId = null
         // 阻止浏览器默认的删除事件，并手动更新数据
         e.preventDefault()
         this.handleInput(e.target)
       }
+    },
+    handleBlur () {
+      this.isLocked = false
+      this.$emit('handleBlur')
     },
     // inputClick (e) {
     //   // 监听点击事件
@@ -283,22 +306,22 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-
+      // console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
           this.contentId
       ) {
         this.savedRange = range.cloneRange()
-        // this.endDon = this.savedRange.endContainer
-        // this.endOffset = this.savedRange.endOffset
+        this.endOffset = this.savedRange.endOffset
+        if (this.savedRange.endContainer.nodeName !== 'DIV') {
+          this.endDon = this.savedRange.endContainer
+        }
       }
     },
     // 替换标签成模板
     htmlToString (html) {
-      return html
-        .replace(/<wise.*?\bclass="/g, '{')
-        .replace(/">.*?<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
     // 替换模板成标签
     stringTohtml (string) {
@@ -312,7 +335,7 @@ export default {
             regexp,
             `<wise id="${this.getGuid()}" class="${
               this.emojiClass
-            }_[${item}]">${`[${item}]`}</wise>`
+            }[${item}]">${`[${item}]`}</wise>`
           )
         })
       }
@@ -323,7 +346,7 @@ export default {
           `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
         )
       })
-      return string.replace(/\n/g, ' <br /> ')
+      return string.replace(/\n/g, '<br/>')
     },
     // 替换模板成文字
     stringTotext (string) {
@@ -346,16 +369,18 @@ export default {
     },
     // 替换标签成文字
     htmlToText (html) {
-      return html
-        .replace(/<wise.*?\bclass=".*?">/g, '{')
-        .replace(/<\/wise>/g, '}')
+      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     }
   },
   watch: {
     value (val) {
       // 非锁定状态下，实时更新innerHTML
-      if (!this.isLocked && this.$refs.wTextareaContent) {
-        this.$refs.wTextareaContent.innerHTML = val
+      // if (!this.isLocked) {
+      //   // this.$refs.wTextareaContent.innerHTML = val
+      // }
+      // this.$refs.wTextareaContent.innerHTML = val
+      if (this.disabled) {
+        this.$refs[this.className].innerHTML = val
       }
     }
   }
@@ -402,7 +427,8 @@ $textColor: #595959;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
-    -webkit-user-modify: read-write-plaintext-only !important;
+    // -webkit-user-modify: read-write-plaintext-only !important;
+    // -moz-user-modify: read-write;
     &.disabled {
       -webkit-user-modify: read-only !important;
     }

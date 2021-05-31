@@ -2,22 +2,34 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <el-input
-          type="textarea"
-          maxlength="150"
-          v-model="model.name"
-          placeholder="请输入标题，长度在150个字符以内"
-          style="width: 260px"
-          :input="(model.name = model.name.replace(/\s+/g, ''))"
-          clearable
-        ></el-input>
+        <!-- <div class="top-title-view">
+          <tag-area
+            :maxlength="150"
+            placeholder="请输入标题，长度在150个字符以内"
+            :showEmoji="false"
+            v-model="pitTitle"
+            :tools="tools"
+            ref="tagTitle"
+          ></tag-area>
+        </div> -->
+        <div class="top-input-view">
+          <el-input
+            type="textarea"
+            maxlength="150"
+            v-model="model.name"
+            placeholder="请输入标题，长度在150个字符以内"
+            style="width: 626px"
+            :input="(model.name = model.name.replace(/\s+/g, ''))"
+            clearable
+          ></el-input>
+        </div>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select
           v-model="model.subdivisionIds"
           placeholder="请选择"
           filterable
-          style="width: 260px"
+          style="width: 626px"
           multiple
           :collapse-tags="true"
           :clearable="false"
@@ -36,14 +48,25 @@
         </span>
       </el-form-item>
       <el-form-item label="推广文案：" prop="content">
-        <el-input
+        <div class="top-title-view">
+          <tag-area
+            :maxlength="1500"
+            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
+            :showEmoji="true"
+            v-model="pitContent"
+            :tools="tools"
+            ref="tagContent"
+            className="tagContent"
+          ></tag-area>
+        </div>
+        <!-- <el-input
           resize="none"
           type="textarea"
           maxlength="1500"
           v-model="model.content"
           placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
           style="width: 340px"
-        ></el-input>
+        ></el-input> -->
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
         <ul class="library-image__list clearfix" style="z-index:200">
@@ -74,11 +97,11 @@
               <div class="library-image__mask">
                 <div v-if="item.pitType == 1">
                   <Icon type="zoom-in" @click="previewImage(index)" />
-                  <Icon type="delete" @click="removeImage(index)" />
+                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
                 </div>
                 <div v-else>
                   <Icon type="bianji" @click="editImage(index)" />
-                  <Icon type="delete" @click="removeImage(index)" />
+                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
                 </div>
               </div>
             </li>
@@ -123,19 +146,17 @@
           </draggable>
         </ul>
         <div class="library-icon__extra">
-          <Icon type="tishi" />
-          <span
-            >上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span
-          >
+          <Icon type="tishi"/>
+          <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
         </div>
       </el-form-item>
-      <el-form-item label="小程序链接：" prop="codeModule">
+      <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select
           v-model="model.codeModule"
           placeholder="请选择"
           clearable
           @change="codeModuleChange"
-          style="width: 240px"
+          style="width: 626px"
         >
           <el-option
             v-for="item in wechatPageTypeList"
@@ -242,11 +263,12 @@
           <tag-area
             :maxlength="1500"
             placeholder="请输入"
-            :showEmoji="true"
+            :showEmoji="false"
             v-model="guideText"
             :tools="tools"
             v-if="showEdit"
             ref="tagArea"
+            className="tagArea"
           ></tag-area>
         </div>
         <div>
@@ -257,7 +279,7 @@
               style="width:114px;height:114x;position:relative;"
             >
               <div class="guide-mask">
-                <Icon type="delete" @click="removeGuideImage" />
+                <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
               </div>
               <img
                 :src="showEidtImg"
@@ -292,7 +314,6 @@
         </div>
       </el-dialog>
     </div>
-
     <GuideInfo ref="guideInfo" />
   </div>
 </template>
@@ -407,7 +428,10 @@ export default {
       editIndex: 0,
       showEidtImg: '',
       tools: [],
-      limitIndex: 0
+      limitIndex: 0,
+      pitTitle: '',
+      pitContent: '',
+      showMiniCode: false
     }
   },
   computed: {
@@ -443,6 +467,9 @@ export default {
         // }
       })
       this.model = tempModel
+      // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
+      this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
       this.catalogue = parentIds.map((id, index) => ({
         id: +id,
         name: parentNames[index]
@@ -450,6 +477,9 @@ export default {
     },
     'model.codeType' (newVal) {
       this.imageNum = newVal === 2 ? 8 : 9
+    },
+    pitContent (newObj) {
+      this.model.content = this.$refs.tagContent.htmlToString(newObj)
     }
   },
   methods: {
@@ -480,7 +510,12 @@ export default {
     },
     handleSure () {
       //  点击拍摄指南确定
-      if (this.model.mediaList.length < this.imageNum) {
+      const text = this.$refs.tagArea.currentText
+      if (text.length > 1500) {
+        this.$notify.warning('最多1500个字符')
+        return
+      }
+      if (this.model.mediaList.length <= this.imageNum) {
         let str = this.$refs.tagArea.htmlToString(this.guideText)
         const item = this.model.mediaList[this.editIndex]
         if (item) {
@@ -542,34 +577,10 @@ export default {
       this.$refs.form.validateField('mediaList')
     },
     handleAvatarSuccess (res, file, fileList) {
-      // this.limitIndex = this.limitIndex + 1
-      // let custImgs = []
-      // for (let item of this.model.mediaList) {
-      //   if (item.pitType === 2) {
-      //     custImgs.push(item)
-      //   }
-      // }
+      if (file.size / 1024 / 1024 > 2) {
+        return
+      }
       if (this.model.mediaList.length < this.imageNum) {
-        // const arr = Array.from(fileList)
-        // if (this.limitIndex === arr.length) {
-        //   let num = this.imageNum - custImgs.length - this.model.mediaList.length
-        //   num = arr.length < num ? arr.length : num
-        //   for (let index = 0; index < num; index++) {
-        //     const item = arr[index]
-        //     if (item.response.success) {
-        //       const obj = {
-        //         pitType: 1,
-        //         pitText: '',
-        //         type: 1,
-        //         url: item.response.result.url
-        //       }
-        //       this.model.mediaList.push(obj)
-        //     }
-        //   }
-        //   this.limitIndex = 0
-        //   this.$refs.imageListUpload && this.$refs.imageListUpload.clearFiles()
-        // }
-
         let obj = {
           pitType: 1,
           pitText: '',
@@ -592,7 +603,7 @@ export default {
           type: 1,
           url: res.result.url
         }
-        this.mediaList[this.editIndex] = obj
+        // this.mediaList[this.editIndex] = obj
       }
       this.showEidtImg = res.result.url
     },
@@ -607,7 +618,7 @@ export default {
         return false
       }
       // 图片大小判断
-      if (file.size / 1024 / 1024 > 2) {
+      if (file.size / 1024 > 1024 * 2) {
         this.$notify.warning('上传图片不得大于2MB')
         return false
       }
@@ -675,16 +686,18 @@ export default {
           break
         }
       }
+      // params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
+      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-        this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-        this.loading = false
-        return
-      }
+      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
+      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
+      //   this.loading = false
+      //   return
+      // }
       this.$http
         .fetch(this.$api.guide.materialEdit, params)
         .then(resp => {
@@ -697,9 +710,29 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    loadCompanyPlan () {
+      this.$http
+        .fetch(this.$api.guide.queryCompanyPlan, {})
+        .then(resp => {
+          if (resp.success) {
+            let list = resp.result || []
+            for (const item of list) {
+              if (item.productCode === 'ecrp-wm') {
+                this.showMiniCode = true
+                break
+              }
+            }
+          }
+        })
+        .catch(resp => {
+        })
+        .finally(() => {
+        })
     }
   },
   mounted () {
+    this.loadCompanyPlan()
     this.catalogue =
       this.breadcrumb && this.breadcrumb.length
         ? this.breadcrumb
@@ -710,6 +743,12 @@ export default {
 <style scoped>
 @import '@theme/variables.pcss';
 @import '../styles/image.css';
+
+.top-title-view {
+  width: 626px;
+  height: 144px;
+}
+
 .guide-text {
   height: 22px;
   font-size: 14px;
@@ -730,7 +769,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 .guide-mask {
   position: absolute;
   top: 0;

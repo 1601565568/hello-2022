@@ -44,7 +44,7 @@
             <ns-button @click="resetInputAction()">重置</ns-button>
           </div>
         </div>
-        <div style="max-height:400px; overflow: hidden">
+        <div style="max-height:417px; overflow: hidden">
           <el-scrollbar style="max-height: 417px;">
             <el-table
               ref="table"

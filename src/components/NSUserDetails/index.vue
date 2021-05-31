@@ -8,6 +8,12 @@
     class="dialog-container"
     @close="closeDetailDialog"
   >
+    <template slot="title">
+      <div class="dialog-header">
+        <span class="dialog-header__title">详情</span>
+        <view-select class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
+      </div>
+    </template>
     <div class="dialog-container__msg">
       <div class="dialog-avatar">
         <el-image
@@ -1002,6 +1008,14 @@ export default Index
   --dialog--font-color-brown: #904b00;
 }
 @component-namespace dialog {
+  @b header {
+    display: flex;
+    align-items: center;
+    @e title {}
+    @e select {
+      margin-left: 30px;
+    }
+  }
   @b container {
     @e msg {
       /* display: flex; */

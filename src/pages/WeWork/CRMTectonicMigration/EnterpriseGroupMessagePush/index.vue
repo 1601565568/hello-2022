@@ -479,7 +479,6 @@ export default {
             that.roomsData.offEmployees = JSON.parse(JSON.stringify(resp.result))
           }
         }).catch((aaa) => {
-          window.console.log('导购员工列表加载失败！', aaa)
           that.$notify.error('导购员工列表加载失败！')
         })
     },

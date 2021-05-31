@@ -171,7 +171,7 @@
                 <template slot-scope="scope">
                   <span :class="scope.row.isDirectory === 1 ? 'library-table__folder' : 'library-table__material'" @click="onEnter(scope.row)">
                     <Icon type="wenjianjia-new" />
-                    <span>{{scope.row.name}}</span>
+                    <span v-html="strToRichText(scope.row.name)"></span>
                   </span>
                 </template>
               </el-table-column>
@@ -260,7 +260,7 @@
     <label-make ref="labelMake" @setSubdivision="setSubdivision"></label-make>
     <label-manage ref="labelManage"></label-manage>
     <preview ref="preview"></preview>
-    <DetailList ref="detailList" :materialScriptId="materialScriptId" :matericalTitle="matericalTitle"/>
+    <DetailList ref="detailList" :matericalTitle="matericalTitle"/>
   </div>
 </template>
 <script>

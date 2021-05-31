@@ -166,12 +166,12 @@ export default {
     color: #262626;
     line-height: 46px;
     margin-bottom: 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // word-break: break-all;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 2;
+    // -webkit-box-orient: vertical;
     position: relative;
     .open-btn {
       position: absolute;

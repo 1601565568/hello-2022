@@ -159,6 +159,35 @@ export default {
           'component': () => import('@/pages/Guide/LoginLog/List.vue')
         }
       ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Analysis',
+      'name': 'redPacketAnalysis',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketAnalysis'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Analysis',
+          'name': 'redPacketAnalysis',
+          'title': '数据概览',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/Analysis/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/ReceiveRecord',
+          'name': 'redPacketAnalysis',
+          'title': '领取记录',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/ReceiveRecord/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/SendRecord',
+          'name': 'redPacketAnalysis',
+          'title': '发放记录',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/SendRecord/index.vue')
+        }
+      ]
     }
   ]
 }

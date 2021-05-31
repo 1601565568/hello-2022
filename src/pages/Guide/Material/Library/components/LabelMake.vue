@@ -11,10 +11,11 @@
       <el-form ref="form" :rules="rules" label-width="72px" :model="model">
         <el-form-item label="选择标签：" prop="subdivisionId">
           <el-select
-            v-model="model.subdivisionId"
+            v-model="model.subdivisionIds"
             placeholder="请选择标签"
-            filterable
-            clearable
+            multiple
+            :collapse-tags="true"
+            :clearable="false"
           >
             <el-option
               v-for="item in list"
@@ -53,9 +54,9 @@ export default {
       loading: false,
       list: [],
       selectRows: [],
-      model: { subdivisionId: null },
+      model: { subdivisionIds: null },
       rules: {
-        subdivisionId: [
+        subdivisionIds: [
           { required: true, message: '请选择标签', trigger: 'blur' }
         ]
       }
@@ -97,7 +98,7 @@ export default {
     handleSave () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          const params = { subdivisionId: this.model.subdivisionId }
+          const params = { subdivisionIds: this.model.subdivisionIds }
           params.itemList = this.selectRows.map(item => ({
             id: item.id,
             isDirectory: item.isDirectory,

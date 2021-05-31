@@ -1,7 +1,7 @@
 <!-- 群组选择左右联动组建：-->
 <template>
   <div>
-    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text' && showIcon" type="plus"/>{{btnTitle}}</NsButton>
+    <slot><NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text' && showIcon" type="plus"/>{{btnTitle}}</NsButton></slot>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false" appendToBody
                :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
@@ -31,6 +31,8 @@
             <div class="el-form__btns">
               <ns-button type="primary" @click="getChatRoomList(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
+              <ns-button v-if="isSelectAll" @click="selectAllGroups">全部选择</ns-button>
+              <ns-button v-if="isSelectAll" @click="clearAllGroups">清空</ns-button>
             </div>
           </el-form>
         </div>

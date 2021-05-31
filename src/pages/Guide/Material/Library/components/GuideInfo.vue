@@ -1,38 +1,41 @@
 <template>
-  <el-drawer
-    :visible.sync="drawer"
-    :direction="direction"
-    size="720px"
-    :with-header="false"
-    :modal="false"
-    @close="handleClose"
-  >
-    <div>
-      <div class="close-view">
-        <Icon type="close" class="close-icon" @click="closeDeawer" />
-      </div>
-      <div class="drawer-title">拍摄指南</div>
-      <div v-if="info.pitText || info.url">
-        <div v-if="info.pitText">
-          <div class="drawer-sub-title">坑位拍摄指南</div>
-          <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
+  <div>
+    <el-drawer
+      :visible.sync="drawer"
+      :direction="direction"
+      size="720px"
+      :with-header="false"
+      :modal="false"
+      @close="handleClose"
+    >
+      <div>
+        <div class="close-view">
+          <Icon type="close" class="close-icon" @click="closeDeawer" />
         </div>
-        <div class="drawer-sub-title" v-if="info.url">示意图</div>
-        <img class="drawer-sub-img" :src="info.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.url" />
+        <div class="drawer-title">拍摄指南</div>
+        <div v-if="info.pitText || info.url">
+          <div v-if="info.pitText">
+            <div class="drawer-sub-title">坑位拍摄指南</div>
+            <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
+          </div>
+          <div class="drawer-sub-title" v-if="info.url">示意图</div>
+          <img class="drawer-sub-img" :src="info.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.url"  @click="showPreview(info.url)"/>
+        </div>
+        <div v-else class="noddata-view">
+          <img :src="noDataUrl" class="nodata-img" />
+          <div class="nodata-text">暂无指南～</div>
+        </div>
       </div>
-      <div v-else class="noddata-view">
-        <img :src="noDataUrl" class="nodata-img" />
-        <div class="nodata-text">暂无指南～</div>
-      </div>
-    </div>
-  </el-drawer>
+    </el-drawer>
+    <preview ref="preview"></preview>
+  </div>
 </template>
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
-
+import Preview from '@/components/NsPreview'
 export default {
   name: 'guideInfo',
-  components: { ElDrawer },
+  components: { ElDrawer, Preview },
   props: {
     info: {
       type: Object,
@@ -53,6 +56,10 @@ export default {
     }
   },
   methods: {
+    showPreview (url) {
+      let imgs = [url]
+      this.$refs.preview.toggleShow(0, imgs, 'img')
+    },
     closeDeawer () {
       this.drawer = !this.drawer
     },
@@ -101,14 +108,24 @@ export default {
   padding-bottom: 33px;
   border-bottom: 1px solid #e8e8e8;
   max-height: 350px;
-  overflow: scroll;
+  overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.drawer-sub-cont::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.drawer-sub-cont::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #9093994d;
 }
 .drawer-sub-img {
   width: 375px;
   height: 257px;
-  border: 1px solid #d9d9d9;
   border-radius: 2px;
   margin-left: 32px;
+  object-fit: contain;
 }
 .close-view {
   height: 49px;

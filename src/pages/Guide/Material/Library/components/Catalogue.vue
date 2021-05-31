@@ -31,7 +31,7 @@
             <div class="catalogue-folders__item--btns">
               <Icon
                 :type="btn.icon"
-                v-for="btn in operate_buttons"
+                v-for="btn in operate_buttons.slice(0, 3)"
                 :key="btn.name"
                 @click="btn.func(item)"
               />
@@ -66,8 +66,8 @@
               <div
                 class="catalogue-materials__item--title catalogue-ellipsis"
                 :title="item.name"
+                v-html="strToRichText(item.name)"
               >
-                {{ item.name }}
               </div>
               <div class="catalogue-materials__item--desc">
                 <span>发布方：</span>
@@ -90,8 +90,8 @@
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <div slot="content">{{ item.content }}</div>
-                  <div>{{ item.content }}</div>
+                  <div slot="content" v-html="strToRichText(item.content)"></div>
+                  <div v-html="strToRichText(item.content)" class="showContent"></div>
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
@@ -100,6 +100,7 @@
                   class="catalogue-materials__article"
                 >
                   <img
+                    v-if="item.mediaList"
                     alt=""
                     :src="
                       item.mediaList[0].url +
@@ -125,7 +126,7 @@
                   class="catalogue-materials__image"
                 >
                   <li class="test-li" v-for="(img, index) in item.mediaList" :key="index">
-                    <img v-if="img.pitType == 2" :src="defaultImgUrl"  @click="showGuideInfo(index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
+                    <img class="pit-img-view" v-if="img.pitType == 2" :src="defaultImgUrl"  @click="showGuideInfo(index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
                     <img
                       v-else
                       :style="{
@@ -360,6 +361,21 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
+    strToRichText (text) {
+      if (!text) {
+        return ''
+      }
+      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const afterRegexp = new RegExp(']}', 'g')
+      const str = text
+        .replace(
+          preRegexp,
+          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
+        )
+        .replace(afterRegexp, '.png"/>')
+        .replace(/\n/g, '<br/>')
+      return str
+    },
     // 设置卡片容器宽度
     setWrapperW () {
       const wrapper = document.querySelector('.catalogue-wrapper')
@@ -446,6 +462,13 @@ export default {
   flex-direction: row; */
   margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
   list-style: none;
+}
+.pit-img-view {
+  border: 1px dashed #D9D9D9;
+  background-color: white;
+}
+.showContent {
+  word-break: break-all;
 }
 @component-namespace catalogue {
   @b wrapper {
@@ -620,10 +643,9 @@ export default {
       }
       @m content {
         margin: 5px 0;
-        height: 40px;
         font-size: 12px;
         color: #606266;
-        line-height: 20px;
+        line-height: 22px;
       }
       @m action {
         margin: 15px 0;

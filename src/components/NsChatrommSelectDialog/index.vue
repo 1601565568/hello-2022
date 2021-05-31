@@ -571,7 +571,6 @@ export default {
         const filter = shopAreaTree.filter(data => {
           return parseInt(data.parentId) === parseInt(node.data.id)
         })
-        window.console.log('这个是什么', shopAreaTree)
         if (filter && filter.length > 0) {
           resolve(filter)
         } else {
