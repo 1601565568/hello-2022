@@ -83,7 +83,8 @@
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <div class="remind-data-view">
-            一条素材包括多项可发送元素时，每次发送都会记一次发送次数
+            <div>统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}</div>
+            <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
           <el-tab-pane label="按日期统计" name="first">
             <page-table style="padding-top:0">
@@ -243,9 +244,9 @@ export default {
           itemWidth: 10,
           itemHeight: 10,
           selected: {
-            '素材发送次数总计': false,
-            '素材下载总次数': false,
-            '素材补全总次数': false
+            素材发送次数总计: false,
+            素材下载总次数: false,
+            素材补全总次数: false
           }
         },
         color: [
@@ -378,11 +379,7 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '素材行为数据统计' +
-              csvStartTime +
-              '至' +
-              csvEndTime +
-              '.xlsx'
+              '素材行为数据统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -429,12 +426,14 @@ export default {
       this.loadMaterialList()
     },
     dealTime () {
-      this.today = moment().format('YYYY-MM-DD')
+      this.today = moment()
+        .subtract('days', 1)
+        .format('YYYY-MM-DD')
       this.last7 = moment()
-        .subtract('days', 6)
+        .subtract('days', 7)
         .format('YYYY-MM-DD')
       this.lart30 = moment()
-        .subtract('days', 29)
+        .subtract('days', 30)
         .format('YYYY-MM-DD')
       this.startTime = this.last7
       this.endTime = this.today
@@ -815,7 +814,7 @@ export default {
   font-weight: 400;
 }
 .remind-data-view {
-  height: 57px;
+  height: 60px;
   background: #f3f9ff;
   border-radius: 4px;
   margin: 16px 16px 0 16px;
@@ -823,8 +822,10 @@ export default {
   color: #979797;
   letter-spacing: 0;
   font-weight: 400;
-  line-height: 57px;
   padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .no-echart-list-view {
