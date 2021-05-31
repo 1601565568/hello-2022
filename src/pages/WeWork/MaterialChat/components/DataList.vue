@@ -154,7 +154,7 @@ export default {
         },
         {
           value: 18,
-          label: '补充'
+          label: '补全'
         }
       ],
       actionValue: '全部',
@@ -191,7 +191,7 @@ export default {
       } else if (val === 16) {
         return '发送'
       } else if (val === 18) {
-        return '补充'
+        return '补全'
       }
       return '-'
     },
