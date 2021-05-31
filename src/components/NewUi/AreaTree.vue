@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-import cata from '../../pages/Guide/SgStoreManagement/image/cate.svg'
 export default {
   data () {
     return {
@@ -99,7 +98,7 @@ export default {
           style={`display: flex;
         align-items: center;`}
         >
-          {data.id !== -1 ? <img src={cata} /> : null}
+          {data.id !== -1 ? <Icon class="icon" type="cate" /> : null}
           <span
             title={node.label}
             class={`area-tree__item`}
