@@ -53,7 +53,7 @@
                       >
                     </ElInput> -->
                     <!-- maxlength="100" show-word-limit -->
-                    <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="1000" :tools='tools' @inputLength="inputLength" placeholder="请输入欢迎语"/>
+                    <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="1000" :tools='tools' @inputLength="changeInputLength" placeholder="请输入欢迎语" emojiClass=''/>
                     <!-- <ns-textarea ref="input" :replaceOptions="replaceOptions" placeholder="请输入欢迎语" v-model="model.content"></ns-textarea> -->
                   </ElFormGrid>
                 </ElFormItem>
@@ -273,11 +273,7 @@
                     <div class="message-msg__text">
                       <div class="message-news" style="white-space: pre-wrap;">
                         <!-- <div v-html="htmlvalue"></div> -->
-                        {{
-                          model.content
-                            ? model.content
-                            : "欢迎您！这是一段自动回复消息～"
-                        }}
+                        {{contentStr}}
                       </div>
                       <div class="message-circle"></div>
                     </div>

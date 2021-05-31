@@ -76,8 +76,6 @@ export default {
       currentTagId: null,
       // 当前光标位置
       savedRange: {},
-      // 表情class
-      emojiClass: 'EMOJI_',
       endOffset: -1,
       endDon: null,
       isFrist: true,
@@ -127,6 +125,9 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    emojiClass: {
+      default: 'EMOJI_'
     }
   },
   computed: {
@@ -338,16 +339,26 @@ export default {
         }
       }
     },
-    // 替换标签成模板
-    htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    /**
+     * 替换标签成模板
+     * hasBracket 是否带括号 默认true
+     */
+    htmlToString (html, hasBracket = true) {
+      const pre = hasBracket ? '{' : ''
+      const after = hasBracket ? '}' : ''
+      return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
     },
-    // 替换模板成标签
-    stringTohtml (string) {
+    /**
+     * 替换模板成标签
+     * hasBracket 是否带括号 默认true
+     */
+    stringTohtml (string, hasBracket = true) {
+      const pre = hasBracket ? '{' : ''
+      const after = hasBracket ? '}' : ''
       if (this.$refs.emotion) {
         this.$refs.emotion.emojiList.map(item => {
           const regexp = new RegExp(
-            '{' + this.emojiClass + '\\[' + item + '\\]}',
+            pre + this.emojiClass + '\\[' + item + '\\]' + after,
             'g'
           )
           string = string.replace(
@@ -359,7 +370,7 @@ export default {
         })
       }
       this.tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '}', 'g')
+        const regexp = new RegExp(pre + item.id + after, 'g')
         string = string.replace(
           regexp,
           `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
