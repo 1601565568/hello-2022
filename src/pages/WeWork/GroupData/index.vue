@@ -71,7 +71,7 @@
                 </el-select>
               </div>
             </div>
-            <div class="item-down">
+            <div class="item-down al">
               <div class="nameNext">群名称：</div>
               <div class="item-select">
                 <el-select
@@ -92,6 +92,7 @@
               </div>
             </div>
           </div>
+          <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button>
           <div class="drawer-output" @click="outputCsvFile">
             导出CSV文件
           </div>
@@ -295,6 +296,13 @@ export default {
       },
       datePickerValue: [],
       activeName: 'first',
+      changeList: [{
+        name: 'first',
+        text: '按日期显示'
+      }, {
+        name: 'second',
+        text: '按员工显示'
+      }],
       options: [],
       paginationToPerson: {
         size: 10,
@@ -339,15 +347,40 @@ export default {
     }
   },
   mounted () {
-    this.dealTime()
-    this.dealInitTime()
-    this.loadTopData()
-    this.loadDateList()
-    this.loadChatList()
-    this.queryChatroomLeaderOptions()
-    this.queryWeWorkRoomsNameOptions()
+    this.init()
   },
   methods: {
+    async init () {
+      this.dealTime()
+      await this.dealInitTime()
+      this.loadTopData()
+      this.loadChatList()
+      this.loadDateList()
+      this.queryChatroomLeaderOptions()
+    },
+    // 重置
+    onResetSearch () {
+      this.checkId = 1
+      this.endTime = ''
+      this.startTime = ''
+      this.datePickerValue = []
+      this.activeName = 'first'
+      this.options = []
+      this.selectToday = true
+      this.listDate = []
+      this.listPerson = []
+      this.chatRoomOwner = []
+      this.chatOwnerName = ''
+      this.actionValue = ''
+      this.ownerFlag = false
+      this.flag = false
+      this.today = ''
+      this.last7 = ''
+      this.lart30 = ''
+      this.datePickerArr = []
+      this.showTodaySelect = true
+      this.init()
+    },
     dealInitTime () {
       this.datePickerValue = [this.last7, this.today]
     },
@@ -415,6 +448,7 @@ export default {
       } else {
         this.loadPersonList()
       }
+      this.queryWeWorkRoomsNameOptions()
     },
     datePickerChange (val) {
       this.datePickerArr = val || []
@@ -599,7 +633,7 @@ export default {
    */
     formatChart (resList, dateList) {
       const data = this.setDefaultChartData()
-      const list = [...resList].reverse()
+      const list = resList
       dateList.map(item => {
         if (list.length) {
           if (item === list[0].stat_time) {
@@ -652,7 +686,7 @@ export default {
     },
     queryWeWorkRoomsNameOptions () {
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions)
+        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions, { owner: this.chatOwnerName })
         .then(resp => {
           this.options = resp.result
         })
@@ -813,7 +847,7 @@ export default {
 }
 
 .item-down {
-  width: 171px;
+  width: 143px;
   height: 32px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
@@ -823,6 +857,15 @@ export default {
   font-size: 14px;
   align-items: center;
   margin-left: 16px;
+  .name {
+    width: 90px;
+  }
+}
+.al{
+  width: 171px;
+  .nameNext{
+    width: 104px;
+  }
 }
 .name {
   width: 60px;

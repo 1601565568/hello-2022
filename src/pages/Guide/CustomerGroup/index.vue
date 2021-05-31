@@ -80,6 +80,7 @@
               </el-form>
             </div>
           </div>
+          <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button>
           <div class="outputCsvFile" @click="outputCsvFile">
             导出CSV文件
           </div>
@@ -203,21 +204,17 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          bottom: 0,
-          left: 0,
-          data: [{
-            icon: 'rect',
-            name: '好友群总数'
-          }, {
-            icon: 'rect',
-            name: '有过消息的好友群数'
-          }, {
-            icon: 'rect',
-            name: '发过消息的群成员数'
-          }, {
-            icon: 'rect',
-            name: '好友群消息总数'
-          }]
+          data: [
+            '好友群总数',
+            '有过消息的好友群数',
+            '发过消息的群成员数',
+            '好友群消息总数'
+          ],
+          left: '0',
+          bottom: '9%',
+          icon: 'roundRect',
+          itemWidth: 10,
+          itemHeight: 10
         },
         grid: {
           left: 46,
@@ -246,12 +243,7 @@ export default {
             }
           }
         },
-        color: [
-          '#4287FF',
-          '#F7B586',
-          '#95DA73',
-          '#7962EC'
-        ],
+        color: ['#4287FF', '#F7B586', '#95DA73', '#7962EC'],
         yAxis: {
           name: '数量',
           nameTextStyle: {
@@ -338,6 +330,32 @@ export default {
     }
   },
   methods: {
+    async init () {
+      this.dealTime()
+      await this.dealInitTime()
+      this.loadTopData()
+      this.loadChatList()
+      this.loadDateList()
+    },
+    // 重置
+    onResetSearch () {
+      this.checkId = 1
+      this.endTime = ''
+      this.startTime = ''
+      this.datePickerValue = []
+      this.activeName = 'first'
+      this.actionValue = '全部动作'
+      this.listDate = []
+      this.listPerson = []
+      this.selectToday = true
+      this.today = ''
+      this.last7 = ''
+      this.lart30 = ''
+      this.guideIds = []
+      this.datePickerArr = []
+      this.showTodaySelect = true
+      this.init()
+    },
     dealInitTime () {
       this.datePickerValue = [this.last7, this.today]
     },
@@ -606,7 +624,7 @@ export default {
    */
     formatChart (resList, dateList) {
       const data = this.setDefaultChartData()
-      const list = [...resList].reverse()
+      const list = resList
       dateList.map(item => {
         if (list.length) {
           if (item === list[0].stat_time) {
@@ -645,11 +663,7 @@ export default {
     }
   },
   mounted () {
-    this.dealTime()
-    this.dealInitTime()
-    this.loadTopData()
-    this.loadChatList()
-    this.loadDateList()
+    this.init()
   }
 }
 </script>
@@ -789,7 +803,6 @@ export default {
     background-color: white;
   }
 }
-
 .outputCsvFile {
   width: 116px;
   height: 32px;

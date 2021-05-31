@@ -89,12 +89,6 @@ export default {
           'component': () => import('@/pages/WeWork/GroupData/index.vue')
         },
         {
-          'path': '/Customer/Group/CustomerGroup',
-          'name': 'CustomerGroupCustomerGroup',
-          'title': '群会话统计',
-          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
-        },
-        {
           'path': '/Social/WeComCustomerOperation/GroupRepeat',
           'name': 'WeComExternalContactList',
           'title': '重复群统计',

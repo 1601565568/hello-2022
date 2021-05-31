@@ -9,7 +9,9 @@
 .select-data-view >>> .el-tabs__active-bar {
   background: #0094fc;
 }
-
+.select-data-view >>> .el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+  box-shadow: 0 0 2px 2px #fff;
+}
 .select-data-view >>> .el-tabs__item:focus.is-active.is-focus:not(:active) {
   box-shadow: none;
 }
