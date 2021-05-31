@@ -8,9 +8,16 @@
     </span>
     <div class="w-textarea_tools__emoji" v-if="showEmoji">
       <el-popover width="447" trigger="hover">
-        <i slot="reference"><Icon type="ns-expression" class="emoji-icon"/></i>
+        <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
         <!-- 可通过 emojiList 传入自定义的图标列表 -->
         <emotion @emotion="addEmotion" :height="200" ref="emotion" />
+      </el-popover>
+    </div>
+    <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
+      <el-popover trigger="hover">
+        <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
+        <!-- 可通过 emojiList 传入自定义的图标列表 -->
+        <VEmojiPicker :pack="pack" @select="selectEmoji" />
       </el-popover>
     </div>
     <div class="w-textarea_tools" v-if="tools.length > 0">
@@ -53,6 +60,8 @@
 
 <script>
 import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
+import VEmojiPicker from 'v-emoji-picker'
+import packData from 'v-emoji-picker/data/emojis.json'
 export default {
   name: 'wTextarea',
   data () {
@@ -71,10 +80,11 @@ export default {
       emojiClass: 'EMOJI_',
       endOffset: -1,
       endDon: null,
-      isFrist: true
+      isFrist: true,
+      pack: packData.data
     }
   },
-  components: { Emotion },
+  components: { Emotion, VEmojiPicker },
   props: {
     className: {
       type: String,
@@ -86,7 +96,11 @@ export default {
     },
     showEmoji: {
       type: Boolean,
-      default: false
+      default: true
+    },
+    showTextEmoji: {
+      type: Boolean,
+      default: true
     },
     tag: {
       // 自定义模版标签的标签名
@@ -162,6 +176,10 @@ export default {
       node.setAttribute('contenteditable', false)
       node.className = this.emojiClass + val
       this.insertNode(node)
+    },
+    selectEmoji (val) {
+      const extNode = document.createTextNode(val.emoji)
+      this.insertNode(extNode)
     },
     updateData (text) {
       this.$emit('input', text)
@@ -254,7 +272,8 @@ export default {
       if (this.endDon.style) {
         this.savedRange.setStartAfter(this.endDon)
       } else {
-        this.savedRange.setStart(this.endDon, this.endOffset)
+        this.savedRange.setStartAfter(this.endDon)
+        // this.savedRange.setStart(this.endDon, this.endOffset)
       }
       let target = this.$refs[this.className]
       this.updateData(target.innerHTML)
@@ -487,6 +506,9 @@ $textColor: #595959;
       position: absolute;
       bottom: 0;
       left: 12px;
+      &.emoji-text {
+        left: 42px;
+      }
     }
     &__text {
       display: inline-block;
@@ -511,7 +533,7 @@ $textColor: #595959;
   }
 }
 .emoji-icon {
-  font-size: 16px;
-  color: #d9d9d9;
+  font-size: 20px;
+  color: #0091FA;
 }
 </style>
