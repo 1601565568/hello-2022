@@ -51,7 +51,8 @@ export default {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
-      checkStatusList: ['1', '-1'],
+      checkShopStatus: ['1', '-1'],
+      checkGuideStatus: ['1'],
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
@@ -188,7 +189,7 @@ export default {
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    changeShopStatus () {
+    changeStatus () {
       this.initShopList()
     },
     // 门店树选择
@@ -365,7 +366,7 @@ export default {
     initShopList (page) {
       this.shopTreePage.page = page || 1
       if (this.shopTreePage.shopName) {
-        if (this.checkStatusList.length === 0) {
+        if (this.checkShopStatus.length === 0) {
           this.$notify.info('请先选择店铺状态')
           return
         }
@@ -375,7 +376,8 @@ export default {
         length: this.shopTreePage.size,
         searchMap: {
           shopName: this.shopTreePage.shopName,
-          shopStatus: this.checkStatusList.join(','),
+          shopStatus: this.checkShopStatus.join(','),
+          guideStatus: this.checkGuideStatus.join(','),
           areaId: this.selectedAreaInfo.id
         }
       }).then(resp => {

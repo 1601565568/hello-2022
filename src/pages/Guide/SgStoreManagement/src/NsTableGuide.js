@@ -2,8 +2,6 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
-import cata from '../image/cate.svg'
-// import scrollTable from '@/mixins/scrollTable'
 
 export default {
   name: 'NsTableGuide',
@@ -166,7 +164,6 @@ export default {
   mounted: function () {
     var vm = this
     vm.initDigitalShopList()
-    window.console.log('aaaa', this.$data)
     // let limitHeight =
     //   window.innerHeight -
     //   40 -
@@ -219,39 +216,12 @@ export default {
         return false
       }
     },
-    renderNode (h, { node, data, store }) {
-      return (
-        <span
-          style={`display: flex;
-        align-items: center;`}
-        >
-          {data.id !== -1 ? <img src={cata} /> : null}
-          <span
-            title={node.label}
-            class={`area-tree__item`}
-            style={`font-size: ${data.id === -1 ? 14 : 12}px;width: 80%;
-            margin-left:3px;
-            display: inline-block;
-            text-overflow:ellipsis;
-            white-space: nowrap;
-            word-break:break-all;
-            overflow: hidden;`}
-          >
-            {node.label}
-          </span>
-        </span>
-      )
-    },
     onClickNode (data) {
       // 重置所有参数
       this.$resetInput$()
       this.model.areaId = data.id
       this.model.areaName = data.label
-      this._data._table.searchMap = $.extend(true, {}, this.model)
-      this.loading = true
-      this.$reload().then(rep => {
-        this.loading = this._data._loading
-      })
+      this.$searchAction$()
     },
     // 树节点过滤
     onFilterNode (value, data, node) {
@@ -329,11 +299,15 @@ export default {
         })
         .then(resp => {
           if (resp.success && resp.result !== null) {
-            this.shopTreePage.total = Number(resp.result.recordsTotal)
-            this.digitalShopList = resp.result.data
-            this.model.areaId = this.digitalShopList[0].id
-            this.model.areaName = this.digitalShopList[0].label
-            this.$searchAction$()
+            if (resp.result.data.length) {
+              this.shopTreePage.total = Number(resp.result.recordsTotal)
+              this.digitalShopList = resp.result.data
+              this.model.areaId = this.digitalShopList[0].id
+              this.model.areaName = this.digitalShopList[0].label
+              this.$searchAction$()
+            } else {
+              this.$notify.info('暂无区域')
+            }
           }
         })
         .catch(resp => {
@@ -427,6 +401,9 @@ export default {
   watch: {
     // 导购树过滤
     filterTreeText (val) {
+      this.$refs.shopTree.filter(val)
+    },
+    'shopTreePage.areaName' (val) {
       this.$refs.shopTree.filter(val)
     }
   }
