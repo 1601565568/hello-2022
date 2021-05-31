@@ -11,6 +11,7 @@ import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
 import NsTextarea from '@/components/NsTextarea/index'
 import Qrcode from '../components/Qrcode'
+import TagArea from '@/components/NewUi/TagArea'
 import NsBrandDialog from '@/components/NsBrandDialog'
 
 export default {
@@ -27,7 +28,8 @@ export default {
     NsShopDialog,
     NsTextarea,
     Qrcode,
-    NsBrandDialog
+    NsBrandDialog,
+    TagArea
   },
   data: function () {
     // 图片配置model
@@ -149,6 +151,11 @@ export default {
       // 自定义链接/小程序支持占位符
       placeholderLink: placeholderLink,
       // 可替换规则
+      tools: [
+        { type: 'tag', text: '插入员工姓名', id: 'EmployeeNick', value: '员工姓名' },
+        // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称',icon:'icon-nicheng2x' },
+        { type: 'tag', text: '插入客户昵称', id: 'CustomerNick', value: '客户昵称' }
+      ],
       replaceOptions: [
         {
           key: 'EmployeeNick',
