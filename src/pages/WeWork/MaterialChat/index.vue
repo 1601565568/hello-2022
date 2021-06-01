@@ -88,114 +88,124 @@
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
           <el-tab-pane label="按日期统计" name="first">
-            <page-table style="padding-top:0">
-              <template slot="table">
-                <el-table
-                  :data="listDate"
-                  class="new-table_border drawer-table"
-                  :row-style="{ height: '48px' }"
-                >
-                  <el-table-column prop="trackTime" label="日期">
-                  </el-table-column>
-                  <el-table-column prop="nowSendSum" label="发送次数">
-                  </el-table-column>
-                  <el-table-column prop="nowDownloadSum" label="下载次数">
-                  </el-table-column>
-                  <el-table-column prop="nowCompletionSum" label="补全次数">
-                  </el-table-column>
-                  <el-table-column prop="title" width="125px" label="操作">
-                    <template slot-scope="scope">
-                      <ns-button
-                        type="text"
-                        class="select-button"
-                        @click="showMoreToDate(scope.row)"
-                        >查看明细</ns-button
-                      >
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </template>
-              <template slot="pagination">
-                <el-pagination
-                  background
-                  class="label-dialog__pagination"
-                  :page-sizes="paginationToDate.sizeOpts"
-                  :total="paginationToDate.total"
-                  :current-page.sync="paginationToDate.page"
-                  :page-size="paginationToDate.size"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  @size-change="handleSizeChangeForDate"
-                  @current-change="handleCurrentChangeForDate"
-                >
-                </el-pagination>
-              </template>
-            </page-table>
+            <div v-if="listDate.length > 0">
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table
+                    :data="listDate"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="trackTime" label="日期">
+                    </el-table-column>
+                    <el-table-column prop="nowSendSum" label="发送次数">
+                    </el-table-column>
+                    <el-table-column prop="nowDownloadSum" label="下载次数">
+                    </el-table-column>
+                    <el-table-column prop="nowCompletionSum" label="补全次数">
+                    </el-table-column>
+                    <el-table-column prop="title" width="125px" label="操作">
+                      <template slot-scope="scope">
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToDate(scope.row)"
+                          >查看明细</ns-button
+                        >
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToDate.sizeOpts"
+                    :total="paginationToDate.total"
+                    :current-page.sync="paginationToDate.page"
+                    :page-size="paginationToDate.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForDate"
+                    @current-change="handleCurrentChangeForDate"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
+            </div>
+            <div v-else>
+              <NoData/>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
-            <page-table style="padding-top:0">
-              <template slot="table">
-                <el-table
-                  :data="listMaterial"
-                  class="new-table_border drawer-table"
-                  :row-style="{ height: '48px' }"
-                >
-                  <el-table-column prop="materialTitle" label="素材标题">
-                    <template slot-scope="scope">
-                      <el-popover
-                        placement="top-start"
-                        width="300"
-                        trigger="hover"
-                        :disabled="scope.row.materialTitle.length <= 15"
-                      >
-                        <div>{{ scope.row.materialTitle }}</div>
-                        <span
-                          slot="reference"
-                          v-if="scope.row.materialTitle.length <= 15"
-                          >{{ scope.row.materialTitle }}</span
+            <div v-if="listMaterial.length > 0">
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table
+                    :data="listMaterial"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="materialTitle" label="素材标题">
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.materialTitle.length <= 15"
                         >
-                        <span
-                          slot="reference"
-                          v-if="scope.row.materialTitle.length > 15"
-                          >{{
-                            scope.row.materialTitle.substr(0, 15) + '...'
-                          }}</span
+                          <div>{{ scope.row.materialTitle }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length <= 15"
+                            >{{ scope.row.materialTitle }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length > 15"
+                            >{{
+                              scope.row.materialTitle.substr(0, 15) + '...'
+                            }}</span
+                          >
+                        </el-popover>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="sendSum" label="发送次数">
+                    </el-table-column>
+                    <el-table-column prop="downloadSum" label="下载次数">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="补全次数">
+                    </el-table-column>
+                    <el-table-column prop="title" width="125px" label="操作">
+                      <template slot-scope="scope">
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToPerson(scope.row)"
+                          >查看明细</ns-button
                         >
-                      </el-popover>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="sendSum" label="发送次数">
-                  </el-table-column>
-                  <el-table-column prop="downloadSum" label="下载次数">
-                  </el-table-column>
-                  <el-table-column prop="completionSum" label="补全次数">
-                  </el-table-column>
-                  <el-table-column prop="title" width="125px" label="操作">
-                    <template slot-scope="scope">
-                      <ns-button
-                        type="text"
-                        class="select-button"
-                        @click="showMoreToPerson(scope.row)"
-                        >查看明细</ns-button
-                      >
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </template>
-              <template slot="pagination">
-                <el-pagination
-                  background
-                  class="label-dialog__pagination"
-                  :page-sizes="paginationToPerson.sizeOpts"
-                  :total="paginationToPerson.total"
-                  :current-page.sync="paginationToPerson.page"
-                  :page-size="paginationToPerson.size"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  @size-change="handleSizeChangeForPerson"
-                  @current-change="handleCurrentChangeForPerson"
-                >
-                </el-pagination>
-              </template>
-            </page-table>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToPerson.sizeOpts"
+                    :total="paginationToPerson.total"
+                    :current-page.sync="paginationToPerson.page"
+                    :page-size="paginationToPerson.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForPerson"
+                    @current-change="handleCurrentChangeForPerson"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
+            </div>
+            <div v-else>
+              <NoData/>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -210,10 +220,11 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import DataList from './components/DataList'
 import TimeList from './components/TimeList'
+import NoData from './components/NoData'
 import moment from 'moment'
 export default {
   name: 'MaterialCahat',
-  components: { PageTable, NsEcharts, DataList, TimeList },
+  components: { PageTable, NsEcharts, DataList, TimeList, NoData },
   data () {
     return {
       pickerOptions: {
