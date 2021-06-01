@@ -314,6 +314,8 @@ export default {
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
         this.$refs.table.$data.model.areaId = id
+        this.$refs.table.$data.model.shopIds = ''
+        this.shopList = []
         this.$refs.table.$searchAction$()
       }, 500)
     },

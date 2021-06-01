@@ -79,6 +79,9 @@ export default {
               this.areaName = this.digitalShopList[0].label
               this.$emit('input', this.areaId)
               this.$emit('inputName', this.areaName)
+              setTimeout(() => {
+                this.$refs.shopTree.setCurrentKey(this.areaId)
+              }, 0)
             }
           }
         })
