@@ -255,7 +255,7 @@ export default {
   border-radius: 2px;
   height: 40px;
   font-size: 14px;
-  color: #595959;
+  color:  #979797;
   line-height: 22px;
   font-weight: 400;
   line-height: 40px;

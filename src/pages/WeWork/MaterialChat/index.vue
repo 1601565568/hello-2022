@@ -84,7 +84,7 @@
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <div class="remind-data-view">
-            <div>统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}</div>
+            <div v-if="activeName==='second'">统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}</div>
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
           <el-tab-pane label="按日期统计" name="first">
@@ -834,6 +834,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  line-height: 23px;
 }
 
 .no-echart-list-view {
