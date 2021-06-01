@@ -1,9 +1,7 @@
 <template>
   <div class="tree-container">
-    <el-input ref="quickText" v-model="shopTreePage.areaName" placeholder="请输入区域名称" clearable
-              @keyup.enter.native="initDigitalShopList(1)">
-      <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
-            @click="initDigitalShopList(1)"/>
+    <el-input ref="quickText" v-model="shopTreePage.areaName" placeholder="请输入区域名称" clearable>
+      <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"/>
     </el-input>
     <el-scrollbar ref='pageLeft' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px;height:calc( 100% - 80px )" >
       <el-tree
@@ -161,6 +159,9 @@ export default {
   watch: {
     value (newVal) {
       this.areaId = newVal
+    },
+    'shopTreePage.areaName' (val) {
+      this.$refs.shopTree.filter(val)
     }
   }
 }
