@@ -21,7 +21,7 @@
             v-model="inputTitle"
             @change="inputChange"
           >
-            <i slot="suffix" class="el-input__icon el-icon-search"></i>
+            <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px;" @click="inputChange"></Icon>
           </el-input>
         </div>
         <div class="item-down">

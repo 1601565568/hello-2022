@@ -56,6 +56,11 @@
 
 .input-view >>> .el-input__suffix {
   height: 30px;
+  width: 30px;
+}
+
+.input-view >>> .el-input__suffix:before {
+  border-left: none;
 }
 
 .no-input-view >>> .el-input.el-input--small .el-input__inner {
