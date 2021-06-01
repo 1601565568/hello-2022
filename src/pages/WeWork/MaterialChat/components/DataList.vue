@@ -12,123 +12,125 @@
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
       <div class="drawer-title">{{ item.materialTitle && item.materialTitle.length > 25 ? item.materialTitle.substr(0, 25) + '...' : item.materialTitle }}</div>
-      <div class="menu-view">
-        <div class="item-down">
-          <div class="name">动作:</div>
-          <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true" @change="selectAction" @visible-change="selectOptionClick">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="icon-view">
-            <Icon
-              type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-              style="color: #8C8C8C;"
-            />
-          </div>
-        </div>
-        <div class="user-view">
-          <el-form :inline="true" class="form-inline_top">
-            <el-form-item label="门店/员工：">
-              <NsGuideDialog
-                :selfBtn="true"
-                :appendToBody="true"
-                :isButton="false"
-                :auth="false"
-                type="primary"
-                btnTitle=""
-                dialogTitle="门店/员工："
-                @input="handleChangeGuide"
-                v-model="guideIds"
-              >
-                <template slot="selfBtn">
-                  <div class="self-btn">
-                    {{
-                      guideIds && guideIds.length
-                        ? `已选择${guideIds.length}个员工`
-                        : '全部'
-                    }}
-                    <Icon type="geren" class="guideIds-icon"></Icon>
-                  </div>
-                </template>
-              </NsGuideDialog>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div v-if="listData.length > 0">
-        <page-table style="padding-top:0">
-          <template slot="table">
-            <div class="content-view">
-              <el-table
-                :data="listData"
-                class="new-table_border drawer-table"
-                :row-style="{ height: '48px' }"
-              >
-                <el-table-column prop="trackTime" label="日期"> </el-table-column>
-                <el-table-column prop="eventType" label="动作" :width="80">
-                  <template slot-scope="scope">{{
-                      transText(scope.row.eventType)
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="employeeNumber" label="工号" :width="114">
-                  <template slot-scope="scope">{{
-                      scope.row.employeeNumber || '-'
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="guideName" label="员工"> </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
-                  <template slot-scope="scope">
-                    <el-popover
-                      placement="top-start"
-                      width="300"
-                      trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
-                    >
-                      <div>{{ scope.row.shopName }}</div>
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
-                      >
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length > 10"
-                        >{{
-                          scope.row.shopName.substr(0, 10) + '...'
-                        }}</span
-                      >
-                    </el-popover>
-                  </template>
-                </el-table-column>
-              </el-table>
+      <div class="content-view">
+        <div class="menu-view">
+          <div class="item-down">
+            <div class="name">动作:</div>
+            <div class="item-select">
+              <el-select v-model="actionValue" :default-first-option="true" @change="selectAction" @visible-change="selectOptionClick">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
             </div>
-          </template>
-          <template slot="pagination">
-            <el-pagination
-              background
-              class="label-dialog__pagination"
-              :page-sizes="paginationToPerson.sizeOpts"
-              :total="paginationToPerson.total"
-              :current-page.sync="paginationToPerson.page"
-              :page-size="paginationToPerson.size"
-              layout="total, sizes, prev, pager, next, jumper"
-              @size-change="handleSizeChangeForPerson"
-              @current-change="handleCurrentChangeForPerson"
-            >
-            </el-pagination>
-          </template>
-        </page-table>
-      </div>
-      <div v-else>
-        <NoData/>
+            <div class="icon-view">
+              <Icon
+                type="ns-arrow-drowdown"
+                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+                style="color: #8C8C8C;"
+              />
+            </div>
+          </div>
+          <div class="user-view">
+            <el-form :inline="true" class="form-inline_top">
+              <el-form-item label="门店/员工：">
+                <NsGuideDialog
+                  :selfBtn="true"
+                  :appendToBody="true"
+                  :isButton="false"
+                  :auth="false"
+                  type="primary"
+                  btnTitle=""
+                  dialogTitle="门店/员工："
+                  @input="handleChangeGuide"
+                  v-model="guideIds"
+                >
+                  <template slot="selfBtn">
+                    <div class="self-btn">
+                      {{
+                        guideIds && guideIds.length
+                          ? `已选择${guideIds.length}个员工`
+                          : '全部'
+                      }}
+                      <Icon type="geren" class="guideIds-icon"></Icon>
+                    </div>
+                  </template>
+                </NsGuideDialog>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div v-if="listData.length > 0">
+          <page-table style="padding-top:0">
+            <template slot="table">
+              <!-- <div class="content-view"> -->
+                <el-table
+                  :data="listData"
+                  class="new-table_border drawer-table"
+                  :row-style="{ height: '48px' }"
+                >
+                  <el-table-column prop="trackTime" label="日期"> </el-table-column>
+                  <el-table-column prop="eventType" label="动作" :width="80">
+                    <template slot-scope="scope">{{
+                        transText(scope.row.eventType)
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="employeeNumber" label="工号" :width="114">
+                    <template slot-scope="scope">{{
+                        scope.row.employeeNumber || '-'
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="guideName" label="员工"> </el-table-column>
+                  <el-table-column prop="shopName" label="所属门店">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="top-start"
+                        width="300"
+                        trigger="hover"
+                        :disabled="scope.row.shopName.length <= 10"
+                      >
+                        <div>{{ scope.row.shopName }}</div>
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopName.length <= 10"
+                          >{{ scope.row.shopName }}</span
+                        >
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopName.length > 10"
+                          >{{
+                            scope.row.shopName.substr(0, 10) + '...'
+                          }}</span
+                        >
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              <!-- </div> -->
+            </template>
+            <template slot="pagination">
+              <el-pagination
+                background
+                class="label-dialog__pagination"
+                :page-sizes="paginationToPerson.sizeOpts"
+                :total="paginationToPerson.total"
+                :current-page.sync="paginationToPerson.page"
+                :page-size="paginationToPerson.size"
+                layout="total, sizes, prev, pager, next, jumper"
+                @size-change="handleSizeChangeForPerson"
+                @current-change="handleCurrentChangeForPerson"
+              >
+              </el-pagination>
+            </template>
+          </page-table>
+        </div>
+        <div v-else>
+          <NoData/>
+        </div>
       </div>
     </div>
   </el-drawer>
@@ -442,7 +444,7 @@ export default {
 
 .content-view {
   overflow: scroll;
-  max-height: 420px;
+  height: 85vh;
 }
 
 .content-view::-webkit-scrollbar {
