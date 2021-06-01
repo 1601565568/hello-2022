@@ -49,63 +49,68 @@
           <el-tab-pane label="未补全" name="third" v-if="item.materialScriptType === 2"></el-tab-pane>
         </el-tabs>
       </div>
-      <page-table style="padding-top:0">
-        <template slot="table">
-          <div class="content-view">
-            <el-table
-              :data="listData"
-              class="new-table_border drawer-table"
-              :row-style="{ height: '48px' }"
-              :row-key="getRowKey"
+      <div v-if="listData.length > 0">
+        <page-table style="padding-top:0">
+          <template slot="table">
+            <div class="content-view">
+              <el-table
+                :data="listData"
+                class="new-table_border drawer-table"
+                :row-style="{ height: '48px' }"
+                :row-key="getRowKey"
+              >
+                <el-table-column prop="employeeNumber" label="工号" :width="114">
+                  <template slot-scope="scope">{{
+                      scope.row.employeeNumber || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="name" label="员工"> </el-table-column>
+                <el-table-column prop="shopNamesStr" label="所属门店">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="top-start"
+                      width="300"
+                      trigger="hover"
+                      :disabled="scope.row.shopNamesStr.length <= 15"
+                    >
+                      <div>{{ scope.row.shopNamesStr }}</div>
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopNamesStr.length <= 15"
+                        >{{ scope.row.shopNamesStr }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopNamesStr.length > 15"
+                        >{{
+                          scope.row.shopNamesStr.substr(0, 15) + '...'
+                        }}</span
+                      >
+                    </el-popover>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </template>
+          <template slot="pagination">
+            <el-pagination
+              background
+              class="label-dialog__pagination"
+              :page-sizes="paginationToPerson.sizeOpts"
+              :total="paginationToPerson.total"
+              :current-page.sync="paginationToPerson.page"
+              :page-size="paginationToPerson.size"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChangeForPerson"
+              @current-change="handleCurrentChangeForPerson"
             >
-              <el-table-column prop="employeeNumber" label="工号" :width="114">
-                <template slot-scope="scope">{{
-                    scope.row.employeeNumber || '-'
-                }}</template>
-              </el-table-column>
-              <el-table-column prop="name" label="员工"> </el-table-column>
-              <el-table-column prop="shopNamesStr" label="所属门店">
-                <template slot-scope="scope">
-                  <el-popover
-                    placement="top-start"
-                    width="300"
-                    trigger="hover"
-                    :disabled="scope.row.shopNamesStr.length <= 15"
-                  >
-                    <div>{{ scope.row.shopNamesStr }}</div>
-                    <span
-                      slot="reference"
-                      v-if="scope.row.shopNamesStr.length <= 15"
-                      >{{ scope.row.shopNamesStr }}</span
-                    >
-                    <span
-                      slot="reference"
-                      v-if="scope.row.shopNamesStr.length > 15"
-                      >{{
-                        scope.row.shopNamesStr.substr(0, 15) + '...'
-                      }}</span
-                    >
-                  </el-popover>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </template>
-        <template slot="pagination">
-          <el-pagination
-            background
-            class="label-dialog__pagination"
-            :page-sizes="paginationToPerson.sizeOpts"
-            :total="paginationToPerson.total"
-            :current-page.sync="paginationToPerson.page"
-            :page-size="paginationToPerson.size"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChangeForPerson"
-            @current-change="handleCurrentChangeForPerson"
-          >
-          </el-pagination>
-        </template>
-      </page-table>
+            </el-pagination>
+          </template>
+        </page-table>
+      </div>
+      <div v-else>
+        <NoData/>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -113,9 +118,10 @@
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NoData from './NoData'
 export default {
   name: 'undone',
-  components: { ElDrawer, PageTable, NsGuideDialog },
+  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
   data () {
     return {
       direction: 'rtl',
