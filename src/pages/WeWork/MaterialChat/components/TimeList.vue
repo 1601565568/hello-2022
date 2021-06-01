@@ -490,7 +490,7 @@ export default {
 
 .content-view {
   overflow: scroll;
-  height: 420px;
+  max-height: 420px;
 }
 
 .content-view::-webkit-scrollbar {
