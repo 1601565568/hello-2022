@@ -9,12 +9,6 @@ export default {
         return []
       }
     },
-    flag: {
-      type: Boolean,
-      default: function () {
-        return true
-      }
-    },
     guideUrl: {
       type: Object,
       default: function () {
@@ -54,6 +48,11 @@ export default {
     appendToBody: {
       type: Boolean,
       default: false
+    },
+    // 是否展示title上的tip
+    showTitleTip: {
+      type: Boolean,
+      default: true
     }
   },
   data: function () {

@@ -63,7 +63,7 @@
                     @inputAllData="handleChangeGuide"
                     type="primary"
                     btnTitle=""
-                    :flag='false'
+                    :showTitleTip='false'
                     dialogTitle="选择员工："
                     v-model="guideIds"
                   >
