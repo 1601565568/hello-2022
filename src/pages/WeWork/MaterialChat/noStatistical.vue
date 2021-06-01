@@ -27,79 +27,84 @@
       <div class="reminde-view">
         仅统计有未执行数据的素材，全部执行完成的素材不显示
       </div>
-      <page-table style="padding-top:0">
-        <template slot="table">
-          <el-table
-            :data="listDate"
-            class="new-table_border drawer-table"
-            :row-style="{ height: '48px' }"
-          >
-            <el-table-column prop="materialTitle" label="素材标题">
-              <template slot-scope="scope">
-                <el-popover
-                  placement="top-start"
-                  width="300"
-                  trigger="hover"
-                  :disabled="scope.row.materialTitle.length <= 15"
-                >
-                  <div>{{ scope.row.materialTitle }}</div>
-                  <span
-                    slot="reference"
-                    v-if="scope.row.materialTitle.length <= 15"
-                    >{{ scope.row.materialTitle }}</span
+      <div v-if="listDate.length > 0">
+        <page-table style="padding-top:0">
+          <template slot="table">
+            <el-table
+              :data="listDate"
+              class="new-table_border drawer-table"
+              :row-style="{ height: '48px' }"
+            >
+              <el-table-column prop="materialTitle" label="素材标题">
+                <template slot-scope="scope">
+                  <el-popover
+                    placement="top-start"
+                    width="300"
+                    trigger="hover"
+                    :disabled="scope.row.materialTitle.length <= 15"
                   >
-                  <span
-                    slot="reference"
-                    v-if="scope.row.materialTitle.length > 15"
-                    >{{
-                      scope.row.materialTitle.substr(0, 15) + '...'
-                    }}</span
+                    <div>{{ scope.row.materialTitle }}</div>
+                    <span
+                      slot="reference"
+                      v-if="scope.row.materialTitle.length <= 15"
+                      >{{ scope.row.materialTitle }}</span
+                    >
+                    <span
+                      slot="reference"
+                      v-if="scope.row.materialTitle.length > 15"
+                      >{{
+                        scope.row.materialTitle.substr(0, 15) + '...'
+                      }}</span
+                    >
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <el-table-column prop="noCompleteSend" label="未发送人次">
+                <template slot-scope="scope">{{
+                  scope.row.noCompleteSend || '-'
+                }}</template>
+              </el-table-column>
+              <el-table-column prop="noCompleteDownload" label="未下载人次">
+                <template slot-scope="scope">{{
+                  scope.row.noCompleteDownload || '-'
+                }}</template>
+              </el-table-column>
+              <el-table-column prop="noCompleteCompletion" label="未补全人次">
+                <template slot-scope="scope">{{
+                  scope.row.materialScriptType === 2 ? scope.row.noCompleteCompletion || '-' : '-'
+                }}</template>
+              </el-table-column>
+              <el-table-column prop="status" width="125px" label="操作">
+                <template slot-scope="scope">
+                  <ns-button
+                    type="text"
+                    class="select-button"
+                    @click="showMoreData(scope.row)"
+                    >查看明细</ns-button
                   >
-                </el-popover>
-              </template>
-            </el-table-column>
-            <el-table-column prop="noCompleteSend" label="未发送人次">
-              <template slot-scope="scope">{{
-                scope.row.noCompleteSend || '-'
-              }}</template>
-            </el-table-column>
-            <el-table-column prop="noCompleteDownload" label="未下载人次">
-              <template slot-scope="scope">{{
-                scope.row.noCompleteDownload || '-'
-              }}</template>
-            </el-table-column>
-            <el-table-column prop="noCompleteCompletion" label="未补全人次">
-              <template slot-scope="scope">{{
-                scope.row.materialScriptType === 2 ? scope.row.noCompleteCompletion || '-' : '-'
-              }}</template>
-            </el-table-column>
-            <el-table-column prop="status" width="125px" label="操作">
-              <template slot-scope="scope">
-                <ns-button
-                  type="text"
-                  class="select-button"
-                  @click="showMoreData(scope.row)"
-                  >查看明细</ns-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-        </template>
-        <template slot="pagination">
-          <el-pagination
-            background
-            class="label-dialog__pagination"
-            :page-sizes="paginationToDate.sizeOpts"
-            :total="paginationToDate.total"
-            :current-page.sync="paginationToDate.page"
-            :page-size="paginationToDate.size"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChangeForDate"
-            @current-change="handleCurrentChangeForDate"
-          >
-          </el-pagination>
-        </template>
-      </page-table>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+          <template slot="pagination">
+            <el-pagination
+              background
+              class="label-dialog__pagination"
+              :page-sizes="paginationToDate.sizeOpts"
+              :total="paginationToDate.total"
+              :current-page.sync="paginationToDate.page"
+              :page-size="paginationToDate.size"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChangeForDate"
+              @current-change="handleCurrentChangeForDate"
+            >
+            </el-pagination>
+          </template>
+        </page-table>
+      </div>
+      <div v-else>
+        <NoData/>
+      </div>
     </div>
     <UnDone ref="undone" />
   </div>
@@ -110,12 +115,14 @@ import PageTable from '@/components/NewUi/PageTable'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import UnDone from './components/UnDone'
+import NoData from './components/NoData'
 import moment from 'moment'
 export default {
   name: 'noStatistical',
   components: {
     PageTable,
-    UnDone
+    UnDone,
+    NoData
   },
   data () {
     return {

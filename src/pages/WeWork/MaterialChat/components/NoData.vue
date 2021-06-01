@@ -35,5 +35,6 @@ export default {
   line-height: 22px;
   font-weight: 400;
   margin-top: 40px;
+  padding-bottom: 100px;
 }
 </style>
