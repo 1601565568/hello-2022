@@ -13,9 +13,9 @@
       <div class="no-input-view">
         <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inputClick">
           <Icon
-            type="ns-search-copy"
+            type="ns-search"
             slot="suffix"
-            style="font-size: 24px; margin-top: 2px"
+            style="font-size: 30px;"
             @click="inputClick"
           ></Icon>
         </el-input>
