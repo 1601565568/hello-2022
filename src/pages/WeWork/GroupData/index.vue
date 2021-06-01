@@ -75,6 +75,7 @@
               <div class="nameNext">群名称：</div>
               <div class="item-select">
                 <el-select
+                  :disabled='checkId === 2'
                   clearable
                   v-model="actionValue"
                   :default-first-option="true"

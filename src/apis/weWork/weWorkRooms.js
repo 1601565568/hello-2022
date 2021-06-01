@@ -23,8 +23,7 @@ export default {
    */
   queryWeWorkRoomsNameOptions: {
     url: '/wework/weworkRooms/queryWeWorkRoomsNameOptions',
-    method: 'post',
-    params: 'get'
+    method: 'post'
   },
   /**
    * @msg: 查询企微群群成员信息
