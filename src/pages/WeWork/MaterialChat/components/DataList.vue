@@ -63,68 +63,73 @@
           </el-form>
         </div>
       </div>
-      <page-table style="padding-top:0">
-        <template slot="table">
-          <div class="content-view">
-            <el-table
-              :data="listData"
-              class="new-table_border drawer-table"
-              :row-style="{ height: '48px' }"
+      <div v-if="listData.length > 0">
+        <page-table style="padding-top:0">
+          <template slot="table">
+            <div class="content-view">
+              <el-table
+                :data="listData"
+                class="new-table_border drawer-table"
+                :row-style="{ height: '48px' }"
+              >
+                <el-table-column prop="trackTime" label="日期"> </el-table-column>
+                <el-table-column prop="eventType" label="动作" :width="80">
+                  <template slot-scope="scope">{{
+                      transText(scope.row.eventType)
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="employeeNumber" label="工号" :width="114">
+                  <template slot-scope="scope">{{
+                      scope.row.employeeNumber || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="guideName" label="员工"> </el-table-column>
+                <el-table-column prop="shopName" label="所属门店">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="top-start"
+                      width="300"
+                      trigger="hover"
+                      :disabled="scope.row.shopName.length <= 10"
+                    >
+                      <div>{{ scope.row.shopName }}</div>
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopName.length <= 10"
+                        >{{ scope.row.shopName }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopName.length > 10"
+                        >{{
+                          scope.row.shopName.substr(0, 10) + '...'
+                        }}</span
+                      >
+                    </el-popover>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </template>
+          <template slot="pagination">
+            <el-pagination
+              background
+              class="label-dialog__pagination"
+              :page-sizes="paginationToPerson.sizeOpts"
+              :total="paginationToPerson.total"
+              :current-page.sync="paginationToPerson.page"
+              :page-size="paginationToPerson.size"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChangeForPerson"
+              @current-change="handleCurrentChangeForPerson"
             >
-              <el-table-column prop="trackTime" label="日期"> </el-table-column>
-              <el-table-column prop="eventType" label="动作" :width="80">
-                <template slot-scope="scope">{{
-                    transText(scope.row.eventType)
-                }}</template>
-              </el-table-column>
-              <el-table-column prop="employeeNumber" label="工号" :width="114">
-                <template slot-scope="scope">{{
-                    scope.row.employeeNumber || '-'
-                }}</template>
-              </el-table-column>
-              <el-table-column prop="guideName" label="员工"> </el-table-column>
-              <el-table-column prop="shopName" label="所属门店">
-                <template slot-scope="scope">
-                  <el-popover
-                    placement="top-start"
-                    width="300"
-                    trigger="hover"
-                    :disabled="scope.row.shopName.length <= 10"
-                  >
-                    <div>{{ scope.row.shopName }}</div>
-                    <span
-                      slot="reference"
-                      v-if="scope.row.shopName.length <= 10"
-                      >{{ scope.row.shopName }}</span
-                    >
-                    <span
-                      slot="reference"
-                      v-if="scope.row.shopName.length > 10"
-                      >{{
-                        scope.row.shopName.substr(0, 10) + '...'
-                      }}</span
-                    >
-                  </el-popover>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </template>
-        <template slot="pagination">
-          <el-pagination
-            background
-            class="label-dialog__pagination"
-            :page-sizes="paginationToPerson.sizeOpts"
-            :total="paginationToPerson.total"
-            :current-page.sync="paginationToPerson.page"
-            :page-size="paginationToPerson.size"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChangeForPerson"
-            @current-change="handleCurrentChangeForPerson"
-          >
-          </el-pagination>
-        </template>
-      </page-table>
+            </el-pagination>
+          </template>
+        </page-table>
+      </div>
+      <div v-else>
+        <NoData/>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -132,9 +137,10 @@
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NoData from './NoData'
 export default {
   name: 'dataList',
-  components: { ElDrawer, PageTable, NsGuideDialog },
+  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
   data () {
     return {
       direction: 'rtl',
