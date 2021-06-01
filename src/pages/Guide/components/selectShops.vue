@@ -250,7 +250,11 @@ export default {
         .then((resp) => {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
-          that.shopOptions = resp.result.shopOptions
+          if (this.areaId) {
+            that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(this.areaId) > -1)
+          } else {
+            that.shopOptions = resp.result.shopOptions
+          }
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
