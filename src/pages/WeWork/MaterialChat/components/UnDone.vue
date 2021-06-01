@@ -93,12 +93,13 @@
         </template>
         <template slot="pagination">
           <el-pagination
+            background
             class="label-dialog__pagination"
             :page-sizes="paginationToPerson.sizeOpts"
             :total="paginationToPerson.total"
             :current-page.sync="paginationToPerson.page"
             :page-size="paginationToPerson.size"
-            layout="total, prev, pager, next"
+            layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleSizeChangeForPerson"
             @current-change="handleCurrentChangeForPerson"
           >
@@ -126,7 +127,7 @@ export default {
       guideIdsStr: '',
       paginationToPerson: {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       },
@@ -185,7 +186,7 @@ export default {
       this.activeName = 'first'
       this.paginationToPerson = {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
@@ -368,7 +369,7 @@ export default {
 }
 .content-view {
   overflow: scroll;
-  height: 420px;
+  max-height: 420px;
 }
 
 .content-view::-webkit-scrollbar {
