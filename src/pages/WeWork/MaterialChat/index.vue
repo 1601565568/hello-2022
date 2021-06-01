@@ -116,6 +116,7 @@
               </template>
               <template slot="pagination">
                 <el-pagination
+                  background
                   class="label-dialog__pagination"
                   :page-sizes="paginationToDate.sizeOpts"
                   :total="paginationToDate.total"
@@ -181,6 +182,7 @@
               </template>
               <template slot="pagination">
                 <el-pagination
+                  background
                   class="label-dialog__pagination"
                   :page-sizes="paginationToPerson.sizeOpts"
                   :total="paginationToPerson.total"
