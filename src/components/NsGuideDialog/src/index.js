@@ -9,6 +9,12 @@ export default {
         return []
       }
     },
+    flag: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
+    },
     guideUrl: {
       type: Object,
       default: function () {

@@ -226,13 +226,13 @@ export default {
         }
       },
       pickerOptions1: {
-        // disabledDate (time) {
-        //   if (new Date(time).getTime() > new Date().getTime()) {
-        //     return time.getTime() >= (new Date(this.SameDayPlus()).getTime())
-        //   } else {
-        //     return time.getTime() < Date.now() - 2 * 8.64e7
-        //   }
-        // }
+        disabledDate (time) {
+          if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
+            return time.getTime() > Date.now() - 2 * 8.64e7
+          } else {
+            return time.getTime() < Date.now() - 181 * 8.64e7
+          }
+        }
       },
       option: {
         tooltip: {
@@ -744,12 +744,14 @@ export default {
         .catch(resp => {})
     },
     dealTime () {
-      this.today = moment().format('YYYY-MM-DD')
+      this.today = moment()
+        .subtract('days', 1)
+        .format('YYYY-MM-DD')
       this.last7 = moment()
-        .subtract('days', 6)
+        .subtract('days', 7)
         .format('YYYY-MM-DD')
       this.lart30 = moment()
-        .subtract('days', 29)
+        .subtract('days', 30)
         .format('YYYY-MM-DD')
     }
   }

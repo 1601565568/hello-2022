@@ -46,6 +46,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                :picker-options="checkId === 1 ? pickerOptions : pickerOptions1"
                 align="center"
                 @change='datePickerChange'
               >
@@ -62,6 +63,7 @@
                     @inputAllData="handleChangeGuide"
                     type="primary"
                     btnTitle=""
+                    :flag='false'
                     dialogTitle="选择员工："
                     v-model="guideIds"
                   >
@@ -199,6 +201,20 @@ export default {
           value: 0
         }
       ],
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
+        }
+      },
+      pickerOptions1: {
+        disabledDate (time) {
+          if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
+            return time.getTime() > Date.now() - 2 * 8.64e7
+          } else {
+            return time.getTime() < Date.now() - 181 * 8.64e7
+          }
+        }
+      },
       option: {
         tooltip: {
           trigger: 'axis'
@@ -572,12 +588,14 @@ export default {
       this.loadPersonList()
     },
     dealTime () {
-      this.today = moment().format('YYYY-MM-DD')
+      this.today = moment()
+        .subtract('days', 1)
+        .format('YYYY-MM-DD')
       this.last7 = moment()
-        .subtract('days', 6)
+        .subtract('days', 7)
         .format('YYYY-MM-DD')
       this.lart30 = moment()
-        .subtract('days', 29)
+        .subtract('days', 30)
         .format('YYYY-MM-DD')
     },
     // 时间选择筛选
