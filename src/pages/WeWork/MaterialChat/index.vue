@@ -61,6 +61,7 @@
                 align="center"
                 @change="datePickerChange"
                 value-format="yyyy-MM-dd"
+                :picker-options="pickerOptions"
               >
               </el-date-picker>
             </div>
@@ -215,6 +216,11 @@ export default {
   components: { PageTable, NsEcharts, DataList, TimeList },
   data () {
     return {
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
+        }
+      },
       dataList: [
         { name: '素材发送次数总计', data: 0, claseName: 'one' },
         { name: '素材下载总次数', data: 0, claseName: 'two' },
