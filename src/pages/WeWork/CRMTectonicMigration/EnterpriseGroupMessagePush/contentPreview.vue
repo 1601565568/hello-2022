@@ -186,6 +186,7 @@ export default {
       text-align: left;
       color: #1A1A1A;
       line-height: 16px;
+      word-break: break-all;
       flex: 1;
       padding: 7px 12px;
       background: #95EC69;

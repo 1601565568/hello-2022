@@ -737,8 +737,6 @@ export default {
           }).then(resp => {
             that.model = resp.result
             that.model.content = this.$refs.testText.stringTohtml(resp.result.content, false)
-            console.log(that.$refs.testText)
-            console.log(that.$refs.testText.className)
             that.$refs.testText.$refs[that.$refs.testText.className].innerHTML = that.model.content
             that.setSelectChannelMsg()
             if (that.model.annexType === 0) {
