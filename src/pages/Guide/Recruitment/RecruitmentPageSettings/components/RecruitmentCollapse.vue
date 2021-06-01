@@ -36,7 +36,7 @@ export default {
     },
     phoneTitle: {
       type: String,
-      default: '效果展示'
+      default: ''
     },
     phoneBar: {
       type: String

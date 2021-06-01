@@ -10,6 +10,13 @@ export default {
         recruitingPostersImage: '',
         // 封面图
         picture: '',
+        // 注册页面配置
+        registerPostersImage: '', // 注册页面背景图片
+        registerColor: '', // 注册页面按钮颜色
+        registerText: '', // 注册页面按钮文案
+        registerTxtColor: '', // 按钮文案颜色
+        registerConceal: '', // 隐私政策上传
+        registerRule: '', // 会员规则上传
         mpFollowState: 0, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: '', // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: 0, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -33,6 +40,26 @@ export default {
         ],
         mpFollowBackground: [
           { required: true, message: '请上传引导关注公众号页背景图', trigger: ['blur', 'change'] }
+        ],
+        // 注册页面配置
+        registerPostersImage: [
+          { required: true, message: '请上传注册页面背景图', trigger: ['blur', 'change'] }
+        ],
+        registerColor: [
+          { required: true, message: '请选择按钮颜色', trigger: ['blur', 'change'] }
+        ],
+        registerText: [
+          { required: true, message: '请输入按钮文案', trigger: ['blur', 'change'] },
+          { min: 1, max: 10, message: '长度在1-10个字符以内', trigger: ['blur', 'change'] }
+        ],
+        registerTxtColor: [
+          { required: true, message: '请选择按钮文案颜色', trigger: ['blur', 'change'] }
+        ],
+        registerConceal: [
+          { required: true, message: '请上传隐私政策', trigger: ['blur', 'change'] }
+        ],
+        registerRule: [
+          { required: true, message: '请上传会员规则', trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,
@@ -66,6 +93,10 @@ export default {
         recruitingPostersImage: recruitingPostersImage,
         // 封面图
         picture: picture,
+        // 按钮颜色
+        registerColor: '#000000',
+        // 按钮文案颜色
+        registerTxtColor: '#fff',
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -81,6 +112,7 @@ export default {
       }
     },
     update () {
+      console.log(this.model, 9999)
       this.loading = true
       this.$refs.searchform.validate(valid => {
         if (valid) {

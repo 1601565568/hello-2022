@@ -12,10 +12,10 @@
       </template>
       <template slot='content'>
         <!-- 导购招募海报配置 start -->
-        <recruitment-collapse title='导购招募海报配置'>
+        <recruitment-collapse title='导购招募海报配置' phoneTitle='效果展示'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='recruitingPostersImage'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.recruitingPostersImage' :maxWidth='750' :maxHeight='1334'>
+              <drap-upload class="v1" tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.recruitingPostersImage' :maxWidth='750' :maxHeight='1334'>
                 <template slot='footer'>
                   <p class='prompt-text'>公司logo和招募码为固定位置，建议尺寸为70*70</p>
                   <p class='prompt-text'>logo获取导购后台-公司logo；门店名称和导购姓名动态获取当前导购的信息</p>
@@ -44,7 +44,7 @@
         </recruitment-collapse>
          <!-- 导购招募海报配置 end -->
         <!-- 招募链接卡片配置 start -->
-        <recruitment-collapse title='招募链接卡片配置' phoneBar='内容预览'>
+        <recruitment-collapse title='招募链接卡片配置' phoneTitle='效果展示' phoneBar='内容预览'>
           <template slot='collapse-left'>
             <el-form-item label='标题' required prop='title'  class='larger-item'>
               <length-input v-model='model.title' :length='20' placeholder="请输入标题，长度在1-20个字符以内"/>
@@ -68,8 +68,49 @@
           </template>
         </recruitment-collapse>
         <!-- 招募链接卡片配置 end -->
+        <!-- 注册页面配置 start -->
+        <recruitment-collapse title='注册页面配置' phoneBar='会员开卡'>
+          <template slot='collapse-left'>
+            <el-form-item label='背景图' required prop='registerPostersImage'>
+              <drap-upload :showFooter='false' tip='（请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334,大小不超过2M）' v-model='model.registerPostersImage' :maxWidth='750' :maxHeight='1334' :maxSize='2'>
+              </drap-upload>
+            </el-form-item>
+            <el-form-item label='按钮颜色' required prop='registerColor'>
+                <ElColor-picker v-model="model.registerColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
+            </el-form-item>
+            <el-form-item label='按钮文案' required prop='registerText'>
+                <length-input v-model='model.registerText' :length='10' placeholder="注册入会"/>
+            </el-form-item>
+            <el-form-item label='按钮文案颜色' required prop='registerTxtColor'>
+                <ElColor-picker v-model="model.registerTxtColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
+            </el-form-item>
+            <div class="u_text">
+              南讯将统一提供用户协议，请上传隐私政策和会员规则
+            </div>
+            <el-form-item label='隐私政策' required prop='registerConceal'>
+              <plain-upload :maxSize='2' v-model='model.registerConceal'></plain-upload>
+              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
+            </el-form-item>
+            <el-form-item label='会员规则' required prop='registerRule'>
+              <plain-upload :maxSize='2' v-model='model.registerRule'></plain-upload>
+              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
+            </el-form-item>
+          </template>
+          <template slot='collapse-right'>
+            <div class='chat-content'>
+              <content-register
+                :registerPostersImage='model.registerPostersImage'
+                :registerColor='model.registerColor'
+                :registerText='model.registerText'
+                :registerTxtColor='model.registerTxtColor'
+                :registerConceal='model.registerConceal'
+                :registerRule='model.registerRule'/>
+            </div>
+          </template>
+        </recruitment-collapse>
+        <!-- 注册页面配置 end -->
         <!-- 引导关注公众号页设置 start -->
-        <recruitment-collapse title='引导关注公众号页设置' v-if='model.mpFollowState === 1' phoneBar='关注我们'>
+        <recruitment-collapse phoneTitle='效果展示' title='引导关注公众号页设置' v-if='model.mpFollowState === 1' phoneBar='关注我们'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='mpFollowBackground'>
               <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过1M）' :maxWidth='750' :maxHeight='1206' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg'>
@@ -80,10 +121,9 @@
             </el-form-item>
           </template>
           <template slot='collapse-right'>
-            <div class='mobile_content' :style='{backgroundImage:"url("+model.mpFollowBackground+")"}' v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
-              <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
-                <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
-              </VueDragResize>
+            <div class='chat-content'>
+              <content-register :title='model.title' :content='model.content' :picture='model.picture'/>
+              <img src='@/assets/chat.png' class='chat-img'/>
             </div>
           </template>
         </recruitment-collapse>
@@ -100,10 +140,13 @@ import RecruitmentCollapse from './components/RecruitmentCollapse'
 import LengthInput from '@/components/NewUi/LengthInput'
 import PageEdit from '@/components/NewUi/PageEdit'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import plainUpload from '@/components/NewUi/plainUpload'
 import ElImage from '@nascent/nui/lib/image'
 import ContentPreview from './components/ContentPreview'
+import contentRegister from './components/contentRegister'
+import ElColorPicker from '@nascent/nui/lib/color-picker'
 Index.components = {
-  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ContentPreview, ElImage
+  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ContentPreview, contentRegister, ElColorPicker, plainUpload, ElImage
 }
 export default Index
 </script>
@@ -199,4 +242,38 @@ export default Index
      bottom: 188px;
      left: 13px;
    }
+   .u_text{
+     width: 68%;
+     height: 40px;
+     margin-bottom: 24px;
+     background: #F2F9FE;
+      border-radius: 2px;
+      padding-left: 16px;
+      font-size: 14px;
+      color: #595959;
+      line-height: 40px;
+      font-weight: 400;
+   }
+   .register_content {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 18px;
+      .yellow-point {
+        display: inline-block;
+        background: #F2AA18;
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+        line-height: 20px;
+        position: relative;
+        top: 6px;
+      }
+      .prompt-text {
+        font-size: 12px;
+        color: #595959;
+        line-height: 20px;
+      }
+    }
+
 </style>
