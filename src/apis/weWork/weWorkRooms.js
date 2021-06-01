@@ -22,7 +22,7 @@ export default {
    * @msg: 查询企微群名称
    */
   queryWeWorkRoomsNameOptions: {
-    url: '/wework/weworkRooms/queryWeWorkRoomsNameOptions',
+    url: '/wework/weworkRooms/name',
     method: 'post'
   },
   /**
@@ -36,6 +36,10 @@ export default {
   analysis_general: {
     url: '/chat-room/analysis/general',
     method: 'get'
+  },
+  analysis_owner: {
+    url: '/wework/weworkRooms/owner',
+    method: 'post'
   },
   analysis_page_list_by_date: {
     url: '/chat-room/analysis/page_list_by_date',

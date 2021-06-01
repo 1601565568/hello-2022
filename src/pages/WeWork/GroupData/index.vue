@@ -45,6 +45,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                :picker-options="checkId === 1 ? pickerOptions : pickerOptions1"
                 align="center"
                 @change="datePickerChange"
                 value-format="yyyy-MM-dd"
@@ -219,6 +220,20 @@ export default {
           value: 0
         }
       ],
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
+        }
+      },
+      pickerOptions1: {
+        // disabledDate (time) {
+        //   if (new Date(time).getTime() > new Date().getTime()) {
+        //     return time.getTime() >= (new Date(this.SameDayPlus()).getTime())
+        //   } else {
+        //     return time.getTime() < Date.now() - 2 * 8.64e7
+        //   }
+        // }
+      },
       option: {
         tooltip: {
           trigger: 'axis'
@@ -358,6 +373,7 @@ export default {
       this.loadChatList()
       this.loadDateList()
       this.queryChatroomLeaderOptions()
+      this.queryWeWorkRoomsNameOptions()
     },
     // 重置
     onResetSearch () {
@@ -409,10 +425,23 @@ export default {
       return date
     },
     outputCsvFile () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
+      const parms = {
+        chatRoomId: this.actionValue,
+        endTime: this.endTime,
+        owner: this.chatOwnerName,
+        startTime: this.startTime
+      }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, {})
+        .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, parms)
         .then(resp => {
           that.$notify.success('下载完成')
         })
@@ -432,7 +461,7 @@ export default {
           }
         })
     },
-    chatNameChange (val) {
+    async chatNameChange (val) {
       this.initPageData()
       this.loadChatList()
       if (this.checkId === 1) {
@@ -440,6 +469,7 @@ export default {
       } else {
         this.loadPersonList()
       }
+      this.queryChatroomLeaderOptions()
     },
     owenerChange (val) {
       this.initPageData()
@@ -506,6 +536,9 @@ export default {
       if (tab.name === 'second') {
         this.checkId = 2
         this.loadPersonList()
+        this.actionValue = ''
+        this.options = []
+        this.queryChatroomLeaderOptions()
       } else {
         this.checkId = 1
         this.loadDateList()
@@ -527,6 +560,13 @@ export default {
       })
     },
     loadDateList () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
       const parms = {
         searchMap: {
           chatRoomId: this.actionValue,
@@ -553,6 +593,13 @@ export default {
         })
     },
     loadPersonList () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
       const parms = {
         searchMap: {
           chatRoomId: this.actionValue,
@@ -679,9 +726,12 @@ export default {
     },
     queryChatroomLeaderOptions () {
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions)
+        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: this.actionValue })
         .then(resp => {
           this.chatRoomOwner = resp.result
+          if (this.actionValue) {
+            this.chatOwnerName = this.chatRoomOwner[0].label
+          }
         })
         .catch(resp => {})
     },

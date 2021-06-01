@@ -413,10 +413,23 @@ export default {
       list[3].data.push(item4)
     },
     outputCsvFile () {
+      if (this.datePickerArr.length > 0) {
+        this.startTime = this.datePickerArr[0]
+        this.endTime = this.datePickerArr[1]
+      } else {
+        this.startTime = this.selectToday ? this.last7 : this.lart30
+        this.endTime = this.today
+      }
+      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
+      const parms = {
+        guideIds: arrList.join(','),
+        endTime: this.endTime,
+        startTime: this.startTime
+      }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.session_list_export, {})
+        .fetch(this.$api.weWork.weWorkRooms.session_list_export, parms)
         .then(resp => {
           that.$notify.success('下载完成')
         })
@@ -479,7 +492,7 @@ export default {
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         searchMap: {
-          userIds: arrList.join(','),
+          guideIds: arrList.join(','),
           endTime: this.endTime,
           startTime: this.startTime
         },
@@ -512,7 +525,7 @@ export default {
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
         searchMap: {
-          userIds: arrList.join(','),
+          guideIds: arrList.join(','),
           endTime: this.endTime,
           startTime: this.startTime
         },
@@ -650,7 +663,7 @@ export default {
       }
       let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
       const parms = {
-        userIds: arrList.join(','),
+        guideIds: arrList.join(','),
         endTime: this.endTime,
         startTime: this.startTime
       }
