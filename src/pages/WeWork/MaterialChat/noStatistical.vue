@@ -11,11 +11,12 @@
     <div class="name-view">未执行统计</div>
     <div class="output-view">
       <div class="no-input-view">
-        <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inputClick" @keyup.enter.native="inputClick" >
+        <el-input v-model="inputTitle" placeholder="请输入素材标题" @change="inputClick">
           <Icon
             type="ns-search-copy"
             slot="suffix"
             style="font-size: 24px; margin-top: 2px"
+            @click="inputClick"
           ></Icon>
         </el-input>
       </div>
