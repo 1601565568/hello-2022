@@ -164,7 +164,7 @@ export default {
           label: '补全'
         }
       ],
-      actionValue: '全部',
+      actionValue: 0,
       guideIds: [],
       item: {},
       paginationToPerson: {
@@ -231,7 +231,7 @@ export default {
       this.selectActionValue = 0
       this.guideIdsStr = ''
       this.guideIds = []
-      this.actionValue = '全部'
+      this.actionValue = 0
       this.paginationToPerson = {
         size: 10,
         sizeOpts: [5, 10, 15],

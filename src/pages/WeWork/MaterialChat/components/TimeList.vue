@@ -208,7 +208,7 @@ export default {
           label: '补全'
         }
       ],
-      actionValue: '全部',
+      actionValue: 0,
       inputTitle: '',
       guideIds: [],
       item: {},
@@ -276,7 +276,7 @@ export default {
     },
     initData () {
       this.item = {}
-      this.actionValue = '全部'
+      this.actionValue = 0
       this.guideIds = []
       this.selectActionValue = 0
       this.guideIdsStr = ''
