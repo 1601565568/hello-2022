@@ -266,7 +266,7 @@ export default {
           '#F5AD34'
         ],
         grid: {
-          left: 0,
+          left: '2%',
           right: '3%',
           bottom: 0,
           containLabel: true,
