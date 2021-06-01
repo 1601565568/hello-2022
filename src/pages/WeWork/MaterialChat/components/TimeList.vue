@@ -155,12 +155,13 @@
         </template>
         <template slot="pagination">
           <el-pagination
+            background
             class="label-dialog__pagination"
             :page-sizes="paginationToPerson.sizeOpts"
             :total="paginationToPerson.total"
             :current-page.sync="paginationToPerson.page"
             :page-size="paginationToPerson.size"
-            layout="total, prev, pager, next"
+            layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleSizeChangeForPerson"
             @current-change="handleCurrentChangeForPerson"
           >
@@ -207,7 +208,7 @@ export default {
       item: {},
       paginationToPerson: {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       },
@@ -223,7 +224,7 @@ export default {
     inputChange () {
       this.paginationToPerson = {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
@@ -233,7 +234,7 @@ export default {
       this.selectActionValue = val
       this.paginationToPerson = {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
@@ -276,7 +277,7 @@ export default {
       this.inputTitle = ''
       this.paginationToPerson = {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
@@ -289,7 +290,7 @@ export default {
     handleChangeGuide (val) {
       this.paginationToPerson = {
         size: 10,
-        sizeOpts: [10],
+        sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
