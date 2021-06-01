@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="title">数据分析</div>
-        <div v-if="echartList.length">
+        <div v-if="echartList.length" class="charts-view">
           <NsEcharts :options="option" />
         </div>
         <div v-else class="no-echart-list-view">
@@ -261,7 +261,7 @@ export default {
         ],
         grid: {
           left: 0,
-          right: 0,
+          right: '3%',
           bottom: 0,
           containLabel: true,
           top: '4%',
