@@ -201,7 +201,7 @@ export default {
       dataList: [
         {
           key: 'chat_totals',
-          nick: '今日总群数',
+          nick: '总群数',
           value: 0
         },
         {
@@ -240,7 +240,7 @@ export default {
         },
         legend: {
           data: [
-            '今日总群数',
+            '总群数',
             '群管理好友数',
             '今日群新增好友数',
             '今日群流失好友数'
@@ -652,7 +652,7 @@ export default {
     setDefaultChartData () {
       return [
         {
-          name: '今日总群数',
+          name: '总群数',
           type: 'line',
           data: []
         },
