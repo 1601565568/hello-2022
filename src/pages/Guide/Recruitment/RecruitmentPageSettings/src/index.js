@@ -97,6 +97,7 @@ export default {
         registerColor: '#000000',
         // 按钮文案颜色
         registerTxtColor: '#fff',
+        registerText: '注册入会',
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
