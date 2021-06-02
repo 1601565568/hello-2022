@@ -93,6 +93,8 @@ export default {
         recruitingPostersImage: recruitingPostersImage,
         // 封面图
         picture: picture,
+        // 默认注册页面背景图
+        registerPostersImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/%E8%83%8C%E6%99%AF%E5%9B%BE%E5%A4%87%E4%BB%BD.png',
         // 按钮颜色
         registerColor: '#000000',
         // 按钮文案颜色

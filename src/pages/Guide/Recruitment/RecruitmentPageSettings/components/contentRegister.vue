@@ -60,6 +60,7 @@ export default {
       line-height: 43.5px;
       text-align: center;
       position: absolute;
+      border-radius: 4px;
       font-weight: 500;
       top: 406px;
       left: 12.8px;
