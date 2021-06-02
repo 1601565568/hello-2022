@@ -655,7 +655,7 @@ export default {
    */
     formatChart (resList, dateList) {
       const data = this.setDefaultChartData()
-      const list = resList
+      const list = [...resList].reverse()
       dateList.map(item => {
         if (list.length) {
           if (item === list[0].stat_time) {
