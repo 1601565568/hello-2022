@@ -69,7 +69,6 @@ export default {
   methods: {
     async init () {
       const result = await this.loadData()
-      console.log(result, 88888888)
       if (result) {
         this.model = this.formatLoadData(result)
       }
@@ -126,7 +125,6 @@ export default {
       }
     },
     update () {
-      console.log(this.model, 9999)
       this.loading = true
       this.$refs.searchform.validate(valid => {
         if (valid) {
