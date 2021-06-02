@@ -205,7 +205,7 @@ export default {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
     },
     contentStr () {
-      if (this.$refs.testText && this.model.content) {
+      if (this.model.content && this.$refs.testText) {
         return this.$refs.testText.htmlToString(this.model.content, false)
       }
       return '欢迎您！这是一段自动回复消息～'
