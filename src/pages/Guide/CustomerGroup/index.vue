@@ -72,7 +72,7 @@
                         {{
                           guideIds && guideIds.length
                             ? `已选择${guideIds.length}个员工`
-                            : '全部'
+                            : '不限'
                         }}
                         <Icon type="geren" class="guideIds-icon"></Icon>
                       </div>

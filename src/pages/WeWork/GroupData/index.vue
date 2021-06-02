@@ -336,8 +336,8 @@ export default {
       listDate: [],
       listPerson: [],
       chatRoomOwner: [],
-      chatOwnerName: '',
-      actionValue: '',
+      chatOwnerName: '不限',
+      actionValue: '不限',
       ownerFlag: false,
       flag: false,
       today: '',
@@ -387,8 +387,8 @@ export default {
       this.listDate = []
       this.listPerson = []
       this.chatRoomOwner = []
-      this.chatOwnerName = ''
-      this.actionValue = ''
+      this.chatOwnerName = '不限'
+      this.actionValue = '不限'
       this.ownerFlag = false
       this.flag = false
       this.today = ''
@@ -433,9 +433,9 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        chatRoomId: this.actionValue,
+        chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
         endTime: this.endTime,
-        owner: this.chatOwnerName,
+        owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime
       }
       let that = this
@@ -536,12 +536,13 @@ export default {
       if (tab.name === 'second') {
         this.checkId = 2
         this.loadPersonList()
-        this.actionValue = ''
-        this.options = []
+        this.actionValue = '不限'
+        // this.options = []
         this.queryChatroomLeaderOptions()
       } else {
         this.checkId = 1
         this.loadDateList()
+        this.queryWeWorkRoomsNameOptions()
       }
     },
     showMoreData () {
@@ -569,9 +570,9 @@ export default {
       }
       const parms = {
         searchMap: {
-          chatRoomId: this.actionValue,
+          chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
           endTime: this.endTime,
-          owner: this.chatOwnerName,
+          owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
           startTime: this.startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
@@ -602,9 +603,9 @@ export default {
       }
       const parms = {
         searchMap: {
-          chatRoomId: this.actionValue,
+          chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
           endTime: this.endTime,
-          owner: this.chatOwnerName,
+          owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
           startTime: this.startTime
         },
         start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -712,9 +713,9 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        chatRoomId: this.actionValue,
+        chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
         endTime: this.endTime,
-        owner: this.chatOwnerName,
+        owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.analysis_list, parms).then(res => {
@@ -726,18 +727,18 @@ export default {
     },
     queryChatroomLeaderOptions () {
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: this.actionValue })
+        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: this.actionValue === '不限' ? '' : this.actionValue })
         .then(resp => {
           this.chatRoomOwner = resp.result
-          if (this.actionValue) {
-            this.chatOwnerName = this.chatRoomOwner[0].label
+          if (this.actionValue && this.actionValue !== '不限') {
+            this.chatOwnerName = this.chatRoomOwner[0].value
           }
         })
         .catch(resp => {})
     },
     queryWeWorkRoomsNameOptions () {
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions, { owner: this.chatOwnerName })
+        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions, { owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName })
         .then(resp => {
           this.options = resp.result
         })
