@@ -72,7 +72,7 @@
                 </el-select>
               </div>
             </div>
-            <div class="item-down al">
+            <!-- <div class="item-down al">
               <div class="nameNext">群名称：</div>
               <div class="item-select">
                 <el-select
@@ -92,7 +92,7 @@
                   </el-option>
                 </el-select>
               </div>
-            </div>
+            </div> -->
           </div>
           <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button>
           <div class="drawer-output" @click="outputCsvFile">
@@ -119,7 +119,7 @@
                 >
                   <el-table-column prop="stat_time" label="日期">
                   </el-table-column>
-                  <el-table-column prop="chat_totals" label="群总数">
+                  <el-table-column prop="chat_totals" label="总群数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
@@ -154,7 +154,7 @@
                 >
                   <el-table-column prop="user_name" label="员工">
                   </el-table-column>
-                  <el-table-column prop="chat_totals" label="群总数">
+                  <el-table-column prop="chat_totals" label="总群数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
@@ -337,7 +337,7 @@ export default {
       listPerson: [],
       chatRoomOwner: [],
       chatOwnerName: '不限',
-      actionValue: '不限',
+      actionValue: '',
       ownerFlag: false,
       flag: false,
       today: '',
@@ -373,7 +373,7 @@ export default {
       this.loadChatList()
       this.loadDateList()
       this.queryChatroomLeaderOptions()
-      this.queryWeWorkRoomsNameOptions()
+      // this.queryWeWorkRoomsNameOptions()
     },
     // 重置
     onResetSearch () {
@@ -388,7 +388,7 @@ export default {
       this.listPerson = []
       this.chatRoomOwner = []
       this.chatOwnerName = '不限'
-      this.actionValue = '不限'
+      this.actionValue = ''
       this.ownerFlag = false
       this.flag = false
       this.today = ''
@@ -433,7 +433,8 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
+        // this.actionValue === '不限' ? '' : this.actionValue
+        chatRoomId: '',
         endTime: this.endTime,
         owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime
@@ -479,7 +480,7 @@ export default {
       } else {
         this.loadPersonList()
       }
-      this.queryWeWorkRoomsNameOptions()
+      // this.queryWeWorkRoomsNameOptions()
     },
     datePickerChange (val) {
       this.datePickerArr = val || []
@@ -536,13 +537,13 @@ export default {
       if (tab.name === 'second') {
         this.checkId = 2
         this.loadPersonList()
-        this.actionValue = '不限'
+        this.actionValue = ''
         // this.options = []
-        this.queryChatroomLeaderOptions()
+        // this.queryChatroomLeaderOptions()
       } else {
         this.checkId = 1
         this.loadDateList()
-        this.queryWeWorkRoomsNameOptions()
+        // this.queryWeWorkRoomsNameOptions()
       }
     },
     showMoreData () {
@@ -570,7 +571,7 @@ export default {
       }
       const parms = {
         searchMap: {
-          chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
+          chatRoomId: '',
           endTime: this.endTime,
           owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
           startTime: this.startTime
@@ -603,7 +604,7 @@ export default {
       }
       const parms = {
         searchMap: {
-          chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
+          chatRoomId: '',
           endTime: this.endTime,
           owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
           startTime: this.startTime
@@ -713,7 +714,7 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        chatRoomId: this.actionValue === '不限' ? '' : this.actionValue,
+        chatRoomId: '',
         endTime: this.endTime,
         owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime
@@ -727,12 +728,9 @@ export default {
     },
     queryChatroomLeaderOptions () {
       this.$http
-        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: this.actionValue === '不限' ? '' : this.actionValue })
+        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: '' })
         .then(resp => {
           this.chatRoomOwner = resp.result
-          if (this.actionValue && this.actionValue !== '不限') {
-            this.chatOwnerName = this.chatRoomOwner[0].value
-          }
         })
         .catch(resp => {})
     },
