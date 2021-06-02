@@ -71,40 +71,40 @@
         <!-- 注册页面配置 start -->
         <recruitment-collapse title='注册页面配置' phoneBar='会员开卡'>
           <template slot='collapse-left'>
-            <el-form-item label='背景图' required prop='registerPostersImage'>
-              <drap-upload :showFooter='false' tip='（请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334,大小不超过2M）' v-model='model.registerPostersImage' :maxWidth='750' :maxHeight='1334' :maxSize='2'>
+            <el-form-item label='背景图' required prop='rgBackground'>
+              <drap-upload :showFooter='false' tip='（请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334,大小不超过2M）' v-model='model.rgBackground' :maxWidth='750' :maxHeight='1334' :maxSize='2'>
               </drap-upload>
             </el-form-item>
-            <el-form-item label='按钮颜色' required prop='registerColor'>
-                <ElColor-picker v-model="model.registerColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
+            <el-form-item label='按钮颜色' required prop='rgButtonColor'>
+                <ElColor-picker v-model="model.rgButtonColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
             </el-form-item>
-            <el-form-item label='按钮文案' required prop='registerText'>
-                <length-input v-model='model.registerText' :length='10' placeholder="注册入会"/>
+            <el-form-item label='按钮文案' required prop='rgButtonText'>
+                <length-input v-model='model.rgButtonText' :length='10' placeholder="注册入会"/>
             </el-form-item>
-            <el-form-item label='按钮文案颜色' required prop='registerTxtColor'>
-                <ElColor-picker v-model="model.registerTxtColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
+            <el-form-item label='按钮文案颜色' required prop='rgButtonTextColor'>
+                <ElColor-picker v-model="model.rgButtonTextColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
             </el-form-item>
             <div class="u_text">
               南讯将统一提供用户协议，请上传隐私政策和会员规则
             </div>
-            <el-form-item label='隐私政策' required prop='registerConceal'>
-              <plain-upload :maxSize='2' v-model='model.registerConceal'></plain-upload>
+            <el-form-item label='隐私政策' required prop='rgPrivacyPolicyUrl'>
+              <plain-upload :maxSize='2' v-model='model.rgPrivacyPolicyUrl'></plain-upload>
               <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
-            <el-form-item label='会员规则' required prop='registerRule'>
-              <plain-upload :maxSize='2' v-model='model.registerRule'></plain-upload>
+            <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
+              <plain-upload :maxSize='2' v-model='model.rgMemberRuleUrl'></plain-upload>
               <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
             <div class='chat-content'>
               <content-register
-                :registerPostersImage='model.registerPostersImage'
-                :registerColor='model.registerColor'
-                :registerText='model.registerText'
-                :registerTxtColor='model.registerTxtColor'
-                :registerConceal='model.registerConceal'
-                :registerRule='model.registerRule'/>
+                :rgBackground='model.rgBackground'
+                :rgButtonColor='model.rgButtonColor'
+                :rgButtonText='model.rgButtonText'
+                :rgButtonTextColor='model.rgButtonTextColor'
+                :rgPrivacyPolicyUrl='model.rgPrivacyPolicyUrl'
+                :rgMemberRuleUrl='model.rgMemberRuleUrl'/>
             </div>
           </template>
         </recruitment-collapse>

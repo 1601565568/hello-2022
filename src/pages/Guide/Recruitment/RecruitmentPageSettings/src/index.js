@@ -11,12 +11,12 @@ export default {
         // 封面图
         picture: '',
         // 注册页面配置
-        registerPostersImage: '', // 注册页面背景图片
-        registerColor: '', // 注册页面按钮颜色
-        registerText: '', // 注册页面按钮文案
-        registerTxtColor: '', // 按钮文案颜色
-        registerConceal: '', // 隐私政策上传
-        registerRule: '', // 会员规则上传
+        rgBackground: '', // 注册页面背景图片
+        rgButtonColor: '', // 注册页面按钮颜色
+        rgButtonText: '', // 注册页面按钮文案
+        rgButtonTextColor: '', // 按钮文案颜色
+        rgPrivacyPolicyUrl: '', // 隐私政策上传
+        rgMemberRuleUrl: '', // 会员规则上传
         mpFollowState: 0, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: '', // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: 0, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -42,23 +42,23 @@ export default {
           { required: true, message: '请上传引导关注公众号页背景图', trigger: ['blur', 'change'] }
         ],
         // 注册页面配置
-        registerPostersImage: [
+        rgBackground: [
           { required: true, message: '请上传注册页面背景图', trigger: ['blur', 'change'] }
         ],
-        registerColor: [
+        rgButtonColor: [
           { required: true, message: '请选择按钮颜色', trigger: ['blur', 'change'] }
         ],
-        registerText: [
+        rgButtonText: [
           { required: true, message: '请输入按钮文案', trigger: ['blur', 'change'] },
           { min: 1, max: 10, message: '长度在1-10个字符以内', trigger: ['blur', 'change'] }
         ],
-        registerTxtColor: [
+        rgButtonTextColor: [
           { required: true, message: '请选择按钮文案颜色', trigger: ['blur', 'change'] }
         ],
-        registerConceal: [
+        rgPrivacyPolicyUrl: [
           { required: true, message: '请上传隐私政策', trigger: ['blur', 'change'] }
         ],
-        registerRule: [
+        rgMemberRuleUrl: [
           { required: true, message: '请上传会员规则', trigger: ['blur', 'change'] }
         ]
       },
@@ -69,6 +69,7 @@ export default {
   methods: {
     async init () {
       const result = await this.loadData()
+      console.log(result, 88888888)
       if (result) {
         this.model = this.formatLoadData(result)
       }
@@ -83,7 +84,12 @@ export default {
       }
     },
     formatLoadData (result) {
-      const { id, companyLogo, title, content, recruitingPostersImage, picture, mpFollowQrcodeSize, mpFollowQrcodeX, mpFollowQrcodeY, mpFollowState, mpFollowBackground } = result
+      const { id, companyLogo, title,
+        content, recruitingPostersImage,
+        picture, mpFollowQrcodeSize, mpFollowQrcodeX,
+        mpFollowQrcodeY, mpFollowState, mpFollowBackground,
+        rgBackground, rgButtonColor, rgButtonTextColor,
+        rgButtonText, rgPrivacyPolicyUrl, rgMemberRuleUrl } = result
       return {
         id: id,
         title: title,
@@ -94,12 +100,17 @@ export default {
         // 封面图
         picture: picture,
         // 默认注册页面背景图
-        registerPostersImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/%E8%83%8C%E6%99%AF%E5%9B%BE%E5%A4%87%E4%BB%BD.png',
+        rgBackground: rgBackground,
         // 按钮颜色
-        registerColor: '#000000',
+        rgButtonColor: rgButtonColor,
         // 按钮文案颜色
-        registerTxtColor: '#fff',
-        registerText: '注册入会',
+        rgButtonTextColor: rgButtonTextColor,
+        // 按钮文本
+        rgButtonText: rgButtonText,
+        // 隐私政策上传
+        rgPrivacyPolicyUrl: rgPrivacyPolicyUrl,
+        // 会员规则上传
+        rgMemberRuleUrl: rgMemberRuleUrl,
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小

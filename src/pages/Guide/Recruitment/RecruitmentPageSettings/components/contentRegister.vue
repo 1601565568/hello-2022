@@ -1,8 +1,8 @@
 <template>
   <div class="message_msg">
-    <img v-if="registerPostersImage" :src='registerPostersImage' class='recruiting-posters__image'/>
-    <div :style='{color: registerTxtColor, background: registerColor}' class="u_btn">
-      <div class="v_1">{{registerText}}</div>
+    <img v-if="rgBackground" :src='rgBackground' class='recruiting-posters__image'/>
+    <div :style='{color: rgButtonTextColor, background: rgButtonColor}' class="u_btn">
+      <div class="v_1">{{rgButtonText}}</div>
     </div>
     <div class="u_context">
       <span class="u_box"></span>我已阅读同意<span class="u_text">《用户协议》《隐私政策》《会员规则》</span></div>
@@ -13,27 +13,27 @@
 export default {
   props: {
     // 注册页面背景图片
-    registerPostersImage: {
+    rgBackground: {
       type: String
     },
     // 注册页面按钮颜色
-    registerColor: {
+    rgButtonColor: {
       type: String
     },
     // 注册页面按钮文案
-    registerText: {
+    rgButtonText: {
       type: String
     },
     // 按钮文案颜色
-    registerTxtColor: {
+    rgButtonTextColor: {
       type: String
     },
     // 隐私政策上传
-    registerConceal: {
+    rgPrivacyPolicyUrl: {
       type: String
     },
     // 会员规则上传
-    registerRule: {
+    rgMemberRuleUrl: {
       type: String
     }
   },
