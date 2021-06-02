@@ -119,7 +119,7 @@
                 >
                   <el-table-column prop="stat_time" label="日期">
                   </el-table-column>
-                  <el-table-column prop="chat_totals" label="今日群总数">
+                  <el-table-column prop="chat_totals" label="群总数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
@@ -154,7 +154,7 @@
                 >
                   <el-table-column prop="user_name" label="员工">
                   </el-table-column>
-                  <el-table-column prop="chat_totals" label="今日群总数">
+                  <el-table-column prop="chat_totals" label="群总数">
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
@@ -201,7 +201,7 @@ export default {
       dataList: [
         {
           key: 'chat_totals',
-          nick: '总群数',
+          nick: '今日总群数',
           value: 0
         },
         {
@@ -240,7 +240,7 @@ export default {
         },
         legend: {
           data: [
-            '总群数',
+            '今日总群数',
             '群管理好友数',
             '今日群新增好友数',
             '今日群流失好友数'
@@ -652,7 +652,7 @@ export default {
     setDefaultChartData () {
       return [
         {
-          name: '总群数',
+          name: '今日总群数',
           type: 'line',
           data: []
         },
