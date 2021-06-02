@@ -108,7 +108,6 @@ export default {
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      console.log(res.originalFileName, 999)
       this.$emit('input', res.result.url)
     },
     // 删除文件钩子
