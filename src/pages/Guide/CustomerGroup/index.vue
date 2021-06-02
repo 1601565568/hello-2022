@@ -139,7 +139,7 @@
                   <el-table-column prop="user_name" label="员工"> </el-table-column>
                   <el-table-column prop="chat_totals" label="好友群总数"> </el-table-column>
                   <el-table-column prop="new_chat_cnts" label="新增群聊数"> </el-table-column>
-                  <el-table-column prop="chat_has_msgs" label="有过消息的好友群数量"> </el-table-column>
+                  <el-table-column prop="chat_has_msgs" label="有过消息的好友群数"> </el-table-column>
                   <el-table-column prop="member_has_msgs" label="发过消息的群成员数"> </el-table-column>
                   <el-table-column prop="msg_totals" label="好友群消息总数"> </el-table-column>
                 </el-table>

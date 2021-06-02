@@ -121,7 +121,7 @@
                   </el-table-column>
                   <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
-                  <el-table-column prop="member_totals" label="群管理客户数">
+                  <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
                   <el-table-column prop="new_member_cnts" label="群新增客户数">
                   </el-table-column>
@@ -156,7 +156,7 @@
                   </el-table-column>
                   <el-table-column prop="chat_totals" label="今日群总数">
                   </el-table-column>
-                  <el-table-column prop="member_totals" label="群管理客户数">
+                  <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
                   <el-table-column prop="new_member_cnts" label="群新增客户数">
                   </el-table-column>
