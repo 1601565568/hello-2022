@@ -153,7 +153,7 @@ export default {
         this.model = {
           ...this.model,
           activityDescription: result.activityDescription,
-          activityIntroduction: this.stringTohtml(result.activityIntroduction),
+          activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
           backgroundPic: result.backgroundPic,
           effectiveCycle: result.effectiveCycle,
           headPortrait: !!result.headPortrait,
