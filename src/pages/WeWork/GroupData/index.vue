@@ -372,8 +372,8 @@ export default {
       this.loadTopData()
       this.loadChatList()
       this.loadDateList()
+      this.loadPersonList()
       this.queryChatroomLeaderOptions()
-      // this.queryWeWorkRoomsNameOptions()
     },
     // 重置
     onResetSearch () {
@@ -425,6 +425,11 @@ export default {
       return date
     },
     outputCsvFile () {
+      let that = this
+      if (this.listPerson.length <= 0) {
+        that.$notify.error('当前没有匹配的数据项')
+        return false
+      }
       if (this.datePickerArr.length > 0) {
         this.startTime = this.datePickerArr[0]
         this.endTime = this.datePickerArr[1]
@@ -439,7 +444,6 @@ export default {
         owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime
       }
-      let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, parms)

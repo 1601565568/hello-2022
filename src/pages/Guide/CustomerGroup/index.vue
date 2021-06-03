@@ -343,6 +343,7 @@ export default {
       this.loadTopData()
       this.loadChatList()
       this.loadDateList()
+      this.loadPersonList()
     },
     // 重置
     onResetSearch () {
@@ -420,6 +421,11 @@ export default {
       list[3].data.push(item4)
     },
     outputCsvFile () {
+      let that = this
+      if (this.listPerson.length <= 0) {
+        that.$notify.error('当前没有匹配的数据项')
+        return false
+      }
       if (this.datePickerArr.length > 0) {
         this.startTime = this.datePickerArr[0]
         this.endTime = this.datePickerArr[1]
@@ -433,7 +439,6 @@ export default {
         endTime: this.endTime,
         startTime: this.startTime
       }
-      let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.session_list_export, parms)
@@ -631,7 +636,6 @@ export default {
     // 选择员工之后的图标刷新请求
     changeSearchfrom (value) {
       this.guideIds = value.guideIds
-      console.log(this.guideIds, 99)
       this.initPageData()
       this.loadChatList()
       if (this.checkId === 1) {
