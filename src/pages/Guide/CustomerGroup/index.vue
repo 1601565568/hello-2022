@@ -23,7 +23,7 @@
                 "
                 class="base-text"
                 @click="selectTodayClick('seven')"
-                >近七天</span
+                >近7天</span
               >
               <span
                 :class="
