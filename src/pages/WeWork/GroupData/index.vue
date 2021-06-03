@@ -123,9 +123,9 @@
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
-                  <el-table-column prop="new_member_cnts" label="群新增客户数">
+                  <el-table-column prop="new_member_cnts" label="群新增好友数">
                   </el-table-column>
-                  <el-table-column prop="member_loss_cnts" label="群流失客户数">
+                  <el-table-column prop="member_loss_cnts" label="群流失好友数">
                   </el-table-column>
                 </el-table>
               </template>
@@ -158,9 +158,9 @@
                   </el-table-column>
                   <el-table-column prop="member_totals" label="群管理好友数">
                   </el-table-column>
-                  <el-table-column prop="new_member_cnts" label="群新增客户数">
+                  <el-table-column prop="new_member_cnts" label="群新增好友数">
                   </el-table-column>
-                  <el-table-column prop="member_loss_cnts" label="群流失客户数">
+                  <el-table-column prop="member_loss_cnts" label="群流失好友数">
                   </el-table-column>
                 </el-table>
               </template>
@@ -206,17 +206,17 @@ export default {
         },
         {
           key: 'member_totals',
-          nick: '群管理好友数',
+          nick: '群管理客户数',
           value: 0
         },
         {
           key: 'new_member_cnts',
-          nick: '今日群新增好友数',
+          nick: '群新增客户数',
           value: 0
         },
         {
           key: 'member_loss_cnts',
-          nick: '今日群流失好友数',
+          nick: '群流失客户数',
           value: 0
         }
       ],
@@ -241,9 +241,9 @@ export default {
         legend: {
           data: [
             '今日总群数',
-            '群管理好友数',
-            '今日群新增好友数',
-            '今日群流失好友数'
+            '群管理客户数',
+            '群新增客户数',
+            '群流失客户数'
           ],
           left: '0',
           bottom: '9%',
@@ -659,17 +659,17 @@ export default {
           data: []
         },
         {
-          name: '群管理好友数',
+          name: '群管理客户数',
           type: 'line',
           data: []
         },
         {
-          name: '今日群新增好友数',
+          name: '群新增客户数',
           type: 'line',
           data: []
         },
         {
-          name: '今日群流失好友数',
+          name: '群流失客户数',
           type: 'line',
           data: []
         }
