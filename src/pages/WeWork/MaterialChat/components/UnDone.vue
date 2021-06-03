@@ -87,7 +87,7 @@
                 </el-table-column>
                 <el-table-column prop="post" label="岗位">
                   <template slot-scope="scope">{{
-                    scope.row.post || '-'
+                    transPost(scope.row.post)
                   }}</template>
                 </el-table-column>
                 <el-table-column prop="shopNamesStr" label="所属门店">
@@ -168,6 +168,16 @@ export default {
     }
   },
   methods: {
+    transPost (val) {
+      if (val === 1) {
+        return '店长'
+      } else if (val === 2) {
+        return '客服'
+      } else if (val === 0) {
+        return '导购'
+      }
+      return '-'
+    },
     getRowKey (row) {
       return row.id
     },
