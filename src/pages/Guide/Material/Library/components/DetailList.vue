@@ -69,7 +69,7 @@
                     </el-table-column>
                     <el-table-column prop="post" label="岗位">
                       <template slot-scope="scope">{{
-                        scope.row.post || '-'
+                        transPost(scope.row.post)
                       }}</template>
                     </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
@@ -181,7 +181,7 @@
                     </el-table-column>
                     <el-table-column prop="post" label="岗位">
                       <template slot-scope="scope">{{
-                        scope.row.post || '-'
+                        transPost(scope.row.post)
                       }}</template>
                     </el-table-column>
                     <el-table-column prop="shopNamesStr" label="所属门店">
@@ -283,6 +283,16 @@ export default {
     }
   },
   methods: {
+    transPost (val) {
+      if (val === 1) {
+        return '店长'
+      } else if (val === 2) {
+        return '客服'
+      } else if (val === 0) {
+        return '导购'
+      }
+      return '-'
+    },
     handleChangeShop (value) {
       this.shopIds = value
       if (this.shopIds.length > 0) {
@@ -653,8 +663,8 @@ export default {
 .output-file-view {
   width: 116px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   font-size: 14px;
   color: #595959;
