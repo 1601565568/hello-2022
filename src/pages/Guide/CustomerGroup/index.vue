@@ -54,14 +54,14 @@
             </div>
             <div>
               <el-form :inline="true" class="form-inline_top">
-                <el-form-item label="选择员工：">
+                <el-form-item label="员工：">
                   <NsGuideDialog
                     :selfBtn='true'
                     :appendToBody='true'
                     :isButton="false"
                     :auth="true"
                     type="primary"
-                    btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}" :showTitleTip='false'>
+                    btnTitle="" dialogTitle="员工" v-model="guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}" :showTitleTip='false'>
                     <template slot='selfBtn'>
                       <div class='self-btn'>
                         {{(guideIds && guideIds.length)?`已选择${guideIds.length}个员工`:'不限'}}
