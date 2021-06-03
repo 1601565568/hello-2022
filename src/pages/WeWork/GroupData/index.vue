@@ -512,6 +512,7 @@ export default {
       this.ownerFlag = val
     },
     selectTodayClick (val) {
+      this.datePickerArr = []
       this.selectToday = val === 'seven'
       const startTime = this.selectToday ? this.last7 : this.lart30
       this.showTodaySelect = true

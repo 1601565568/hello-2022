@@ -615,6 +615,7 @@ export default {
     },
     // 选择日期
     selectTodayClick (val) {
+      this.datePickerArr = []
       this.selectToday = val === 'seven'
       const startTime = this.selectToday ? this.last7 : this.lart30
       this.showTodaySelect = true
