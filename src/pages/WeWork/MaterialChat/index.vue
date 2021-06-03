@@ -259,7 +259,7 @@ export default {
             '每日素材下载次数',
             '每日素材补全次数'
           ],
-          left: '0',
+          left: 'center',
           bottom: '9%',
           icon: 'roundRect',
           itemWidth: 10,
