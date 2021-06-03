@@ -84,7 +84,9 @@
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <div class="remind-data-view">
-            <div v-if="activeName==='second'">统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}</div>
+            <div v-if="activeName === 'second'">
+              统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
+            </div>
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
           <el-tab-pane label="按日期统计" name="first">
@@ -133,7 +135,7 @@
               </page-table>
             </div>
             <div v-else>
-              <NoData/>
+              <NoData />
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
@@ -204,7 +206,7 @@
               </page-table>
             </div>
             <div v-else>
-              <NoData/>
+              <NoData />
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -602,37 +604,31 @@ export default {
               {
                 name: '素材发送次数总计',
                 type: 'line',
-                stack: '总量',
                 data: sendTotal
               },
               {
                 name: '素材下载总次数',
                 type: 'line',
-                stack: '总量',
                 data: downTotal
               },
               {
                 name: '素材补全总次数',
                 type: 'line',
-                stack: '总量',
                 data: addTotal
               },
               {
                 name: '每日素材发送次数',
                 type: 'line',
-                stack: '总量',
                 data: ySendTotal
               },
               {
                 name: '每日素材下载次数',
                 type: 'line',
-                stack: '总量',
                 data: yDownTotal
               },
               {
                 name: '每日素材补全次数',
                 type: 'line',
-                stack: '总量',
                 data: yAddTotal
               }
             ]
