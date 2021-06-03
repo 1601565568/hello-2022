@@ -135,7 +135,6 @@ export default {
   },
   methods: {
     handleChangePopoverShow (popoverShow = !this.popoverShow) {
-      console.log(popoverShow)
       this.popoverShow = popoverShow
     },
     /**
