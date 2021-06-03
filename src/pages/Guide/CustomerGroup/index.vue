@@ -427,7 +427,7 @@ export default {
         this.startTime = this.selectToday ? this.last7 : this.lart30
         this.endTime = this.today
       }
-      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
+      let arrList = this.guideIds.length > 0 ? this.guideIds : []
       const parms = {
         guideIds: arrList.join(','),
         endTime: this.endTime,
@@ -496,7 +496,7 @@ export default {
         this.startTime = this.selectToday ? this.last7 : this.lart30
         this.endTime = this.today
       }
-      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
+      let arrList = this.guideIds.length > 0 ? this.guideIds : []
       const parms = {
         searchMap: {
           guideIds: arrList.join(','),
@@ -529,7 +529,7 @@ export default {
         this.startTime = this.selectToday ? this.last7 : this.lart30
         this.endTime = this.today
       }
-      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
+      let arrList = this.guideIds.length > 0 ? this.guideIds : []
       const parms = {
         searchMap: {
           guideIds: arrList.join(','),
@@ -629,8 +629,9 @@ export default {
       }
     },
     // 选择员工之后的图标刷新请求
-    handleChangeGuide (value) {
-      this.guideIds = [].concat(value)
+    changeSearchfrom (value) {
+      this.guideIds = value.guideIds
+      console.log(this.guideIds, 99)
       this.initPageData()
       this.loadChatList()
       if (this.checkId === 1) {
@@ -671,7 +672,7 @@ export default {
         this.startTime = this.selectToday ? this.last7 : this.lart30
         this.endTime = this.today
       }
-      let arrList = (this.guideIds.length > 0 && this.guideIds.map(item => item.id)) || []
+      let arrList = this.guideIds.length > 0 ? this.guideIds : []
       const parms = {
         guideIds: arrList.join(','),
         endTime: this.endTime,
