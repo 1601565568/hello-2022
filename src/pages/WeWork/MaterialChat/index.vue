@@ -4,7 +4,7 @@
       <div class="top-view">
         <div class="title">
           素材库累计数据
-          <span class="sub-title">（数据统计至前一日）</span>
+          <span class="sub-title">（数据统计至昨日）</span>
         </div>
         <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
