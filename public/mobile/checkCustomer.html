@@ -55,9 +55,7 @@
         }).then(function (result) {
             if (result.success) {
                 let host = 'https://sandbox-sg-h5-v6.vecrp.com'
-                if (process.env.NODE_ENV === 'development') {
-                    host = host + '/H5mobile/#/pages/mobile/userAgreement/index'
-                }
+                host = host + '/H5mobile/#/pages/mobile/userAgreement/index'
                 if (result.result.isMember) {
                     // 跳转到会员开卡页面
                     window.location.replace(result.result.url)
