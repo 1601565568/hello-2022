@@ -62,6 +62,7 @@ export default {
       overflow: hidden;
       font-size: 14px;
       font-weight: bold;
+      line-height: 20px;
       color: #262626;
       display: -webkit-box;
       -webkit-box-orient: vertical;
