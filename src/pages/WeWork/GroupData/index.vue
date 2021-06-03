@@ -94,7 +94,7 @@
               </div>
             </div> -->
           </div>
-          <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button>
+          <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="drawer-output" @click="outputCsvFile">
             导出CSV文件
           </div>

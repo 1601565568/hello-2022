@@ -73,7 +73,7 @@
               </el-form>
             </div>
           </div>
-          <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button>
+          <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="outputCsvFile" @click="outputCsvFile">
             导出CSV文件
           </div>
