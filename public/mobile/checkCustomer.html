@@ -61,7 +61,7 @@
                     window.location.href = result.result.url
                 } else {
                     // 如果不是会员 就跳转到隐私协议
-                    window.location.href = host+'?url='+encodeURIComponent(result.result.url)+'&env=' + 'process.env.NODE_ENV'
+                    window.location.href = host+'?url='+encodeURIComponent(result.result.url)+'&env=' + process.env.NODE_ENV
                 }
             } else {
                 // 跳转错误页
