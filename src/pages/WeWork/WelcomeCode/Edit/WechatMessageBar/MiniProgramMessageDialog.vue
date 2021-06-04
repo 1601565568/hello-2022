@@ -16,7 +16,7 @@
           <el-popover
             placement="bottom-start"
             width="360"
-            trigger="click"
+            trigger="hover"
           >
             <template slot="reference">
               <Icon type="ns-help" class="icon"/>
