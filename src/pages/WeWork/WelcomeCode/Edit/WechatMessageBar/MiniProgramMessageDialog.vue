@@ -10,6 +10,23 @@
       modal-append-to-body
       append-to-body
     >
+      <template slot="title">
+        <div class="title">
+          小程序
+          <el-popover
+            placement="bottom-start"
+            width="360"
+            trigger="click"
+          >
+            <template slot="reference">
+              <Icon type="ns-help" class="icon"/>
+            </template>
+            <div class="ns-help-box">
+              <img src="./images/miniprogram.png" alt="">
+            </div>
+          </el-popover>
+        </div>
+      </template>
       <div class="margin-lr-small">
         <ElForm :rules="rules" ref="searchform" :model="defaultModel">
           <ElFormItem>
@@ -276,6 +293,18 @@ export default {
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+  .title {
+    line-height: 24px;
+    font-size: 16px;
+    color: #33393e;
+  }
+
+  .ns-help-box {
+    margin: 10px 14px;
+    img {
+      width: 100%;
+    }
+  }
 
   /* 视频样式设置 start */
   .avatar-uploader {
