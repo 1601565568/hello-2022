@@ -113,6 +113,7 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
+                  v-loading='loadingData'
                   :data="listDate"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
@@ -148,6 +149,7 @@
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
+                  v-loading="loading"
                   :data="listPerson"
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
@@ -195,6 +197,8 @@ export default {
   components: { PageTable, NsEcharts, ColorfulDisplay },
   data () {
     return {
+      loading: false,
+      loadingData: false,
       checkId: 1,
       endTime: '',
       startTime: '',
@@ -404,12 +408,12 @@ export default {
     initPageData () {
       this.paginationToDate = {
         ...this.paginationToDate,
-        size: 10,
+        size: 15,
         page: 1
       }
       this.paginationToPerson = {
         ...this.paginationToPerson,
-        size: 10,
+        size: 15,
         page: 1
       }
     },
@@ -588,12 +592,14 @@ export default {
         this.listDate = []
         this.paginationToDate.total = 0
       }
+      this.loadingData = true
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.analysis_page_list_by_date, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
             const arr = json.data || []
+            this.loadingData = false
             this.listDate = arr
             this.paginationToDate.total = parseInt(res.result.recordsTotal)
           }
@@ -621,12 +627,14 @@ export default {
         this.listPerson = []
         this.paginationToPerson.total = 0
       }
+      this.loading = true
       this.$http
         .fetch(this.$api.weWork.weWorkRooms.analysis_page_list_by_user, parms)
         .then(res => {
           if (res.success) {
             const json = res.result
             const arr = json.data || []
+            this.loading = false
             this.listPerson = arr
             this.paginationToPerson.total = parseInt(res.result.recordsTotal)
           }
@@ -736,6 +744,7 @@ export default {
         .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: '' })
         .then(resp => {
           this.chatRoomOwner = resp.result
+          this.chatRoomOwner.unshift({ value: '不限', label: '不限' })
         })
         .catch(resp => {})
     },
