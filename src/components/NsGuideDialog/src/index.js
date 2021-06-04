@@ -20,6 +20,13 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否支持按区域选中0 - 不支持， 1-支持
+    switchAreaFlag: {
+      type: Number,
+      default: function () {
+        return 0
+      }
+    },
     dialogTitle: {
       type: String,
       default: '选择员工'
@@ -268,6 +275,7 @@ export default {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
+      // console.log(this.switchAreaFlag, 9988)
       let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
       this.setParam(param)
       // 请求获取员工数据
@@ -323,6 +331,7 @@ export default {
      */
     setParam (param) {
       param.auth = vm.auth
+      param.switchAreaFlag = vm.switchAreaFlag
       if (vm.departData.name) {
         param.empName = vm.departData.name
       }
@@ -518,7 +527,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {

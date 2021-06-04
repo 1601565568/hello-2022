@@ -201,22 +201,22 @@ export default {
       dataList: [
         {
           key: 'chat_totals',
-          nick: '今日总群数',
+          nick: '昨日总群数',
           value: 0
         },
         {
           key: 'member_totals',
-          nick: '群管理客户数',
+          nick: '昨日群管理好友数',
           value: 0
         },
         {
           key: 'new_member_cnts',
-          nick: '群新增客户数',
+          nick: '昨日群新增好友数',
           value: 0
         },
         {
           key: 'member_loss_cnts',
-          nick: '群流失客户数',
+          nick: '昨日群流失好友数',
           value: 0
         }
       ],
@@ -240,10 +240,10 @@ export default {
         },
         legend: {
           data: [
-            '今日总群数',
-            '群管理客户数',
-            '群新增客户数',
-            '群流失客户数'
+            '昨日总群数',
+            '群管理好友数',
+            '群新增好友数',
+            '群流失好友数'
           ],
           left: '0',
           bottom: '9%',
@@ -659,22 +659,22 @@ export default {
     setDefaultChartData () {
       return [
         {
-          name: '今日总群数',
+          name: '昨日总群数',
           type: 'line',
           data: []
         },
         {
-          name: '群管理客户数',
+          name: '群管理好友数',
           type: 'line',
           data: []
         },
         {
-          name: '群新增客户数',
+          name: '群新增好友数',
           type: 'line',
           data: []
         },
         {
-          name: '群流失客户数',
+          name: '群流失好友数',
           type: 'line',
           data: []
         }
