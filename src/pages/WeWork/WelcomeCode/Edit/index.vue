@@ -158,7 +158,7 @@ export default {
       this.welcomeMessage = {
         type: WelcomeMessageType.Text, // 文本消息即欢迎语，默认显示处理
         content: {
-          content: this.$refs.TagAreaText.htmlToString(this.model.content),
+          content: this.$refs.TagAreaText.htmlToString(this.model.content, false),
           htmlContent: this.model.content,
           textContent: this.$refs.TagAreaText.htmlToText(this.model.content)
         }
@@ -286,7 +286,7 @@ export default {
           .then(resp => {
             this.model = {
               ...resp.result,
-              content: this.$refs.TagAreaText.stringTohtml(resp.result.content)
+              content: this.$refs.TagAreaText.stringTohtml(resp.result.content, false)
             }
             this.$refs.TagAreaText.$refs[this.$refs.TagAreaText.className].innerHTML = this.model.content
           }).catch(resp => {
@@ -300,7 +300,7 @@ export default {
           this.loading = true
           this.$http.fetch(this.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, {
             ...this.model,
-            content: this.$refs.TagAreaText.htmlToString(this.model.content)
+            content: this.$refs.TagAreaText.htmlToString(this.model.content, false)
           })
             .then(resp => {
               if (resp.success) {

@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-06-04 10:01:07
+ * @LastEditTime: 2021-06-04 18:25:35
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { WelcomeMessageType, WelcomeMessageTypeTip } from '../../types'
@@ -69,10 +69,6 @@ export default {
       // 附带内容类型
       annexTypeOptions: [
         {
-          value: WelcomeMessageType.Text,
-          label: '文本'
-        },
-        {
           value: WelcomeMessageType.Image,
           label: '图片'
         },
@@ -90,7 +86,7 @@ export default {
         },
         {
           value: WelcomeMessageType.Poster,
-          label: '海报'
+          label: '二维码海报'
         }
       ]
     }
