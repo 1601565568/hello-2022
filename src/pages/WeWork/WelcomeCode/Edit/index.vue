@@ -22,7 +22,7 @@
                     ref="TagAreaText"
                     :maxlength="1000"
                     :tools='tools'
-                    @inputLength="length => { welcomeInputLength = length }"
+                    @inputLength="tagAreaInputLength"
                     placeholder="请输入欢迎语"
                     emojiClass=''
                   />
@@ -34,24 +34,26 @@
                     @edit="editAnnexMessage"
                   />
                   <el-popover
-                    v-if="model.annexList.length < 9"
                     placement="top-start"
                     width="400"
                     trigger="hover"
+                    :disabled="model.annexList.length >= 9"
                   >
-                    <div slot="reference" class="add-material">
-                      <Icon type="ns-add-border" class="icon"/>
-                      添加消息内容
-                    </div>
+                    <template slot="reference">
+                      <div class="add-material" v-if="model.annexList.length < 9">
+                        <Icon type="ns-add-border" class="icon"/>
+                        添加消息内容
+                      </div>
+                      <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
+                        <Icon type="ns-add-border" class="icon"/>
+                        添加消息内容
+                      </div>
+                    </template>
                     <WechatMessageBar
                       ref="WechatMessageBar"
                       @addMessage="addAnnexMessage"
                     />
                   </el-popover>
-                  <div v-else class="add-material" style="color: #BFBFBF" @click="$notify.error('附件已达上限（9个），不能再添加')">
-                    <Icon type="ns-add-border" style="color: #BFBFBF" class="icon"/>
-                    添加消息内容
-                  </div>
                 </el-form-item>
                 <el-form-item label="使用范围">
                   <div class="select-area">
@@ -106,7 +108,7 @@
                       <div class="select-tips" @click="channelCodeDialogVisible = true">
                         <span v-if="!model.channelCodes.length" class="un-selected">请选择渠道</span>
                         <span v-else class="selected">已选择{{model.channelCodes.length}}个渠道</span>
-                        <Icon type="ns-people" class="icon"/>
+                        <Icon type="channel" class="icon"/>
                       </div>
                   </div>
                 </el-form-item>
@@ -234,9 +236,9 @@ export default {
       },
       // 欢迎语可插入标签
       tools: [
-        { type: 'tag', text: '企业微信员工姓名', id: '{EmployeeNick}', value: '员工姓名' },
-        { type: 'tag', text: '客户微信昵称', id: '{CustomerNick}', value: '客户昵称' },
-        { type: 'tag', text: '企业微信员工别名', id: '{WeworkNickName}', value: '员工别名' }
+        { type: 'tag', text: '企业微信员工姓名', id: 'EmployeeNick', value: '员工姓名' },
+        { type: 'tag', text: '客户微信昵称', id: 'CustomerNick', value: '客户昵称' },
+        { type: 'tag', text: '企业微信员工别名', id: 'WeworkNickName', value: '员工别名' }
       ]
     }
   },
@@ -244,8 +246,15 @@ export default {
     this.getWelcomeCode()
   },
   methods: {
+    tagAreaInputLength (length) {
+      this.welcomeInputLength = length
+      if (length > 0) {
+        this.$refs.ruleForm.clearValidate('content')
+      } else {
+        if (this.$refs.ruleForm) this.$refs.ruleForm.validateField('content')
+      }
+    },
     addAnnexMessage (context) {
-      window.console.log('添加附件消息', context)
       const { index, content, type } = context
       if (index > -1) {
         // 编辑消息
@@ -260,7 +269,6 @@ export default {
       }
     },
     editAnnexMessage (context) {
-      window.console.log('要编辑的附件消息', context)
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context)
     },
     confirmChannelCodes (channelIds) {
@@ -277,9 +285,6 @@ export default {
         })
           .then(resp => {
             this.model = {
-              shopIds: [],
-              employeeIds: [],
-              channelCodes: [],
               ...resp.result,
               content: this.$refs.TagAreaText.stringTohtml(resp.result.content)
             }
@@ -290,9 +295,7 @@ export default {
       }
     },
     saveWelcome () {
-      window.console.log('保存欢迎语', this.model)
       this.$refs.ruleForm.validate(async (valid) => {
-        window.console.log('保存是否合法', valid)
         if (valid) {
           this.loading = true
           this.$http.fetch(this.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, {
@@ -387,6 +390,12 @@ export default {
         font-size: 13px;
         color:#0091FA;
         margin-right: 5px;
+      }
+    }
+    .add-material-disabled {
+      color: #BFBFBF;
+      .icon {
+        color:#BFBFBF;
       }
     }
     .add-tip::before {

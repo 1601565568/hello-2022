@@ -69,24 +69,26 @@
             <template slot='collapse-left'>
               <el-form-item label="素材" prop="contentList" required>
                 <el-popover
-                  v-if="model.contentList.length < 10"
                   placement="top-start"
                   width="480"
                   trigger="hover"
+                  :disabled="model.contentList.length >= 10"
                 >
-                  <div slot="reference" class="add-material">
-                    <Icon type="ns-add-border" class="icon"/>
-                    添加消息内容
-                  </div>
+                  <template slot="reference">
+                    <div v-if="model.contentList.length < 10" class="add-material">
+                      <Icon type="ns-add-border" class="icon"/>
+                      添加消息内容
+                    </div>
+                    <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
+                      <Icon type="ns-add-border" class="icon"/>
+                      添加消息内容
+                    </div>
+                  </template>
                   <WechatMessageBar
                     ref="WechatMessageBar"
                     @addMessage="addMessage"
                   />
                 </el-popover>
-                <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
-                  <Icon type="ns-add-border" class="icon"/>
-                  添加消息内容
-                </div>
                 <span class="add-tip label-gap">最多添加10条消息，图片最大2M，视频最大10M</span>
               </el-form-item>
               <el-form-item>

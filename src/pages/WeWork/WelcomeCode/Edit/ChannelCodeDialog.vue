@@ -66,14 +66,10 @@ export default {
         })
     },
     confirm () {
-      if (this.channelIds.length) {
-        this.loading = true
-        this.$emit('confirm', this.channelIds)
-        this.cancel()
-        this.loading = false
-      } else {
-        this.$notify.error('请选择渠道')
-      }
+      this.loading = true
+      this.$emit('confirm', this.channelIds)
+      this.cancel()
+      this.loading = false
     }
   }
 }

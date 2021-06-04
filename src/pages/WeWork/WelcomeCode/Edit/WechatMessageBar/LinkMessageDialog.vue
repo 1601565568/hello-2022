@@ -65,13 +65,16 @@
         clearable
         show-word-limit
       >
+        <el-input
+          ref="linkModelLink"
+          type="textarea"
+          :disabled="defaultModel.custom === 2"
+          v-model="defaultModel.link"
+        />
+      </el-form-item>
+       <el-form-item
+      >
         <el-form-grid>
-          <el-input
-            ref="linkModelLink"
-            type="textarea"
-            :disabled="defaultModel.custom === 2"
-            v-model="defaultModel.link"
-          />
           <span v-for="(item, index) in placeholderLink" :key="index">
             <ns-button v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
           </span>
@@ -88,7 +91,7 @@
       >
         <el-form-grid size="xxmd">
           <el-input
-            :disabled="editable"
+            :disabled="disabled"
             type="text"
             maxlength="20"
             minlength="1"
@@ -106,7 +109,7 @@
       >
         <el-form-grid size="xxmd">
           <el-input
-            :disabled="editable"
+            :disabled="disabled"
             type="text"
             maxlength="50"
             minlength="1"
@@ -119,7 +122,7 @@
       </el-form-item>
       <el-form-item label="封面图：" prop="image" label-width="100px" class="el-form-validate__box">
         <el-upload
-          :disabled="editable"
+          :disabled="disabled"
           :action="uploadUrl"
           accept="image/jpeg,image/gif,image/png"
           :show-file-list="false"
@@ -191,32 +194,11 @@ export default {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
     }
   },
-  watch: {
-    'defaultModel.settingId': function (o1) {
-      if (this.defaultModel.custom === 1) {
-        this.editable = false
-        return
-      }
-      if (o1) {
-        this.presetLink.forEach((value) => {
-          if (value.id === o1) {
-            if (value.edit) {
-              this.editable = false
-            } else {
-              this.editable = true
-            }
-          }
-        })
-      } else {
-        this.edit = false
-      }
-    }
-  },
   data () {
     return {
       brandDialogVisible: false,
       uploadUrl: this.$api.core.sgUploadFile('message'),
-      editable: false,
+      disabled: false,
       // 系统预置链接集合
       presetLink: [],
       defaultModel: {
@@ -363,6 +345,12 @@ export default {
     open () {
       if (this.content !== null) {
         this.defaultModel = { ...this.content }
+
+        if (this.defaultModel.custom === 2) {
+          this.disabled = true
+        } else {
+          this.disabled = false
+        }
       }
 
       this.getSystemPresetLink()
@@ -376,6 +364,14 @@ export default {
         desc: '', // H5消息摘要
         image: '', // H5消息封面图片URL
         brandId: null
+      }
+
+      this.$refs.searchform.clearValidate()
+
+      if (this.defaultModel.custom === 2) {
+        this.disabled = true
+      } else {
+        this.disabled = false
       }
     },
     // 关闭弹框
