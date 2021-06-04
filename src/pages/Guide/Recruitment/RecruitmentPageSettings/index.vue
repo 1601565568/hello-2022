@@ -88,11 +88,11 @@
               南讯将统一提供用户协议，请上传隐私政策和会员规则
             </div>
             <el-form-item label='隐私政策' required prop='rgPrivacyPolicyUrl'>
-              <plain-upload :maxSize='2' v-model='model.rgPrivacyPolicyUrl'></plain-upload>
+              <plain-upload :maxSize='10' v-model='model.rgPrivacyPolicyUrl'></plain-upload>
               <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
             <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
-              <plain-upload :maxSize='2' v-model='model.rgMemberRuleUrl'></plain-upload>
+              <plain-upload :maxSize='10' v-model='model.rgMemberRuleUrl'></plain-upload>
               <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
           </template>

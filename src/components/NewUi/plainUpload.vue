@@ -98,7 +98,7 @@ export default {
       const { name = '' } = file
       const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
       if (!this.imgType.includes(toUpperCaseName)) {
-        this.$notify.error(`仅支持${this.imgType.join('/')}上传的PDF格式`)
+        this.$notify.error(`仅支持上传${this.imgType.join('/')}的格式`)
         return false
       }
       if (file.size / 1024 / 1024 > this.maxSize) {
