@@ -49,7 +49,7 @@
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
-              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="departData.shopArea" clearable></ns-droptree>
+              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" :multiple="false" v-model="departData.shopArea" :clearable='false'></ns-droptree>
             </el-form-grid>
             <el-form-grid style="margin-left:10px">
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
