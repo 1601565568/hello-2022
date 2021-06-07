@@ -1,25 +1,6 @@
 <template>
   <div class="w-textarea" ref="wTextarea">
-    <span
-      :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
-      v-if="maxlength"
-    >
-      {{ count.text }}
-    </span>
-    <div class="w-textarea_tools__emoji" v-if="showEmoji">
-      <el-popover width="447" trigger="hover">
-        <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
-        <!-- 可通过 emojiList 传入自定义的图标列表 -->
-        <emotion @emotion="addEmotion" :height="200" ref="emotion" />
-      </el-popover>
-    </div>
-    <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
-      <el-popover trigger="hover">
-        <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
-        <!-- 可通过 emojiList 传入自定义的图标列表 -->
-        <VEmojiPicker :pack="pack" @select="selectEmoji" />
-      </el-popover>
-    </div>
+    <!-- 标签列表 start -->
     <div class="w-textarea_tools" v-if="tools.length > 0">
       <div class="w-textarea_tools_left">
         <el-tooltip
@@ -46,22 +27,139 @@
       </div>
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
+    <!-- 标签列表 end -->
+    <!-- 内容输入区域 start -->
     <div
       :class="`w-textarea_input ${className} ${disabled ? 'disabled' : ''}`"
       :contenteditable='contenteditable'
+      :placeholder="placeholder"
       :ref="className"
       :id="contentId"
       @blur="handleBlur()"
+      @focus="handleFouce"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
+    <!-- 内容输入区域 end -->
+    <!-- 字数限制 start -->
+    <span
+      :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
+      v-if="maxlength"
+    >
+      {{ count.text }}
+    </span>
+    <!-- 字数限制 end -->
+    <!-- 图片表情 start -->
+    <div class="w-textarea_tools__emoji" v-if="showEmoji">
+      <el-popover width="447" trigger="hover">
+        <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
+        <!-- 可通过 emojiList 传入自定义的图标列表 -->
+        <emotion @emotion="addEmotion" :height="200" ref="emotion" />
+      </el-popover>
+    </div>
+    <!-- 图片表情 end -->
+    <!-- 字体表情 start -->
+    <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
+      <el-popover trigger="hover">
+        <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
+        <!-- 可通过 emojiList 传入自定义的图标列表 -->
+        <VEmojiPicker :pack="pack" @select="selectEmoji" />
+      </el-popover>
+    </div>
+    <!-- 字体表情 end -->
   </div>
 </template>
-
 <script>
 import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
+export const toolFn = {
+  getEmijoList () {
+    return ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '囧', '抓狂', '吐', '偷笑', '愉快', '白眼', '傲慢', '困', '惊恐', '流汗', '憨笑', '悠闲', '奋斗', '咒骂', '疑问', '嘘', '晕', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '可怜', '菜刀', '西瓜', '啤酒', '咖啡', '猪头', '玫瑰', '凋谢', '嘴唇', '爱心', '心碎', '蛋糕', '炸弹', '便便', '月亮', '太阳', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', 'OK', '跳跳', '发抖', '怄火', '转圈', '笑脸', '生病', '破涕为笑', '吐舌', '脸红', '恐惧', '失望', '无语', '嘿哈', '捂脸', '奸笑', '机智', '皱眉', '耶', '吃瓜', '加油', '汗', '天啊', 'Emm', '社会社会', '旺柴', '好的', '打脸', '加油加油', '哇', '翻白眼', '666', '让我看看', '叹气', '苦涩', '裂开', '鬼魂', '合十', '强壮', '庆祝', '礼物', '红包', '發', 'Blessing']
+  },
+  // 生成随机ID
+  getGuid () {
+    return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`
+  },
+  /**
+   * 替换标签成模板
+   * hasBracket 是否带括号 默认true
+   */
+  htmlToString (html, hasBracket = true) {
+    const pre = hasBracket ? '{' : ''
+    const after = hasBracket ? '}' : ''
+    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+  },
+  // 替换标签成文字
+  htmlToText (html) {
+    return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+  },
+  /**
+   * 替换模板成标签
+   * hasBracket 是否带括号 默认true
+   * replaceData @param {tools,emojiClass,showEmoji} 如果不传取上下文中的对应值
+   */
+  stringTohtml (string, hasBracket = true, replaceData) {
+    const pre = hasBracket ? '{' : ''
+    const after = hasBracket ? '}' : ''
+    let { tools = [], emojiClass = 'EMOJI_', showEmoji = true } = this
+    if (Object.prototype.toString.call(replaceData) === '[object Object]') {
+      tools = replaceData.tools || tools
+      emojiClass = replaceData.emojiClass || emojiClass
+      showEmoji = replaceData.showEmoji || showEmoji
+    }
+    if (showEmoji) {
+      toolFn.getEmijoList().map(item => {
+        const regexp = new RegExp(
+          pre + emojiClass + '\\[' + item + '\\]' + after,
+          'g'
+        )
+        string = string.replace(
+          regexp,
+          `<wise id="${toolFn.getGuid()}" class="${
+            emojiClass
+          }[${item}]">${`[${item}]`}</wise>`
+        )
+      })
+    }
+    tools.map(item => {
+      const regexp = new RegExp(pre + item.id + after, 'g')
+      string = string.replace(
+        regexp,
+        `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
+      )
+    })
+    return string.replace(/\n/g, '<br/>')
+  },
+  /**
+   * 替换模板成文字
+   * replaceData @param {tools,emojiClass,showEmoji} 如果不传取上下文中的对应值
+   */
+  stringTotext (string, replaceData) {
+    let { tools = [], emojiClass = 'EMOJI_', showEmoji = true } = this
+    if (Object.prototype.toString.call(replaceData) === '[object Object]') {
+      tools = replaceData.tools || tools
+      emojiClass = replaceData.emojiClass || emojiClass
+      showEmoji = replaceData.showEmoji || showEmoji
+    }
+    tools.map(item => {
+      const regexp = new RegExp('{' + item.id + '}', 'g')
+      string = string
+        .replace(regexp, '{' + item.value + '}')
+        .replace(/\n/g, ' <br /> ')
+    })
+    if (showEmoji) {
+      toolFn.getEmijoList().map(item => {
+        const regexp = new RegExp(
+          '{' + this.emojiClass + '\\[' + item + '\\]}',
+          'g'
+        )
+        string = string.replace(regexp, `[${item}]`)
+      })
+    }
+    return string
+  }
+}
 export default {
   name: 'wTextarea',
   data () {
@@ -74,28 +172,34 @@ export default {
       isLocked: false,
       // 记录当前选中tag的ID
       currentTagId: null,
-      // 当前光标位置
+      // 输入框对象
       savedRange: {},
+      // 当前光标位置
       endOffset: -1,
+      // 光标元素
       endDon: null,
-      isFrist: true,
+      // 字符表情插件的数据
       pack: packData.data
     }
   },
   components: { Emotion, VEmojiPicker },
   props: {
+    // 输入框类名 如页面由多个组件必传
     className: {
       type: String,
       default: 'w-textarea__input'
     },
+    // 输入框值
     value: {
       type: String,
       default: ''
     },
+    // 默认展示图片表情
     showEmoji: {
       type: Boolean,
       default: true
     },
+    // 默认展示字体表情
     showTextEmoji: {
       type: Boolean,
       default: true
@@ -103,29 +207,31 @@ export default {
     tag: {
       // 自定义模版标签的标签名
       type: String,
-      // 默认使用wise作为标签名，并添加了默认样式
-      // 当使用其他标签名的时候，需要另写标签样式
       default: 'wise'
     },
+    // 输入框上方表情
     tools: {
-      // 自定义扩展功能：超链接'link'，模版标签'tag' 自定义类型'custom'：需传入自定义的回调函数
       type: Array,
       default () {
         return []
       }
     },
+    // 原始属性 placeholder
     placeholder: {
       type: String
     },
+    // 最大长度
     maxlength: {
       // 最大输入长度
       type: [String, Number],
       default: ''
     },
+    // 禁用
     disabled: {
       type: Boolean,
       default: false
     },
+    // 图片表情占位符前缀，h5端如果是微信自己发送的需要传""
     emojiClass: {
       default: 'EMOJI_'
     }
@@ -152,7 +258,6 @@ export default {
   },
   mounted () {
     // 初始化数据
-    // this.currentText && (this.$refs.wTextareaContent.innerHTML = this.currentText)
     // 创建模版标签的style
     this.createStyle()
     // 每次光标变化的时候，保存 range
@@ -168,6 +273,7 @@ export default {
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
+    // 添加图片表情
     addEmotion: function (val) {
       // 创建模版标签
       let node = document.createElement(this.tag)
@@ -178,9 +284,9 @@ export default {
       node.className = this.emojiClass + val
       this.insertNode(node)
     },
+    // 添加字体表情
     selectEmoji (val) {
-      const extNode = document.createTextNode(val.emoji)
-      this.insertNode(extNode)
+      this.addText(val.emoji)
     },
     updateData (text) {
       this.$emit('input', text)
@@ -195,24 +301,7 @@ export default {
       `
       this.$refs.wTextarea.appendChild(style)
     },
-    closeModal () {
-      this.form.text = ''
-      this.showModal = false
-    },
     openTagDialog (item) {
-      // 将事件抛给父组件处理
-      // 处理后需要调用 addTag() 或者 addLink() 将内容传回来
-      // this.$emit('add', item)
-      // // 处理后需要调用 addTag()、addLink() 或 addText() 将内容传回来
-      // if (item.type === 'custom') {
-      //   // 会调用传入的回调函数字段 callback
-      //   item.callback(item)
-      // } else if (item.type === 'link') {
-      //   this.addLink(item.text, item.url)
-      // } else {
-      //   this.addTag(item)
-      // }
-
       this.addTag(item)
     },
     addTag (item) {
@@ -237,11 +326,11 @@ export default {
      * 向输入框中插入纯文本
      */
     addText (text) {
-      let node = document.createElement('text')
-      node.innerText = text
-      this.insertNode(node)
+      const extNode = document.createTextNode(text)
+      this.insertNode(extNode)
     },
     insertNode (node) {
+      this.isLocked = true
       // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
         const dom = document.getElementsByClassName(`${this.className}`)[0]
@@ -254,15 +343,7 @@ export default {
       }
     },
     addNode (node) {
-      // 在内容中插入标签
-      // 删掉选中的内容（如有）
-      // this.savedRange.deleteContents()
-      // 插入链接
-      // for (var s in this.endDon) {
-      //   console.log(s, this.endDon[s])
-      // }
-      // this.savedRange.setStart(this.endDon, this.endOffset)
-      // console.log(this.savedRange)
+      // 添加内容
       if (this.disabled) {
         return false
       }
@@ -285,6 +366,9 @@ export default {
       this.updateData(target.innerHTML)
       this.currentText = target.innerText
     },
+    handleFouce () {
+      this.isLocked = true
+    },
     handleDelete (e) {
       // 监听“删除”事件
       if (this.currentTagId) {
@@ -298,26 +382,8 @@ export default {
       }
     },
     handleBlur () {
-      this.isLocked = false
       this.$emit('handleBlur')
     },
-    // inputClick (e) {
-    //   // 监听点击事件
-    //   this.isLocked = true
-    //   const TAG_NAME = e.target.nodeName
-    //   if (TAG_NAME === this.tag.toUpperCase()) {
-    //     // 点击模版标签时，记录id
-    //     this.currentTagId = e.target.id
-    //     e.target.className = 'active'
-    //   } else if (this.currentTagId) {
-    //     // 清空active样式
-    //     let target = document.getElementById(this.currentTagId)
-    //     target.className = ''
-    //     this.currentTagId = null
-    //   } else {
-    //     this.currentTagId = null
-    //   }
-    // },
     getGuid () {
       // 生成随机ID
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`
@@ -344,72 +410,27 @@ export default {
      * hasBracket 是否带括号 默认true
      */
     htmlToString (html, hasBracket = true) {
-      const pre = hasBracket ? '{' : ''
-      const after = hasBracket ? '}' : ''
-      return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+      return toolFn.htmlToString.call(this, html, hasBracket)
     },
     /**
      * 替换模板成标签
      * hasBracket 是否带括号 默认true
      */
     stringTohtml (string, hasBracket = true) {
-      const pre = hasBracket ? '{' : ''
-      const after = hasBracket ? '}' : ''
-      if (this.$refs.emotion) {
-        this.$refs.emotion.emojiList.map(item => {
-          const regexp = new RegExp(
-            pre + this.emojiClass + '\\[' + item + '\\]' + after,
-            'g'
-          )
-          string = string.replace(
-            regexp,
-            `<wise id="${this.getGuid()}" class="${
-              this.emojiClass
-            }[${item}]">${`[${item}]`}</wise>`
-          )
-        })
-      }
-      this.tools.map(item => {
-        const regexp = new RegExp(pre + item.id + after, 'g')
-        string = string.replace(
-          regexp,
-          `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
-        )
-      })
-      return string.replace(/\n/g, '<br/>')
+      return toolFn.stringTohtml.call(this, string, hasBracket)
     },
     // 替换模板成文字
     stringTotext (string) {
-      this.tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string
-          .replace(regexp, '{' + item.value + '}')
-          .replace(/\n/g, ' <br /> ')
-      })
-      if (this.$refs.emotion) {
-        this.$refs.emotion.emojiList.map(item => {
-          const regexp = new RegExp(
-            '{' + this.emojiClass + '\\[' + item + '\\]}',
-            'g'
-          )
-          string = string.replace(regexp, `[${item}]`)
-        })
-      }
-      return string
+      return toolFn.stringTotext.call(this, string)
     },
     // 替换标签成文字
     htmlToText (html) {
-      return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+      return toolFn.htmlToText.call(this, html)
     }
   },
   watch: {
     value (val) {
-      // 非锁定状态下，实时更新innerHTML
-      // if (!this.isLocked) {
-      //   // this.$refs.wTextareaContent.innerHTML = val
-      // }
-      // this.$refs.wTextareaContent.innerHTML = val
-      if (this.disabled) {
+      if (!this.isLocked) {
         this.$refs[this.className].innerHTML = val
       }
     }
@@ -546,5 +567,13 @@ $textColor: #595959;
 .emoji-icon {
   font-size: 20px;
   color: #0091FA;
+}
+.w-textarea_input:empty:before{
+  content: attr(placeholder);
+  color: #BFBFBF;
+  font-size: 14px;
+}
+.w-textarea_input:focus:before{
+  content:none;
 }
 </style>

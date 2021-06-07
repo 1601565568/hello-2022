@@ -331,7 +331,7 @@ import contentPreview from './contentPreview.vue'
 import $ from 'jquery'
 import moment from 'moment'
 import NsEmployeeOrCustGroupDialog from '@/components/NsEmployeeOrCustGroupDialog'
-import TagArea from '@/components/NewUi/TagArea'
+import TagArea, { toolFn } from '@/components/NewUi/TagArea'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
@@ -670,8 +670,8 @@ export default {
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
-                vm.model.textarea = this.$refs.testText.stringTohtml(data.content.text, false)
-                vm.$refs.testText.$refs[vm.$refs.testText.className].innerHTML = vm.model.textarea
+                vm.model.textarea = toolFn.stringTohtml.call(this.$refs.testText, data.content.text, false)
+                vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
                 vm.picUrl = data.content.image.image

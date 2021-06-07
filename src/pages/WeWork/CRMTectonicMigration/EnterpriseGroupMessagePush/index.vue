@@ -598,7 +598,6 @@ export default {
             if (data.content) {
               if (data.content.text) {
                 vm.model.textarea = this.$refs.testText.stringTohtml(data.content.text, false)
-                vm.$refs.testText.$refs[vm.$refs.testText.className].innerHTML = vm.model.textarea
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
                 vm.picUrl = data.content.image.image
