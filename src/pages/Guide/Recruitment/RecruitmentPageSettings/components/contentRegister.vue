@@ -5,7 +5,7 @@
       <div class="v_1">{{rgButtonText}}</div>
     </div>
     <div class="u_context">
-      <span class="u_box"></span>我已阅读同意<span class="u_text">《用户协议》《隐私政策》《会员规则》</span></div>
+      <span class="u_box"></span><span class="u_1">我已阅读同意</span><span class="u_text">《隐私政策》《会员规则》</span></div>
   </div>
 </template>
 <script>
@@ -80,7 +80,6 @@ export default {
       height: 18px;
       line-height: 18px;
       color: #595959;
-      transform:scale(0.95);
       display: flex;
       align-items: center;
       .u_box{
@@ -93,6 +92,9 @@ export default {
       }
       .u_text{
         color: #0094FC;
+      }
+      .u_1, .u_text{
+        transform:scale(0.95);
       }
     }
   }

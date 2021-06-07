@@ -97,7 +97,7 @@
             </el-form-item>
           </template>
           <template slot='collapse-right'>
-            <div class='chat-content'>
+            <div class='chat_content'>
               <content-register
                 :rgBackground='model.rgBackground'
                 :rgButtonColor='model.rgButtonColor'
@@ -183,13 +183,16 @@ export default Index
   .recruiting-posters__image {
     width: 100%;
   }
-  .mobile_content,.chat-content {
+  .mobile_content,.chat-content, .chat_content {
     width: 318px;
     height: 515px;
     margin: 0 auto;
     position: relative;
     background-size: cover;
     background-repeat: no-repeat
+  }
+  .chat_content{
+    width: 320px;
   }
   .chat-img {
     position: absolute;
