@@ -45,7 +45,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="checkId === 1 ? pickerOptions : pickerOptions1"
+                :picker-options="pickerOptions1"
                 align="center"
                 @change="datePickerChange"
                 value-format="yyyy-MM-dd"
@@ -224,11 +224,11 @@ export default {
           value: 0
         }
       ],
-      pickerOptions: {
-        disabledDate (time) {
-          return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
-        }
-      },
+      // pickerOptions: {
+      //   disabledDate (time) {
+      //     return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
+      //   }
+      // },
       pickerOptions1: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
