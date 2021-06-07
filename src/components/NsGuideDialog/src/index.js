@@ -199,7 +199,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, store.get('user_area').id))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -213,7 +213,7 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -224,7 +224,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -247,13 +249,22 @@ export default {
      * 获取门店区域，所有门店选项
      */
     getShopAreaAndShop: function () {
+      let isId = ''
+      if (this.echoStore) {
+        isId = store.get('user_area').id
+      }
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
           that.loading = false
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
-          that.shopOptions = resp.result.shopOptions
+          // that.shopOptions = resp.result.shopOptions
+          if (this.echoStore) {
+            that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(isId) > -1)
+          } else {
+            that.shopOptions = resp.result.shopOptions
+          }
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
