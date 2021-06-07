@@ -54,12 +54,14 @@
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {
+                alert(`???+${result.result.isMember}`)
                 let host = result.result.host || 'https://sandbox-sg-h5-v6.vecrp.com'
                 host = host + '/H5mobile/#/pages/mobile/userAgreement/index'
                 if (result.result.isMember) {
                     // 跳转到会员开卡页面
                     window.location.replace(result.result.url)
                 } else {
+                    alert(`不是会员=>${host+'?url='+encodeURIComponent(result.result.url)}`)
                     // 如果不是会员 就跳转到隐私协议
                     // window.location.href = host+'?url='+encodeURIComponent(result.result.url)
                     window.location.replace(host+'?url='+encodeURIComponent(result.result.url))
