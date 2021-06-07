@@ -48,6 +48,10 @@ export default {
     appendToBody: {
       type: Boolean,
       default: false
+    },
+    showTitleTip: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {

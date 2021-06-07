@@ -208,6 +208,7 @@
                       :guideUrl="this.$api.weWork.guide.findGuideList"
                       btnTitle="选择员工"
                       dialogTitle="选择员工"
+                      :showTitleTip='true'
                       v-model="model.employeeIds"
                     ></NsGuideDialog>
                   </ElFormGrid>
