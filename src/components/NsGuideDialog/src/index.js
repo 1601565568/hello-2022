@@ -1,4 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import { Object } from 'core-js'
+import store from 'store/dist/store.legacy.min.js'
 let vm
 export default {
   name: 'NsGuideDialog',
@@ -7,6 +9,12 @@ export default {
     value: {
       default: function () {
         return []
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     guideUrl: {
@@ -149,7 +157,15 @@ export default {
         this.departData.mobile = ''
         this.departData.job = null
         this.departData.selectedDepart = {}
-        this.departData.shopArea = {} // 选择的门店区域
+        if (this.echoStore) {
+          let areaData = store.get('user_area')
+          this.departData.shopArea = {
+            text: areaData.name,
+            value: areaData.id
+          }
+        } else {
+          this.departData.shopArea = {}
+        } // 选择的门店区域
         this.departData.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
@@ -275,7 +291,6 @@ export default {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
-      // console.log(this.switchAreaFlag, 9988)
       let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
       this.setParam(param)
       // 请求获取员工数据

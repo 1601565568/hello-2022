@@ -59,6 +59,7 @@
                     :selfBtn='true'
                     :appendToBody='true'
                     :isButton="false"
+                    :echoStore='true'
                     :auth="true"
                     :switchAreaFlag='1'
                     type="primary"
