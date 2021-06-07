@@ -236,9 +236,9 @@ export default {
       },
       // 欢迎语可插入标签
       tools: [
-        { type: 'tag', text: '企业微信员工姓名', id: 'EmployeeNick', value: '员工姓名' },
-        { type: 'tag', text: '客户微信昵称', id: 'CustomerNick', value: '客户昵称' },
-        { type: 'tag', text: '企业微信员工别名', id: 'WeworkNickName', value: '员工别名' }
+        { type: 'tag', text: '企业微信员工姓名', id: '{EmployeeNick}', value: '员工姓名' },
+        { type: 'tag', text: '客户微信昵称', id: '{CustomerNick}', value: '客户昵称' },
+        { type: 'tag', text: '企业微信员工别名', id: '{WeworkNickName}', value: '员工别名' }
       ]
     }
   },
