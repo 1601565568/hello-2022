@@ -342,6 +342,7 @@ export default {
       if (this.$refs.tagAreaText) {
         const text = this.$refs.tagAreaText.stringTohtml(this.normalDesc)
         this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
+        this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
         this.handleChangePopoverShow(false)
       }
     }
