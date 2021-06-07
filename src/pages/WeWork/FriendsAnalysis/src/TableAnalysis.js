@@ -174,7 +174,9 @@ export default {
         color: ['#0078D7', '#E03D4F', '#1F9E89', '#E76C00', '#9977FF']
       },
       tableData: [],
-      currentPage: 0
+      echartList: [],
+      currentPage: 0,
+      outputClickState: true
     }
   },
   watch: {
@@ -222,6 +224,39 @@ export default {
     resetInputAction: function () {
       this.$resetInputAction$()
     },
+    outputClick () {
+      if (!this.outputClickState) {
+        this.$notify.info('正在导出中，请不要重复操作')
+        return
+      }
+      this.outputClickState = false
+      const csvStartTime = this.model.TheDate[0].replace(/-/g, '')
+      const csvEndTime = this.model.TheDate[1].replace(/-/g, '')
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.weWork.weWorkCustomer.export, that.$generateParams$())
+        .then(resp => {
+          that.outputClickState = true
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          that.outputClickState = true
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let fileName =
+              '好友分析' + csvStartTime + '-' + csvEndTime + '.csv'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     getDate: function (date) {
       let year = date.getFullYear()
       let month = date.getMonth() + 1
@@ -239,28 +274,33 @@ export default {
       this._data.option.series[3].data = []
       this._data.option.series[4].data = []
       this._data.option.legend.data = []
+      this._data.option.legend.selected = {}
       this.$http.fetch(_this.$api.weWork.weWorkCustomer.queryAnalysisListByDateReturnList,
         _this.$generateParams$())
         .then((resp) => {
           if (resp.success) {
+            const json = resp.result || []
+            const arr = json.reverse()
+            this.echartList = arr
             if (resp.result.length > 0) {
               resp.result.map((item) => {
                 this._data.option.legend.data.push('好友总数')
+                this._data.option.legend.selected['好友总数'] = false
                 this._data.option.series[0].name = '好友总数'
-                this._data.option.xAxis[0].data.push(item.analysis_date.substring(0, 10))
-                this._data.option.series[0].data.push(item.customerTotal)
+                this._data.option.xAxis[0].data.push(item.time.substring(0, 10))
+                this._data.option.series[0].data.push(item.contactCnt)
                 this._data.option.legend.data.push('净增人数')
                 this._data.option.series[1].name = '净增人数'
-                this._data.option.series[1].data.push(item.increaseCount)
+                this._data.option.series[1].data.push(item.addContactCnt)
                 this._data.option.legend.data.push('添加人数')
                 this._data.option.series[2].name = '添加人数'
-                this._data.option.series[2].data.push(item.addCount)
+                this._data.option.series[2].data.push(item.newContactCnt)
                 this._data.option.legend.data.push('删除人数')
                 this._data.option.series[3].name = '删除人数'
-                this._data.option.series[3].data.push(item.deleteCount)
+                this._data.option.series[3].data.push(item.positiveFeedbackCnt)
                 this._data.option.legend.data.push('被删除数')
                 this._data.option.series[4].name = '被删除数'
-                this._data.option.series[4].data.push(item.beDeletedCount)
+                this._data.option.series[4].data.push(item.negativeFeedbackCnt)
               })
             }
           }
@@ -278,11 +318,11 @@ export default {
             let deleteCount = 0
             let beDeletedCount = 0
             if (resp.result) {
-              customerTotal = resp.result.customerTotal
-              increaseCount = resp.result.increaseCount
-              addCount = resp.result.addCount
-              deleteCount = resp.result.deleteCount
-              beDeletedCount = resp.result.beDeletedCount
+              customerTotal = resp.result.contactCnt
+              increaseCount = resp.result.addContactCnt
+              addCount = resp.result.newContactCnt
+              deleteCount = resp.result.positiveFeedbackCnt
+              beDeletedCount = resp.result.negativeFeedbackCnt
             }
             _this._data.rowDatas = {
               customerTotal: customerTotal,
@@ -337,10 +377,10 @@ export default {
       this.tableReload(this.$generateParams$())
     },
     $searchAction$: function () {
-      if (this.model.guideIds.length > 1) {
-        this.$notify.warning('选择员工不能超过1个')
-        return false
-      }
+      // if (this.model.guideIds.length > 1) {
+      //   this.$notify.warning('选择员工不能超过1个')
+      //   return false
+      // }
       this._data._table.searchMap = $.extend(true, {}, this.model)
       // 记录搜索的条件
       var prePage = 1
@@ -381,9 +421,9 @@ export default {
     },
     formateTheDate: function (row) {
       if (this.tableRadios === 2) {
-        return row.name
-      } else if (this.tableRadios === 1 && row.analysis_date) {
-        return row.analysis_date.substring(0, 10)
+        return row.guideName
+      } else if (this.tableRadios === 1 && row.time) {
+        return row.time.substring(0, 10)
       }
     },
     analysisSizeChange: function (size) {
