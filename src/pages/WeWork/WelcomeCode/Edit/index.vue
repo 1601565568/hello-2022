@@ -83,7 +83,7 @@
                       :selfBtn='true'
                       :appendToBody='true'
                       :isButton="false"
-                      :auth="false"
+                      :auth="true"
                       type="primary"
                       btnTitle=""
                       dialogTitle="选择员工"
