@@ -297,7 +297,7 @@ export default {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const prizeModel = await this.$refs.setPrize.onSave()
-          // this.btnLoad = true
+          this.btnLoad = true
           if (!prizeModel) {
             this.btnLoad = false
             return false
