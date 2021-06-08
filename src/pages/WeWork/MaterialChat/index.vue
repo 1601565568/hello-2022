@@ -346,6 +346,7 @@ export default {
     }
   },
   methods: {
+    // initPageData
     initPageData () {
       this.paginationToDate = {
         ...this.paginationToDate,
