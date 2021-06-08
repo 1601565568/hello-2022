@@ -621,12 +621,14 @@ export default {
       this.selectToday = false
       this.datePickerValue = [startTime, endTime]
       this.initPageData()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
       this.loadChatList()
+      this.loadDateList()
+      this.loadPersonList()
     },
     // 选择日期
     selectTodayClick (val) {
@@ -637,22 +639,26 @@ export default {
       this.datePickerValue = [startTime, this.today]
       this.initPageData()
       this.loadChatList()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
+      this.loadDateList()
+      this.loadPersonList()
     },
     // 选择员工之后的图标刷新请求
     changeSearchfrom (value) {
       this.guideIds = value.guideIds
       this.initPageData()
       this.loadChatList()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
+      this.loadDateList()
+      this.loadPersonList()
     },
     /**
    * 格式化图表数据 没有值的天数默认0

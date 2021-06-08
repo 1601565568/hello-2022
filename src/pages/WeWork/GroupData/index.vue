@@ -470,24 +470,28 @@ export default {
           }
         })
     },
-    async chatNameChange (val) {
-      this.initPageData()
-      this.loadChatList()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
-      this.queryChatroomLeaderOptions()
-    },
+    // async chatNameChange (val) {
+    //   this.initPageData()
+    //   this.loadChatList()
+    //   // if (this.checkId === 1) {
+    //   //   this.loadDateList()
+    //   // } else {
+    //   //   this.loadPersonList()
+    //   // }
+    //   this.loadDateList()
+    //   this.loadPersonList()
+    //   this.queryChatroomLeaderOptions()
+    // },
     owenerChange (val) {
       this.initPageData()
       this.loadChatList()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
+      this.loadDateList()
+      this.loadPersonList()
       // this.queryWeWorkRoomsNameOptions()
     },
     datePickerChange (val) {
@@ -506,12 +510,14 @@ export default {
       this.selectToday = false
       this.datePickerValue = [startTime, endTime]
       this.initPageData()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
       this.loadChatList()
+      this.loadDateList()
+      this.loadPersonList()
     },
     selectOptionClick (val) {
       this.flag = val
@@ -527,11 +533,13 @@ export default {
       this.datePickerValue = [startTime, this.today]
       this.initPageData()
       this.loadChatList()
-      if (this.checkId === 1) {
-        this.loadDateList()
-      } else {
-        this.loadPersonList()
-      }
+      // if (this.checkId === 1) {
+      //   this.loadDateList()
+      // } else {
+      //   this.loadPersonList()
+      // }
+      this.loadDateList()
+      this.loadPersonList()
     },
     lookNoStatistical () {
       this.$router.push({
