@@ -161,26 +161,6 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column type="default" prop="personal_tags"
-                           label="个人标签" dbcolumn="personal_tags" column="personal_tags" :sortable="false" align="left">
-            <template slot-scope="scope">
-              <template v-if="scope.row.personal_tags">
-                <el-tag style="margin-right: 5px;margin-top: 3px;cursor: default"
-                        v-for="tag in scope.row.personal_tags.split('|').filter(i => i)"
-                        :key="tag">
-                  <template v-if="tag.length > 10">
-                    <el-tooltip :content="tag" effect="light"><span>{{tag.substring(0,10)+ '...'}}</span></el-tooltip>
-                  </template>
-                  <template v-else>
-                    {{tag}}
-                  </template>
-                </el-tag>
-              </template>
-              <template v-else>
-                -
-              </template>
-            </template>
-          </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="60">
             <template slot-scope="scope">
               <ns-table-column-operate-button :buttons="_data._table.table_buttons"
