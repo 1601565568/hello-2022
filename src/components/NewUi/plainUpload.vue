@@ -8,14 +8,15 @@
       :action="$api.core.sgUploadFile('test')"
       :on-remove='handleRemove'
       :before-upload="beforeUpload"
+      :file-list="fileList"
       :on-success="handleUploadSuccess">
       <div class="u_btn"><img src='@/assets/btn.png' /></div>
     </el-upload>
-    <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList'>
+    <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList.length > 0'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
-          {{fileList}}
+          {{fileList[0].name}}
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
@@ -31,11 +32,17 @@ import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
-      fileList: ''
+      fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
     }
   },
   components: { ElUpload },
   props: {
+    file_list: {
+      default () {
+        return []
+      },
+      type: Array
+    },
     // 类型 需要大写
     imgType: {
       default () {
@@ -54,41 +61,9 @@ export default {
       type: Number,
       default: 10
     },
-    // 最大宽度 px
-    maxWidth: {
-      type: Number
-    },
-    // 最大高度 px
-    maxHeight: {
-      type: Number
-    },
     // 如果有maxWidth或者maxHeight，此属性无效  w/h
     scale: {
       type: Number
-    },
-    // 比例不符合的提示
-    scaleTip: {
-      type: String
-    },
-    // 提示
-    tip: {
-      type: String
-    },
-    value: {
-      type: String
-    },
-    // 还原图片地址，没有不现实还原按钮
-    showPont: {
-      type: Boolean,
-      default: true
-    },
-    showFooter: {
-      type: Boolean,
-      default: true
-    },
-    // 是否拖拽
-    drag: {
-      default: true
     }
   },
   methods: {
@@ -108,15 +83,20 @@ export default {
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.$emit('input', res.result.url)
+      this.fileList = [{
+        name: res.result.originalFileName,
+        url: res.result.url
+      }]
+      this.$emit('onSuccess', this.fileList)
     },
     // 删除文件钩子
     handleRemove () {
-      this.$emit('input', '')
+      this.fileList = []
+      this.$emit('onRemove')
     }
   },
   watch: {
-    value: {
+    file_list: {
       handler (newVal) {
         this.fileList = newVal
       },

@@ -16,7 +16,11 @@ export default {
         rgButtonText: '', // 注册页面按钮文案
         rgButtonTextColor: '', // 按钮文案颜色
         rgPrivacyPolicyUrl: '', // 隐私政策上传
+        rgPrivacyPolicyName: '', // 隐私政策文件名
+        policyList: [], // 隐私政策聚合数组
         rgMemberRuleUrl: '', // 会员规则上传
+        rgMemberRuleName: '', // 会员规则文件名
+        ruleList: [], // 会员规则聚合数组
         mpFollowState: 0, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: '', // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: 0, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -88,7 +92,7 @@ export default {
         picture, mpFollowQrcodeSize, mpFollowQrcodeX,
         mpFollowQrcodeY, mpFollowState, mpFollowBackground,
         rgBackground, rgButtonColor, rgButtonTextColor,
-        rgButtonText, rgPrivacyPolicyUrl, rgMemberRuleUrl } = result
+        rgButtonText, rgPrivacyPolicyUrl, rgPrivacyPolicyName, rgMemberRuleUrl, rgMemberRuleName } = result
       return {
         id: id,
         title: title,
@@ -108,8 +112,12 @@ export default {
         rgButtonText: rgButtonText,
         // 隐私政策上传
         rgPrivacyPolicyUrl: rgPrivacyPolicyUrl,
+        rgPrivacyPolicyName: rgPrivacyPolicyName,
+        policyList: [{ name: rgPrivacyPolicyName, url: rgPrivacyPolicyUrl }],
         // 会员规则上传
         rgMemberRuleUrl: rgMemberRuleUrl,
+        rgMemberRuleName: rgMemberRuleName,
+        ruleList: [{ name: rgMemberRuleName, url: rgMemberRuleUrl }],
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -131,6 +139,30 @@ export default {
           this.doUpdate()
         }
       })
+    },
+    // 隐私政策上传成功
+    rgPrivacyPolicySuccess (list) {
+      this.model.rgPrivacyPolicyName = list[0].name
+      this.model.rgPrivacyPolicyUrl = list[0].url
+      this.$refs.searchform.validateField('rgPrivacyPolicyUrl')
+    },
+    // 会员规则上传成功
+    rgMemberRuleSuccess (list) {
+      this.model.rgMemberRuleName = list[0].name
+      this.model.rgMemberRuleUrl = list[0].url
+      this.$refs.searchform.validateField('rgMemberRuleUrl')
+    },
+    // 隐私政策删除成功
+    rgPrivacyPolicyOnRemove (list) {
+      this.model.rgPrivacyPolicyName = ''
+      this.model.rgPrivacyPolicyUrl = ''
+      this.$refs.searchform.validateField('rgPrivacyPolicyUrl')
+    },
+    // 会员规则删除成功
+    rgMemberRuleOnRemove (list) {
+      this.model.rgMemberRuleName = ''
+      this.model.rgMemberRuleUrl = ''
+      this.$refs.searchform.validateField('rgMemberRuleUrl')
     },
     doUpdate () {
       this.btnLoad = true
