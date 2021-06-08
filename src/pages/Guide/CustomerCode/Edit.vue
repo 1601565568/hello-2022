@@ -90,13 +90,17 @@
                   <el-popover
                     placement="bottom-start"
                     popper-class='form-item_popover'
-                    title="活动介绍示例"
                     width="480"
+                    v-model='popoverShow'
                     trigger="click">
-                    <span class='form-item_exmple' slot="reference">查看示例</span>
+                    <span class='form-item_exmple' slot="reference" @click.native='handleChangePopoverShow(true)'>查看示例</span>
                     <template>
+                      <div class='popover-title'>
+                        活动介绍示例
+                        <ns-button type='text' @click.native='handleSynch' :disabled='isStating'>同步到文本框</ns-button>
+                      </div>
                       <div>
-                        你好， (好友微信昵称) , 我是（导购微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
+                        你好， (好友微信昵称) , 我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
                         活动有效期：2020-03-03~2020-03-13 <br/>
                         点击以下链接可查询助力进展哦！（推广大师查询链接）<br/>
                         注册会员也可享受会员专属礼哦 <br/>
@@ -567,5 +571,10 @@ export default Edit
   margin-top: 3px;
   cursor: pointer;
 }
-
+.popover-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
 </style>

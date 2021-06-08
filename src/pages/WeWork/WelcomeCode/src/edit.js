@@ -11,6 +11,7 @@ import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
 import NsTextarea from '@/components/NsTextarea/index'
 import Qrcode from '../components/Qrcode'
+import TagArea from '@/components/NewUi/TagArea'
 import NsBrandDialog from '@/components/NsBrandDialog'
 import MiniConfigHelp from '@/pages/WeWork/SOP/Activity/Edit/WechatMessageBar/MiniConfigHelp/index.vue'
 
@@ -29,7 +30,8 @@ export default {
     NsTextarea,
     Qrcode,
     NsBrandDialog,
-    MiniConfigHelp
+    MiniConfigHelp,
+    TagArea
   },
   data: function () {
     // 图片配置model
@@ -151,6 +153,11 @@ export default {
       // 自定义链接/小程序支持占位符
       placeholderLink: placeholderLink,
       // 可替换规则
+      tools: [
+        { type: 'tag', text: '插入员工姓名', id: '{EmployeeNick}', value: '员工姓名' },
+        // { type: 'tag', text: '插入客户微信昵称', id: '2', value: '客户微信昵称',icon:'icon-nicheng2x' },
+        { type: 'tag', text: '插入客户昵称', id: '{CustomerNick}', value: '客户昵称' }
+      ],
       replaceOptions: [
         {
           key: 'EmployeeNick',
@@ -161,6 +168,7 @@ export default {
           label: '客户昵称'
         }
       ],
+      inputLength: 0,
       qrcodeModel: {
         visible: false,
         configId: null,
@@ -197,6 +205,12 @@ export default {
      */
     viewRange () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
+    },
+    contentStr () {
+      if (this.model.content && this.$refs.testText) {
+        return this.$refs.testText.htmlToString(this.model.content, false)
+      }
+      return '欢迎您！这是一段自动回复消息～'
     }
   },
   mounted () {
@@ -643,7 +657,7 @@ export default {
      */
     saveOrUpdate: function () {
       let that = this
-      if (that.wordCount > 1000) {
+      if (that.inputLength > 1000) {
         that.$message.error('欢迎语超过最大可输入字数!')
         return
       }
@@ -672,8 +686,9 @@ export default {
         if (!valid) {
           return
         }
+        const model = Object.assign({}, this.model, { content: this.$refs.testText.htmlToString(this.model.content, false) })
         that.$http
-          .fetch(that.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, that.model)
+          .fetch(that.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, model)
           .then(resp => {
             that.$notify.success('操作成功')
             that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
@@ -723,6 +738,7 @@ export default {
             welcomeCodeUuid: data.welcomeCodeUuid
           }).then(resp => {
             that.model = resp.result
+            that.model.content = this.$refs.testText.stringTohtml(resp.result.content, false)
             that.setSelectChannelMsg()
             if (that.model.annexType === 0) {
               return
@@ -781,6 +797,9 @@ export default {
           _this.linkModel.settingId = e
         }
       })
+    },
+    changeInputLength (length) {
+      this.inputLength = length
     }
   }
 }
