@@ -97,7 +97,7 @@
                     <template>
                       <div class='popover-title'>
                         活动介绍示例
-                        <ns-button type='text' @click.native='handleSynch'>同步到文本框</ns-button>
+                        <ns-button type='text' @click.native='handleSynch' :disabled='isStating'>同步到文本框</ns-button>
                       </div>
                       <div>
                         你好， (好友微信昵称) , 我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
