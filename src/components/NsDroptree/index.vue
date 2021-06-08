@@ -82,7 +82,6 @@
 
 <script>
 import $ from 'jquery'
-
 export default {
   name: 'NsDroptree',
   data: function () {

@@ -1,4 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import { Object } from 'core-js'
+import store from 'store/dist/store.legacy.min.js'
 let vm
 export default {
   name: 'NsGuideDialog',
@@ -7,6 +9,12 @@ export default {
     value: {
       default: function () {
         return []
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     guideUrl: {
@@ -19,6 +27,13 @@ export default {
     auth: {
       type: Boolean,
       default: true
+    },
+    // 是否支持按区域选中0 - 不支持， 1-支持
+    switchAreaFlag: {
+      type: Number,
+      default: function () {
+        return 0
+      }
     },
     dialogTitle: {
       type: String,
@@ -48,6 +63,11 @@ export default {
     appendToBody: {
       type: Boolean,
       default: false
+    },
+    // 是否展示title上的tip
+    showTitleTip: {
+      type: Boolean,
+      default: true
     }
   },
   data: function () {
@@ -137,7 +157,15 @@ export default {
         this.departData.mobile = ''
         this.departData.job = null
         this.departData.selectedDepart = {}
-        this.departData.shopArea = {} // 选择的门店区域
+        if (this.echoStore) {
+          let areaData = store.get('user_area')
+          this.departData.shopArea = {
+            text: areaData.name,
+            value: areaData.id
+          }
+        } else {
+          this.departData.shopArea = {}
+        } // 选择的门店区域
         this.departData.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
@@ -171,7 +199,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, store.get('user_area').id))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -185,7 +213,7 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -196,7 +224,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -219,13 +249,22 @@ export default {
      * 获取门店区域，所有门店选项
      */
     getShopAreaAndShop: function () {
+      let isId = ''
+      if (this.echoStore) {
+        isId = store.get('user_area').id
+      }
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
           that.loading = false
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
-          that.shopOptions = resp.result.shopOptions
+          // that.shopOptions = resp.result.shopOptions
+          if (this.echoStore) {
+            that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(isId) > -1)
+          } else {
+            that.shopOptions = resp.result.shopOptions
+          }
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -318,6 +357,7 @@ export default {
      */
     setParam (param) {
       param.auth = vm.auth
+      param.switchAreaFlag = vm.switchAreaFlag
       if (vm.departData.name) {
         param.empName = vm.departData.name
       }
@@ -513,7 +553,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {

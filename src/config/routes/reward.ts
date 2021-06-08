@@ -141,6 +141,26 @@ export default {
       ]
     },
     {
+      'path': '/Guide/ActivityIndex/WorkStatistics',
+      'name': 'CustomerOperateAnalysis',
+      'title': '会员统计',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Customer/Chat/CustomerChat',
+          'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
+          'title': '客户会话统计',
+          'component': () => import('@/pages/Guide/CustomerChat/index.vue')
+        },
+        {
+          'path': '/Customer/Group/CustomerGroup',
+          'name': 'CustomerGroupCustomerGroup',
+          'title': '群会话统计',
+          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
+        }
+      ]
+    },
+    {
       'path': '/Guide/OperationLog/List',
       'name': 'SystemLog',
       'title': '系统日志',

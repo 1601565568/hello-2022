@@ -40,7 +40,7 @@
                :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
-        <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
+        <el-tooltip v-if='showTitleTip' content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
           <Icon type="question-circle"></Icon>
         </el-tooltip>
       </div>
@@ -49,7 +49,7 @@
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
-              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="departData.shopArea" clearable></ns-droptree>
+              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" :multiple="false" v-model="departData.shopArea" :clearable='false'></ns-droptree>
             </el-form-grid>
             <el-form-grid style="margin-left:10px">
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
