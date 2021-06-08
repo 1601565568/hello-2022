@@ -225,6 +225,10 @@ export default {
       this.$resetInputAction$()
     },
     outputClick () {
+      if (!this._data._table.data.length) {
+        this.$notify.info('导出失败，列表暂无数据')
+        return
+      }
       if (!this.outputClickState) {
         this.$notify.info('正在导出中，请不要重复操作')
         return

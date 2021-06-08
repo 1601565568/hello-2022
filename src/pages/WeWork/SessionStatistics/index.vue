@@ -309,6 +309,10 @@ export default {
       this.loadChartData()
     },
     outputClick () {
+      if (!this.listMaterial.length) {
+        this.$notify.info('导出失败，列表暂无数据')
+        return
+      }
       if (!this.outputClickState) {
         this.$notify.info('正在导出中，请不要重复操作')
         return
@@ -422,12 +426,12 @@ export default {
             const json = resp.result || {}
             this.dataList = [
               {
-                name: '聊天总数',
+                name: '昨日聊天总数',
                 data: json.chatCnt || 0,
                 claseName: 'one'
               },
               {
-                name: '发送消息数',
+                name: '昨日发送消息数',
                 data: json.messageCnt || 0,
                 claseName: 'two'
               },
