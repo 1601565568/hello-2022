@@ -343,6 +343,7 @@ export default {
         const text = this.$refs.tagAreaText.stringTohtml(this.normalDesc)
         this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
         this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+        this.model.activityIntroduction = text
         this.handleChangePopoverShow(false)
       }
     }
