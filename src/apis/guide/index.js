@@ -91,6 +91,100 @@ export default {
     url: '/core/sgshop/getBrandList',
     method: 'get'
   },
+
+  /**
+   * 素材纬度:获取素材未完成统计明细
+   */
+  getNoCompleteStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getNoCompleteStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 素材纬度:获取素材未完成统计列表
+   */
+  exportExcelByNoComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByNoComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 素材纬度:获取素材未完成统计列表
+   */
+  getNoCompleteStatisticsByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getNoCompleteStatisticsByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 获取日期完成明细
+   */
+  getStatisticsDetailByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByDate',
+    method: 'post'
+  },
+
+  /**
+   * 素材纬度:获取完成明细
+   */
+  getStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 完成统计:EXCEL导出
+   */
+  exportExcelByComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 数据统计图表数据
+   */
+  getChartData: {
+    // 素材列表
+    url: '/guide/material/statistics/getChartData',
+    method: 'post'
+  },
+
+  /**
+   * 以素材为纬度,获取统计报表
+   */
+  getStatisticsListByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsListByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 以日期为纬度,获取统计报表
+   */
+  getStatisticsListByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsListByDate',
+    method: 'post'
+  },
+
+  /**
+   * 数据统计总数
+   */
+  getSumData: {
+    // 素材列表
+    url: '/guide/material/statistics/getSumData',
+    method: 'post'
+  },
   /**
    * 素材相关接口
    */
