@@ -127,6 +127,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
@@ -140,6 +141,7 @@ export default {
         presentsState: null // 赠送状态
       },
       exportState: true,
+      validTimeStart: this.$route.query.validTimeStart,
       url: this.$api.guide.customerCode.findActivityReachStandard,
       seachVal: '',
       guideIds: [],
@@ -182,18 +184,23 @@ export default {
     },
     exportClick () {
       if (!this._data._table.data.length) {
-        this.$notify.info('导出失败，列表暂无数据')
+        this.$notify.info('当前没有匹配的数据项')
         return
       }
       if (!this.exportState) {
         this.$notify.info('正在导出中，请不要重复操作')
         return
       }
+      let params = this.$generateParams$()
+      if (!this.model.timeStart && !this.model.timeEnd) {
+        params.searchMap.timeStart = this.validTimeStart
+        params.searchMap.timeEnd = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
       this.exportState = false
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.customerCode.reachStandardExport, that.$generateParams$())
+        .fetch(this.$api.guide.customerCode.reachStandardExport, params)
         .then(resp => {
           that.exportState = true
           that.$notify.success('下载完成')
@@ -209,9 +216,9 @@ export default {
             link.href = url
 
             let time = ''
-            if (this.model.timeStart && this.model.timeEnd) {
-              const csvStartTime = this.model.timeStart.substring(0, 10).replace(/-/g, '')
-              const csvEndTime = this.model.timeEnd.substring(0, 10).replace(/-/g, '')
+            if (params.searchMap.timeStart && params.searchMap.timeEnd) {
+              const csvStartTime = params.searchMap.timeStart.substring(0, 10).replace(/-/g, '')
+              const csvEndTime = params.searchMap.timeEnd.substring(0, 10).replace(/-/g, '')
               time = csvStartTime + '-' + csvEndTime
             } else {
               time = '全部'

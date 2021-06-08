@@ -127,10 +127,10 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
-                           label="所属员工"  align="center" width="120">
+                           label="所属员工"  align="center" width="150">
           </el-table-column>
           <el-table-column type="default" prop="add_time"
-                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" width="150" align="left">
+                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" width="200" align="left">
             <template slot-scope="scope">
               <div v-if="scope.row.add_time">
                 {{scope.row.add_time.substring(0,10)}}<br/>
@@ -161,7 +161,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="60">
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100">
             <template slot-scope="scope">
               <ns-table-column-operate-button :buttons="_data._table.table_buttons"
                                               :prop="scope">

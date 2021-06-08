@@ -20,7 +20,7 @@
       </el-form>
     </template>
     <template slot='button'>
-      <ns-button type="primary" size='large' @click="employeeListExportClick">导&nbsp;出</ns-button>
+      <ns-button type="primary" size='large' @click="exportClick">导&nbsp;出</ns-button>
     </template>
     <template slot='table'>
       <template>
@@ -120,6 +120,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
@@ -133,9 +134,10 @@ export default {
         masterOrder: null,
         friendOrder: null
       },
+      validTimeStart: this.$route.query.validTimeStart,
       url: this.$api.guide.customerCode.getEmployeeListByGuestCodeId,
       seachVal: '',
-      employeeListExportState: true,
+      exportState: true,
       guideIds: [],
       activeIndex: -1
       // data: { 'success': true, 'result': { 'draw': 0, 'data': [{ 'guideId': '1007162', 'employeeName': '莫志敏', 'employeeNumber': '18458445553', 'employeeMobile': '18458445550', 'offlineShops': ['莫志敏测试店铺', '张邵成企微测试线下门店01', '周杰伦的线下门店', '张邵成企微测试线下门店02', '杭州企微_dzm_001'], 'promotionMasterNumber': 5, 'inviteFriendNumber': 6 }, { 'guideId': '1010408', 'employeeName': '夏敏洁测试2', 'employeeNumber': '18551345765', 'offlineShops': ['夏敏洁测试门店01', '夏敏洁测试门店02', '夏敏洁测试门店03', '夏敏洁企微线下门店05', 'lytest-1', '线下_xmj_001', '杭州企微_dzm_001'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006965', 'employeeName': '张珏', 'employeeNumber': '张珏', 'employeeMobile': '13709382014', 'offlineShops': ['周杰伦的线下门店', '线下门店b'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006964', 'employeeName': '许志龙', 'employeeNumber': 'Aa123456', 'employeeMobile': '18559025686', 'offlineShops': ['昆凌的线下门店', '线下门店a'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006962', 'employeeName': '谢燕珊', 'employeeNumber': '谢燕珊', 'employeeMobile': '15980756362', 'offlineShops': ['线下-wha01', 'xys企微线下店'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006954', 'employeeName': '梁秋霞', 'employeeNumber': '梁秋霞', 'employeeMobile': '15859264967', 'offlineShops': ['鼓浪屿线下店', '会展中心线下店', 'lqx线下店01', 'lqx线下店02', '线下-wha01', '韩金鹏企微新门店门店01', 'lqx集团线下店01', '线下门店-星期三003', '线下门店-星期三004', '线下_xmj_001', '企微_xmj_01'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006948', 'employeeName': '申志奎', 'employeeNumber': '申志奎', 'employeeMobile': '17681806002', 'offlineShops': ['线下门店a'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006947', 'employeeName': '郑兴强', 'employeeNumber': '郑兴强', 'employeeMobile': '15960253866', 'offlineShops': ['线下门店a'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006942', 'employeeName': '黄宇业', 'employeeNumber': 'test20200403', 'employeeMobile': '13185378611', 'offlineShops': ['周杰伦的线下门店', '昆凌的线下门店', '线下门店a', '联想软件园店', '线下门店b', 'lytest-1', 'lytest-2', '夏敏洁测试门店04', '夏敏洁企微线下门店05'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006941', 'employeeName': '徐磊', 'employeeNumber': '13733105819', 'employeeMobile': '13733105819', 'offlineShops': ['于亚洲的线下门店01', '周杰伦的线下门店', '昆凌的线下门店', '线下门店a', '线下门店b', '线下门店c', '线下门店d', '夏敏洁企微线下门店05'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006939', 'employeeName': '测试xmj', 'employeeNumber': '13345678001', 'employeeMobile': '13345678001', 'offlineShops': ['数字门店AB线下', '夏敏洁测试门店01', '夏敏洁测试门店02', '夏敏洁测试门店03', '夏敏洁测试门店04', '夏敏洁企微线下门店05'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006932', 'employeeName': '刘影', 'employeeNumber': 'ly0804', 'employeeMobile': '18355302093', 'offlineShops': ['南讯企业微信店铺', 'lytest-1', 'lytest-2', 'lytest0427', 'lytest-0521', '数字门店AB线下', '周杰伦的线下门店', '昆凌的线下门店', '线下门店a', '线下门店b', '线下门店c', '线下门店d', '联想观音山店', '联想软件园店', '美的空调店', '美的微波炉店', '线下永安1店', '线下永安2店', '线下永安3店', '线下大湖1店', '线下大湖2店', '线下门店-HJP-积分兑换001'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006931', 'employeeName': '彭云超', 'employeeNumber': '彭云超', 'employeeMobile': '18132097151', 'offlineShops': ['导购招募测试门店', '永安测导购招募', 'lytest-2', 'lytest-1', '韩金鹏企微线下门店', '周杰伦的线下门店', '昆凌的线下门店', '美的小家电', '线下门店b', '线下门店c', '线下门店d', 'cyf-线下-01', '线下门店a', '新增门店', '线下门店', '邓志明的企微门店', '暂停营业数字门店的线下门店'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1006927', 'employeeName': '于亚洲', 'employeeNumber': '18551770017', 'employeeMobile': '18551770017', 'offlineShops': ['会展中心线下店', '于亚洲的线下门店01', '于亚洲的测试视角01', '于亚洲的测试视角008', '夏敏洁测试门店01', '周杰伦的线下门店', '昆凌的线下门店', '线下门店a', '线下门店b', '线下门店c', '线下门店d', '联想观音山店', '联想软件园店', '美的空调店', '美的微波炉店', '线下永安1店', '线下永安2店', '线下永安3店', '线下大湖1店', '线下大湖2店'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }, { 'guideId': '1005761', 'employeeName': '张泽川', 'employeeNumber': '张泽川', 'employeeMobile': '15868874895', 'offlineShops': ['南讯企业微信店铺'], 'promotionMasterNumber': 0, 'inviteFriendNumber': 0 }], 'recordsTotal': '17', 'recordsFiltered': '17' } }
@@ -159,26 +161,31 @@ export default {
     handleSearch () {
       this.changeSearchfrom({ employeeName: this.seachVal })
     },
-    employeeListExportClick () {
+    exportClick () {
       if (!this._data._table.data.length) {
-        this.$notify.info('导出失败，列表暂无数据')
+        this.$notify.info('当前没有匹配的数据项')
         return
       }
-      if (!this.employeeListExportState) {
+      if (!this.exportState) {
         this.$notify.info('正在导出中，请不要重复操作')
         return
       }
-      this.employeeListExportState = false
+      let params = this.$generateParams$()
+      if (!this.model.timeStart && !this.model.timeEnd) {
+        params.searchMap.timeStart = this.validTimeStart
+        params.searchMap.timeEnd = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
+      this.exportState = false
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.customerCode.employeeListExport, that.$generateParams$())
+        .fetch(this.$api.guide.customerCode.employeeListExport, params)
         .then(resp => {
-          that.employeeListExportState = true
+          that.exportState = true
           that.$notify.success('下载完成')
         })
         .catch(resp => {
-          that.employeeListExportState = true
+          that.exportState = true
           if (!resp.size === 0) {
             that.$notify.error('导出报错，请联系管理员')
           } else {
@@ -188,14 +195,14 @@ export default {
             link.href = url
 
             let time = ''
-            if (this.model.timeStart && this.model.timeEnd) {
-              const csvStartTime = this.model.timeStart.substring(0, 10).replace(/-/g, '')
-              const csvEndTime = this.model.timeEnd.substring(0, 10).replace(/-/g, '')
+            if (params.searchMap.timeStart && params.searchMap.timeEnd) {
+              const csvStartTime = params.searchMap.timeStart.substring(0, 10).replace(/-/g, '')
+              const csvEndTime = params.searchMap.timeEnd.substring(0, 10).replace(/-/g, '')
               time = csvStartTime + '-' + csvEndTime
             } else {
               time = '全部'
             }
-            let fileName = '参与活动员工总数明细' + time + '.csv'
+            let fileName = '邀请好友总数明细' + time + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()

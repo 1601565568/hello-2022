@@ -310,7 +310,7 @@ export default {
     },
     outputClick () {
       if (!this.listMaterial.length) {
-        this.$notify.info('导出失败，列表暂无数据')
+        this.$notify.info('当前没有匹配的数据项')
         return
       }
       if (!this.outputClickState) {
