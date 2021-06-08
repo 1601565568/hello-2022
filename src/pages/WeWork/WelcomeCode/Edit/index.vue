@@ -83,6 +83,7 @@
                       :selfBtn='true'
                       :appendToBody='true'
                       :isButton="false"
+                      :showTitleTip='true'
                       :auth="true"
                       type="primary"
                       btnTitle=""
