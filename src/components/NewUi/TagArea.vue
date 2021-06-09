@@ -197,12 +197,12 @@ export default {
     // 默认展示图片表情
     showEmoji: {
       type: Boolean,
-      default: true
+      default: false
     },
     // 默认展示字体表情
     showTextEmoji: {
       type: Boolean,
-      default: true
+      default: false
     },
     tag: {
       // 自定义模版标签的标签名
