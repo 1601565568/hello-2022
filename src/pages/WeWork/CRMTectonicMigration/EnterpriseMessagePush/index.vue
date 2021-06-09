@@ -58,7 +58,8 @@
           <div class="message-composition">
             <div class="message-composition__left">
                 <ElFormItem prop="textarea">
-                  <ElFormGrid>
+                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="400" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' @input='setView' :showEmoji='true' :showTextEmoji='true'/>
+                  <!-- <ElFormGrid>
                     <el-input
                       :disabled="isUpdate"
                       type="textarea"
@@ -67,7 +68,7 @@
                       @blur="setView"
                       v-model="model.textarea" maxlength="400" style="width: 600px;">
                     </el-input>
-                  </ElFormGrid>
+                  </ElFormGrid> -->
                 </ElFormItem>
                 <ElFormItem>
                   <ElFormGrid>
@@ -330,6 +331,7 @@ import contentPreview from './contentPreview.vue'
 import $ from 'jquery'
 import moment from 'moment'
 import NsEmployeeOrCustGroupDialog from '@/components/NsEmployeeOrCustGroupDialog'
+import TagArea, { toolFn } from '@/components/NewUi/TagArea'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
@@ -337,7 +339,8 @@ export default {
     ElCard,
     contentPreview,
     NsEmployeeOrCustGroupDialog,
-    ElUpload
+    ElUpload,
+    TagArea
   },
   data () {
     return {
@@ -365,7 +368,17 @@ export default {
           { required: true, message: '请选择执行时间', trigger: 'blur' }
         ],
         textarea: [
-          { min: 0, max: 4000, message: '长度在 1 到 4000 个字符', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const text = this.$refs.testText.htmlToText(value)
+              if (text.length > 1000) {
+                callback(new Error('长度在 1 到 400 个字符'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          },
           {
             validator: (rule, value, callback) => {
               if (!value) {
@@ -489,7 +502,8 @@ export default {
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 69 // 底部按钮的高度39 + 30顶部设置小程序积分体系的高度
-      }
+      },
+      inputLength: 0
     }
   },
   created: function () {
@@ -515,7 +529,7 @@ export default {
       if (vm.model.textarea) {
         data.push({
           type: 1,
-          msg: vm.model.textarea
+          msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
         })
       }
       switch (vm.model.type) {
@@ -620,6 +634,9 @@ export default {
         }
       })
     },
+    changeInputLength (length) {
+      this.inputLength = length
+    },
     saveMiniPro () {
       vm.$refs.miniProForm.validate((valid) => {
         if (valid) {
@@ -653,7 +670,8 @@ export default {
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
-                vm.model.textarea = data.content.text
+                vm.model.textarea = toolFn.stringTohtml.call(this.$refs.testText, data.content.text, false)
+                vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
                 vm.picUrl = data.content.image.image
@@ -839,7 +857,7 @@ export default {
       }
       const data = {}
       if (vm.model.textarea) {
-        data.text = vm.model.textarea
+        data.text = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
       if (vm.model.type) {
         if (vm.model.type === 1) {
@@ -861,7 +879,7 @@ export default {
         target.customerType = 1
         target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
       }
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise, target)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()

@@ -32,14 +32,13 @@ export default {
     ]
     let quickSearchModel = {}
     let findVo = {
-      'customerName': null,
-      'nick': null,
-      'mobile': null,
-      'cardId': null,
-      'time': null,
-      'grade': null,
-      isNotAll: true,
-      viewId: null
+      customerName: null,
+      nick: null,
+      mobile: null,
+      cardId: null,
+      time: null,
+      grade: null,
+      isNotAll: true
     }
     let copyModel = Object.assign({}, findVo)
     return {
@@ -52,7 +51,8 @@ export default {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
-      checkStatusList: ['1', '-1'],
+      checkShopStatus: ['1', '-1'],
+      checkGuideStatus: ['1'],
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
@@ -82,17 +82,12 @@ export default {
       outGuideId: null,
       shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
       shopCustomerTransferTaskStatusTime: null, // 定时调用判断门店转移任务状态显示
-      viewList: [] // 视角列表
+      visibleAreaTreeDialog: false, // 区域树组件是否显示
+      selectedAreaInfo: { id: -1, label: '' },
+      areaTree: []
     }
   },
   computed: {
-    /**
-     * 是否是集团运营模式
-     *  集团运营模式下不显示视角切换
-     */
-    openGroupOperation () {
-      return this.$store.state.user.remumber.remumber_login_info.productConfig.openGroupOperation
-    },
     /**
      * 区域id
      */
@@ -113,11 +108,6 @@ export default {
         this.appendShopInfo(val)
       })
     },
-    // shopCustomerTransferTaskStatus (val) {
-    //   let _this = this
-    //   // 有返回值就继续调用接口显示进度
-    //   debugger
-    // },
     removeCheckList (value) {
       if (this.checkAll) {
         if (value.length > 0 && value.length < this.total) {
@@ -162,34 +152,36 @@ export default {
     }
   },
   async created () {
-    // 隐藏根据区域查找视角列表
-    // await this.findViewList()
-    this.initShopList()
+    // 初始化确定全局区域下的区域列表
+    await this.getAreaList()
+    await this.initShopList()
   },
   beforeDestroy () {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
-    // 区域模式下 查询区域对应的视角列表
-    findViewList () {
-      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
-        .then(res => {
-          if (res.success) {
-            if (res.result.length) {
-              this.viewList = res.result
-              this.model.viewId = res.result[0].viewId
-              // this.$searchAction$()
-            }
-          } else {
-            this.$notify.error(res.msg)
-          }
-        }).catch(res => {
-          this.$notify.error('视角列表查询失败')
-        })
+    // 查询区域列表
+    async getAreaList (data) {
+      const resp = await this.$http.fetch(this.$api.guide.shop.findDigitalShopList, {
+        start: 0,
+        length: 50,
+        searchMap: {
+          areaName: ''
+        }
+      })
+
+      if (resp.success) {
+        this.areaTree = resp.result.data
+        if (resp.result.data[0]) {
+          this.selectedAreaInfo = { id: resp.result.data[0].id, label: resp.result.data[0].label }
+        }
+      } else {
+        this.$notify.error('获取区域列表失败')
+      }
     },
-    viewChange (viewId) {
-      // this.initShopList()
-      this.$searchAction$()
+    confirmAreaInfo (data) {
+      this.selectedAreaInfo = data
+      this.initShopList()
     },
     handlereplaceShop () {
       this.$emit('handlereplaceShop')
@@ -197,7 +189,7 @@ export default {
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    changeShopStatus () {
+    changeStatus () {
       this.initShopList()
     },
     // 门店树选择
@@ -279,7 +271,6 @@ export default {
           this.shopCustomerTransferTaskStatus = res.result
           if (this.shopCustomerTransferTaskStatus && this.shopCustomerTransferTaskStatus.status === 3 && parseInt(userId) === parseInt(this.shopCustomerTransferTaskStatus.operator)) {
             this.$searchAction$()
-            // this.getFindCustomerTotal()
           }
           resolve(true)
         }).catch((err) => {
@@ -299,8 +290,7 @@ export default {
     totalForUnconditionalSearch (data) {
       let isShop = false
       let param = {
-        shopId: this.offLineShopId,
-        viewId: this.model.viewId
+        shopId: this.offLineShopId
       }
       // 代表门店
       if (data.parentId === '0') {
@@ -376,7 +366,7 @@ export default {
     initShopList (page) {
       this.shopTreePage.page = page || 1
       if (this.shopTreePage.shopName) {
-        if (this.checkStatusList.length === 0) {
+        if (this.checkShopStatus.length === 0) {
           this.$notify.info('请先选择店铺状态')
           return
         }
@@ -386,7 +376,9 @@ export default {
         length: this.shopTreePage.size,
         searchMap: {
           shopName: this.shopTreePage.shopName,
-          shopStatus: this.checkStatusList.join(',')
+          shopStatus: this.checkShopStatus.join(','),
+          guideStatus: this.checkGuideStatus.join(','),
+          areaId: this.selectedAreaInfo.id
         }
       }).then(resp => {
         if (resp.success && resp.result !== null) {

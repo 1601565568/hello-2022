@@ -2,21 +2,35 @@
   <div class="NsTableGuide_main">
     <div class="template-page__title-bar">
       <div class="title">客户列表</div>
-      <!-- 视角改造去掉视角选择 -->
-      <!-- <div class="line" v-if="openGroupOperation === 0"></div>
-      <view-select v-if="openGroupOperation === 0" :viewList="viewList" ref="viewSelect" v-model="model.viewId" @change="viewChange"/> -->
     </div>
     <div class="template-page__row-left">
+      <div class="template-page__row-left__area">
+        <AreaTreeDialog
+          :visible.sync="visibleAreaTreeDialog"
+          :area="selectedAreaInfo"
+          :tree="areaTree"
+          @confirm="confirmAreaInfo"
+        />
+        <span class="selected-area">{{selectedAreaInfo.label}}</span>
+        <Icon class="filter-area" type="ns-screen" @click="visibleAreaTreeDialog = true"/>
+      </div>
       <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable
                 @keyup.enter.native="initShopList(1)">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
       </el-input>
-      <div style="display: flex;padding-left: 8px" class="changeShopStatus">
-        <p style="margin-right: 5px">状态:</p>
-        <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList">
+      <div style="display: flex;padding-left: 5px" class="changeShopStatus">
+        <p style="margin-right: 5px;white-space: nowrap;">门店状态</p>
+        <el-checkbox-group style="display: flex;" @change="changeStatus" v-model="checkShopStatus">
           <el-checkbox label =  '1' >正常</el-checkbox>
           <el-checkbox label = '-1' >暂停</el-checkbox>
           <el-checkbox label = '-2' >关店</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div style="display: flex;padding-left: 5px" class="changeShopStatus">
+        <p style="margin-right: 5px">员工状态</p>
+        <el-checkbox-group @change="changeStatus" v-model="checkGuideStatus">
+          <el-checkbox label =  '1' >在职</el-checkbox>
+          <el-checkbox label = '2' >离职</el-checkbox>
         </el-checkbox-group>
       </div>
       <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
@@ -254,10 +268,12 @@
 import NsTableGuide from './src/NsTableGuide'
 import ViewSelect from '@/components/NsViewSelect'
 import TaskProgress from './component/taskProgress'
+import AreaTreeDialog from './component/AreaTreeDialog/index.vue'
 
 NsTableGuide.components = {
   ViewSelect,
-  TaskProgress
+  TaskProgress,
+  AreaTreeDialog
 }
 
 export default NsTableGuide
@@ -275,6 +291,28 @@ export default NsTableGuide
     overflow: hidden;
     >>> .el-input {
       margin-bottom: var(--default-margin-base);
+    }
+
+    .template-page__row-left__area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      .selected-area {
+        font-size: 14px;
+        width: 180px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-left: 3px;
+        color: #1a9cfb;
+      }
+      .filter-area {
+        margin-right: 5px;
+        font-size: 14px;
+        color: #1a9cfb;
+        cursor: pointer;
+      }
     }
   }
   .template-page__row-right {

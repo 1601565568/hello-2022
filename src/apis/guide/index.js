@@ -39,6 +39,8 @@ import custom from './custom'
 import channel from './channel'
 import qrcodePoster from './qrcodePoster'
 import lbs from './lbs'
+import redpacket from './redpacket'
+import pay from './pay'
 export default {
   secruitmentSet,
   guide,
@@ -81,15 +83,116 @@ export default {
   channel,
   qrcodePoster,
   lbs,
+  redpacket,
+  pay,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
     method: 'get'
   },
+
+  /**
+   * 素材纬度:获取素材未完成统计明细
+   */
+  getNoCompleteStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getNoCompleteStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 素材纬度:获取素材未完成统计列表
+   */
+  exportExcelByNoComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByNoComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 素材纬度:获取素材未完成统计列表
+   */
+  getNoCompleteStatisticsByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getNoCompleteStatisticsByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 获取日期完成明细
+   */
+  getStatisticsDetailByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByDate',
+    method: 'post'
+  },
+
+  /**
+   * 素材纬度:获取完成明细
+   */
+  getStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 完成统计:EXCEL导出
+   */
+  exportExcelByComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 数据统计图表数据
+   */
+  getChartData: {
+    // 素材列表
+    url: '/guide/material/statistics/getChartData',
+    method: 'post'
+  },
+
+  /**
+   * 以素材为纬度,获取统计报表
+   */
+  getStatisticsListByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsListByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 以日期为纬度,获取统计报表
+   */
+  getStatisticsListByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getStatisticsListByDate',
+    method: 'post'
+  },
+
+  /**
+   * 数据统计总数
+   */
+  getSumData: {
+    // 素材列表
+    url: '/guide/material/statistics/getSumData',
+    method: 'post'
+  },
   /**
    * 素材相关接口
    */
+  findMaterialListByShare: {
+    // 素材分享
+    url: '/guide/material/findMaterialListByShare',
+    method: 'post'
+  },
   materialList: {
     // 素材列表
     url: '/guide/material/findMaterialList',
@@ -99,6 +202,10 @@ export default {
     // 素材编辑
     url: '/guide/material/saveMaterial',
     method: 'post'
+  },
+  queryCompanyPlan: {
+    url: '/guide/material/queryCompanyPlan',
+    method: 'get'
   },
   queryMaterial: {
     // 素材详情
@@ -144,6 +251,33 @@ export default {
     // 获取文件夹路径
     url: 'guide/material/getParentPath',
     method: 'get'
+  },
+  findScriptCompletionDetailList: {
+    // 指定导购补充素材明细
+    url: 'guide/material/findScriptCompletionDetailList',
+    method: 'post'
+  },
+  exportMaterialCompletionByExcel: {
+    // 导出剧本素材自创明细EXCEL
+    url: 'guide/material/exportMaterialCompletionByExcel',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  delScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/delScriptCompletionDetailByGuideId',
+    method: 'post'
+  },
+  getScriptCompletionNumber: {
+    // 获取剧本员工完成/未完成总数
+    url: 'guide/material/getScriptCompletionNumber',
+    method: 'post'
+  },
+  findScriptCompletionDetailByGuideId: {
+    // 指定导购补充素材明细
+    url: 'guide/material/findScriptCompletionDetailByGuideId',
+    method: 'post'
   },
   /**
    * 素材标签
@@ -228,6 +362,11 @@ export default {
   querySubgroupMsg: {
     // 根据视角信息获取分组列表
     url: '/guide/task/querySubgroupMsg',
+    method: 'post'
+  },
+  queryDetailSubgroupMsg: {
+    // 根据视角信息和时间获取分组列表
+    url: '/guide/task/queryDetailSubgroupMsg',
     method: 'post'
   },
   importFileAndManual: {

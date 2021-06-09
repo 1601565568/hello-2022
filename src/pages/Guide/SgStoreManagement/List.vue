@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.findShopListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
+    <ns-table-guide ref="table" :url=$api.guide.guide.findBrandListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
         @elIconMenu="elIconMenu" @batchElIconMenu="batchElIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!-- 下载门店招募码开始 -->

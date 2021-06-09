@@ -141,7 +141,7 @@
                     >
                     </el-option>
                   </el-select>
-                  <div v-if="model.viewId&&model.subgroupId">会员分组名称 <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
+                  <div v-if="model.viewId&&model.subgroupId">{{model.subgroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
                 </div>
                 <span class='newTask-content__item-tip'>
                   选择区域后，可选择零售CRM客户洞察的客户分组
@@ -189,12 +189,12 @@
                         <!-- 展示图片结构 -->
                         <div class='catalogue-materials__image' v-if="model.materialType === 1">
                           <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
-                            <img :src='item' />
+                            <img :src='item.url' />
                           </div>
                         </div>
                         <div class='catalogue-materials__video' v-if="model.materialType === 2">
                           <video
-                            :src='model.materialMsg.imageList[0]'
+                            :src='model.materialMsg.imageList[0].url'
                             style='width: 107px; height: 60px'
                           >
                             您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
@@ -206,7 +206,7 @@
                           </div>
                         </div>
                         <div class="catalogue-materials__article" v-if="model.materialType === 0">
-                          <img :src="model.materialMsg.imageList[0]">
+                          <img :src="model.materialMsg.imageList[0].url">
                           <p>{{model.materialMsg.name}}</p>
                         </div>
                       </div>

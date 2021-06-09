@@ -44,35 +44,31 @@
             <ns-button @click="resetInputAction()">重置</ns-button>
           </div>
         </div>
-        <div style="max-height:400px; overflow: hidden">
-          <el-scrollbar style="max-height: 417px;">
-            <el-table
-              ref="table"
-              :data="_data._table.data"
-              :element-loading-text="$t('prompt.loading')"
-              v-loading.lock="_data._table.loadingtable">
-              <el-table-column width="150">
-                <template slot-scope="scope">
-                  <div class="customerManage">
-                    <el-radio :label="scope.row.shopId" v-model="shopId">
-                      <span></span>
-                    </el-radio>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"></el-table-column>
-              <el-table-column :show-overflow-tooltip="true" type="default" prop="shopType" label="门店类型" align="left">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.shopType  === 'ZYD'">直营店</span>
-                  <span v-if="scope.row.shopType  === 'JMD'">加盟店</span>
-                  <span v-if="scope.row.shopType  === 'C'">淘宝店</span>
-                  <span v-if="scope.row.shopType  === 'B'">天猫店</span>
-                  <span v-if="scope.row.shopType  === ''">-</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-scrollbar>
-        </div>
+        <el-table
+          ref="table"
+          :data="_data._table.data"
+          :element-loading-text="$t('prompt.loading')"
+          v-loading.lock="_data._table.loadingtable">
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <div class="customerManage">
+                <el-radio :label="scope.row.shopId" v-model="shopId">
+                  <span></span>
+                </el-radio>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="shopType" label="门店类型" align="left">
+            <template slot-scope="scope">
+              <span v-if="scope.row.shopType  === 'ZYD'">直营店</span>
+              <span v-if="scope.row.shopType  === 'JMD'">加盟店</span>
+              <span v-if="scope.row.shopType  === 'C'">淘宝店</span>
+              <span v-if="scope.row.shopType  === 'B'">天猫店</span>
+              <span v-if="scope.row.shopType  === ''">-</span>
+            </template>
+          </el-table-column>
+        </el-table>
         <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
                       :page-sizes="_data._pagination.sizeOpts"
                       :total="_data._pagination.total"

@@ -220,7 +220,7 @@ export default {
     async loadListFun () {
       this.loading = true
       this.$http
-        .fetch(this.$api.guide.materialList, this.searchObj)
+        .fetch(this.$api.guide.findMaterialListByShare, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)

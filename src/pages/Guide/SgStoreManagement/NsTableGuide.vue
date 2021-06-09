@@ -2,23 +2,32 @@
   <div calss="template-page">
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="请输入数字门店名称" clearable
-                  @keyup.enter.native="initDigitalShopList(1)">
-          <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
-                @click="initDigitalShopList(1)"/>
+        <el-input ref="quickText" v-model="shopTreePage.areaName" placeholder="请输入区域名称" clearable>
+          <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"/>
         </el-input>
         <el-scrollbar ref='pageLeft' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
-          <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
-                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" current-node-key="0"
-                   :filter-node-method="onFilterNode" @node-click="onClickNode">
-            <div class="subdivision-tree-node" slot-scope="{ node }">
-              <span>{{node.label}}</span>
-              <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的线下门店">
-                 <i class="question-circle"><Icon type="question-circle" /></i>
-              </el-tooltip>
+          <el-tree
+            v-if="model.areaId"
+            class="filter-tree"
+            ref="shopTree"
+            :data="digitalShopList"
+            highlight-current
+            node-key="id"
+            :show-checkbox="false"
+            :default-expand-all="false"
+            :expand-on-click-node="false"
+            :current-node-key="model.areaId"
+            :default-expanded-keys="[model.areaId]"
+            :filter-node-method="onFilterNode"
+            @node-click="onClickNode"
+          >
+            <span
+              class="filter-tree-node"
+              slot-scope="{ node }"
+            >
+              <Icon class="icon" type="cate" />
+              <span class="item">{{node.label}}</span>
             </span>
-            </div>
           </el-tree>
         </el-scrollbar>
         <el-pagination style='text-align: center' small
@@ -32,9 +41,9 @@
       </div>
       <div class="template-page__row-right">
         <el-scrollbar ref="pageRight">
-          <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-          <ns-page-table @synchronousStores="$emit('synchronousStores')" @showShop="$emit('showShop')"
+          <nsPageTable @synchronousStores="$emit('synchronousStores')" @showShop="$emit('showShop')"
                          @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
+            <template slot="head"><div class="head">{{model.areaName}}<span>{{_data._pagination.total}}个</span></div></template>
             <!-- 按钮 -->
             <template slot="buttons">
               <div class="template-table-buttons">
@@ -116,9 +125,8 @@
                   </el-form-grid>
                 </el-form-item>
 
-                <el-form-item label="所属地区："  prop="area">
+                <el-form-item label="门店地址："  prop="area">
                   <el-form-grid width="200" prop="area">
-                    <!-- <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area> -->
                     <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area"
                              clearable></ns-area>
                   </el-form-grid>
@@ -142,7 +150,7 @@
               <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
               <!-- 手机号 :width="120" -->
               <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-              <el-table ref="table" @selection-change="handleSelectionChange" :data="_data._table.data" stripe>
+              <el-table ref="table" v-loading.lock="_data._table.loadingtable"  @selection-change="handleSelectionChange" :data="_data._table.data" stripe>
                 <el-table-column type="selection" :selectable="selectable" align="center" :width="50">
                 </el-table-column>
                 <el-table-column prop="shopName" label="线下门店名称&ID" align="left" width="150">
@@ -158,13 +166,16 @@
                     'LYD'?'联营店':'-'}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="address" label="地址&地区" align="left">
+                <el-table-column prop="address" label="门店地址" align="left">
                   <template slot-scope="scope">
-                    {{scope.row.address || '-'}}<br>
-                    {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+                    {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+''+scope.row.city+''+scope.row.district}}{{scope.row.address || '-'}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="digitalShopName" label="关联数字门店" align="left">
+                <el-table-column prop="areaName" label="所在区域" align="left">
+                </el-table-column>
+                <el-table-column prop="originalCreateTime" label="创建时间" align="left">
+                </el-table-column>
+                <!-- <el-table-column prop="digitalShopName" label="关联数字门店" align="left">
                   <template slot-scope="scope">
                     <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1"
                                type="text">{{scope.row.count}}家
@@ -173,7 +184,7 @@
                       {{scope.row.digitalShopName || '-'}}
                     </div>
                   </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column prop="phone" label="联系方式" align="left" width="150">
                   <template slot-scope="scope">
                     {{scope.row.phone || '-'}}
@@ -208,7 +219,7 @@
               </el-pagination>
             </template>
             <!-- 分页-结束 -->
-          </ns-page-table>
+          </nsPageTable>
         </el-scrollbar>
       </div>
     </div>
@@ -219,10 +230,11 @@
 import guide from './src/NsTableGuide'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import ViewSelect from '@/components/NsViewSelect'
-
+import nsPageTable from '@/components/NsPageTable/index'
 guide.components = {
   NsArea,
-  ViewSelect
+  ViewSelect,
+  nsPageTable
 }
 
 export default guide
@@ -235,13 +247,20 @@ export default guide
     font-weight: 500;
     font-size: 30px;
   }
-
   .scope_row_count {
     color: blue;
   }
 
   .el-icon-menu {
     font-size: 24px;
+  }
+  .head {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  .head span{
+    margin-left: 5px;
+    color: #999;
   }
   .template-page__row-left {
     width: 220px;
@@ -301,8 +320,23 @@ export default guide
   >>> .el-pagination__jump {
     margin-left: unset !important;
   }
-  .subdivision-tree-node>span {
-    margin-left: var(--default-margin-base);
+  .filter-tree-node {
+    display: flex;
+    align-items: center;
+  }
+  .filter-tree-node > .icon {
+    color:#0091fa;
+    font-size: 14px
+  }
+  .filter-tree-node > .item {
+    font-size: 12px;
+    width: 80%;
+    margin-left: 3px;
+    display: inline-block;
+    white-space: nowrap;
+    word-break: break-all;
+    /* text-overflow: ellipsis; */
+    /* overflow: hidden; */
   }
   .question-circle {
     margin-left: -5px;

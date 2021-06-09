@@ -256,7 +256,7 @@ function getQuickList (quicklyWord) {
 // 浏览器当前的高度
 var oHeight = $(document).height()
 $(window).resize(function () {
-  console.log('浏览器高度发生变化')
+  // console.log('浏览器高度发生变化')
   if ($(document).height() < oHeight) {
     $('.quick__btn').css('position', 'static')
   } else {
