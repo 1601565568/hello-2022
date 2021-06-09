@@ -187,6 +187,10 @@ export default {
     url: '/core/sgshop/findShopListOnCondition',
     method: 'post'
   },
+  findBrandListOnCondition: { // 按条件查询店铺改版
+    url: '/core/sgshop/findBrandListOnCondition',
+    method: 'post'
+  },
   findShopInfoByIds: { // 按门店Ids查询店铺
     url: '/core/sgshop/findShopInfoByIds',
     method: 'post'

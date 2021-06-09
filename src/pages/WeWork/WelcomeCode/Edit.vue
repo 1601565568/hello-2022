@@ -591,7 +591,7 @@
           </el-form-grid>
         </el-form-item>
         <el-form-item v-show="linkModel.custom === 1">
-          <div class="text-secondary">请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M</div>
+          <div class="text-secondary">请上传格式为JPG、JPEG、PNG的图片，建议长宽比例为5:4，大小不超过10M</div>
           <!-- 长宽比例为5:4, -->
         </el-form-item>
         <el-form-item v-show="linkModel.custom === 2">
@@ -668,7 +668,8 @@
             <el-form-grid>
               <div class="tmp-tips text-info">
                 <Icon type="info-circle" theme="filled" />
-                请确认小程序配置信息输入正确！
+                请先在企业微信后台将小程序配置到工作台
+                <MiniConfigHelp/>
               </div>
             </el-form-grid>
           </el-form-item>
@@ -736,7 +737,7 @@
         </el-form-item>
         <!-- “招募链接编辑位置为系统设置-招募设置-招募页面配置，去修改” -->
          <el-form-item>
-          <div class="text-secondary">请上传格式为jpg的图片，建议长宽比例为5:4，大小不超过10M</div>
+          <div class="text-secondary">请上传格式为JPG、JPEG、PNG的图片，建议长宽比例为5:4，大小不超过10M</div>
           <!-- 长宽比例为5:4, -->
         </el-form-item>
       </el-form>

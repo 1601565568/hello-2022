@@ -6,6 +6,7 @@ import drawerTable from '../drawerTable'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
+import lookCardList from '../lookCardList'
 import moment from 'moment'
 // import { init } from '@sentry/browser'
 export default {
@@ -15,7 +16,8 @@ export default {
     ElBreadcrumbItem,
     ElDrawer,
     drawerTable,
-    ShopSelectLoad
+    ShopSelectLoad,
+    lookCardList
   },
   data () {
     const pagination = {
@@ -89,7 +91,9 @@ export default {
       shopId: null,
       shopName: null,
       runType: null,
-      queryTime: null
+      queryTime: null,
+      dialogVisible: false,
+      taskTime: ''
     }
   },
   computed: {
@@ -150,22 +154,28 @@ export default {
             this.taskMsg.viewId = obj.viewId
             this.taskMsg.subgroupId = obj.subgroupId
             this.taskMsg.state = obj.state
+            this.taskMsg.subGroupName = obj.subGroupName
+            this.taskMsg.subGroupId = obj.subgroupId
             // 指定门店
             if (obj.targetIds === '0') {
               this.taskMsg.shopRangeType = 0
             } else {
               this.taskMsg.shopRangeType = 1
             }
+            // 1 循环任务  0 一次性任务
             if (this.taskMsg.runType === 1) {
               let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
               // let todatEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1) // 当天23:59
               // const start = new Date()
               if (new Date(obj.startTime) >= start) {
                 this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
+                this.taskTime = moment(obj.startTime).format('YYYY-MM-DD HH:mm:ss')
               } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
                 this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+                this.taskTime = moment(new Date().getTime).format('YYYY-MM-DD HH:mm:ss')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
+                this.taskTime = moment(obj.endTime).format('YYYY-MM-DD HH:mm:ss')
               }
             }
             // 素材任务时
@@ -256,6 +266,10 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
+    },
+    // 查看分组名称弹框
+    showSubgroupMsg () {
+      this.dialogVisible = true
     }
   },
   mounted: function () {

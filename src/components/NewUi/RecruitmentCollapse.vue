@@ -2,6 +2,9 @@
   <div class='recruiting-collapse'>
     <el-collapse :class='`common-collapse ${isOpen?"noOver":""}`' v-model='collapseList' @change='handleChange'>
       <el-collapse-item :title="title" :name="1" :disabled='disabled'>
+        <template slot='title'>
+          <slot name='title'></slot>
+        </template>
         <PhoneBox :phoneTitle='phoneTitle' :phoneBar='phoneBar' :isShowPhone='isShowPhone'>
           <template slot='collapse-left'>
             <slot name='collapse-left'></slot>

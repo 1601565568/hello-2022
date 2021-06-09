@@ -13,6 +13,7 @@ import NsTextarea from '@/components/NsTextarea/index'
 import Qrcode from '../components/Qrcode'
 import TagArea from '@/components/NewUi/TagArea'
 import NsBrandDialog from '@/components/NsBrandDialog'
+import MiniConfigHelp from '@/pages/WeWork/SOP/Activity/Edit/WechatMessageBar/MiniConfigHelp/index.vue'
 
 export default {
   name: 'Edit',
@@ -29,7 +30,8 @@ export default {
     NsTextarea,
     Qrcode,
     NsBrandDialog,
-    TagArea
+    TagArea,
+    MiniConfigHelp
   },
   data: function () {
     // 图片配置model
@@ -500,7 +502,7 @@ export default {
       this.onSubmitHandleModel(1)
       this.model.annexType = 1
       this.imageModel.image = res.result.url
-      this.model.image = res.result.url
+      this.model = { ...this.model, image: res.result.url }
     },
     /**
      * @msg: 网页/小程序上传封面图
@@ -519,14 +521,14 @@ export default {
      * @msg: 图片上传校验
      */
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg' // || file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isJPG = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 10
 
       if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG 格式!')
+        this.$message.error('上传图片只能是 JPG、JEPG、PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 20MB!')
+        this.$message.error('上传图片大小不能超过 10MB!')
       }
       return isJPG && isLt2M
     },

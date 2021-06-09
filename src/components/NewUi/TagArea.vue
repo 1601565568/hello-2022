@@ -282,7 +282,7 @@ export default {
       node.id = this.getGuid()
       node.setAttribute('contenteditable', false)
       node.className = this.emojiClass + val
-      this.insertNode(node)
+      this.addNode(node)
     },
     // 添加字体表情
     selectEmoji (val) {

@@ -70,7 +70,7 @@ export default {
         child_qrcodes: [],
         posterBackgroundUrl: '',
         qrcodeSize: 172,
-        qrcodeX: 67,
+        qrcodeX: 74,
         qrcodeY: 349,
         tagList: ''
       },
@@ -160,7 +160,7 @@ export default {
           ...data.result,
           posterBackgroundUrl: data.result.poster_background_url || '',
           qrcodeSize: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
-          qrcodeX: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 67,
+          qrcodeX: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
           qrcodeY: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
         }
 

@@ -228,7 +228,9 @@ export default {
       this.$emit('update:visible', false)
     },
     async open () {
+      this._data._table.searchMap = this.model
       await this.$reload()
+
       // 根据id查询已选择的
       if (this.chatIds.length > 0) {
         this.showChatRoomIds = this.chatIds.slice(0, 30)

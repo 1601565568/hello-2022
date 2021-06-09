@@ -24,7 +24,7 @@
           <div class="company-example">
             <span class="text-primary">
                <Icon type="exclamation-circle" theme="outlined"/>
-               该logo将在用户端透出，建议图片尺寸为1:1。
+               该logo将在导购招募海报，优惠券领取页面透出，建议图片尺寸为1:1，JPG、JPEG、PNG格式
             </span>
             <el-popover
               placement="bottom-start" trigger="click">
@@ -63,14 +63,14 @@ export default {
       this.imageUrl = res.result.url
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传头像图片只能是 JPG、JPEG、PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
     },
