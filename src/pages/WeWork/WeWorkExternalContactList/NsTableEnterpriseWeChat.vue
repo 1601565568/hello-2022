@@ -47,6 +47,7 @@
                   :isButton="false"
                   :validNull="true"
                   :auth="true"
+                  :switchAreaFlag='1'
                   type="primary"
                   btnTitle="选择"
                   dialogTitle="选择员工"
