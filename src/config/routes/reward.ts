@@ -130,16 +130,16 @@ export default {
       ]
     },
     {
-      'path': '/Guide/ActivityIndex/WorkStatistics',
-      'name': 'CustomerOperateAnalysis',
-      'title': '会员统计',
+      'path': '/WeWork/SessionStatistics',
+      'name': 'WeWorkSessionStatistics',
+      'title': '会话统计',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Customer/Chat/CustomerChat',
-          'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
+          'path': '/WeWork/Customer/SessionStatistics',
+          'name': 'CustomerSessionStatistics',
           'title': '客户会话统计',
-          'component': () => import('@/pages/Guide/CustomerChat/index.vue')
+          'component': () => import('@/pages/WeWork/SessionStatistics/index.vue')
         },
         {
           'path': '/Customer/Group/CustomerGroup',

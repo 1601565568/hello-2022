@@ -371,7 +371,7 @@ export default {
           return
         }
       }
-      this.$http.fetch(this.$api.guide.guide.customerGetGuideTree, {
+      this.$http.fetch(this.$api.guide.guide.getShopAndGuideTree, {
         start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
         length: this.shopTreePage.size,
         searchMap: {

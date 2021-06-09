@@ -61,5 +61,12 @@ export default {
   queryAnalysisListByUser: {
     url: '/wework/friendsAnalysis/queryAnalysisListByUser',
     method: 'post'
+  },
+  // 会话统计导出
+  export: {
+    url: '/wework/friendsAnalysis/export',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }

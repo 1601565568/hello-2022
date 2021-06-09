@@ -1,6 +1,7 @@
 import apiConf from '@/config/http'
 import access from './access'
 import common from './common'
+import group from './group'
 import hash from './hash'
 import downloadConfig from './downloadConfig'
 import customerProperty from './customerProperty'
@@ -18,6 +19,7 @@ import exportDownloadLog from './exportDownloadLog'
 export default {
   access,
   common,
+  group,
   hash,
   downloadConfig,
   customerProperty,
@@ -68,10 +70,6 @@ export default {
       return `${apiConf.API_ROOT}/core/sgfile/uploadFile/${module}`
     }
   },
-  // 上传证书
-  uploadCert: function () {
-    return `${apiConf.API_ROOT}/wxpay/method/uploadCert`
-  },
   /**
    * manualShopIds
    * @param {string}  manualShopIds 外部门店编码
@@ -86,8 +84,8 @@ export default {
     return `${apiConf.API_ROOT}/guide/importquota/uploadexcel`
   },
   /**
- * @param {string} module 快捷话术上传EXCEl
- */
+   * @param {string} module 快捷话术上传EXCEl
+   */
   sgUploadQuickExcel: function () {
     return `${apiConf.API_ROOT}/guide/quicklyword/uploadQuickExcel`
   },

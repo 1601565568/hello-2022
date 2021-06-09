@@ -70,5 +70,33 @@ export default {
   findActivityReachStandard: {
     url: '/activity/guestCode/findActivityReachStandard',
     method: 'post'
+  },
+  // 会话统计导出
+  employeeListExport: {
+    url: `${prefix}employeeListExport`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 好友明细列表导出
+  friendListExport: {
+    url: `${prefix}friendListExport`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 奖励达标推广大师列表导出
+  reachStandardExport: {
+    url: `${prefix}reachStandardExport`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 一客一码推广大师人员列表导出
+  promotionListExport: {
+    url: `${prefix}promotionListExport`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }
