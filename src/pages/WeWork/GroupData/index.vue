@@ -11,7 +11,7 @@
     <div class="material-show">
       <div class="material-chat">
         <div class="chat-select">
-          <div class="left-select">
+          <!-- <div class="left-select">
             <div class="day-view">
               <span
                 :class="
@@ -38,7 +38,7 @@
                 >近30天</span
               >
             </div>
-            <!-- <div class="date-view">
+            <div class="date-view">
               <el-date-picker
                 v-model="datePickerValue"
                 type="daterange"
@@ -51,7 +51,7 @@
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
-            </div> -->
+            </div>
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
@@ -72,28 +72,7 @@
                 </el-select>
               </div>
             </div>
-            <!-- <div class="item-down al">
-              <div class="nameNext">群名称：</div>
-              <div class="item-select">
-                <el-select
-                  :disabled='checkId === 2'
-                  clearable
-                  v-model="actionValue"
-                  :default-first-option="true"
-                  @visible-change="selectOptionClick"
-                  @change="chatNameChange"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div> -->
-          </div>
+          </div> -->
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="drawer-output" @click="outputCsvFile">
             导出CSV文件
@@ -108,7 +87,7 @@
     <div class="material-list">
       <div class="title">数据报表</div>
       <div class="select-data-view">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="按日期显示" name="first">
             <page-table style="padding-top:0">
               <template slot="table">
@@ -181,20 +160,21 @@
               </template>
             </page-table>
           </el-tab-pane>
-        </el-tabs>
+        </el-tabs> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PageTable from '@/components/NewUi/PageTable'
+// import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, ColorfulDisplay },
+  // components: { PageTable, NsEcharts, ColorfulDisplay },
+  components: { NsEcharts, ColorfulDisplay },
   data () {
     return {
       loading: false,
