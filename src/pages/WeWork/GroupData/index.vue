@@ -11,7 +11,7 @@
     <div class="material-show">
       <div class="material-chat">
         <div class="chat-select">
-          <!-- <div class="left-select">
+          <div class="left-select">
             <div class="day-view">
               <span
                 :class="
@@ -72,7 +72,7 @@
                 </el-select>
               </div>
             </div>
-          </div> -->
+          </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="drawer-output" @click="outputCsvFile">
             导出CSV文件
