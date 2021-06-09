@@ -2,7 +2,7 @@
   <el-drawer
     :visible.sync="drawer"
     :direction="direction"
-    size="720px"
+    size="940px"
     :with-header="false"
     destroy-on-close
     :modal="false"
@@ -22,7 +22,12 @@
               v-model="inputTitle"
               @change="inputChange"
             >
-              <Icon type="ns-search" slot="suffix" style="font-size: 30px;" @click="inputChange"></Icon>
+              <Icon
+                type="ns-search"
+                slot="suffix"
+                style="font-size: 30px;"
+                @click="inputChange"
+              ></Icon>
             </el-input>
           </div>
           <div class="item-down">
@@ -84,75 +89,87 @@
           <page-table style="padding-top:0">
             <template slot="table">
               <!-- <div class="content-view"> -->
-                <el-table
-                  :data="listData"
-                  class="new-table_border drawer-table"
-                  :row-style="{ height: '48px' }"
+              <el-table
+                :data="listData"
+                class="new-table_border drawer-table"
+                :row-style="{ height: '48px' }"
+              >
+                <el-table-column prop="materialTitle" label="素材标题">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="top-start"
+                      width="300"
+                      trigger="hover"
+                      :disabled="scope.row.materialTitle.length <= 10"
+                    >
+                      <div>{{ scope.row.materialTitle }}</div>
+                      <span
+                        slot="reference"
+                        v-if="scope.row.materialTitle.length <= 10"
+                        >{{ scope.row.materialTitle }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-if="scope.row.materialTitle.length > 10"
+                        >{{
+                          scope.row.materialTitle.substr(0, 10) + '...'
+                        }}</span
+                      >
+                    </el-popover>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="eventType" label="动作" :width="80">
+                  <template slot-scope="scope">{{
+                    transText(scope.row.eventType)
+                  }}</template>
+                </el-table-column>
+                <el-table-column
+                  prop="employeeNumber"
+                  label="工号"
+                  :width="114"
                 >
-                  <el-table-column prop="materialTitle" label="素材标题">
-                    <template slot-scope="scope">
-                      <el-popover
-                        placement="top-start"
-                        width="300"
-                        trigger="hover"
-                        :disabled="scope.row.materialTitle.length <= 10"
+                  <template slot-scope="scope">{{
+                    scope.row.employeeNumber || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="guideName" label="员工">
+                  <template slot-scope="scope">{{
+                    scope.row.guideName || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="phone" label="电话">
+                  <template slot-scope="scope">{{
+                    scope.row.phone || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="post" label="岗位">
+                  <template slot-scope="scope">{{
+                    transPost(scope.row.post)
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="shopName" label="所属门店">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="top-start"
+                      width="300"
+                      trigger="hover"
+                      :disabled="scope.row.shopName.length <= 10"
+                    >
+                      <div>{{ scope.row.shopName }}</div>
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopName.length <= 10"
+                        >{{ scope.row.shopName }}</span
                       >
-                        <div>{{ scope.row.materialTitle }}</div>
-                        <span
-                          slot="reference"
-                          v-if="scope.row.materialTitle.length <= 10"
-                          >{{ scope.row.materialTitle }}</span
-                        >
-                        <span
-                          slot="reference"
-                          v-if="scope.row.materialTitle.length > 10"
-                          >{{
-                            scope.row.materialTitle.substr(0, 10) + '...'
-                          }}</span
-                        >
-                      </el-popover>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="eventType" label="动作" :width="80">
-                    <template slot-scope="scope">{{
-                      transText(scope.row.eventType)
-                    }}</template>
-                  </el-table-column>
-                  <el-table-column prop="employeeNumber" label="工号" :width="114">
-                    <template slot-scope="scope">{{
-                      scope.row.employeeNumber || '-'
-                    }}</template>
-                  </el-table-column>
-                  <el-table-column prop="guideName" label="员工">
-                    <template slot-scope="scope">{{
-                      scope.row.guideName || '-'
-                    }}</template>
-                  </el-table-column>
-                  <el-table-column prop="shopName" label="所属门店">
-                    <template slot-scope="scope">
-                      <el-popover
-                        placement="top-start"
-                        width="300"
-                        trigger="hover"
-                        :disabled="scope.row.shopName.length <= 10"
+                      <span
+                        slot="reference"
+                        v-if="scope.row.shopName.length > 10"
+                        >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
                       >
-                        <div>{{ scope.row.shopName }}</div>
-                        <span
-                          slot="reference"
-                          v-if="scope.row.shopName.length <= 10"
-                          >{{ scope.row.shopName }}</span
-                        >
-                        <span
-                          slot="reference"
-                          v-if="scope.row.shopName.length > 10"
-                          >{{
-                            scope.row.shopName.substr(0, 10) + '...'
-                          }}</span
-                        >
-                      </el-popover>
-                    </template>
-                  </el-table-column>
-                </el-table>
+                    </el-popover>
+                  </template>
+                </el-table-column>
+              </el-table>
               <!-- </div> -->
             </template>
             <template slot="pagination">
@@ -172,7 +189,7 @@
           </page-table>
         </div>
         <div v-else>
-          <NoData/>
+          <NoData />
         </div>
       </div>
     </div>
@@ -226,6 +243,16 @@ export default {
     }
   },
   methods: {
+    transPost (val) {
+      if (val === 1) {
+        return '店长'
+      } else if (val === 2) {
+        return '客服'
+      } else if (val === 0) {
+        return '导购'
+      }
+      return '-'
+    },
     selectOptionClick (val) {
       this.flag = val
     },
