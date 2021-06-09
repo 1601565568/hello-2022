@@ -11,7 +11,7 @@
     <el-form class="text-message el-form-reset" label-width="6px" label-position="left" :model="defaultModel" :rules="rules" ref="ruleForm">
       <el-form-item prop="htmlContent" :show-message="false">
         <span class="title">文本内容</span>
-        <tag-area ref="TagAreaText" v-if="visible" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true" @inputLength="inputLength"/>
+        <tag-area ref="TagAreaText" v-if="visible" class="tag-area" v-model="defaultModel.htmlContent" tag="wise" :maxlength="1000" :tools="tooltags" placeholder="请输入活动介绍" :showEmoji="true"  :showTextEmoji='true' @inputLength="inputLength"/>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
