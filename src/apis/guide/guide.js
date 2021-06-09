@@ -119,6 +119,10 @@ export default {
     url: '/guide/guide/getGuideTree',
     method: 'post'
   },
+  getShopAndGuideTree: {// 查询店铺导购树 区域搜索、状态等
+    url: 'guide/guide/getShopAndGuideTree',
+    method: 'post'
+  },
   customerGetDetail: {// 客户详情
     url: '/guide/customer/getDetail',
     method: 'post'
