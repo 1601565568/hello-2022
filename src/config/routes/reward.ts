@@ -76,6 +76,12 @@ export default {
           name: 'NoStatistical',
           title: '未执行统计',
           component: () => import('@/pages/WeWork/MaterialChat/noStatistical.vue')
+        },
+        {
+          'path': '/Marketing/SOP/SendLog',
+          'name': 'SOPLog',
+          'title': '社群日历发送日志',
+          'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
         }
       ]
     },
@@ -137,6 +143,26 @@ export default {
           title: '员工访问统计',
           component: () =>
             import('@/pages/DataCenter/SystemAnalysis/VisitStatistics/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/ActivityIndex/WorkStatistics',
+      'name': 'CustomerOperateAnalysis',
+      'title': '会员统计',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Customer/Chat/CustomerChat',
+          'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
+          'title': '客户会话统计',
+          'component': () => import('@/pages/Guide/CustomerChat/index.vue')
+        },
+        {
+          'path': '/Customer/Group/CustomerGroup',
+          'name': 'CustomerGroupCustomerGroup',
+          'title': '群会话统计',
+          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
         }
       ]
     },
