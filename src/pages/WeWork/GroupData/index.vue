@@ -12,7 +12,7 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <!-- <div class="day-view">
+            <div class="day-view">
               <span
                 :class="
                   showTodaySelect
@@ -37,7 +37,7 @@
                 @click="selectTodayClick('thirty')"
                 >近30天</span
               >
-            </div> -->
+            </div>
             <div class="date-view">
               <el-date-picker
                 v-model="datePickerValue"
@@ -45,7 +45,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions1"
+                :picker-options="pickerOptions2"
                 align="center"
                 @change="datePickerChange"
                 value-format="yyyy-MM-dd"
@@ -169,8 +169,8 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
-import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
+import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 export default {
   name: 'GroupData',
   components: { PageTable, NsEcharts, ColorfulDisplay },
@@ -208,7 +208,7 @@ export default {
       //     return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
       //   }
       // },
-      pickerOptions1: {
+      pickerOptions2: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
             return time.getTime() > Date.now() - 2 * 8.64e7
