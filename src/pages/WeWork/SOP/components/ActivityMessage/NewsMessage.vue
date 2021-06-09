@@ -77,7 +77,7 @@ export default {
       display: flex;
       justify-content: space-between;
       padding-bottom: 5px;
-      border-bottom: 1px solid #EEEEEE;
+      // border-bottom: 1px solid #EEEEEE;
       span {
         line-height: 17px;
         display: -webkit-box;

@@ -1,10 +1,10 @@
 <template>
   <div class="activity-card">
     <div class="activity-card-state">
-      <img v-if="activity.status === SOPExamineStatus.UnSubmit" src="./images/daitijiao.png" alt="">
-      <img v-else-if="activity.status === SOPExamineStatus.Pending" src="./images/daishenhe.png" alt="">
-      <img v-else-if="activity.status === SOPExamineStatus.Succeed" src="./images/shenhechenggong.png" alt="">
-      <img v-else-if="activity.status === SOPExamineStatus.Failed" src="./images/shenheshibai.png" alt="">
+      <img v-if="activity.status === SOPExamineStatus.UnSubmit" src="@/icons/outline/daitijiao.svg" alt="">
+      <img v-else-if="activity.status === SOPExamineStatus.Pending" src="@/icons/outline/daishenhe.svg" alt="">
+      <img v-else-if="activity.status === SOPExamineStatus.Succeed" src="@/icons/outline/shenhechenggong.svg" alt="">
+      <img v-else-if="activity.status === SOPExamineStatus.Failed" src="@/icons/outline/shenheshibai.svg" alt="">
     </div>
     <div class="activity-card_header">
       <span class="activity-id">{{activity.code}}</span>
@@ -146,8 +146,8 @@ export default {
         min-width: 56px;
         max-width: 64px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
         display: inline-block;
       }
       .message-icons-list {

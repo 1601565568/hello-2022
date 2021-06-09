@@ -374,7 +374,7 @@ export default {
         this.model.materialId = newVal.id
         this.model.materialTitle = newVal.name
         this.model.materialType = newVal.mType
-        materialMsg.imageList = newVal.imageList
+        materialMsg.imageList = newVal.mediaList
         if (newVal.mType === 0) {
           materialMsg.name = newVal.title
         }

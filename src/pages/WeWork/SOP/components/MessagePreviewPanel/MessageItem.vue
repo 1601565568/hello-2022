@@ -1,6 +1,6 @@
 <template>
   <div class="message-item" :class="{ 'message-item2': !avatar }">
-    <img v-if="avatar" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" alt="">
+    <img v-if="avatar" src="@/assets/default-avatar.png" alt="">
     <div class="message-detail">
       <slot></slot>
     </div>
@@ -50,8 +50,5 @@ export default {
 .message-item2 {
   padding-bottom: 16px;
   border-bottom: 1px solid #EEEEEE;
-  .message-detail {
-    border: 1px solid #EEEEEE;
-  }
 }
 </style>

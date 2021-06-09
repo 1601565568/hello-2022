@@ -1,5 +1,5 @@
 <template>
-  <el-row :class='`collapse-content ${showBottom?"border-b":""}`'>
+  <!-- <el-row :class='`collapse-content ${showBottom?"border-b":""}`'>
     <el-col :span='16' class='collapse-left'>
       <h3 class='collapse-title' v-if='title'>{{title}}</h3>
       <slot name='collapse-left'></slot>
@@ -15,10 +15,27 @@
       </Phone>
       <slot name='collapse-right__bottom'></slot>
     </el-col>
-  </el-row>
+  </el-row> -->
+  <Box :title='title' :phoneTitle='phoneTitle' :showBottom='showBottom'>
+    <template slot='collapse-left'>
+      <slot name='collapse-left'></slot>
+    </template>
+    <template slot='collapse-right'>
+      <div class='phone-title'>{{phoneTitle}}</div>
+      <Phone>
+        <div class='mobile-header' v-if='phoneBar'>
+          <img src='@/assets/phoneBar.png' class='header-img'/>
+          <span class='phone-bar'>{{phoneBar}}</span>
+        </div>
+        <slot name='collapse-right'></slot>
+      </Phone>
+      <slot name='collapse-right__bottom'></slot>
+    </template>
+  </Box>
 </template>
 <script>
 import Phone from './Phone'
+import Box from './Box'
 export default {
   data () {
     return {
@@ -46,7 +63,7 @@ export default {
       default: false
     }
   },
-  components: { Phone },
+  components: { Phone, Box },
   methods: {
     handleChange (value) {
       const result = !!value.length

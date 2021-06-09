@@ -139,10 +139,10 @@ export default {
           value: '1',
           label: '创建时间'
         },
-        {
-          value: '2',
-          label: '扫描次数'
-        },
+        // {
+        //   value: '2',
+        //   label: '扫描次数'
+        // },
         {
           value: '3',
           label: '引流好友数'

@@ -12,6 +12,14 @@ export default {
     url: '/chatRoom/canJoinList',
     method: 'post'
   },
+  canJoinChatIdList: {
+    url: '/chatRoom/canJoinChatIdList',
+    method: 'post'
+  },
+  findByChatIds: {
+    url: '/chatRoom/findByChatIds',
+    method: 'post'
+  },
   chatRoomUserList: {
     url: '/chatRoomUser/list',
     method: 'post'

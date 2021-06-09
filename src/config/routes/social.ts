@@ -96,6 +96,29 @@ export default {
               'component': () => import('@/pages/WeWork/SOP/Activity/Edit/index.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/Send/List',
+          'name': 'redPacketSend',
+          'title': '',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'redPacketSendList'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/RedPacket/Send/List',
+              'name': 'redPacketSendList',
+              'title': '发红包',
+              'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/RedPacket/Send/Edit',
+              'name': 'redPacketSendEdit',
+              'title': '新建发红包',
+              'component': () => import('@/pages/Guide/RedPacket/Send/Edit.vue')
+            }
+          ]
         }
       ]
     },

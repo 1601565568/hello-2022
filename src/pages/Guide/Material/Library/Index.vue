@@ -171,7 +171,7 @@
                 <template slot-scope="scope">
                   <span :class="scope.row.isDirectory === 1 ? 'library-table__folder' : 'library-table__material'" @click="onEnter(scope.row)">
                     <Icon type="wenjianjia-new" />
-                    <span>{{scope.row.name}}</span>
+                    <span v-html="strToRichText(scope.row.name)"></span>
                   </span>
                 </template>
               </el-table-column>
@@ -186,13 +186,15 @@
                   <span v-if="scope.row.isDirectory === 1">-</span>
                   <el-select
                     v-else
-                    v-model="scope.row.subdivisionId"
+                    v-model="scope.row.subdivisionIds"
                     placeholder="未打标"
                     :filter-method="subdivisionFilter"
                     @visible-change="subdivisionVisible"
-                    @change="subdivisionChange(scope.row)"
+                    @change="((val)=>{updateSubs(val,scope.row)})"
                     filterable
-                    clearable
+                    multiple
+                    collapse-tags
+                    style="width: 180px"
                   >
                     <el-option
                       v-for="item in subdivisionList"
@@ -204,10 +206,20 @@
                 </template>
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="编辑人" prop="addName" :min-width="130">
+                  <template slot-scope="scope">
+                    {{ scope.row.addName || '-' }}
+                  </template>
+              </el-table-column>
               <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
-              <el-table-column label="操作" fixed="right" :width="150">
-                <template slot-scope="scope">
-                  <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
+              <el-table-column label="操作" fixed="right" :width="150" >
+                <template slot-scope="scope" >
+                  <div v-if="scope.row.materialScriptType === 2">
+                    <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope" :width="250"></ns-table-column-operate-button>
+                  </div>
+                  <div v-else>
+                    <ns-table-column-operate-button :buttons="table.operate_buttons.slice(0,4)" :prop="scope" :width="250"></ns-table-column-operate-button>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
@@ -248,6 +260,7 @@
     <label-make ref="labelMake" @setSubdivision="setSubdivision"></label-make>
     <label-manage ref="labelManage"></label-manage>
     <preview ref="preview"></preview>
+    <DetailList ref="detailList" :matericalTitle="matericalTitle"/>
   </div>
 </template>
 <script>
@@ -256,6 +269,7 @@ export default Index
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+  @import './styles/image.css';
   .el-icon-arrow-down {
     font-size: 12px;
   }

@@ -2,6 +2,7 @@
   <ElDrawer
     size="720px"
     class="group-drawer"
+    :modal="false"
     :visible="visible"
     direction="rtl"
     @close="$emit('update:visible', false)"

@@ -12,5 +12,8 @@
     .el-radio__label {
       font-size: 14px;
     }
+    .el-input__suffix:before {
+      display: none;
+    }
   } 
 }

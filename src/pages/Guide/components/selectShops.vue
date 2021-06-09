@@ -89,7 +89,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeFun">取消</ns-button>
-        <ns-button  type="primary" @click="okFun">确定</ns-button>
+        <ns-button  type="primary" @click="okFun">保存</ns-button>
       </div>
   </el-dialog>
   <template v-if='isDIYBtn'>
