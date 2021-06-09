@@ -3,6 +3,7 @@
     :lock-scroll="false"
     title="选择品牌"
     width="400px"
+    :append-to-body="appendToBody"
     :visible="visible"
     @close="close"
   >
@@ -30,7 +31,13 @@
  * 品牌选择弹窗
  */
 export default {
-  props: [ 'visible' ],
+  props: {
+    visible: Boolean,
+    appendToBody: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     brandList () {
       const brands = this.$store.state.user.remumber.remumber_login_info.productConfig.brands

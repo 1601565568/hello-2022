@@ -2,12 +2,11 @@
  * @Descripttion: 智能欢迎语
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-28 17:46:50
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-06-04 18:25:35
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import annexType from '@/config/annexType.js'
-
+import { WelcomeMessageType, WelcomeMessageTypeTip } from '../../types'
 export default {
   name: 'NsTableWelcomeCode',
   mixins: [tableMixin],
@@ -59,8 +58,6 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
-      // 附带内容类型
-      annexType: annexType,
       url: this.$api.weWork.welcomeCode.findList,
       model: model,
       quickSearchModel: quickSearchModel,
@@ -68,7 +65,30 @@ export default {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
         loadingtable: false
-      }
+      },
+      // 附带内容类型
+      annexTypeOptions: [
+        {
+          value: WelcomeMessageType.Image,
+          label: '图片'
+        },
+        {
+          value: WelcomeMessageType.Video,
+          label: '视频'
+        },
+        {
+          value: WelcomeMessageType.Link,
+          label: '链接'
+        },
+        {
+          value: WelcomeMessageType.MiniProgram,
+          label: '小程序'
+        },
+        {
+          value: WelcomeMessageType.Poster,
+          label: '二维码海报'
+        }
+      ]
     }
   },
   mounted () {
@@ -77,6 +97,11 @@ export default {
   computed: {
   },
   methods: {
+    messageToolTipList (list) {
+      return list.map(type => {
+        return WelcomeMessageTypeTip[type]
+      })
+    },
     /**
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
@@ -135,18 +160,6 @@ export default {
       })
 
       this.$emit('onDeleteFun', data)
-    },
-    /**
-     * @msg: 转换附带内容类型 k-v
-     * @param {Number} 附带内容类型值
-     * @return: 附带内容类型名称
-     */
-    convertAnnexType (k) {
-      let v = this.annexType.Collection[k]
-      if (v) {
-        return v
-      }
-      return '-'
     },
     /**
      * 更改启用状态

@@ -19,23 +19,6 @@
           <el-form-item label="名称" prop="name" required>
             <el-input v-model="model.name" placeholder="请输入名称" class="el-input" :length="10"></el-input>
           </el-form-item>
-          <!-- <el-form-item label="发送群" prop="chatRoomIdList" required>
-            <div class="select-area">
-              <NsChatRoomDialog
-                btnTitle="选择已有群聊"
-                :selectedRoomIds="model.chatRoomIdList"
-                @getChatRoomIds="selectedRoom"
-                ref="NsChatRoomDialog"
-                :isSelectAll="true"
-              >
-                <div class="select-tips" @click="$refs.NsChatRoomDialog.onDialogOpen()">
-                  <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
-                    <Icon type="geren" class="icon" slot="suffix"></Icon>
-                  </el-input>
-                </div>
-              </NsChatRoomDialog>
-            </div>
-          </el-form-item> -->
           <el-form-item label="发送群" prop="chatRoomIdList" required>
             <NsRoomDialog
               :visible.sync="roomDialogVisible"
@@ -86,24 +69,26 @@
             <template slot='collapse-left'>
               <el-form-item label="素材" prop="contentList" required>
                 <el-popover
-                  v-if="model.contentList.length < 10"
                   placement="top-start"
                   width="480"
                   trigger="hover"
+                  :disabled="model.contentList.length >= 10"
                 >
-                  <div slot="reference" class="add-material">
-                    <Icon type="ns-add-border" class="icon"/>
-                    添加消息内容
-                  </div>
+                  <template slot="reference">
+                    <div v-if="model.contentList.length < 10" class="add-material">
+                      <Icon type="ns-add-border" class="icon"/>
+                      添加消息内容
+                    </div>
+                    <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
+                      <Icon type="ns-add-border" class="icon"/>
+                      添加消息内容
+                    </div>
+                  </template>
                   <WechatMessageBar
                     ref="WechatMessageBar"
                     @addMessage="addMessage"
                   />
                 </el-popover>
-                <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
-                  <Icon type="ns-add-border" class="icon"/>
-                  添加消息内容
-                </div>
                 <span class="add-tip label-gap">最多添加10条消息，图片最大2M，视频最大10M</span>
               </el-form-item>
               <el-form-item>
@@ -190,7 +175,6 @@
 import PageEdit from '@/components/NewUi/PageEdit'
 import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import PhoneBox from '@/components/NewUi/PhoneBox'
-// import NsChatRoomDialog from '@/components/NsChatRoomDialog'
 import NsRoomDialog from '@/components/NsRoomDialog'
 import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
 import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
@@ -202,7 +186,6 @@ export default {
     PageEdit,
     SimpleCollapse,
     PhoneBox,
-    // NsChatRoomDialog,
     NsRoomDialog,
     MessagePreviewPanel,
     TextMessage,

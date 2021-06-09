@@ -107,7 +107,7 @@ export default {
               'path': '/WeWork/WelcomeCode/Edit',
               'name': 'WelcomeCodeEdit',
               'title': '编辑智能欢迎语(企微)',
-              'component': () => import('@/pages/WeWork/WelcomeCode/Edit.vue')
+              'component': () => import('@/pages/WeWork/WelcomeCode/Edit/index.vue')
             }
           ]
         },
