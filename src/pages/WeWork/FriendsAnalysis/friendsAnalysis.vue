@@ -98,7 +98,7 @@
                 <NsGuideDialog
                   :isButton="false"
                   :validNull="true"
-                  :auth="false"
+                  :auth="true"
                   :switchAreaFlag='1'
                   type="primary"
                   btnTitle="选择"
