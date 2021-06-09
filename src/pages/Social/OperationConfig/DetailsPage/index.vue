@@ -20,10 +20,13 @@
               <p class='little-step'>3）网页地址：这里显示地址<Icon type='ns-thick-copy' class='icon copy-icon'></Icon></p>
             </div>
             <div class='content-image'>
-              <img src='' class='preview-img' />
+              <img src='./images/DetailsPage1.jpg' class='preview-img' />
             </div>
             <div class='content-image'>
-              <img src='' class='preview-img' />
+              <img src='./images/DetailsPage2.jpg' class='preview-img' />
+            </div>
+            <div class='content-image'>
+              <img src='./images/DetailsPage3.jpg' class='preview-img' />
             </div>
           </div>
         </div>
@@ -48,6 +51,12 @@ export default Index
   padding-top: 0px;
   .step {
     padding-top: 30px;
+    .header-title {
+      font-size: 14px;
+      color: #262626;
+      line-height: 22px;
+      font-weight: 500;
+    }
   }
 }
 .content {
@@ -58,12 +67,14 @@ export default Index
   p{
     line-height: 22px;
     &.little-step {
+      line-height: 20px;
       margin-left: 12px;
       margin: 8px 0 16px 12px;
     }
     .icon {
-      margin-left: 10px;
-      font-size: 14px;
+      margin-left: 8px;
+      font-size: 16px;
+      color: #595959;
       cursor: pointer;
     }
   }
