@@ -12,6 +12,7 @@ export default {
         picture: '',
         // 注册页面配置
         rgBackground: '', // 注册页面背景图片
+        restoreImg: '', // 注册页面背景图片备份
         rgButtonColor: '', // 注册页面按钮颜色
         rgButtonText: '', // 注册页面按钮文案
         rgButtonTextColor: '', // 按钮文案颜色
@@ -86,6 +87,11 @@ export default {
         return false
       }
     },
+    // 恢复默认背景图
+    restoreDef () {
+      console.log(this.model.rgBackground, 8888, this.model.restoreImg)
+      this.model.rgBackground = this.model.restoreImg
+    },
     formatLoadData (result) {
       const { id, companyLogo, title,
         content, recruitingPostersImage,
@@ -104,6 +110,7 @@ export default {
         picture: picture,
         // 默认注册页面背景图
         rgBackground: rgBackground,
+        restoreImg: rgBackground,
         // 按钮颜色
         rgButtonColor: rgButtonColor,
         // 按钮文案颜色

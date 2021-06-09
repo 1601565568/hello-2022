@@ -69,11 +69,12 @@
         </recruitment-collapse>
         <!-- 招募链接卡片配置 end -->
         <!-- 注册页面配置 start -->
-        <recruitment-collapse title='注册页面配置' phoneBar='会员开卡'>
+        <recruitment-collapse :flag='true' title='注册页面配置' phoneBar='会员开卡'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='rgBackground'>
               <drap-upload :showFooter='false' tip='（请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334,大小不超过2M）' v-model='model.rgBackground' :maxWidth='750' :maxHeight='1334' :maxSize='2'>
               </drap-upload>
+              <div class="reset_img" @click='restoreDef'>恢复默认海报图</div>
             </el-form-item>
             <el-form-item label='按钮颜色' required prop='rgButtonColor'>
                 <ElColor-picker v-model="model.rgButtonColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
@@ -156,6 +157,15 @@ export default Index
     padding-left: 16px;
     background-color: #fff;
   }
+  .reset_img{
+    height: 22px;
+    font-size: 14px;
+    color: #0392FB;
+    line-height: 22px;
+    font-weight: 400;
+    margin-top: 8px;
+    cursor: pointer;
+  }
   .poster-set_content {
     display: flex;
     align-items: flex-start;
@@ -189,7 +199,7 @@ export default Index
     background-repeat: no-repeat
   }
   .chat_content{
-    width: 320px;
+    width: 318px;
   }
   .chat-img {
     position: absolute;
