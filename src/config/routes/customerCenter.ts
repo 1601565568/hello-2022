@@ -43,6 +43,23 @@ export default {
           'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
         },
         {
+          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+          'name': 'WeComFriendsAnalysis',
+          'title': '好友分析',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+              'name': 'WeComFriendsAnalysis',
+              'title': '好友分析',
+              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
+            }
+          ]
+        },
+        {
           'path': '/Social/WeComCustomerOperation/RepeatCustomer',
           'name': 'WeComRepeatCustomer',
           'title': '重复客户',
@@ -81,6 +98,18 @@ export default {
           'name': 'WeComRoomMemberList',
           'title': '企微群成员列表',
           'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/GroupData',
+          'name': 'WeComCustomerOperationGroupData',
+          'title': '群分析',
+          'component': () => import('@/pages/WeWork/GroupData/index.vue')
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/GroupRepeat',
+          'name': 'WeComExternalContactList',
+          'title': '重复群统计',
+          'component': () => import('@/pages/WeWork/GroupRepeat/index.vue')
         }
       ]
     }

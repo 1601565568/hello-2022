@@ -2,6 +2,7 @@ import validates from './validates'
 export default {
   data () {
     return {
+      normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
       collapseList: [1, 2, 3],
       customerLoading: false,
       guestCodeId: null,
@@ -91,7 +92,8 @@ export default {
       isSetPrize: true,
       isLoading: false,
       prizeModel: {}, // 奖品组件回显
-      brandDialogVisible: false
+      brandDialogVisible: false,
+      popoverShow: false // 查看示例tip
     }
   },
   computed: {
@@ -132,6 +134,9 @@ export default {
     }
   },
   methods: {
+    handleChangePopoverShow (popoverShow = !this.popoverShow) {
+      this.popoverShow = popoverShow
+    },
     /**
      * 打开选择品牌模态框
      */
@@ -153,7 +158,7 @@ export default {
         this.model = {
           ...this.model,
           activityDescription: result.activityDescription,
-          activityIntroduction: this.stringTohtml(result.activityIntroduction),
+          activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
           backgroundPic: result.backgroundPic,
           effectiveCycle: result.effectiveCycle,
           headPortrait: !!result.headPortrait,
@@ -292,7 +297,7 @@ export default {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const prizeModel = await this.$refs.setPrize.onSave()
-          // this.btnLoad = true
+          this.btnLoad = true
           if (!prizeModel) {
             this.btnLoad = false
             return false
@@ -332,6 +337,15 @@ export default {
     inputLength (length) {
       this.activityIntroductionLength = length
       this.$refs.ruleForm && this.$refs.ruleForm.validateField('activityIntroduction')
+    },
+    handleSynch () {
+      if (this.$refs.tagAreaText) {
+        const text = this.$refs.tagAreaText.stringTohtml(this.normalDesc)
+        this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
+        this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+        this.model.activityIntroduction = text
+        this.handleChangePopoverShow(false)
+      }
     }
   }
 }

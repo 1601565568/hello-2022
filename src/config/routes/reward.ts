@@ -26,23 +26,6 @@ export default {
           'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         },
         {
-          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-          'name': 'WeComFriendsAnalysis',
-          'title': '好友分析',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeComRepeatCustomer'
-          },
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-              'name': 'WeComFriendsAnalysis',
-              'title': '好友分析',
-              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
-            }
-          ]
-        },
-        {
           'path': '/Social/WeComCustomerOperation/LossCustomers',
           'name': 'WeComLossCustomers',
           'title': '流失客户',
@@ -64,6 +47,18 @@ export default {
               component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
             }
           ]
+        },
+        {
+          path: '/Social/OperationData/MaterialChat',
+          name: 'MaterialChat',
+          title: '素材库累计数据',
+          component: () => import('@/pages/WeWork/MaterialChat/index.vue')
+        },
+        {
+          path: '/Social/OperationData/NoStatistical',
+          name: 'NoStatistical',
+          title: '未执行统计',
+          component: () => import('@/pages/WeWork/MaterialChat/noStatistical.vue')
         },
         {
           'path': '/Marketing/SOP/SendLog',
@@ -150,7 +145,7 @@ export default {
           'path': '/Customer/Group/CustomerGroup',
           'name': 'CustomerGroupCustomerGroup',
           'title': '群会话统计',
-          'component': () => import('@/pages/Guide/ActivityIndex/ShopStatistics.vue')
+          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
         }
       ]
     },
@@ -171,6 +166,35 @@ export default {
           'name': 'SG_LOGIN_LOG',
           'title': '登录日志',
           'component': () => import('@/pages/Guide/LoginLog/List.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Social/SocialOperation/RedPacket/Analysis',
+      'name': 'redPacketAnalysis',
+      'title': '',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'redirect': {
+        'name': 'redPacketAnalysis'
+      },
+      'children': [
+        {
+          'path': '/Social/SocialOperation/RedPacket/Analysis',
+          'name': 'redPacketAnalysis',
+          'title': '数据概览',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/Analysis/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/ReceiveRecord',
+          'name': 'redPacketAnalysis',
+          'title': '领取记录',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/ReceiveRecord/index.vue')
+        },
+        {
+          'path': '/Social/SocialOperation/RedPacket/SendRecord',
+          'name': 'redPacketAnalysis',
+          'title': '发放记录',
+          'component': () => import('@/pages/Guide/RedPacket/Analysis/SendRecord/index.vue')
         }
       ]
     }

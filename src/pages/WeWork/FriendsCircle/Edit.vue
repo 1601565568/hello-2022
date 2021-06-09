@@ -18,7 +18,7 @@
               { required: true, message: '请输入内容', trigger: ['blur', 'change'] },
               { validator: validateContent.bind(this, activityIntroductionLength), trigger: ['blur', 'change'] }
             ]">
-              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="2000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true'/>
+              <tag-area v-model='model.content' tag="wise" ref="testText" :maxlength="2000" :tools='tools' @inputLength="inputLength" :disabled='isEdit' :showEmoji='true' :showTextEmoji='true'/>
             </el-form-item>
             <el-form-item label='附件' prop='mediaList'>
               <MoveUpload :value='model.mediaList' @input='handleChangeMedia' :mediaType='model.type' :disabled='isEdit'/>

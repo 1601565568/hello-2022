@@ -16,6 +16,9 @@ export default ($route) => {
     '/Marketing/EffectAnalysisEnterprise',
     '/Marketing/EffectAnalysisEnterpriseGroup',
     '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/GroupData',
+    '/Customer/Group/CustomerGroup',
+    '/Social/OperationData/MaterialChat',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/WeWork/Customer/SessionStatistics'
   ]

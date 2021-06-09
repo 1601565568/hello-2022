@@ -1,0 +1,69 @@
+.select-data-view >>> .el-tabs__header {
+  border: none;
+}
+
+.select-data-view >>> .el-tabs__item.is-active {
+  color: #0094fc;
+}
+
+.select-data-view >>> .el-tabs__active-bar {
+  background: #0094fc;
+}
+
+.select-data-view >>> .el-tabs__item:focus.is-active.is-focus:not(:active) {
+  box-shadow: none;
+}
+
+.date-view >>> .el-input__inner {
+  width: 256px;
+  height: 32px;
+  border: 1px solid #D9D9D9;
+}
+.data-view >>> .el-range-input {
+  font-size: 14px;
+  text-align: center;
+}
+
+.date-view >>> .el-range-input {
+  font-size: 14px;
+  /* height: 32px; */
+}
+
+.date-view >>> .el-range-editor--small .el-range-separator {
+  line-height: 22px;
+  font-size: 14px;
+}
+.data-view >>> .el-range-editor--small .el-range-separator {
+  line-height: 27px;
+  font-size: 14px
+}
+
+.item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+  color: #262626;
+}
+
+.item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
+}
+
+.input-view >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  height:32px;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+}
+
+.no-input-view >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  height:32px;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  width:240px;
+}
+.no-input-view >>> .el-input__suffix {
+  width:30px;
+  height:30px;
+}
