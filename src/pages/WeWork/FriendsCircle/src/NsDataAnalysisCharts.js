@@ -24,7 +24,7 @@ export default {
   },
   data: function () {
     let model = Object.assign({},
-      { 'shopId': '', 'profileId': null })
+      { 'shopIds': '', 'profileId': null })
     let pagination = {
       enable: true,
       size: 15,
@@ -46,13 +46,13 @@ export default {
       _pagination: pagination,
       externalLogQuery: {
         profileId: null,
-        shopId: '',
+        shopIds: '',
         startTime: this.date[0] || '',
         endTime: this.date[1] || ''
       },
       logByTypeQuery: {
         profileId: null,
-        shopId: '',
+        shopIds: '',
         startTime: this.date[0] || '',
         endTime: this.date[1] || '',
         length: 15,
@@ -181,8 +181,10 @@ export default {
       this._data.option.series[0].data = []
       this._data.option.series[1].data = []
       this._data.option.legend.data = []
-      this.externalLogQuery.shopId = this.model.shopId
+      // 后台把shopId 改为 shopIds
+      this.externalLogQuery.shopIds = this.model.shopIds
       this.externalLogQuery.profileId = this.model.profileId
+      this.externalLogQuery.areaId = this.model.areaId
       this.$http.fetch(_this.$api.weWork.friendsCircle.logPvAndUv,
         this.externalLogQuery)
         .then((resp) => {
@@ -213,7 +215,9 @@ export default {
     },
     // 日期导购列表
     tableReload: function () {
-      this.logByTypeQuery.shopId = this.model.shopId
+      // 后台把shopId 改为 shopIds
+      this.logByTypeQuery.shopIds = this.model.shopIds
+      this.logByTypeQuery.areaId = this.model.areaId
       this.logByTypeQuery.profileId = this.model.profileId
       this.logByTypeQuery.length = this._data._pagination.size
       this.logByTypeQuery.start = (this._data._pagination.page - 1) * (this._data._pagination.size)
