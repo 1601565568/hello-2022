@@ -12,7 +12,7 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <div class="day-view">
+            <!-- <div class="day-view">
               <span
                 :class="
                   showTodaySelect
@@ -37,7 +37,7 @@
                 @click="selectTodayClick('thirty')"
                 >近30天</span
               >
-            </div>
+            </div> -->
             <div class="date-view">
               <el-date-picker
                 v-model="datePickerValue"
@@ -87,7 +87,7 @@
     <div class="material-list">
       <div class="title">数据报表</div>
       <div class="select-data-view">
-        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="按日期显示" name="first">
             <page-table style="padding-top:0">
               <template slot="table">
@@ -160,21 +160,20 @@
               </template>
             </page-table>
           </el-tab-pane>
-        </el-tabs> -->
+        </el-tabs>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import PageTable from '@/components/NewUi/PageTable'
+import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
 export default {
   name: 'GroupData',
-  // components: { PageTable, NsEcharts, ColorfulDisplay },
-  components: { NsEcharts, ColorfulDisplay },
+  components: { PageTable, NsEcharts, ColorfulDisplay },
   data () {
     return {
       loading: false,
