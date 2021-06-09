@@ -5,7 +5,7 @@
         <div class="title">群分析</div>
       </div>
       <div style="margin-left:16px;margin-right:16px">
-        <ColorfulDisplay :dataList='dataList'/>
+        <!-- <ColorfulDisplay :dataList='dataList'/> -->
       </div>
     </div>
     <div class="material-show">
@@ -103,7 +103,7 @@
     </div>
     <div class="chat-view">
       <div class="title">数据分析</div>
-      <!-- <NsEcharts :options="option" /> -->
+      <NsEcharts :options="option" />
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
@@ -189,13 +189,13 @@
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
-// import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
-import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
+import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+// import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
 export default {
   name: 'GroupData',
   // components: { PageTable, NsEcharts, ColorfulDisplay },
-  components: { PageTable, ColorfulDisplay },
+  components: { PageTable, NsEcharts },
   data () {
     return {
       loading: false,
