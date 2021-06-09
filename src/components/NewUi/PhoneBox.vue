@@ -176,7 +176,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      left: 30px;
+      left: 85px;
       right: 80px;
       top: 45%;
     }
