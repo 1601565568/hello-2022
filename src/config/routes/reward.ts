@@ -26,23 +26,6 @@ export default {
           'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         },
         {
-          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-          'name': 'WeComFriendsAnalysis',
-          'title': '好友分析',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeComRepeatCustomer'
-          },
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-              'name': 'WeComFriendsAnalysis',
-              'title': '好友分析',
-              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
-            }
-          ]
-        },
-        {
           'path': '/Social/WeComCustomerOperation/LossCustomers',
           'name': 'WeComLossCustomers',
           'title': '流失客户',
