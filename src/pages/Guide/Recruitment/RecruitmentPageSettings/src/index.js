@@ -89,7 +89,6 @@ export default {
     },
     // 恢复默认背景图
     restoreDef () {
-      console.log(this.model.rgBackground, 8888, this.model.restoreImg)
       this.model.rgBackground = this.model.restoreImg
     },
     formatLoadData (result) {
