@@ -67,7 +67,7 @@
             </div>
             <div class='shop-content'>
               <span>选择员工：</span>
-              <NsGuideDialog :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
+              <NsGuideDialog :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
