@@ -5,7 +5,7 @@
         <div class="title">群分析</div>
       </div>
       <div style="margin-left:16px;margin-right:16px">
-        <!-- <ColorfulDisplay :dataList='dataList'/> -->
+        <ColorfulDisplay :dataList='dataList'/>
       </div>
     </div>
     <div class="material-show">
@@ -38,7 +38,7 @@
                 >近30天</span
               >
             </div>
-            <div class="date-view">
+            <!-- <div class="date-view">
               <el-date-picker
                 v-model="datePickerValue"
                 type="daterange"
@@ -51,7 +51,7 @@
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
-            </div>
+            </div> -->
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
@@ -190,12 +190,11 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
-// import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
+import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
 export default {
   name: 'GroupData',
-  // components: { PageTable, NsEcharts, ColorfulDisplay },
-  components: { PageTable, NsEcharts },
+  components: { PageTable, NsEcharts, ColorfulDisplay },
   data () {
     return {
       loading: false,
