@@ -58,7 +58,7 @@
           <div class="message-composition">
             <div class="message-composition__left">
                 <ElFormItem prop="textarea">
-                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="400" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' @input='setView'/>
+                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="400" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' @input='setView' :showEmoji='true' :showTextEmoji='true'/>
                   <!-- <ElFormGrid>
                     <el-input
                       :disabled="isUpdate"

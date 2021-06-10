@@ -45,7 +45,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions1"
+                :picker-options="pickerOptions2"
                 align="center"
                 @change="datePickerChange"
                 value-format="yyyy-MM-dd"
@@ -72,27 +72,6 @@
                 </el-select>
               </div>
             </div>
-            <!-- <div class="item-down al">
-              <div class="nameNext">群名称：</div>
-              <div class="item-select">
-                <el-select
-                  :disabled='checkId === 2'
-                  clearable
-                  v-model="actionValue"
-                  :default-first-option="true"
-                  @visible-change="selectOptionClick"
-                  @change="chatNameChange"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div> -->
           </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="drawer-output" @click="outputCsvFile">
@@ -190,8 +169,8 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
-import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 import moment from 'moment'
+import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
 export default {
   name: 'GroupData',
   components: { PageTable, NsEcharts, ColorfulDisplay },
@@ -229,7 +208,7 @@ export default {
       //     return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
       //   }
       // },
-      pickerOptions1: {
+      pickerOptions2: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
             return time.getTime() > Date.now() - 2 * 8.64e7

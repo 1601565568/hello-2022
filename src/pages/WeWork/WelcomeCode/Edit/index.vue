@@ -21,6 +21,8 @@
                     tag="wise"
                     ref="TagAreaText"
                     :maxlength="1000"
+                    :showEmoji='true'
+                    :showTextEmoji='true'
                     :tools='tools'
                     @inputLength="tagAreaInputLength"
                     placeholder="请输入欢迎语"
