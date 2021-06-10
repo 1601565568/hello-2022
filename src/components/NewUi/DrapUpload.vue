@@ -16,7 +16,7 @@
         <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
       </template>
     </el-upload>
-    <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList'>
+    <div :class='"el-upload-list el-upload-list--text "+!showFooter && "padingbottom"' v-if='fileList'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
@@ -42,17 +42,27 @@
         <p class='prompt-text'>logo获取导购后台-公司logo；门店名称和导购姓名动态获取当前导购的信息</p> -->
       </div>
     </div>
+    <el-dialog
+      title="选择品牌"
+      :append-to-body="true"
+      :visible="visible"
+    >
+      <Cropper v-if='img' :img='img'/>
+    </el-dialog>
   </div>
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
+import Cropper from './Cropper'
 export default {
   data () {
     return {
-      fileList: ''
+      fileList: '',
+      visible: false,
+      img: null
     }
   },
-  components: { ElUpload },
+  components: { ElUpload, Cropper },
   props: {
     // 图片类型 需要大写
     imgType: {
@@ -109,40 +119,65 @@ export default {
   },
   methods: {
     // 上传之前钩子
+    // beforeUpload (file) {
+    //   // 图片格式判断
+    //   const { name = '' } = file
+    //   const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
+    //   if (!this.imgType.includes(toUpperCaseName)) {
+    //     this.$notify.error(`仅支持${this.imgType.join('/')}的图片格式`)
+    //     return false
+    //   }
+    //   if (file.size / 1024 / 1024 > this.maxSize) {
+    //     this.$notify.error(`上传图片不能超过${this.maxSize}M`)
+    //     return false
+    //   }
+    //   return new Promise((resolve, reject) => {
+    //     const _URL = window.URL || window.webkitURL
+    //     const img = new Image()
+    //     img.src = _URL.createObjectURL(file)
+    //     img.onload = () => {
+    //       const { width, height } = img
+    //       let valid = true
+    //       if (this.maxWidth || this.maxHeight) {
+    //         valid = (!this.maxWidth || this.maxWidth === width) && (!this.maxHeight || this.maxHeight === height)
+    //       } else if (this.scale) {
+    //         valid = (width / height) === this.scale
+    //       }
+    //       if (valid) {
+    //         resolve(file)
+    //         this.fileList = file.name
+    //       } else {
+    //         this.fileList = this.value
+    //         const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.maxWidth ? '宽' + this.maxWidth : this.scaleTip}`
+    //         this.$notify.error(msg)
+    //       }
+    //     }
+    //   })
+    // },
     beforeUpload (file) {
-      // 图片格式判断
-      const { name = '' } = file
-      const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
-      if (!this.imgType.includes(toUpperCaseName)) {
-        this.$notify.error(`仅支持${this.imgType.join('/')}的图片格式`)
-        return false
+      // let reader = new FileReader()
+      // let rs = reader.readAsArrayBuffer(file)
+      // console.log(reader)
+      // let blob = null
+      // reader.onload = (e) => {
+      //   console.log(e)
+      //   if (typeof e.target.result === 'object') {
+      //     blob = new Blob([e.target.result])
+      //   } else {
+      //     blob = e.target.result
+      //   }
+      //   console.log(blob)
+      //   this.img = blob
+      //   this.visible = true
+      // }
+      // return false
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        // target.result 该属性表示目标对象的DataURL
+        console.log(e.target.result)
       }
-      if (file.size / 1024 / 1024 > this.maxSize) {
-        this.$notify.error(`上传图片不能超过${this.maxSize}M`)
-        return false
-      }
-      return new Promise((resolve, reject) => {
-        const _URL = window.URL || window.webkitURL
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = () => {
-          const { width, height } = img
-          let valid = true
-          if (this.maxWidth || this.maxHeight) {
-            valid = (!this.maxWidth || this.maxWidth === width) && (!this.maxHeight || this.maxHeight === height)
-          } else if (this.scale) {
-            valid = (width / height) === this.scale
-          }
-          if (valid) {
-            resolve(file)
-            this.fileList = file.name
-          } else {
-            this.fileList = this.value
-            const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.maxWidth ? '宽' + this.maxWidth : this.scaleTip}`
-            this.$notify.error(msg)
-          }
-        }
-      })
+      // 传入一个参数对象即可得到基于该参数对象的文本内容
+      reader.rederAsDataURL(file)
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
