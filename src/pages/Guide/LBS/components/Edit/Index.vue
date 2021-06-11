@@ -79,7 +79,7 @@
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
+              <drap-upload tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :isNeedCrop='true'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -87,7 +87,7 @@
             <div class='preview-img' :style='{backgroundImage: `url(${model.activityPoster})`}'>
               <div class='user-content_bg' v-if='!model.activityPoster'>你还未上传活动海报</div>
               <div class="upload-content_lbs" v-if='!model.activityPoster'>
-                <drap-upload v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :drag='false'>
+                <drap-upload v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :drag='false' :isNeedCrop='true'>
                 </drap-upload>
                 上传海报图
               </div>
@@ -103,7 +103,7 @@
           <PhoneBox class='first-phone' title='01 引导页设置' :phoneBar='phoneTitle' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='(建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式)' v-model='model.welcomePoster' :maxWidth='750'>
+                <drap-upload tip='（建议：宽度750像素，高度不限，jpg、jpeg或png的图片，小于1M）' v-model='model.welcomePoster' :maxWidth='750'>
                   <template slot='footer'>
                     <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
@@ -250,7 +250,7 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='qrcodePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'>
+                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'  :isNeedCrop='true'>
                 </drap-upload>
               </el-form-item>
             </template>
@@ -263,7 +263,7 @@
                 <div v-if='!model.qrcodePoster'>
                   <div class='user-content_bg' >你还未上传活动海报</div>
                   <div class="upload-content_lbs">
-                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false'>
+                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false' :isNeedCrop='true'>
                     </drap-upload>
                     上传海报图
                   </div>

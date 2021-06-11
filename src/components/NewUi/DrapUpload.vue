@@ -24,7 +24,7 @@
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
-            <i class="el-icon-close" @click='handleRemove'></i>
+            <i class="el-icon-close" @click='handleRemove(false)'></i>
           </el-tooltip>
         </label>
         <label class="el-upload-list__item-status-label reset" v-if='resetImage'>
@@ -43,11 +43,25 @@
       </div>
     </div>
     <el-dialog
-      title="选择品牌"
+      title="上传图片"
+      width='1053px'
       :append-to-body="true"
-      :visible="visible"
+      :visible.sync="visible"
     >
-      <Cropper v-if='img' :img='img'/>
+      <Cropper ref='cropper' v-if='img' :img='img' :fixedNumber='cropScale'/>
+      <div slot="footer" class="dialog-footer">
+        <div style='margin-right:10px;'>
+          <el-upload
+            accept=".jpg,.jpeg,.png"
+            :action="$api.core.sgUploadFile('test')"
+            :show-file-list='false'
+            :before-upload="beforeUpload">
+            <ns-button :loading='upDataLoad' type="primary">重新上传</ns-button>
+          </el-upload>
+        </div>
+        <ns-button :loading='upDataLoad' @click='handleCancel'>取 消</ns-button>
+        <ns-button :loading='upDataLoad' type="primary" @click='handleSaveImg'>确 定</ns-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -59,10 +73,26 @@ export default {
     return {
       fileList: '',
       visible: false,
-      img: null
+      img: null,
+      upDataLoad: false
     }
   },
   components: { ElUpload, Cropper },
+  computed: {
+    // 需要裁剪图片的裁剪比例
+    cropScale () {
+      if (!this.isNeedCrop) {
+        return null
+      }
+      if (this.maxWidth && this.maxHeight) {
+        return [this.maxWidth, this.maxHeight]
+      }
+      if (this.scale) {
+        return this.decimalsToFractional(this.scale).split('/')
+      }
+      return [1, 1]
+    }
+  },
   props: {
     // 图片类型 需要大写
     imgType: {
@@ -115,77 +145,116 @@ export default {
     // 是否拖拽
     drag: {
       default: true
+    },
+    // 是否需要裁剪
+    isNeedCrop: {
+      default: false
     }
   },
   methods: {
-    // 上传之前钩子
-    // beforeUpload (file) {
-    //   // 图片格式判断
-    //   const { name = '' } = file
-    //   const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
-    //   if (!this.imgType.includes(toUpperCaseName)) {
-    //     this.$notify.error(`仅支持${this.imgType.join('/')}的图片格式`)
-    //     return false
-    //   }
-    //   if (file.size / 1024 / 1024 > this.maxSize) {
-    //     this.$notify.error(`上传图片不能超过${this.maxSize}M`)
-    //     return false
-    //   }
-    //   return new Promise((resolve, reject) => {
-    //     const _URL = window.URL || window.webkitURL
-    //     const img = new Image()
-    //     img.src = _URL.createObjectURL(file)
-    //     img.onload = () => {
-    //       const { width, height } = img
-    //       let valid = true
-    //       if (this.maxWidth || this.maxHeight) {
-    //         valid = (!this.maxWidth || this.maxWidth === width) && (!this.maxHeight || this.maxHeight === height)
-    //       } else if (this.scale) {
-    //         valid = (width / height) === this.scale
-    //       }
-    //       if (valid) {
-    //         resolve(file)
-    //         this.fileList = file.name
-    //       } else {
-    //         this.fileList = this.value
-    //         const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.maxWidth ? '宽' + this.maxWidth : this.scaleTip}`
-    //         this.$notify.error(msg)
-    //       }
-    //     }
-    //   })
-    // },
-    beforeUpload (file) {
-      // let reader = new FileReader()
-      // let rs = reader.readAsArrayBuffer(file)
-      // console.log(reader)
-      // let blob = null
-      // reader.onload = (e) => {
-      //   console.log(e)
-      //   if (typeof e.target.result === 'object') {
-      //     blob = new Blob([e.target.result])
-      //   } else {
-      //     blob = e.target.result
-      //   }
-      //   console.log(blob)
-      //   this.img = blob
-      //   this.visible = true
-      // }
-      // return false
-      const reader = new FileReader()
-      reader.onload = function (e) {
-        // target.result 该属性表示目标对象的DataURL
-        console.log(e.target.result)
+    // 小数转分数
+    decimalsToFractional (decimals) {
+      const formatDecimals = decimals.toFixed(2)
+      let denominator = 100// 初始化分母
+      let numerator = formatDecimals * 100// 初始化分子
+      let bigger = 0
+      function recursion () {
+        bigger = denominator > numerator ? denominator : numerator
+        for (let i = bigger; i > 1; i--) {
+          if (Number.isInteger(numerator / i) && Number.isInteger(denominator / i)) {
+            numerator = numerator / i
+            denominator = denominator / i
+            recursion()
+          }
+        }
       }
-      // 传入一个参数对象即可得到基于该参数对象的文本内容
-      reader.rederAsDataURL(file)
+      recursion()
+      return `${numerator}/${denominator}`
+    },
+    // 截图上传之前钩子
+    beforeUploadByCrop (file) {
+      const fileObj = new FileReader()
+      fileObj.onload = (e) => {
+        this.img = e.target.result
+        this.visible = true
+      }
+      fileObj.readAsDataURL(file)
+      return false
+    },
+    // 上传之前钩子
+    beforeUpload (file) {
+      // 图片格式判断
+      const { name = '' } = file
+      const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
+      if (!this.imgType.includes(toUpperCaseName)) {
+        this.$notify.error(`仅支持${this.imgType.join('/')}的图片格式`)
+        return false
+      }
+      // 如果需要裁剪则不上传
+      if (this.isNeedCrop) {
+        this.beforeUploadByCrop(file)
+        return false
+      }
+      if (file.size / 1024 / 1024 > this.maxSize) {
+        this.$notify.error(`上传图片不能超过${this.maxSize}M`)
+        return false
+      }
+      return new Promise((resolve, reject) => {
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          const { width, height } = img
+          let valid = true
+          if (this.maxWidth || this.maxHeight) {
+            valid = (!this.maxWidth || this.maxWidth === width) && (!this.maxHeight || this.maxHeight === height)
+          } else if (this.scale) {
+            valid = (width / height) === this.scale
+          }
+          if (valid) {
+            resolve(file)
+            this.fileList = file.name
+          } else {
+            this.fileList = this.value
+            const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.maxWidth ? '宽' + this.maxWidth : this.scaleTip}`
+            this.$notify.error(msg)
+          }
+        }
+      })
+    },
+
+    // 截图
+    async handleSaveImg () {
+      if (this.$refs.cropper) {
+        this.upDataLoad = true
+        const url = await this.$refs.cropper.getImage()
+        await this.upDataBase64(url)
+        this.upDataLoad = false
+        this.handleCancel()
+      }
+    },
+    // base64 上传
+    upDataBase64 (file) {
+      return new Promise(resolve => {
+        this.$http.fetch(this.$api.weWork.friendsCircle.uploadBase64File, { file }).then(res => {
+          this.handleUploadSuccess(res)
+          resolve(true)
+        })
+      })
+    },
+    // 关闭裁剪弹框
+    handleCancel () {
+      this.visible = false
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
       this.$emit('input', res.result.url)
     },
     // 删除文件钩子
-    handleRemove () {
-      this.$emit('input', '')
+    handleRemove (file) {
+      if (!file || !this.isNeedCrop) {
+        this.$emit('input', '')
+      }
     },
     // 还原
     handleReset () {
@@ -271,5 +340,9 @@ export default {
 }
 .padingbottom {
   padding-bottom: 16px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
