@@ -18,7 +18,7 @@
               <length-input v-model='model.name' placeholder="请输入封面名称，长度10个字符以内" :length='10'/>
             </el-form-item>
             <el-form-item label='红包背景图' required prop='background' ref='imgItem'>
-              <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :maxSize='1' :isNeedCrop='true'>
+              <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :maxSize='1' :isNeedCrop='true'>
               </drap-upload>
               <ns-button type='text' style='margin-top:16px' @click='handleDownload'>下载设计模板</ns-button>
             </el-form-item>

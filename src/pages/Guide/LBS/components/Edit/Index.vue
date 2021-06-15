@@ -79,7 +79,7 @@
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :isNeedCrop='true'>
+              <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :isNeedCrop='true'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -103,7 +103,7 @@
           <PhoneBox class='first-phone' title='01 引导页设置' :phoneBar='phoneTitle' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='（建议：宽度750像素，高度不限，jpg、jpeg或png的图片，小于1M）' v-model='model.welcomePoster' :maxWidth='750'>
+                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.welcomePoster'>
                   <template slot='footer'>
                     <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
@@ -119,7 +119,7 @@
                 <div v-if='!model.welcomePoster'>
                   <div class='user-content_bg' >你还未上传活动海报</div>
                   <div class="upload-content_lbs">
-                    <drap-upload v-model='model.welcomePoster' :maxWidth='750' :showPont='false' :drag='false'>
+                    <drap-upload v-model='model.welcomePoster' :showPont='false' :drag='false'>
                     </drap-upload>
                     上传海报图
                   </div>
