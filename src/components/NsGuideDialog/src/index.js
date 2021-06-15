@@ -23,6 +23,12 @@ export default {
         return this.$api.core.sysUser.queryGuidePage
       }
     },
+    guideFindUrl: {
+      type: Object,
+      default: function () {
+        return this.$api.core.sysUser.findByUserIds
+      }
+    },
     // 是否添加登录账号店铺数据权限
     auth: {
       type: Boolean,
@@ -580,7 +586,7 @@ export default {
                 param.userIds = vm.value.join(',')
               }
             }
-            vm.$http.fetch(this.$api.core.sysUser.findByGuideIds, param).then(resp => {
+            vm.$http.fetch(this.guideFindUrl, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
                 vm.selectedData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result)), vm.departData.allDepartments)
                 vm.$nextTick(function () {
