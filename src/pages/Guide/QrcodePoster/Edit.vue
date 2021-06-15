@@ -17,7 +17,7 @@
                <length-input v-model='model.title' placeholder="请输入海报名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
             <el-form-item label='海报背景图' required prop='background'  class='larger-item'>
-              <drap-upload tip='（上传限制：750*1334像素，小于2M，jpg、png、jpeg格式）' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='2' :isNeedCrop='true'>
+              <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过2M' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='2' :isNeedCrop='true'>
               </drap-upload>
             </el-form-item>
             <el-form-item label='二维码' required class='larger-item'>
