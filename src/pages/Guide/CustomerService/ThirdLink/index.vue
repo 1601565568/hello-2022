@@ -13,7 +13,7 @@
         <recruitment-collapse title='关联成功页面' :phoneBar='`关联${platform.name}帐号`' :disabled='true'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='background'  class='larger-item'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1206' :showPont='false'>
+              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1206' :showPont='false' :isNeedCrop='true'>
                 <template slot='footer'>
                   <div class='flex-box hot-ware'>
                     <Icon type="ns-edit" class='set-ware icon' @click='handleSetHot'/>

@@ -13535,6 +13535,11 @@ vue-class-component@^7.0.2, vue-class-component@^7.1.0, vue-class-component@^7.2
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.3.tgz#a5b1abd53513a72ad51098752e2dedd499807cca"
   integrity sha1-pbGr1TUTpyrVEJh1Li3t1JmAfMo=
 
+vue-cropper@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.npm.taobao.org/vue-cropper/download/vue-cropper-0.5.6.tgz?cache=0&sync_timestamp=1608604834259&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-cropper%2Fdownload%2Fvue-cropper-0.5.6.tgz#a38c98d402da1421bd5e7535e16b9723f103cafd"
+  integrity sha1-o4yY1ALaFCG9XnU14WuXI/EDyv0=
+
 vue-drag-resize@^1.4.2:
   version "1.4.2"
   resolved "https://registry.npm.taobao.org/vue-drag-resize/download/vue-drag-resize-1.4.2.tgz#656408b52c77c383a6aafb08c32bd220f0f25b73"

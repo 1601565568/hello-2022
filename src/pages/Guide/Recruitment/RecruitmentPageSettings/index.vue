@@ -15,7 +15,7 @@
         <recruitment-collapse title='导购招募海报配置' phoneTitle='效果展示'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='recruitingPostersImage'>
-              <drap-upload class="v1" tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.recruitingPostersImage' :maxWidth='750' :maxHeight='1334'>
+              <drap-upload class="v1" tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.recruitingPostersImage' :maxWidth='750' :maxHeight='1334' :isNeedCrop='true'>
                 <template slot='footer'>
                   <p class='prompt-text'>公司logo和招募码为固定位置，建议尺寸为70*70</p>
                   <p class='prompt-text'>logo获取导购后台-公司logo；门店名称和导购姓名动态获取当前导购的信息</p>
@@ -53,7 +53,7 @@
               <length-input type="textarea"  v-model='model.content' :length='50' placeholder="请输入摘要，长度在1-50个字符以内"/>
             </el-form-item>
             <el-form-item label='封面图' required prop='picture'>
-              <drap-upload tip='（请上传格式为jpg或png图片，长宽比例为5:4,大小不超过10M）' :scale='1.25' scaleTip='5:4' v-model='model.picture'>
+              <drap-upload tip='（请上传格式为jpg或png图片，长宽比例为5:4,大小不超过10M）' :scale='1.25' scaleTip='5:4' v-model='model.picture' :isNeedCrop='true'>
                 <template slot='footer'>
                   <p class='prompt-text'>场景说明：系统中招募链接，发送的消息卡片都根据设置的内容显示。如：门店招募、导购招募</p>
                 </template>
@@ -111,7 +111,7 @@
         <recruitment-collapse phoneTitle='效果展示' title='引导关注公众号页设置' v-if='model.mpFollowState === 1' phoneBar='关注我们'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='mpFollowBackground'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过1M）' :maxWidth='750' :maxHeight='1206' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg'>
+              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过1M）' :maxWidth='750' :maxHeight='1206' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg' :isNeedCrop='true'>
                 <template slot='footer'>
                   <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                 </template>
