@@ -15,7 +15,7 @@
   配置参数(不配置则默认)：
   btnTitle：(btnTitle="+选择营销人群")配置按钮文本
   dialogTitle：(btnTitle="选择员工")配置弹框标题
-  guideUrl: (:guideUrl=$api.guide.moreAccount.findList)查询导购列表的请求地址，不设置则默认查询sg_guide表。 后台请用GuidePageVo承接查询条件，
+  guideUrl: (:guideUrl="this.$api.guide.moreAccount.findList")查询导购列表的请求地址，不设置则默认查询sg_guide表。 后台请用GuidePageVo承接查询条件，
   validNull：(:validNull="true")true必须选择一个员工 false可以不选择员工 默认false
   v-model：接收值设置v-model="employeeSelectData"
   3.vue的data加入参数：
