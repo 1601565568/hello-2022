@@ -79,7 +79,7 @@
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :isNeedCrop='true'>
+              <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false' :isNeedCrop='true' :maxSize='1'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -103,7 +103,7 @@
           <PhoneBox class='first-phone' title='01 引导页设置' :phoneBar='phoneTitle' phoneTitle='' showBottom>
             <template slot='collapse-left'>
               <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过1M' v-model='model.welcomePoster'>
+                <drap-upload tip='建议：宽度750像素，高度不限，jpg、jpeg或png的图片，小于1M' v-model='model.welcomePoster' :maxSize='1'>
                   <template slot='footer'>
                     <p class='prompt-text'>{{welcomePosterTip}}</p>
                   </template>
@@ -250,7 +250,7 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='qrcodePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='(建议：750*1334像素，小于1M，jpg、png、jpeg格式)' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'  :isNeedCrop='true'>
+                <drap-upload v-model='model.qrcodePoster' tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'  :isNeedCrop='true' :maxSize='1'>
                 </drap-upload>
               </el-form-item>
             </template>
