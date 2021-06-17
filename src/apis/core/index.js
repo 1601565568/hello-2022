@@ -70,6 +70,10 @@ export default {
       return `${apiConf.API_ROOT}/core/sgfile/uploadFile/${module}`
     }
   },
+  // 上传证书
+  uploadCert: function () {
+    return `${apiConf.API_ROOT}/wxpay/method/uploadCert`
+  },
   /**
    * manualShopIds
    * @param {string}  manualShopIds 外部门店编码
