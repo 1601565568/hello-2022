@@ -248,7 +248,11 @@ export default {
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.$emit('input', res.result.url)
+      if (this.maxWidth) {
+        this.$emit('input', res.result.url + '?x-oss-process=image/resize,w_' + this.maxWidth + ',limit_0')
+      } else {
+        this.$emit('input', res.result.url)
+      }
     },
     // 删除文件钩子
     handleRemove (file) {
