@@ -190,13 +190,13 @@ export default {
         this.$notify.error(`仅支持${this.imgType.join('/')}的图片格式`)
         return false
       }
+      if (file.size / 1024 / 1024 > this.maxSize) {
+        this.$notify.error(`上传图片不能超过${this.maxSize}M`)
+        return false
+      }
       // 如果需要裁剪则不上传
       if (this.isNeedCrop) {
         this.beforeUploadByCrop(file)
-        return false
-      }
-      if (file.size / 1024 / 1024 > this.maxSize) {
-        this.$notify.error(`上传图片不能超过${this.maxSize}M`)
         return false
       }
       return new Promise((resolve, reject) => {
