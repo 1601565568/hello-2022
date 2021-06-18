@@ -258,7 +258,6 @@ export default {
             this.$notify.error('导出报错，请联系管理员')
           } else {
             let url = window.URL.createObjectURL(new Blob([resp]))
-            console.log(url)
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
