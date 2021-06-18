@@ -69,8 +69,7 @@ export default {
         isAuth: data.verifyType === 0 ? '已认证' : '未认证',
         mainInformation: data.principalName,
         appid: data.appid,
-        updateTime: data.update_time,
-        id: data.id
+        updateTime: data.update_time
       }
     },
     formatDisplayData (data) {
@@ -83,16 +82,9 @@ export default {
       this.visible = false
     },
     /**
-     * 微信取消授权处理：逻辑删除小程序
-     */
-    cancelAuthorization0 () {
-      this.infoData.id && this.$http.fetch(this.$api.guide.sgwxaccount.delete, { id: this.infoData.id })
-    },
-    /**
      * 微信取消授权
      */
-    async cancelAuthorization () {
-      await this.cancelAuthorization0()
+    cancelAuthorization () {
       this.getInfo()
       this.closeDialog()
     },

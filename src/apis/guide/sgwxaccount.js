@@ -1,18 +1,6 @@
-/*
- * @Descripttion:
- * @Author: yuye.huang
- * @Date: 2020-07-17 14:49:49
- * @LastEditors: yuye.huang
- * @LastEditTime: 2021-06-16 15:51:11
- */
 export default {
   findList: {
     url: '/guide/sgwxaccount/findList',
-    method: 'post'
-  },
-  // 取消授权，删除小程序信息
-  delete: {
-    url: '/guide/sgwxaccount/delete',
     method: 'post'
   },
   save: {
