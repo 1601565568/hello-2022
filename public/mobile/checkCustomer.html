@@ -48,8 +48,8 @@
         + '&groupId=' + recruitInfo.groupId
         + '&scanSource=' + recruitInfo.scanSource
         + '&source=' + recruitInfo.source
-        + '&wechatNo=' + recruitInfo.wechatId == null ? "" : recruitInfo.wechatId
-        + '&userId=' + recruitInfo.userId == null ? "" : recruitInfo.userId
+        + '&wechatNo=' + (recruitInfo.wechatId == null ? "" : recruitInfo.wechatId)
+        + '&userId=' + (recruitInfo.userId == null ? "" : recruitInfo.userId)
         + '&encryptNascentId=' + encryptNascentId
       window.location.replace(url)
       // this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
