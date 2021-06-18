@@ -173,7 +173,7 @@
                             </div>
                             <div class="NotMemberPageConfig-poster__content">
                               <el-form-item>
-                                <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过10M' v-model='model.linkModel.image'  :scale='1.25' scaleTip='5:4' :showPont='false' :showFooter='false' :isNeedCrop='true'>
+                                <drap-upload tip='请上传格式为jpg、jpeg或png的图片，大小不超过10M' v-model='model.linkModel.image'  :scale='1.25' scaleTip='5:4' :showPont='false' :showFooter='false' :isNeedCrop='true' :maxSize='10'>
                                 </drap-upload>
                                 <!-- <ElUpload
                                   :action="this.$api.core.sgUploadFile('test')"

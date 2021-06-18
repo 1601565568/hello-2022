@@ -72,7 +72,7 @@ export default {
         const scale = this.fixedNumber[0] / this.fixedNumber[1]
         const { w, h } = this.previewDefault
         if (scale > w / h) {
-          return { width: w + 'px', height: h / scale + 'px' }
+          return { width: w + 'px', height: w / scale + 'px' }
         }
         return { height: h + 'px', width: h * scale + 'px' }
       }

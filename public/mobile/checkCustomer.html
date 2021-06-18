@@ -22,54 +22,76 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-          WeixinJSBridge.call('hideOptionMenu');
-        });
+        // document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        //   WeixinJSBridge.call('hideOptionMenu');
+        // });
         $(".fail").hide();
-        var success = getPar('success');
-        var msg = getPar('msg');
+        // var success = getPar('success');
+        // var msg = getPar('msg');
         var data = getPar('data');
-        if (success) {
+        // if (success) {
             getCustomerInfo(data)
-        } else {
-            // 跳转错误页
-            $(".fail").show();
-            $('.fail__text').html("授权失败");
-        }
+        // } else {
+        //     // 跳转错误页
+        //     $(".fail").show();
+        //     $('.fail__text').html("授权失败");
+        // }
     })
     window.onload = function () {
-      wx.hideAllNonBaseMenuItem();
+      // wx.hideAllNonBaseMenuItem();
     }
 
     function getCustomerInfo(encryptNascentId) {
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
-            guideId: recruitInfo.guideId,
-            shopId: recruitInfo.shopId,
-            groupId: recruitInfo.groupId,
-            scanSource: recruitInfo.scanSource,
-            source: recruitInfo.source,
-            wechatNo: recruitInfo.wechatId,
-            userId: recruitInfo.userId,
-            encryptNascentId: encryptNascentId
-        }).then(function (result) {
-            if (result.success) {
-                let host = result.result.host || 'https://sandbox-sg-h5-v6.vecrp.com'
-                host = host + '/H5mobile/#/pages/mobile/userAgreement/index'
-                if (result.result.isMember) {
-                    // 跳转到会员开卡页面
-                    window.location.replace(result.result.url)
-                } else {
-                    // 如果不是会员 就跳转到隐私协议
-                    // window.location.href = host+'?url='+encodeURIComponent(result.result.url)
-                    window.location.replace(host+'?url='+encodeURIComponent(result.result.url)+'&&groupId='+recruitInfo.groupId)
-                }
-            } else {
-                // 跳转错误页
-                $(".fail").show();
-                $('.fail__text').html(result.msg);
-            }
-        })
+      var recruitEntity = {
+        guideId: getPar('guideId'),
+        shopId: getPar('shopId'),
+        groupId: getPar('groupId'),
+        guideUserId: getPar('guideUserId'),
+        wechatId: getPar('wechatId'),
+        userId: getPar('userId'),
+        guideWechatNo: getPar('guideWechatNo'),
+        scanSource: getPar('scanSource'),
+        source: getPar('source')
+      }
+      localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
+      var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
+      var url = backstageURL() + '/guideRecruit/getCustomerInfo?guideId=' + recruitInfo.guideId
+        + '&shopId=' + recruitInfo.shopId
+        + '&groupId=' + recruitInfo.groupId
+        + '&scanSource=' + recruitInfo.scanSource
+        + '&source=' + recruitInfo.source
+        + '&wechatNo=' + recruitInfo.wechatId
+        + '&userId=' + recruitInfo.userId
+        + '&encryptNascentId=' + encryptNascentId
+      debugger
+      window.location.replace(url)
+      // this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
+      //       guideId: recruitInfo.guideId,
+      //       shopId: recruitInfo.shopId,
+      //       groupId: recruitInfo.groupId,
+      //       scanSource: recruitInfo.scanSource,
+      //       source: recruitInfo.source,
+      //       wechatNo: recruitInfo.wechatId,
+      //       userId: recruitInfo.userId,
+      //       encryptNascentId: encryptNascentId
+      //   }).then(function (result) {
+      //       if (result.success) {
+      //           let host = result.result.host || 'https://sandbox-sg-h5-v6.vecrp.com'
+      //           host = host + '/H5mobile/#/pages/mobile/userAgreement/index'
+      //           if (result.result.isMember) {
+      //               // 跳转到会员开卡页面
+      //               window.location.replace(result.result.url)
+      //           } else {
+      //               // 如果不是会员 就跳转到隐私协议
+      //               // window.location.href = host+'?url='+encodeURIComponent(result.result.url)
+      //               window.location.replace(host+'?url='+encodeURIComponent(result.result.url)+'&&groupId='+recruitInfo.groupId)
+      //           }
+      //       } else {
+      //           // 跳转错误页
+      //           $(".fail").show();
+      //           $('.fail__text').html(result.msg);
+      //       }
+      //   })
     }
 
     function ajax(url, data, params) {
