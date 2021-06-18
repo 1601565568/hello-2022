@@ -22,23 +22,23 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
-        // document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-        //   WeixinJSBridge.call('hideOptionMenu');
-        // });
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideOptionMenu');
+        });
         $(".fail").hide();
-        // var success = getPar('success');
-        // var msg = getPar('msg');
+        var success = getPar('success');
+        var msg = getPar('msg');
         var data = getPar('data');
-        // if (success) {
+        if (success) {
             getCustomerInfo(data)
-        // } else {
-        //     // 跳转错误页
-        //     $(".fail").show();
-        //     $('.fail__text').html("授权失败");
-        // }
+        } else {
+            // 跳转错误页
+            $(".fail").show();
+            $('.fail__text').html("授权失败");
+        }
     })
     window.onload = function () {
-      // wx.hideAllNonBaseMenuItem();
+      wx.hideAllNonBaseMenuItem();
     }
 
     function getCustomerInfo(encryptNascentId) {
@@ -48,8 +48,8 @@
         + '&groupId=' + recruitInfo.groupId
         + '&scanSource=' + recruitInfo.scanSource
         + '&source=' + recruitInfo.source
-        + '&wechatNo=' + recruitInfo.wechatId
-        + '&userId=' + recruitInfo.userId
+        + '&wechatNo=' + recruitInfo.wechatId == null ? "" : recruitInfo.wechatId
+        + '&userId=' + recruitInfo.userId == null ? "" : recruitInfo.userId
         + '&encryptNascentId=' + encryptNascentId
       window.location.replace(url)
       // this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
