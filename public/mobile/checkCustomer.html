@@ -42,18 +42,6 @@
     }
 
     function getCustomerInfo(encryptNascentId) {
-      var recruitEntity = {
-        guideId: getPar('guideId'),
-        shopId: getPar('shopId'),
-        groupId: getPar('groupId'),
-        guideUserId: getPar('guideUserId'),
-        wechatId: getPar('wechatId'),
-        userId: getPar('userId'),
-        guideWechatNo: getPar('guideWechatNo'),
-        scanSource: getPar('scanSource'),
-        source: getPar('source')
-      }
-      localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
       var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
       var url = backstageURL() + '/guideRecruit/getCustomerInfo?guideId=' + recruitInfo.guideId
         + '&shopId=' + recruitInfo.shopId
@@ -63,7 +51,6 @@
         + '&wechatNo=' + recruitInfo.wechatId
         + '&userId=' + recruitInfo.userId
         + '&encryptNascentId=' + encryptNascentId
-      debugger
       window.location.replace(url)
       // this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
       //       guideId: recruitInfo.guideId,
