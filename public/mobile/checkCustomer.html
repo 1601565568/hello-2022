@@ -43,7 +43,7 @@
 
     function getCustomerInfo(encryptNascentId) {
       var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-      var url = backstageURL() + '/guideRecruit/getCustomerInfo?guideId=' + recruitInfo.guideId
+      var url = backstageURL()+'/guideRecruit/getCustomerInfo?guideId=' + recruitInfo.guideId
         + '&shopId=' + recruitInfo.shopId
         + '&groupId=' + recruitInfo.groupId
         + '&scanSource=' + recruitInfo.scanSource
