@@ -100,7 +100,14 @@ export default {
     url: '/guide/material/statistics/getNoCompleteStatisticsDetailByMaterial',
     method: 'post'
   },
-
+  /**
+   * 素材纬度:获取素材未完成统计明细
+   */
+  exportExcelByNoCompleteByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/exportExcelByNoCompleteByMaterial',
+    method: 'post'
+  },
   /**
    * 素材纬度:获取素材未完成统计列表
    */
