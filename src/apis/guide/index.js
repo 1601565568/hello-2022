@@ -106,7 +106,9 @@ export default {
   exportExcelByNoCompleteByMaterial: {
     // 素材列表
     url: '/guide/material/statistics/exportExcelByNoCompleteByMaterial',
-    method: 'post'
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   },
   /**
    * 素材纬度:获取素材未完成统计列表
