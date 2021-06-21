@@ -101,12 +101,15 @@ export default {
       date: this.changeDate(1),
       // 时间选择的值
       dateValue: '1day',
+      areaId: null, // 区域id
+      areaName: '', // 区域名称
+      shopList: [],
       debounce: null // 点击获取图表时防抖
     }
   },
   created: function () {
     vm = this
-    vm.initShopList()
+    // vm.initShopList()
     // vm.getTreeData(1)
     vm.getProfileList()
     vm.date = vm.changeDate(1)
@@ -250,75 +253,76 @@ export default {
       this.getTreeData(1)
     },
     // 下拉门店树相关方法====开始
-    initShopList (page) {
-      this.shopTreePage.page = page || 1
-      if (this.shopTreePage.shopName) {
-        if (this.checkStatusList.length === 0) {
-          this.$notify.info('请先选择店铺状态')
-          return
-        }
-      }
-      this.$http.fetch(this.$api.guide.guide.customerGetGuideTree, {
-        start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
-        length: this.shopTreePage.size,
-        searchMap: {
-          shopName: this.shopTreePage.shopName,
-          shopStatus: this.checkStatusList.join(',')
-        }
-      }).then(resp => {
-        if (resp.success && resp.result !== null) {
-          this.shopTreePage.total = Number(resp.result.recordsTotal)
-          let list = resp.result.data
-          list.map(item => {
-            item.children = []
-          })
-          this.shopFindList = list
-          if (this.shopFindList.length > 0) {
-            this.$nextTick(function () {
-              this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
-            })
-            this.onClickNode(this.shopFindList[0])
-          } else {
-            this._data._table.data = []
-            this._data._pagination.total = 0
-            this.shuJushuzu.id = ''
-            this.offLineShopId = ''
-            this.setStatus()
-            this.$emit('offLineShopId', this.offLineShopId)
-          }
-        }
-      })
-    },
-    changeShopStatus () {
-      this.initShopList()
-    },
+    // initShopList (page) {
+    //   this.shopTreePage.page = page || 1
+    //   if (this.shopTreePage.shopName) {
+    //     if (this.checkStatusList.length === 0) {
+    //       this.$notify.info('请先选择店铺状态')
+    //       return
+    //     }
+    //   }
+    //   this.$http.fetch(this.$api.guide.guide.customerGetGuideTree, {
+    //     start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
+    //     length: this.shopTreePage.size,
+    //     searchMap: {
+    //       shopName: this.shopTreePage.shopName,
+    //       shopStatus: this.checkStatusList.join(',')
+    //     }
+    //   }).then(resp => {
+    //     if (resp.success && resp.result !== null) {
+    //       this.shopTreePage.total = Number(resp.result.recordsTotal)
+    //       let list = resp.result.data
+    //       list.map(item => {
+    //         item.children = []
+    //       })
+    //       this.shopFindList = list
+    //       if (this.shopFindList.length > 0) {
+    //         this.$nextTick(function () {
+    //           this.$refs.guideTree && this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
+    //         })
+    //         this.onClickNode(this.shopFindList[0])
+    //       } else {
+    //         this._data._table.data = []
+    //         this._data._pagination.total = 0
+    //         this.shuJushuzu.id = ''
+    //         this.offLineShopId = ''
+    //         this.setStatus()
+    //         this.$emit('offLineShopId', this.offLineShopId)
+    //       }
+    //     }
+    //   })
+    // },
+    // changeShopStatus () {
+    //   this.initShopList()
+    // },
     // 树节点过滤
-    onFilterNode (value, data, node) {
-      // 如果什么都没填就直接返回
-      if (!value) {
-        return true
-      }
-      // 如果传入的value和data中的label相同说明是匹配到了
-      if (data.label.indexOf(value) !== -1) {
-        return true
-      }
-      // 否则要去判断它是不是选中节点的子节点
-      return this.checkBelongToChooseNode(value, data, node)
-    },
+    // onFilterNode (value, data, node) {
+    //   // 如果什么都没填就直接返回
+    //   if (!value) {
+    //     return true
+    //   }
+    //   // 如果传入的value和data中的label相同说明是匹配到了
+    //   if (data.label.indexOf(value) !== -1) {
+    //     return true
+    //   }
+    //   // 否则要去判断它是不是选中节点的子节点
+    //   return this.checkBelongToChooseNode(value, data, node)
+    // },
     // 门店树选择
-    onClickNode (data) {
+    onClickNode (id) {
       // 方式
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
-        var _this = this
-        if (data.code !== 'root') {
-          _this.$refs.table.$data.model.shopId = data.id
-        } else {
-          _this.$refs.table.$data.model.shopId = null
-        }
-        _this.$refs.table.$searchAction$()
+        this.$refs.table.$data.model.areaId = id
+        this.$refs.table.$data.model.shopIds = ''
+        this.shopList = []
+        this.$refs.table.$searchAction$()
       }, 500)
+    },
+    handleChangeShop (ids) {
+      this.$refs.table.$data.model.shopIds = ids.join(',')
+      this.$refs.table.$searchAction$()
+      this.shopList = ids
     }
-    // 下拉门店树相关方法====结束
   }
 }

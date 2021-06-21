@@ -16,7 +16,7 @@
         <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
       </template>
     </el-upload>
-    <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList'>
+    <div :class='"el-upload-list el-upload-list--text "+!showFooter && "padingbottom"' v-if='fileList'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
@@ -24,7 +24,7 @@
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
-            <i class="el-icon-close" @click='handleRemove'></i>
+            <i class="el-icon-close" @click='handleRemove(false)'></i>
           </el-tooltip>
         </label>
         <label class="el-upload-list__item-status-label reset" v-if='resetImage'>
@@ -42,17 +42,57 @@
         <p class='prompt-text'>logo获取导购后台-公司logo；门店名称和导购姓名动态获取当前导购的信息</p> -->
       </div>
     </div>
+    <el-dialog
+      title="上传图片"
+      width='1053px'
+      :append-to-body="true"
+      :visible.sync="visible"
+    >
+      <Cropper ref='cropper' v-if='img' :img='img' :fixedNumber='cropScale'/>
+      <div slot="footer" class="dialog-footer">
+        <div style='margin-right:10px;'>
+          <el-upload
+            accept=".jpg,.jpeg,.png"
+            :action="$api.core.sgUploadFile('test')"
+            :show-file-list='false'
+            :before-upload="beforeUpload">
+            <ns-button :loading='upDataLoad' type="primary">重新上传</ns-button>
+          </el-upload>
+        </div>
+        <ns-button :loading='upDataLoad' @click='handleCancel'>取 消</ns-button>
+        <ns-button :loading='upDataLoad' type="primary" @click='handleSaveImg'>确 定</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
+import Cropper from './Cropper'
 export default {
   data () {
     return {
-      fileList: ''
+      fileList: '',
+      visible: false,
+      img: null,
+      upDataLoad: false
     }
   },
-  components: { ElUpload },
+  components: { ElUpload, Cropper },
+  computed: {
+    // 需要裁剪图片的裁剪比例
+    cropScale () {
+      if (!this.isNeedCrop) {
+        return null
+      }
+      if (this.maxWidth && this.maxHeight) {
+        return [this.maxWidth, this.maxHeight]
+      }
+      if (this.scale) {
+        return this.decimalsToFractional(this.scale).split('/')
+      }
+      return [1, 1]
+    }
+  },
   props: {
     // 图片类型 需要大写
     imgType: {
@@ -105,9 +145,42 @@ export default {
     // 是否拖拽
     drag: {
       default: true
+    },
+    // 是否需要裁剪
+    isNeedCrop: {
+      default: false
     }
   },
   methods: {
+    // 小数转分数
+    decimalsToFractional (decimals) {
+      const formatDecimals = decimals.toFixed(2)
+      let denominator = 100// 初始化分母
+      let numerator = formatDecimals * 100// 初始化分子
+      let bigger = 0
+      function recursion () {
+        bigger = denominator > numerator ? denominator : numerator
+        for (let i = bigger; i > 1; i--) {
+          if (Number.isInteger(numerator / i) && Number.isInteger(denominator / i)) {
+            numerator = numerator / i
+            denominator = denominator / i
+            recursion()
+          }
+        }
+      }
+      recursion()
+      return `${numerator}/${denominator}`
+    },
+    // 截图上传之前钩子
+    beforeUploadByCrop (file) {
+      const fileObj = new FileReader()
+      fileObj.onload = (e) => {
+        this.img = e.target.result
+        this.visible = true
+      }
+      fileObj.readAsDataURL(file)
+      return false
+    },
     // 上传之前钩子
     beforeUpload (file) {
       // 图片格式判断
@@ -119,6 +192,11 @@ export default {
       }
       if (file.size / 1024 / 1024 > this.maxSize) {
         this.$notify.error(`上传图片不能超过${this.maxSize}M`)
+        return false
+      }
+      // 如果需要裁剪则不上传
+      if (this.isNeedCrop) {
+        this.beforeUploadByCrop(file)
         return false
       }
       return new Promise((resolve, reject) => {
@@ -144,13 +222,43 @@ export default {
         }
       })
     },
+
+    // 截图
+    async handleSaveImg () {
+      if (this.$refs.cropper) {
+        this.upDataLoad = true
+        const url = await this.$refs.cropper.getImage()
+        await this.upDataBase64(url)
+        this.upDataLoad = false
+        this.handleCancel()
+      }
+    },
+    // base64 上传
+    upDataBase64 (file) {
+      return new Promise(resolve => {
+        this.$http.fetch(this.$api.weWork.friendsCircle.uploadBase64File, { file }).then(res => {
+          this.handleUploadSuccess(res)
+          resolve(true)
+        })
+      })
+    },
+    // 关闭裁剪弹框
+    handleCancel () {
+      this.visible = false
+    },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.$emit('input', res.result.url)
+      if (this.maxWidth) {
+        this.$emit('input', res.result.url + '?x-oss-process=image/resize,w_' + this.maxWidth + ',limit_0')
+      } else {
+        this.$emit('input', res.result.url)
+      }
     },
     // 删除文件钩子
-    handleRemove () {
-      this.$emit('input', '')
+    handleRemove (file) {
+      if (!file || !this.isNeedCrop) {
+        this.$emit('input', '')
+      }
     },
     // 还原
     handleReset () {
@@ -236,5 +344,9 @@ export default {
 }
 .padingbottom {
   padding-bottom: 16px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

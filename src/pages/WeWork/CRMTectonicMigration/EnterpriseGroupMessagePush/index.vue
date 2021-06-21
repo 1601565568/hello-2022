@@ -58,7 +58,8 @@
             <div class="message-composition__left">
               <ElForm label-width="0px" ref="formPush" :model="model" :rules="rules" :disabled="isUpdate">
                 <ElFormItem prop="textarea">
-                  <ElFormGrid>
+                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="1000" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' :showEmoji='true' :showTextEmoji='true' @input='setView'/>
+                  <!-- <ElFormGrid>
                     <el-input
                       type="textarea"
                       :rows="6"
@@ -66,7 +67,7 @@
                       @blur="setView"
                       v-model="model.textarea" maxlength="1000" style="width: 700px;">
                     </el-input>
-                  </ElFormGrid>
+                  </ElFormGrid> -->
                 </ElFormItem>
                 <ElFormItem>
                   <ElFormGrid>
@@ -299,6 +300,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import contentPreview from './contentPreview.vue'
 import NsChatrommSelectDialog from '@/components/NsChatrommSelectDialog'
+import TagArea from '@/components/NewUi/TagArea'
 
 import moment from 'moment'
 let vm
@@ -309,7 +311,8 @@ export default {
     contentPreview,
     ElUpload,
     ElSelectLoad,
-    NsChatrommSelectDialog
+    NsChatrommSelectDialog,
+    TagArea
   },
   data () {
     return {
@@ -341,7 +344,17 @@ export default {
           { required: true, message: '请选择执行时间', trigger: 'blur' }
         ],
         textarea: [
-          { min: 0, max: 1000, message: '长度在 1 到 1000 个字符', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const text = this.$refs.testText.htmlToText(value)
+              if (text.length > 1000) {
+                callback(new Error('长度在 1 到 1000 个字符'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          },
           {
             validator: (rule, value, callback) => {
               if (!value) {
@@ -449,7 +462,8 @@ export default {
         loading: false
       },
       // 保存的选择群信息
-      roomSelectedData: []
+      roomSelectedData: [],
+      inputLength: 0
     }
   },
   created: function () {
@@ -536,7 +550,7 @@ export default {
       }
       const data = {}
       if (vm.model.textarea) {
-        data.text = vm.model.textarea
+        data.text = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
       if (vm.model.type) {
         if (vm.model.type === 1) {
@@ -551,7 +565,7 @@ export default {
       target.content = data
       // target.userGroupIds = (!this.roomSelectedData || this.roomSelectedData.length === 0) ? '' : this.roomSelectedData.map(value => { return parseInt(value.empId) }).join(',')
       target.userGroupIds = (!this.employeeSelectData2.data || this.employeeSelectData2.data.length === 0) ? '' : this.employeeSelectData2.data.map(value => { return value.empId.trim() }).join(',')
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise4Room, target)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise4Room, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()
@@ -583,7 +597,7 @@ export default {
             }
             if (data.content) {
               if (data.content.text) {
-                vm.model.textarea = data.content.text
+                vm.model.textarea = this.$refs.testText.stringTohtml(data.content.text, false)
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
                 vm.picUrl = data.content.image.image
@@ -738,7 +752,7 @@ export default {
       if (vm.model.textarea) {
         data.push({
           type: 1,
-          msg: vm.model.textarea
+          msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
         })
       }
       switch (vm.model.type) {
@@ -776,6 +790,9 @@ export default {
     },
     setType () {
       vm.model.type = 1
+    },
+    changeInputLength (length) {
+      this.inputLength = length
     },
     uploadSuccess (resp) {
       if (resp.result) {

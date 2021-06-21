@@ -90,13 +90,17 @@
                   <el-popover
                     placement="bottom-start"
                     popper-class='form-item_popover'
-                    title="活动介绍示例"
                     width="480"
+                    v-model='popoverShow'
                     trigger="click">
-                    <span class='form-item_exmple' slot="reference">查看示例</span>
+                    <span class='form-item_exmple' slot="reference" @click.native='handleChangePopoverShow(true)'>查看示例</span>
                     <template>
+                      <div class='popover-title'>
+                        活动介绍示例
+                        <ns-button type='text' @click.native='handleSynch' :disabled='isStating'>同步到文本框</ns-button>
+                      </div>
                       <div>
-                        你好， (好友微信昵称) , 我是（导购微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
+                        你好， (好友微信昵称) , 我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
                         活动有效期：2020-03-03~2020-03-13 <br/>
                         点击以下链接可查询助力进展哦！（推广大师查询链接）<br/>
                         注册会员也可享受会员专属礼哦 <br/>
@@ -107,13 +111,13 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' :disabled='isStating' tag="wise" ref="tagAreaText" :maxlength="1000" :tools='tools' placeholder="请输入活动介绍" @inputLength="inputLength"/>
+              <tag-area v-model='model.activityIntroduction' :disabled='isStating' tag="wise" ref="tagAreaText" :maxlength="1000" :tools='tools' placeholder="请输入活动介绍" @inputLength="inputLength" :showEmoji='true' :showTextEmoji='true'/>
               <!-- 选择品牌Dialog -->
               <NsBrandDialog :visible.sync="brandDialogVisible" @confirm="insertBrandId"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
-                <el-upload
+                <!-- <el-upload
                   class="upload-demo"
                   ref='upload'
                   drag
@@ -127,7 +131,9 @@
                   <i class="el-icon-upload"></i>
                   <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                   <div class="el-upload__tip" slot="tip">（上传限制：750*1334像素，小于1M，jpg、png、jpeg格式）</div>
-                </el-upload>
+                </el-upload> -->
+                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过1M）' v-model='model.backgroundPic' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='1' :isNeedCrop='true' :showFooter='false'>
+                </drap-upload>
                 <div class='poster-set_content'>
                   <el-form-item label='推广人信息：' size='mini'>
                     <el-row>
@@ -193,6 +199,12 @@
               <div class='user-content_name' :style='{color:model.nickColour}'>推广人昵称</div>
             </div>
             <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传裂变大师背景图</div>
+            <div class="upload-content_lbs" v-if='!model.backgroundPic'>
+              <drap-upload v-model='model.backgroundPic' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false' :isNeedCrop='true'>
+              </drap-upload>
+              上传背景图
+            </div>
+            <!-- <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传裂变大师背景图</div>
             <div class="upload-content" v-if='!model.backgroundPic'>
               <el-upload
                   class="upload-demo"
@@ -203,7 +215,7 @@
                   :on-success="handleUploadSuccess">
                 </el-upload>
               上传背景图
-            </div>
+            </div> -->
             <template v-if='isLoading'>
               <VueDragResize :isActive="!isStating" :isDraggable='!isStating' :isResizable='!isStating' :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
                 <img src='./Images/qrcode.png' style='width:100%;height:100%'>
@@ -229,9 +241,10 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
 import NsBrandDialog from '@/components/NsBrandDialog'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 
 Edit.components = {
-  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber, SetPrize, NsBrandDialog
+  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber, SetPrize, NsBrandDialog, DrapUpload
 }
 export default Edit
 </script>
@@ -567,5 +580,56 @@ export default Edit
   margin-top: 3px;
   cursor: pointer;
 }
-
+.popover-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+.user-content_bg {
+    font-size: 14px;
+    color: #262626;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 190px;
+  }
+  .upload-content_lbs {
+    position: absolute;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #303133;
+    width: 272px;
+    left:24px;
+    top: 228px;
+    background: #FFFFFF;
+    border: 1px solid #DCDFE6;
+    border-radius: 2px;
+    border-radius: 2px;
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+      color: rgb(34,126,246);
+      border:1px solid rgb(172,216,252)
+    }
+  }
+  .upload-content_lbs >>> .upload-demo .el-upload {
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.upload-content_lbs >>> .poster-content{
+  opacity: 0;
+  padding: 0;
+}
+.upload-content_lbs >>> .el-upload-list {
+  display: none;
+}
+.upload-content_lbs >>> .poster-set_content {
+  display: none
+}
 </style>

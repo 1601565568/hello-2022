@@ -2,13 +2,11 @@
  * @Descripttion: 智能欢迎语列表组件
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-30 18:12:26
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-06-04 10:33:08
  -->
 <template>
-  <ns-page-table ref="mainTable"
-    ><!-- :colButton="10" -->
-
+  <ns-page-table ref="mainTable">
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -16,8 +14,6 @@
     </template>
 
     <!-- 简单搜索 -->
-    <!-- el-form 需添加 @submit.native.prevent 配置 -->
-    <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form
         @submit.native.prevent
@@ -52,8 +48,6 @@
     </template>
 
     <!-- 高级搜索 -->
-    <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
-    <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form
         ref="table_filter_form"
@@ -81,10 +75,10 @@
               clearable
             >
               <el-option
-                v-for="(value, key) in annexType.Collection"
-                :key="key"
-                :label="value"
-                :value="key"
+                v-for="item in annexTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="`${item.value}`"
               >
               </el-option>
             </el-select>
@@ -164,9 +158,20 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="annexType" label="附带" align="center">
+        <el-table-column prop="annexList" label="附件">
           <template slot-scope="scope">
-            {{ convertAnnexType(scope.row.annexType) }}
+            <div class="message-icons-list" v-if="scope.row.annexType.length">
+              <el-tooltip
+                v-for="item in messageToolTipList(scope.row.annexType)"
+                :key="item.type"
+                class="message-icons-item"
+                :content="item.tip"
+                placement="top"
+              >
+                <Icon :type="item.icon" className="icon"/>
+              </el-tooltip>
+            </div>
+            <span v-else>-</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -174,7 +179,7 @@
           min-width="80"
           label="使用范围"
           align="left"
-          ><!-- :show-overflow-tooltip="true" -->
+          >
           <template slot="header">
             使用范围
             <el-tooltip
@@ -213,7 +218,6 @@
                 >{{ scope.row.employeeCount }}名员工
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
-              <!-- <span v-if="scope.row.employeeCount > 0 && scope.row.channelCount > 0">,</span> -->
               <ns-button
                 v-if="scope.row.channelCount > 0"
                 style="color:#0091FA"
@@ -269,10 +273,6 @@
               :prop="scope"
             >
             </ns-table-column-operate-button>
-            <!-- <ns-table-column-operate-button-ext
-                :buttons="(scope.row.type === 9 && String(account ? account : '') !== 'admin') ? [] : _data._table.table_buttons"
-                :prop="scope">
-              </ns-table-column-operate-button-ext> -->
           </template>
         </el-table-column>
       </el-table>
@@ -354,6 +354,23 @@ export default NsTableWelcomeCode
   &:active, &:hover, &:focus {
     background: var(--theme-font-color-info);
     border: 1px solid var(--theme-font-color-info);
+  }
+}
+
+.message-icons-list {
+  display: flex;
+  align-items: center;
+  height: 16px;
+  font-size: 16px;
+  width: 185px;
+  .message-icons-item {
+    margin-left: 4px;
+    flex-shrink: 1;
+  }
+
+  .icon {
+    font-size: 16px;
+    color:#383838;
   }
 }
 </style>

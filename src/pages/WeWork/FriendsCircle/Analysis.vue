@@ -1,9 +1,20 @@
 <template>
-  <div>
+  <div class='friendCircle'>
     <template>
       <div class="title-box">
         <div class="title-analysis">对外信息效果分析</div>
         <div class="title-right">
+          <div class='shop-content'>
+            <span>参与门店：</span>
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" shopStatus='1,-1' isDIYBtn :areaId='areaId' :areaName='areaName'>
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(shopList&&shopList.length)?`已选择${shopList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
+          </div>
           <el-tabs class="title-right_time" v-model="dateValue" :timeModel="model" @tab-click="handleChangeDateType">
             <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
           </el-tabs>
@@ -27,7 +38,8 @@
     </template>
     <div class="template-page__row">
       <div class="template-page__row-left">
-        <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
+        <AreaTree v-model='areaId' @input='onClickNode' @inputName='(value)=>{areaName = value}'/>
+        <!-- <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称" clearable
                   @keyup.enter.native="initShopList(1)">
           <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
         </el-input>
@@ -46,8 +58,6 @@
             <div class="subdivision-tree-node" slot-scope="{ node }" >
               <span>{{node.label}}</span>
               <span v-if="node.label === '全部'"></span>
-              <!-- 后端返回的是组件，不建议增加status字段 -->
-              <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
             </div>
           </el-tree>
         </el-scrollbar>
@@ -58,7 +68,7 @@
                        :current-page.sync="shopTreePage.page"
                        @current-change="initShopList">
           <span>{{shopTreePage.page + '/' + (Math.ceil(shopTreePage.total/ shopTreePage.size) || 1)}}</span>
-        </el-pagination>
+        </el-pagination> -->
       </div>
       <div class="template-page__row-right">
         <!-- 分类 start -->
@@ -71,7 +81,7 @@
         </div>
         <!-- 分类 end -->
         <!-- 数据图表 start -->
-          <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType"></ns-data-analysis-charts>
+          <ns-data-analysis-charts ref="table" :date="date" :url="$api.weWork.friendsCircle.logPageByType" :areaId='areaId'></ns-data-analysis-charts>
         <!-- 数据图表 end -->
       </div>
     </div>
@@ -81,8 +91,10 @@
 import Index from './src/Analysis'
 import NsDataAnalysisCharts from './NsDataAnalysisCharts'
 import PageTable from '@/components/NewUi/PageTablePro'
+import AreaTree from '@/components/NewUi/AreaTree'
+import shopSelect from '../../Guide/components/selectShops'
 Index.components = {
-  PageTable, NsDataAnalysisCharts
+  PageTable, NsDataAnalysisCharts, AreaTree, shopSelect
 }
 export default Index
 </script>
@@ -203,4 +215,33 @@ export default Index
   .changeShopStatus >>> .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #606266!important;
   }
+  .template-page__row-left {
+    position: relative;
+  }
+  .shop-content {
+    display: flex;
+    font-size: 14px;
+    border: 1px solid #D9D9D9;
+    height: 32px;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 2px;
+    margin-right: 16px;
+  }
+  .self-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      margin-left: 10px;
+      color:#8C8C8C;
+    }
+  }
+</style>
+<style scoped>
+.friendCircle >>> .el-pagination{
+  box-shadow: none;
+}
 </style>
