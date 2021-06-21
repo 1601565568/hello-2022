@@ -12,7 +12,6 @@ export default {
         picture: '',
         // 注册页面配置
         rgBackground: '', // 注册页面背景图片
-        restoreImg: '', // 注册页面背景图片备份
         rgButtonColor: '', // 注册页面按钮颜色
         rgButtonText: '', // 注册页面按钮文案
         rgButtonTextColor: '', // 按钮文案颜色
@@ -89,7 +88,8 @@ export default {
     },
     // 恢复默认背景图
     restoreDef () {
-      this.model.rgBackground = this.model.restoreImg
+      const img = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/%E8%83%8C%E6%99%AF%E5%9B%BE%E5%A4%87%E4%BB%BD.png'
+      this.model.rgBackground = img
     },
     formatLoadData (result) {
       const { id, companyLogo, title,
@@ -109,7 +109,6 @@ export default {
         picture: picture,
         // 默认注册页面背景图
         rgBackground: rgBackground,
-        restoreImg: rgBackground,
         // 按钮颜色
         rgButtonColor: rgButtonColor,
         // 按钮文案颜色
