@@ -14,7 +14,6 @@ const router = new Router({
 
 // 是否有菜单权限·
 const isMenuAuth = (to: any, menus: any) => {
-  console.log('to', to)
   const whitelistRouters = ['/SystemTool']
   if (whitelistRouters.some(r => to.path.startsWith(r))) {
     return true
@@ -87,7 +86,6 @@ router.beforeEach((to, from, next) => {
       }
     })
     .catch((aaa) => {
-      window.console.log('error', aaa)
       const menus = store.state.user.menus
       if (menus && menus.length > 0 && from.path === '/') {
         const menu = store.state.user.menus[0]
