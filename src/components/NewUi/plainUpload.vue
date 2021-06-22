@@ -10,8 +10,9 @@
       :before-upload="beforeUpload"
       :file-list="fileList"
       :on-success="handleUploadSuccess">
-      <div class="u_btn"><img src='@/assets/btn.png' /></div>
+      <div v-loading="loading" class="u_btn"><img src='@/assets/btn.png' /></div>
     </el-upload>
+    <el-progress v-if="videoFlag == true" type="circle" :percentage="videoUploadPercent" style="margin-top:30px;"></el-progress>
     <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList.length > 0'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
@@ -28,14 +29,17 @@
   </div>
 </template>
 <script>
+import ElProgress from '@nascent/nui/lib/progress'
 import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
+      loading: false,
+      videoUploadPercent: '0',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
     }
   },
-  components: { ElUpload },
+  components: { ElUpload, ElProgress },
   props: {
     file_list: {
       default () {
@@ -80,6 +84,7 @@ export default {
         this.$notify.error(`上传PDF不能超过${this.maxSize}M`)
         return false
       }
+      this.loading = true
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
@@ -87,12 +92,18 @@ export default {
         name: res.result.originalFileName,
         url: res.result.url
       }]
+      this.loading = false
       this.$emit('onSuccess', this.fileList)
     },
     // 删除文件钩子
     handleRemove () {
       this.fileList = []
       this.$emit('onRemove')
+    },
+    uploadVideoProcess (event, file, fileList) {
+      console.log(event.percent, file, fileList, file[0])
+      this.videoFlag = true
+      this.videoUploadPercent = Math.floor(event.percent)
     }
   },
   watch: {
