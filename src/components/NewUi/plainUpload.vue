@@ -101,7 +101,6 @@ export default {
       this.$emit('onRemove')
     },
     uploadVideoProcess (event, file, fileList) {
-      console.log(event.percent, file, fileList, file[0])
       this.videoFlag = true
       this.videoUploadPercent = Math.floor(event.percent)
     }
