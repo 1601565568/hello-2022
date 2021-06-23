@@ -18,8 +18,16 @@
         :data="_data._table.data"
       >
         <el-table-column prop="chatRoomName" label="群名称" ></el-table-column>
-        <el-table-column prop="sendGuideName" label="执行员工" ></el-table-column>
-        <el-table-column prop="sendGuideWorkNum" label="执行员工工号" width="110" ></el-table-column>
+        <el-table-column prop="sendGuideName" label="执行员工" >
+           <template slot-scope="scope">
+            {{ scope.row.sendGuideName || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="sendGuideWorkNum" label="执行员工工号" width="110" >
+          <template slot-scope="scope">
+            {{ scope.row.sendGuideWorkNum || '-' }}
+          </template>
+        </el-table-column>
         <el-table-column prop="ownerName" label="群主"></el-table-column>
         <el-table-column prop="ownerWorkNum" label="工号">
           <template slot-scope="scope">
