@@ -18,7 +18,7 @@
         label="使用范围">
         <template slot-scope="scope">
           <template v-if='scope.row.userType === 1'>
-            <ns-button type='text' @click='handlePreview(scope.row.guideIds)'>{{scope.row.guideIds.length}}名员工</ns-button>
+            <ns-button type='text' @click='handlePreview(scope.row.guideIds)'>{{scope.row.guideIds && scope.row.guideIds.length ? scope.row.guideIds.length : 0}}名员工</ns-button>
           </template>
           <template v-else>
             全部员工
