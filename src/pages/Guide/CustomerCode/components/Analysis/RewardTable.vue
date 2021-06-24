@@ -1,129 +1,133 @@
 <template>
   <page-table :searchCol='24'>
     <template slot='search'>
-    <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-      <el-form-item label="所属员工：">
-        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
-          <template slot='selfBtn'>
-            <div class='self-btn'>
-              {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
-              <Icon type="geren" class='guideIds-icon'></Icon>
-            </div>
-          </template>
-        </NsGuideDialog>
-      </el-form-item>
-      <el-form-item label="领取状态：" class='el-form__change'>
-        <el-select v-model="model.presentsState" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
-          <el-option
-            v-for="item in statusList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="">
-        <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
-          <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-        </el-input>
-      </el-form-item>
-    </el-form>
-  </template>
-  <template slot='table'>
-    <template>
-      <el-table
-        :data="_data._table.data"
-        class="new-table_border"
-        v-loading.lock="_data._table.loadingtable"
-        @sort-change="handleSort"
-        style="width: 100%">
-        <el-table-column
-          prop="name"
-          label="推广大师">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.name|| '-'}}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="guideName"
-          label="所属员工">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.guideName|| '-'}}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="recruitment"
-          label="邀请好友数">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.recruitment|| '-'}}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="prizeType"
-          label="奖励类型">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.prizeType == 1 ? '优惠券': '-'}}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="prizeName"
-          label="奖励内容">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.prizeName || '-'}}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="presentsState"
-          label="领取状态">
-          <template slot-scope="scope">
-            <el-tag type="info" v-if="scope.row.presentsState === 1">已领取</el-tag>
-            <el-tag type="warning" v-if="scope.row.presentsState === 2">待领取</el-tag>
-            <el-tag type="danger" v-if="scope.row.presentsState === 0">发放失败</el-tag>
-            <!-- <div class="scope-title_text"> -->
-              <!-- {{scope.row.prizeName || '-'}} -->
-            <!-- </div> -->
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="time"
-          label="领取时间">
-          <template slot-scope="scope">
-            <div class="scope-title_text">
-              {{scope.row.time || '-'}}
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
+        <el-form-item label="所属员工：">
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                <Icon type="geren" class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+        </el-form-item>
+        <el-form-item label="领取状态：" class='el-form__change'>
+          <el-select v-model="model.presentsState" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
+            <el-option
+              v-for="item in statusList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
+            <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+          </el-input>
+        </el-form-item>
+      </el-form>
     </template>
-  </template>
-  <template slot='pagination'>
-    <el-pagination v-if="_data._pagination.enable"
-                    class="template-table__pagination"
-                    :page-sizes="_data._pagination.sizeOpts"
-                    :total="_data._pagination.total"
-                    :current-page="_data._pagination.page"
-                    :page-size="_data._pagination.size"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    @size-change="$sizeChange$"
-                    @current-change="$pageChange$">
+    <template slot='button'>
+      <ns-button type="primary" size='large' @click="exportClick">导&nbsp;出</ns-button>
+    </template>
+    <template slot='table'>
+      <template>
+        <el-table
+          :data="_data._table.data"
+          class="new-table_border"
+          v-loading.lock="_data._table.loadingtable"
+          @sort-change="handleSort"
+          style="width: 100%">
+          <el-table-column
+            prop="name"
+            label="推广大师">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.name|| '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="guideName"
+            label="所属员工">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.guideName|| '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="recruitment"
+            label="邀请好友数">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.recruitment|| '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="prizeType"
+            label="奖励类型">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.prizeType == 1 ? '优惠券': '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="prizeName"
+            label="奖励内容">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.prizeName || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="presentsState"
+            label="领取状态">
+            <template slot-scope="scope">
+              <el-tag type="info" v-if="scope.row.presentsState === 1">已领取</el-tag>
+              <el-tag type="warning" v-if="scope.row.presentsState === 2">待领取</el-tag>
+              <el-tag type="danger" v-if="scope.row.presentsState === 0">发放失败</el-tag>
+              <!-- <div class="scope-title_text"> -->
+              <!-- {{scope.row.prizeName || '-'}} -->
+              <!-- </div> -->
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="time"
+            label="领取时间">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.time || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+    </template>
+    <template slot='pagination'>
+      <el-pagination v-if="_data._pagination.enable"
+                     class="template-table__pagination"
+                     :page-sizes="_data._pagination.sizeOpts"
+                     :total="_data._pagination.total"
+                     :current-page="_data._pagination.page"
+                     :page-size="_data._pagination.size"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     @size-change="$sizeChange$"
+                     @current-change="$pageChange$">
       </el-pagination>
-  </template>
+    </template>
   </page-table>
 </template>
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
@@ -136,6 +140,8 @@ export default {
         guestCodeId: this.$route.query.guestCodeId,
         presentsState: null // 赠送状态
       },
+      exportState: true,
+      validTimeStart: this.$route.query.validTimeStart,
       url: this.$api.guide.customerCode.findActivityReachStandard,
       seachVal: '',
       guideIds: [],
@@ -175,6 +181,54 @@ export default {
     },
     handleSearch () {
       this.changeSearchfrom({ name: this.seachVal })
+    },
+    exportClick () {
+      if (!this._data._table.data.length) {
+        this.$notify.info('当前没有匹配的数据项')
+        return
+      }
+      if (!this.exportState) {
+        this.$notify.info('正在导出中，请不要重复操作')
+        return
+      }
+      let params = this.$generateParams$()
+      if (!this.model.timeStart && !this.model.timeEnd) {
+        params.searchMap.timeStart = this.validTimeStart
+        params.searchMap.timeEnd = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
+      this.exportState = false
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.guide.customerCode.reachStandardExport, params)
+        .then(resp => {
+          that.exportState = true
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          that.exportState = true
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+
+            let time = ''
+            if (params.searchMap.timeStart && params.searchMap.timeEnd) {
+              const csvStartTime = params.searchMap.timeStart.substring(0, 10).replace(/-/g, '')
+              const csvEndTime = params.searchMap.timeEnd.substring(0, 10).replace(/-/g, '')
+              time = csvStartTime + '-' + csvEndTime
+            } else {
+              time = '全部'
+            }
+            let fileName = '达标总人数明细' + time + '.csv'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
     },
     // 排序
     handleSort (data) {
@@ -258,34 +312,34 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../styles/reset.css";
-  .search-icon {
-    font-size: 22px;
-    margin-top: 2px;
+@import "../../styles/reset.css";
+.search-icon {
+  font-size: 22px;
+  margin-top: 2px;
+}
+.scope-name_text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.scope-name_tip {
+  color: #0091FA
+}
+.max-popper {
+  max-width: 450px;
+}
+.self-btn {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
   }
-  .scope-name_text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-  .scope-name_tip {
-    color: #0091FA
-  }
-  .max-popper {
-    max-width: 450px;
-  }
-  .self-btn {
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    color: #606266;
-    .guideIds-icon {
-      color:#C0C4CC;
-    }
-  }
+}
 </style>

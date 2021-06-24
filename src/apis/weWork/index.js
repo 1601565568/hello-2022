@@ -15,6 +15,7 @@ import externalContact from './externalContact.js'
 import weWorkRooms from './weWorkRooms.js'
 import sop from './sop.js'
 import friendsCircle from './friendsCircle.js'
+import sessionStatistics from './sessionStatistics.js'
 export default {
   welcomeCode,
   behaviorData,
@@ -25,5 +26,6 @@ export default {
   externalContact,
   weWorkRooms,
   sop,
-  friendsCircle
+  friendsCircle,
+  sessionStatistics
 }

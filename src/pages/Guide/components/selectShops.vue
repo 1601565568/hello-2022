@@ -227,6 +227,11 @@ export default {
         this.shopOptions = shopOptions
       }
     },
+    areaId: function (o1, o2) {
+      if (o1 !== o2) {
+        this.multipleSelection = []
+      }
+    },
     areaName: {
       handler (newVal) {
         if (newVal) {

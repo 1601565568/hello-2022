@@ -26,23 +26,6 @@ export default {
           'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         },
         {
-          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-          'name': 'WeComFriendsAnalysis',
-          'title': '好友分析',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeComRepeatCustomer'
-          },
-          'children': [
-            {
-              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
-              'name': 'WeComFriendsAnalysis',
-              'title': '好友分析',
-              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
-            }
-          ]
-        },
-        {
           'path': '/Social/WeComCustomerOperation/LossCustomers',
           'name': 'WeComLossCustomers',
           'title': '流失客户',
@@ -76,6 +59,12 @@ export default {
           name: 'NoStatistical',
           title: '未执行统计',
           component: () => import('@/pages/WeWork/MaterialChat/noStatistical.vue')
+        },
+        {
+          'path': '/Marketing/SOP/SendLog',
+          'name': 'SOPLog',
+          'title': '社群日历发送日志',
+          'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
         }
       ]
     },
@@ -137,6 +126,26 @@ export default {
           title: '员工访问统计',
           component: () =>
             import('@/pages/DataCenter/SystemAnalysis/VisitStatistics/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/WeWork/SessionStatistics',
+      'name': 'WeWorkSessionStatistics',
+      'title': '会话统计',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/WeWork/Customer/SessionStatistics',
+          'name': 'CustomerSessionStatistics',
+          'title': '客户会话统计',
+          'component': () => import('@/pages/WeWork/SessionStatistics/index.vue')
+        },
+        {
+          'path': '/Customer/Group/CustomerGroup',
+          'name': 'CustomerGroupCustomerGroup',
+          'title': '群会话统计',
+          'component': () => import('@/pages/Guide/CustomerGroup/index.vue')
         }
       ]
     },

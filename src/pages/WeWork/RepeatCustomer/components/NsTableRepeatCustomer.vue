@@ -75,6 +75,8 @@
               <NsGuideDialog
                 :isButton="false"
                 :validNull="true"
+                :guideUrl="this.$api.core.sysUser.queryGuidePageByUserId"
+                :guideFindUrl="this.$api.core.sysUser.guideFindUrl"
                 :auth="false"
                 type="primary"
                 btnTitle="选择"
@@ -135,7 +137,7 @@
         </el-table-column>
         <el-table-column label="性别" align="center">
           <template slot-scope="scope">
-            {{scope.row.gender}}
+            {{scope.row.gender==0?scope.row.gender==1?'男':'女':'未知'}}
           </template>
         </el-table-column>
         <el-table-column label="所属员工" align="center">
