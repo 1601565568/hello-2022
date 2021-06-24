@@ -48,6 +48,7 @@
               </el-form-item>
             </el-form>
           </div>
+          <ns-button size='large' type='primary' style='margin-right:16px;' @click='handleExport'>导出CSV文件</ns-button>
         </div>
         <div class="select-data-view">
           <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -241,6 +242,32 @@ export default {
       this.loadDetail()
     },
     handleClose () {},
+    // 导出
+    handleExport () {
+      const param = {
+        eventType: this.eventType,
+        guideIdsStr: this.guideIdsStr,
+        materialId: this.item.materialId
+      }
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.exportExcelByNoCompleteByMaterial, param)
+        .then((resp) => {
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          if (!resp.size === 0) {
+            this.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            const fileName = `${this.item.materialTitle}统计.CSV`
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     loadDetail () {
       const parms = {
         searchMap: {
@@ -390,6 +417,7 @@ export default {
   height: 65px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   /* background-color: red; */
 }
