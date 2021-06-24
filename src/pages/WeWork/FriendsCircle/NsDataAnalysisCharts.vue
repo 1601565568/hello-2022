@@ -5,9 +5,9 @@
     <!-- 人数统计及刷新 start-->
     <div class="dataCenter-content_box">
       <div class="dataCenter-content_title">人数统计</div>
-      <div class="refresh-box">
+      <div class="refresh-box" @click="$searchAction$()">
         <img class="refresh" src="./images/refresh.svg" alt="刷新">
-        <ns-button class="dataCenter-content_botton" type="text" @click="$searchAction$()">刷新</ns-button>
+        <ns-button class="dataCenter-content_botton" type="text">刷新</ns-button>
       </div>
     </div>
     <!-- 人数统计及刷新 end-->
@@ -104,6 +104,7 @@ export default NsDataAnalysisCharts
     height: 20px;
     display: flex;
     align-items: center;
+    cursor: pointer;
     .refresh{
       width: 12.25px;
       height: 12.25px;

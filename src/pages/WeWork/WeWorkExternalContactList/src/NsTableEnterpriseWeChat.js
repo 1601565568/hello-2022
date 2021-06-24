@@ -77,6 +77,8 @@ export default {
 
     return {
       model: model,
+      synButton: true,
+      synFriend: true,
       // 批量打标弹窗
       showBatchMarkingVisible: false,
       // 标签组列表
@@ -115,6 +117,7 @@ export default {
     } else {
       this.reload()
     }
+    this.initSynButton()
   },
   components: {
     ElSelectLoad,
@@ -163,6 +166,37 @@ export default {
         }).catch((resp) => {
           that.$notify.error(getErrorMsg('获取企业标签失败,请稍后重试', resp))
         }).finally(() => {})
+    },
+
+    // 查询企业标签列表
+    initSynButton: function () {
+      let that = this
+      that.$http.fetch(that.$api.core.group.getGroupConfig)
+        .then((resp) => {
+          let config = resp.result
+          that.synButton = false
+          if (config && resp.result.syn_wework_friend === 1) {
+            that.synFriend = true
+          } else {
+            that.synFriend = false
+          }
+        })
+    },
+    // 查询企业标签列表
+    synFriends: function () {
+      let that = this
+      if (that.synButton || !that.synFriend) {
+        this.$notify.warning('正在同步中')
+        return
+      }
+      that.synFriend = false
+      that.$http.fetch(that.$api.weWork.externalContact.synWeWorkFriends)
+        .then((resp) => {
+          that.synFriend = true
+        }).catch((resp) => {
+          this.$notify.error(getErrorMsg('同步失败，请稍后再试', resp))
+          that.synFriend = true
+        })
     },
     // 批量打标保存
     saveBatchMarking: function () {

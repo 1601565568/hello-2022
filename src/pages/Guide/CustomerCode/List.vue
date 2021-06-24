@@ -128,7 +128,7 @@
                 <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({guestCodeId:scope.row.guestCodeId})'>编辑</ns-button>
                 <ns-button type="text" @click='handleEdit({copyGuestCodeId:scope.row.guestCodeId})'>复制并新建</ns-button>
                 <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.guestCodeId)'>结束活动</ns-button>
-                <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guestCodeId)'>活动效果</ns-button>
+                <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row)'>活动效果</ns-button>
               </template>
             </el-table-column>
           </el-table>

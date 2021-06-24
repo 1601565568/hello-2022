@@ -12,6 +12,13 @@ export default {
     method: 'post'
   },
   /**
+   * @msg: 同步企微好友信息
+   */
+  synWeWorkFriends: {
+    url: '/wework/externalContact/synWeWorkFriends',
+    method: 'post'
+  },
+  /**
    * @msg: 查询企业标签列表
    */
   queryCorpTagList: {

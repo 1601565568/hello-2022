@@ -111,10 +111,10 @@ export default {
         })
     },
     // 去报表
-    handleAnalysis (guestCodeId) {
+    handleAnalysis (param) {
       this.$router.push({
         path: '/Social/SocialOperation/CustomerCode/Analysis',
-        query: { guestCodeId }
+        query: { guestCodeId: param.guestCodeId, validTimeStart: param.validTimeStart }
       })
     },
     // 关闭弹框

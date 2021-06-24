@@ -3,7 +3,7 @@
     <el-drawer
       :visible.sync="drawer"
       :direction="direction"
-      size="720px"
+      size="826px"
       :with-header="false"
       :modal="false"
       @close="handleClose"
@@ -62,7 +62,39 @@
                         scope.row.employeeNumber || '-'
                       }}</template>
                     </el-table-column>
+                    <el-table-column prop="phone" label="电话">
+                      <template slot-scope="scope">{{
+                        scope.row.phone || '-'
+                      }}</template>
+                    </el-table-column>
+                    <el-table-column prop="post" label="岗位">
+                      <template slot-scope="scope">{{
+                        transPost(scope.row.post)
+                      }}</template>
+                    </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.shopName.length <= 15"
+                        >
+                          <div>{{ scope.row.shopName }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopName.length <= 15"
+                            >{{ scope.row.shopName }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopName.length > 15"
+                            >{{
+                              scope.row.shopName.substr(0, 15) + '...'
+                            }}</span
+                          >
+                        </el-popover>
+                      </template>
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -140,6 +172,16 @@
                     <el-table-column prop="employeeNumber" label="工号">
                       <template slot-scope="scope">{{
                         scope.row.employeeNumber || '-'
+                      }}</template>
+                    </el-table-column>
+                    <el-table-column prop="phone" label="电话">
+                      <template slot-scope="scope">{{
+                        scope.row.phone || '-'
+                      }}</template>
+                    </el-table-column>
+                    <el-table-column prop="post" label="岗位">
+                      <template slot-scope="scope">{{
+                        transPost(scope.row.post)
                       }}</template>
                     </el-table-column>
                     <el-table-column prop="shopNamesStr" label="所属门店">
@@ -241,6 +283,16 @@ export default {
     }
   },
   methods: {
+    transPost (val) {
+      if (val === 1) {
+        return '店长'
+      } else if (val === 2) {
+        return '客服'
+      } else if (val === 0) {
+        return '导购'
+      }
+      return '-'
+    },
     handleChangeShop (value) {
       this.shopIds = value
       if (this.shopIds.length > 0) {
@@ -611,8 +663,8 @@ export default {
 .output-file-view {
   width: 116px;
   height: 32px;
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   font-size: 14px;
   color: #595959;

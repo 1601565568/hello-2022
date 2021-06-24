@@ -2,8 +2,8 @@
  * @Descripttion: 企业微信-智能欢迎语
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:30:52
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-16 16:36:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-06-03 13:46:06
  */
 export default {
   /**
@@ -25,7 +25,7 @@ export default {
    */
   findWelcomeCodeChannelList: {
     url: '/wework/welcomecode/findWelcomeCodeChannelList',
-    method: 'post'
+    method: 'get'
   },
   /**
    * @msg: 查询智能欢迎语使用门店列表
@@ -39,14 +39,14 @@ export default {
    */
   findChannelList: {
     url: '/wework/welcomecode/findChannelList',
-    method: 'post'
+    method: 'get'
   },
   /**
    * @msg: 查询智能欢迎语详情
    */
   getWelcomeCode: {
     url: '/wework/welcomecode/getWelcomeCode',
-    method: 'post'
+    method: 'get'
   },
   /**
    * @msg: 新增/更新智能欢迎语

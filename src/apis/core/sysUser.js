@@ -40,8 +40,17 @@ export default {
     url: '/core/user/queryGuidePage',
     method: 'post'
   },
+
+  queryGuidePageByUserId: {
+    url: '/core/user/queryGuidePageByUserId',
+    method: 'post'
+  },
   findByGuideIds: {
     url: '/core/user/findByGuideIds',
+    method: 'post'
+  },
+  findByUserIds: {
+    url: '/core/user/findByUserIds',
     method: 'post'
   }
 }
