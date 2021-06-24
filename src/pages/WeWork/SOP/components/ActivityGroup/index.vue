@@ -29,7 +29,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="ownerName" label="群主"></el-table-column>
-        <el-table-column prop="ownerWorkNum" label="工号">
+        <el-table-column prop="ownerWorkNum" label="群主工号">
           <template slot-scope="scope">
             {{ scope.row.ownerWorkNum || '-' }}
           </template>
