@@ -16,6 +16,8 @@
         :centerBox="option.centerBox"
         :infoTrue="option.infoTrue"
         :fixedBox="option.fixedBox"
+        :autoCropWidth='option.autoCropWidth'
+        :autoCropHeight='option.autoCropHeight'
         :img="img"
         @realTime="realTime"
       ></vueCropper>
@@ -48,7 +50,9 @@ export default {
         canMoveBox: true, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
         centerBox: true, // 截图框是否被限制在图片里面
-        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+        infoTrue: true, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+        autoCropWidth: 9999, // 截图框是否被限制在图片里面
+        autoCropHeight: 9999 // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       },
       // 预览图片样式
       preview: {

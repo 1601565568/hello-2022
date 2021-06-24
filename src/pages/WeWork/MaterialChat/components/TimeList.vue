@@ -63,12 +63,13 @@
                   :selfBtn="true"
                   :appendToBody="true"
                   :isButton="false"
-                  :auth="false"
+                  :auth="true"
                   type="primary"
                   btnTitle=""
                   dialogTitle="门店/员工："
                   @input="handleChangeGuide"
                   v-model="guideIds"
+                  :switchAreaFlag="1"
                 >
                   <template slot="selfBtn">
                     <div class="self-btn">
