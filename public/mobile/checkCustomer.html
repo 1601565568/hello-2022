@@ -50,7 +50,7 @@
         + '&source=' + recruitInfo.source
         + '&wechatNo=' + (recruitInfo.wechatId == null ? "" : recruitInfo.wechatId)
         + '&userId=' + (recruitInfo.userId == null ? "" : recruitInfo.userId)
-        + '&encryptNascentId=' + encryptNascentId
+        + '&encryptNascentId=' + encodeURIComponent(encryptNascentId)
       window.location.replace(url)
       // this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
       //       guideId: recruitInfo.guideId,
