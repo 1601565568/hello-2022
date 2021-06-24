@@ -87,11 +87,9 @@
             </el-form-item>
             <el-form-item label='隐私政策' required prop='rgPrivacyPolicyUrl'>
               <plain-upload :file_list='model.policyList' :maxSize='10' @onRemove='rgPrivacyPolicyOnRemove' @onSuccess='rgPrivacyPolicySuccess'></plain-upload>
-              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
             <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
               <plain-upload :file_list='model.ruleList' :maxSize='10' @onRemove='rgMemberRuleOnRemove' @onSuccess='rgMemberRuleSuccess'></plain-upload>
-              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
