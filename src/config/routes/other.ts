@@ -106,6 +106,24 @@ export default {
           'name': 'OperationConfig',
           'title': '企业微信设置',
           'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
+        },
+        {
+          'path': '/Social/DetailsPage',
+          'name': 'DetailsPage',
+          'title': '企业微信设置',
+          'component': () => import('@/pages/Social/OperationConfig/DetailsPage/index.vue')
+        },
+        {
+          'path': '/Social/SidebarMenu',
+          'name': 'SidebarMenu',
+          'title': '企业微信设置',
+          'component': () => import('@/pages/Social/OperationConfig/SidebarMenu/index.vue')
+        },
+        {
+          'path': '/Social/WebAuth',
+          'name': 'WebAuth',
+          'title': '企业微信设置',
+          'component': () => import('@/pages/Social/OperationConfig/WebAuth/index.vue')
         }
       ]
     }
