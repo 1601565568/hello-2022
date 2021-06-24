@@ -12,7 +12,6 @@
       :on-success="handleUploadSuccess">
       <div v-loading="loading" class="u_btn"><img src='@/assets/btn.png' /></div>
     </el-upload>
-    <el-progress v-if="videoFlag == true" type="circle" :percentage="videoUploadPercent" style="margin-top:30px;"></el-progress>
     <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList.length > 0'>
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
@@ -26,20 +25,22 @@
         </label>
       </div>
     </div>
+    <div v-else>
+      <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
+    </div>
   </div>
 </template>
 <script>
-import ElProgress from '@nascent/nui/lib/progress'
 import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
       loading: false,
       videoUploadPercent: '0',
-      fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
+      fileList: []
     }
   },
-  components: { ElUpload, ElProgress },
+  components: { ElUpload },
   props: {
     file_list: {
       default () {
@@ -101,14 +102,15 @@ export default {
       this.$emit('onRemove')
     },
     uploadVideoProcess (event, file, fileList) {
-      this.videoFlag = true
       this.videoUploadPercent = Math.floor(event.percent)
     }
   },
   watch: {
     file_list: {
       handler (newVal) {
-        this.fileList = newVal
+        if (newVal.length > 0 && newVal[0].url) {
+          this.fileList = newVal
+        }
       },
       immediate: true
     }
@@ -121,6 +123,27 @@ export default {
   display: flex;
   align-items: flex-start;
   padding:16px 0;
+  .yellow-point {
+    display: inline-block;
+    background: #F2AA18;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    line-height: 20px;
+    position: relative;
+    top: 6px;
+  }
+  .prompt-text {
+    font-size: 12px;
+    color: #595959;
+    line-height: 20px;
+  }
+}
+.register_content {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 18px;
   .yellow-point {
     display: inline-block;
     background: #F2AA18;

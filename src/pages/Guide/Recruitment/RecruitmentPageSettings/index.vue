@@ -72,7 +72,7 @@
         <recruitment-collapse :flag='true' title='注册页面配置' phoneBar='会员开卡'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='rgBackground'>
-              <drap-upload :showFooter='false' tip='（请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334,大小不超过2M）' v-model='model.rgBackground' :maxWidth='750' :maxHeight='1334' :maxSize='2'  :isNeedCrop='true'>
+              <drap-upload :showFooter='false' tip='请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334，大小不超过10M' v-model='model.rgBackground' :maxWidth='750' :maxHeight='1334' :maxSize='10'  :isNeedCrop='true'>
               </drap-upload>
               <div class="reset_img" @click='restoreDef'>恢复默认海报图</div>
             </el-form-item>
@@ -87,11 +87,9 @@
             </el-form-item>
             <el-form-item label='隐私政策' required prop='rgPrivacyPolicyUrl'>
               <plain-upload :file_list='model.policyList' :maxSize='10' @onRemove='rgPrivacyPolicyOnRemove' @onSuccess='rgPrivacyPolicySuccess'></plain-upload>
-              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
             <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
               <plain-upload :file_list='model.ruleList' :maxSize='10' @onRemove='rgMemberRuleOnRemove' @onSuccess='rgMemberRuleSuccess'></plain-upload>
-              <div class="register_content"><span class='yellow-point'></span><span class='prompt-text'>最大上传10M、PDF格式</span></div>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
