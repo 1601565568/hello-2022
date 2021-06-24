@@ -101,11 +101,18 @@ export default {
       'title': '运营设置',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
+        // 6.9 三方应用需求修改页面路径 WeWorkConfig => WeWorkTools
+        // {
+        //   'path': '/Social/OperationConfig',
+        //   'name': 'OperationConfig',
+        //   'title': '企业微信设置',
+        //   'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
+        // },
         {
           'path': '/Social/OperationConfig',
           'name': 'OperationConfig',
           'title': '企业微信设置',
-          'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
+          'component': () => import('@/pages/Social/OperationConfig/WeWorkTools/Index.vue')
         },
         {
           'path': '/Social/DetailsPage',

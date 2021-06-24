@@ -74,6 +74,10 @@ export default {
   uploadCert: function () {
     return `${apiConf.API_ROOT}/wxpay/method/uploadCert`
   },
+  // 域名文件
+  uploadVerifyFile: function () {
+    return `${apiConf.API_ROOT}/wework/verifyFile/upload`
+  },
   /**
    * manualShopIds
    * @param {string}  manualShopIds 外部门店编码
