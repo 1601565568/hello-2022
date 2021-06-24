@@ -10,14 +10,20 @@
       <el-form label-width="70px">
         <el-form-item label="选择图片：">
           <el-form-grid class="company-upload" :class="imageUrl !== '' ? 'company-detele-border' : ''">
-            <el-upload
+            <div class='img-url__logo'>
+              <img v-if="imageUrl" :src="imageUrl" class="company-upload__avatar">
+              <Icon type="plus" className="company-upload__tip" v-else/>
+              <drap-upload  :scale='1' scaleTip='1' v-model='imageUrl' :isNeedCrop='true'  :showPont='false' :drag='false'>
+              </drap-upload>
+            </div>
+            <!-- <el-upload
               :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl" :src="imageUrl" class="company-upload__avatar">
               <Icon type="plus" className="company-upload__tip" v-else/>
-            </el-upload>
+            </el-upload> -->
           </el-form-grid>
         </el-form-item>
         <el-form-item>
@@ -45,11 +51,11 @@
 </template>
 
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 
 export default {
   components: {
-    ElUpload
+    DrapUpload
   },
   data () {
     return {
@@ -191,5 +197,30 @@ export default {
 }
 .company-example >>> .el-button:hover {
   background: var(--theme-color-white);
+}
+.img-url__logo {
+  position: relative;
+  height: 100px;
+  overflow: hidden;
+}
+.img-url__logo >>> .upload-demo .el-upload {
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.img-url__logo >>> .poster-content{
+  opacity: 0;
+  padding: 0;
+}
+.img-url__logo >>> .el-upload-list {
+  display: none;
+}
+.img-url__logo >>> .poster-set_content {
+  display: none
+}
+.img-url__logo >>> .padingbottom {
+  display: none;
 }
 </style>

@@ -122,7 +122,9 @@
             </el-form-item>
             <el-form-item label="海报" v-if="memberManagePlan == 1">
               <div class="poster-content">
-                <el-upload
+                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过10M）' v-model='personalQrcode.posterBackgroundUrl' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='10' :isNeedCrop='true'>
+                </drap-upload>
+                <!-- <el-upload
                   size="xlg"
                   drag
                   :action="$api.core.sgUploadFile('test')"
@@ -137,7 +139,7 @@
                     <i class="el-icon-upload" style="color:#0094FC;"></i>
                     <div class="el-upload__text">点击或拖拽上传海报图</div>
                     <div class="el-upload__tip" slot="tip">（请上传格式为jpg、jpeg或png的图片，图片尺寸为750*1334，大小不超过10M）</div>
-                </el-upload>
+                </el-upload> -->
               </div>
             </el-form-item>
           </div>
@@ -241,6 +243,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import AddTagsDialog from './components/AddTagsDialog/index.vue'
 import PosterPreviewPanel from './components/PosterPreviewPanel'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 
 Edit.components = {
   index,
@@ -248,7 +251,8 @@ Edit.components = {
   ElUpload,
   NsGuideDialog,
   AddTagsDialog,
-  PosterPreviewPanel
+  PosterPreviewPanel,
+  DrapUpload
 }
 export default Edit
 </script>
@@ -449,10 +453,10 @@ export default Edit
   }
 
   .poster-content {
-    width: 580px;
+    /* width: 580px;
     padding: 16px;
     padding-bottom: 0;
-    background-color: #F5F5F5;
+    background-color: #F5F5F5; */
     >>> .el-upload--text {
       height: 112px;
       width: 100%;
