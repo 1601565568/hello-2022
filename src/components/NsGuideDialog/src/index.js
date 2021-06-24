@@ -26,7 +26,7 @@ export default {
     guideFindUrl: {
       type: Object,
       default: function () {
-        return this.$api.core.sysUser.findByUserIds
+        return this.$api.core.sysUser.findByGuideIds
       }
     },
     // 是否添加登录账号店铺数据权限
