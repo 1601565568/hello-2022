@@ -11,6 +11,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  &:hover {
+    background: #e8f2fe;
+    border: 1px solid #c3dbfc;
+  }
 }
 .library-popover {
   display: flex;
@@ -29,7 +33,6 @@
 .popver-image {
   width: 35px;
   height: 30px;
-  color: red;
 }
 .popver-text {
   font-size: 12px;
