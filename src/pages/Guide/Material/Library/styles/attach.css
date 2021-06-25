@@ -1,4 +1,5 @@
 .addAttach {
+  margin-top: 16px;
   width: 136px;
   height: 32px;
   border: 1px solid #dcdfe6;
@@ -66,4 +67,45 @@
   color: #8c8c8c;
   line-height: 80px;
   border-radius: var(--default-radius-mini);
+}
+
+.attach-list {
+  width: 540px;
+}
+.list-base {
+  padding: 0 10px;
+  height: 52px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit-text {
+  width: 30px;
+  display: inline-block;
+  font-size: 12px;
+  color: #0094fc;
+  line-height: 20px;
+}
+.list-left {
+  display: flex;
+  flex-direction: row;
+}
+.attach-name {
+  width: 250px;
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+.attach-icon {
+  font-size: 16px;
+  color: #383838;
+  margin-right: 8px;
+}
+.sort-view {
+  width: 156px;
 }

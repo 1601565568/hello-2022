@@ -4,6 +4,23 @@
       <div class="tip-reminder"></div>
       视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件
     </div>
+    <div class="attach-list">
+      <div v-for="{ item, index } in lists" :key="index">
+        <div class="list-base">
+          <div class="list-left">
+            <div class="attach-name">
+              <Icon type="tupianbeifen-5" class="attach-icon"></Icon>
+              文件名称XXXXXXXX.jpg
+            </div>
+            <div class="sort-view"></div>
+          </div>
+          <div>
+            <span class="edit-text">编辑</span>
+            <span class="edit-text">删除</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <el-popover placement="top-start" width="400" trigger="hover" ref="popoverView">
       <div class="library-popover">
         <div class="popover-base" @click="addCustomImg">
@@ -55,7 +72,7 @@ export default {
   },
   data () {
     return {
-      name: ''
+      lists: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
   methods: {

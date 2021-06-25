@@ -8,14 +8,14 @@
             maxlength="150"
             v-model="model.name"
             placeholder="请输入标题，长度在150个字符以内"
-            style="width: 626px"
+            style="width: 540px"
             :input="(model.name = model.name.replace(/\s+/g, ''))"
             clearable
           ></el-input>
         </div>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
-        <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 626px" multiple :collapse-tags="true" :clearable="false">
+        <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
         <span class="library-icon__extra" @click="toggleLabel">
@@ -97,7 +97,7 @@
         <AttachView />
       </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
-        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 626px">
+        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
         </el-select>
         <el-form-grid v-if="model.codeModule == 1">
@@ -591,7 +591,7 @@ export default {
 @import '@theme/variables.pcss';
 @import '../styles/image.css';
 .top-title-view {
-  width: 626px;
+  width: 540px;
   height: 144px;
 }
 
