@@ -11,23 +11,22 @@
         <recruitment-collapse title='企微侧边栏设置' phoneTitle=''>
           <template slot='collapse-left'>
             <div class='step'>
-              <div class='step-title'>1.设置网页授权的可信域名<ns-button type='text' class='lager-btn'>去配置</ns-button><ns-button type='text' class='lager-btn'>配置说明</ns-button></div>
+              <div class='step-title'>1.设置网页授权的可信域名<ns-button type='text' class='lager-btn' @click='handleLocation("WEB_OPTION_URL")'>去配置</ns-button><ns-button type='text' class='lager-btn' @click='handleLocation("WEB_DESCRIBE_URL")'>配置说明</ns-button></div>
               <div class='step-content'>
                 <label class=''>可信域名</label>
-                <el-input placeholder="请输入内容" :value="input3" disabled size='large'>
-                  <Icon slot="append" type="ns-thick-copy" class='copy-btn'/>
+                <el-input placeholder="请输入内容" :value="model.appDomain" disabled size='large'>
+                  <Icon slot="append" type="ns-thick-copy" class='copy-btn' @click='copy(model.appDomain)'/>
                 </el-input>
               </div>
             </div>
             <div class='step'>
-              <div class='step-title'>2.上传校验域名文件<ns-button type='text' class='lager-btn'>去配置</ns-button><ns-button type='text' class='lager-btn'>配置说明</ns-button></div>
+              <div class='step-title'>2.上传校验域名文件<ns-button type='text' class='lager-btn' @click='handleLocation("FILE_OPTION_URL")'>去配置</ns-button><ns-button type='text' class='lager-btn' @click='handleLocation("FILE_DESCRIBE_URL")'>配置说明</ns-button></div>
               <div class='step-content'>
                 <label >上传文件</label>
                 <ElUpload
                   class="upload-demo"
-                  accept=".p12,.P12"
+                  accept=".txt,.TXT"
                   :action="$api.core.uploadVerifyFile()"
-                  :on-remove='handleRemove'
                   :show-file-list='false'
                   :before-upload="beforeUpload"
                   :on-success="handleUploadSuccess"
@@ -35,13 +34,12 @@
                   <ns-button><Icon type="ns-upload2"/>上传文件</ns-button>
                 </ElUpload>
               </div>
-              <div class='step-content' v-if='file'>
-                <label class='mini'>{{file}}</label>
-                <ns-button type='text' class='lager-btn' @click='handleDeleteFile'>删除</ns-button>
+              <div class='step-content' v-if='model.filename'>
+                <label class='mini'>{{model.filename}}</label>
               </div>
             </div>
             <div class='step'>
-              <div class='step-title'>3.设置侧边栏功能<ns-button type='text' class='lager-btn'>去配置</ns-button><ns-button type='text' class='lager-btn'>配置说明</ns-button></div>
+              <div class='step-title'>3.设置侧边栏功能<ns-button type='text' class='lager-btn' @click='handleLocation("SIDE_OPTION_URL")'>去配置</ns-button><ns-button type='text' class='lager-btn' @click='handleLocation("SIDE_DESCRIBE_URL")'>配置说明</ns-button></div>
               <div class='step-content'>
                 <div>
                 <template v-for='item in data'>
@@ -64,11 +62,11 @@
         <recruitment-collapse title='好友自定义详情页' phoneTitle=''>
           <template slot='collapse-left'>
             <div class='step'>
-              <div class='step-title'>设置自定义详情<ns-button type='text' class='lager-btn'>去配置</ns-button><ns-button type='text' class='lager-btn'>配置说明</ns-button></div>
+              <div class='step-title'>设置自定义详情<ns-button type='text' class='lager-btn' @click='handleLocation("DIY_OPTION_URL")'>去配置</ns-button><ns-button type='text' class='lager-btn' @click='handleLocation("DIY_DESCRIBE_URL")'>配置说明</ns-button></div>
               <div class='step-content'>
                 <label class=''>客户详情</label>
-                <el-input placeholder="请输入内容" :value="input3" disabled size='large'>
-                  <Icon slot="append" type="ns-thick-copy"  class='copy-btn'/>
+                <el-input placeholder="请输入内容" :value="model.webLink" disabled size='large'>
+                  <Icon slot="append" type="ns-thick-copy"  class='copy-btn' @click='copy(model.webLink)'/>
                 </el-input>
               </div>
             </div>

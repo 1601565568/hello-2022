@@ -1,12 +1,17 @@
 import qychat2 from '@/assets/qychat2.jpg'
 import qychat3 from '@/assets/qychat3.jpg'
+import { URL } from './const'
 export default {
   data () {
     return {
       qychat2,
       qychat3,
       data: [],
-      file: ''
+      model: {
+        appDomain: '',
+        filename: '',
+        webLink: ''
+      }
     }
   },
   methods: {
@@ -24,17 +29,41 @@ export default {
       oInput.remove()
     },
     init () {
+      this.getSideList()
+      this.getVerifyFileConfig()
+    },
+    getSideList () {
       const customerDetail = 'customerDetail'
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
         if (res.result && res.msg) {
           this.data = res.result.filter(item => item.key !== customerDetail)
-          console.log(this.data)
         }
       })
     },
-    // 删除文件
-    handleDeleteFile () {
-
+    getVerifyFileConfig () {
+      this.$http.fetch(this.$api.guide.operationConfig.getVerifyFileConfig).then((res) => {
+        if (res.result) {
+          this.model = res.result
+        }
+      })
+    },
+    handleLocation (url) {
+      window.open(URL[url])
+    },
+    // 上传之前钩子
+    beforeUpload (file) {
+      // this.fileList = [file]
+      // 图片格式判断
+      if (!/\.(txt|TXT)$/.test(file.name)) {
+        this.$notify.error('仅支持上传txt文件')
+        return false
+      }
+      return true
+    },
+    handleUploadSuccess (res) {
+      if (res.success) {
+        this.model.filename = res.result
+      }
     }
   },
   mounted () {
