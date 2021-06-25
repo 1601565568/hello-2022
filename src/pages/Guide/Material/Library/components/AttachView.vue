@@ -5,18 +5,26 @@
       视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件
     </div>
     <div class="attach-list">
-      <div v-for="{ item, index } in lists" :key="index">
+      <div v-for="(item, index) in lists" :key="index">
         <div class="list-base">
           <div class="list-left">
             <div class="attach-name">
               <Icon type="tupianbeifen-5" class="attach-icon"></Icon>
               文件名称XXXXXXXX.jpg
             </div>
-            <div class="sort-view">
+            <div class="sort-view" v-if="index > 0 && index !== lists.length - 1">
               <Icon type="zhiding" class="sort-icon" />
-              <Icon type="top-arr" class="sort-icon"  />
+              <Icon type="top-arr" class="sort-icon" />
               <Icon type="down-arr" class="sort-icon" />
               <Icon type="zhidi" class="sort-icon" />
+            </div>
+            <div v-if="index === 0" class="sort-view-end">
+              <Icon type="down-arr" class="sort-icon" />
+              <Icon type="zhidi" class="sort-icon" />
+            </div>
+            <div v-if="index === lists.length - 1" class="sort-view">
+              <Icon type="zhiding" class="sort-icon" />
+              <Icon type="top-arr" class="sort-icon" />
             </div>
           </div>
           <div>
