@@ -1,5 +1,4 @@
 .addAttach {
-  margin-top: 16px;
   width: 136px;
   height: 32px;
   border: 1px solid #dcdfe6;
@@ -71,6 +70,7 @@
 
 .attach-list {
   width: 540px;
+  margin-bottom: 16px;
 }
 .list-base {
   padding: 0 10px;
@@ -93,7 +93,7 @@
   flex-direction: row;
 }
 .attach-name {
-  width: 240px;
+  width: 260px;
   font-size: 12px;
   color: #595959;
   line-height: 20px;
