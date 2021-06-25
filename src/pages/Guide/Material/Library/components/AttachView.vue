@@ -13,18 +13,18 @@
               文件名称XXXXXXXX.jpg
             </div>
             <div class="sort-view" v-if="index > 0 && index !== lists.length - 1">
-              <Icon type="zhiding" class="sort-icon" />
-              <Icon type="top-arr" class="sort-icon" />
-              <Icon type="down-arr" class="sort-icon" />
-              <Icon type="zhidi" class="sort-icon" />
+              <Icon type="zhiding" class="sort-icon" @click="toTop" />
+              <Icon type="top-arr" class="sort-icon" @click="toTopOne" />
+              <Icon type="down-arr" class="sort-icon" @click="toNextOne" />
+              <Icon type="zhidi" class="sort-icon" @click="toBottom" />
             </div>
             <div v-if="index === 0" class="sort-view-end">
-              <Icon type="down-arr" class="sort-icon" />
-              <Icon type="zhidi" class="sort-icon" />
+              <Icon type="down-arr" class="sort-icon" @click="toNextOne" />
+              <Icon type="zhidi" class="sort-icon" @click="toBottom" />
             </div>
             <div v-if="index === lists.length - 1" class="sort-view">
-              <Icon type="zhiding" class="sort-icon" />
-              <Icon type="top-arr" class="sort-icon" />
+              <Icon type="zhiding" class="sort-icon" @click="toTop" />
+              <Icon type="top-arr" class="sort-icon" @click="toTopOne" />
             </div>
           </div>
           <div>
@@ -91,7 +91,11 @@ export default {
   methods: {
     addCustomImg () {},
     handleAvatarSuccess () {},
-    beforeGuideUpload () {}
+    beforeGuideUpload () {},
+    toTop () {},
+    toBottom () {},
+    toTopOne () {},
+    toNextOne () {}
   }
 }
 </script>
