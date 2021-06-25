@@ -89,9 +89,12 @@
           </draggable>
         </ul>
         <div class="library-icon__extra">
-          <Icon type="tishi" />
+          <Icon type="ns-add-border" class="icon" />
           <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
         </div>
+      </el-form-item>
+      <el-form-item ref="attach" label="附件：">
+        <AttachView />
       </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 626px">
@@ -190,6 +193,7 @@ import SelectMarket from '../../components/selectMarket'
 import SelectGoods from '../../components/selectGoods'
 import GuideInfo from './GuideInfo'
 import TagArea from '@/components/NewUi/TagArea'
+import AttachView from './AttachView'
 import draggable from 'vuedraggable'
 export default {
   name: 'imageform',
@@ -200,6 +204,7 @@ export default {
     SelectGoods,
     GuideInfo,
     TagArea,
+    AttachView,
     draggable
   },
   props: {
@@ -585,7 +590,6 @@ export default {
 <style scoped>
 @import '@theme/variables.pcss';
 @import '../styles/image.css';
-
 .top-title-view {
   width: 626px;
   height: 144px;
