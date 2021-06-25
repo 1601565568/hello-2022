@@ -2,16 +2,6 @@
   <div class="library-video">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <!-- <div class="top-title-view">
-          <tag-area
-            :maxlength="150"
-            placeholder="请输入标题，长度在150个字符以内"
-            :showEmoji="false"
-            v-model="pitTitle"
-            :tools="tools"
-            ref="tagTitle"
-          ></tag-area>
-        </div> -->
         <div class="top-input-view">
           <el-input
             type="textarea"
@@ -19,53 +9,24 @@
             v-model="model.name"
             placeholder="请输入标题，长度在150个字符以内"
             style="width: 626px"
-            :input="model.name=model.name.replace(/\s+/g,'')"
+            :input="(model.name = model.name.replace(/\s+/g, ''))"
             clearable
           ></el-input>
         </div>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
-        <el-select
-          v-model="model.subdivisionIds"
-          placeholder="请选择"
-          filterable
-          style="width: 626px"
-          multiple
-          :collapse-tags="true"
-          :clearable="false"
-        >
-          <el-option
-            v-for="item in labelList"
-            :key="item.subdivisionId"
-            :label="item.subdivisionName"
-            :value="item.subdivisionId"
-          >
-          </el-option>
+        <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 626px" multiple :collapse-tags="true" :clearable="false">
+          <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
         <span class="library-icon__extra" @click="toggleLabel">
-          <Icon type="plus"/>
+          <Icon type="plus" />
           <span>添加标签</span>
         </span>
       </el-form-item>
       <el-form-item label="推广文案：" prop="content">
         <div class="top-title-view">
-          <tag-area
-            :maxlength="1500"
-            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-            :showEmoji="true"
-            v-model="pitContent"
-            :tools="tools"
-            ref="tagContent"
-          ></tag-area>
+          <tag-area :maxlength="1500" placeholder="可在此输入推广文案，限制长度在1500个字符以内。" :showEmoji="true" v-model="pitContent" :tools="tools" ref="tagContent"></tag-area>
         </div>
-        <!-- <el-input
-          resize="none"
-          type="textarea"
-          maxlength="1500"
-          v-model="model.content"
-          placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-          style="width: 340px"
-        ></el-input> -->
       </el-form-item>
       <el-form-item label="素材视频：" ref="imageForm" prop="mediaList">
         <div class="library-video__form">
@@ -91,17 +52,17 @@
               accept=".mp4,.MP4"
               list-type="picture-card"
             >
-              <Icon type="plus"/>
+              <Icon type="plus" />
             </el-upload>
           </div>
         </div>
         <div class="library-icon__extra">
-          <Icon type="tishi"/>
+          <Icon type="tishi" />
           <span>上传视频限制大小为10MB，格式为MP4</span>
         </div>
       </el-form-item>
-      <el-form-item label="保存到：" >
-        <span class="library-catalogue__text">{{catalogueStr}}</span>
+      <el-form-item label="保存到：">
+        <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
@@ -159,9 +120,7 @@ export default {
           { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
           { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
-        mediaList: [
-          { required: true, message: '请添加素材视频', trigger: 'change' }
-        ]
+        mediaList: [{ required: true, message: '请添加素材视频', trigger: 'change' }]
       },
       mType: 2,
       imageNum: 1,
@@ -191,7 +150,6 @@ export default {
         // }
       })
       this.model = tempModel
-      // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
       this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -261,25 +219,23 @@ export default {
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-      //   this.loading = false
-      //   return
-      // }
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.mediaList = this.mediaList
-      // params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.materialScriptType = 1
-      this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
-        this.$notify.success('保存成功')
-        this.onBack(true)
-      }).catch(resp => {
-        this.$notify.error(getErrorMsg('保存失败', resp))
-      }).finally(() => {
-        this.loading = false
-      })
+      this.$http
+        .fetch(this.$api.guide.materialEdit, params)
+        .then(resp => {
+          this.$notify.success('保存成功')
+          this.onBack(true)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('保存失败', resp))
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   },
   mounted () {
@@ -288,103 +244,103 @@ export default {
 }
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
-  @import '../styles/image.css';
-  .top-title-view {
-    width: 626px;
-    height: 144px;
+@import '@theme/variables.pcss';
+@import '../styles/image.css';
+.top-title-view {
+  width: 626px;
+  height: 144px;
+}
+@component-namespace library {
+  @b catalogue {
+    @e text {
+      vertical-align: middle;
+      & + button {
+        margin-left: var(--default-margin-larger);
+      }
+    }
   }
-  @component-namespace library {
-    @b catalogue {
-      @e text {
-        vertical-align: middle;
-        & + button {
-          margin-left: var(--default-margin-larger);
-        }
-      }
-    }
-    @b uploader {
-      >>> .el-upload--picture-card {
-        width: 240px;
-        height: 135px;
-        border: solid 1px var(--theme-base-border-color-primary);
-        font-size: 24px;
-        color: #8c8c8c;
-        line-height: 135px;
-        border-radius: var(--default-radius-mini);
-        background-color: #fff;
-        &:hover {
-          border-color: var(--theme-color-primary);
-          color: var(--theme-color-primary);
-        }
-      }
-    }
-    @b video {
-      @e form {
-        position: relative;
-        width: 240px;
-        >>> .el-loading-mask {
-          top: 1px;
-          left: 1px;
-          bottom: 1px;
-          right: 1px;
-          border-radius: var(--default-radius-mini);
-        }
-        >>> .el-loading-spinner {
-          margin-top: -24px;
-        }
-      }
-      @e item {
-        position: relative;
-        width: 240px;
-        height: 135px;
-        border-radius: var(--default-radius-mini);
-        background-color: #fff;
-        font-size: 0;
-        > video {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--default-radius-mini);
-          object-fit: cover;
-        }
-      }
-      @e remove {
-        position: absolute;
-        right: -18px;
-        bottom: 0;
-        font-size: var(--default-font-size-base);
+  @b uploader {
+    >>> .el-upload--picture-card {
+      width: 240px;
+      height: 135px;
+      border: solid 1px var(--theme-base-border-color-primary);
+      font-size: 24px;
+      color: #8c8c8c;
+      line-height: 135px;
+      border-radius: var(--default-radius-mini);
+      background-color: #fff;
+      &:hover {
+        border-color: var(--theme-color-primary);
         color: var(--theme-color-primary);
-        line-height: 1;
-        svg {
-          cursor: pointer;
-        }
       }
-      @e mask {
-        position: absolute;
-        top: 0;
-        left: 0;
+    }
+  }
+  @b video {
+    @e form {
+      position: relative;
+      width: 240px;
+      >>> .el-loading-mask {
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+        border-radius: var(--default-radius-mini);
+      }
+      >>> .el-loading-spinner {
+        margin-top: -24px;
+      }
+    }
+    @e item {
+      position: relative;
+      width: 240px;
+      height: 135px;
+      border-radius: var(--default-radius-mini);
+      background-color: #fff;
+      font-size: 0;
+      > video {
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, .25);
-        cursor: pointer;
         border-radius: var(--default-radius-mini);
+        object-fit: cover;
       }
-      @e wrapper {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        margin-left: -15px;
-        margin-top: -15px;
-        width: 30px;
-        height: 30px;
-        border-radius: 30px;
-        background-color: rgba(255, 255, 255, .4);
-        > svg {
-          margin: 7px 0 0 8px;
-          font-size: 16px;
-          color: #fff;
-        }
+    }
+    @e remove {
+      position: absolute;
+      right: -18px;
+      bottom: 0;
+      font-size: var(--default-font-size-base);
+      color: var(--theme-color-primary);
+      line-height: 1;
+      svg {
+        cursor: pointer;
+      }
+    }
+    @e mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      border-radius: var(--default-radius-mini);
+    }
+    @e wrapper {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      background-color: rgba(255, 255, 255, 0.4);
+      > svg {
+        margin: 7px 0 0 8px;
+        font-size: 16px;
+        color: #fff;
       }
     }
   }
+}
 </style>

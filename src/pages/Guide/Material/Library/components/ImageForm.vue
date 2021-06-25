@@ -2,16 +2,6 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <!-- <div class="top-title-view">
-          <tag-area
-            :maxlength="150"
-            placeholder="请输入标题，长度在150个字符以内"
-            :showEmoji="false"
-            v-model="pitTitle"
-            :tools="tools"
-            ref="tagTitle"
-          ></tag-area>
-        </div> -->
         <div class="top-input-view">
           <el-input
             type="textarea"
@@ -25,22 +15,8 @@
         </div>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
-        <el-select
-          v-model="model.subdivisionIds"
-          placeholder="请选择"
-          filterable
-          style="width: 626px"
-          multiple
-          :collapse-tags="true"
-          :clearable="false"
-        >
-          <el-option
-            v-for="item in labelList"
-            :key="item.subdivisionId"
-            :label="item.subdivisionName"
-            :value="item.subdivisionId"
-          >
-          </el-option>
+        <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 626px" multiple :collapse-tags="true" :clearable="false">
+          <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
         <span class="library-icon__extra" @click="toggleLabel">
           <Icon type="plus" />
@@ -59,41 +35,13 @@
             className="tagContent"
           ></tag-area>
         </div>
-        <!-- <el-input
-          resize="none"
-          type="textarea"
-          maxlength="1500"
-          v-model="model.content"
-          placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-          style="width: 340px"
-        ></el-input> -->
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
         <ul class="library-image__list clearfix" style="z-index:200">
-          <draggable
-            v-model="mediaList"
-            class="library-image__list clearfix"
-            @update="datadragEnd"
-            :move="getdata"
-          >
-            <li
-              class="library-image__item"
-              v-for="(item, index) in mediaList"
-              :key="index"
-            >
-              <img
-                v-if="item.pitType == 2"
-                :src="
-                  defaultImgUrl +
-                    '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-                "
-              />
-              <img
-                v-else
-                :src="
-                  item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-                "
-              />
+          <draggable v-model="mediaList" class="library-image__list clearfix" @update="datadragEnd" :move="getdata">
+            <li class="library-image__item" v-for="(item, index) in mediaList" :key="index">
+              <img v-if="item.pitType == 2" :src="defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
+              <img v-else :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
               <div class="library-image__mask">
                 <div v-if="item.pitType == 1">
                   <Icon type="zoom-in" @click="previewImage(index)" />
@@ -106,12 +54,7 @@
               </div>
             </li>
             <li v-if="mediaList.length < imageNum">
-              <el-popover
-                placement="top-start"
-                width="160"
-                trigger="click"
-                ref="popoverView"
-              >
+              <el-popover placement="top-start" width="160" trigger="click" ref="popoverView">
                 <div class="library-popover">
                   <div>
                     <el-upload
@@ -146,86 +89,39 @@
           </draggable>
         </ul>
         <div class="library-icon__extra">
-          <Icon type="tishi"/>
+          <Icon type="tishi" />
           <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
         </div>
       </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
-        <el-select
-          v-model="model.codeModule"
-          placeholder="请选择"
-          clearable
-          @change="codeModuleChange"
-          style="width: 626px"
-        >
-          <el-option
-            v-for="item in wechatPageTypeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          >
-          </el-option>
+        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 626px">
+          <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
         </el-select>
         <el-form-grid v-if="model.codeModule == 1">
-          <el-select
-            v-model="model.codeTarget"
-            placeholder="请选择"
-            clearable
-            @change="codeTargetChange"
-          >
-            <el-option
-              v-for="item in wechatPageUrlList"
-              :key="item.codeTarget"
-              :value="item.codeTarget"
-              :label="item.codeTargetName"
-            >
-            </el-option>
+          <el-select v-model="model.codeTarget" placeholder="请选择" clearable @change="codeTargetChange">
+            <el-option v-for="item in wechatPageUrlList" :key="item.codeTarget" :value="item.codeTarget" :label="item.codeTargetName"> </el-option>
           </el-select>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 2">
           <ns-button @click="selectGoods" type="primary">选择商品</ns-button>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 4">
-          <ns-button @click="selectMarket" type="primary"
-            >选择营销活动</ns-button
-          >
+          <ns-button @click="selectMarket" type="primary">选择营销活动</ns-button>
         </el-form-grid>
       </el-form-item>
       <el-form-item
-        v-if="
-          model.codeModule &&
-            model.codeModule != 1 &&
-            model.codeTargetName != ''
-        "
-        :label="
-          model.codeModule == 2
-            ? '商品名称：'
-            : model.codeModule == 4
-            ? '活动名称：'
-            : ''
-        "
+        v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != ''"
+        :label="model.codeModule == 2 ? '商品名称：' : model.codeModule == 4 ? '活动名称：' : ''"
         prop="codeTargetName"
       >
-        <el-input
-          v-model="model.codeTargetName"
-          :disabled="true"
-          style="width: 240px"
-        ></el-input>
+        <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
       </el-form-item>
-      <el-form-item
-        label="小程序码类型："
-        prop="codeType"
-        v-if="model.codeTarget"
-      >
+      <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
         <el-radio-group v-model="model.codeType">
           <el-radio :label="1">图片上植入小程序码 </el-radio>
           <el-radio :label="2">单独增加一张小程序码图 </el-radio>
         </el-radio-group>
-        <div
-          v-if="model.codeType == 2"
-          style="line-height:1.5;"
-          class="library-icon__extra"
-        >
+        <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
           <Icon type="info-circle" />
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
         </div>
@@ -236,55 +132,26 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button type="primary" :loading="loading" @click="onSave"
-        >保存</ns-button
-      >
+      <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
     </div>
-    <folder-tree
-      ref="folderTree"
-      title="选择文件夹"
-      @submit="handleFolder"
-    ></folder-tree>
-    <SelectMarket
-      ref="selectMarket"
-      :callBack="selectMarketBack"
-    ></SelectMarket>
+    <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
+    <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
     <div class="cus-diglog-view">
-      <el-dialog
-        :visible="showEdit"
-        title="指南"
-        width="658px"
-        @close="handleCloseDia"
-      >
+      <el-dialog :visible="showEdit" title="指南" width="658px" @close="handleCloseDia">
         <div>
           <div class="guide-text">指南说明</div>
-          <tag-area
-            :maxlength="1500"
-            placeholder="请输入"
-            :showEmoji="false"
-            v-model="guideText"
-            :tools="tools"
-            v-if="showEdit"
-            ref="tagArea"
-            className="tagArea"
-          ></tag-area>
+          <tag-area :maxlength="1500" placeholder="请输入" :showEmoji="false" v-model="guideText" :tools="tools" v-if="showEdit" ref="tagArea" className="tagArea"></tag-area>
         </div>
         <div>
           <div class="guide-text">示意图</div>
           <div class="upload-view">
-            <div
-              v-if="showEidtImg"
-              style="width:114px;height:114x;position:relative;"
-            >
+            <div v-if="showEidtImg" style="width:114px;height:114x;position:relative;">
               <div class="guide-mask">
                 <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
               </div>
-              <img
-                :src="showEidtImg"
-                style="width:114px;height:114px;border-radius: 4px; object-fit: cover;"
-              />
+              <img :src="showEidtImg" style="width:114px;height:114px;border-radius: 4px; object-fit: cover;" />
             </div>
             <div v-else class="show-uploader-view">
               <el-upload
@@ -308,9 +175,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
-          <ns-button type="primary" @click="handleSure" class="diag-view"
-            >确定</ns-button
-          >
+          <ns-button type="primary" @click="handleSure" class="diag-view">确定</ns-button>
         </div>
       </el-dialog>
     </div>
@@ -328,7 +193,6 @@ import TagArea from '@/components/NewUi/TagArea'
 import draggable from 'vuedraggable'
 export default {
   name: 'imageform',
-  // components: { FolderTree, SelectMarket, SelectGoods },
   components: {
     FolderTree,
     ElUpload,
@@ -412,16 +276,13 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        mediaList: [
-          { required: true, message: '请添加素材图片', trigger: 'change' }
-        ]
+        mediaList: [{ required: true, message: '请添加素材图片', trigger: 'change' }]
       },
       mType: 1,
       imageNum: 9,
       catalogue: [{ id: 0, name: '素材库' }],
       visible: false,
-      defaultImgUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       showEdit: false,
       guideText: '',
       drawer: false,
@@ -629,11 +490,7 @@ export default {
     },
     codeTargetChange (e) {
       let codeTargetObj = e ? this.wechatPageUrlList[Number(e) - 1] : {}
-      this.$set(
-        this.model,
-        'codeTargetName',
-        codeTargetObj.codeTargetName || ''
-      )
+      this.$set(this.model, 'codeTargetName', codeTargetObj.codeTargetName || '')
     },
     selectMarket () {
       this.$nextTick(() => {
@@ -653,11 +510,7 @@ export default {
       } else if (obj.sysItemId) {
         this.$set(this.model, 'codeTarget', obj.sysItemId)
         this.$set(this.model, 'codeTargetName', obj.title)
-        this.$set(
-          this.model,
-          'extJson',
-          JSON.stringify({ mallId: obj.mallId, bankId: obj.bankId })
-        )
+        this.$set(this.model, 'extJson', JSON.stringify({ mallId: obj.mallId, bankId: obj.bankId }))
       }
     },
     onBack (isSave) {
@@ -686,18 +539,12 @@ export default {
           break
         }
       }
-      // params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-      //   this.loading = false
-      //   return
-      // }
       this.$http
         .fetch(this.$api.guide.materialEdit, params)
         .then(resp => {
@@ -725,18 +572,13 @@ export default {
             }
           }
         })
-        .catch(resp => {
-        })
-        .finally(() => {
-        })
+        .catch(resp => {})
+        .finally(() => {})
     }
   },
   mounted () {
     this.loadCompanyPlan()
-    this.catalogue =
-      this.breadcrumb && this.breadcrumb.length
-        ? this.breadcrumb
-        : [{ id: 0, name: '素材库' }]
+    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
   }
 }
 </script>
