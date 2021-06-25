@@ -12,7 +12,12 @@
               <Icon type="tupianbeifen-5" class="attach-icon"></Icon>
               文件名称XXXXXXXX.jpg
             </div>
-            <div class="sort-view"></div>
+            <div class="sort-view">
+              <Icon type="zhiding" class="sort-icon" />
+              <Icon type="top-arr" class="sort-icon"  />
+              <Icon type="down-arr" class="sort-icon" />
+              <Icon type="zhidi" class="sort-icon" />
+            </div>
           </div>
           <div>
             <span class="edit-text">编辑</span>

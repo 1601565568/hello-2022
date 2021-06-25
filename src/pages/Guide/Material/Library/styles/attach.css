@@ -93,7 +93,7 @@
   flex-direction: row;
 }
 .attach-name {
-  width: 250px;
+  width: 240px;
   font-size: 12px;
   color: #595959;
   line-height: 20px;
@@ -108,4 +108,11 @@
 }
 .sort-view {
   width: 156px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.sort-icon {
+  color: #0091fa;
+  font-size: 16px;
 }
