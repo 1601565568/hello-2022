@@ -39,12 +39,12 @@
     <div class='analysis-content'>
       <h3>数据报表</h3>
       <div class="select-data-view">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="按日期显示" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>
           </el-tab-pane>
           <el-tab-pane label="按员工显示" name="guide">
-            <TableByGuide ref='TableByGuide' :url='url' :data='model'/>
+            <TableByGuide ref='TableByGuide' :url='urlByGuide' :data='model'/>
           </el-tab-pane>
         </el-tabs>
       </div>

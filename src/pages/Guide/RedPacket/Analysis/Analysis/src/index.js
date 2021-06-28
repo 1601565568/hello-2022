@@ -11,6 +11,7 @@ export default {
         guideIds: []
       },
       url: this.$api.guide.redpacket.getDataAnalysisList,
+      urlByGuide: this.$api.guide.redpacket.getDataAnalysisListByGuideId,
       exportApi: this.$api.guide.redpacket.exportDataAnalysisList, // 导出地址
       dateList: [
         {

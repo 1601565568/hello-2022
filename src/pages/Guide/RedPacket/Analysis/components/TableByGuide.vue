@@ -6,32 +6,29 @@
         class="new-table_border"
         style="width: 100%">
         <el-table-column
-          prop="dayTime"
+          prop="name"
           label="员工">
         </el-table-column>
         <el-table-column
-          prop="dayTime"
+          prop="wokerNumber"
           label="工号">
+          <template slot-scope="scope">
+            {{scope.row.wokerNumber || '-'}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="todaySendMoney"
+          prop="shopName"
           label="工作门店">
-          <template slot-scope="scope">
-            {{scope.row.todaySendMoney/100 | moneyStr}}
-          </template>
         </el-table-column>
         <el-table-column
-          prop="guideSendMoney"
+          prop="receiverNum"
           label="被领红包个数">
-          <template slot-scope="scope">
-            {{scope.row.guideSendMoney/100 | moneyStr}}
-          </template>
         </el-table-column>
         <el-table-column
-          prop="fissionSendMoney"
+          prop="receiverMoney"
           label="被领红包金额（元）">
           <template slot-scope="scope">
-            {{scope.row.fissionSendMoney/100 | moneyStr}}
+            {{scope.row.receiverMoney/100 | moneyStr}}
           </template>
         </el-table-column>
       </el-table>

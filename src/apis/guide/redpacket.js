@@ -99,6 +99,11 @@ export default {
     url: prefix + 'dataAnalysis/list',
     method: 'post'
   },
+  // 员工纬度出入帐统计
+  getDataAnalysisListByGuideId: {
+    url: prefix + 'dataAnalysis/listByGuideId',
+    method: 'post'
+  },
   // 数据分析列表
   getRecordStatistics: {
     url: prefix + 'dataAnalysis/recordStatistics',
