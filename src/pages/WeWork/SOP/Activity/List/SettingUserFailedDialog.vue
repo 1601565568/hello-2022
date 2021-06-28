@@ -23,10 +23,11 @@
               <span slot="reference" class="popover-tip">{{info.guideNames.length}}</span>
             </el-popover>
             人
-          </span>已在待执行的发送任务中，不可被修改涉及任务名称：
+          </span>已在待执行的发送任务中，不可被修改
         </div>
       </div>
       <div class="task-name">
+        <span>涉及任务名称：</span>
         <span v-for="(taskname, index) in info.taskNames.slice(0, 3)" :key="index">{{taskname}}</span>
         <div v-if="info.taskNames.length > 3">等共
           <el-popover
