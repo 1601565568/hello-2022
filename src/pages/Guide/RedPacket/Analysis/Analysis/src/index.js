@@ -7,9 +7,11 @@ export default {
       model: {
         endTime: '',
         payConfigId: null,
-        startTime: ''
+        startTime: '',
+        guideIds: []
       },
       url: this.$api.guide.redpacket.getDataAnalysisList,
+      urlByGuide: this.$api.guide.redpacket.getDataAnalysisListByGuideId,
       exportApi: this.$api.guide.redpacket.exportDataAnalysisList, // 导出地址
       dateList: [
         {
@@ -139,7 +141,8 @@ export default {
             return time.getTime() < minTime || time.getTime() > maxTime
           }
         }
-      }
+      },
+      activeName: 'date'
     }
   },
   mixins: [tableMixin, redpacketTable],
@@ -284,6 +287,18 @@ export default {
         this.model.endTime = value[1]
       }
     },
+    $searchAction$ () {
+      if (this.$refs.TableByDate && this.$refs.TableByGuide) {
+        this.$refs.TableByDate.$searchAction$()
+        this.$refs.TableByGuide.$searchAction$()
+      }
+    },
+    $reload () {
+      if (this.$refs.TableByDate && this.$refs.TableByGuide) {
+        this.$refs.TableByDate.$reload()
+        this.$refs.TableByGuide.$reload()
+      }
+    },
     /**
      * 修改日期后的回调
      * @param {*} value
@@ -303,6 +318,17 @@ export default {
       // 图表数据
       this.getEChateData()
       this.changeSearchfrom({ payConfigId: value })
+    },
+    /**
+     * 修改员工
+     * @param {*} value
+     */
+    handleChangeGuide (value) {
+      // 头部概览数据
+      this.getSendStatistics()
+      // 图表数据
+      this.getEChateData()
+      this.changeSearchfrom({ guideIds: value })
     }
   }
 }
