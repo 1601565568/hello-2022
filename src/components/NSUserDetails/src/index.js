@@ -60,7 +60,7 @@ export default {
   methods: {
     async showDetailDialog (val) {
       this.shopId = val.shopId
-      this.unionId = val.unionId
+      this.unionId = val.unionid
       this.shopKuhuShow = true
       this.customerGetDetail()
     },
