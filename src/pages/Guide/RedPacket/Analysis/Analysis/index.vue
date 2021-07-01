@@ -35,9 +35,7 @@
       <div class='flex-box align-top'><h3>数据分析</h3><ns-button @click='handleExport(model)'>导出CSV文件</ns-button>
       </div>
       <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
-    </div>
-    <div class='analysis-content'>
-      <h3>数据报表</h3>
+      <h3 class='double-title'>数据报表</h3>
       <div class="select-data-view">
         <el-tabs v-model="activeName">
           <el-tab-pane label="按日期统计" name="date">
@@ -124,5 +122,7 @@ Index.components = {
 .select-data-view >>> .el-tabs__item:focus.is-active.is-focus:not(:active) {
   box-shadow: none;
 }
-
+.double-title {
+  margin-top: 40px;
+}
 </style>

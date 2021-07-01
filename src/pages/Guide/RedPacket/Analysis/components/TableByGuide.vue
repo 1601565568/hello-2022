@@ -45,6 +45,7 @@
         </el-table-column>
         <el-table-column
           prop="receiverMoney"
+          align='right'
           label="被领红包金额（元）">
           <template slot-scope="scope">
             {{scope.row.receiverMoney/100 | moneyStr}}
