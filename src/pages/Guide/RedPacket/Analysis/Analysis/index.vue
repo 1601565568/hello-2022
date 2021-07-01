@@ -13,7 +13,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择员工：" class='el-form__change no-margin has-left'>
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -40,10 +40,10 @@
       <h3>数据报表</h3>
       <div class="select-data-view">
         <el-tabs v-model="activeName">
-          <el-tab-pane label="按日期显示" name="date">
+          <el-tab-pane label="按日期统计" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>
           </el-tab-pane>
-          <el-tab-pane label="按员工显示" name="guide">
+          <el-tab-pane label="按员工统计" name="guide">
             <TableByGuide ref='TableByGuide' :url='urlByGuide' :data='model'/>
           </el-tab-pane>
         </el-tabs>

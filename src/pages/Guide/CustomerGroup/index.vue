@@ -62,6 +62,7 @@
                     :echoStore='true'
                     :auth="true"
                     :switchAreaFlag='1'
+                    :isNeedLink='true'
                     type="primary"
                     btnTitle="" dialogTitle="员工" v-model="guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}" :showTitleTip='false'>
                     <template slot='selfBtn'>
