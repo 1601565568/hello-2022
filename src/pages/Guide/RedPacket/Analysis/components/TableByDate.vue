@@ -11,7 +11,6 @@
         </el-table-column>
         <el-table-column
           prop="todaySendMoney"
-          align='right'
           label="今日转出金额（元）">
           <template slot-scope="scope">
             {{scope.row.todaySendMoney/100 | moneyStr}}
@@ -19,7 +18,6 @@
         </el-table-column>
         <el-table-column
           prop="guideSendMoney"
-          align='right'
           label="员工转出金额（元）">
           <template slot-scope="scope">
             {{scope.row.guideSendMoney/100 | moneyStr}}
@@ -27,7 +25,6 @@
         </el-table-column>
         <el-table-column
           prop="fissionSendMoney"
-          align='right'
           label="裂变大师转出金额（元）">
           <template slot-scope="scope">
             {{scope.row.fissionSendMoney/100 | moneyStr}}
