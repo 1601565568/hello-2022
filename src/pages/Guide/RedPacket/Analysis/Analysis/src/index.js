@@ -31,6 +31,8 @@ export default {
         legend: {
           bottom: 0,
           left: 0,
+          itemWidth: 10,
+          itemHeight: 10,
           data: [{
             icon: 'rect',
             name: '累计转出金额'
@@ -52,6 +54,7 @@ export default {
           bottom: 50,
           containLabel: true
         },
+        color: ['#F7B586', '#95DA73 ', '#7962EC'],
         xAxis: {
           type: 'category',
           boundaryGap: false,
