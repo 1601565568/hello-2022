@@ -19,6 +19,25 @@
         <el-table-column
           prop="shopName"
           label="工作门店">
+          <template slot-scope="scope">
+            <div class="offline-shop-content" v-if='scope.row.shopName'>
+              <span class="scope-store-text">
+                {{scope.row.shopName}}
+              </span>
+              <el-popover
+                v-if="scope.row.shopName.split('；').length"
+                placement="top-start"
+                class="item"
+                :title="`工作门店（${scope.row.shopName.split('；').length}）`"
+                trigger="hover"
+                :content="scope.row.shopName">
+                <span class="scope-name_tip" slot="reference">共{{scope.row.shopName.split('；').length}}个</span>
+                <div style="max-width: 400px">
+                  {{scope.row.shopName}}
+                </div>
+              </el-popover>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="receiverNum"
@@ -66,4 +85,19 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
+.offline-shop-content {
+  display: flex;
+  .scope-store-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.scope-name_tip {
+  color: #0091FA;
+  display: block;
+  min-width: 55px;
+}
 </style>
