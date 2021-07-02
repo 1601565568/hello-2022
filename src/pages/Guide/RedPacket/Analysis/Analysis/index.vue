@@ -31,7 +31,7 @@
     <div class='analysis-content form-inline_top'>
       <div class='flex-box align-top'>
         <DatePickerBar :clear='false' ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
-        <ns-button @click='handleExport(model)'>导出CSV文件</ns-button>
+        <ns-button @click='handleExport(model)'>导出文件</ns-button>
       </div>
     <!-- </div>
     <div class='analysis-content'> -->
