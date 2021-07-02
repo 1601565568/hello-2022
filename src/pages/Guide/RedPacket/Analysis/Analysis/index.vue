@@ -29,11 +29,15 @@
       <ColorfulDisplay :dataList='dataList'/>
     </div>
     <div class='analysis-content form-inline_top'>
-      <DatePickerBar :clear='false' ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
-    </div>
-    <div class='analysis-content'>
-      <div class='flex-box align-top'><h3>数据分析</h3><ns-button @click='handleExport(model)'>导出CSV文件</ns-button>
+      <div class='flex-box align-top'>
+        <DatePickerBar :clear='false' ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
+        <ns-button @click='handleExport(model)'>导出CSV文件</ns-button>
       </div>
+    <!-- </div>
+    <div class='analysis-content'> -->
+      <h3 class='double-title'>数据分析</h3>
+      <!-- <div class='flex-box align-top'><h3 >数据分析</h3><ns-button @click='handleExport(model)'>导出CSV文件</ns-button>
+      </div> -->
       <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
       <h3 class='double-title'>数据报表</h3>
       <div class="select-data-view">
@@ -124,5 +128,8 @@ Index.components = {
 }
 .double-title {
   margin-top: 40px;
+}
+.analysis-content >>> .date-picker-bar {
+  margin-left: 0;
 }
 </style>
