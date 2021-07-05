@@ -189,6 +189,10 @@ export default {
       type: String,
       default: 'w-textarea__input'
     },
+    isShow: {
+      type: Boolean,
+      default: false
+    },
     // 输入框值
     value: {
       type: String,
@@ -392,7 +396,6 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-      // console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
@@ -433,6 +436,21 @@ export default {
       if (!this.isLocked) {
         this.$refs[this.className].innerHTML = val
       }
+    },
+    isShow: {
+      handler (val) {
+        if (val) {
+          this.createStyle()
+          // 每次光标变化的时候，保存 range
+          document.addEventListener('selectionchange', this.selectHandler)
+          setTimeout(() => {
+            const dom = document.getElementsByClassName(this.className)[0]
+            this.currentText = dom.innerText
+          }, 1000)
+          this.$refs[this.className].innerHTML = this.value
+        }
+      },
+      deep: true
     }
   }
 }

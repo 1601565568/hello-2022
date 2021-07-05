@@ -12,7 +12,61 @@
           <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
       </div>
-      <!-- 图文素材 -->
+      <div class="tableItem-content___box">
+        <div v-for="(c_item, c_index) in data.mediaList && data.mediaList.slice(0, 3)" :key="c_index" class="tableItem-content__image">
+          <div v-if="c_item.type === 1" class="v_image">
+            <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, data)">
+            <img
+              v-else
+              alt=""
+              :src="
+                c_item.content.image +
+                  '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+              "
+              @click="showPreview(c_index, c_item, data)"
+              />
+          </div>
+          <div class="tableItem-content__video" v-else-if="c_item.type === 2">
+            <div>
+              <video
+                :src="videoUrl(data)"
+              >
+                您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+              </video>
+            </div>
+            <div
+              class="tableItem-content__video--mask"
+              @click="showPreview(0, c_item, data)"
+            >
+              <div class="tableItem-content__video--wrapper">
+                <Icon type="begin" />
+              </div>
+            </div>
+          </div>
+          <div v-if="c_item.type === 3" class="u_linkList">
+            <div class="u_t">{{c_item.content.title}}</div>
+            <div class="u_desc">{{c_item.content.desc}}</div>
+            <img class="u_link_img" :src='c_item.content.image' alt="">
+            <div class="u_line"></div>
+          </div>
+          <div v-if="c_item.type === 4" class="u_appList">
+            <!-- <div class="u_t">{{item.content.title}}</div>
+            <Icon type="xiaochengxushouquan" className="icon"/>
+            <div class="u_desc">{{item.content.desc}}</div>
+            <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
+            <div class="u_line"></div> -->
+            <div class="u_app_title">
+              <span class="v1"></span>
+              <span class="v2">小程序名称</span>
+            </div>
+            <div class="u_content">{{c_item.content.title}}</div>
+            <img class="u_app_img" :src='c_item.content.image' alt="">
+            <div class="u_line"></div>
+            <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
+          </div>
+        </div>
+      </div>
+      <!-- 图文素材
       <div v-if="data.mType === 1" class="tableItem-content__imageBox">
         <ul>
           <li v-for="(item, index) in imageList" :key="index">
@@ -30,26 +84,15 @@
               v-else
             />
           </li>
-          <!-- <li v-if="imageList.length > 3">
-            <div>…</div>
-          </li> -->
           <li v-if="data.codeType">
             <Icon type="erweima" />
           </li>
         </ul>
-      </div>
-      <!-- 视频素材 -->
+      </div> -->
+      <!-- 视频素材
       <div v-if="data.mType === 2" class="tableItem-content__vedioBox">
-        <video :src="imageList[0].url">
-          您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-        </video>
-        <div class="tableItem-video__mask" @click="showPreview(0, 'video')">
-          <div class="tableItem-video__wrapper">
-            <Icon type="begin" />
-          </div>
-        </div>
-      </div>
-      <!-- 文章素材 -->
+        <video  -->
+      <!-- 文章素材
       <div v-if="data.mType === 0" class="tableItem-content__articleBox">
         <img
           alt=""
@@ -66,7 +109,7 @@
           <div slot="content">{{ data.title }}</div>
           <div class="tableItem-content__ellipsis">{{ data.title }}</div>
         </el-tooltip>
-      </div>
+      </div> -->
     </div>
     <GuideInfo ref="guideInfo" :info="guideInfo" />
   </div>
@@ -87,11 +130,17 @@ export default {
     }
   },
   computed: {
-    imageList () {
-      return this.data.mediaList || []
-    }
+  },
+  mounted () {
   },
   methods: {
+    videoUrl (list) {
+      if (list.mediaList && list.mediaList.length > 0) {
+        let obj = list.mediaList.find(item => item.type === 2)
+        return obj.content.video
+      }
+      return ''
+    },
     strToRichText (text) {
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
@@ -108,11 +157,15 @@ export default {
       this.guideInfo = item
       this.$refs.guideInfo.closeDeawer()
     },
-    showPreview (current, type) {
+    showPreview (current, row, data) {
+      let type = +row.type === 2 ? 'video' : 'img'
+      let item = data.mediaList[current]
       let imgs = []
-      this.imageList.forEach(item => {
-        if (item.pitType === 1) {
-          imgs.push(item.url)
+      data.mediaList.forEach(item => {
+        if (item.type === 2) {
+          imgs.push(item.content.video)
+        } else {
+          imgs.push(item.content.image)
         }
       })
       this.$emit('preview', 0, imgs, type)
@@ -120,6 +173,133 @@ export default {
   }
 }
 </script>
+<style scoped lang='scss'>
+.tableItem{
+  width: 274px;
+  padding: 0 10px;
+}
+.u_linkList{
+  width: 242px;
+  height: auto;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  overflow: auto;
+  border-radius: 4px;
+  .u_t{
+    width: 221.26px;
+    font-size: 14px;
+    color: #262626;
+    line-height: 18px;
+    font-weight: bold;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .u_desc{
+    width: 165.94px;
+    font-size: 12px;
+    color: #262626;
+    line-height: 17px;
+    font-weight: 400;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    float: left;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+  }
+  .u_link_img{
+    width: 45px;
+    height: 45px;
+    margin-left: 7px;
+  }
+  .u_line{
+    width: 221.26px;
+    height: 1px;
+    margin-top: 5px;
+    margin-bottom: 18px;
+    background: #EEEEEE;
+  }
+}
+.u_appList{
+  width: 242px;
+  height: 278px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  padding: 0 16px;
+  margin-bottom: 12px;
+  .u_app_title{
+    margin-top: 16px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    color: #909399;
+    .v1{
+      margin-right: 8px;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #D9D9D9;
+    }
+    .v2{
+      vertical-align: top;
+    }
+  }
+  .u_content{
+    margin-top: 4px;
+    width: 210px;
+    height: 22px;
+    font-size: 14px;
+    color: #383838;
+    letter-spacing: 0;
+    line-height: 22px;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .u_app_img{
+    width: 210px;
+    height: 168px;
+    margin-top: 4px;
+  }
+  .u_line{
+    margin-top: 7.5px;
+    width: 210px;
+    height: 1px;
+    background:#EBEBEB;
+  }
+  .u_bottom{
+    margin-top: 7.5px;
+    height: 20px;
+    font-size: 12px;
+    color: #909399;
+    line-height: 20px;
+    .icon{
+      font-size: 10.57px;
+      margin-right: 4px;
+    }
+  }
+}
+.v_image {
+  width: 60px;
+  height: 60px;
+  list-style: none;
+  margin: 0 5px 5px 0;
+}
+</style>
 <style scoped>
 .pit-img-view {
   border: 1px dashed #D9D9D9;
@@ -141,51 +321,60 @@ export default {
       text-overflow: ellipsis;
       visibility: visible;
     }
-    @e imageBox {
-      overflow: hidden;
-      width: 200px;
-      > ul {
-        list-style: none;
-        padding: 0;
-        li {
-          float: left;
-          font-size: 0;
-          height: 60px;
-          img {
-            width: 60px;
-            height: 60px;
-            border-radius: 3px;
-            cursor: pointer;
-            object-fit: cover;
-          }
-          >>> .svg-icon {
-            margin-top: 18px;
-            margin-left: 7px;
-            font-size: 24px;
-          }
-          > div {
-            margin-top: 18px;
-            margin-left: 7px;
-            font-size: 12px;
-          }
-        }
-        li {
-          margin-right: 5px;
-          margin-bottom: 5px;
+    @e image {
+      display: inline-flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      img {
+        width: 60px;
+        height: 60px;
+        border-radius: 3px;
+        cursor: pointer;
+        object-fit: cover;
+      }
+      &:nth-child(3n){
+        .v_image{
+          margin-right: 0;
         }
       }
     }
-    @e vedioBox {
+    @e video {
       position: relative;
+      font-size: 0;
       width: 107px;
       height: 60px;
-      font-size: 0;
       line-height: 1;
       video {
         width: 100%;
-        height: 100%;
+        height: 60px;
         border-radius: 3px;
         object-fit: cover;
+      }
+      @m mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      @m wrapper {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        margin-left: -10px;
+        margin-top: -10px;
+        width: 22px;
+        height: 22px;
+        border-radius: 22px;
+        background-color: rgba(255, 255, 255, 0.4);
+        > svg {
+          margin: 5px 0 0 7px;
+          font-size: 11px;
+          color: #fff;
+        }
       }
     }
     @e articleBox {

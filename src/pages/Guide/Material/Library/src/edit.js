@@ -1,26 +1,56 @@
 import imageform from '../components/ImageForm'
+import PageEdit from '@/components/NewUi/PageEdit'
+import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
+import PhoneBox from '@/components/NewUi/PhoneBox'
 import videoform from '../components/VideoForm'
 import articleform from '../components/ArticleForm'
 import LabelAdd from '../components/LabelAdd'
+import SourceAll from '../components/SourceAll'
 import Preview from '@/components/NsPreview'
 import { getErrorMsg } from '@/utils/toast'
+import MessagePreviewPanel from '../components/MessagePreviewPanel'
 
 export default {
-  components: { imageform, videoform, articleform, LabelAdd, Preview },
+  components: { imageform, videoform, articleform, LabelAdd, Preview, PageEdit, PhoneBox, SourceAll, SimpleCollapse, MessagePreviewPanel },
   data: function () {
     return {
       tabValue: '1',
-      tabList: [
-        { label: '图文素材', name: '1', type: 'imageform' },
-        { label: '视频素材', name: '2', type: 'videoform' },
-        { label: '文章素材', name: '0', type: 'articleform' }
-      ],
+      // tabList: [
+      //   { label: '图文素材', name: '1', type: 'imageform' },
+      //   { label: '视频素材', name: '2', type: 'videoform' },
+      //   { label: '文章素材', name: '0', type: 'articleform' }
+      // ],
       detail: {},
       breadcrumb: [],
+      list: [],
+      title: '',
+      subdivision: false,
+      pitContent: '',
       labelList: []
     }
   },
+  computed: {
+    // messageList () {
+    //   if (this.model.content) {
+    //     return [ this.welcomeMessage, ...this.model.annexList ]
+    //   } else {
+    //     return this.model.annexList
+    //   }
+    // }
+  },
   methods: {
+    proviewList (val) {
+      this.list = val
+    },
+    proviewTitle (val) {
+      this.title = val
+    },
+    proviewSubdivision (val) {
+      this.subdivision = val
+    },
+    proviewPitContent (val) {
+      this.pitContent = val
+    },
     gotoList (catalogue) {
       const { breadcrumb, listMode } = this.$route.params
       this.$router.push({ name: 'LibraryList', params: { breadcrumb: catalogue || breadcrumb, listMode } })
@@ -59,8 +89,8 @@ export default {
   created () {
     let { breadcrumb } = this.$route.params
     let { mType = '1', id } = this.$route.query
-    let tabObj = this.tabList.find(o => o.name === `${mType}`)
-    this.tabValue = tabObj ? tabObj.name : '1'
+    // let tabObj = this.tabList.find(o => o.name === `${mType}`)
+    // this.tabValue = tabObj ? tabObj.name : '1'
     this.breadcrumb = breadcrumb ? JSON.parse(JSON.stringify(breadcrumb)) : []
     this.getLabelList()
     this.getDetail(id)

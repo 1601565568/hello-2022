@@ -1,0 +1,62 @@
+>>> .el-select .el-tag__close.el-icon-close{
+  display: none;
+}
+
+
+.cus-diglog-view >>> .w-textarea_input {
+  min-height: 141px;
+}
+
+.cus-diglog-view >>> .el-dialog {
+  padding: 8px;
+}
+.cus-diglog-view >>> .el-dialog__title {
+  font-weight: 500;
+  font-size: 16px;
+  height: 36px;
+  line-height:36px;
+}
+
+.top-title-view >>> .w-textarea_input {
+  min-height: 144px;
+  max-height: 144px;
+  overflow: auto;
+}
+
+.top-title-view >>> .w-textarea_input::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.top-title-view >>> .w-textarea_input::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #9093994d;
+}
+
+.cus-guide-info >>> .el-dialog {
+  padding: 4px;
+}
+.cus-guide-info >>> .el-dialog__title {
+  font-weight: 500;
+  font-size: 16px;
+  height: 26px;
+  line-height:26px;
+} 
+
+.show-uploader-view >>> .el-upload--picture-card{
+  border-radius: 4px;
+  background-color: white;
+  width:114px;
+  height:100%;
+  line-height: 114px;
+}
+.top-input-view >>> .el-input--small {
+  font-size: 14px;
+  color: #BFBFBF;
+}
+
+.top-input-view >>> .el-textarea input::-moz-input-placeholder {
+  color:#BFBFBF;
+}
+.top-input-view >>> .el-textarea__inner::-webkit-input-placeholder {
+  color:#BFBFBF;
+}
