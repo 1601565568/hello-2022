@@ -60,7 +60,7 @@ export default {
   methods: {
     async showDetailDialog (val) {
       this.shopId = val.shopId
-      this.unionId = val.unionId
+      this.unionId = val.unionid
       this.shopKuhuShow = true
       this.customerGetDetail()
     },
@@ -71,7 +71,7 @@ export default {
         this.$http.fetch(this.$api.guide.guide.customerGetDetail, {
           unionId: this.unionId,
           shopId: this.shopId,
-          viewId: this.viewId
+          viewId: this.viewId || null
         }).then(resp => {
           if (resp.success && resp.result != null) {
             this.items = resp.result
@@ -289,7 +289,7 @@ export default {
         .fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
           customerId: customerId,
           shopId: shopId,
-          viewId: this.viewId
+          viewId: this.viewId || null
         })
         .then(resp => {
           this.rfmInfo = resp.result
