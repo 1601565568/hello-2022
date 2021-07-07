@@ -402,6 +402,7 @@ export default {
         image: '', // H5消息封面图片URL
         brandId: null
       }
+      this.disabled = false
       this.$refs.searchform.clearValidate()
       this.$emit('update:visible', false)
     },

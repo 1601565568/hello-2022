@@ -5,6 +5,7 @@
     :visible="visible"
     title="选择渠道"
     @open="open"
+    :before-close="close"
   >
     <el-form ref="channelForm" label-width="100px" placement="right">
       <el-select
@@ -23,7 +24,7 @@
       </el-select>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <ns-button @click="cancel" size="medium" :loading="loading">取 消</ns-button>
+      <ns-button @click="close" size="medium" :loading="loading">取 消</ns-button>
       <ns-button type="primary" size="medium" @click="confirm" :loading="loading">确 定</ns-button>
     </div>
   </el-dialog>
@@ -51,7 +52,7 @@ export default {
     }
   },
   methods: {
-    cancel () {
+    close () {
       this.$emit('update:visible', false)
     },
     open () {
@@ -68,7 +69,7 @@ export default {
     confirm () {
       this.loading = true
       this.$emit('confirm', this.channelIds)
-      this.cancel()
+      this.close()
       this.loading = false
     }
   }
