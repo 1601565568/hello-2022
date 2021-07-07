@@ -70,6 +70,12 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否需要和右上角区域联动
+    isNeedLink: {
+      type: Boolean,
+      default: false
+    },
+    // 是否展示title上的tip
     showTitleTip: {
       type: Boolean,
       default: false
@@ -204,7 +210,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree, store.get('user_area').id))
+        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? store.get('user_area').id : null))
       }
       if (node.level >= 1) {
         // 点击之后触发
