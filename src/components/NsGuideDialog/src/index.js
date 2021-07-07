@@ -78,7 +78,7 @@ export default {
     // 是否展示title上的tip
     showTitleTip: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data: function () {

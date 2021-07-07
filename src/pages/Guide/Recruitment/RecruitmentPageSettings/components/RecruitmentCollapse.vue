@@ -3,7 +3,7 @@
     <el-collapse :class='`common-collapse ${isOpen?"noOver":""}`' v-model='collapseList' @change='handleChange'>
       <el-collapse-item :title="title" :name="1">
         <el-row>
-          <el-col :span='16' class='collapse-left'>
+          <el-col :span='16' :class="[this.flag? 'collapse_left' : 'collapse-left']">
             <slot name='collapse-left'></slot>
           </el-col>
           <el-col :span='8' class='collapse-right'>
@@ -31,12 +31,16 @@ export default {
     }
   },
   props: {
+    flag: {
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String
     },
     phoneTitle: {
       type: String,
-      default: '效果展示'
+      default: ''
     },
     phoneBar: {
       type: String
@@ -67,10 +71,13 @@ export default {
     padding-left: 16px;
     background-color: #fff;
   }
-  .collapse-left {
+  .collapse-left, .collapse_left {
     padding-right: 40px;
   }
-  .collapse-right {
+  .collapse_left{
+    border-right: 1px solid #E8E8E8;
+  }
+  .collapse-right, .collapse_right {
     position: relative;
     &::before {
       position: absolute;
@@ -80,6 +87,9 @@ export default {
       top: -56px;
       bottom: 0;
     }
+  }
+  .collapse_right{
+    border-left: none;
   }
   .phone-title {
     font-size: 16px;
