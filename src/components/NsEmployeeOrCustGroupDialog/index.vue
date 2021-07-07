@@ -388,8 +388,9 @@ export default {
     'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
+        let areaIdStr = '/' + o1.value + '/'
         this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
             this.model.shopId = ''
             shopOptions.push(item)
           }
