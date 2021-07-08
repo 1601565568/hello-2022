@@ -60,7 +60,7 @@
     <!-- 图片表情 end -->
     <!-- 字体表情 start -->
     <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
-      <el-popover trigger="hover">
+      <el-popover  trigger="hover" v-model='visbleEmotion'>
         <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
         <!-- 可通过 emojiList 传入自定义的图标列表 -->
         <VEmojiPicker :pack="pack" @select="selectEmoji" />
@@ -105,7 +105,7 @@ export const toolFn = {
     let { tools = [], emojiClass = 'EMOJI_', showEmoji = true } = this
     if (Object.prototype.toString.call(replaceData) === '[object Object]') {
       tools = replaceData.tools || tools
-      emojiClass = replaceData.emojiClass || emojiClass
+      emojiClass = replaceData.emojiClass === null || replaceData.emojiClass === undefined ? emojiClass : replaceData.emojiClass
       showEmoji = replaceData.showEmoji || showEmoji
     }
     if (showEmoji) {
@@ -179,7 +179,9 @@ export default {
       // 光标元素
       endDon: null,
       // 字符表情插件的数据
-      pack: packData.data
+      pack: packData.data,
+      // 是否展示表情
+      visbleEmotion: false
     }
   },
   components: { Emotion, VEmojiPicker },
@@ -286,6 +288,8 @@ export default {
     },
     // 添加字体表情
     selectEmoji (val) {
+      this.visbleEmotion = false
+      console.log(this.visbleEmotion)
       this.addText(val.emoji)
     },
     updateData (text) {

@@ -15,6 +15,10 @@ export default {
     pre: {
       default: ''
     },
+    // detail 详情页预览  list 列表预览
+    type: {
+      default: 'detail'
+    },
     emojiList: {
       type: Array,
       default () {
@@ -25,8 +29,8 @@ export default {
   watch: {
     text: {
       handler (newVal) {
-        const preRegexp = new RegExp('\\{' + this.pre + '\\[', 'g')
-        const afterRegexp = new RegExp(']}', 'g')
+        const preRegexp = this.type === 'list' ? new RegExp('\\[', 'g') : new RegExp('\\{' + this.pre + '\\[', 'g')
+        const afterRegexp = this.type === 'list' ? new RegExp(']', 'g') : new RegExp(']}', 'g')
         this.html = newVal.replace(preRegexp, '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/').replace(afterRegexp, '.png" />')
       },
       immediate: true
@@ -39,7 +43,9 @@ export default {
   font-size: 1em;
   word-break: break-all;
   >>> img {
-    height: 1em;
+    height: 1.3em;
+    position: relative;
+    top:-0.11em;
   }
 }
 </style>
