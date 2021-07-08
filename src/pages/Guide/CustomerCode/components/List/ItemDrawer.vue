@@ -45,7 +45,8 @@
         </div>
         <div class='content-detail'>
           <h4>活动介绍（快捷话术）</h4>
-          <div v-html="data.activityIntroductionHtml" class='content'>
+          <div class='content'>
+            <EmojiText :text='data.activityIntroductionHtml' pre='EMOJI_'/>
           </div>
           <h4>专属活动海报</h4>
           <div class='poster'>
@@ -66,6 +67,7 @@
 import closeIcon from '../../Images/close.png'
 import nsEditIcon from '../../Images/ns-edit.png'
 import nsPreviewIcon from '../../Images/ns-preview.png'
+import EmojiText from '@/components/NewUi/EmojiText'
 export default {
   data () {
     return {
@@ -74,6 +76,7 @@ export default {
       nsPreviewIcon
     }
   },
+  components: { EmojiText },
   props: {
     data: {
       default () {}
