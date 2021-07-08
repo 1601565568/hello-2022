@@ -289,7 +289,6 @@ export default {
     // 添加字体表情
     selectEmoji (val) {
       this.visbleEmotion = false
-      console.log(this.visbleEmotion)
       this.addText(val.emoji)
     },
     updateData (text) {
@@ -351,19 +350,25 @@ export default {
       if (this.disabled) {
         return false
       }
-      this.savedRange.insertNode(node)
-      this.endDon = node
-      this.endOffset = this.savedRange.endOffset
-      // 更新双向绑定数据
-      if (this.endDon.style) {
-        this.savedRange.setStartAfter(this.endDon)
-      } else {
-        this.savedRange.setStartAfter(this.endDon)
-        // this.savedRange.setStart(this.endDon, this.endOffset)
+      if (!this.savedRange.commonAncestorContainer) {
+        const dom = document.getElementsByClassName(`${this.className}`)[0]
+        dom.focus()
       }
-      let target = this.$refs[this.className]
-      this.updateData(target.innerHTML)
-      this.currentText = target.innerText
+      setTimeout(() => {
+        this.savedRange.insertNode(node)
+        this.endDon = node
+        this.endOffset = this.savedRange.endOffset
+        // 更新双向绑定数据
+        if (this.endDon.style) {
+          this.savedRange.setStartAfter(this.endDon)
+        } else {
+          this.savedRange.setStartAfter(this.endDon)
+        // this.savedRange.setStart(this.endDon, this.endOffset)
+        }
+        let target = this.$refs[this.className]
+        this.updateData(target.innerHTML)
+        this.currentText = target.innerText
+      }, 0)
     },
     handleInput (target) {
       // 即时更新数据
