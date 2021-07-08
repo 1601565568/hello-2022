@@ -671,9 +671,7 @@ export default {
             if (data.content) {
               if (data.content.text) {
                 // vm.model.textarea = toolFn.stringTohtml.call(this.$refs.testText, data.content.text, false)
-                console.log(data.content.text)
                 vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
-                console.log(vm.model.textarea)
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
                 vm.picUrl = data.content.image.image
