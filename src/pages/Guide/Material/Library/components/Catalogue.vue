@@ -143,13 +143,13 @@
                   </li>
                 </div> -->
                 <div v-for="(c_item, c_index) in item.mediaList" :key="c_index" class="catalogue-materials__image">
-                  <div v-if="c_item.type === 1" class="v_image">
+                  <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
                     <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
                     <img
                       v-else
                       :style="{
-                        width: imageHeight + 'px',
-                        height: imageHeight + 'px'
+                        width: imageHeight - 2 + 'px',
+                        height: imageHeight - 2 + 'px'
                       }"
                       alt=""
                       :src="
@@ -531,7 +531,7 @@ export default {
 </script>
 <style scoped lang='scss'>
 .u_linkList{
-  width: 242px;
+  width: 278px;
   height: auto;
   margin-bottom: 12px;
   padding: 6px 10px;
@@ -540,7 +540,7 @@ export default {
   overflow: auto;
   border-radius: 4px;
   .u_t{
-    width: 221.26px;
+    width: 253.26px;
     font-size: 14px;
     color: #262626;
     line-height: 18px;
@@ -555,7 +555,7 @@ export default {
     -webkit-box-orient: vertical;
   }
   .u_desc{
-    width: 165.94px;
+    width: 197.94px;
     font-size: 12px;
     color: #262626;
     line-height: 17px;
@@ -576,7 +576,7 @@ export default {
     margin-left: 7px;
   }
   .u_line{
-    width: 221.26px;
+    width: 253.26px;
     height: 1px;
     margin-top: 5px;
     margin-bottom: 18px;
@@ -584,7 +584,7 @@ export default {
   }
 }
 .u_appList{
-  width: 242px;
+  width: 278px;
   height: 278px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
@@ -623,13 +623,13 @@ export default {
     white-space: nowrap;
   }
   .u_app_img{
-    width: 210px;
+    width: 246px;
     height: 168px;
     margin-top: 4px;
   }
   .u_line{
     margin-top: 7.5px;
-    width: 210px;
+    width: 246px;
     height: 1px;
     background:#EBEBEB;
   }
@@ -655,8 +655,8 @@ export default {
 .v_image {
   /* display: flex;
   flex-direction: row; */
-  width: 96px;
-  height: 96px;
+  /* width: 100px;
+  height: 100px; */
   list-style: none;
   margin: 0 5px 5px 0;
 }

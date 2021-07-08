@@ -41,7 +41,7 @@
           />
         </div>
       </el-form-item>
-      <el-form-item ref="imageForm" label="附件：" prop="mediaList">
+      <el-form-item ref="imageForm" label="附件：">
         <!-- <ul class="library-image__list clearfix" style="z-index:200">
           <draggable v-model="mediaList" class="library-image__list clearfix" @update="datadragEnd" :move="getdata">
             <li class="library-image__item" v-for="(item, index) in mediaList" :key="index">
@@ -166,10 +166,10 @@
         <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
-    <div class="library-footer">
+    <!-- <div class="library-footer">
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
-    </div>
+    </div> -->
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
@@ -300,7 +300,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        mediaList: [{ required: true, message: '请添加素材图片', trigger: 'change' }]
+        mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }]
       },
       mType: 1,
       imageNum: 9,
@@ -341,6 +341,7 @@ export default {
   watch: {
     mediaList: {
       handler (newVal) {
+        this.$refs.form.validateField('mediaList')
         this.$emit('list', newVal)
       },
       deep: true
@@ -500,7 +501,6 @@ export default {
     },
     removeImage (index) {
       this.model.mediaList.splice(index, 1)
-      this.$refs.form.validateField('mediaList')
     },
     // handleAvatarSuccess (res, file, fileList) {
     //   if (file.size / 1024 / 1024 > 2) {
@@ -596,10 +596,15 @@ export default {
       if (params.codeTarget === '') {
         params.codeType = 0
       }
+      let flag = params.mediaList.length > 0 && params.mediaList.some(item => item.type === 1 || item.type === 0)
+      if (!flag && (params.codeType === 1 || params.codeType === 2)) {
+        this.$notify.warning('您未添加图片，暂无法植入二维码，请先添加图片')
+        return false
+      }
       params.materialScriptType = 1
       for (let i = 0; i < params.mediaList.length; i++) {
         let item = params.mediaList[i]
-        if (item.pitType === 2) {
+        if (item.type === 0) {
           params.materialScriptType = 2
           break
         }

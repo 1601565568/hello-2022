@@ -4,8 +4,8 @@
       <div class="common-header flex-box">
         <h3>新建素材</h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel" size="large">取消</ns-button>
-          <ns-button class="customer-btn_save" type="primary" size="large">保存</ns-button>
+          <ns-button class="customer-btn_cancel" @click="onBack" size="large">取消</ns-button>
+          <ns-button class="customer-btn_save" @click='onSave' type="primary" size="large">保存</ns-button>
         </div>
       </div>
     </template>
@@ -14,6 +14,7 @@
         <PhoneBox phoneTitle phoneBar="素材库">
           <template slot='collapse-left'>
             <source-all
+              ref='sourceAll'
               :detail="detail"
               :labelList="labelList"
               :breadcrumb="breadcrumb"

@@ -39,6 +39,14 @@ export default {
     // }
   },
   methods: {
+    // 保存
+    onSave () {
+      this.$refs.sourceAll.onSave()
+    },
+    // 取消
+    onBack () {
+      this.$refs.sourceAll.onBack()
+    },
     proviewList (val) {
       this.list = val
     },

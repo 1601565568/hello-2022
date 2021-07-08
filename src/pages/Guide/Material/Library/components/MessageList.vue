@@ -7,7 +7,8 @@
     >
       <div class="message-detail">
         <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
-        <span>{{content | msgText(type)}}</span>
+        <span v-if="type !== 0">{{content | msgText(type)}}</span>
+        <span v-else>自建坑位</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
         <ns-button v-show="key !== 0" type="text" @click="sortMessage(key, 'top')">

@@ -1,13 +1,16 @@
 <template>
   <div class="preview_body">
-    <img :src='defaultIcon' class="scope-title_img">
-    <div class="u_tag" v-if="subdivision">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
-    <div v-if="title" class="u_title">{{title}}</div>
-    <div v-if="pitContent" class="u_pitContent">{{pitContent}}</div>
+    <div v-if="listMap.name && types !== 1" class="u_title">{{listMap.name || ''}}</div>
+    <div v-else class="u_title">{{names}}</div>
+    <div v-if="types !== 1" class="u_content">发布方：{{listMap.sourceName}}<span>{{listMap.createTime}}</span></div>
+    <div v-else class="u_content">发布方：{{companyName}}<span>{{createTime}}</span></div>
+    <div v-if="listMap.content && types !== 1" class="u_pitContent">{{listMap.content || ''}}</div>
+    <div v-else class="u_pitContent">{{materialTitle}}</div>
     <div class="u_main">
-      <div class="u_box" v-for="(item, index) in list" :key="index">
+      <div class="u_box" v-for="(item, index) in imageLists" :key="index" :class="{'t_box': item.type !== 0 && item.type !== 1}">
         <div class="u_imgList" v-if="item.type === 0 || item.type === 1">
-          <img :src='(item.content.pitUrl || item.content.image) || defaultImgUrl' alt="">
+          <img :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
+          @click="showPreview(index, item, imageLists)" alt="">
         </div>
         <div v-if="item.type === 2" class="u_videoList">
           <div>
@@ -15,7 +18,7 @@
           </div>
           <div
             class="video-mask"
-            @click="showPreview(0, c_item, data)"
+            @click="showPreview(index, item, imageLists)"
           >
             <div class="video-wrapper">
               <Icon type="begin" />
@@ -43,64 +46,71 @@
           <div class="u_line"></div>
           <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import defaultIcon from '@/assets/titlePreview.jpg'
 export default {
-  name: 'preview',
+  name: 'previews',
   components: {
   },
   props: {
     // 附件数组
-    list: {
-      type: Array,
+    listMap: {
+      type: Object,
       default () {
-        return []
+        return {}
       }
     },
-    // 素材标题
-    title: {
+    types: {
+      type: Number,
+      default: -1
+    },
+    createTime: {
       type: String,
-      default () {
-        return ''
-      }
+      default: ''
     },
-    // 选择标签
-    subdivision: {
-      type: Boolean,
-      default () {
-        return false
-      }
-    },
-    // 推广文案
-    pitContent: {
+    materialTitle: {
       type: String,
-      default () {
-        return ''
-      }
+      default: ''
+    },
+    names: {
+      type: String,
+      default: ''
     }
   },
   data: function () {
     return {
+      companyName: '',
       defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
   },
   mounted () {
+    this.companyName = this.$store.state.user.remumber.remumber_login_info.companyName
   },
   watch: {
-    list: {
-      handler (newVal) {
-      },
-      deep: true
-    }
   },
   computed: {
+    imageLists () {
+      return this.listMap && this.types === 1 ? this.listMap.imageList : (this.listMap ? this.listMap.mediaList : [])
+    }
   },
   methods: {
+    showPreview (current, row, imageLists) {
+      let type = +row.type === 2 ? 'video' : 'img'
+      let imgs = []
+      imageLists.forEach(item => {
+        if (item.type === 2) {
+          imgs.push(item.content.video)
+        } else {
+          imgs.push(item.content.image)
+        }
+      })
+      this.$emit('preview', current, imgs, type)
+    }
   }
 }
 </script>
@@ -112,62 +122,58 @@ export default {
   &::-webkit-scrollbar {
     width: 0 !important
   }
-  .scope-title_img{
-    width: 100%;
-    height: 58px;
-  }
-  .u_tag{
-    height: 54px;
-    background: #F5F5F5;
-    font-size: 14px;
-    color: #262626;
-    line-height: 54px;
-    padding-left: 12px;
-    .icon{
-      font-size: 16px;
-      margin-left: 4px;
-      vertical-align: middle;
-    }
-  }
   .u_title{
     font-size: 14px;
     color: #262626;
     line-height: 22px;
-    margin: 16px;
+    margin-top: 18px;
     word-break: break-all;
-    margin-bottom: 12px;
+    margin-bottom: 9px;
     font-weight: bold;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #E8E8E8;
+  }
+  .u_content{
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #909399;
+    line-height: 20px;
+    span{
+      margin-left: 16px;
+    }
   }
   .u_pitContent{
-    margin: 12px 16px;
-    word-break: break-all;
+    width: 476px;
+    height: 20px;
     font-size: 14px;
-    margin-top: 0;
-    color: #383838;
-    line-height: 24px;
+    color: #606266;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 16px;
   }
   .u_main{
     .u_box{
       display: inline-block;
       vertical-align: top;
     }
-    margin-left: 16px;
+    .t_box{
+      display: block;
+    }
     .u_imgList, .u_videoList{
       display: inline-block;
       border-radius: 4px;
       margin-bottom: 12px;
-      width: 91px;
-      height: 91px;
-      margin-right: 6px;
+      width: 82px;
+      height: 82px;
+      margin-right: 5px;
       img{
         width: 100%;
         height: 100%;
+        cursor: pointer;
       }
       video{
-        width: 91px;
-        height: 91px;
+        width: 257px;
+        height: 142px;
         object-fit: cover;
       }
       &:nth-child(3n){
@@ -175,8 +181,8 @@ export default {
       }
     }
     .u_videoList{
-      width: 91px;
-      height: 91px;
+      width: 257px;
+      height: 142px;
       position: relative;
       .video-mask{
         position: absolute;
