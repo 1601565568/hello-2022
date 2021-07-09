@@ -67,7 +67,7 @@
                             @keyup.enter.native="$quickSearchAction$('name')" clearable>
                   </el-input>
                   <ns-button type="primary" @click="$searchAction$('searchform')" class="searchbtn">搜索</ns-button>
-                  <ns-button @click="$resetInputAction$('searchform')" class="resetbtn">重置</ns-button>
+                  <ns-button @click="resetInputAction" class="resetbtn">重置</ns-button>
                 </el-form-item>
                 <el-form-item>
                   <ns-button type="text" @click="$handleTabClick">
@@ -135,7 +135,7 @@
 
               <div class="template-table__more-btn">
                 <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
-                <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
+                <ns-button @click="resetInputAction">重置</ns-button>
               </div>
             </template>
             <!-- 高级搜索-结束 -->
