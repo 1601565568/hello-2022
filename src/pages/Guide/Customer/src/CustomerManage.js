@@ -94,6 +94,7 @@ export default {
       integralAliasName: ['', '', '', '', ''], // 积分别名
       mapTag: [],
       sameSystemShopId: null, // 门店ID,用于更换会员导购弹窗查询同体系门店的参数
+      areaId: null, // 选中的区域ID
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
       dateIds: [], // 会员打标签日期id集合
@@ -578,11 +579,12 @@ export default {
       }
     },
     // 显示启用的标签
-    showTagData (row, offLineShopId) {
+    showTagData (row, offLineShopId, areaId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
+        'areaId': areaId,
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
@@ -686,7 +688,8 @@ export default {
       this.recordChooseList = []
     },
     getOffLineShopId (data) {
-      this.sameSystemShopId = data
+      this.sameSystemShopId = data.shopId
+      this.areaId = data.areaId
       this.getShopAreaAndShop()
     },
     addText (row) {
@@ -891,6 +894,7 @@ export default {
       this.$http.fetch(this.$api.guide.guide.saveTag, {
         'sysCustomerId': this.sysCustomerId,
         'shopId': this.offLineShopId,
+        'areaId': this.areaId,
         'tagList': JSON.stringify(this.mapTag)
       }).then(resp => {
         if (resp.success && resp.result != null) {

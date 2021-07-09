@@ -171,7 +171,26 @@
                     {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+''+scope.row.city+''+scope.row.district}}{{scope.row.address || '-'}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="areaName" label="所在区域" align="left">
+                <el-table-column prop="areaName" label="所在区域" align="left" width="200">
+                  <template slot-scope="scope">
+                    <div class="offline-shop-content">
+                      <span class="scope-store-text">
+                        {{scope.row.areaNames.length ? scope.row.areaNames.join('；') : '-'}}
+                      </span>
+                      <el-popover
+                        v-if="scope.row.areaNames.length"
+                        placement="top-start"
+                        class="item"
+                        :title="`所在区域（${scope.row.areaNames.length}）`"
+                        trigger="hover"
+                        :content="scope.row.areaNames.join('；')">
+                        <span class="scope-name_tip" slot="reference">共{{scope.row.areaNames.length}}个</span>
+                        <div style="max-width: 400px">
+                          {{scope.row.areaNames.join('；')}}
+                        </div>
+                      </el-popover>
+                    </div>
+                  </template>
                 </el-table-column>
                 <el-table-column prop="originalCreateTime" label="创建时间" align="left">
                 </el-table-column>
@@ -340,5 +359,19 @@ export default guide
   }
   .question-circle {
     margin-left: -5px;
+  }
+  .offline-shop-content {
+    display: flex;
+  .scope-store-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  }
+  .scope-name_tip {
+    color: #0091FA;
+    display: block;
+    min-width: 55px;
   }
 </style>

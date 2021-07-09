@@ -203,7 +203,7 @@ export default {
       }
       _this.offLineShopId = data.parentId !== '0' ? data.parentId : data.id
       this.outGuideId = data.parentId !== '0' ? data.id : null
-      _this.$emit('offLineShopId', _this.offLineShopId)
+      _this.$emit('offLineShopId', { 'shopId': _this.offLineShopId, 'areaId': _this.selectedAreaInfo.id })
       _this.shuJushuzu = data
       _this.loading = true
       // 页码重置,觉得不应该有这个问题.
@@ -395,7 +395,7 @@ export default {
             this.shuJushuzu.id = ''
             this.offLineShopId = ''
             this.setStatus()
-            this.$emit('offLineShopId', this.offLineShopId)
+            this.$emit('offLineShopId', { 'shopId': this.offLineShopId, 'areaId': this.selectedAreaInfo.id })
           }
         }
       }).catch((resp) => {
@@ -440,7 +440,7 @@ export default {
       this.$emit('onRedactFun', val, offLineShopId)
     },
     showTagDailog (val, offLineShopId) {
-      this.$emit('showTag', val, offLineShopId)
+      this.$emit('showTag', val, offLineShopId, this.selectedAreaInfo.id)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)
