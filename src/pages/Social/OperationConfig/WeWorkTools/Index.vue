@@ -40,15 +40,17 @@
             </div>
             <div class='step'>
               <div class='step-title'>3.设置侧边栏功能<ns-button type='text' class='lager-btn' @click='handleLocation("SIDE_OPTION_URL")'>去配置</ns-button><ns-button type='text' class='lager-btn' @click='handleLocation("SIDE_DESCRIBE_URL")'>配置说明</ns-button></div>
-              <div class='step-content'>
-                <div>
-                <template v-for='item in data'>
-                  <label :key='item.customerDetail'>
-                    {{item.explain}}<Icon slot="append" @click='copy(item.value)' type="ns-thick-copy" className="text-primary configuration-copy"/>
-                  </label>
-                </template>
+              <template v-for='item in data'>
+                <!-- <label :key='item.customerDetail'>
+                  {{item.explain}}<Icon slot="append" @click='copy(item.value)' type="ns-thick-copy" className="text-primary configuration-copy"/>
+                </label> -->
+                <div class='step-content' :key='item.customerDetail'>
+                  <label class=''>{{item.explain.split('：')[0]}}</label>
+                  <el-input placeholder="请输入内容" :value="item.explain.split('：')[1]" disabled size='large'>
+                    <Icon slot="append" type="ns-thick-copy" class='copy-btn' @click="copy(item.explain.split('：')[1])"/>
+                  </el-input>
                 </div>
-              </div>
+              </template>
             </div>
           </template>
           <template slot='collapse-right'>

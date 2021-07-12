@@ -6,6 +6,7 @@ import store from './store'
 import { i18n } from '@nascent/ecrp-ecrm/src/i18n'
 import LOG from '@nascent/log'
 import interceptRouter from '@/constants/interceptRouter'
+import { thirdRouter } from './constants/thirdRouter'
 import queryGroupMsg from '@/utils/queryGroupMsg'
 import './register'
 import 'normalize.css'
@@ -47,6 +48,23 @@ router.beforeEach(async (to:any, from, next) => {
       next('/Greeting')
     } else {
       next()
+    }
+  } else {
+    next()
+  }
+})
+// 三方路由拦截
+router.beforeEach(async (to, from, next) => {
+  if (thirdRouter[to.path]) {
+    if (!store.state.companyPlan.isLoad) {
+      await store.dispatch('companyPlan/getCompanyPlan')
+    }
+    const typeObj = thirdRouter[to.path]
+    const companyPlanState = store.state.companyPlan
+    if (companyPlanState[typeObj.type] === typeObj.value) {
+      next()
+    } else {
+      next('/ThirdAuth')
     }
   } else {
     next()
