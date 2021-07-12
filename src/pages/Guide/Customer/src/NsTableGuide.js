@@ -437,7 +437,7 @@ export default {
     //   this.$emit('handleSelectionChange', val)
     // },
     onRedactFun (val, offLineShopId) {
-      this.$emit('onRedactFun', val, offLineShopId)
+      this.$emit('onRedactFun', val, offLineShopId, this.selectedAreaInfo.id)
     },
     showTagDailog (val, offLineShopId) {
       this.$emit('showTag', val, offLineShopId, this.selectedAreaInfo.id)
