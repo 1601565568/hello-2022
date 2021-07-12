@@ -513,12 +513,13 @@ export default {
       return newArr
     },
     // 会员详情展示
-    onRedactFun (val, offLineShopId) {
+    onRedactFun (val, offLineShopId, areaId) {
       let _this = this
       _this.title = '会员详情'
       _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
         sysCustomerId: val.sysCustomerId,
         guideId: Number(val.guideId),
+        areaId: areaId,
         shopId: val.sgExclusiveShopId
       }).then(resp => {
         if (resp.success && resp.result != null) {
