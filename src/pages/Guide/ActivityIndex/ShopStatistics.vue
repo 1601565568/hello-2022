@@ -125,7 +125,7 @@
           <el-form-item label="门店名称：" prop="shopName">
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
           </el-form-item>
-          <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
+          <el-form-item label="所在地区：" style="margin-right:0;" prop="area">
             <el-form-grid width="300" prop="area">
               <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area" clearable></ns-area>
             </el-form-grid>
@@ -184,7 +184,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="区域"
+        label="所在地区"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
