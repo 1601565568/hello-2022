@@ -14,6 +14,8 @@ import common from '@nascent/ecrp-ecrm/src/store/modules/common'
 import user from '@nascent/ecrp-ecrm/src/store/modules/user'
 // @ts-ignore
 import pay from './modules/pay/index.js'
+// @ts-ignore
+import companyPlan from './modules/companyPlan/index.js'
 
 Vue.use(Vuex)
 
@@ -27,7 +29,8 @@ export default new Vuex.Store({
   modules: {
     common,
     user,
-    pay
+    pay,
+    companyPlan
   },
   strict: debug
 })
