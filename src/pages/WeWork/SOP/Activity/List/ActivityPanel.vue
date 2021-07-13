@@ -54,6 +54,7 @@
                 <NsButton v-if="showBtn(item.status, 'edit')" type="text" class="group-count" @click="editActivity(item.id)">编辑</NsButton>
                 <NsButton v-if="showBtn(item.status,'check')" type="text" class="group-count" @click="checkActivity(item.id)">查看</NsButton>
                 <NsButton v-if="showBtn(item.status,'submit')" type="text" class="group-count" @click="submitActivity(item.id)">提交审核</NsButton>
+                <NsButton type="text" class="group-count" @click="handleCopy(item.id)">复制</NsButton>
                 <NsButton v-if="showBtn(item.status,'delete')" type="text" class="group-count" @click="deleteActivity(item.id)">删除</NsButton>
                 <NsButton v-if="showBtn(item.status,'examine')" type="text" class="group-count" @click="checkActivity(item.id)">审核</NsButton>
               </div>
@@ -261,13 +262,8 @@ export default {
     /**
      * 编辑活动
      */
-    editActivity (id) {
-      this.$router.push({
-        path: `/Marketing/SOP/Edit/${id}`,
-        query: {
-          date: this.date
-        }
-      })
+    editActivity (id, isCopy = false) {
+      this.jumpDetail(id)
     },
     /**
      * 查看活动
@@ -341,6 +337,25 @@ export default {
         this.visibleCheckActivityDrawer = false
         this.$emit('change')
       }
+    },
+    // 复制活动
+    handleCopy (id) {
+      this.jumpDetail(id, true)
+    },
+    /**
+     * 去详情页
+     */
+    jumpDetail (id, isCopy = false) {
+      const query = {
+        date: this.date
+      }
+      if (isCopy) {
+        query.isCopy = true
+      }
+      this.$router.push({
+        path: `/Marketing/SOP/Edit/${id}`,
+        query
+      })
     }
   }
 }
