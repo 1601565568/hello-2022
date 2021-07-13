@@ -35,6 +35,7 @@
             />
           </template>
         </PhoneBox>
+        <label-add ref="labelAdd" @submit="getLabelList"></label-add>
       </SimpleCollapse>
     </template>
         <!-- <Component
@@ -47,8 +48,7 @@
           @togglePreview="togglePreview"
           @back="gotoList"
         /> -->
-    <!-- <label-add ref="labelAdd" @submit="getLabelList"></label-add>
-    <preview ref="preview"></preview> -->
+    <!-- <preview ref="preview"></preview> -->
   </PageEdit>
 </template>
 <script>
