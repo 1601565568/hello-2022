@@ -7,12 +7,18 @@ import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import lookCardList from '../lookCardList'
+import Preview from '@/components/NsPreview'
 import moment from 'moment'
+import AddMaterial from '../addMaterial'
+import materialDialog from '../materialDialog'
 // import { init } from '@sentry/browser'
 export default {
   mixins: [tableMixin],
   components: {
+    Preview,
     ElBreadcrumb,
+    materialDialog,
+    AddMaterial,
     ElBreadcrumbItem,
     ElDrawer,
     drawerTable,
@@ -52,6 +58,8 @@ export default {
       {}
     )
     return {
+      dialogFlag: false,
+      listMap: {},
       model: model,
       rules: Object.assign({}, {}, {}),
       url: '',
@@ -111,7 +119,15 @@ export default {
     }
   },
   methods: {
+    togglePreview (current, list, type) {
+      console.log(this.$refs.preview, 2)
+      this.$refs.preview.toggleShow(current, list, type)
+    },
     onSearch () {
+    },
+    dialogClick (row) {
+      this.dialogFlag = true
+      this.listMap = row
     },
     init () {
       this.id = this.$route.params.id

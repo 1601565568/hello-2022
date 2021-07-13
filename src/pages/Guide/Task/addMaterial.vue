@@ -7,18 +7,16 @@
           :enterable="true"
           popper-class="table-body__tooltip"
         >
-          <div slot="content" v-html="strToRichText(data.content)"></div>
-          <div v-html="strToRichText(data.content)" class="tableItem-content__ellipsis"></div>
+          <div slot="content" v-html="types === 1? strToRichText(materialTitle) : strToRichText(data.content)"></div>
+          <div v-html="types === 1? strToRichText(materialTitle) : strToRichText(data.content)" class="tableItem-content__ellipsis"></div>
           <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
       </div>
       <div class="tableItem-content___box">
-        <template v-if="isBoolean || isFlag">
-          <div v-for="(c_item, c_index) in data.mediaList && data.mediaList.slice(0, 3)" :key="c_index" class="tableItem-content__image">
+        <template v-if="isBoolean">
+          <div v-for="(c_item, c_index) in imageLists && imageLists.slice(0, 3)" :key="c_index" class="tableItem-content__image">
             <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
-              <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, data)">
               <img
-                v-else
                 alt=""
                 :src="
                   c_item.content.image +
@@ -29,7 +27,7 @@
             </div>
           </div>
         </template>
-        <div class="tableItem-content__video" v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 2">
+        <div class="tableItem-content__video" v-if="!isBoolean && imageLists && imageLists[0].type === 2">
           <div>
             <video
               :src="videoUrl(data)"
@@ -39,87 +37,45 @@
           </div>
           <div
             class="tableItem-content__video--mask"
-            @click="showPreview(0, data.mediaList[0], data)"
+            @click="showPreview(0, imageLists[0], data)"
           >
             <div class="tableItem-content__video--wrapper">
               <Icon type="begin" />
             </div>
           </div>
         </div>
-        <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 3" class="u_linkList">
-          <div class="u_t">{{data.mediaList[0].content.title}}</div>
-          <div class="u_desc">{{data.mediaList[0].content.desc}}</div>
-          <img class="u_link_img" :src='data.mediaList[0].content.image' alt="">
+        <div v-if="!isBoolean && imageLists && imageLists[0].type === 3" class="u_linkList">
+          <div class="u_t">{{imageLists[0].content.title}}</div>
+          <div class="u_desc">{{imageLists[0].content.desc}}</div>
+          <img class="u_link_img" :src='imageLists[0].content.image' alt="">
           <div class="u_line"></div>
         </div>
-        <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 4" class="u_appList">
+        <div v-if="!isBoolean && imageLists && imageLists[0].type === 4" class="u_appList">
           <div class="u_app_title">
             <span class="v1"></span>
             <span class="v2">小程序名称</span>
           </div>
-          <div class="u_content">{{data.mediaList[0].content.title}}</div>
-          <img class="u_app_img" :src='data.mediaList[0].content.image' alt="">
+          <div class="u_content">{{imageLists[0].content.title}}</div>
+          <img class="u_app_img" :src='imageLists[0].content.image' alt="">
           <div class="u_line"></div>
           <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
         </div>
-        <Icon class="icon_ty" v-if="lengths > 3" type="qitas" />
-        <Icon class="icon_tys" v-if="data.codeType" type="erweima" />
       </div>
-      <!-- 图文素材
-      <div v-if="data.mType === 1" class="tableItem-content__imageBox">
-        <ul>
-          <li v-for="(item, index) in imageList" :key="index">
-            <img
-              :src="defaultImgUrl"
-              alt=""
-              v-if="item.pitType == 2"
-              @click="showGuideInfo(index, item)"
-              class="pit-img-view"
-            />
-            <img
-              :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'"
-              alt=""
-              @click="showPreview(index)"
-              v-else
-            />
-          </li>
-          <li v-if="data.codeType">
-            <Icon type="erweima" />
-          </li>
-        </ul>
-      </div> -->
-      <!-- 视频素材
-      <div v-if="data.mType === 2" class="tableItem-content__vedioBox">
-        <video  -->
-      <!-- 文章素材
-      <div v-if="data.mType === 0" class="tableItem-content__articleBox">
-        <img
-          alt=""
-          :src="
-            imageList[0].url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-          "
-          @click="showPreview(0)"
-        />
-        <el-tooltip
-          placement="top-start"
-          :enterable="true"
-          popper-class="table-body__tooltip"
-        >
-          <div slot="content">{{ data.title }}</div>
-          <div class="tableItem-content__ellipsis">{{ data.title }}</div>
-        </el-tooltip>
-      </div> -->
     </div>
-    <GuideInfo ref="guideInfo" :info="guideInfo" />
   </div>
 </template>
 <script>
-import GuideInfo from './GuideInfo'
 export default {
-  components: { GuideInfo },
   props: {
     data: Object,
-    lengths: Number
+    types: {
+      type: Number,
+      default: -1
+    },
+    materialTitle: {
+      type: String,
+      default: ''
+    }
   },
   data () {
     return {
@@ -130,13 +86,22 @@ export default {
     }
   },
   computed: {
-    isBoolean () {
-      return this.data.mediaList && this.data.mediaList.slice(0, 3).every(item => item.type === 0 || item.type === 1)
+    imageLists () {
+      return this.data && this.types === 1 ? this.data.imageList : (this.data ? this.data.mediaList : [])
     },
-    isFlag () {
-      return this.data.mediaList && this.data.mediaList.slice(0, 2).some(item => item.type === 0 || item.type === 1) && (this.data.mediaList[0].type === 1 || this.data.mediaList[0].type === 0)
+    isBoolean () {
+      return this.imageLists && (this.imageLists.slice(0, 2) || this.imageLists.slice(0, 3)).every(item => item.type === 0 || item.type === 1)
     }
   },
+  // watch: {
+  //   type: {
+  //     handler: function (val) {
+  //       console.log(val, 888)
+  //       this.data.mediaList = val.imageList
+  //     },
+  //     deep: true
+  //   }
+  // },
   mounted () {
   },
   methods: {
@@ -159,15 +124,16 @@ export default {
         .replace(/\n/g, '<br/>')
       return str
     },
-    showGuideInfo (index, item) {
-      this.guideInfo = item
-      this.$refs.guideInfo.closeDeawer()
-    },
     showPreview (current, row, data) {
       let type = +row.type === 2 ? 'video' : 'img'
-      let item = data.mediaList[current]
       let imgs = []
-      data.mediaList.forEach(item => {
+      let list = []
+      if (this.types && this.types === 1) {
+        list = data.imageList
+      } else {
+        list = data.mediaList
+      }
+      list.forEach(item => {
         if (item.type === 2) {
           imgs.push(item.content.video)
         } else {
@@ -180,26 +146,10 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-.tableItem-content___box{
-  position: relative;
-}
 .tableItem{
-  max-width: 274px;
-  display: inline-block;
-}
-.icon_ty, .icon_tys{
-  margin-left: 12px;
-  position: absolute;
-  left: 104%;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-}
-.icon_tys{
-  left: 113%;
+  width: 274px;
 }
 .u_linkList{
-  display: inline-block;
   width: 242px;
   height: auto;
   margin-bottom: 12px;
@@ -253,7 +203,6 @@ export default {
   }
 }
 .u_appList{
-  display: inline-block;
   width: 242px;
   height: 278px;
   background: #FFFFFF;
@@ -315,6 +264,24 @@ export default {
     }
   }
 }
+.v_btn{
+  height: 20px;
+  font-size: 12px;
+  color: #383838;
+  line-height: 20px;
+  margin-top: 8px;
+  .icons{
+    margin-left: 4px;
+    }
+  svg{
+    vertical-align: -2px;
+  }
+  span{
+    margin-left: 5px;
+    color: #0094FC;
+    cursor: pointer;
+  }
+}
 .v_image {
   width: 60px;
   height: 60px;
@@ -362,7 +329,6 @@ export default {
     }
     @e video {
       position: relative;
-      display: inline-block;
       font-size: 0;
       width: 107px;
       height: 60px;

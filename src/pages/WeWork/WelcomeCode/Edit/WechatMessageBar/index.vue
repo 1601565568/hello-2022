@@ -1,5 +1,9 @@
 <template>
   <div class="add-material-bar">
+    <div v-if="pitBit" class="add-material-item" @click="addCustomImg">
+      <Icon type="poster-1" class="icon" />
+      <span class="item-tip">自建坑位</span>
+    </div>
     <div class="add-material-item">
       <ImageMessage
         @confirm="addMessage"
@@ -28,7 +32,7 @@
       <Icon type="xiaochengxushouquan" class="icon"/>
       <span class="item-tip">小程序</span>
     </div>
-    <div class="add-material-item" @click="visiblePosterMessageDialog = true">
+    <div v-if="!pitBit" class="add-material-item" @click="visiblePosterMessageDialog = true">
       <Icon type="poster-1" class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
@@ -53,16 +57,26 @@
       :visible.sync="visiblePosterMessageDialog"
       @update:visible="posterMsg = null"
     />
+    <!-- 自建坑位消息 -->
+    <PitbitMessageDialog
+      ref='pitbit'
+      @confirm="addMessage"
+      :content="pitbitMsg ? pitbitMsg.content : null"
+      :visible.sync="visiblePitbitMessageDialog"
+      @update:visible="pitbitMsg = null"
+    />
   </div>
 </template>
 
 <script>
+import { ScWelcomeMessageType } from '../../typecs'
 import { WelcomeMessageType } from '../../types'
 import ImageMessage from './ImageMessage'
 import VideoMessage from './VideoMessage'
 import LinkMessageDialog from './LinkMessageDialog'
 import MiniProgramMessageDialog from './MiniProgramMessageDialog'
 import PosterMessageDialog from './PosterMessageDialog'
+import PitbitMessageDialog from './PitbitMessageDialog'
 
 export default {
   components: {
@@ -70,19 +84,30 @@ export default {
     VideoMessage,
     LinkMessageDialog,
     MiniProgramMessageDialog,
-    PosterMessageDialog
+    PosterMessageDialog,
+    PitbitMessageDialog
+  },
+  props: {
+    pitBit: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    }
   },
   data () {
     return {
       visibleLinkMessageDialog: false,
       visibleMiniProgramMessageDialog: false,
       visiblePosterMessageDialog: false,
+      visiblePitbitMessageDialog: false,
       textMsg: null, // { index, content }
       imageMsg: null,
       videoMsg: null,
       linkMsg: null,
       miniProgramMsg: null,
-      posterMsg: null
+      posterMsg: null,
+      pitbitMsg: null
     }
   },
   methods: {
@@ -96,43 +121,64 @@ export default {
       if (this.linkMsg) msg = this.linkMsg
       if (this.miniProgramMsg) msg = this.miniProgramMsg
       if (this.posterMsg) msg = this.posterMsg
-
+      if (this.pitbitMsg) msg = this.pitbitMsg
       // 新增时，添加sop活动类型
       let type
-      if (msg.type === undefined) {
+      if (msg.type === undefined && !this.pitBit) {
         type = this.getWelcomeMessageType(message.type)
       }
-
+      if (this.pitBit) {
+        if (message.type === 'pitbit') {
+          type = 0
+        } else if (message.type === 'image') {
+          type = 1
+        } else if (message.type === 'video') {
+          type = 2
+        } else if (message.type === 'link') {
+          type = 3
+        } else if (message.type === 'miniprogram') {
+          type = 4
+        }
+      }
       this.$emit('addMessage', { type, ...msg, content: message.content })
+      // }
 
       if (this.imageMsg) this.imageMsg = null
       if (this.videoMsg) this.videoMsg = null
     },
+    addCustomImg () {
+      this.visiblePitbitMessageDialog = true
+    },
     /**
      * 通过编辑消息打开素材消息的dialog
      */
-    openMessageDialogByEdit (context) {
+    openMessageDialogByEdit (context, booleans = false) {
       const { type, index, content } = context
+      let tType = booleans ? ScWelcomeMessageType : WelcomeMessageType
       switch (type) {
-        case WelcomeMessageType.Image:
+        case tType.Image:
           this.imageMsg = context
           this.$refs.ImageMessage.click()
           break
-        case WelcomeMessageType.Video:
+        case tType.Video:
           this.$refs.VideoMessage.click()
           this.videoMsg = context
           break
-        case WelcomeMessageType.Link:
+        case tType.Link:
           this.linkMsg = context
           this.visibleLinkMessageDialog = true
           break
-        case WelcomeMessageType.MiniProgram:
+        case tType.MiniProgram:
           this.miniProgramMsg = context
           this.visibleMiniProgramMessageDialog = true
           break
-        case WelcomeMessageType.Poster:
+        case tType.Poster:
           this.posterMsg = context
           this.visiblePosterMessageDialog = true
+          break
+        case tType.Pitbit:
+          this.pitbitMsg = context
+          this.visiblePitbitMessageDialog = true
           break
         default:
           break
@@ -150,6 +196,8 @@ export default {
           return WelcomeMessageType.Link
         case 'poster':
           return WelcomeMessageType.Poster
+        case 'pitbit':
+          return WelcomeMessageType.Pitbit
         default:
           break
       }
