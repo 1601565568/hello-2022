@@ -120,7 +120,6 @@ export default {
   },
   methods: {
     togglePreview (current, list, type) {
-      console.log(this.$refs.preview, 2)
       this.$refs.preview.toggleShow(current, list, type)
     },
     onSearch () {
