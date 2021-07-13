@@ -16,7 +16,7 @@
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
                 <el-form-item label="门店名称：">
                   <el-form-grid v-if='dialogVisible'>
-                    <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  :clearable='!areaId'></ns-droptree>
+                    <ns-droptree :defaultExpandAll='true' ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  :clearable='!areaId'></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">

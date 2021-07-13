@@ -17,6 +17,7 @@
         <el-form-grid >
           <ns-droptree
             ref="shopCateTree"
+            :defaultExpandAll='true'
             placeholder="请选择区域"
             :lazy="true"
             :load="loadAreaTree"
@@ -172,6 +173,7 @@ export default {
       model: {
         workShopId: '',
         departmentId: '',
+        shopAreaId: '',
         name: '',
         ownerName: ''
       },
@@ -189,6 +191,7 @@ export default {
     shopAreaId: function (o1, o2) {
       let shopOptions = []
       this.shopId = ''
+      this.model.shopAreaId = o1.value
       if (!o1.value || o1.value !== o2.value) {
         if (o1.value === 0) {
           this.shops = this.allShops
@@ -223,6 +226,7 @@ export default {
       this.model = {
         workShopId: '',
         departmentId: '',
+        shopAreaId: '',
         name: '',
         ownerName: ''
       }
@@ -264,6 +268,7 @@ export default {
       this.model = {
         workShopId: '',
         departmentId: '',
+        shopAreaId: '',
         name: '',
         ownerName: ''
       }
