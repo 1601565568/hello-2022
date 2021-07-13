@@ -17,6 +17,7 @@
         <el-form-grid >
           <ns-droptree
             ref="shopCateTree"
+            :defaultExpandAll='true'
             placeholder="请选择区域"
             :lazy="true"
             :load="loadAreaTree"
