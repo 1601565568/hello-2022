@@ -57,7 +57,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -219,6 +219,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -372,7 +373,9 @@ export default {
       viewOptions: [] // 视角列表
     }
   },
-  computed: {},
+  computed: mapState({
+    areaTree: state => state.user.areaTree
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === 'employee') {
