@@ -271,7 +271,7 @@ export default {
     formatModel (model = this.model) {
       const newModel = {
         activityDescription: model.activityDescription,
-        activityIntroduction: this.htmlToString(model.activityIntroduction),
+        activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
         backgroundPic: model.backgroundPic,
         effectiveCycle: model.effectiveCycle,
         guestCodeId: this.$route.query.guestCodeId || null,
