@@ -229,6 +229,7 @@ export default {
         name: '',
         ownerName: ''
       }
+      this.shopAreaId = ''
       this.$emit('update:visible', false)
     },
     async open () {

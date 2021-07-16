@@ -802,7 +802,7 @@ export default {
       }
       // 选择了门店
       if (vm.model.shopId || vm.model.shopType === 1 || vm.model.shopType === 2 || vm.model.shopIds) {
-        if (!vm.model.shopType2 && !vm.model.shopIds && (!vm.model.shopArea || !vm.model.shopArea.value)) {
+        if (!vm.model.shopType2 && !vm.model.shopIds && ((!vm.model.shopArea || !vm.model.shopArea.value) && !vm.model.shopId)) {
         } else {
           const shopIdArr = vm.model.shopId ? [vm.model.shopId] : (vm.model.shopIds && vm.model.shopIds.length > 0 ? vm.model.shopIds.split(',') : vm.shopOptions.map(item => { return item.value }))
           const allEmployees = filterEmpFlag ? filterEmpArr : vm.allEmployees
