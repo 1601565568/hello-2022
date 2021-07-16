@@ -62,7 +62,7 @@ export default {
     },
     handleUploadSuccess (res) {
       if (res.success) {
-        this.model.filename = res.result
+        this.model.filename = res.result.filename
       }
     }
   },
