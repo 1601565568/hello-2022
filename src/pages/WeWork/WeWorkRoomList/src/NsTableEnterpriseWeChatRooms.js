@@ -8,7 +8,8 @@ export default {
   name: 'NsTableWeChatRooms',
   mixins: [tableMixin],
   props: {
-    url: Object
+    url: Object,
+    guideIds: String
   },
   data: function () {
     const pagination = {
@@ -50,7 +51,8 @@ export default {
       {
         title: '',
         chatroomLeaderWxid: '',
-        buildTime: []
+        buildTime: [],
+        guideIds: this.guideIds
       }, {})
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
@@ -70,6 +72,7 @@ export default {
     })
     return {
       model: model,
+      synButton: false, // 导出按钮
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
@@ -77,7 +80,9 @@ export default {
       _table: {
         table_buttons: tableButtons,
         quickSearchNames: quickSearchNames,
-        quickSearchMap: {}
+        quickSearchMap: {
+          guideIds: this.guideIds
+        }
       },
       _queryConfig: { expand: false },
       chatroomLeaders: [],
@@ -86,11 +91,11 @@ export default {
   },
   mounted: function () {
     vm = this
-    if (typeof this.$init === 'function') {
-      this.$init(this, this.$generateParams$)
-    } else {
-      this.$reload()
-    }
+    // if (typeof this.$init === 'function') {
+    //   this.$init(this, this.$generateParams$)
+    // } else {
+    //   this.$reload()
+    // }
     this.queryChatroomLeaderOptions()
   },
   components: {
@@ -123,12 +128,53 @@ export default {
         tableConfig.loadingtable = false
       })
     },
+    quickSearchAction (name) {
+      this.model.guideIds = this.guideIds
+      this._data._table.quickSearchMap.guideIds = this.guideIds
+      this._data._table.quickSearchMap[name] = this.model[name]
+      this.$quickSearch$()
+    },
     searchAction () {
+      this.model.guideIds = this.guideIds
       this.$refs.table_filter_form.validate((valid) => {
         if (valid) {
           this.$searchAction$()
         }
       })
+    },
+    // 导出
+    exportList () {
+      if (!this._data._table.data.length) {
+        this.$notify.info('当前没有匹配的数据项')
+        return
+      }
+      if (this.synButton) {
+        this.$notify.info('正在导出中，请不要重复操作')
+        return
+      }
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.weWork.weWorkRooms.export, that.$generateParams$())
+        .then(resp => {
+          that.synButton = false
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          that.synButton = false
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let fileName = '群列表.csv'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
     },
     /**
      * 参数设置

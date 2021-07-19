@@ -9,6 +9,7 @@ export default {
     return {
       buttonStatus: 0, // 0是高级搜索，1是重置
       treeData: [],
+      guideIds: '', // 店铺员工树选中后的导购id集合
       // 简单搜索参数
       model: {
         name: ''
@@ -44,7 +45,6 @@ export default {
   created: function () {
     vm = this
     vm.initShopList()
-    // vm.getTreeData(1)
   },
   methods: {
     /**
@@ -172,14 +172,15 @@ export default {
           data.children.map(item => {
             guideIdArray.push(item.id)
           })
-          _this.$refs.table.$data.model.guideIds = guideIdArray.join(',')
+          _this.guideIds = guideIdArray.join(',')
         } else {
-          // _this.$refs.table.$data.personalWxid = data.ext1
-          _this.$refs.table.$data.model.guideIds = data.id
+          _this.guideIds = data.id
         }
       } else {
-        _this.$refs.table.$data.model.guideIds = null
+        _this.guideIds = ''
       }
+      _this.$refs.table.$data.model.guideIds = _this.guideIds
+      _this.$refs.table.$data.guideIds = _this.guideIds
       _this.$refs.table.$searchAction$()
     }
     // 下拉门店树相关方法====结束

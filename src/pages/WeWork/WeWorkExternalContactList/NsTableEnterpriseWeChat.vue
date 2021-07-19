@@ -139,6 +139,12 @@
               </div>
             </template>
           </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="addWay"
+                           label="来源" :sortable="false" align="center" width="100">
+            <template slot-scope="scope">
+              {{scope.row.addWay ? addWay[scope.row.addWay] ? addWay[scope.row.addWay] : '未知' : '未知'}}
+            </template>
+          </el-table-column>
           <!--        <el-table-column :show-overflow-tooltip="true" type="default" prop="add_friend_channel"-->
           <!--                         label="添加好友渠道" dbcolumn="add_friend_channel" column="add_friend_channel" width="120" align="left">-->
           <!--        </el-table-column>-->
