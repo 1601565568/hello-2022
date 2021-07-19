@@ -63,6 +63,8 @@ export default {
     handleUploadSuccess (res) {
       if (res.success) {
         this.model.filename = res.result.filename
+      } else {
+        this.$notify.error(res.msg)
       }
     }
   },
