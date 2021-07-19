@@ -150,6 +150,9 @@
             {{formateTheDate(scope.row)}}
           </template>
         </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="newApplyCnt"
+                         label="发起申请数" :sortable="false" align="right">
+        </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="contactCnt"
                          label="好友总数" :sortable="false" align="right">
         </el-table-column>
