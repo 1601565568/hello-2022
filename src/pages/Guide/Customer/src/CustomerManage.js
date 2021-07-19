@@ -652,6 +652,12 @@ export default {
                     }
                     this.checkboxIds.push(tag.id)
                     break
+                  case 8:
+                    this.dateIds.push(tag.id)
+                    this.attributeValue += 1
+                    tagInfo.value = this.selectTagData[j].value
+                    this.$set(this.tagData[i], 'selectValue', this.selectTagData[j].value)
+                    break
                   default:
                     break
                 }
