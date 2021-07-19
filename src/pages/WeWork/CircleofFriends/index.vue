@@ -59,6 +59,7 @@
               </el-input>
             </el-form-item>
           </el-form>
+          <NsButton class="add-button" size="large" @click="exportFile">导出CSV文件</NsButton>
         </div>
       </template>
       <template slot="table">
