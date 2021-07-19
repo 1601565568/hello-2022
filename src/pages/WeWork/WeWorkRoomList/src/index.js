@@ -123,6 +123,7 @@ export default {
         length: this.shopTreePage.size,
         searchMap: {
           shopName: this.shopTreePage.shopName,
+          guideStatus: '1,2',
           shopStatus: this.checkStatusList.join(',')
         }
       }).then(resp => {
