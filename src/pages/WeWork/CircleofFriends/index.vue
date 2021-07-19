@@ -1,12 +1,9 @@
 <template>
   <div v-loading="loading"
       element-loading-text="数据导入中，请稍等…">
-    <page-table :searchCol="24">
+    <page-table title='朋友圈看板'>
       <template slot="search">
         <div class="searchWarpper">
-          <div class="titleText">
-            朋友圈看板
-          </div>
           <el-form :inline="true" class="form-inline_top ">
             <el-form-item label="类型：">
               <el-select v-model="model.type" @change="fnEdit">
@@ -61,6 +58,9 @@
           </el-form>
           <NsButton class="add-button" size="large" @click="exportFile">导出CSV文件</NsButton>
         </div>
+      </template>
+      <template slot="button">
+        <ns-button size='large' @click="handleExport">导出CSV文件</ns-button>
       </template>
       <template slot="table">
         <template>
@@ -180,7 +180,7 @@
 <script>
 import List from './src/List'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import PageTable from '@/components/NewUi/PageTable'
+import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/ItemDrawer'
 
