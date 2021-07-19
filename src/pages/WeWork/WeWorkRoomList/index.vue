@@ -1,41 +1,6 @@
 <template>
   <div>
     <div class="template-page__row">
-<!--      <div class="template-page__row-left" style="min-width: 270px;">-->
-<!--        <div style="color: #909399;margin-bottom: 5px;">-->
-<!--          提示：搜索员工即查询员工所在微信群-->
-<!--        </div>-->
-<!--        <el-row>-->
-<!--          <el-col :span="18">-->
-<!--            <el-input ref="quickText" v-model.trim="model.name" placeholder="请输入员工姓名" @keyup.enter.native="getTreeData(1)" style="margin-bottom: 10px;">-->
-<!--              <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="getTreeData(1)"/>-->
-<!--            </el-input>-->
-<!--          </el-col>-->
-<!--          <el-col :span="6">-->
-<!--            <ns-employee-search-button v-model="searchModel" @reset="resetTree" @input="getTreeData(1)"></ns-employee-search-button>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--        <el-scrollbar>-->
-<!--          <ns-tree-ext ref="tree" :data="treeData" :highlight-current="true" :expand-on-click-node="false"-->
-<!--                       :label-max-length="labelMaxLength"-->
-<!--                       :empty-text="emptyText"-->
-<!--                       :default-expanded-keys="[0]"-->
-<!--                       node-key="id"-->
-<!--                       show-icon-->
-<!--                       :filter-node-method="filterNode"-->
-<!--                       v-loading="loading" :element-loading-text="$t('prompt.loading')"-->
-<!--                       @node-click="onClick">-->
-<!--          </ns-tree-ext>-->
-<!--          <el-pagination class="template-table__pagination"-->
-<!--            style="text-align: center" small-->
-<!--            @current-change="handleCurrentChange"-->
-<!--            :page-size="pageSize"-->
-<!--            layout="prev, slot, next, jumper"-->
-<!--            :total="total">-->
-<!--            <span :title="pageNo/totalPage">{{pageNo}}/{{totalPage}}</span>-->
-<!--          </el-pagination>-->
-<!--        </el-scrollbar>-->
-<!--      </div>-->
       <div class="template-page__row-left">
         <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable
                   @keyup.enter.native="initShopList(1)">
@@ -71,7 +36,7 @@
         </el-pagination>
       </div>
       <div class="template-page__row-right">
-        <ns-table-we-chat-rooms ref="table" :url="$api.weWork.weWorkRooms.queryWeWorkRoomsTable"></ns-table-we-chat-rooms>
+        <ns-table-we-chat-rooms ref="table" :guideIds="guideIds" :url="$api.weWork.weWorkRooms.queryWeWorkRoomsTable"></ns-table-we-chat-rooms>
       </div>
     </div>
   </div>

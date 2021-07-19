@@ -50,6 +50,34 @@ export default {
   },
   // mixins: [tableMixin],
   methods: {
+    exportFile () {
+      if (!this.getList.length) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, {
+        start: 0,
+        length: 99999999,
+        startTime: `${this.searchDate[0]} 00:00:00`,
+        endTime: `${this.searchDate[1]} 23:59:59`
+      })
+        .then((resp) => {
+          let url = window.URL.createObjectURL(new Blob([resp.data]))
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+
+          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
+          link.setAttribute('download', fileName)
+
+          document.body.appendChild(link)
+          link.click()
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          this.$notify.error('导出报错，请联系管理员')
+        })
+    },
     setTime () {
       const end = new Date()
       const start = new Date()

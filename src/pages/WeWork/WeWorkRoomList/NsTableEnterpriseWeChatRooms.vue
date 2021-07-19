@@ -1,14 +1,17 @@
 <template>
   <div>
     <ns-page-table @edit="$emit('edit')" @add="$emit('add')" @batch-edit="$emit('batch-edit')" :colButton="6">
+      <template slot="buttons">
+        <ns-button type="primary" :disabled="synButton" @click="exportList()">导出</ns-button>
+      </template>
       <!-- 简单搜索 -->
       <!-- el-form 需添加 @submit.native.prevent 配置 -->
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" v-model.trim="quickSearchModel.title" placeholder="请输入群名称" @keyup.enter.native="$quickSearchAction$('title')">
-              <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('title')"/>
+            <el-input ref="quickText" v-model.trim="quickSearchModel.title" placeholder="请输入群名称" @keyup.enter.native="quickSearchAction('title')">
+              <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="quickSearchAction('title')"/>
             </el-input>
           </el-form-item>
           <el-form-item>
@@ -66,11 +69,11 @@
             </template>
           </el-table-column>
 
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="chatroom_leader_nick"
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="chatroomLeaderNick"
                            label="群主" :sortable="false" align="center">
             <template slot-scope="scope">
               <div>
-                <span>{{scope.row.chatroom_leader_nick}}</span>
+                <span>{{scope.row.chatroomLeaderNick}}</span>
               </div>
             </template>
           </el-table-column>
@@ -79,11 +82,11 @@
                            label="群人数" :sortable="false"  align="center">
           </el-table-column>
 
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="build_time"
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="buildTime"
                            label="创建时间" :sortable="false"  align="center">
             <template slot-scope="scope">
-              <div v-if="scope.row.build_time">
-                {{scope.row.build_time.substring(0,10)}}
+              <div v-if="scope.row.buildTime">
+                {{scope.row.buildTime.substring(0,10)}}
               </div>
             </template>
           </el-table-column>
