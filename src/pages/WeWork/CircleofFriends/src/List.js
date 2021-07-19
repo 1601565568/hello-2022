@@ -51,10 +51,10 @@ export default {
   // mixins: [tableMixin],
   methods: {
     exportFile () {
-      // if (!this.activityList.length) {
-      //   this.$notify.error('当前没有匹配的数据项')
-      //   return
-      // }
+      if (!this.getList.length) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       this.$notify.info('导出中，请稍后片刻')
       this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, {
         start: 0,
