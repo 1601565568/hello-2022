@@ -1,5 +1,5 @@
 <template>
-  <page-table :searchCol='24'>
+  <page-table>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="所属员工：">

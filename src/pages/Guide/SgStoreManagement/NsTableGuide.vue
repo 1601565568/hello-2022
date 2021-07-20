@@ -64,7 +64,7 @@
                 </el-form-item>
                 <el-form-item v-show="_data._queryConfig.expand === false" label="线下门店名称/ID：">
                   <el-input ref="quickText" style="width: 200px" v-model="model.name" placeholder="请输入线下门店名称/ID"
-                            @keyup.enter.native="$quickSearchAction$('name')" clearable>
+                            @keyup.enter.native="$searchAction$('searchform')" clearable>
                   </el-input>
                   <ns-button type="primary" @click="$searchAction$('searchform')" class="searchbtn">搜索</ns-button>
                   <ns-button @click="resetInputAction" class="resetbtn">重置</ns-button>
