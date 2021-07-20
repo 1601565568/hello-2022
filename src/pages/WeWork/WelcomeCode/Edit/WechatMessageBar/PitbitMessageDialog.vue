@@ -15,7 +15,7 @@
   >
     <div>
       <div class="guide-text">指南说明</div>
-      <tag-area
+      <!-- <tag-area
           class="tag-area"
           :isShow='isShow'
           v-model='pitText'
@@ -26,7 +26,16 @@
           :showTextEmoji='false'
           placeholder="请输入"
           emojiClass=''
-        />
+        /> -->
+        <el-input
+          type="textarea"
+          placeholder="请输入"
+          v-model="pitText"
+          maxlength="1500"
+          show-word-limit
+          class="input_textarea"
+        >
+        </el-input>
     </div>
     <div>
       <div class="guide-text">示意图</div>
@@ -65,11 +74,9 @@
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
-import TagArea from '@/components/NewUi/TagArea'
 export default {
   components: {
-    ElUpload,
-    TagArea
+    ElUpload
   },
   props: {
     visible: {
@@ -167,6 +174,14 @@ export default {
   font-weight: 400;
   margin-bottom: 8px;
   margin-top: 16px;
+}
+.input_textarea{
+  height: 102px;
+  >>> .el-textarea__inner {
+    height: 100%;
+    resize:none;
+    overflow: hidden;
+  }
 }
 .guide-input {
   height: 140px;

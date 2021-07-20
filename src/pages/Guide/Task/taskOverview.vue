@@ -45,16 +45,16 @@
             @preview='togglePreview'
             :materialTitle='taskMsg.materialTitle'></addMaterial>
           <div class="v_btn" v-if="taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length > 0">共{{taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length || 0}}条信息
-            <el-tooltip content="图片" placement="top" effect="light">
+            <el-tooltip v-if="subNumber(0, taskMsg.materialMsg.imageList)" content="图片" placement="top" effect="light">
               <Icon class="icons" type="images" />
             </el-tooltip>
-            <el-tooltip content="视频" placement="top" effect="light">
+            <el-tooltip v-if="subNumber(2, taskMsg.materialMsg.imageList)" content="视频" placement="top" effect="light">
               <Icon class="icons" type="videos" />
             </el-tooltip>
-            <el-tooltip content="链接" placement="top" effect="light">
+            <el-tooltip v-if="subNumber(3, taskMsg.materialMsg.imageList)" content="链接" placement="top" effect="light">
               <Icon class="icons" type="links" />
             </el-tooltip>
-            <el-tooltip content="小程序" placement="top" effect="light">
+            <el-tooltip v-if="subNumber(4, taskMsg.materialMsg.imageList)" content="小程序" placement="top" effect="light">
               <Icon class="icons" type="apps" />
             </el-tooltip>
             <span @click="dialogClick(taskMsg.materialMsg)">查看全部</span>

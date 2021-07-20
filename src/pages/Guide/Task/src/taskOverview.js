@@ -122,6 +122,13 @@ export default {
     togglePreview (current, list, type) {
       this.$refs.preview.toggleShow(current, list, type)
     },
+    subNumber (type, data) {
+      if (type === 0) {
+        return data && data.some(item => item.type === 0 || item.type === 1)
+      } else {
+        return data && data.some(item => item.type === type)
+      }
+    },
     onSearch () {
     },
     dialogClick (row) {

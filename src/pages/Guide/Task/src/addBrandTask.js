@@ -132,6 +132,13 @@ export default {
     }
   },
   methods: {
+    subNumber (type, data) {
+      if (type === 0) {
+        return data && data.some(item => item.type === 0 || item.type === 1)
+      } else {
+        return data && data.some(item => item.type === type)
+      }
+    },
     timeFun (val) {},
     selectShopBack (val) {
       this.hasShopArr = val

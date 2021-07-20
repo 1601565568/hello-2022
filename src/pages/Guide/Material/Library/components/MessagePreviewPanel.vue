@@ -2,8 +2,8 @@
   <div class="preview_body">
     <img :src='defaultIcon' class="scope-title_img">
     <div class="u_tag" v-if="subdivision">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
-    <div v-if="title" class="u_title">{{title}}</div>
-    <div v-if="pitContent" class="u_pitContent">{{pitContent}}</div>
+    <div v-if="title" class="u_title" v-html="htmlContent"></div>
+    <div v-if="pitContent" class="u_pitContent" v-html="htmlPitContent"></div>
     <div class="u_main">
       <div class="u_box" v-for="(item, index) in list" :key="index">
         <div class="u_imgList" v-if="item.type === 0 || item.type === 1">
@@ -85,15 +85,26 @@ export default {
   },
   data: function () {
     return {
+      htmlContent: '',
+      htmlPitContent: '',
       defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
   },
   mounted () {
+    this.init()
+    this.inits()
   },
   watch: {
-    list: {
+    title: {
       handler (newVal) {
+        this.init()
+      },
+      deep: true
+    },
+    pitContent: {
+      handler (newVal) {
+        this.inits()
       },
       deep: true
     }
@@ -101,6 +112,64 @@ export default {
   computed: {
   },
   methods: {
+    init () {
+      this.text2Emoji()
+      this.tag2Html()
+      this.n2br()
+    },
+    inits () {
+      this.text2Emoji1()
+      this.tag2Html1()
+      this.n2br1()
+    },
+    text2Emoji () {
+      const strRegex = /{\[(.+?)\]}/g
+      this.htmlContent = this.title.replace(strRegex, (item, index) => {
+        // const imgDom = document.createElement('img')
+        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
+        // return imgDom.outerHTML
+        const imgDom = document.createElement('span')
+        imgDom.innerText = item
+        return imgDom.outerHTML
+      })
+    },
+    tag2Html () {
+      const strRegex = /{(.+?)}/g
+      this.htmlContent = this.htmlContent.replace(strRegex, (item, index) => {
+        const tagDom = document.createElement('span')
+        tagDom.innerText = index
+        tagDom.className = 'text-message-tag'
+        return tagDom.outerHTML
+      })
+    },
+    n2br () {
+      const strRegex = /\n/g
+      this.htmlContent = this.htmlContent.replace(strRegex, '<br>')
+    },
+    text2Emoji1 () {
+      const strRegex = /{\[(.+?)\]}/g
+      this.htmlPitContent = this.pitContent.replace(strRegex, (item, index) => {
+        // const imgDom = document.createElement('img')
+        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
+        // return imgDom.outerHTML
+        const imgDom = document.createElement('span')
+        imgDom.innerText = item
+        return imgDom.outerHTML
+      })
+    },
+    tag2Html1 () {
+      const strRegex = /{(.+?)}/g
+      this.htmlPitContent = this.pitContent.replace(strRegex, (item, index) => {
+        const tagDom = document.createElement('span')
+        tagDom.innerText = index
+        tagDom.className = 'text-message-tag'
+        return tagDom.outerHTML
+      })
+    },
+    n2br1 () {
+      const strRegex = /\n/g
+      this.htmlPitContent = this.pitContent.replace(strRegex, '<br>')
+    }
   }
 }
 </script>
@@ -134,11 +203,14 @@ export default {
     color: #262626;
     line-height: 22px;
     margin: 16px;
-    word-break: break-all;
     margin-bottom: 12px;
     font-weight: bold;
     padding-bottom: 12px;
     border-bottom: 1px solid #E8E8E8;
+
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
   }
   .u_pitContent{
     margin: 12px 16px;
@@ -147,6 +219,11 @@ export default {
     margin-top: 0;
     color: #383838;
     line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   .u_main{
     .u_box{
@@ -285,6 +362,7 @@ export default {
         }
       }
       .u_content{
+        margin: 0;
         margin-top: 4px;
         width: 210px;
         height: 22px;
