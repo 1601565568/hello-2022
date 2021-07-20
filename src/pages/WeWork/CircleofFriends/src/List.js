@@ -56,12 +56,7 @@ export default {
         return
       }
       this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, {
-        start: 0,
-        length: 99999999,
-        startTime: `${this.searchDate[0]} 00:00:00`,
-        endTime: `${this.searchDate[1]} 23:59:59`
-      })
+      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, this.model)
         .then((resp) => {
           let url = window.URL.createObjectURL(new Blob([resp.data]))
           let link = document.createElement('a')
