@@ -96,7 +96,7 @@
               :insertList='insertList'
             />
           </el-form-item>
-          <el-form-item label="素材类型：" prop="mType">
+          <!-- <el-form-item label="素材类型：" prop="mType">
             <el-select
               v-model="model.mType"
               @change="onMtypeChange"
@@ -110,7 +110,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item v-if="model.mType === 1" label="带码状态：" prop="codeType">
             <el-select
               v-model="model.codeType"

@@ -280,12 +280,12 @@ export default {
     }
   }
   .u_content{
+    margin: 0;
     margin-top: 4px;
     width: 210px;
     height: 22px;
     font-size: 14px;
     color: #383838;
-    letter-spacing: 0;
     line-height: 22px;
     font-weight: 400;
     overflow: hidden;

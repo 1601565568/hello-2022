@@ -40,7 +40,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="素材类型：" prop="mType">
+          <!-- <el-form-item label="素材类型：" prop="mType">
             <el-select
               v-model="model.mType"
               placeholder="请选择素材类型"
@@ -53,7 +53,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="文件夹：" >
             <span class="mr5"><span class="catalogueStr" :title=catalogueStr>{{catalogueStr}}</span></span>
             <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
@@ -76,16 +76,16 @@
             <template slot-scope="scope">
               <table-item :data="scope.row" @preview="togglePreview" :lengths='scope.row.mediaList && scope.row.mediaList.length'></table-item>
               <div class="v_btn">共{{scope.row.mediaList && scope.row.mediaList.length || 0}}条信息
-                <el-tooltip content="图片" placement="top" effect="light">
+                <el-tooltip v-if="subNumber(0, scope.row.mediaList)" content="图片" placement="top" effect="light">
                   <Icon class="icons" type="images" />
                 </el-tooltip>
-                <el-tooltip content="视频" placement="top" effect="light">
+                <el-tooltip v-if="subNumber(2, scope.row.mediaList)" content="视频" placement="top" effect="light">
                   <Icon class="icons" type="videos" />
                 </el-tooltip>
-                <el-tooltip content="链接" placement="top" effect="light">
+                <el-tooltip v-if="subNumber(3, scope.row.mediaList)" content="链接" placement="top" effect="light">
                   <Icon class="icons" type="links" />
                 </el-tooltip>
-                <el-tooltip content="小程序" placement="top" effect="light">
+                <el-tooltip v-if="subNumber(4, scope.row.mediaList)" content="小程序" placement="top" effect="light">
                   <Icon class="icons" type="apps" />
                 </el-tooltip>
                 <span @click="dialogClick(scope.row)">查看全部</span></div>
@@ -223,6 +223,13 @@ export default {
     }
   },
   methods: {
+    subNumber (type, data) {
+      if (type === 0) {
+        return data && data.some(item => item.type === 0 || item.type === 1)
+      } else {
+        return data && data.some(item => item.type === type)
+      }
+    },
     // 打开内嵌的详情
     dialogClick (row) {
       this.dialogFlag = true

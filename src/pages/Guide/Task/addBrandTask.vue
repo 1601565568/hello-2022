@@ -215,16 +215,16 @@
                     </div>
                   </div>
                   <div class="v_btn" v-if="selectMaterial.mediaList && selectMaterial.mediaList.length > 0">共{{selectMaterial.mediaList && selectMaterial.mediaList.length || 0}}条信息
-                    <el-tooltip content="图片" placement="top" effect="light">
+                    <el-tooltip v-if="subNumber(0, selectMaterial.mediaList)" content="图片" placement="top" effect="light">
                       <Icon class="icons" type="images" />
                     </el-tooltip>
-                    <el-tooltip content="视频" placement="top" effect="light">
+                    <el-tooltip v-if="subNumber(2, selectMaterial.mediaList)" content="视频" placement="top" effect="light">
                       <Icon class="icons" type="videos" />
                     </el-tooltip>
-                    <el-tooltip content="链接" placement="top" effect="light">
+                    <el-tooltip v-if="subNumber(3, selectMaterial.mediaList)" content="链接" placement="top" effect="light">
                       <Icon class="icons" type="links" />
                     </el-tooltip>
-                    <el-tooltip content="小程序" placement="top" effect="light">
+                    <el-tooltip v-if="subNumber(4, selectMaterial.mediaList)" content="小程序" placement="top" effect="light">
                       <Icon class="icons" type="apps" />
                     </el-tooltip>
                     <span @click="dialogClick(selectMaterial)">查看全部</span>
