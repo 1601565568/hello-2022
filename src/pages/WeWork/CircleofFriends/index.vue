@@ -59,7 +59,7 @@
         </div>
       </template>
       <template slot="button">
-        <NsButton class="add-button" size="large" @click="exportFile">导出CSV文件</NsButton>
+        <NsButton class="add-button" size="large" @click="exportFile">导出</NsButton>
       </template>
       <template slot="table">
         <template>
