@@ -217,7 +217,7 @@ export default List
     }
   }
   .self-btn {
-    width: 100px;
+    width: 150px;
     display: flex;
     align-items: center;
     justify-content: space-between;
