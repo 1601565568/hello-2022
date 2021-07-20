@@ -219,6 +219,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -240,6 +241,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -372,7 +379,9 @@ export default {
       viewOptions: [] // 视角列表
     }
   },
-  computed: {},
+  computed: mapState({
+    area: state => state.user.area
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === 'employee') {
@@ -386,6 +395,8 @@ export default {
       }
     },
     'model.shopArea': function (o1, o2) {
+      console.log('o1', o1)
+      console.log('o2', o2)
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
         this.allShopOptions.map(item => {
@@ -849,7 +860,10 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的门店区域
+        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+          value: this.area.id,
+          text: this.area.name
+        } : {}
         vm.model.mobile = ''
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型

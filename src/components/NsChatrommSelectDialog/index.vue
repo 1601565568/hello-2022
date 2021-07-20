@@ -227,6 +227,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -249,6 +250,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -417,7 +424,9 @@ export default {
       allEmployees: []
     }
   },
-  computed: {},
+  computed: mapState({
+    area: state => state.user.area
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === vm.TAB_EMPLOYEE) {
@@ -1386,6 +1395,7 @@ export default {
     // vm.getGroupTree()
     vm.getShopAreaAndShop()
     vm.getAllEmployeeList()
+    this.shopArea = this.area
   },
   created: function () {
   }
