@@ -56,7 +56,7 @@ export default {
         },
         disabledDate: (time) => {
           if (this.selectDate !== '') {
-            const one = 7 * 24 * 3600 * 1000
+            const one = 6 * 24 * 3600 * 1000
             const minTime = this.selectDate - one
             const maxTime = this.selectDate + one
             return time.getTime() < minTime || time.getTime() > maxTime
