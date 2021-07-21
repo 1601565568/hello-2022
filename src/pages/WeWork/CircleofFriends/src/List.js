@@ -72,13 +72,15 @@ export default {
         this.$notify.error('当前没有匹配的数据项')
         return
       }
+      const start = 0
+      const length = 999999999
+      const params = {
+        ...this.model,
+        start,
+        length
+      }
       this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, {
-        start: 0,
-        length: 99999999,
-        startTime: `${this.searchDate[0]} 00:00:00`,
-        endTime: `${this.searchDate[1]} 23:59:59`
-      })
+      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, params)
         .then((resp) => {
           let url = window.URL.createObjectURL(new Blob([resp.data]))
           let link = document.createElement('a')
@@ -114,14 +116,10 @@ export default {
     },
     $sizeChange$ (data) {
       this.pagination.size = data
-      // console.log(this.pagination.size, '$sizeChange$')
-      // this.activeIndex = -1
       this.showUserInfo()
     },
     $pageChange$ (data) {
       this.pagination.page = data
-      // console.log(data, '$pageChange$')
-      // this.activeIndex = -1
       this.showUserInfo()
     },
     // 员工选择
