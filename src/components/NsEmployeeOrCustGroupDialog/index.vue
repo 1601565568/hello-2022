@@ -214,7 +214,7 @@
 // groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
 // queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
 
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
@@ -395,8 +395,6 @@ export default {
       }
     },
     'model.shopArea': function (o1, o2) {
-      console.log('o1', o1)
-      console.log('o2', o2)
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
         this.allShopOptions.map(item => {
