@@ -194,8 +194,9 @@ export default {
           this.shops = this.allShops
           return
         }
+        let areaIdStr = '/' + o1.value + '/'
         this.allShops.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
             shopOptions.push(item)
           }
         })
