@@ -45,15 +45,62 @@ export default {
         likeList: [],
         commentList: []
       },
-      loading: false // 防重复提交
+      loading: false, // 防重复提交
+      selectDate: '',
+      pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
+        disabledDate: (time) => {
+          if (this.selectDate !== '') {
+            const one = 7 * 24 * 3600 * 1000
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
+        }
+      }
     }
   },
   // mixins: [tableMixin],
   methods: {
+    exportFile () {
+      if (!this.getList.length) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
+      const start = 0
+      const length = 999999999
+      const params = {
+        ...this.model,
+        start,
+        length
+      }
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, params)
+        .then((resp) => {
+          let url = window.URL.createObjectURL(new Blob([resp.data]))
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+
+          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
+          link.setAttribute('download', fileName)
+
+          document.body.appendChild(link)
+          link.click()
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          this.$notify.error('导出报错，请联系管理员')
+        })
+    },
     setTime () {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       const startTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(end).format('YYYY-MM-DD HH:mm:ss')
       this.searchDate = [startTime, endTime]
@@ -69,14 +116,10 @@ export default {
     },
     $sizeChange$ (data) {
       this.pagination.size = data
-      // console.log(this.pagination.size, '$sizeChange$')
-      // this.activeIndex = -1
       this.showUserInfo()
     },
     $pageChange$ (data) {
       this.pagination.page = data
-      // console.log(data, '$pageChange$')
-      // this.activeIndex = -1
       this.showUserInfo()
     },
     // 员工选择
