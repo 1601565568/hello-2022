@@ -94,7 +94,13 @@ export default {
           link.click()
           this.$notify.success('下载完成')
         }).catch((resp) => {
-          this.$notify.error('导出报错，请联系管理员')
+          const { startTime, endTime } = params
+          const day = new Date(endTime) - new Date(startTime)
+          if (day >= 604800000) {
+            this.$notify.error('数据导出筛选时间范围不能超过7天')
+            return
+          }
+          this.$notify.error(resp.msg || '导出报错，请联系管理员')
         })
     },
     setTime () {
