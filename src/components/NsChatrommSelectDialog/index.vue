@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+              <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
@@ -43,7 +43,7 @@
           </el-form-item>
           <el-form-item label="选择部门：">
             <el-form-grid size="md">
-              <ns-droptree ref="employeeDepartTree" :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+              <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工姓名：">
@@ -227,6 +227,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -417,7 +418,9 @@ export default {
       allEmployees: []
     }
   },
-  computed: {},
+  computed: mapState({
+    areaTree: state => state.user.areaTree
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === vm.TAB_EMPLOYEE) {
@@ -800,7 +803,7 @@ export default {
       }
       // 选择了门店
       if (vm.model.shopId || vm.model.shopType === 1 || vm.model.shopType === 2 || vm.model.shopIds) {
-        if (!vm.model.shopType2 && !vm.model.shopIds && (!vm.model.shopArea || !vm.model.shopArea.value)) {
+        if (!vm.model.shopType2 && !vm.model.shopIds && ((!vm.model.shopArea || !vm.model.shopArea.value) && !vm.model.shopId)) {
         } else {
           const shopIdArr = vm.model.shopId ? [vm.model.shopId] : (vm.model.shopIds && vm.model.shopIds.length > 0 ? vm.model.shopIds.split(',') : vm.shopOptions.map(item => { return item.value }))
           const allEmployees = filterEmpFlag ? filterEmpArr : vm.allEmployees
