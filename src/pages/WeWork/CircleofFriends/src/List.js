@@ -45,7 +45,24 @@ export default {
         likeList: [],
         commentList: []
       },
-      loading: false // 防重复提交
+      loading: false, // 防重复提交
+      selectDate: '',
+      pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
+        disabledDate: (time) => {
+          if (this.selectDate !== '') {
+            const one = 7 * 24 * 3600 * 1000
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
+        }
+      }
     }
   },
   // mixins: [tableMixin],
@@ -81,7 +98,7 @@ export default {
     setTime () {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       const startTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(end).format('YYYY-MM-DD HH:mm:ss')
       this.searchDate = [startTime, endTime]

@@ -26,6 +26,7 @@
                 end-placeholder="请选择结束日期"
                 :default-time="['00:00:00', '23:59:59']"
                 align="right"
+                :pickerOptions='pickerOptions'
                 @change="selectTime"
               >
               </el-date-picker>
