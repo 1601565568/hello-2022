@@ -100,7 +100,8 @@ export default {
     setTime () {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      // 7天，需要特殊处理：+1000ms
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7 + 1000)
       const startTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(end).format('YYYY-MM-DD HH:mm:ss')
       this.searchDate = [startTime, endTime]
