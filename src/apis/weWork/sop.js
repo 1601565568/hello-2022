@@ -2,8 +2,8 @@
  * @Descripttion: 企微方案 - sop社群日历
  * @Author: yinghao.liu
  * @Date: 2021-04-20 09:52:10
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-22 20:02:37
+ * @LastEditors: yuye.huang
+ * @LastEditTime: 2021-07-19 11:43:37
  */
 export default {
   list: { // 日历列表数据
@@ -63,6 +63,12 @@ export default {
   getSendSucceedLog: { // 下载成功的日志数据流
     url: '/roomSOP/getLog',
     method: 'get',
+    responseType: 'blob',
+    callback: false
+  },
+  exportMomentStatistics: { // 导出朋友圈统计数据
+    url: '/guide/momentList/exportMomentStatistics',
+    method: 'post',
     responseType: 'blob',
     callback: false
   }

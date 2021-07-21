@@ -151,7 +151,9 @@
           </template>
           <template slot-scope="scope">
             <span class="table-col--content">
-              {{scope.row.content?scope.row.content:'-'}}
+              <!-- {{scope.row.content?scope.row.content:'-'}} -->
+              <EmojiText v-if='scope.row.content' :text='scope.row.content' type='list'/>
+              <span v-else>-</span>
               <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
                 默认
               </ns-button>
@@ -299,9 +301,11 @@
 import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsShopDialog from '@/components/NsShopDialog'
+import EmojiText from '@/components/NewUi/EmojiText'
 NsTableWelcomeCode.components = {
   NsGuideDialog,
-  NsShopDialog
+  NsShopDialog,
+  EmojiText
 }
 export default NsTableWelcomeCode
 </script>
