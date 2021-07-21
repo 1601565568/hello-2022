@@ -277,7 +277,7 @@ export default {
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
         customerId: customerId,
         shopId: shopId,
-        viewId: this.viewId
+        viewId: this.viewId || null
       }).then(resp => {
         this.rfmInfo = resp.result
       }).catch(resp => {
