@@ -51,7 +51,7 @@
     <!-- 字数限制 end -->
     <!-- 图片表情 start -->
     <div class="w-textarea_tools__emoji" v-if="showEmoji">
-      <el-popover width="447" trigger="hover">
+      <el-popover width="447" trigger="hover" v-model='visbleImgEmotion'>
         <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
         <!-- 可通过 emojiList 传入自定义的图标列表 -->
         <emotion @emotion="addEmotion" :height="200" ref="emotion" />
@@ -60,7 +60,7 @@
     <!-- 图片表情 end -->
     <!-- 字体表情 start -->
     <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
-      <el-popover trigger="hover">
+      <el-popover  trigger="hover" v-model='visbleEmotion'>
         <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
         <!-- 可通过 emojiList 传入自定义的图标列表 -->
         <VEmojiPicker :pack="pack" @select="selectEmoji" />
@@ -88,11 +88,11 @@ export const toolFn = {
   htmlToString (html, hasBracket = true) {
     const pre = hasBracket ? '{' : ''
     const after = hasBracket ? '}' : ''
-    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '').replace(/<img.*?\bclass="/g, pre).replace(/">/g, after)
   },
   // 替换标签成文字
   htmlToText (html) {
-    return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '').replace(/<img.*?\bclass="/g, '{').replace(new RegExp(this.emojiClass, 'g'), '').replace(/">/g, '}')
   },
   /**
    * 替换模板成标签
@@ -105,7 +105,7 @@ export const toolFn = {
     let { tools = [], emojiClass = 'EMOJI_', showEmoji = true } = this
     if (Object.prototype.toString.call(replaceData) === '[object Object]') {
       tools = replaceData.tools || tools
-      emojiClass = replaceData.emojiClass || emojiClass
+      emojiClass = replaceData.emojiClass === null || replaceData.emojiClass === undefined ? emojiClass : replaceData.emojiClass
       showEmoji = replaceData.showEmoji || showEmoji
     }
     if (showEmoji) {
@@ -116,9 +116,7 @@ export const toolFn = {
         )
         string = string.replace(
           regexp,
-          `<wise id="${toolFn.getGuid()}" class="${
-            emojiClass
-          }[${item}]">${`[${item}]`}</wise>`
+          `<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${item}.png" id="${toolFn.getGuid()}" contenteditable="false"  class="${emojiClass}[${item}]">`
         )
       })
     }
@@ -179,7 +177,10 @@ export default {
       // 光标元素
       endDon: null,
       // 字符表情插件的数据
-      pack: packData.data
+      pack: packData.data,
+      // 是否展示表情
+      visbleEmotion: false,
+      visbleImgEmotion: false
     }
   },
   components: { Emotion, VEmojiPicker },
@@ -275,9 +276,11 @@ export default {
   methods: {
     // 添加图片表情
     addEmotion: function (val) {
+      this.visbleImgEmotion = false
       // 创建模版标签
-      let node = document.createElement(this.tag)
-      node.innerText = val
+      let node = document.createElement('img')
+      const src = val.replace(new RegExp('\\[', 'g'), 'https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/').replace(new RegExp(']', 'g'), '.png')
+      node.src = src
       // 添加id便于删除
       node.id = this.getGuid()
       node.setAttribute('contenteditable', false)
@@ -286,6 +289,7 @@ export default {
     },
     // 添加字体表情
     selectEmoji (val) {
+      this.visbleEmotion = false
       this.addText(val.emoji)
     },
     updateData (text) {
@@ -347,19 +351,25 @@ export default {
       if (this.disabled) {
         return false
       }
-      this.savedRange.insertNode(node)
-      this.endDon = node
-      this.endOffset = this.savedRange.endOffset
-      // 更新双向绑定数据
-      if (this.endDon.style) {
-        this.savedRange.setStartAfter(this.endDon)
-      } else {
-        this.savedRange.setStartAfter(this.endDon)
-        // this.savedRange.setStart(this.endDon, this.endOffset)
+      if (!this.savedRange.commonAncestorContainer) {
+        const dom = document.getElementsByClassName(`${this.className}`)[0]
+        dom.focus()
       }
-      let target = this.$refs[this.className]
-      this.updateData(target.innerHTML)
-      this.currentText = target.innerText
+      setTimeout(() => {
+        this.savedRange.insertNode(node)
+        this.endDon = node
+        this.endOffset = this.savedRange.endOffset
+        // 更新双向绑定数据
+        if (this.endDon.style) {
+          this.savedRange.setStartAfter(this.endDon)
+        } else {
+          this.savedRange.setStartAfter(this.endDon)
+        // this.savedRange.setStart(this.endDon, this.endOffset)
+        }
+        let target = this.$refs[this.className]
+        this.updateData(target.innerHTML)
+        this.currentText = target.innerText
+      }, 0)
     },
     handleInput (target) {
       // 即时更新数据
@@ -452,6 +462,11 @@ export default {
   .active {
     background: #dcdfe6;
   }
+}
+.w-textarea_input img {
+  height: 1.3em;
+  position: relative;
+  top:-0.11em;
 }
 </style>
 
