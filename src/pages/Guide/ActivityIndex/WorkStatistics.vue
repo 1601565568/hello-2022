@@ -209,6 +209,11 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column label="工号" prop="work_number" width="120">
+        <template slot-scope="scope">
+          {{ scope.row.work_number ? scope.row.work_number : '-' }}
+        </template>
+      </el-table-column>
       <el-table-column label="门店名称" prop="shopName">
       </el-table-column>
       <el-table-column  align="right" width="230">
