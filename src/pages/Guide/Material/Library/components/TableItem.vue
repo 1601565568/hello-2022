@@ -16,7 +16,7 @@
         <template v-if="isBoolean || isFlag">
           <div v-for="(c_item, c_index) in data.mediaList && data.mediaList.slice(0, 3)" :key="c_index" class="tableItem-content__image">
             <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
-              <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, data)">
+              <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, c_item)">
               <img
                 v-else
                 alt=""
@@ -49,7 +49,7 @@
         <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 3" class="u_linkList">
           <div class="u_t">{{data.mediaList[0].content.title}}</div>
           <div class="u_desc">{{data.mediaList[0].content.desc}}</div>
-          <img class="u_link_img" :src='data.mediaList[0].content.image' alt="">
+          <img class="u_link_img" :src='data.mediaList[0].content.image || linkImage' alt="">
           <div class="u_line"></div>
         </div>
         <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 4" class="u_appList">
@@ -115,6 +115,7 @@
 </template>
 <script>
 import GuideInfo from './GuideInfo'
+import linkImage from '@/assets/linkImage.png'
 export default {
   components: { GuideInfo },
   props: {
@@ -123,6 +124,7 @@ export default {
   },
   data () {
     return {
+      linkImage: linkImage,
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       // 拍摄指南
@@ -167,14 +169,19 @@ export default {
       let type = +row.type === 2 ? 'video' : 'img'
       let item = data.mediaList[current]
       let imgs = []
+      let videoList = []
       data.mediaList.forEach(item => {
         if (item.type === 2) {
-          imgs.push(item.content.video)
-        } else {
+          videoList.push(item.content.video)
+        } else if (item.type === 1) {
           imgs.push(item.content.image)
         }
       })
-      this.$emit('preview', current, imgs, type)
+      if (row.type === 2) {
+        this.$emit('preview', 0, videoList.filter(item => item !== ''), type)
+      } else if (row.type === 1) {
+        this.$emit('preview', 0, imgs.filter(item => item !== ''), type)
+      }
     }
   }
 }
