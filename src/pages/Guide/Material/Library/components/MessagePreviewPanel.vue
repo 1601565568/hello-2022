@@ -49,7 +49,6 @@
 </template>
 <script>
 import defaultIcon from '@/assets/titlePreview.jpg'
-import linkImage from '@/assets/linkImage.png'
 export default {
   name: 'preview',
   components: {
@@ -88,7 +87,7 @@ export default {
     return {
       htmlContent: '',
       htmlPitContent: '',
-      linkImage: linkImage,
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }

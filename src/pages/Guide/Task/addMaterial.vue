@@ -65,7 +65,6 @@
   </div>
 </template>
 <script>
-import linkImage from '@/assets/linkImage.png'
 export default {
   props: {
     data: Object,
@@ -80,7 +79,7 @@ export default {
   },
   data () {
     return {
-      linkImage: linkImage,
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       // 拍摄指南
