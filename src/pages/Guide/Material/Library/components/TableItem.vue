@@ -49,7 +49,7 @@
         <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 3" class="u_linkList">
           <div class="u_t">{{data.mediaList[0].content.title}}</div>
           <div class="u_desc">{{data.mediaList[0].content.desc}}</div>
-          <img class="u_link_img" :src='data.mediaList[0].content.image' alt="">
+          <img class="u_link_img" :src='data.mediaList[0].content.image || linkImage' alt="">
           <div class="u_line"></div>
         </div>
         <div v-if="!isBoolean && data.mediaList && data.mediaList[0].type === 4" class="u_appList">
@@ -115,6 +115,7 @@
 </template>
 <script>
 import GuideInfo from './GuideInfo'
+import linkImage from '@/assets/linkImage.png'
 export default {
   components: { GuideInfo },
   props: {
@@ -123,6 +124,7 @@ export default {
   },
   data () {
     return {
+      linkImage: linkImage,
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       // 拍摄指南

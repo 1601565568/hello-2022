@@ -8,8 +8,9 @@
           tag="wise"
           ref="TagAreaText"
           :maxlength="150"
-          :showEmoji='true'
-          :showTextEmoji='true'
+          :showEmoji='false'
+          :disabledEnter='true'
+          :showTextEmoji='false'
           :tools='tools'
           placeholder="请输入标题，长度在150个字符以内"
           emojiClass=''

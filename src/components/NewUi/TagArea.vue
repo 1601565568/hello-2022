@@ -37,6 +37,7 @@
       :id="contentId"
       @blur="handleBlur()"
       @focus="handleFouce"
+      @keydown='handleDown($event)'
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
@@ -184,6 +185,11 @@ export default {
   },
   components: { Emotion, VEmojiPicker },
   props: {
+    // 是否禁用回车键
+    disabledEnter: {
+      type: Boolean,
+      default: false
+    },
     // 输入框类名 如页面由多个组件必传
     className: {
       type: String,
@@ -372,6 +378,11 @@ export default {
     },
     handleFouce () {
       this.isLocked = true
+    },
+    handleDown (e) {
+      if (e.keyCode === 13 && this.disabledEnter) {
+        e.preventDefault()
+      }
     },
     handleDelete (e) {
       // 监听“删除”事件
