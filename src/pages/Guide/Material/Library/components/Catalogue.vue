@@ -307,7 +307,6 @@
 <script>
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import GuideInfo from './GuideInfo'
-import linkImage from '@/assets/linkImage.png'
 export default {
   props: {
     folders: {
@@ -367,7 +366,7 @@ export default {
       materialShow: this.materials,
       //
       selectItem: {},
-      linkImage: linkImage,
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }

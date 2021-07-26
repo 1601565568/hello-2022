@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import linkImage from '@/assets/linkImage.png'
 import Preview from '@/components/NsPreview'
 export default {
   components: { Preview },
@@ -78,7 +77,7 @@ export default {
   },
   data () {
     return {
-      linkImage: linkImage,
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       dialogVisible: false,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
