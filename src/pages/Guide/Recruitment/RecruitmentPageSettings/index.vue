@@ -118,7 +118,7 @@
           </template>
           <template slot='collapse-right'>
             <div class='chat-content'>
-              <content-register :title='model.title' :content='model.content' :picture='model.picture'/>
+              <content-preview :title='model.title' :content='model.content' :picture='model.picture'/>
               <img src='@/assets/chat.png' class='chat-img'/>
             </div>
           </template>
