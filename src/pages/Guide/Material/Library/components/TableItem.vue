@@ -16,7 +16,7 @@
         <template v-if="isBoolean || isFlag">
           <div v-for="(c_item, c_index) in data.mediaList && data.mediaList.slice(0, 3)" :key="c_index" class="tableItem-content__image">
             <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
-              <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, data)">
+              <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, c_item)">
               <img
                 v-else
                 alt=""
@@ -169,14 +169,19 @@ export default {
       let type = +row.type === 2 ? 'video' : 'img'
       let item = data.mediaList[current]
       let imgs = []
+      let videoList = []
       data.mediaList.forEach(item => {
         if (item.type === 2) {
-          imgs.push(item.content.video)
-        } else {
+          videoList.push(item.content.video)
+        } else if (item.type === 1) {
           imgs.push(item.content.image)
         }
       })
-      this.$emit('preview', current, imgs, type)
+      if (row.type === 2) {
+        this.$emit('preview', 0, videoList.filter(item => item !== ''), type)
+      } else if (row.type === 1) {
+        this.$emit('preview', 0, imgs.filter(item => item !== ''), type)
+      }
     }
   }
 }
