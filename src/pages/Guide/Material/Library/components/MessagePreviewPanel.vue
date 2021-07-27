@@ -25,7 +25,7 @@
         <div v-if="item.type === 3" class="u_linkList">
           <div class="u_t">{{item.content.title}}</div>
           <div class="u_desc">{{item.content.desc}}</div>
-          <img class="u_link_img" :src='item.content.image' alt="">
+          <img class="u_link_img" :src='item.content.image || linkImage' alt="">
           <div class="u_line"></div>
         </div>
         <div v-if="item.type === 4" class="u_appList">
@@ -87,6 +87,7 @@ export default {
     return {
       htmlContent: '',
       htmlPitContent: '',
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }

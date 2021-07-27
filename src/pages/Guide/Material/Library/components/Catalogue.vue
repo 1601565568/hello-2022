@@ -159,18 +159,20 @@
                       @click="showPreview(c_index, c_item, item)"
                       />
                   </div>
-                  <div class="catalogue-materials__video" v-if="c_item.type === 2">
-                    <video
+                  <div class="v_image" v-if="c_item.type === 2">
+                    <img
+                      :style="{
+                        width: imageHeight - 2 + 'px',
+                        height: imageHeight - 2 + 'px'
+                      }"
+                      alt=""
                       :src="videoUrl(item)"
-                      :style="{ height: videoHeight + 'px' }"
-                    >
-                      您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-                    </video>
+                      />
                     <div
-                      class="catalogue-materials__video--mask"
+                      class="mask"
                       @click="showPreview(0, c_item, item)"
                     >
-                      <div class="catalogue-materials__video--wrapper">
+                      <div class="wrapper">
                         <Icon type="begin" />
                       </div>
                     </div>
@@ -178,7 +180,7 @@
                   <div v-if="c_item.type === 3" class="u_linkList">
                     <div class="u_t">{{c_item.content.title}}</div>
                     <div class="u_desc">{{c_item.content.desc}}</div>
-                    <img class="u_link_img" :src='c_item.content.image' alt="">
+                    <img class="u_link_img" :src='c_item.content.image || linkImage' alt="">
                     <div class="u_line"></div>
                   </div>
                   <div v-if="c_item.type === 4" class="u_appList">
@@ -364,6 +366,7 @@ export default {
       materialShow: this.materials,
       //
       selectItem: {},
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
@@ -522,7 +525,7 @@ export default {
     videoUrl (list) {
       if (list.mediaList && list.mediaList.length > 0) {
         let obj = list.mediaList.find(item => item.type === 2)
-        return obj.content.video
+        return obj.content.video + '?x-oss-process=video/snapshot,t_10000,f_jpg'
       }
       return ''
     }
@@ -658,6 +661,7 @@ export default {
   flex-direction: row; */
   /* width: 100px;
   height: 100px; */
+  position: relative;
   list-style: none;
   margin: 0 5px 5px 0;
 }
@@ -948,18 +952,7 @@ export default {
           margin-right: 0;
         }
       }
-    }
-    @e video {
-      position: relative;
-      font-size: 0;
-      line-height: 1;
-      video {
-        width: 100%;
-        height: 142px;
-        border-radius: 3px;
-        object-fit: cover;
-      }
-      @m mask {
+      .mask {
         position: absolute;
         top: 0;
         left: 0;
@@ -969,7 +962,7 @@ export default {
         cursor: pointer;
         border-radius: 3px;
       }
-      @m wrapper {
+      .wrapper {
         position: relative;
         top: 50%;
         left: 50%;
@@ -984,6 +977,16 @@ export default {
           font-size: 30px;
           color: #fff;
         }
+      }
+    }
+    @e video {
+      position: relative;
+      font-size: 0;
+      line-height: 1;
+      video {
+        width: 100%;
+        border-radius: 3px;
+        object-fit: cover;
       }
     }
   }

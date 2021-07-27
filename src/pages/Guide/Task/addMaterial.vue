@@ -47,7 +47,7 @@
         <div v-if="!isBoolean && imageLists && imageLists[0].type === 3" class="u_linkList">
           <div class="u_t">{{imageLists[0].content.title}}</div>
           <div class="u_desc">{{imageLists[0].content.desc}}</div>
-          <img class="u_link_img" :src='imageLists[0].content.image' alt="">
+          <img class="u_link_img" :src='imageLists[0].content.image || linkImage' alt="">
           <div class="u_line"></div>
         </div>
         <div v-if="!isBoolean && imageLists && imageLists[0].type === 4" class="u_appList">
@@ -79,6 +79,7 @@ export default {
   },
   data () {
     return {
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       // 拍摄指南

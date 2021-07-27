@@ -78,17 +78,17 @@
                           placement="top-start"
                           width="300"
                           trigger="hover"
-                          :disabled="scope.row.shopName.length <= 15"
+                          :disabled="scope.row.shopName && scope.row.shopName.length <= 15"
                         >
                           <div>{{ scope.row.shopName }}</div>
                           <span
                             slot="reference"
-                            v-if="scope.row.shopName.length <= 15"
+                            v-if="scope.row.shopName && scope.row.shopName.length <= 15"
                             >{{ scope.row.shopName }}</span
                           >
                           <span
                             slot="reference"
-                            v-if="scope.row.shopName.length > 15"
+                            v-if="scope.row.shopName && scope.row.shopName.length > 15"
                             >{{
                               scope.row.shopName.substr(0, 15) + '...'
                             }}</span
@@ -148,7 +148,7 @@
                         <div class="self-btn">
                           {{
                             shopIds && shopIds.length
-                              ? `已选择${shopIds.length}个门店`
+                              ? `已选择${shopIds.length || 0}个门店`
                               : '全部门店'
                           }}
                           <Icon type="shop" class="shopIds-icon"></Icon>
@@ -190,17 +190,17 @@
                           placement="top-start"
                           width="300"
                           trigger="hover"
-                          :disabled="scope.row.shopNamesStr.length <= 15"
+                          :disabled="scope.row.shopNamesStr && scope.row.shopNamesStr.length <= 15"
                         >
                           <div>{{ scope.row.shopNamesStr }}</div>
                           <span
                             slot="reference"
-                            v-if="scope.row.shopNamesStr.length <= 15"
+                            v-if="scope.row.shopNamesStr && scope.row.shopNamesStr.length <= 15"
                             >{{ scope.row.shopNamesStr }}</span
                           >
                           <span
                             slot="reference"
-                            v-if="scope.row.shopNamesStr.length > 15"
+                            v-if="scope.row.shopNamesStr && scope.row.shopNamesStr.length > 15"
                             >{{
                               scope.row.shopNamesStr.substr(0, 15) + '...'
                             }}</span
@@ -295,7 +295,7 @@ export default {
     },
     handleChangeShop (value) {
       this.shopIds = value
-      if (this.shopIds.length > 0) {
+      if (this.shopIds && this.shopIds.length > 0) {
         this.shopIdsStr = this.shopIds.join(',')
       } else {
         this.shopIdsStr = ''
@@ -333,7 +333,7 @@ export default {
     },
     handleChangeGuide (value) {
       this.guideIds = value
-      if (this.guideIds.length > 0) {
+      if (this.guideIds && this.guideIds.length > 0) {
         this.guideIdsStr = this.guideIds.join(',')
       } else {
         this.guideIdsStr = ''
@@ -446,7 +446,7 @@ export default {
           shopIdsStr: this.shopIdsStr
         },
         start: (this.pagination.page - 1) * this.pagination.size,
-        length: this.pagination.size
+        length: this.pagination.size || 0
       }
       if (this.pagination.page === 1) {
         this.listData = []
