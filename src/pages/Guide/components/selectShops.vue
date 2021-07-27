@@ -257,7 +257,7 @@ export default {
     },
     getShopAreaAndShop: function () {
       let that = this
-      that.$http.fetch(that.$api.core.sysShop.getShopTree)
+      that.$http.fetch(that.$api.core.sysShop.getShopTree, { penetrate: this.penetrate })
         .then((resp) => {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
