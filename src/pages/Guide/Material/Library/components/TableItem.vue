@@ -8,7 +8,9 @@
           popper-class="table-body__tooltip"
         >
           <div slot="content" v-html="strToRichText(data.content)"></div>
-          <div v-html="strToRichText(data.content)" class="tableItem-content__ellipsis"></div>
+          <div class="tableItem-content__ellipsis">
+            <EmojiText :text='data.content' />
+          </div>
           <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
       </div>
@@ -115,8 +117,9 @@
 </template>
 <script>
 import GuideInfo from './GuideInfo'
+import EmojiText from '@/components/NewUi/EmojiText'
 export default {
-  components: { GuideInfo },
+  components: { GuideInfo, EmojiText },
   props: {
     data: Object,
     lengths: Number
@@ -166,21 +169,11 @@ export default {
     },
     showPreview (current, row, data) {
       let type = +row.type === 2 ? 'video' : 'img'
-      let item = data.mediaList[current]
       let imgs = []
-      let videoList = []
       data.mediaList.forEach(item => {
-        if (item.type === 2) {
-          videoList.push(item.content.video)
-        } else if (item.type === 1) {
-          imgs.push(item.content.image)
-        }
+        imgs.push(item.type === 1 ? item.content.image : item.content.video)
       })
-      if (row.type === 2) {
-        this.$emit('preview', 0, videoList.filter(item => item !== ''), type)
-      } else if (row.type === 1) {
-        this.$emit('preview', 0, imgs.filter(item => item !== ''), type)
-      }
+      this.$emit('preview', current, imgs, type)
     }
   }
 }

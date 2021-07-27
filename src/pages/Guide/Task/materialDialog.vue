@@ -102,13 +102,18 @@ export default {
   methods: {
     showPreview (current, row, imageLists) {
       let type = +row.type === 2 ? 'video' : 'img'
+      // let imgs = []
+      // imageLists.forEach(item => {
+      //   if (item.type === 2) {
+      //     imgs.push(item.content.video)
+      //   } else {
+      //     imgs.push(item.content.image)
+      //   }
+      // })
+      // this.$emit('preview', current, imgs, type)
       let imgs = []
       imageLists.forEach(item => {
-        if (item.type === 2) {
-          imgs.push(item.content.video)
-        } else {
-          imgs.push(item.content.image)
-        }
+        imgs.push(item.type === 1 ? item.content.image : item.content.video)
       })
       this.$emit('preview', current, imgs, type)
     }

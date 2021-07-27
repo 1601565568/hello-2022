@@ -329,6 +329,7 @@ export default {
       if (isChangePage) {
         this.pagination.page = 1
       }
+      this.searchObj.start = 0
       this.loadListFun()
     },
     // 选择素材
@@ -357,7 +358,7 @@ export default {
       this.dialogVisible = false
     },
     togglePreview (current, list, type) {
-      this.$refs.preview.toggleShow(current, list, type)
+      this.$refs.preview.toggleShow(current, list, type, true)
     },
     getAllLabel () {
       this.$http

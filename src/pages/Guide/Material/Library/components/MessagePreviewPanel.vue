@@ -1,9 +1,11 @@
 <template>
   <div class="preview_body">
     <img :src='defaultIcon' class="scope-title_img">
-    <div class="u_tag" v-if="subdivision">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
-    <div v-if="title" class="u_title" v-html="htmlContent"></div>
-    <div v-if="pitContent" class="u_pitContent" v-html="htmlPitContent"></div>
+    <div class="u_tag">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
+    <div v-if="title" class="u_title">{{title}}</div>
+    <div v-if="pitContent" class="u_pitContent">
+      <EmojiText :text='htmlContent' />
+    </div>
     <div class="u_main">
       <div class="u_box" v-for="(item, index) in list" :key="index">
         <div class="u_imgList" v-if="item.type === 0 || item.type === 1">
@@ -15,7 +17,6 @@
           </div>
           <div
             class="video-mask"
-            @click="showPreview(0, c_item, data)"
           >
             <div class="video-wrapper">
               <Icon type="begin" />
@@ -49,10 +50,10 @@
 </template>
 <script>
 import defaultIcon from '@/assets/titlePreview.jpg'
+import EmojiText from '@/components/NewUi/EmojiText'
 export default {
   name: 'preview',
-  components: {
-  },
+  components: { EmojiText },
   props: {
     // 附件数组
     list: {
@@ -86,26 +87,22 @@ export default {
   data: function () {
     return {
       htmlContent: '',
-      htmlPitContent: '',
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
   },
   mounted () {
-    this.init()
-    this.inits()
+    this.text2Emoji()
+    this.tag2Html()
+    this.n2br()
   },
   watch: {
-    title: {
-      handler (newVal) {
-        this.init()
-      },
-      deep: true
-    },
     pitContent: {
       handler (newVal) {
-        this.inits()
+        this.text2Emoji()
+        this.tag2Html()
+        this.n2br()
       },
       deep: true
     }
@@ -113,29 +110,11 @@ export default {
   computed: {
   },
   methods: {
-    init () {
-      this.text2Emoji()
-      this.tag2Html()
-      this.n2br()
-    },
-    inits () {
-      this.text2Emoji1()
-      this.tag2Html1()
-      this.n2br1()
-    },
     text2Emoji () {
-      const strRegex = /{\[(.+?)\]}/g
-      this.htmlContent = this.title.replace(strRegex, (item, index) => {
-        // const imgDom = document.createElement('img')
-        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
-        // return imgDom.outerHTML
-        const imgDom = document.createElement('span')
-        imgDom.innerText = item
-        return imgDom.outerHTML
-      })
+      this.htmlContent = this.pitContent
     },
     tag2Html () {
-      const strRegex = /{(.+?)}/g
+      const strRegex = /{(?!\[)(.+?)(?!\])}/g
       this.htmlContent = this.htmlContent.replace(strRegex, (item, index) => {
         const tagDom = document.createElement('span')
         tagDom.innerText = index
@@ -146,30 +125,6 @@ export default {
     n2br () {
       const strRegex = /\n/g
       this.htmlContent = this.htmlContent.replace(strRegex, '<br>')
-    },
-    text2Emoji1 () {
-      const strRegex = /{\[(.+?)\]}/g
-      this.htmlPitContent = this.pitContent.replace(strRegex, (item, index) => {
-        // const imgDom = document.createElement('img')
-        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
-        // return imgDom.outerHTML
-        const imgDom = document.createElement('span')
-        imgDom.innerText = item
-        return imgDom.outerHTML
-      })
-    },
-    tag2Html1 () {
-      const strRegex = /{(.+?)}/g
-      this.htmlPitContent = this.pitContent.replace(strRegex, (item, index) => {
-        const tagDom = document.createElement('span')
-        tagDom.innerText = index
-        tagDom.className = 'text-message-tag'
-        return tagDom.outerHTML
-      })
-    },
-    n2br1 () {
-      const strRegex = /\n/g
-      this.htmlPitContent = this.pitContent.replace(strRegex, '<br>')
     }
   }
 }

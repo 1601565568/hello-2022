@@ -90,8 +90,10 @@
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <div slot="content" v-html="strToRichText(item.content)"></div>
-                  <div v-html="strToRichText(item.content)" class="showContent"></div>
+                  <!-- <div slot="content" v-html="strToRichText(item.content)"></div> -->
+                  <div class="showContent">
+                    <EmojiText :text='item.content' />
+                  </div>
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
@@ -166,11 +168,11 @@
                         height: imageHeight - 2 + 'px'
                       }"
                       alt=""
-                      :src="videoUrl(item)"
+                      :src="c_item.content.video + '?x-oss-process=video/snapshot,t_10000,f_jpg'"
                       />
                     <div
                       class="mask"
-                      @click="showPreview(0, c_item, item)"
+                      @click="showPreview(c_index, c_item, item)"
                     >
                       <div class="wrapper">
                         <Icon type="begin" />
@@ -306,6 +308,7 @@
 </template>
 <script>
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import EmojiText from '@/components/NewUi/EmojiText'
 import GuideInfo from './GuideInfo'
 export default {
   props: {
@@ -335,7 +338,7 @@ export default {
     },
     operate_buttons: Array
   },
-  components: { NsNoData, GuideInfo },
+  components: { NsNoData, GuideInfo, EmojiText },
   data () {
     return {
       // 卡片容器宽度
@@ -509,13 +512,9 @@ export default {
       let item = data.mediaList[current]
       let imgs = []
       data.mediaList.forEach(item => {
-        if (item.type === 2) {
-          imgs.push(item.content.video)
-        } else {
-          imgs.push(item.content.image)
-        }
+        imgs.push(item.type === 1 ? item.content.image : item.content.video)
       })
-      this.$emit('preview', 0, imgs, type)
+      this.$emit('preview', current, imgs, type)
     },
     showGuideInfo (current, row) {
       let item = row.mediaList[current]
