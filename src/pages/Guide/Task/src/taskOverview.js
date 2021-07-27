@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     togglePreview (current, list, type) {
-      this.$refs.preview.toggleShow(current, list, type)
+      this.$refs.preview.toggleShow(current, list, type, true)
     },
     subNumber (type, data) {
       if (type === 0) {

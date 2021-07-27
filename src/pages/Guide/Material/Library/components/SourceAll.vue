@@ -37,6 +37,8 @@
             ref="tagContent"
             className="tagContent"
             placeholder="可在此输入推广文案，限制长度在1500个字符以内"
+            tag="wise"
+            emojiClass=''
           />
         </div>
       </el-form-item>
@@ -596,7 +598,7 @@ export default {
         params.codeType = 0
       }
       let flag = params.mediaList.length > 0 && params.mediaList.some(item => item.type === 1 || item.type === 0)
-      if (!flag && (params.codeType === 1 || params.codeType === 2)) {
+      if (!flag && (params.codeType === 1)) {
         this.$notify.warning('您未添加图片，暂无法植入二维码，请先添加图片')
         return false
       }
