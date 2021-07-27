@@ -30,7 +30,6 @@
           <tag-area
             class="tag-area"
             v-model='pitContent'
-            tag="wise"
             :maxlength="1500"
             :showEmoji='true'
             :showTextEmoji='true'
@@ -38,7 +37,6 @@
             ref="tagContent"
             className="tagContent"
             placeholder="可在此输入推广文案，限制长度在1500个字符以内"
-            emojiClass=''
           />
         </div>
       </el-form-item>
