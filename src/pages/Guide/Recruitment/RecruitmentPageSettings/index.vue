@@ -118,8 +118,11 @@
           </template>
           <template slot='collapse-right'>
             <div class='chat-content'>
-              <content-preview :title='model.title' :content='model.content' :picture='model.picture'/>
-              <img src='@/assets/chat.png' class='chat-img'/>
+              <div class='mobile_content' :style='{backgroundImage:"url("+model.mpFollowBackground+")"}' v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
+                <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
+                  <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
+                </VueDragResize>
+              </div>
             </div>
           </template>
         </recruitment-collapse>
