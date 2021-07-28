@@ -9,7 +9,7 @@
     <div class="u_main">
       <div class="u_box" v-for="(item, index) in list" :key="index">
         <div class="u_imgList" v-if="item.type === 0 || item.type === 1">
-          <img :src='(item.content.pitUrl || item.content.image) || defaultImgUrl' alt="">
+          <img :src='item.content.image || defaultImgUrl' alt="">
         </div>
         <div v-if="item.type === 2" class="u_videoList">
           <div>
@@ -148,6 +148,7 @@ export default {
     color: #262626;
     line-height: 54px;
     padding-left: 12px;
+    margin-bottom: 16px;
     .icon{
       font-size: 16px;
       margin-left: 4px;
@@ -160,6 +161,7 @@ export default {
     line-height: 22px;
     margin: 16px;
     margin-bottom: 12px;
+    margin-top: 0;
     font-weight: bold;
     padding-bottom: 12px;
     border-bottom: 1px solid #E8E8E8;

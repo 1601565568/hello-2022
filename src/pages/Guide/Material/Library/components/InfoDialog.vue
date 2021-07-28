@@ -18,7 +18,7 @@
             <div class="u_imgList" v-if="item.type === 0">
               <img v-if="item.type == 1" :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
               @click="showPreview(index, item, metailInfo)" alt="">
-              <img v-else :src="defaultImgUrl" alt="">
+              <img v-else :src="item.content.image" alt="">
             </div>
             <div v-if="item.type === 2" class="u_videoList">
               <div>

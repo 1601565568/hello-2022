@@ -164,7 +164,7 @@
       </el-form-item>
       <el-form-item label="保存到：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
-        <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
+        <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
     <!-- <div class="library-footer">
