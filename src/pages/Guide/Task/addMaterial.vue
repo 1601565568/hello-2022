@@ -91,7 +91,7 @@ export default {
       return this.data && this.types === 1 ? this.data.imageList : (this.data ? this.data.mediaList : [])
     },
     isBoolean () {
-      return this.imageLists && (this.imageLists.slice(0, 2) || this.imageLists.slice(0, 3)).every(item => item.type === 0 || item.type === 1)
+      return this.imageLists && (this.imageLists.slice(0, 1) || this.imageLists.slice(0, 2) || this.imageLists.slice(0, 3)).every(item => item.type === 0 || item.type === 1)
     }
   },
   // watch: {
