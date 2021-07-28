@@ -158,6 +158,7 @@ export default {
     margin-bottom: 16px;
   }
   .u_main{
+    width: 340px;
     .u_box{
       display: inline-block;
       vertical-align: top;

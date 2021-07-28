@@ -1,7 +1,8 @@
 <template>
   <div class="add-material-bar">
     <div v-if="pitBit" class="add-material-item" @click="addCustomImg">
-      <Icon type="poster-1" class="icon" />
+      <!-- <Icon type="poster-1" class="icon" /> -->
+      <img class="bitpit" src="@/assets/kwBig.png" alt="">
       <span class="item-tip">自建坑位</span>
     </div>
     <div class="add-material-item">
@@ -210,6 +211,10 @@ export default {
 .add-material-bar {
   display: flex;
   height: 92px;
+  .bitpit{
+    width: 40px;
+    height: 40px;
+  }
   .add-material-item {
     width: 80px;
     height: 92px;
@@ -219,7 +224,8 @@ export default {
     align-items: center;
     justify-content: center;
     .icon {
-      font-size: 32px;
+      font-size: 40px;
+      color: #000;
     }
     .item-tip {
       color: #303133;

@@ -6,7 +6,12 @@
       :key="key"
     >
       <div class="message-detail">
-        <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+        <template v-if="type !== 0">
+          <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+        </template>
+        <template v-else>
+          <img class="bitpit" src="@/assets/kwBig.png" alt="">
+        </template>
         <span v-if="type !== 0">{{content | msgText(type)}}</span>
         <span v-else>自建坑位</span>
       </div>
@@ -116,8 +121,13 @@ export default {
       width: 212px;
       display: flex;
       align-items: center;
+      .bitpit{
+        width: 20px;
+        height: 20px;
+        margin-left: 9px;
+      }
       .icon {
-        font-size: 16px;
+        font-size: 20px;
         margin-left: 9px;
       }
       span {
