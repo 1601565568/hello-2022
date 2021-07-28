@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
+              <ns-droptree v-if='visible' ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :lazy="true" :data="area" v-model="model.shopArea" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
@@ -221,7 +221,7 @@
 // groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
 // queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
 
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import NsShopIdDialog from '@/components/NsShopIdDialog'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
@@ -250,6 +250,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -419,7 +425,7 @@ export default {
     }
   },
   computed: mapState({
-    areaTree: state => state.user.areaTree
+    area: state => state.user.area
   }),
   watch: {
     tabType: function (val) {
@@ -1083,7 +1089,10 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的门店分类
+        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+          value: this.area.id,
+          text: this.area.name
+        } : {}
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型
         vm.model.shopIds = ''
@@ -1390,6 +1399,7 @@ export default {
     // vm.getGroupTree()
     vm.getShopAreaAndShop()
     vm.getAllEmployeeList()
+    this.shopArea = this.area
   },
   created: function () {
   }

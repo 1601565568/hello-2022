@@ -57,7 +57,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="area" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -214,7 +214,7 @@
 // groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
 // queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
 
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
@@ -241,6 +241,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -374,7 +380,7 @@ export default {
     }
   },
   computed: mapState({
-    areaTree: state => state.user.areaTree
+    area: state => state.user.area
   }),
   watch: {
     tabType: function (val) {
@@ -853,7 +859,10 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的门店区域
+        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+          value: this.area.id,
+          text: this.area.name
+        } : {}
         vm.model.mobile = ''
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型

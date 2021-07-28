@@ -24,7 +24,7 @@
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
                   <!--<NsButton type="text" @click="openMarking()">+选择营销人群</NsButton>-->
-                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true'></NsEmployeeOrCustGroupDialog>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择<span class="text-primary">{{employeeSelectData.data? employeeSelectData.data.length: 0}}</span>{{employeeSelectData.type == 'employee'? '个员工全部好友': '个客户分群'}}

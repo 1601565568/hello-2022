@@ -46,6 +46,7 @@
                 <NsGuideDialog
                   :isButton="false"
                   :validNull="true"
+                  :echoStore='true'
                   :auth="true"
                   :switchAreaFlag='1'
                   type="primary"
