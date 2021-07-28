@@ -15,7 +15,7 @@
         </div> -->
         <div class="u_main">
           <div class="u_box" v-for="(item, index) in metailInfo.mediaList" :key="index" :class="{'t_box': item.type !== 0 && item.type !== 1}">
-            <div class="u_imgList" v-if="item.type === 0">
+            <div class="u_imgList" v-if="item.type === 0 || item.type == 1">
               <img v-if="item.type == 1" :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
               @click="showPreview(index, item, metailInfo)" alt="">
               <img v-else :src="item.content.image" alt="">

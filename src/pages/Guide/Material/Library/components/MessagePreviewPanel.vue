@@ -177,11 +177,6 @@ export default {
     margin-top: 0;
     color: #383838;
     line-height: 24px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
   }
   .u_main{
     .u_box{

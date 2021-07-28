@@ -15,18 +15,6 @@
   >
     <div>
       <div class="guide-text">指南说明</div>
-      <!-- <tag-area
-          class="tag-area"
-          :isShow='isShow'
-          v-model='pitText'
-          tag="wise"
-          ref="tagAread"
-          :maxlength="1500"
-          :showEmoji='false'
-          :showTextEmoji='false'
-          placeholder="请输入"
-          emojiClass=''
-        /> -->
         <el-input
           type="textarea"
           placeholder="请输入"
@@ -180,7 +168,7 @@ export default {
   >>> .el-textarea__inner {
     height: 100%;
     resize:none;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 }
 .guide-input {

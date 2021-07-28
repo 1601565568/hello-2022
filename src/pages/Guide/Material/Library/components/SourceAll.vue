@@ -303,12 +303,12 @@ export default {
       deep: true
     },
     // 素材标题
-    // 'model.name': {
-    //   handler (newVal) {
-    //     this.$emit('title', this.$refs.TagAreaText.htmlToString(newVal, false))
-    //   },
-    //   deep: true
-    // },
+    'model.name': {
+      handler (newVal) {
+        this.$emit('title', newVal)
+      },
+      deep: true
+    },
     'model.subdivisionIds': {
       handler (newVal) {
         if (newVal && newVal.length > 0) {
