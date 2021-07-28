@@ -2,7 +2,7 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <tag-area
+        <!-- <tag-area
           class="tag-area"
           v-model='model.name'
           tag="wise"
@@ -14,7 +14,17 @@
           :tools='tools'
           placeholder="请输入标题，长度在150个字符以内"
           emojiClass=''
-        />
+        /> -->
+        <el-input
+          type="textarea"
+          placeholder="请输入标题，长度在150个字符以内"
+          v-model="model.name"
+          @keydown.native='handleDown($event)'
+          maxlength="1500"
+          show-word-limit
+          class="input_textarea"
+        >
+        </el-input>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
@@ -43,62 +53,7 @@
         </div>
       </el-form-item>
       <el-form-item ref="imageForm" label="附件：">
-        <!-- <ul class="library-image__list clearfix" style="z-index:200">
-          <draggable v-model="mediaList" class="library-image__list clearfix" @update="datadragEnd" :move="getdata">
-            <li class="library-image__item" v-for="(item, index) in mediaList" :key="index">
-              <img v-if="item.pitType == 2" :src="defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
-              <img v-else :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
-              <div class="library-image__mask">
-                <div v-if="item.pitType == 1">
-                  <Icon type="zoom-in" @click="previewImage(index)" />
-                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
-                </div>
-                <div v-else>
-                  <Icon type="bianji" @click="editImage(index)" />
-                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
-                </div>
-              </div>
-            </li>
-            <li v-if="mediaList.length < imageNum">
-              <el-popover placement="top-start" width="160" trigger="click" ref="popoverView">
-                <div class="library-popover">
-                  <div>
-                    <el-upload
-                      ref="imageListUpload"
-                      class="library-uploader"
-                      :action="this.$api.core.sgUploadFile('image')"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeGuideUpload"
-                      accept=".jpg,.jpeg,.png"
-                      list-type="picture-card"
-                      multiple
-                    >
-                      <div class="popover-base">
-                        <Icon type="tupianbeifen-5" class="popover-icon"></Icon>
-                        <span class="popver-text">图片</span>
-                      </div>
-                    </el-upload>
-                  </div>
-                  <div class="popover-base" @click="addCustomImg">
-                    <Icon type="ns-edit" class="popover-icon"></Icon>
-                    <span class="popver-text">自建坑位</span>
-                  </div>
-                </div>
-                <div class="library-select-uploader" slot="reference">
-                  <div class="el-upload--picture-card">
-                    <Icon type="plus" />
-                  </div>
-                </div>
-              </el-popover>
-            </li>
-          </draggable>
-        </ul>
-        <div class="library-icon__extra">
-          <Icon type="ns-add-border" class="icon" />
-          <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
-        </div> -->
-        <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件</span>
+        <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件（加小程序码的最多8个）</span>
           <MessageList
             :list.sync="mediaList"
             @edit="editAnnexMessage"
@@ -348,12 +303,12 @@ export default {
       deep: true
     },
     // 素材标题
-    'model.name': {
-      handler (newVal) {
-        this.$emit('title', this.$refs.TagAreaText.htmlToString(newVal, false))
-      },
-      deep: true
-    },
+    // 'model.name': {
+    //   handler (newVal) {
+    //     this.$emit('title', this.$refs.TagAreaText.htmlToString(newVal, false))
+    //   },
+    //   deep: true
+    // },
     'model.subdivisionIds': {
       handler (newVal) {
         if (newVal && newVal.length > 0) {
@@ -568,6 +523,12 @@ export default {
         this.$refs.selectGoods.showToggle()
       })
     },
+    handleDown (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault()
+        return false
+      }
+    },
     selectMarketBack (obj) {
       if (obj.activityId) {
         this.$set(this.model, 'codeTarget', obj.activityId)
@@ -727,7 +688,17 @@ export default {
   font-weight: 400;
   border-radius: 2px;
 }
-
+.input_textarea{
+  height: 144px;
+  >>> .el-textarea__inner {
+    height: 100%;
+    resize:none;
+    overflow: hidden;
+  }
+  >>> .el-textarea__inner:focus{
+    border-color: #d9d9d9
+  }
+}
 @component-namespace library {
   @b image {
     @e list {
