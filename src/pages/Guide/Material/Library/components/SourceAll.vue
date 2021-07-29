@@ -40,13 +40,13 @@
           <tag-area
             class="tag-area"
             v-model='pitContent'
-            :maxlength="1500"
+            :maxlength="1348"
             :showEmoji='true'
             :showTextEmoji='true'
             :tools='tools'
             ref="tagContent"
             className="tagContent"
-            placeholder="可在此输入推广文案，限制长度在1500个字符以内"
+            placeholder="可在此输入推广文案，限制长度在1348个字符以内"
             tag="wise"
             emojiClass=''
           />
