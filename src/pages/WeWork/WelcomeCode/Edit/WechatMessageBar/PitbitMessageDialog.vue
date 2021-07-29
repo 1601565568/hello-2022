@@ -171,6 +171,19 @@ export default {
     /* overflow: hidden; */
   }
 }
+>>> .el-textarea__inner::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+>>> .el-textarea__inner::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background-color: #c3c3c3;
+}
+>>> .el-textarea__inner::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 .guide-input {
   height: 140px;
 }

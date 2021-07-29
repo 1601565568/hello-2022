@@ -90,7 +90,7 @@
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <!-- <div slot="content" v-html="strToRichText(item.content)"></div> -->
+                  <div slot="content" v-html="strToRichText(item.content)"></div>
                   <div class="showContent">
                     <EmojiText :text='item.content' />
                   </div>

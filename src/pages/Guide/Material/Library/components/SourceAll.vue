@@ -17,7 +17,7 @@
         /> -->
         <el-input
           type="textarea"
-          placeholder="请输入标题，长度在150个字符以内"
+          placeholder="请输入标题，长度在1500个字符以内"
           v-model="model.name"
           @keydown.native='handleDown($event)'
           maxlength="1500"
