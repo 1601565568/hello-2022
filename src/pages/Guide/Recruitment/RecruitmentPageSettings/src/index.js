@@ -76,6 +76,11 @@ export default {
       const result = await this.loadData()
       if (result) {
         this.model = this.formatLoadData(result)
+        if (!Array.isArray(this.model.rgOtherProtocol)) {
+          Object.assign(this.model, {
+            rgOtherProtocol: JSON.parse(this.model.rgOtherProtocol) || []
+          })
+        }
       }
     },
     async loadData () {
@@ -189,13 +194,10 @@ export default {
       this.model.rgOtherProtocol.forEach(item => {
         item.value = item.url
       })
-      // let array = []
-      // this.model.rgOtherProtocol.forEach(item => {
-      //   array.push({ name: item.name, value: item.url })
-      // })
-      this.model.rgOtherProtocol = JSON.stringify(this.model.rgOtherProtocol)
+      let obj = { ...this.model }
+      obj.rgOtherProtocol = JSON.stringify(obj.rgOtherProtocol)
       this.btnLoad = true
-      this.$http.fetch(this.$api.guide.recruitPageConfig.updateSet, this.model).then(() => {
+      this.$http.fetch(this.$api.guide.recruitPageConfig.updateSet, obj).then(() => {
         this.btnLoad = false
         this.$notify.success('修改成功')
       }).catch((resp) => {
