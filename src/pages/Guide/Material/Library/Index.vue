@@ -178,7 +178,7 @@
               <el-table-column label="内容" prop="content" :min-width="275">
                 <template slot-scope="scope">
                   <span v-if="scope.row.isDirectory === 1">{{scope.row.description || '-'}}</span>
-                  <table-item v-else :data="scope.row" @preview="togglePreview" :lengths='scope.row.mediaList && scope.row.mediaList.length'></table-item>
+                  <table-item v-else :data="scope.row" @preview="togglePreview" :icon='true' :lengths='scope.row.mediaList && scope.row.mediaList.length'></table-item>
                 </template>
               </el-table-column>
               <el-table-column label="标签" :min-width="200">
