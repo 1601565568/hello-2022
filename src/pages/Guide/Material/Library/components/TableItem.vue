@@ -64,7 +64,7 @@
           <div class="u_line"></div>
           <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
         </div>
-        <Icon class="icon_ty" v-if="lengths > 3" type="qitas" />
+        <Icon class="icon_ty" v-if="showOut" type="qitas" />
         <Icon class="icon_tys" v-if="data.codeType" type="erweima" />
       </div>
       <!-- 图文素材
@@ -122,7 +122,13 @@ export default {
   components: { GuideInfo, EmojiText },
   props: {
     data: Object,
-    lengths: Number
+    lengths: Number,
+    icon: {
+      type: Boolean,
+      default: function () {
+        return false
+      }
+    }
   },
   data () {
     return {
@@ -139,6 +145,11 @@ export default {
     },
     isFlag () {
       return this.data.mediaList && this.data.mediaList.slice(0, 2).some(item => item.type === 0 || item.type === 1) && (this.data.mediaList[0].type === 1 || this.data.mediaList[0].type === 0)
+    },
+    showOut () {
+      const v1 = this.icon && this.lengths > 1 && (this.data.mediaList[0].type === 2 || this.data.mediaList[0].type === 3 || this.data.mediaList[0].type === 4)
+      const v2 = this.icon && this.lengths > 3 && (this.data.mediaList[0].type === 0 || this.data.mediaList[0].type === 1)
+      return v1 || v2
     }
   },
   mounted () {
