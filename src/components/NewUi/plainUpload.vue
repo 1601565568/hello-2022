@@ -4,6 +4,7 @@
       class="upload-demo"
       ref='upload'
       accept=".pdf"
+      :limit='limit'
       :show-file-list='false'
       :action="$api.core.sgUploadFile('test')"
       :on-remove='handleRemove'
@@ -13,14 +14,14 @@
       <div v-loading="loading" class="u_btn"><img src='@/assets/btn.png' /></div>
     </el-upload>
     <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList.length > 0'>
-      <div class='el-upload-list__item'>
+      <div class='el-upload-list__item' v-for="(item, index) in fileList" :key="index">
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
-          {{fileList[0].name}}
+          {{item.name}}
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
-            <i class="el-icon-close" @click='handleRemove'></i>
+            <i class="el-icon-close" @click='handleRemove(index)'></i>
           </el-tooltip>
         </label>
       </div>
@@ -89,17 +90,17 @@ export default {
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.fileList = [{
+      this.fileList.push({
         name: res.result.originalFileName,
         url: res.result.url
-      }]
+      })
       this.loading = false
       this.$emit('onSuccess', this.fileList)
     },
     // 删除文件钩子
-    handleRemove () {
-      this.fileList = []
-      this.$emit('onRemove')
+    handleRemove (index) {
+      this.fileList.splice(index, 1)
+      this.$emit('onRemove', this.fileList)
     },
     uploadVideoProcess (event, file, fileList) {
       this.videoUploadPercent = Math.floor(event.percent)

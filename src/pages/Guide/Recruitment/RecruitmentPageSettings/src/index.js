@@ -21,6 +21,7 @@ export default {
         rgMemberRuleUrl: '', // 会员规则上传
         rgMemberRuleName: '', // 会员规则文件名
         ruleList: [], // 会员规则聚合数组
+        rgOtherProtocol: [], // 其他协议集合
         mpFollowState: 0, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: '', // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: 0, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -97,7 +98,7 @@ export default {
         picture, mpFollowQrcodeSize, mpFollowQrcodeX,
         mpFollowQrcodeY, mpFollowState, mpFollowBackground,
         rgBackground, rgButtonColor, rgButtonTextColor,
-        rgButtonText, rgPrivacyPolicyUrl, rgPrivacyPolicyName, rgMemberRuleUrl, rgMemberRuleName } = result
+        rgButtonText, rgPrivacyPolicyUrl, rgPrivacyPolicyName, rgMemberRuleUrl, rgMemberRuleName, rgOtherProtocol } = result
       return {
         id: id,
         title: title,
@@ -123,6 +124,8 @@ export default {
         rgMemberRuleUrl: rgMemberRuleUrl,
         rgMemberRuleName: rgMemberRuleName,
         ruleList: [{ name: rgMemberRuleName, url: rgMemberRuleUrl }],
+        // 其他协议上传集合
+        rgOtherProtocol: JSON.parse(rgOtherProtocol),
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -169,7 +172,28 @@ export default {
       this.model.rgMemberRuleUrl = ''
       this.$refs.searchform.validateField('rgMemberRuleUrl')
     },
+    // 其他规则上传成功
+    rgOtherProtocolSuccess (list) {
+      // let array = []
+      // list.forEach(item => {
+      //   array.push({name: item.name, value: item.url})
+      // })
+      // array.reduce()
+      this.model.rgOtherProtocol = list
+    },
+    // 其他规则删除成功
+    rgOtherProtocolRemove (list) {
+      this.model.rgOtherProtocol = list
+    },
     doUpdate () {
+      this.model.rgOtherProtocol.forEach(item => {
+        item.value = item.url
+      })
+      // let array = []
+      // this.model.rgOtherProtocol.forEach(item => {
+      //   array.push({ name: item.name, value: item.url })
+      // })
+      this.model.rgOtherProtocol = JSON.stringify(this.model.rgOtherProtocol)
       this.btnLoad = true
       this.$http.fetch(this.$api.guide.recruitPageConfig.updateSet, this.model).then(() => {
         this.btnLoad = false
