@@ -10,7 +10,8 @@
         @confirm="addMessage"
       >
         <div class="add-material-item" ref="ImageMessage">
-          <Icon type="tupianbeifen-5" class="icon" />
+          <Icon type="tupianbeifen-4" class="icon" />
+          <i class="iconfont icon-tupianbeifen5 icon"></i>
           <span class="item-tip">图片</span>
         </div>
       </ImageMessage>
@@ -20,13 +21,13 @@
         @confirm="addMessage"
       >
         <div class="add-material-item" ref="VideoMessage">
-          <Icon type="shipinbeifen-4" class="icon" />
+          <i class="iconfont icon-shipinbeifen4 icon"></i>
           <span class="item-tip">视频</span>
         </div>
       </VideoMessage>
     </div>
     <div class="add-material-item" @click="visibleLinkMessageDialog = true">
-      <Icon type="lianjiebeifen-4" class="icon" />
+      <i class="iconfont icon-lianjie icon"></i>
       <span class="item-tip">链接</span>
     </div>
     <div class="add-material-item" @click="visibleMiniProgramMessageDialog = true">
@@ -226,6 +227,11 @@ export default {
     .icon {
       font-size: 40px;
       color: #000;
+      height: 40px;
+      &:before{
+        vertical-align: top;
+        line-height: 40px;
+      }
     }
     .item-tip {
       color: #303133;
