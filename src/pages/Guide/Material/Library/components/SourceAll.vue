@@ -62,12 +62,12 @@
             placement="top-start"
             width="400"
             trigger="hover"
-            :disabled="model.mediaList.length >= 9"
+            :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
           >
             <template slot="reference">
-              <div class="add-material" v-if="model.mediaList.length < 9">
+              <div class="add-material" v-if="imageNum===8?mediaList.length < 8:mediaList.length < 9">
                 <Icon type="ns-add-border" class="icon"/>
-                添加消息内容
+                添加消息内容{
               </div>
               <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
                 <Icon type="ns-add-border" class="icon"/>
