@@ -19,7 +19,6 @@
                   v-model="personalQrcode.name"
                   maxlength="30"
                   show-word-limit
-                  onkeyup="this.value=this.value.replace(/\s+/g,'')"
                 />
               </el-form-grid>
             </el-form-item>
