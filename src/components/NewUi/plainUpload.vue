@@ -7,7 +7,6 @@
       :limit='limit'
       :show-file-list='false'
       :action="$api.core.sgUploadFile('test')"
-      :on-remove='handleRemove'
       :before-upload="beforeUpload"
       :file-list="fileList"
       :on-success="handleUploadSuccess">
@@ -21,7 +20,7 @@
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
-            <i class="el-icon-close" @click='handleRemove(index)'></i>
+            <i class="el-icon-close" @click='handleRemoves(index)'></i>
           </el-tooltip>
         </label>
       </div>
@@ -38,7 +37,8 @@ export default {
     return {
       loading: false,
       videoUploadPercent: '0',
-      fileList: []
+      fileList: [],
+      etuasyfdsa: false
     }
   },
   components: { ElUpload },
@@ -79,14 +79,17 @@ export default {
       const { name = '' } = file
       const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
       if (!this.imgType.includes(toUpperCaseName)) {
+        this.etuasyfdsa = false
         this.$notify.error(`仅支持上传${this.imgType.join('/')}的格式`)
         return false
       }
       if (file.size / 1024 / 1024 > this.maxSize) {
         this.$notify.error(`上传PDF不能超过${this.maxSize}M`)
+        this.etuasyfdsa = false
         return false
       }
-      this.loading = true
+      this.etuasyfdsa = true
+      // this.loading = true
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
@@ -98,7 +101,7 @@ export default {
       this.$emit('onSuccess', this.fileList)
     },
     // 删除文件钩子
-    handleRemove (index) {
+    handleRemoves (index) {
       this.fileList.splice(index, 1)
       this.$emit('onRemove', this.fileList)
     },
