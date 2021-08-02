@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree v-if='visible' ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :lazy="true" :data="area" v-model="model.shopArea" clearable></ns-droptree>
+              <ns-droptree v-if='visible' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
@@ -43,7 +43,7 @@
           </el-form-item>
           <el-form-item label="选择部门：">
             <el-form-grid size="md">
-              <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+              <ns-droptree ref="employeeDepartTree" :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工姓名：">
@@ -450,9 +450,8 @@ export default {
     'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
-        let areaIdStr = '/' + o1.value + '/'
         this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
             this.model.shopId = ''
             shopOptions.push(item)
           }
@@ -809,7 +808,7 @@ export default {
       }
       // 选择了门店
       if (vm.model.shopId || vm.model.shopType === 1 || vm.model.shopType === 2 || vm.model.shopIds) {
-        if (!vm.model.shopType2 && !vm.model.shopIds && ((!vm.model.shopArea || !vm.model.shopArea.value) && !vm.model.shopId)) {
+        if (!vm.model.shopType2 && !vm.model.shopIds && (!vm.model.shopArea || !vm.model.shopArea.value)) {
         } else {
           const shopIdArr = vm.model.shopId ? [vm.model.shopId] : (vm.model.shopIds && vm.model.shopIds.length > 0 ? vm.model.shopIds.split(',') : vm.shopOptions.map(item => { return item.value }))
           const allEmployees = filterEmpFlag ? filterEmpArr : vm.allEmployees
