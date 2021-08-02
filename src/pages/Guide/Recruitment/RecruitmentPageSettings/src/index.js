@@ -130,7 +130,7 @@ export default {
         rgMemberRuleName: rgMemberRuleName,
         ruleList: [{ name: rgMemberRuleName, url: rgMemberRuleUrl }],
         // 其他协议上传集合
-        rgOtherProtocol: (rgOtherProtocol && JSON.parse(rgOtherProtocol)) || [],
+        rgOtherProtocol: rgOtherProtocol ? JSON.parse(rgOtherProtocol) : [],
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
