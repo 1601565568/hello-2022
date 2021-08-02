@@ -8,9 +8,9 @@ export default {
           const { applicationType, isChatDataSettingReady, isContactSettingReady } = res.result
           commit('setLoad', true)
           commit('setThird', !applicationType)
-          commit('setPortals', !applicationType)
-          commit('setAddress', !applicationType || !!isChatDataSettingReady)
-          commit('setChat', !applicationType || !!isContactSettingReady)
+          commit('setPortals', !!applicationType)
+          commit('setAddress', !!isChatDataSettingReady)
+          commit('setChat', !!isContactSettingReady)
           resolve(true)
         }
       })
