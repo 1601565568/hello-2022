@@ -168,7 +168,7 @@
                     >
                   </div>
                   <div style="position: relative" class="modal">
-<!--                    替换/删除遮罩层开始-->
+                    <!--替换/删除遮罩层开始-->
                     <div class="material-model">
                       <div @click='selectMaterialShowFun()'>
                         <Icon type='ns-deal' color="#ffffff" font-size="14px" />
@@ -179,15 +179,17 @@
                         <span class="material-model-title">删除</span>
                       </div>
                     </div>
-<!--                    替换/删除遮罩层结束-->
+                    <!--替换/删除遮罩层结束-->
                     <div class='newTask-content__item catalogue-materials model-item' v-if="model.materialTitle">
-                      <p class='catalogue-materials__content'>
-                        {{model.materialTitle}}
-                      </p>
-                      <div class='catalogue-materials__item--media'>
+                      <addMaterial
+                       :data='selectMaterial'></addMaterial>
+                      <!-- <p class='catalogue-materials__content'> -->
+                        <!-- {{model.materialTitle}}
+                      </p> -->
+                      <!-- <div class='catalogue-materials__item--media'> -->
                         <!-- 视频、图片预览请使用SG项目中组件：NsPreview，可参照实例：https://test-sg.ecrpcloud.com/Guide/Material/Library -->
                         <!-- 展示图片结构 -->
-                        <div class='catalogue-materials__image' v-if="model.materialType === 1">
+                        <!-- <div class='catalogue-materials__image' v-if="model.materialType === 1">
                           <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
                             <img :src='item.url' />
                           </div>
@@ -208,9 +210,24 @@
                         <div class="catalogue-materials__article" v-if="model.materialType === 0">
                           <img :src="model.materialMsg.imageList[0].url">
                           <p>{{model.materialMsg.name}}</p>
-                        </div>
-                      </div>
+                        </div> -->
+                      <!-- </div> -->
                     </div>
+                  </div>
+                  <div class="v_btn" v-if="selectMaterial.mediaList && selectMaterial.mediaList.length > 0">共{{selectMaterial.mediaList && selectMaterial.mediaList.length || 0}}条信息
+                    <el-tooltip v-if="subNumber(0, selectMaterial.mediaList)" content="图片" placement="top" effect="light">
+                      <Icon class="icons" type="images" />
+                    </el-tooltip>
+                    <el-tooltip v-if="subNumber(2, selectMaterial.mediaList)" content="视频" placement="top" effect="light">
+                      <Icon class="icons" type="videos" />
+                    </el-tooltip>
+                    <el-tooltip v-if="subNumber(3, selectMaterial.mediaList)" content="链接" placement="top" effect="light">
+                      <Icon class="icons" type="links" />
+                    </el-tooltip>
+                    <el-tooltip v-if="subNumber(4, selectMaterial.mediaList)" content="小程序" placement="top" effect="light">
+                      <Icon class="icons" type="apps" />
+                    </el-tooltip>
+                    <span @click="dialogClick(selectMaterial)">查看全部</span>
                   </div>
                 </ElFormItem>
               </template>
@@ -252,6 +269,15 @@
                      :total="400">
       </el-pagination> -->
     </ElDialog>
+    <el-dialog
+      width="600px"
+      title="查看全部"
+      :visible.sync="dialogFlag">
+        <materialDialog
+          :listMap='listMap'
+          @preview="togglePreview"
+        ></materialDialog>
+    </el-dialog>
     <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom"></selectMaterialListModal>
   </div>
 </template>
@@ -259,6 +285,26 @@
 import addBrandTask from './src/addBrandTask.js'
 export default addBrandTask
 </script>
+<style lang="scss" scoped>
+.v_btn{
+  height: 20px;
+  font-size: 12px;
+  color: #383838;
+  line-height: 20px;
+  margin-top: 8px;
+  .icons{
+    margin-left: 4px;
+    }
+  svg{
+    vertical-align: -2px;
+  }
+  span{
+    margin-left: 5px;
+    color: #0094FC;
+    cursor: pointer;
+  }
+}
+</style>
 <style scoped>
 @import '@theme/variables.pcss';
 .newTask-head {

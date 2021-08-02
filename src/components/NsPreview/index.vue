@@ -14,14 +14,14 @@
             您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
           </video>
         </div>
-        <ul v-if="type === 'img'" class="preview-dialog__list">
+        <ul v-if="type === 'img' && !material" class="preview-dialog__list">
           <li v-for="(item, index) in list" :key="index" @click="goto(index)">
 <!--            <img :class="{'active': index === current}" :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">-->
             <img :class="{'active': index === current}" :src="item">
           </li>
         </ul>
-        <div v-if="type === 'img'" class="preview-dialog__left" @click="prevTo()"></div>
-        <div v-if="type === 'img'" class="preview-dialog__right" @click="nextTo()"></div>
+        <div v-if="type === 'img' && !material" class="preview-dialog__left" @click="prevTo()"></div>
+        <div v-if="type === 'img' && !material" class="preview-dialog__right" @click="nextTo()"></div>
       </div>
     </el-dialog>
   </div>
@@ -38,6 +38,7 @@ export default {
   },
   data () {
     return {
+      material: false,
       visible: false,
       type: 'img',
       current: 0,
@@ -45,13 +46,17 @@ export default {
     }
   },
   methods: {
-    toggleShow (current, list, type) {
+    toggleShow (current, list, type, material = false) {
       this.type = type || 'img'
       this.current = current || 0
       this.list = list || []
       this.visible = true
+      if (material) {
+        this.material = true
+      }
     },
     hide () {
+      this.material = false
       this.visible = false
     },
     goto (index) {

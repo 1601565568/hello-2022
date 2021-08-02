@@ -39,7 +39,7 @@
               minlength="1"
               clearable
               :input="(defaultModel.path = defaultModel.path.replace(/(^\s*)|(\s*$)/g, ''))"
-              placeholder="请输入小程序appId,长度在1-255个字符以内"
+              placeholder="请输入小程序路径,长度在1-255个字符以内"
               v-model="defaultModel.path"
               show-word-limit
             />

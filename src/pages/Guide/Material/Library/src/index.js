@@ -566,7 +566,7 @@ export default {
      * 图片、视频预览
      */
     togglePreview (current, list, type) {
-      this.$refs.preview.toggleShow(current, list, type)
+      this.$refs.preview.toggleShow(current, list, type, true)
     },
     /**
      * 设置素材标签

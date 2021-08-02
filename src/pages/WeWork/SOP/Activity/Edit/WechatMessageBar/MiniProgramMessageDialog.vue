@@ -24,8 +24,8 @@
               maxlength="255"
               minlength="1"
               clearable
-              :input="(defaultModel.page = defaultModel.page.replace(/(^\s*)|(\s*$)/g, ''))"
-              placeholder="请输入小程序appId,长度在1-255个字符以内"
+              :input="defaultModel.page = defaultModel.page.replace(/(^\s*)|(\s*$)/g, '')"
+              placeholder="请输入小程序路径,长度在1-255个字符以内"
               v-model="defaultModel.page"
               ref="content"
               show-word-limit

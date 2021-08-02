@@ -1,0 +1,125 @@
+.addAttach {
+  width: 136px;
+  height: 32px;
+  border: 1px solid #dcdfe6;
+  border-radius: 2px;
+  line-height: 32px;
+  font-size: 14px;
+  color: #0094fc;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background: #e8f2fe;
+    border: 1px solid #c3dbfc;
+  }
+}
+.library-popover {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popover-base {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.popver-image {
+  width: 35px;
+  height: 30px;
+}
+.popver-text {
+  font-size: 12px;
+  color: #303133;
+  line-height: 20px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+.popover-icon {
+  font-size: 35px;
+  color: #383838;
+}
+.tip-text {
+  font-size: 12px;
+  color: #595959;
+  font-weight: 400;
+}
+.tip-reminder {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f2aa18;
+  display: inline-block;
+  margin-right: 4px;
+}
+.library-uploader >>> .el-upload--picture-card {
+  width: 80px;
+  height: 80px;
+  border: none;
+  background-color: transparent;
+  color: #8c8c8c;
+  line-height: 80px;
+  border-radius: var(--default-radius-mini);
+}
+
+.attach-list {
+  width: 540px;
+  margin-bottom: 16px;
+}
+.list-base {
+  padding: 0 10px;
+  height: 52px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit-text {
+  width: 35px;
+  display: inline-block;
+  font-size: 12px;
+  color: #0094fc;
+  line-height: 20px;
+  text-align: right;
+}
+.list-left {
+  display: flex;
+  flex-direction: row;
+}
+.attach-name {
+  width: 260px;
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+.attach-icon {
+  font-size: 16px;
+  color: #383838;
+  margin-right: 8px;
+}
+.sort-view {
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+}
+.sort-view-end {
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.sort-icon {
+  color: #0091fa;
+  font-size: 16px;
+  width: 30px;
+}

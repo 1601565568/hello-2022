@@ -2,17 +2,29 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <div class="top-input-view">
-          <el-input
-            type="textarea"
-            maxlength="150"
-            v-model="model.name"
-            placeholder="请输入标题，长度在150个字符以内"
-            style="width: 540px"
-            :input="(model.name = model.name.replace(/\s+/g, ''))"
-            clearable
-          ></el-input>
-        </div>
+        <!-- <tag-area
+          class="tag-area"
+          v-model='model.name'
+          tag="wise"
+          ref="TagAreaText"
+          :maxlength="150"
+          :showEmoji='false'
+          :disabledEnter='true'
+          :showTextEmoji='false'
+          :tools='tools'
+          placeholder="请输入标题，长度在150个字符以内"
+          emojiClass=''
+        /> -->
+        <el-input
+          type="textarea"
+          placeholder="请输入标题，长度在150个字符以内"
+          v-model="model.name"
+          @keydown.native='handleDown($event)'
+          maxlength="150"
+          show-word-limit
+          class="input_textarea"
+        >
+        </el-input>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
@@ -23,79 +35,55 @@
           <span>添加标签</span>
         </span>
       </el-form-item>
-      <el-form-item label="推广文案：" prop="content">
+      <el-form-item label="推广文案：">
         <div class="top-title-view">
           <tag-area
-            :maxlength="1500"
-            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-            :showEmoji="true"
-            v-model="pitContent"
-            :tools="tools"
+            class="tag-area"
+            v-model='pitContent'
+            :maxlength="1348"
+            :showEmoji='true'
+            :showTextEmoji='true'
+            :tools='tools'
             ref="tagContent"
             className="tagContent"
-          ></tag-area>
+            placeholder="可在此输入推广文案，限制长度在1348个字符以内"
+            tag="wise"
+            emojiClass=''
+          />
         </div>
       </el-form-item>
-      <el-form-item ref="imageForm" label="素材图片：" prop="mediaList">
-        <ul class="library-image__list clearfix" style="z-index:200">
-          <draggable v-model="mediaList" class="library-image__list clearfix" @update="datadragEnd" :move="getdata">
-            <li class="library-image__item" v-for="(item, index) in mediaList" :key="index">
-              <img v-if="item.pitType == 2" :src="defaultImgUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
-              <img v-else :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
-              <div class="library-image__mask">
-                <div v-if="item.pitType == 1">
-                  <Icon type="zoom-in" @click="previewImage(index)" />
-                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
-                </div>
-                <div v-else>
-                  <Icon type="bianji" @click="editImage(index)" />
-                  <Icon style="font-size:18px;margin-left:10px" type="ns-delete" @click="removeImage(index)" />
-                </div>
+      <el-form-item ref="imageForm" label="附件：">
+        <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件（加小程序码的最多8个）</span>
+          <MessageList
+            :list.sync="mediaList"
+            @edit="editAnnexMessage"
+          />
+          <el-popover
+            placement="top-start"
+            width="400"
+            trigger="hover"
+            :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
+          >
+            <template slot="reference">
+              <div class="add-material" v-if="imageNum===8?mediaList.length < 8:mediaList.length < 9">
+                <Icon type="ns-add-border" class="icon"/>
+                添加消息内容{
               </div>
-            </li>
-            <li v-if="mediaList.length < imageNum">
-              <el-popover placement="top-start" width="160" trigger="click" ref="popoverView">
-                <div class="library-popover">
-                  <div>
-                    <el-upload
-                      ref="imageListUpload"
-                      class="library-uploader"
-                      :action="this.$api.core.sgUploadFile('image')"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeGuideUpload"
-                      accept=".jpg,.jpeg,.png"
-                      list-type="picture-card"
-                      multiple
-                    >
-                      <div class="popover-base">
-                        <Icon type="tupianbeifen-5" class="popover-icon"></Icon>
-                        <span class="popver-text">图片</span>
-                      </div>
-                    </el-upload>
-                  </div>
-                  <div class="popover-base" @click="addCustomImg">
-                    <Icon type="ns-edit" class="popover-icon"></Icon>
-                    <span class="popver-text">自建坑位</span>
-                  </div>
-                </div>
-                <div class="library-select-uploader" slot="reference">
-                  <div class="el-upload--picture-card">
-                    <Icon type="plus" />
-                  </div>
-                </div>
-              </el-popover>
-            </li>
-          </draggable>
-        </ul>
-        <div class="library-icon__extra">
-          <Icon type="ns-add-border" class="icon" />
-          <span>上传图片不能大于2MB；图片最多上传9张（加小程序码的最多8张）</span>
-        </div>
+              <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
+                <Icon type="ns-add-border" class="icon"/>
+                添加消息内容
+              </div>
+            </template>
+            <WechatMessageBar
+              :pitBit='true'
+              ref="WechatMessageBar"
+              @addMessage="addAnnexMessage"
+            />
+          </el-popover>
       </el-form-item>
-      <el-form-item ref="attach" label="附件：">
+      <!-- <el-form-item ref="attach" label="附件：">
         <AttachView />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
@@ -131,18 +119,18 @@
       </el-form-item>
       <el-form-item label="保存到：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
-        <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
+        <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
-    <div class="library-footer">
+    <!-- <div class="library-footer">
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
-    </div>
+    </div> -->
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
     <div class="cus-diglog-view">
-      <el-dialog :visible="showEdit" title="指南" width="658px" @close="handleCloseDia">
+      <!-- <el-dialog :visible="showEdit" title="指南" width="658px" @close="handleCloseDia">
         <div>
           <div class="guide-text">指南说明</div>
           <tag-area :maxlength="1500" placeholder="请输入" :showEmoji="false" v-model="guideText" :tools="tools" v-if="showEdit" ref="tagArea" className="tagArea"></tag-area>
@@ -180,32 +168,32 @@
           <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
           <ns-button type="primary" @click="handleSure" class="diag-view">确定</ns-button>
         </div>
-      </el-dialog>
+      </el-dialog> -->
     </div>
     <GuideInfo ref="guideInfo" />
   </div>
 </template>
 <script>
 import FolderTree from './FolderTree'
-import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
 import SelectMarket from '../../components/selectMarket'
 import SelectGoods from '../../components/selectGoods'
 import GuideInfo from './GuideInfo'
 import TagArea from '@/components/NewUi/TagArea'
-import AttachView from './AttachView'
-import draggable from 'vuedraggable'
+// import AttachView from './AttachView'
+// import draggable from 'vuedraggable'
+import MessageList from './MessageList'
+import WechatMessageBar from '@/pages/WeWork/WelcomeCode/Edit/WechatMessageBar/index'
 export default {
   name: 'imageform',
   components: {
     FolderTree,
-    ElUpload,
     SelectMarket,
     SelectGoods,
     GuideInfo,
     TagArea,
-    AttachView,
-    draggable
+    MessageList,
+    WechatMessageBar
   },
   props: {
     labelList: {
@@ -268,20 +256,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        content: [
-          {
-            required: true,
-            message: '请输入推广文案',
-            trigger: ['blur', 'change']
-          },
-          {
-            min: 0,
-            max: 1500,
-            message: '限制长度在1500个字符以内',
-            trigger: ['blur', 'change']
-          }
-        ],
-        mediaList: [{ required: true, message: '请添加素材图片', trigger: 'change' }]
+        mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }]
       },
       mType: 1,
       imageNum: 9,
@@ -320,6 +295,30 @@ export default {
     }
   },
   watch: {
+    mediaList: {
+      handler (newVal) {
+        this.$refs.form.validateField('mediaList')
+        this.$emit('list', newVal)
+      },
+      deep: true
+    },
+    // 素材标题
+    'model.name': {
+      handler (newVal) {
+        this.$emit('title', newVal)
+      },
+      deep: true
+    },
+    'model.subdivisionIds': {
+      handler (newVal) {
+        if (newVal && newVal.length > 0) {
+          this.$emit('subdivision', true)
+        } else {
+          this.$emit('subdivision', false)
+        }
+      },
+      deep: true
+    },
     detail (newObj) {
       const parentIds = newObj.parentPath.split('/')
       const parentNames = newObj.parentPathName.split('/')
@@ -346,6 +345,7 @@ export default {
     },
     pitContent (newObj) {
       this.model.content = this.$refs.tagContent.htmlToString(newObj)
+      this.$emit('pitContent', this.model.content)
     }
   },
   methods: {
@@ -406,6 +406,23 @@ export default {
       this.guideText = ''
       this.showEidtImg = ''
     },
+    editAnnexMessage (context) {
+      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+    },
+    addAnnexMessage (context) {
+      const { index, content, type } = context
+      if (index > -1) {
+        // 编辑消息
+        this.model.mediaList.splice(index, 1, context)
+      } else {
+        // 新增消息
+        if (this.model.mediaList.length < 9) {
+          this.model.mediaList.push(context)
+        } else {
+          this.$notify.error('附件已达上限（9个），不能再添加')
+        }
+      }
+    },
     editImage (index) {
       this.editIndex = index
       let item = this.model.mediaList[index]
@@ -440,39 +457,38 @@ export default {
     },
     removeImage (index) {
       this.model.mediaList.splice(index, 1)
-      this.$refs.form.validateField('mediaList')
     },
-    handleAvatarSuccess (res, file, fileList) {
-      if (file.size / 1024 / 1024 > 2) {
-        return
-      }
-      if (this.model.mediaList.length < this.imageNum) {
-        let obj = {
-          pitType: 1,
-          pitText: '',
-          type: 1,
-          url: res.result.url
-        }
-        this.model.mediaList.push(obj)
-      }
-      this.$refs.imageForm.clearValidate()
-      this.$refs.popoverView.doClose()
-    },
-    handleGuideSuccess (res, file) {
-      let item = this.mediaList[this.editIndex]
-      if (item) {
-        item.url = res.result.url
-      } else {
-        let obj = {
-          pitType: 2,
-          pitText: this.guideText,
-          type: 1,
-          url: res.result.url
-        }
-        // this.mediaList[this.editIndex] = obj
-      }
-      this.showEidtImg = res.result.url
-    },
+    // handleAvatarSuccess (res, file, fileList) {
+    //   if (file.size / 1024 / 1024 > 2) {
+    //     return
+    //   }
+    //   if (this.model.mediaList.length < this.imageNum) {
+    //     let obj = {
+    //       pitType: 1,
+    //       pitText: '',
+    //       type: 1,
+    //       url: res.result.url
+    //     }
+    //     this.model.mediaList.push(obj)
+    //   }
+    //   this.$refs.imageForm.clearValidate()
+    //   this.$refs.popoverView.doClose()
+    // },
+    // handleGuideSuccess (res, file) {
+    //   let item = this.mediaList[this.editIndex]
+    //   if (item) {
+    //     item.url = res.result.url
+    //   } else {
+    //     let obj = {
+    //       pitType: 2,
+    //       pitText: this.guideText,
+    //       type: 1,
+    //       url: res.result.url
+    //     }
+    //     // this.mediaList[this.editIndex] = obj
+    //   }
+    //   this.showEidtImg = res.result.url
+    // },
     beforeGuideUpload (file) {
       this.beforeAvatarUpload(file)
       this.$refs.popoverView.doClose()
@@ -507,6 +523,12 @@ export default {
         this.$refs.selectGoods.showToggle()
       })
     },
+    handleDown (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault()
+        return false
+      }
+    },
     selectMarketBack (obj) {
       if (obj.activityId) {
         this.$set(this.model, 'codeTarget', obj.activityId)
@@ -536,10 +558,15 @@ export default {
       if (params.codeTarget === '') {
         params.codeType = 0
       }
+      let flag = params.mediaList.length > 0 && params.mediaList.some(item => item.type === 1 || item.type === 0)
+      if (!flag && (params.codeType === 1)) {
+        this.$notify.warning('您未添加图片，暂无法植入二维码，请先添加图片')
+        return false
+      }
       params.materialScriptType = 1
       for (let i = 0; i < params.mediaList.length; i++) {
         let item = params.mediaList[i]
-        if (item.pitType === 2) {
+        if (item.type === 0) {
           params.materialScriptType = 2
           break
         }
@@ -588,13 +615,23 @@ export default {
 }
 </script>
 <style scoped>
-@import '@theme/variables.pcss';
+/* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
 .top-title-view {
   width: 540px;
   height: 144px;
 }
-
+.library-image {
+  >>> .el-form-item--small.el-form-item  {
+    margin-bottom: 24px;
+  }
+  >>> .w-textarea{
+    margin-bottom: 0;
+  }
+}
+.library-image{
+  /* padding-top: 12px; */
+}
 .guide-text {
   height: 22px;
   font-size: 14px;
@@ -651,7 +688,17 @@ export default {
   font-weight: 400;
   border-radius: 2px;
 }
-
+.input_textarea{
+  height: 144px;
+  >>> .el-textarea__inner {
+    height: 100%;
+    resize:none;
+    overflow: hidden;
+  }
+  >>> .el-textarea__inner:focus{
+    border-color: #d9d9d9
+  }
+}
 @component-namespace library {
   @b image {
     @e list {
@@ -830,5 +877,51 @@ export default {
       font-weight: 400;
     }
   }
+}
+</style>
+<style lang="scss" scoped>
+.add-material {
+  margin-top: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 136px;
+  height: 32px;
+  color: #0094FC;
+  background: #FFFFFF;
+  border: 1px solid #DCDFE6;
+  border-radius: 2px;
+  .icon {
+    font-size: 13px;
+    color:#0091FA;
+    margin-right: 5px;
+  }
+}
+.add-material:hover{
+  background: #e6f2ff;
+}
+.add-material-disabled {
+  background: #F5F5F5;
+  border: 1px solid #D9D9D9;
+  color: #BFBFBF;
+  .icon {
+    color:#BFBFBF;
+  }
+}
+.add-material-disabled:hover{
+  background: #F5F5F5;
+  cursor: not-allowed;
+}
+.add-tip::before {
+  content: '';
+  display: inline-block;
+  background: #f2aa18;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  margin-bottom: 1px;
 }
 </style>
