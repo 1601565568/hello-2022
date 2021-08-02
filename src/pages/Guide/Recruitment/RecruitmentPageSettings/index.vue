@@ -93,7 +93,7 @@
             </el-form-item>
             <div class="u_text">支持上传其他协议，可上传多个文件，上传后协议名称显示为文件名称</div>
             <el-form-item label='其他协议'>
-              <plain-upload :file_list='model.rgOtherProtocol' :limit='100' :maxSize='10' @onRemove='rgOtherProtocolRemove' @onSuccess='rgOtherProtocolSuccess'></plain-upload>
+              <plain-upload :file_list='model.rgOtherProtocol' :limits='100' :maxSize='10' @onRemove='rgOtherProtocolRemove' @onSuccess='rgOtherProtocolSuccess'></plain-upload>
             </el-form-item>
           </template>
           <template slot='collapse-right'>
