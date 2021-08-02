@@ -1,46 +1,37 @@
 <template>
   <div>
-    <ElDialog
-      width="600px"
-      title="小程序"
-      :visible="visible"
-      :before-close="close"
-      @open="open"
-      :show-scroll-x="false"
-      modal-append-to-body
-      append-to-body
-    >
+    <ElDialog width="600px" title="小程序" :visible="visible" :before-close="close" @open="open" :show-scroll-x="false" modal-append-to-body append-to-body>
       <div class="margin-lr-small">
         <ElForm :rules="rules" ref="searchform" :model="defaultModel">
           <ElFormItem>
             <div class="message-headling">跳转小程序：</div>
           </ElFormItem>
-          <ElFormItem label="小程序appId：" prop="appid" label-width="100px" >
+          <ElFormItem label="小程序appId：" prop="appid" label-width="100px">
             <ElInput
               type="text"
-              maxlength='30'
-              minlength='5'
+              maxlength="30"
+              minlength="5"
               clearable
-              :input="defaultModel.appid = defaultModel.appid.replace(/(^\s*)|(\s*$)/g, '')"
+              :input="(defaultModel.appid = defaultModel.appid.replace(/(^\s*)|(\s*$)/g, ''))"
               placeholder="请输入小程序appId,长度在5-30个字符以内"
               v-model="defaultModel.appid"
               show-word-limit
             />
           </ElFormItem>
-          <ElFormItem label="小程序路径：" prop="page"  label-width="100px" >
+          <ElFormItem label="小程序路径：" prop="page" label-width="100px">
             <ElInput
               type="text"
-              maxlength='255'
-              minlength='1'
+              maxlength="255"
+              minlength="1"
               clearable
-              :input="defaultModel.page = defaultModel.page.replace(/(^\s*)|(\s*$)/g, '')"
+              :input="(defaultModel.page = defaultModel.page.replace(/(^\s*)|(\s*$)/g, ''))"
               placeholder="请输入小程序appId,长度在1-255个字符以内"
               v-model="defaultModel.page"
               ref="content"
               show-word-limit
             />
           </ElFormItem>
-          <ElFormItem label="" label-width="100px" >
+          <ElFormItem label="" label-width="100px">
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
             </ElFormGrid>
@@ -69,40 +60,40 @@
           <ElFormItem label-width="83px">
             <span style="color: #8C8C8C;">
               请先在企业微信后台将小程序配置到工作台
-              <MiniConfigHelp/>
+              <MiniConfigHelp />
             </span>
           </ElFormItem>
           <ElFormItem label-width="83px">
             <span style="color: #8C8C8C;">
-              注:小程序路径后需要带上.html，如 pages/member/test.html?id=1
+              注:小程序路径后需要带上.html
+              <el-popover placement="top-start" title="" width="300" trigger="hover" content="">
+                <slot>
+                  <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
+                  <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
+                </slot>
+                <el-button slot="reference" style="color:#1890ff">示例说明</el-button>
+              </el-popover>
             </span>
           </ElFormItem>
           <ElFormItem>
             <div class="message-headling">小程序卡片展示：</div>
           </ElFormItem>
-          <ElFormItem label="标题：" prop="title" label-width="100px" >
+          <ElFormItem label="标题：" prop="title" label-width="100px">
             <ElInput
               type="text"
-              maxlength='20'
-              minlength='1'
+              maxlength="20"
+              minlength="1"
               clearable
-              :input="defaultModel.title = defaultModel.title.replace(/(^\s*)|(\s*$)/g, '')"
+              :input="(defaultModel.title = defaultModel.title.replace(/(^\s*)|(\s*$)/g, ''))"
               placeholder="请输入标题,长度在1-20个字符以内"
               v-model="defaultModel.title"
               show-word-limit
             />
           </ElFormItem>
-          <ElFormItem label="封面图：" prop="imgUrl"  label-width="100px" class="el-form-validate__box" >
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('message')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-              clearable
-              class="message-upload"
-            >
-              <img v-if="defaultModel.imgUrl" :src="defaultModel.imgUrl" class="message-upload__avatar">
-              <Icon type="plus" className="message-upload__tip" v-else/>
+          <ElFormItem label="封面图：" prop="imgUrl" label-width="100px" class="el-form-validate__box">
+            <ElUpload :action="this.$api.core.sgUploadFile('message')" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" clearable class="message-upload">
+              <img v-if="defaultModel.imgUrl" :src="defaultModel.imgUrl" class="message-upload__avatar" />
+              <Icon type="plus" className="message-upload__tip" v-else />
             </ElUpload>
           </ElFormItem>
           <ElFormItem label-width="83px">
@@ -174,9 +165,7 @@ export default {
           { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' },
           { required: true, validator: validateAppId, trigger: 'blur' }
         ],
-        imgUrl: [
-          { required: true, message: '请传入图片', trigger: 'blur' }
-        ],
+        imgUrl: [{ required: true, message: '请传入图片', trigger: 'blur' }],
         page: [
           { required: true, message: '请输入小程序路径', trigger: 'blur' },
           { min: 1, max: 255, message: '长度在1-255个字符以内', trigger: 'blur' }
@@ -184,9 +173,7 @@ export default {
       }
     }
   },
-  mounted () {
-
-  },
+  mounted () {},
   methods: {
     // 为链接插入预留字段
     insertPlaceHolderToWeb (append) {
@@ -248,117 +235,117 @@ export default {
 }
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
+@import '@theme/variables.pcss';
 
-  /* 视频样式设置 start */
-  .avatar-uploader {
-    line-height: 0;
-  }
-  .avatar-uploader .el-upload {
+/* 视频样式设置 start */
+.avatar-uploader {
+  line-height: 0;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--theme-base-border-color-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: var(--theme-color-primary-light);
+}
+.avatar-uploader-icon {
+  font-size: 20px;
+  color: var(--theme-color-white);
+}
+.avatar {
+  width: 400px;
+  height: 250px;
+  display: block;
+}
+.video-avatar {
+  width: 400px;
+  height: 250px;
+  border-radius: 4px;
+}
+/* 视频样式设置 end */
+
+@component-namespace message {
+  @b detail {
+    padding: 20px 20px 0;
+    margin-bottom: 20px;
     border: 1px dashed var(--theme-base-border-color-primary);
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: var(--theme-color-primary-light);
-  }
-  .avatar-uploader-icon {
-    font-size: 20px;
-    color: var(--theme-color-white);
-  }
-  .avatar {
-    width: 400px;
-    height: 250px;
-    display: block;
-  }
-  .video-avatar {
-    width: 400px;
-    height: 250px;
-    border-radius: 4px;
-  }
-  /* 视频样式设置 end */
-
-  @component-namespace message {
-    @b detail {
-      padding: 20px 20px 0;
-      margin-bottom: 20px;
-      border: 1px dashed var(--theme-base-border-color-primary);
-      border-radius: 6px;
-      @e btn {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        >>> .el-tag {
-          cursor: text;
-        }
-      }
-      @e table {
-        margin-top: var(--default-margin-larger);
-      }
-      >>> .ElImage {
-        background-color: unset;
-      }
-    }
-    @b item {
-      display: flex;
-      align-items: center;
-      @m title {
-        line-height: 18px;
-      }
-      @m image {
-        margin: 7px 0;
-      }
-      @m add {
-        line-height: 60px;
-        height: 60px;
-      }
-      @m opposite {
-        width: 76px;
-        height: 46px;
-        position: relative;
-      }
-      @e broadcast {
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 8px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, .4);
-        border-radius: 50%;
-      }
-    }
-    @b circle {
-      width: 0;
-      height: 0;
-      border-width: 4px;
-      border-style: solid;
-      border-color: transparent transparent transparent var(--theme-color-white);
-    }
-    @b prompt {
+    border-radius: 6px;
+    @e btn {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: var(--default-margin-larger) 0;
-      @e mass {
-        text-align: center;
-        padding: var(--default-padding-larger) 25px;
-        cursor: pointer;
-        border-right: 1px solid var(--theme-base-border-color-primary);
+      >>> .el-tag {
+        cursor: text;
+      }
+    }
+    @e table {
+      margin-top: var(--default-margin-larger);
+    }
+    >>> .ElImage {
+      background-color: unset;
+    }
+  }
+  @b item {
+    display: flex;
+    align-items: center;
+    @m title {
+      line-height: 18px;
+    }
+    @m image {
+      margin: 7px 0;
+    }
+    @m add {
+      line-height: 60px;
+      height: 60px;
+    }
+    @m opposite {
+      width: 76px;
+      height: 46px;
+      position: relative;
+    }
+    @e broadcast {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 8px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+    }
+  }
+  @b circle {
+    width: 0;
+    height: 0;
+    border-width: 4px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--theme-color-white);
+  }
+  @b prompt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: var(--default-margin-larger) 0;
+    @e mass {
+      text-align: center;
+      padding: var(--default-padding-larger) 25px;
+      cursor: pointer;
+      border-right: 1px solid var(--theme-base-border-color-primary);
       &:hover {
         .message-hovericolor {
           color: var(--theme-color-primary);
         }
       }
-    &:last-child {
-       border-right: 0;
-     }
+      &:last-child {
+        border-right: 0;
+      }
       @m topspace {
         margin-top: var(--default-margin-small);
       }
@@ -380,28 +367,28 @@ export default {
       position: relative;
       border: 1px solid var(--theme-base-border-color-primary);
       border-radius: var(--default-radius-mini);
-  &:hover {
-     border-color: var(--theme-color-primary-light);
-   }
-  }
-  @e tip {
-    font-size: var(--default-font-size-large);
-    color: var(--theme-base-border-color-primary);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-  }
-  @e avatar {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -1px;
-    left: -1px;
-  }
+      &:hover {
+        border-color: var(--theme-color-primary-light);
+      }
+    }
+    @e tip {
+      font-size: var(--default-font-size-large);
+      color: var(--theme-base-border-color-primary);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    @e avatar {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      top: -1px;
+      left: -1px;
+    }
   }
   @b videodialog {
-    >>>> .el-dialog__headerbtn {
+    >>>>.el-dialog__headerbtn {
       display: none;
     }
     >>> .el-dialog__body {
@@ -411,5 +398,5 @@ export default {
   @b spacelarger {
     margin-top: var(--default-margin-larger);
   }
-  }
+}
 </style>
