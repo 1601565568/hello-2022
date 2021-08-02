@@ -4,6 +4,7 @@
       class="upload-demo"
       ref='upload'
       accept=".pdf"
+      :limits='limits'
       :limit='limit'
       :show-file-list='false'
       :action="$api.core.sgUploadFile('test')"
@@ -35,6 +36,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
+      limit: 1,
       loading: false,
       videoUploadPercent: '0',
       fileList: [],
@@ -56,7 +58,7 @@ export default {
       },
       type: Array
     },
-    limit: {
+    limits: {
       default () {
         return 1
       },
@@ -89,20 +91,37 @@ export default {
         return false
       }
       this.etuasyfdsa = true
-      // this.loading = true
+      this.loading = true
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.fileList.push({
-        name: res.result.originalFileName,
-        url: res.result.url
-      })
+      if (this.limits === 1) {
+        this.fileList = [{
+          name: res.result.originalFileName,
+          url: res.result.url
+        }]
+      } else {
+        this.fileList.push({
+          name: res.result.originalFileName,
+          url: res.result.url
+        })
+      }
       this.loading = false
       this.$emit('onSuccess', this.fileList)
     },
+    // this.fileList = [{
+    //     name: res.result.originalFileName,
+    //     url: res.result.url
+    //   }]
+    //   this.loading = false
+    //   this.$emit('onSuccess', this.fileList)
     // 删除文件钩子
     handleRemoves (index) {
-      this.fileList.splice(index, 1)
+      if (this.limits === 1) {
+        this.fileList = []
+      } else {
+        this.fileList.splice(index, 1)
+      }
       this.$emit('onRemove', this.fileList)
     },
     uploadVideoProcess (event, file, fileList) {
@@ -114,6 +133,16 @@ export default {
       handler (newVal) {
         if (newVal.length > 0 && newVal[0].url) {
           this.fileList = newVal
+        }
+      },
+      immediate: true
+    },
+    limits: {
+      handler (newVal) {
+        if (newVal === 1) {
+          this.limit = 1000
+        } else {
+          this.limit = newVal
         }
       },
       immediate: true

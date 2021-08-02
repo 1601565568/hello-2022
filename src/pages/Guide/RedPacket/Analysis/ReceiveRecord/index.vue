@@ -24,7 +24,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="有效期：" class='el-form__change'>
+          <el-form-item label="领取时间：" class='el-form__change'>
             <el-date-picker
               v-model="seachDate"
               type="datetimerange"
