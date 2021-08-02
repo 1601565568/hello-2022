@@ -15,15 +15,7 @@
           placeholder="请输入标题，长度在150个字符以内"
           emojiClass=''
         /> -->
-        <el-input
-          type="textarea"
-          placeholder="请输入标题，长度在150个字符以内"
-          v-model="model.name"
-          @keydown.native='handleDown($event)'
-          maxlength="150"
-          show-word-limit
-          class="input_textarea"
-        >
+        <el-input type="textarea" placeholder="请输入标题，长度在150个字符以内" v-model="model.name" @keydown.native="handleDown($event)" maxlength="150" show-word-limit class="input_textarea">
         </el-input>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
@@ -39,47 +31,35 @@
         <div class="top-title-view">
           <tag-area
             class="tag-area"
-            v-model='pitContent'
+            v-model="pitContent"
             :maxlength="1348"
-            :showEmoji='true'
-            :showTextEmoji='true'
-            :tools='tools'
+            :showEmoji="true"
+            :showTextEmoji="true"
+            :tools="tools"
             ref="tagContent"
             className="tagContent"
             placeholder="可在此输入推广文案，限制长度在1348个字符以内"
             tag="wise"
-            emojiClass=''
+            emojiClass=""
           />
         </div>
       </el-form-item>
       <el-form-item ref="imageForm" label="附件：">
         <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件（加小程序码的最多8个）</span>
-          <MessageList
-            :list.sync="mediaList"
-            @edit="editAnnexMessage"
-          />
-          <el-popover
-            placement="top-start"
-            width="400"
-            trigger="hover"
-            :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
-          >
-            <template slot="reference">
-              <div class="add-material" v-if="imageNum===8?mediaList.length < 8:mediaList.length < 9">
-                <Icon type="ns-add-border" class="icon"/>
-                添加消息内容{
-              </div>
-              <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
-                <Icon type="ns-add-border" class="icon"/>
-                添加消息内容
-              </div>
-            </template>
-            <WechatMessageBar
-              :pitBit='true'
-              ref="WechatMessageBar"
-              @addMessage="addAnnexMessage"
-            />
-          </el-popover>
+        <MessageList :list.sync="mediaList" @edit="editAnnexMessage" />
+        <el-popover placement="top-start" width="400" trigger="hover" :disabled="!(imageNum === 8 ? mediaList.length < 8 : mediaList.length < 9)">
+          <template slot="reference">
+            <div class="add-material" v-if="imageNum === 8 ? mediaList.length < 8 : mediaList.length < 9">
+              <Icon type="ns-add-border" class="icon" />
+              添加消息内容
+            </div>
+            <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
+              <Icon type="ns-add-border" class="icon" />
+              添加消息内容
+            </div>
+          </template>
+          <WechatMessageBar :pitBit="true" ref="WechatMessageBar" @addMessage="addAnnexMessage" />
+        </el-popover>
       </el-form-item>
       <!-- <el-form-item ref="attach" label="附件：">
         <AttachView />
@@ -119,7 +99,7 @@
       </el-form-item>
       <el-form-item label="保存到：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
-        <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
+        <ns-button style="margin-left: 12px" type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
     <!-- <div class="library-footer">
@@ -559,7 +539,7 @@ export default {
         params.codeType = 0
       }
       let flag = params.mediaList.length > 0 && params.mediaList.some(item => item.type === 1 || item.type === 0)
-      if (!flag && (params.codeType === 1)) {
+      if (!flag && params.codeType === 1) {
         this.$notify.warning('您未添加图片，暂无法植入二维码，请先添加图片')
         return false
       }
@@ -622,14 +602,14 @@ export default {
   height: 144px;
 }
 .library-image {
-  >>> .el-form-item--small.el-form-item  {
+  >>> .el-form-item--small.el-form-item {
     margin-bottom: 24px;
   }
-  >>> .w-textarea{
+  >>> .w-textarea {
     margin-bottom: 0;
   }
 }
-.library-image{
+.library-image {
   /* padding-top: 12px; */
 }
 .guide-text {
@@ -688,15 +668,15 @@ export default {
   font-weight: 400;
   border-radius: 2px;
 }
-.input_textarea{
+.input_textarea {
   height: 144px;
   >>> .el-textarea__inner {
     height: 100%;
-    resize:none;
+    resize: none;
     overflow: hidden;
   }
-  >>> .el-textarea__inner:focus{
-    border-color: #d9d9d9
+  >>> .el-textarea__inner:focus {
+    border-color: #d9d9d9;
   }
 }
 @component-namespace library {
@@ -889,29 +869,29 @@ export default {
   justify-content: center;
   width: 136px;
   height: 32px;
-  color: #0094FC;
-  background: #FFFFFF;
-  border: 1px solid #DCDFE6;
+  color: #0094fc;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
   border-radius: 2px;
   .icon {
     font-size: 13px;
-    color:#0091FA;
+    color: #0091fa;
     margin-right: 5px;
   }
 }
-.add-material:hover{
+.add-material:hover {
   background: #e6f2ff;
 }
 .add-material-disabled {
-  background: #F5F5F5;
-  border: 1px solid #D9D9D9;
-  color: #BFBFBF;
+  background: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  color: #bfbfbf;
   .icon {
-    color:#BFBFBF;
+    color: #bfbfbf;
   }
 }
-.add-material-disabled:hover{
-  background: #F5F5F5;
+.add-material-disabled:hover {
+  background: #f5f5f5;
   cursor: not-allowed;
 }
 .add-tip::before {
