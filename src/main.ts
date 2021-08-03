@@ -9,6 +9,7 @@ import LOG from '@nascent/log'
 import interceptRouter from '@/constants/interceptRouter'
 import { thirdRouter } from './constants/thirdRouter'
 import queryGroupMsg from '@/utils/queryGroupMsg'
+import addRouter from '@/utils/addRouter'
 import './register'
 import 'normalize.css'
 import '@theme/NuiJs/index.scss'
@@ -46,7 +47,8 @@ router.beforeEach(async (to:any, from, next) => {
   if (interceptRouter.includes(to.name)) {
     const result = await queryGroupMsg()
     if (result === 1) {
-      next('/Greeting')
+      router.matcher.addRoutes([addRouter(to.matched[0].name, to.matched[1].name + 'Greeting', 'Greeting')])
+      next({ name: to.matched[1].name + 'Greeting' })
     } else {
       next()
     }
@@ -65,7 +67,9 @@ router.beforeEach(async (to, from, next) => {
     if (companyPlanState[typeObj.type] === typeObj.value) {
       next()
     } else {
-      next('/ThirdAuth')
+      // 为了解决node包中写的神奇的导航栏判断
+      router.matcher.addRoutes([addRouter(to.matched[0].name, to.matched[1].name + 'ThirdAuth', 'ThirdAuth')])
+      next({ name: to.matched[1].name + 'ThirdAuth' })
     }
   } else {
     next()

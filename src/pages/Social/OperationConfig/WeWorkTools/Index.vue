@@ -47,7 +47,7 @@
                 <div class='step-content' :key='item.customerDetail'>
                   <label class=''>{{item.explain.split('：')[0]}}</label>
                   <el-input placeholder="请输入内容" :value="item.explain.split('：')[1]" disabled size='large'>
-                    <Icon slot="append" type="ns-thick-copy" class='copy-btn' @click="copy(item.explain.split('：')[1])"/>
+                    <Icon slot="append" type="ns-thick-copy" class='copy-btn' @click="copy(item.explain.split('：')[1].split('(')[0])"/>
                   </el-input>
                 </div>
               </template>
