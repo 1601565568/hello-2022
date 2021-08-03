@@ -23,7 +23,7 @@
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
                   <!--<NsButton type="text" @click="onOpenGroupSelect()"><Icon type="plus"/>选择营销人群</NsButton>-->
-                  <NsChatrommSelectDialog :echoStore='true' :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData2"></NsChatrommSelectDialog>
+                  <NsChatrommSelectDialog :echoStore='true' :isNeedLink='true' :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData2"></NsChatrommSelectDialog>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择<span class="text-primary">{{employeeSelectData2.data? employeeSelectData2.data.length: 0}}</span>个群主
