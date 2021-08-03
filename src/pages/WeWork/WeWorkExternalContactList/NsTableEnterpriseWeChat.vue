@@ -47,6 +47,7 @@
                   :isButton="false"
                   :validNull="true"
                   :echoStore='true'
+                  :isNeedLink='true'
                   :auth="true"
                   :switchAreaFlag='1'
                   type="primary"

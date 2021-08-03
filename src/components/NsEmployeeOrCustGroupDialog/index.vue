@@ -57,7 +57,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -296,6 +296,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否需要和右上角区域联动
+    isNeedLink: {
+      type: Boolean,
+      default: false
+    },
     showWechatNo: {
       type: Boolean,
       default: false
@@ -376,7 +381,8 @@ export default {
       loadSelectedData: [],
       shopAreaData: [],
       deptData: [],
-      viewOptions: [] // 视角列表
+      viewOptions: [], // 视角列表
+      isLoadShopAreaTree: false // 判断区域树是否请求完成
     }
   },
   computed: mapState({
@@ -480,7 +486,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? this.$store.state.user.area.id : null))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -494,7 +500,7 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -505,7 +511,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -551,6 +559,7 @@ export default {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
+          this.isLoadShopAreaTree = true
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
