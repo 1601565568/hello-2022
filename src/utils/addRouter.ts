@@ -1,4 +1,4 @@
-export default (parentName, name, module) => (
+export default (parentName: any, name: any, module: any) => (
   {
     path: `/${module}`,
     name: parentName,
