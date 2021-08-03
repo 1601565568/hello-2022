@@ -47,8 +47,11 @@ router.beforeEach(async (to:any, from, next) => {
   if (interceptRouter.includes(to.name)) {
     const result = await queryGroupMsg()
     if (result === 1) {
-      router.addRoutes([addRouter(to.matched[0].name, to.matched[1].name + 'Greeting', 'Greeting')])
-      next({ name: to.matched[1].name + 'Greeting' })
+      const name1 = to.matched[0].name || ''
+      const name2 = to.matched[1].name || ''
+      const random = new Date().getTime()
+      router.addRoutes([addRouter(name1, name2, name1 + random, 'Greeting')])
+      next({ name: (name1 + random) })
     } else {
       next()
     }
@@ -68,8 +71,11 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       // 为了解决node包中写的神奇的导航栏判断
-      router.addRoutes([addRouter(to.matched[0].name, to.matched[1].name + 'ThirdAuth', 'ThirdAuth')])
-      next({ name: to.matched[1].name + 'ThirdAuth' })
+      const name1 = to.matched[0].name || ''
+      const name2 = to.matched[1].name || ''
+      const random = new Date().getTime()
+      router.addRoutes([addRouter(name1, name2, name1 + random, 'ThirdAuth')])
+      next({ name: (name1 + random) })
     }
   } else {
     next()
