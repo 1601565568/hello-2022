@@ -351,13 +351,19 @@ export default {
           trigger: ['blur', 'change']
           }
         ]
-      }
+      },
+      isCopy: false
     }
   },
-  mounted () {
+  async mounted () {
     if (this.$route.params.id > 0) {
+      this.isCopy = !!this.$route.query.isCopy
       // 编辑
-      this.getActivityDetailById(this.$route.params.id)
+      await this.getActivityDetailById(this.$route.params.id)
+      // 复制
+      if (this.isCopy) {
+        this.getActivityCode()
+      }
     } else {
       // 新增 获取任务编号
       this.getActivityCode()
@@ -365,12 +371,20 @@ export default {
   },
   methods: {
     getActivityDetailById (id) {
-      this.$http.fetch(this.$api.weWork.sop.findById, { id })
-        .then(resp => {
-          this.model = resp.result
-        }).catch(() => {
-          this.$notify.error('获取活动详情失败')
-        })
+      return new Promise((resolve) => {
+        this.$http.fetch(this.$api.weWork.sop.findById, { id })
+          .then(resp => {
+            const model = resp.result
+            if (this.isCopy) {
+              model.code = null
+              model.id = null
+            }
+            this.model = model
+            resolve()
+          }).catch(() => {
+            this.$notify.error('获取活动详情失败')
+          })
+      })
     },
     /**
      * 获取活动任务编号

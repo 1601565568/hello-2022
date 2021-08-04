@@ -61,7 +61,7 @@
                   <LengthInput v-model='model.signature' :length='30' placeholder="最多输入30个字"/>
                 </el-form-item>
                 <el-form-item label='朋友圈封面图' prop='topImgUrl' class='larger-item'>
-                  <drap-upload tip='（建议：尺寸比例8:5，小于1M，格式为jpg、jpeg或png的图片）' :maxSize='1' v-model='model.topImgUrl' :showPont='false' :showFooter='false'>
+                  <drap-upload tip='（建议：尺寸比例8:5，小于1M，格式为jpg、jpeg或png的图片）' :maxSize='1' v-model='model.topImgUrl' :showPont='false' :showFooter='false' :isNeedCrop='true' :scale='1.6'>
                   </drap-upload>
                 </el-form-item>
               </template>

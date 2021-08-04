@@ -10,6 +10,17 @@ export default {
         recruitingPostersImage: '',
         // 封面图
         picture: '',
+        // 注册页面配置
+        rgBackground: '', // 注册页面背景图片
+        rgButtonColor: '', // 注册页面按钮颜色
+        rgButtonText: '', // 注册页面按钮文案
+        rgButtonTextColor: '', // 按钮文案颜色
+        rgPrivacyPolicyUrl: '', // 隐私政策上传
+        rgPrivacyPolicyName: '', // 隐私政策文件名
+        policyList: [], // 隐私政策聚合数组
+        rgMemberRuleUrl: '', // 会员规则上传
+        rgMemberRuleName: '', // 会员规则文件名
+        ruleList: [], // 会员规则聚合数组
         mpFollowState: 0, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: '', // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: 0, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -33,6 +44,26 @@ export default {
         ],
         mpFollowBackground: [
           { required: true, message: '请上传引导关注公众号页背景图', trigger: ['blur', 'change'] }
+        ],
+        // 注册页面配置
+        rgBackground: [
+          { required: true, message: '请上传注册页面背景图', trigger: ['blur', 'change'] }
+        ],
+        rgButtonColor: [
+          { required: true, message: '请选择按钮颜色', trigger: ['blur', 'change'] }
+        ],
+        rgButtonText: [
+          { required: true, message: '请输入按钮文案', trigger: ['blur', 'change'] },
+          { min: 1, max: 10, message: '长度在1-10个字符以内', trigger: ['blur', 'change'] }
+        ],
+        rgButtonTextColor: [
+          { required: true, message: '请选择按钮文案颜色', trigger: ['blur', 'change'] }
+        ],
+        rgPrivacyPolicyUrl: [
+          { required: true, message: '请上传隐私政策', trigger: ['blur', 'change'] }
+        ],
+        rgMemberRuleUrl: [
+          { required: true, message: '请上传会员规则', trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,
@@ -55,8 +86,18 @@ export default {
         return false
       }
     },
+    // 恢复默认背景图
+    restoreDef () {
+      const img = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/%E8%83%8C%E6%99%AF%E5%9B%BE%E5%A4%87%E4%BB%BD.png'
+      this.model.rgBackground = img
+    },
     formatLoadData (result) {
-      const { id, companyLogo, title, content, recruitingPostersImage, picture, mpFollowQrcodeSize, mpFollowQrcodeX, mpFollowQrcodeY, mpFollowState, mpFollowBackground } = result
+      const { id, companyLogo, title,
+        content, recruitingPostersImage,
+        picture, mpFollowQrcodeSize, mpFollowQrcodeX,
+        mpFollowQrcodeY, mpFollowState, mpFollowBackground,
+        rgBackground, rgButtonColor, rgButtonTextColor,
+        rgButtonText, rgPrivacyPolicyUrl, rgPrivacyPolicyName, rgMemberRuleUrl, rgMemberRuleName } = result
       return {
         id: id,
         title: title,
@@ -66,6 +107,22 @@ export default {
         recruitingPostersImage: recruitingPostersImage,
         // 封面图
         picture: picture,
+        // 默认注册页面背景图
+        rgBackground: rgBackground,
+        // 按钮颜色
+        rgButtonColor: rgButtonColor,
+        // 按钮文案颜色
+        rgButtonTextColor: rgButtonTextColor,
+        // 按钮文本
+        rgButtonText: rgButtonText,
+        // 隐私政策上传
+        rgPrivacyPolicyUrl: rgPrivacyPolicyUrl,
+        rgPrivacyPolicyName: rgPrivacyPolicyName,
+        policyList: [{ name: rgPrivacyPolicyName, url: rgPrivacyPolicyUrl }],
+        // 会员规则上传
+        rgMemberRuleUrl: rgMemberRuleUrl,
+        rgMemberRuleName: rgMemberRuleName,
+        ruleList: [{ name: rgMemberRuleName, url: rgMemberRuleUrl }],
         mpFollowState: mpFollowState, // 会员招募>跳转关注公众号>是否关注公众号：状态 0不关注 1关注
         mpFollowBackground: mpFollowBackground, // 会员招募>跳转关注公众号>结果页>背景图片
         mpFollowQrcodeSize: mpFollowQrcodeSize, // 会员招募>跳转关注公众号>结果页>二维码大小
@@ -87,6 +144,30 @@ export default {
           this.doUpdate()
         }
       })
+    },
+    // 隐私政策上传成功
+    rgPrivacyPolicySuccess (list) {
+      this.model.rgPrivacyPolicyName = list[0].name
+      this.model.rgPrivacyPolicyUrl = list[0].url
+      this.$refs.searchform.validateField('rgPrivacyPolicyUrl')
+    },
+    // 会员规则上传成功
+    rgMemberRuleSuccess (list) {
+      this.model.rgMemberRuleName = list[0].name
+      this.model.rgMemberRuleUrl = list[0].url
+      this.$refs.searchform.validateField('rgMemberRuleUrl')
+    },
+    // 隐私政策删除成功
+    rgPrivacyPolicyOnRemove (list) {
+      this.model.rgPrivacyPolicyName = ''
+      this.model.rgPrivacyPolicyUrl = ''
+      this.$refs.searchform.validateField('rgPrivacyPolicyUrl')
+    },
+    // 会员规则删除成功
+    rgMemberRuleOnRemove (list) {
+      this.model.rgMemberRuleName = ''
+      this.model.rgMemberRuleUrl = ''
+      this.$refs.searchform.validateField('rgMemberRuleUrl')
     },
     doUpdate () {
       this.btnLoad = true

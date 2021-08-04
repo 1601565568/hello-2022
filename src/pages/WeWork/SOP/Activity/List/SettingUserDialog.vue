@@ -5,6 +5,7 @@
     :visible="visible"
     @close="cancel"
     @open="open"
+    :show-close="!loading"
   >
     <template slot="title">
       <h3 class="title">设置使用人员</h3>
@@ -69,6 +70,10 @@
           </NsGuideDialog>
         </div>
       </el-form-item>
+      <SettingUserFailedDialog
+        :visible.sync="settingUserFailedDialogVisible"
+        :info="setFailedInfo"
+      />
     </el-form>
     <span slot="footer" class="dialog-footer">
       <NsButton @click="cancel" size="medium" :loading="loading">取 消</NsButton>
@@ -80,12 +85,14 @@
 <script>
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsShopDialog from '@/components/NsShopDialog'
+import SettingUserFailedDialog from './SettingUserFailedDialog'
 import { SOPAuthRangeType } from '../../types'
 
 export default {
   components: {
     NsGuideDialog,
-    NsShopDialog
+    NsShopDialog,
+    SettingUserFailedDialog
   },
   props: {
     visible: {
@@ -95,6 +102,7 @@ export default {
   },
   data () {
     return {
+      settingUserFailedDialogVisible: false,
       loading: false,
       SOPAuthRangeType: SOPAuthRangeType,
       authTypeOptions: [
@@ -113,11 +121,21 @@ export default {
       ],
       type: '',
       shops: [],
-      guides: []
+      guides: [],
+      setFailedInfo: {
+        taskNames: [],
+        guideNames: []
+      }
     }
   },
   methods: {
     cancel () {
+      this.shops = []
+      this.guides = []
+      this.setFailedInfo = {
+        taskNames: [],
+        guideNames: []
+      }
       this.$emit('update:visible', false)
     },
     open () {
@@ -165,11 +183,17 @@ export default {
         value
       })
         .then(resp => {
-          this.$message.success(`设置使用成功`)
+          if (resp.code === '1024') {
+            this.settingUserFailedDialogVisible = true
+            this.setFailedInfo = resp.result
+          } else {
+            this.$message.success(`设置使用成功`)
+            this.cancel()
+          }
         }).catch((respErr) => {
           this.$message.error(`设置使用失败`)
+          this.cancel()
         }).finally(() => {
-          this.$emit('update:visible', false)
           this.loading = false
         })
     }

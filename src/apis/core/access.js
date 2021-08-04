@@ -66,6 +66,7 @@ export default {
           nick: res.data.result.userName,
           menus: res.data.result.menus,
           areas: res.data.result.areas,
+          areaTree: res.data.result.areaTree,
           views: res.data.result.views,
           // 拓展字段
           productConfig: {

@@ -5,7 +5,7 @@
         <div class='row-item' :style='`background-image:${colorList[index]}`'>
           <div class='nick'>{{item.nick}}</div>
           <div class='value' v-if='item.isMoney'>{{item.value/100 | moneyStr}}</div>
-          <div class='value' v-else>{{item.value}}</div>
+          <div class='value' v-else>{{item.value || 0}}</div>
         </div>
       </el-col>
     </template>

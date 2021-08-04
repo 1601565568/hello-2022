@@ -38,7 +38,7 @@
             </el-form-item>
             <el-form-item label="选择分类：">
               <el-form-grid>
-                <ns-droptree ref="groupClassTree" :lazy="true" :load="loadNode4Group" :multiple="false" v-model="groupData.selectedGroup" clearable></ns-droptree>
+                <ns-droptree ref="groupClassTree" :defaultExpandAll='true' :lazy="true" :load="loadNode4Group" :multiple="false" v-model="groupData.selectedGroup" clearable></ns-droptree>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="分群名称：">
@@ -57,7 +57,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -66,7 +66,7 @@
             </el-form-item>
             <el-form-item label="选择部门：">
               <el-form-grid size="md">
-                <ns-droptree ref="employeeDepartTree" :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+                <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="员工类型：">
@@ -219,6 +219,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -372,7 +373,9 @@ export default {
       viewOptions: [] // 视角列表
     }
   },
-  computed: {},
+  computed: mapState({
+    areaTree: state => state.user.areaTree
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === 'employee') {
@@ -388,8 +391,9 @@ export default {
     'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
+        let areaIdStr = '/' + o1.value + '/'
         this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
             this.model.shopId = ''
             shopOptions.push(item)
           }

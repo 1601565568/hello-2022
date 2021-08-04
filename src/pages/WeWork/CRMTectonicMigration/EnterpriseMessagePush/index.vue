@@ -670,7 +670,6 @@ export default {
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
-                vm.model.textarea = toolFn.stringTohtml.call(this.$refs.testText, data.content.text, false)
                 vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {
