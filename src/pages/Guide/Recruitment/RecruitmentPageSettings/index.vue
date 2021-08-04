@@ -200,12 +200,30 @@ export default Index
     width: 318px;
     height: 515px;
     margin: 0 auto;
+    overflow-y: auto;
     position: relative;
     background-size: cover;
-    background-repeat: no-repeat
+    background: #fff;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
   }
   .chat_content{
     width: 318px;
+  }
+  .chat_content::-webkit-scrollbar {
+    width: 1px;
+  }
+  .chat_content::-webkit-scrollbar-track {
+    background-color:#fff;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius:1px;
+  }
+  .chat_content::-webkit-scrollbar-thumb {
+    background-color:#fff;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius:1px;
   }
   .chat-img {
     position: absolute;
