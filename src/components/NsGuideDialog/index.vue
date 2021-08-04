@@ -114,9 +114,9 @@
               <ElTable :data="selectedData" height="260">
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
                 </ElTableColumn>
-                <ElTableColumn  prop="select" align="center" width="55" >
+                <ElTableColumn  prop="select" align="right" width="100" >
                   <template slot="header">
-                    <span @click="clearSelection">清空</span>
+                    <span @click="clearSelection" style='text-align:right'>清空</span>
                   </template>
                   <template slot-scope="scope">
                     <ns-button
