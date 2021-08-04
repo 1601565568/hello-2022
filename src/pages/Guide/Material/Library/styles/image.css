@@ -18,8 +18,8 @@
 }
 
 .top-title-view >>> .w-textarea_input {
-  min-height: 144px;
-  max-height: 144px;
+  min-height: 114px;
+  max-height: 114px;
   overflow: auto;
 }
 
