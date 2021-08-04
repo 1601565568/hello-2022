@@ -20,13 +20,13 @@
               </el-form-item>
               <el-form-item>
                 <el-select v-model="departData.value" filterable placeholder="选择门店">
-                <el-option
-                  v-for="item in departData.shopOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in departData.shopOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="门店类型："  style="margin-left: 10px;">
                  <el-select v-model="departData.shopType" placeholder="请选择">
