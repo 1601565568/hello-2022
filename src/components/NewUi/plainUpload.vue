@@ -4,23 +4,24 @@
       class="upload-demo"
       ref='upload'
       accept=".pdf"
+      :limits='limits'
+      :limit='limit'
       :show-file-list='false'
       :action="$api.core.sgUploadFile('test')"
-      :on-remove='handleRemove'
       :before-upload="beforeUpload"
       :file-list="fileList"
       :on-success="handleUploadSuccess">
       <div v-loading="loading" class="u_btn"><img src='@/assets/btn.png' /></div>
     </el-upload>
     <div :class='"el-upload-list el-upload-list--text "+!ßßshowFooter && "padingbottom"' v-if='fileList.length > 0'>
-      <div class='el-upload-list__item'>
+      <div class='el-upload-list__item' v-for="(item, index) in fileList" :key="index">
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
-          {{fileList[0].name}}
+          {{item.name}}
         </a>
         <label class="el-upload-list__item-status-label">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
-            <i class="el-icon-close" @click='handleRemove'></i>
+            <i class="el-icon-close" @click='handleRemoves(index)'></i>
           </el-tooltip>
         </label>
       </div>
@@ -35,9 +36,11 @@ import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
+      limit: 1,
       loading: false,
       videoUploadPercent: '0',
-      fileList: []
+      fileList: [],
+      etuasyfdsa: false
     }
   },
   components: { ElUpload },
@@ -55,7 +58,7 @@ export default {
       },
       type: Array
     },
-    limit: {
+    limits: {
       default () {
         return 1
       },
@@ -78,28 +81,48 @@ export default {
       const { name = '' } = file
       const toUpperCaseName = name.split('.')[name.split('.').length - 1].toUpperCase()
       if (!this.imgType.includes(toUpperCaseName)) {
+        this.etuasyfdsa = false
         this.$notify.error(`仅支持上传${this.imgType.join('/')}的格式`)
         return false
       }
       if (file.size / 1024 / 1024 > this.maxSize) {
         this.$notify.error(`上传PDF不能超过${this.maxSize}M`)
+        this.etuasyfdsa = false
         return false
       }
+      this.etuasyfdsa = true
       this.loading = true
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
-      this.fileList = [{
-        name: res.result.originalFileName,
-        url: res.result.url
-      }]
+      if (this.limits === 1) {
+        this.fileList = [{
+          name: res.result.originalFileName,
+          url: res.result.url
+        }]
+      } else {
+        this.fileList.push({
+          name: res.result.originalFileName,
+          url: res.result.url
+        })
+      }
       this.loading = false
       this.$emit('onSuccess', this.fileList)
     },
+    // this.fileList = [{
+    //     name: res.result.originalFileName,
+    //     url: res.result.url
+    //   }]
+    //   this.loading = false
+    //   this.$emit('onSuccess', this.fileList)
     // 删除文件钩子
-    handleRemove () {
-      this.fileList = []
-      this.$emit('onRemove')
+    handleRemoves (index) {
+      if (this.limits === 1) {
+        this.fileList = []
+      } else {
+        this.fileList.splice(index, 1)
+      }
+      this.$emit('onRemove', this.fileList)
     },
     uploadVideoProcess (event, file, fileList) {
       this.videoUploadPercent = Math.floor(event.percent)
@@ -110,6 +133,16 @@ export default {
       handler (newVal) {
         if (newVal.length > 0 && newVal[0].url) {
           this.fileList = newVal
+        }
+      },
+      immediate: true
+    },
+    limits: {
+      handler (newVal) {
+        if (newVal === 1) {
+          this.limit = 1000
+        } else {
+          this.limit = newVal
         }
       },
       immediate: true
