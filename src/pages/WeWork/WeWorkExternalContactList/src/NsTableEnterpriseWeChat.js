@@ -204,12 +204,14 @@ export default {
         return
       }
       that.synFriend = false
+      that.synButton = true
       that.$http.fetch(that.$api.weWork.externalContact.synWeWorkFriends)
         .then((resp) => {
-          that.synFriend = true
+          this.$notify.success('同步运行成功')
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('同步失败，请稍后再试', resp))
           that.synFriend = true
+          that.synButton = false
         })
     },
     // 批量打标保存
