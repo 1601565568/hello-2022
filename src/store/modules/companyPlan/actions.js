@@ -5,12 +5,12 @@ export default {
     return new Promise((resolve) => {
       http.fetch(api.guide.getAppIdletInfo, {}).then(res => {
         if (res.success) {
-          const { applicationType, isChatDataSettingReady, isContactSettingReady } = res.result
+          const { applicationType, isChatDataSettingReady, isContactSettingReady, isCropReady } = res.result
           commit('setLoad', true)
-          commit('setThird', !applicationType)
-          commit('setPortals', !applicationType)
-          commit('setAddress', !applicationType || !!isChatDataSettingReady)
-          commit('setChat', !applicationType || !!isContactSettingReady)
+          commit('setThird', !!applicationType)
+          commit('setPortals', !!isCropReady)
+          commit('setAddress', !!isChatDataSettingReady)
+          commit('setChat', !!isContactSettingReady)
           resolve(true)
         }
       })

@@ -36,7 +36,7 @@ export default {
       const customerDetail = 'customerDetail'
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
         if (res.result && res.msg) {
-          this.data = res.result
+          this.data = res.result.filter(item => item.key !== customerDetail)
         }
       })
     },
