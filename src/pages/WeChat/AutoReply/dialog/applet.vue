@@ -42,7 +42,7 @@
               minlength='1'
               clearable
               :input="model.page=model.page.replace(/(^\s*)|(\s*$)/g, '')"
-              placeholder="请输入小程序appId,长度在1-255个字符以内"
+              placeholder="请输入小程序路径,长度在1-255个字符以内"
               v-model="model.page"
               ref="content"
               show-word-limit

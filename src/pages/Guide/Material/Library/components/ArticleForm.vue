@@ -2,16 +2,6 @@
   <div class="library-article">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <!-- <div class="top-title-view">
-          <tag-area
-            :maxlength="150"
-            placeholder="请输入标题，长度在150个字符以内"
-            :showEmoji="false"
-            v-model="pitTitle"
-            :tools="tools"
-            ref="tagTitle"
-          ></tag-area>
-        </div> -->
         <div class="top-input-view">
           <el-input
             type="textarea"
@@ -25,22 +15,8 @@
         </div>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
-        <el-select
-          v-model="model.subdivisionIds"
-          placeholder="请选择"
-          filterable
-          style="width: 626px"
-          multiple
-          :collapse-tags="true"
-          :clearable="false"
-        >
-          <el-option
-            v-for="item in labelList"
-            :key="item.subdivisionId"
-            :label="item.subdivisionName"
-            :value="item.subdivisionId"
-          >
-          </el-option>
+        <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 626px" multiple :collapse-tags="true" :clearable="false">
+          <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
         <span class="library-icon__extra" @click="toggleLabel">
           <Icon type="plus" />
@@ -49,23 +25,8 @@
       </el-form-item>
       <el-form-item label="推广文案：" prop="content">
         <div class="top-title-view">
-          <tag-area
-            :maxlength="1500"
-            placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-            :showEmoji="true"
-            v-model="pitContent"
-            :tools="tools"
-            ref="tagContent"
-          ></tag-area>
+          <tag-area :maxlength="1500" placeholder="可在此输入推广文案，限制长度在1500个字符以内。" :showEmoji="true" v-model="pitContent" :tools="tools" ref="tagContent"></tag-area>
         </div>
-        <!-- <el-input
-          resize="none"
-          type="textarea"
-          maxlength="1500"
-          v-model="model.content"
-          placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
-          style="width: 340px"
-        ></el-input> -->
       </el-form-item>
       <el-form-item label="卡片样式：" prop="cardStyle">
         <div class="library-card">
@@ -75,26 +36,11 @@
           </div>
           <el-form-grid>
             <el-form-item prop="title">
-              <el-input
-                type="text"
-                v-model="model.title"
-                maxlength="20"
-                placeholder="请输入文章标题，长度在20字内"
-                :input="(model.title = model.title.replace(/\s+/g, ''))"
-                clearable
-              ></el-input>
+              <el-input type="text" v-model="model.title" maxlength="20" placeholder="请输入文章标题，长度在20字内" :input="(model.title = model.title.replace(/\s+/g, ''))" clearable></el-input>
             </el-form-item>
             <el-form-item ref="imageForm" prop="mediaList">
-              <div
-                class="library-image__item"
-                v-for="(item, index) in mediaList"
-                :key="index"
-              >
-                <img
-                  :src="
-                    item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'
-                  "
-                />
+              <div class="library-image__item" v-for="(item, index) in mediaList" :key="index">
+                <img :src="item.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" />
                 <div class="library-image__mask">
                   <Icon type="zoom-in" @click="previewImage(index)" />
                   <Icon type="delete" @click="removeImage(index)" />
@@ -128,11 +74,7 @@
         </div>
       </el-form-item>
       <el-form-item label="素材文章：" prop="textContent">
-        <vue-ueditor-wrap
-          :config="myConfig"
-          v-model="model.textContent"
-          @ready="editorReady"
-        ></vue-ueditor-wrap>
+        <vue-ueditor-wrap :config="myConfig" v-model="model.textContent" @ready="editorReady"></vue-ueditor-wrap>
       </el-form-item>
       <el-form-item label="保存到：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
@@ -140,16 +82,10 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button type="primary" :loading="loading" @click="onSave"
-        >保存</ns-button
-      >
+      <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
     </div>
-    <folder-tree
-      ref="folderTree"
-      title="选择文件夹"
-      @submit="handleFolder"
-    ></folder-tree>
+    <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
   </div>
 </template>
 <script>
@@ -235,9 +171,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        mediaList: [
-          { required: true, message: '请添加素材图片', trigger: 'change' }
-        ],
+        mediaList: [{ required: true, message: '请添加素材图片', trigger: 'change' }],
         title: [
           {
             required: true,
@@ -251,9 +185,7 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        cardStyle: [
-          { required: true, message: '卡片样式不能为空', trigger: 'blur' }
-        ]
+        cardStyle: [{ required: true, message: '卡片样式不能为空', trigger: 'blur' }]
       },
       mType: 0,
       imageNum: 1,
@@ -357,15 +289,10 @@ export default {
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
-      // if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-      //   this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
-      //   return
-      // }
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.mediaList = this.mediaList
       params.materialScriptType = 1
-      // params.name = this.$refs.tagTitle.htmlToString(this.pitTitle)
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       delete params.cardStyle
       this.$http
@@ -383,10 +310,7 @@ export default {
     }
   },
   mounted () {
-    this.catalogue =
-      this.breadcrumb && this.breadcrumb.length
-        ? this.breadcrumb
-        : [{ id: 0, name: '素材库' }]
+    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
   }
 }
 </script>

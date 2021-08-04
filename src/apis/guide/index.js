@@ -199,7 +199,7 @@ export default {
    */
   findMaterialListByShare: {
     // 素材分享
-    url: '/guide/material/findMaterialListByShare',
+    url: '/guide/material/findMaterialList',
     method: 'post'
   },
   materialList: {
