@@ -13,13 +13,13 @@
           <Icon type="close" class="close-icon" @click="closeDeawer" />
         </div>
         <div class="drawer-title">拍摄指南</div>
-        <div v-if="info.pitText || info.url">
-          <div v-if="info.pitText">
+        <div v-if="info.content">
+          <div v-if="info.content.pitText">
             <div class="drawer-sub-title">坑位拍摄指南</div>
-            <div class="drawer-sub-cont" v-html="strToRichText(info.pitText)"></div>
+            <div class="drawer-sub-cont" v-html="strToRichText(info.content.pitText)"></div>
           </div>
-          <div class="drawer-sub-title" v-if="info.url">示意图</div>
-          <img class="drawer-sub-img" :src="info.url + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.url"  @click="showPreview(info.url)"/>
+          <div class="drawer-sub-title" v-if="info.content.pitUrl">示意图</div>
+          <img class="drawer-sub-img" :src="info.content.pitUrl + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-if="info.content.pitUrl"  @click="showPreview(info.content.pitUrl)"/>
         </div>
         <div v-else class="noddata-view">
           <img :src="noDataUrl" class="nodata-img" />
@@ -41,8 +41,7 @@ export default {
       type: Object,
       default () {
         return {
-          pitText: '',
-          url: ''
+          content: {}
         }
       }
     }

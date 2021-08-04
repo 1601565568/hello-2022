@@ -1,13 +1,44 @@
 <template>
-  <div class="library-wrapper">
-    <el-tabs v-model="tabValue" type="card" @tab-click="handleTabChange">
-      <el-tab-pane
-        v-for="item in tabList"
-        :key="item.name"
-        :label="item.label"
-        :name="item.name"
-      >
-        <Component
+  <PageEdit>
+    <template slot="header">
+      <div class="common-header flex-box">
+        <h3>新建素材</h3>
+        <div class="common-btn">
+          <ns-button class="customer-btn_cancel" @click="onBack" size="large">取消</ns-button>
+          <ns-button class="customer-btn_save" @click='onSave' type="primary" size="large">保存</ns-button>
+        </div>
+      </div>
+    </template>
+    <template slot='content'>
+      <SimpleCollapse :title="'素材配置'">
+        <PhoneBox phoneTitle phoneBar="素材库">
+          <template slot='collapse-left'>
+            <source-all
+              ref='sourceAll'
+              :detail="detail"
+              :labelList="labelList"
+              :breadcrumb="breadcrumb"
+              @toggleLabel="toggleLabel"
+              @list='proviewList'
+              @title='proviewTitle'
+              @subdivision='proviewSubdivision'
+              @pitContent='proviewPitContent'
+              @togglePreview="togglePreview"
+              @back="gotoList"/>
+          </template>
+          <template slot="collapse-right">
+            <MessagePreviewPanel
+              :list='list'
+              :title='title'
+              :subdivision='subdivision'
+              :pitContent='pitContent'
+            />
+          </template>
+        </PhoneBox>
+        <label-add ref="labelAdd" @submit="getLabelList"></label-add>
+      </SimpleCollapse>
+    </template>
+        <!-- <Component
           ref="component"
           :is="item.type"
           :detail="detail"
@@ -16,12 +47,9 @@
           @toggleLabel="toggleLabel"
           @togglePreview="togglePreview"
           @back="gotoList"
-        />
-      </el-tab-pane>
-    </el-tabs>
-    <label-add ref="labelAdd" @submit="getLabelList"></label-add>
-    <preview ref="preview"></preview>
-  </div>
+        /> -->
+    <!-- <preview ref="preview"></preview> -->
+  </PageEdit>
 </template>
 <script>
 import Index from './src/edit'
@@ -29,6 +57,8 @@ export default Index
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+  @import "@components/NewUi/styles/reset.css";
+  @import "./styles/reset.css";
   @component-namespace library {
     @b wrapper {
       padding: 20px 0 0;

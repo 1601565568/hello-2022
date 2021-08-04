@@ -96,7 +96,7 @@
               :insertList='insertList'
             />
           </el-form-item>
-          <el-form-item label="素材类型：" prop="mType">
+          <!-- <el-form-item label="素材类型：" prop="mType">
             <el-select
               v-model="model.mType"
               @change="onMtypeChange"
@@ -110,7 +110,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item v-if="model.mType === 1" label="带码状态：" prop="codeType">
             <el-select
               v-model="model.codeType"
@@ -178,7 +178,7 @@
               <el-table-column label="内容" prop="content" :min-width="275">
                 <template slot-scope="scope">
                   <span v-if="scope.row.isDirectory === 1">{{scope.row.description || '-'}}</span>
-                  <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
+                  <table-item v-else :data="scope.row" @preview="togglePreview" :icon='true' :lengths='scope.row.mediaList && scope.row.mediaList.length'></table-item>
                 </template>
               </el-table-column>
               <el-table-column label="标签" :min-width="200">

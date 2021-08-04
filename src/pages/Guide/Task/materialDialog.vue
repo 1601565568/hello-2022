@@ -1,150 +1,164 @@
 <template>
-  <div class="cus-guide-info">
-    <el-dialog title="自创明细查看" :visible.sync="dialogVisible" width="658px">
-      <div class="dialog-view">
-        <div class="guide-info">
-          <span class="right">{{ metailInfo.shopName }}</span>
-          <span class="right">{{ metailInfo.guideName }}</span>
-          <span>{{ metailInfo.completionTime }}</span>
+  <div class="preview_body">
+    <div v-if="listMap.name && types !== 1" class="u_title">{{listMap.name || ''}}</div>
+    <div v-else class="u_title">{{names}}</div>
+    <div v-if="types !== 1" class="u_content">发布方：{{listMap.sourceName}}<span>{{listMap.createTime}}</span></div>
+    <div v-else class="u_content">发布方：{{companyName}}<span>{{createTime}}</span></div>
+    <div v-if="listMap.content && types !== 1" class="u_pitContent">{{listMap.content || ''}}</div>
+    <div v-else class="u_pitContent">{{materialTitle}}</div>
+    <div class="u_main">
+      <div class="u_box" v-for="(item, index) in imageLists" :key="index" :class="{'t_box': item.type !== 0 && item.type !== 1}">
+        <div class="u_imgList" v-if="item.type === 0 || item.type === 1">
+          <img :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
+          @click="showPreview(index, item, imageLists)" alt="">
         </div>
-        <div class="content-view" v-html="strToRichText(metailInfo.content)"></div>
-        <!-- <div class="images-view">
-          <div v-for="(item, index) in metailInfo.mediaList" :key="index">
-            <img class="base-one" :src="item.url" @click="showPreview(index)" />
+        <div v-if="item.type === 2" class="u_videoList">
+          <div>
+            <video :src="item.content.video"></video>
           </div>
-        </div> -->
-        <div class="u_main">
-          <div class="u_box" v-for="(item, index) in metailInfo.mediaList" :key="index" :class="{'t_box': item.type !== 0 && item.type !== 1}">
-            <div class="u_imgList" v-if="item.type === 0 || item.type == 1">
-              <img v-if="item.type == 1" :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
-              @click="showPreview(index, item, metailInfo)" alt="">
-              <img v-else :src="item.content.image" alt="">
-            </div>
-            <div v-if="item.type === 2" class="u_videoList">
-              <div>
-                <video :src="item.content.video"></video>
-              </div>
-              <div
-                class="video-mask"
-                @click="showPreview(index, item, metailInfo)"
-              >
-                <div class="video-wrapper">
-                  <Icon type="begin" />
-                </div>
-              </div>
-            </div>
-            <div v-if="item.type === 3" class="u_linkList">
-              <div class="u_t">{{item.content.title}}</div>
-              <div class="u_desc">{{item.content.desc}}</div>
-              <img class="u_link_img" :src='item.content.image || linkImage' alt="">
-              <div class="u_line"></div>
-            </div>
-            <div v-if="item.type === 4" class="u_appList">
-              <!-- <div class="u_t">{{item.content.title}}</div>
-              <Icon type="xiaochengxushouquan" className="icon"/>
-              <div class="u_desc">{{item.content.desc}}</div>
-              <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
-              <div class="u_line"></div> -->
-              <div class="u_app_title">
-                <span class="v1"></span>
-                <span class="v2">小程序名称</span>
-              </div>
-              <div class="u_content">{{item.content.title}}</div>
-              <img class="u_app_img" :src='item.content.image' alt="">
-              <div class="u_line"></div>
-              <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
+          <div
+            class="video-mask"
+            @click="showPreview(index, item, imageLists)"
+          >
+            <div class="video-wrapper">
+              <Icon type="begin" />
             </div>
           </div>
+        </div>
+        <div v-if="item.type === 3" class="u_linkList">
+          <div class="u_t">{{item.content.title}}</div>
+          <div class="u_desc">{{item.content.desc}}</div>
+          <img class="u_link_img" :src='item.content.image || linkImage' alt="">
+          <div class="u_line"></div>
+        </div>
+        <div v-if="item.type === 4" class="u_appList">
+          <!-- <div class="u_t">{{item.content.title}}</div>
+          <Icon type="xiaochengxushouquan" className="icon"/>
+          <div class="u_desc">{{item.content.desc}}</div>
+          <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
+          <div class="u_line"></div> -->
+          <div class="u_app_title">
+            <span class="v1"></span>
+            <span class="v2">小程序名称</span>
+          </div>
+          <div class="u_content">{{item.content.title}}</div>
+          <img class="u_app_img" :src='item.content.image' alt="">
+          <div class="u_line"></div>
+          <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
         </div>
       </div>
-    </el-dialog>
-    <preview ref="preview"></preview>
+    </div>
   </div>
 </template>
-
 <script>
-import Preview from '@/components/NsPreview'
+import defaultIcon from '@/assets/titlePreview.jpg'
 export default {
-  components: { Preview },
-  name: 'infoDialog',
+  name: 'previews',
+  components: {
+  },
   props: {
-    metailInfo: {
+    // 附件数组
+    listMap: {
       type: Object,
-      default: () => {
+      default () {
         return {}
       }
+    },
+    types: {
+      type: Number,
+      default: -1
+    },
+    createTime: {
+      type: String,
+      default: ''
+    },
+    materialTitle: {
+      type: String,
+      default: ''
+    },
+    names: {
+      type: String,
+      default: ''
     }
   },
-  data () {
+  data: function () {
     return {
+      companyName: '',
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
-      dialogVisible: false,
+      defaultIcon: defaultIcon,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
   },
+  mounted () {
+    this.companyName = this.$store.state.user.remumber.remumber_login_info.companyName
+  },
+  watch: {
+  },
+  computed: {
+    imageLists () {
+      return this.listMap && this.types === 1 ? this.listMap.imageList : (this.listMap ? this.listMap.mediaList : [])
+    }
+  },
   methods: {
-    showPreview (current, row, data) {
+    showPreview (current, row, imageLists) {
       let type = +row.type === 2 ? 'video' : 'img'
-      let item = data.mediaList[current]
+      // let imgs = []
+      // imageLists.forEach(item => {
+      //   if (item.type === 2) {
+      //     imgs.push(item.content.video)
+      //   } else {
+      //     imgs.push(item.content.image)
+      //   }
+      // })
+      // this.$emit('preview', current, imgs, type)
       let imgs = []
-      let videoList = []
-      data.mediaList.forEach(item => {
-        if (item.type === 2) {
-          videoList.push(item.content.video)
-        } else if (item.type === 1) {
-          imgs.push(item.content.image)
-        }
+      imageLists.forEach(item => {
+        imgs.push(item.type === 1 ? item.content.image : item.content.video)
       })
-      if (row.type === 2) {
-        this.$refs.preview.toggleShow(0, videoList.filter(item => item !== ''), type)
-      } else {
-        this.$refs.preview.toggleShow(0, imgs.filter(item => item !== ''), type)
-      }
-    },
-    showDialog () {
-      this.dialogVisible = true
-    },
-    strToRichText (text) {
-      if (!text) {
-        return ''
-      }
-      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
-      const afterRegexp = new RegExp(']}', 'g')
-      const str = text
-        .replace(
-          preRegexp,
-          '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/'
-        )
-        .replace(afterRegexp, '.png"/>')
-        .replace(/\n/g, '<br/>')
-      return str
+      this.$emit('preview', current, imgs, type)
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '../styles/image.css';
-.dialog-view {
-  padding: 8px;
-}
-.guide-info {
-  font-size: 14px;
-  color: #262626;
-  line-height: 44px;
-  font-weight: 400;
-  .right {
-    margin-right: 32px;
+<style scoped lang='scss'>
+.preview_body{
+  background: #fff;
+  height: 513px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0 !important
   }
-}
-.content-view {
-  font-size: 14px;
-  color: #595959;
-  line-height: 22px;
-  font-weight: 400;
-  margin-bottom: 16px;
-  margin-top: 16px;
-}
-.u_main{
+  .u_title{
+    font-size: 14px;
+    color: #262626;
+    line-height: 22px;
+    margin-top: 18px;
+    word-break: break-all;
+    margin-bottom: 9px;
+    font-weight: bold;
+  }
+  .u_content{
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #909399;
+    line-height: 20px;
+    span{
+      margin-left: 16px;
+    }
+  }
+  .u_pitContent{
+    width: 476px;
+    height: 20px;
+    font-size: 14px;
+    color: #606266;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 16px;
+  }
+  .u_main{
+    width: 340px;
     .u_box{
       display: inline-block;
       vertical-align: top;
@@ -321,4 +335,5 @@ export default {
       }
     }
   }
+}
 </style>

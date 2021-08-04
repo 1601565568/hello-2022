@@ -38,7 +38,29 @@
             {{ taskMsg.remark }}
           </div>
         </div>
-        <div class="taskOverview-materials__info" v-if="taskMsg.materialId != null">
+        <div class='taskOverview-materials__info' v-if="taskMsg.materialId != null">
+          <addMaterial
+            :types='1'
+            :data='taskMsg.materialMsg'
+            @preview='togglePreview'
+            :materialTitle='taskMsg.materialTitle'></addMaterial>
+          <div class="v_btn" v-if="taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length > 0">共{{taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length || 0}}条信息
+            <el-tooltip v-if="subNumber(0, taskMsg.materialMsg.imageList)" content="图片" placement="top" effect="light">
+              <Icon class="icons" type="images" />
+            </el-tooltip>
+            <el-tooltip v-if="subNumber(2, taskMsg.materialMsg.imageList)" content="视频" placement="top" effect="light">
+              <Icon class="icons" type="videos" />
+            </el-tooltip>
+            <el-tooltip v-if="subNumber(3, taskMsg.materialMsg.imageList)" content="链接" placement="top" effect="light">
+              <Icon class="icons" type="links" />
+            </el-tooltip>
+            <el-tooltip v-if="subNumber(4, taskMsg.materialMsg.imageList)" content="小程序" placement="top" effect="light">
+              <Icon class="icons" type="apps" />
+            </el-tooltip>
+            <span @click="dialogClick(taskMsg.materialMsg)">查看全部</span>
+          </div>
+        </div>
+        <!-- <div class="taskOverview-materials__info" v-if="taskMsg.materialId != null">
           <p class="taskOverview-materials__info-content">
             {{ taskMsg.materialTitle }}
           </p>
@@ -66,7 +88,7 @@
                 <p>{{taskMsg.materialTitle}}</p>
               </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="taskOverview-detail">
         <div class="taskOverview-detail__head clearfix">
@@ -207,13 +229,46 @@
       </el-form>
       <lookCardList v-if="dialogVisible" :subgroupId="taskMsg.subgroupId" :formSource='2' :time='taskTime' :runType='taskMsg.runType' :taskId='taskMsg.id'></lookCardList>
     </ElDialog>
+    <el-dialog
+      width="600px"
+      title="查看全部"
+      :visible.sync="dialogFlag">
+        <materialDialog
+          :names='taskMsg.name'
+          :listMap='listMap'
+          :createTime='taskMsg.startTime'
+          :types='1'
+          :materialTitle='taskMsg.materialTitle'
+          @preview="togglePreview"
+        ></materialDialog>
+    </el-dialog>
+    <preview ref="preview"></preview>
   </div>
 </template>
 <script>
 import taskOverview from './src/taskOverview'
 export default taskOverview
 </script>
-
+<style lang="scss" scoped>
+.v_btn{
+  height: 20px;
+  font-size: 12px;
+  color: #383838;
+  line-height: 20px;
+  margin-top: 8px;
+  .icons{
+    margin-left: 4px;
+    }
+  svg{
+    vertical-align: -2px;
+  }
+  span{
+    margin-left: 5px;
+    color: #0094FC;
+    cursor: pointer;
+  }
+}
+</style>
 <style scoped>
 @import "@theme/variables.pcss";
 .taskOverview {
