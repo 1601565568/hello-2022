@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable></ns-droptree>
+              <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
@@ -43,7 +43,7 @@
           </el-form-item>
           <el-form-item label="选择部门：">
             <el-form-grid size="md">
-              <ns-droptree ref="employeeDepartTree" :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+              <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工姓名：">
@@ -221,12 +221,13 @@
 // groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
 // queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
 
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import NsShopIdDialog from '@/components/NsShopIdDialog'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
+import { mapState } from 'vuex'
 
 let vm
 const LOADPAGESIZE = 50
@@ -249,6 +250,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -307,6 +314,11 @@ export default {
     },
     //
     isqywx: {
+      type: Boolean,
+      default: false
+    },
+    // 是否需要和右上角区域联动
+    isNeedLink: {
       type: Boolean,
       default: false
     },
@@ -414,10 +426,13 @@ export default {
       loadSelectedData: [],
       shopAreaData: [],
       deptData: [],
-      allEmployees: []
+      allEmployees: [],
+      isLoadShopAreaTree: false // 判断区域树是否请求完成
     }
   },
-  computed: {},
+  computed: mapState({
+    area: state => state.user.area
+  }),
   watch: {
     tabType: function (val) {
       if (val && val === vm.TAB_EMPLOYEE) {
@@ -441,8 +456,9 @@ export default {
     'model.shopArea': function (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
+        let areaIdStr = '/' + o1.value + '/'
         this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
             this.model.shopId = ''
             shopOptions.push(item)
           }
@@ -564,7 +580,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? this.$store.state.user.area.id : null))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -578,7 +594,7 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -589,7 +605,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -635,6 +653,7 @@ export default {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
+          this.isLoadShopAreaTree = true
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -799,7 +818,7 @@ export default {
       }
       // 选择了门店
       if (vm.model.shopId || vm.model.shopType === 1 || vm.model.shopType === 2 || vm.model.shopIds) {
-        if (!vm.model.shopType2 && !vm.model.shopIds && (!vm.model.shopArea || !vm.model.shopArea.value)) {
+        if (!vm.model.shopType2 && !vm.model.shopIds && ((!vm.model.shopArea || !vm.model.shopArea.value) && !vm.model.shopId)) {
         } else {
           const shopIdArr = vm.model.shopId ? [vm.model.shopId] : (vm.model.shopIds && vm.model.shopIds.length > 0 ? vm.model.shopIds.split(',') : vm.shopOptions.map(item => { return item.value }))
           const allEmployees = filterEmpFlag ? filterEmpArr : vm.allEmployees
@@ -1079,7 +1098,10 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的门店分类
+        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+          value: this.area.id,
+          text: this.area.name
+        } : {}
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型
         vm.model.shopIds = ''
@@ -1386,6 +1408,7 @@ export default {
     // vm.getGroupTree()
     vm.getShopAreaAndShop()
     vm.getAllEmployeeList()
+    this.shopArea = this.area
   },
   created: function () {
   }

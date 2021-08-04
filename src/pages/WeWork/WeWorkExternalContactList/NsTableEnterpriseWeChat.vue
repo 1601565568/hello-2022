@@ -46,6 +46,8 @@
                 <NsGuideDialog
                   :isButton="false"
                   :validNull="true"
+                  :echoStore='true'
+                  :isNeedLink='true'
                   :auth="true"
                   :switchAreaFlag='1'
                   type="primary"
@@ -137,6 +139,12 @@
                 {{scope.row.add_time.substring(0,10)}}<br/>
                 {{scope.row.add_time.substring(10,19)}}
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="addWay"
+                           label="来源" :sortable="false" align="center" width="100">
+            <template slot-scope="scope">
+              {{scope.row.addWay ? addWay[scope.row.addWay] ? addWay[scope.row.addWay] : '未知' : '未知'}}
             </template>
           </el-table-column>
           <!--        <el-table-column :show-overflow-tooltip="true" type="default" prop="add_friend_channel"-->

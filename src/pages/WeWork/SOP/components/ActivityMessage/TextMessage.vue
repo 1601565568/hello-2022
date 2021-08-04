@@ -1,11 +1,15 @@
 <template>
-  <div class="text-message" v-html="htmlContent"></div>
+  <div class="text-message">
+    <EmojiText :text='htmlContent' />
+  </div>
 </template>
 
 <script>
 import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
+import EmojiText from '@/components/NewUi/EmojiText'
 
 export default {
+  components: { EmojiText },
   props: {
     content: {
       type: Object,
@@ -38,18 +42,19 @@ export default {
   },
   methods: {
     text2Emoji () {
-      const strRegex = /{\[(.+?)\]}/g
-      this.htmlContent = this.content.textContent.replace(strRegex, (item, index) => {
-        // const imgDom = document.createElement('img')
-        // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
-        // return imgDom.outerHTML
-        const imgDom = document.createElement('span')
-        imgDom.innerText = item
-        return imgDom.outerHTML
-      })
+      // const strRegex = /{\[(.+?)\]}/g
+      // this.htmlContent = this.content.textContent.replace(strRegex, (item, index) => {
+      //   // const imgDom = document.createElement('img')
+      //   // imgDom.src = `https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${index}.png`
+      //   // return imgDom.outerHTML
+      //   const imgDom = document.createElement('span')
+      //   imgDom.innerText = item
+      //   return imgDom.outerHTML
+      // })
+      this.htmlContent = this.content.textContent
     },
     tag2Html () {
-      const strRegex = /{(.+?)}/g
+      const strRegex = /{(?!\[)(.+?)(?!\])}/g
       this.htmlContent = this.htmlContent.replace(strRegex, (item, index) => {
         const tagDom = document.createElement('span')
         tagDom.innerText = index

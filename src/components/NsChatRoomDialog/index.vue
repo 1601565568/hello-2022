@@ -15,7 +15,7 @@
             </el-form-item>
             <el-form-item label="工作门店：">
               <el-form-grid >
-                <ns-droptree ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="departData.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopCateTree" :defaultExpandAll='true' placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="departData.shopArea" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid style="margin-left: 5px">
                 <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="请选择门店">
@@ -23,7 +23,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="群主部门：">
-              <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
+              <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
             </el-form-item>
             <el-form-item label="群主：">
               <ElInput :maxlength="20"  placeholder="请输入群主姓名" v-model="departData.ownerName"/>

@@ -92,6 +92,20 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
+      addWay: {
+        '0': '未知来源',
+        '1': '扫描二维码',
+        '2': '搜索手机号',
+        '3': '名片分享',
+        '4': '群聊',
+        '5': '手机通讯录',
+        '6': '微信联系人',
+        '7': '来自微信的添加好友申请',
+        '8': '安装第三方应用时自动添加的客服人员',
+        '9': '搜索邮箱',
+        '201': '内部成员共享',
+        '202': '管理员/负责人分配'
+      },
       employees: [],
       addFriendChannels: [],
       total: 0,
@@ -190,12 +204,14 @@ export default {
         return
       }
       that.synFriend = false
+      that.synButton = true
       that.$http.fetch(that.$api.weWork.externalContact.synWeWorkFriends)
         .then((resp) => {
-          that.synFriend = true
+          this.$notify.success('同步运行成功')
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('同步失败，请稍后再试', resp))
           that.synFriend = true
+          that.synButton = false
         })
     },
     // 批量打标保存

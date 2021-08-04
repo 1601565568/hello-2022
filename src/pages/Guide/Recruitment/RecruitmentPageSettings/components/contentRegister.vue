@@ -5,7 +5,9 @@
       <div class="v_1">{{rgButtonText}}</div>
     </div>
     <div class="u_context">
-      <span class="u_box"></span><span class="u_1">我已阅读同意</span><span class="u_text">《隐私政策》《会员规则》</span></div>
+      <span class="u_box"></span><span class="u_1">我已阅读同意</span><span class="u_text">《隐私政策》《会员规则》</span>
+        <span class="u_text" v-for='(item, index) in rgOtherProtocol' :key="index">《{{intercepts(item.name)}}》</span>
+      </div>
   </div>
 </template>
 <script>
@@ -35,11 +37,24 @@ export default {
     // 会员规则上传
     rgMemberRuleUrl: {
       type: String
+    },
+    // 其他规则集合
+    rgOtherProtocol: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   data () {
     return {
       // 头像
+    }
+  },
+  methods: {
+    intercepts (str) {
+      let index = str.lastIndexOf('.')
+      return str.substring(0, index)
     }
   }
 }
@@ -77,17 +92,15 @@ export default {
       top: 463.2px;
       left: 12.8px;
       font-size: 12px;
-      height: 18px;
       line-height: 18px;
       color: #595959;
-      display: flex;
-      align-items: center;
       .u_box{
         width: 11.65px;
         display: inline-block;
         height: 11.65px;
         background: #FFFFFF;
         border: 1px solid #D9D9D9;
+        vertical-align: middle;
         margin-right: 3.5px;
       }
       .u_text{

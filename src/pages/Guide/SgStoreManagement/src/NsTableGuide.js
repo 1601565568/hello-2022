@@ -223,6 +223,16 @@ export default {
       this.model.areaName = data.label
       this.$searchAction$()
     },
+    resetInputAction () {
+      // 重置所有参数
+      let areaId = this.model.areaId
+      let areaName = this.model.areaName
+      // 重置所有参数
+      this.$resetInput$()
+      this.model.areaId = areaId
+      this.model.areaName = areaName
+      this.$searchAction$()
+    },
     // 树节点过滤
     onFilterNode (value, data, node) {
       // 如果什么都没填就直接返回

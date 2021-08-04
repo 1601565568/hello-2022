@@ -26,7 +26,7 @@ export default {
     guideFindUrl: {
       type: Object,
       default: function () {
-        return this.$api.core.sysUser.findByUserIds
+        return this.$api.core.sysUser.findByGuideIds
       }
     },
     // 是否添加登录账号店铺数据权限
@@ -70,6 +70,12 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否需要和右上角区域联动
+    isNeedLink: {
+      type: Boolean,
+      default: false
+    },
+    // 是否展示title上的tip
     showTitleTip: {
       type: Boolean,
       default: false
@@ -141,8 +147,9 @@ export default {
           this.shopOptions = this.allShopOptions
           return
         }
+        let areaIdStr = '/' + o1.value + '/'
         this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
             shopOptions.push(item)
           }
         })
@@ -204,7 +211,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       let shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree, store.get('user_area').id))
+        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? store.get('user_area').id : null))
       }
       if (node.level >= 1) {
         // 点击之后触发

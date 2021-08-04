@@ -19,6 +19,15 @@ export default {
     method: 'post'
   },
   /**
+   * @msg: 查询企微群群主列表
+   */
+  export: {
+    url: '/wework/weworkRooms/export',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  /**
    * @msg: 查询企微群名称
    */
   queryWeWorkRoomsNameOptions: {

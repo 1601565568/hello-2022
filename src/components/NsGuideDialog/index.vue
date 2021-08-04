@@ -49,7 +49,7 @@
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
-              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" :multiple="false" v-model="departData.shopArea" :clearable='false'></ns-droptree>
+              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" :multiple="false" v-model="departData.shopArea" :clearable='false' :defaultExpandAll='true'></ns-droptree>
             </el-form-grid>
             <el-form-grid style="margin-left:10px">
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -57,7 +57,7 @@
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;">选择部门：</div></el-form-grid>
             <el-form-grid>
-              <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
+              <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;">员工类型：</div></el-form-grid>
             <el-form-grid>
@@ -114,9 +114,9 @@
               <ElTable :data="selectedData" height="260">
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
                 </ElTableColumn>
-                <ElTableColumn  prop="select" align="center" width="55" >
+                <ElTableColumn  prop="select" align="right" width="100" >
                   <template slot="header">
-                    <span @click="clearSelection">清空</span>
+                    <span @click="clearSelection" style='text-align:right'>清空</span>
                   </template>
                   <template slot-scope="scope">
                     <ns-button

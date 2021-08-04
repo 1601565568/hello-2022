@@ -24,7 +24,7 @@
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
                   <!--<NsButton type="text" @click="openMarking()">+选择营销人群</NsButton>-->
-                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择<span class="text-primary">{{employeeSelectData.data? employeeSelectData.data.length: 0}}</span>{{employeeSelectData.type == 'employee'? '个员工全部好友': '个客户分群'}}
@@ -670,7 +670,6 @@ export default {
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
-                vm.model.textarea = toolFn.stringTohtml.call(this.$refs.testText, data.content.text, false)
                 vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
               }
               if (data.content.image && Object.keys(data.content.image).length > 0) {

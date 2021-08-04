@@ -91,6 +91,10 @@
             <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
               <plain-upload :file_list='model.ruleList' :maxSize='10' @onRemove='rgMemberRuleOnRemove' @onSuccess='rgMemberRuleSuccess'></plain-upload>
             </el-form-item>
+            <div class="u_text">支持上传其他协议，可上传多个文件，上传后协议名称显示为文件名称</div>
+            <el-form-item label='其他协议'>
+              <plain-upload :file_list='model.rgOtherProtocol' :limits='100' :maxSize='10' @onRemove='rgOtherProtocolRemove' @onSuccess='rgOtherProtocolSuccess'></plain-upload>
+            </el-form-item>
           </template>
           <template slot='collapse-right'>
             <div class='chat_content'>
@@ -100,6 +104,7 @@
                 :rgButtonText='model.rgButtonText'
                 :rgButtonTextColor='model.rgButtonTextColor'
                 :rgPrivacyPolicyUrl='model.rgPrivacyPolicyUrl'
+                :rgOtherProtocol='model.rgOtherProtocol'
                 :rgMemberRuleUrl='model.rgMemberRuleUrl'/>
             </div>
           </template>
@@ -118,8 +123,11 @@
           </template>
           <template slot='collapse-right'>
             <div class='chat-content'>
-              <content-register :title='model.title' :content='model.content' :picture='model.picture'/>
-              <img src='@/assets/chat.png' class='chat-img'/>
+              <div class='mobile_content' :style='{backgroundImage:"url("+model.mpFollowBackground+")"}' v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
+                <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
+                  <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
+                </VueDragResize>
+              </div>
             </div>
           </template>
         </recruitment-collapse>
@@ -192,12 +200,30 @@ export default Index
     width: 318px;
     height: 515px;
     margin: 0 auto;
+    overflow-y: auto;
     position: relative;
     background-size: cover;
-    background-repeat: no-repeat
+    background: #fff;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
   }
   .chat_content{
     width: 318px;
+  }
+  .chat_content::-webkit-scrollbar {
+    width: 1px;
+  }
+  .chat_content::-webkit-scrollbar-track {
+    background-color:#fff;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius:1px;
+  }
+  .chat_content::-webkit-scrollbar-thumb {
+    background-color:#fff;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius:1px;
   }
   .chat-img {
     position: absolute;

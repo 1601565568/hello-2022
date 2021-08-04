@@ -6,7 +6,9 @@
           <div class="message-msg clearfix">
             <!--文字开始-->
             <div class="message-msg__text"  v-if="child.type === 1 && child.msg !== ''">
-              <div class="message-news">{{child.msg}}</div>
+              <div class="message-news">
+                <EmojiText :text='child.msg' type='list'/>
+              </div>
               <div class="message-circle"></div>
             </div>
             <!--文字结束-->
@@ -76,10 +78,11 @@
 </template>
 <script>
 import ElImage from '@nascent/nui/lib/image'
+import EmojiText from '@/components/NewUi/EmojiText'
 
 export default {
   components: {
-    ElImage
+    ElImage, EmojiText
   },
   data () {
     return {

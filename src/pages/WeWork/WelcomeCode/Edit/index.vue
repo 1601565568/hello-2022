@@ -335,14 +335,14 @@ export default {
   .el-form-item {
     margin-top: 26px;
     .el-input {
-      width: 626px;
+      max-width: 626px;
     }
     .tag-area {
-      width: 626px;
+      max-width: 626px;
     }
     .select-area {
       margin-top: 11px;
-      width: 626px;
+      max-width: 626px;
       height: 64px;
       background: #F5F5F5;
       font-size: 14px;
@@ -352,6 +352,7 @@ export default {
       .select-title {
         margin-left: 24px;
         display: inline-block;
+        white-space: nowrap;
       }
       .select-tips {
         width: 494px;
