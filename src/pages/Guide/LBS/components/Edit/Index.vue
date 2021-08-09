@@ -109,12 +109,14 @@
               </div>
               <div class='step-content'>
                 <div class='step-name'>Step1：</div>
-                <div class='step-value'>引导店长创建门店群</div>
+                <div class='step-value'>
+                  引导店长创建门店群
+                </div>
                 <div class='step-tip'>
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle" class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>店长收到创建群通知</p>
+                      <p class='popperClass'>消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码入群群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）</p>
                     </template>
                   </el-tooltip>
                 </div>
@@ -195,7 +197,7 @@
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle"  class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>设置门店的企微聚合码</p>
+                      <p class='popperClass'>消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码添加门店员工为好友</p>
                     </template>
                   </el-tooltip>
                 </div>
@@ -227,10 +229,10 @@
             </el-form-item>
           </template>
           <template slot='collapse-right'>
-            <div class='search-bar'>
+            <!-- <div class='search-bar'>
               <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
               <span class='search-bar_text'>搜索您最近的门店</span>
-            </div>
+            </div> -->
             <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
               <div v-if='!model.qrcodePoster'>
                 <div class='user-content_bg' >你还未上传活动海报</div>
@@ -496,7 +498,7 @@ export default Index
     background-origin: 50% 50%;
     position: relative;
     &.short-img {
-      height:476px;
+      height:513px;
       .user-content_bg {
         top: 120px;
       }
