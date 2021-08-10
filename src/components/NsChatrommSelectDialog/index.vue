@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item v-show="model.shopType === 2"  label="选择门店：">
             <el-form-grid>
-              <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" v-model="model.shopArea" clearable default-expand-all></ns-droptree>
+              <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-show="model.shopType === 1 || model.shopType === 2" style="margin-left:0px">
