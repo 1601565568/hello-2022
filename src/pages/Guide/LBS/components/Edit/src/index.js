@@ -122,7 +122,8 @@ export default {
     },
     // 参与门店提示
     shopTip () {
-      return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
+      // return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
+      return '根据客户选择城市，推荐附近参与活动的门店列表'
     },
     // 海报提示
     welcomePosterTip () {
@@ -134,7 +135,8 @@ export default {
     },
     // 手机title
     phoneTitle () {
-      return this.type === 'Group' ? '加入门店群' : 'LBS好友拉新活动名称'
+      // return this.type === 'Group' ? '加入门店群' : 'LBS好友拉新活动名称'
+      return this.model.name || '活动名称'
     },
     // q群聚合码设置
     groupSet () {
