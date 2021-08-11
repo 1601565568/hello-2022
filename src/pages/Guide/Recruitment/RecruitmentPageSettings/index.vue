@@ -125,7 +125,7 @@
             <div class='chat-content'>
               <div class='mobile_content' :style="{
                         backgroundImage: 'url(' +model.mpFollowBackground+')',
-                        backgroundSize: 'cover'
+                        backgroundSize: '100% 100%'
                       }" v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
                 <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
                   <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
