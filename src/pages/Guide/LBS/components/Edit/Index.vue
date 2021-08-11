@@ -188,7 +188,7 @@
             <!-- 好友聚合码设置 start -->
             <template v-if='type === "Friends"'>
               <div class='form-item_tip'>
-                消费者进入此活动页面后，根据定位位置自动推荐最近门店的企微聚合码，客户可扫码添加企业员工为好友
+                消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码添加门店员工为好友
               </div>
               <div class='step-content'>
                 <div class='step-name'>Step1：</div>
