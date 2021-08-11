@@ -1,6 +1,9 @@
 <template>
   <div>
     <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
+    <div class='header-tip'>
+      <div class='header-tip__content'>需向企业微信申请企业白名单，才可使用此功能</div>
+    </div>
     <ns-page-table @add="$emit('add')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">
@@ -223,5 +226,17 @@ export default personalQrcode
   }
   .resetbtn {
     margin-left: var(--default-margin-larger);
+  }
+  .header-tip {
+    padding: 16px;
+    background: #fff;
+    border-bottom: 1px solid #EBEEF5;
+  }
+  .header-tip__content {
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+    background: #F2F9FE;
+    padding: 9px 16px;
   }
 </style>
