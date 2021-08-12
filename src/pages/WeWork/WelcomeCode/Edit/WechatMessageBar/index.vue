@@ -209,22 +209,6 @@ export default {
         case tType.Video:
           this.videoMsg = context
           break
-        case tType.Link:
-          this.linkMsg = context
-          this.visibleLinkMessageDialog = true
-          break
-        case tType.MiniProgram:
-          this.miniProgramMsg = context
-          this.visibleMiniProgramMessageDialog = true
-          break
-        case tType.Poster:
-          this.posterMsg = context
-          this.visiblePosterMessageDialog = true
-          break
-        case tType.Pitbit:
-          this.pitbitMsg = context
-          this.visiblePitbitMessageDialog = true
-          break
         default:
           break
       }

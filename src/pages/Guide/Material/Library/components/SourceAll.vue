@@ -57,6 +57,7 @@
           <MessageList
             :list.sync="mediaList"
             @edit="editAnnexMessage"
+            @delete="deleteAnnexMessage"
           />
           <el-popover
             placement="top-start"
@@ -353,6 +354,9 @@ export default {
   methods: {
     uploadProgress (data) {
       if (data) {
+        if (data.isDelete) {
+          return
+        }
         const limit = parseInt(data.content.percent) === 100
         if (data.index >= 0) {
           this.$set(this.model.mediaList, data.index, data)
@@ -427,12 +431,18 @@ export default {
       this.guideText = ''
       this.showEidtImg = ''
     },
+    deleteAnnexMessage (context) {
+      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
+    },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
-      const { index, content, type } = context
+      const { index, content, type, isDelete } = context
       if (index > -1) {
+        if (isDelete) {
+          return
+        }
         // 编辑消息
         // this.$set(this.model.mediaList, index, context)
         this.model.mediaList.splice(index, 1, context)
