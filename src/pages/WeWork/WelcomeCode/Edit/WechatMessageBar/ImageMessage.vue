@@ -6,6 +6,7 @@
     accept=".jpg,.jpeg,.png"
     :on-success="onSuccess"
     :before-upload="beforeUpload"
+    :on-progress="onProgress"
   >
     <slot>上传</slot>
   </ElUpload>
@@ -54,6 +55,9 @@ export default {
       } else {
         this.$message.error('上传图片失败')
       }
+    },
+    onProgress (event, file, fileList) {
+      this.$emit('uploadProgress', { type: 'image', content: { percent: event.percent.toFixed(2), image: file.name } })
     }
   }
 }

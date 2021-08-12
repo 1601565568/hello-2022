@@ -78,6 +78,8 @@
               :pitBit='true'
               ref="WechatMessageBar"
               @addMessage="addAnnexMessage"
+              @uploadVideoProgress="uploadProgress"
+              @uploadImageProgress="uploadProgress"
             />
           </el-popover>
       </el-form-item>
@@ -349,6 +351,25 @@ export default {
     }
   },
   methods: {
+    uploadProgress (data) {
+      if (data) {
+        const limit = parseInt(data.content.percent) === 100
+        if (data.index >= 0) {
+          this.$set(this.model.mediaList, data.index, data)
+        } else {
+          if (data.index) {
+            // 编辑 更新
+            this.$set(this.model.mediaList, data.index, data)
+          } else {
+            // 新添加
+            let findIndex = this.model.mediaList.length
+            let objData = { ...data, index: findIndex }
+            this.model.mediaList.push(objData)
+            this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
+          }
+        }
+      }
+    },
     getdata (data) {},
     datadragEnd (evt) {},
     removeGuideImage () {
@@ -413,6 +434,7 @@ export default {
       const { index, content, type } = context
       if (index > -1) {
         // 编辑消息
+        // this.$set(this.model.mediaList, index, context)
         this.model.mediaList.splice(index, 1, context)
       } else {
         // 新增消息
