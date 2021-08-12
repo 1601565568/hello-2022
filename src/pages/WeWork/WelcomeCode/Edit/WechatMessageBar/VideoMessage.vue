@@ -62,10 +62,6 @@ export default {
       }
     },
     onProgress (event, file, fileList) {
-      console.log(file)
-      if (file.response) {
-        console.log(file.response)
-      }
       this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), video: file.name } })
     }
   }
