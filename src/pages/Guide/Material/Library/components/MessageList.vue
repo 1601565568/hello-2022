@@ -7,7 +7,12 @@
     >
       <div class="message-detail">
         <template v-if="type !== 0">
-          <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+          <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+            <img src="@/assets/materical-loading.gif" class="bitpit" />
+          </template>
+          <template v-else>
+            <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+          </template>
         </template>
         <template v-else>
           <img class="bitpit" src="@/assets/kwBig.png" alt="">
@@ -16,22 +21,24 @@
         <span v-else>自建坑位</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
-        <ns-button v-show="key !== 0" type="text" @click="sortMessage(key, 'top')">
-          <Icon type="zhiding" />
-        </ns-button>
-        <ns-button v-show="key !== 0" type="text" @click="sortMessage(key, 'up')">
-          <Icon type="top-arr" />
-        </ns-button>
-        <ns-button v-show="key !== list.length - 1" type="text" @click="sortMessage(key, 'down')">
-          <Icon type="down-arr" />
-        </ns-button>
-        <ns-button v-show="key !== list.length - 1" type="text" @click="sortMessage(key, 'bottom')">
-          <Icon type="zhidi" />
-        </ns-button>
+        <!-- <view v-show="isShowEdit({ type, content })"> -->
+          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
+            <Icon type="zhiding" />
+          </ns-button>
+          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
+            <Icon type="top-arr" />
+          </ns-button>
+          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
+            <Icon type="down-arr" />
+          </ns-button>
+          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
+            <Icon type="zhidi" />
+          </ns-button>
+        <!-- </view> -->
       </div>
       <div class="message-operate">
-        <ns-button type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
-        <ns-button type="text" size="small" @click="deleteMessage(key)">删除</ns-button>
+        <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
+        <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)">删除</ns-button>
       </div>
       <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
@@ -79,6 +86,19 @@ export default {
     }
   },
   methods: {
+    isShowEdit (data) {
+      let isShow
+      if (data.type !== 1 && data.type !== 2) {
+        isShow = true
+      } else {
+        if (parseInt(data.content.percent) < 100) {
+          isShow = false
+        } else {
+          isShow = true
+        }
+      }
+      return isShow
+    },
     /**
      * 改变消息顺序
      * @param index 当前消息位置
@@ -99,7 +119,8 @@ export default {
       }
       this.$emit('update:list', list)
     },
-    deleteMessage (index) {
+    deleteMessage (data, index) {
+      this.$emit('delete', { ...data, index, isDelete: true })
       const list = [ ...this.list ]
       list.splice(index, 1)
       this.$emit('update:list', list)
