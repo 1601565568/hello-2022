@@ -33,14 +33,18 @@
         <ns-button type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
         <ns-button type="text" size="small" @click="deleteMessage(key)">删除</ns-button>
       </div>
+      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
   </ul>
 </template>
 
 <script>
 import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
-
+import ElProgress from '@nascent/nui/lib/progress'
 export default {
+  components: {
+    ElProgress
+  },
   props: {
     list: {
       type: Array,
@@ -70,7 +74,8 @@ export default {
   data () {
     return {
       WelcomeMessageType: WelcomeMessageType,
-      WelcomeMessageTypeTip: WelcomeMessageTypeTip
+      WelcomeMessageTypeTip: WelcomeMessageTypeTip,
+      customColor: '#0094FC'
     }
   },
   methods: {
@@ -107,6 +112,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-progress-bar__outer,
+.el-progress-bar__inner {
+    border-radius: none;
+}
 .message-list {
   width: 626px;
   list-style: none;
@@ -116,6 +125,7 @@ export default {
     align-items: center;
     height: 52px;
     border-bottom: 1px solid #e8e8e8;
+    position: relative;
 
     .message-detail {
       width: 212px;
@@ -159,6 +169,13 @@ export default {
       margin-left: 69px;
       width: 128px;
     }
+    .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
   }
 }
+
 </style>
