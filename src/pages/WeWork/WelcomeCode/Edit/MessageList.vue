@@ -12,7 +12,7 @@
         <template v-else>
           <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
         </template>
-        <span>{{type}}{{content | msgText(type)}}</span>
+        <span>{{content | msgText(type)}}</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
         <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
