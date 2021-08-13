@@ -4,10 +4,10 @@
 export enum WelcomeMessageType {
   Pitbit = 0,
   Image,
+  Video,
   Link,
   MiniProgram,
-  Poster,
-  Video
+  Poster
 }
 /**
  * 欢迎语附件类型对应Icon和标题
