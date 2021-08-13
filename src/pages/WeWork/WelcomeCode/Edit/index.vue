@@ -34,6 +34,7 @@
                   <MessageList
                     :list.sync="model.annexList"
                     @edit="editAnnexMessage"
+                    @delete="deleteAnnexMessage"
                   />
                   <el-popover
                     placement="top-start"
@@ -54,6 +55,8 @@
                     <WechatMessageBar
                       ref="WechatMessageBar"
                       @addMessage="addAnnexMessage"
+                      @uploadVideoProgress="uploadProgress"
+                      @uploadImageProgress="uploadProgress"
                     />
                   </el-popover>
                 </el-form-item>
@@ -249,6 +252,27 @@ export default {
     this.getWelcomeCode()
   },
   methods: {
+    uploadProgress (data) {
+      if (data) {
+        if (data.isDelete) {
+          return
+        }
+        if (data.index >= 0) {
+          this.$set(this.model.annexList, data.index, data)
+        } else {
+          if (data.index) {
+            // 编辑 更新
+            this.$set(this.model.annexList, data.index, data)
+          } else {
+            // 新添加
+            let findIndex = this.model.annexList.length
+            let objData = { ...data, index: findIndex }
+            this.model.annexList.push(objData)
+            this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
+          }
+        }
+      }
+    },
     tagAreaInputLength (length) {
       this.welcomeInputLength = length
       if (length > 0) {
@@ -258,8 +282,11 @@ export default {
       }
     },
     addAnnexMessage (context) {
-      const { index, content, type } = context
+      const { index, content, type, isDelete } = context
       if (index > -1) {
+        if (isDelete) {
+          return
+        }
         // 编辑消息
         this.model.annexList.splice(index, 1, context)
       } else {
@@ -270,6 +297,9 @@ export default {
           this.$notify.error('附件已达上限（9个），不能再添加')
         }
       }
+    },
+    deleteAnnexMessage (context) {
+      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context)

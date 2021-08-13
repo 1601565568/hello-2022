@@ -34,7 +34,7 @@ export const WelcomeMessageTypeTip = {
     icon: 'poster-1'
   },
   [WelcomeMessageType.Pitbit]: {
-    tip: '坑位',
-    icon: 'poster-1'
+    tip: '文本',
+    icon: 'wenbenbeifen-4'
   }
 }

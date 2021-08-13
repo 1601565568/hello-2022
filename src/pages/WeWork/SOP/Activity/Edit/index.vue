@@ -87,12 +87,18 @@
                   <WechatMessageBar
                     ref="WechatMessageBar"
                     @addMessage="addMessage"
+                    @uploadVideoProgress="uploadProgress"
                   />
                 </el-popover>
                 <span class="add-tip label-gap">最多添加10条消息，图片最大2M，视频最大10M</span>
               </el-form-item>
               <el-form-item>
-                <div class="message-table label-gap">
+                <MessageList
+                  :list.sync="model.contentList"
+                  @edit="editMessage"
+                  @delete="deleteAnnexMessage"
+                />
+                <!-- <div class="message-table label-gap">
                   <el-table
                     style="width: 100%;"
                     class="table-form_reset"
@@ -158,7 +164,7 @@
                       </template>
                     </el-table-column>
                   </el-table>
-                </div>
+                </div> -->
               </el-form-item>
             </template>
             <template slot="collapse-right">
@@ -177,10 +183,10 @@ import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import NsRoomDialog from '@/components/NsRoomDialog'
 import MessagePreviewPanel from '../../components/MessagePreviewPanel/index.vue'
-import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
+// import { TextMessage, ImageMessage, VideoMessage, NewsMessage, MiniProgramMessage } from '../../components/ActivityMessage/index.vue'
 import WechatMessageBar from './WechatMessageBar'
 import { SOPActivityMessageType, SOPExamineStatus } from '../../types'
-
+import MessageList from './MessageList'
 export default {
   components: {
     PageEdit,
@@ -188,12 +194,13 @@ export default {
     PhoneBox,
     NsRoomDialog,
     MessagePreviewPanel,
-    TextMessage,
-    ImageMessage,
-    VideoMessage,
-    NewsMessage,
-    MiniProgramMessage,
-    WechatMessageBar
+    // TextMessage,
+    // ImageMessage,
+    // VideoMessage,
+    // NewsMessage,
+    // MiniProgramMessage,
+    WechatMessageBar,
+    MessageList
   },
   filters: {
     msgTypeText (type) {
@@ -370,6 +377,27 @@ export default {
     }
   },
   methods: {
+    uploadProgress (data) {
+      if (data) {
+        if (data.isDelete) {
+          return
+        }
+        if (data.index >= 0) {
+          this.$set(this.model.contentList, data.index, data)
+        } else {
+          if (data.index) {
+            // 编辑 更新
+            this.$set(this.model.contentList, data.index, data)
+          } else {
+            // 新添加
+            let findIndex = this.model.contentList.length
+            let objData = { ...data, index: findIndex }
+            this.model.contentList.push(objData)
+            this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
+          }
+        }
+      }
+    },
     getActivityDetailById (id) {
       return new Promise((resolve) => {
         this.$http.fetch(this.$api.weWork.sop.findById, { id })
@@ -458,9 +486,12 @@ export default {
      * 新增素材消息
      */
     addMessage (context) {
-      const { index, content, type } = context
+      const { index, content, type, isDelete } = context
       if (index > -1) {
         // 编辑消息
+        if (isDelete) {
+          return
+        }
         this.model.contentList.splice(index, 1, context)
       } else {
         // 新增消息
@@ -479,6 +510,9 @@ export default {
     },
     deleteMessage (data, index) {
       this.model.contentList.splice(index, 1)
+    },
+    deleteAnnexMessage (context) {
+      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
     }
   }
 }

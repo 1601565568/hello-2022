@@ -12,7 +12,7 @@
         <template v-else>
           <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
         </template>
-        <span>{{type}}{{content | msgText(type)}}</span>
+        <span>{{content | msgText(type)}}</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
         <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
+import { WelcomeMessageType, WelcomeMessageTypeTip } from './types'
 import ElProgress from '@nascent/nui/lib/progress'
 export default {
   components: {
@@ -55,16 +55,16 @@ export default {
   filters: {
     msgText (content, type) {
       switch (type) {
+        case WelcomeMessageType.Poster:
         case WelcomeMessageType.Image:
-          return content.image.slice(content.image.lastIndexOf('/') + 1)
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Video:
-          return content.video.slice(content.video.lastIndexOf('/') + 1)
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Link:
         case WelcomeMessageType.MiniProgram:
-        case WelcomeMessageType.Poster:
           return content.title
         case WelcomeMessageType.Pitbit:
-          return content.pitText
+          return content.content
         default:
           return ''
       }
@@ -118,7 +118,7 @@ export default {
       this.$emit('update:list', list)
     },
     editMessage (data, index) {
-      this.$emit('edit', { ...data, index })
+      this.$emit('edit', data, index)
     }
   }
 }
