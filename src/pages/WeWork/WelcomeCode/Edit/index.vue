@@ -419,7 +419,7 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      // justify-content: center;
       .icon {
         font-size: 13px;
         color:#0091FA;
