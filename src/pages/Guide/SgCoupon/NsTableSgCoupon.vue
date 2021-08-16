@@ -104,80 +104,101 @@
       <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-
-      <el-table ref="table" :data="_data._table.data" class="template-table__main"
-                stripe
-                resizable v-loading.lock="_data._table.loadingtable"
-                :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" align="center" :width="210"
-                         label="面额" :sortable="false">
-          <template slot-scope="scope">
-            <couponItem :itemObj="scope.row"></couponItem>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left"
-                         label="卡券信息" :sortable="false">
-          <template slot-scope="scope">
-            <span>优惠券名称:{{scope.row.couponTitle}}</span><br>
-            <span>使用条件:{{scope.row.useConditionStr}}</span><br>
-            <span>优惠券编码:{{scope.row.couponCode}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" align="center"
-                         label="有效时间" :sortable="false">
-          <template slot-scope="{row}">
-            <div v-if="row.dateValidType == 0">
-              <span>{{row.startTime}}</span><br>
-              <span>~</span><br>
-              <span>{{row.endTime}}</span>
-            </div>
-            <div v-if="row.dateValidType == 1">
-              <span>领取后第{{row.afterGetValidDays}}天生效</span><br>
-              <span>有效期{{row.validDays}}天</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
-                         label="创建时间" :sortable="false" width="180">
-        </el-table-column>
-        <el-table-column label="分配渠道" width="100" align="right">
-          <template slot-scope="scope">
-            {{scope.row.apportionChannel === 1 ? '活动分发': '导购分发'}}
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="right"
-                         label="配额" :sortable="false" width="100">
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
-                         label="状态" :sortable="false" width="70">
-          <template slot-scope="scope">
-            <span :class="scope.row.isValid == 1 ? 'text-yellow': scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
-              {{scope.row.isValid == 1 ? '已作废': scope.row.couponStatus == '0' ? "禁用" : "启用"}}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
-                         label="发放门店" :sortable="false" width="70">
-          <template slot-scope="scope">
-            <span v-if="scope.row.type == 0">公用</span>
-            <a href="javascript:" @click="showListDialog(scope.row.activityCouponId)" v-else>{{scope.row.shopTotal}}</a>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
-                         label="发放情况" :sortable="false" width="160">
-          <template slot-scope="scope">
-            已领取：{{scope.row.noUseTotal?scope.row.noUseTotal:'0'}}&nbsp;张<br>
-            已使用：{{scope.row.useTotal?scope.row.useTotal:'0'}}&nbsp;张
-          </template>
-        </el-table-column>
-      </el-table>
+      <div style="margin-top:20px;background-color:white;padding:10px">
+        <el-table ref="table" :data="_data._table.data" class="new-table_border drawer-table"
+                  v-loading.lock="_data._table.loadingtable"
+                  max-height="800"
+                  :header-row-style="{'height': '48px'}"
+                  :cell-style="{ 'padding-top': '12px', 'padding-bottom' : '12px'}"
+                  :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" width="210px"
+                          label="面额" :sortable="false">
+            <template slot-scope="scope">
+              <couponItem :itemObj="scope.row"></couponItem>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
+                          label="卡券信息" :sortable="false" width="270px">
+            <template slot-scope="scope">
+              <span>优惠券名称:{{scope.row.couponTitle}}</span><br>
+              <span>使用条件:{{scope.row.useConditionStr}}</span><br>
+              <span>优惠券编码:{{scope.row.couponCode}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default"
+                          label="有效时间" :sortable="false" width="166px">
+            <template slot-scope="{row}">
+              <div v-if="row.dateValidType == 0">
+                <span>{{row.startTime}}</span><br>
+                <span>~</span><br>
+                <span>{{row.endTime}}</span>
+              </div>
+              <div v-if="row.dateValidType == 1">
+                <span>领取后第{{row.afterGetValidDays}}天生效</span><br>
+                <span>有效期{{row.validDays}}天</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime"
+                          label="创建时间" :sortable="false" width="180px">
+          </el-table-column>
+          <el-table-column label="分配渠道" width="100px" align="center">
+            <template slot-scope="scope">
+              {{scope.row.apportionChannel === 1 ? '活动分发': '导购分发'}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal"
+                          label="配额" :sortable="false" width="100px" align="center">
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="type"
+                          label="状态" :sortable="false" width="100px" align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.isValid == 1" class="text-base text-invalid">已作废</span>
+              <span v-else>
+                  <span v-if="scope.row.couponStatus == 0" class="text-base text-disable">禁用</span>
+                  <span v-else class="text-base text-enable">启用</span>
+              </span>
+              <!-- <span :class="scope.row.isValid == 1 ? 'text-yellow': scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
+                {{scope.row.isValid == 1 ? '已作废': scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+              </span> -->
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType"
+                          label="发放门店" :sortable="false" width="100px" align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.type == 0">公用</span>
+              <a href="javascript:" @click="showListDialog(scope.row.activityCouponId)" v-else>{{scope.row.shopTotal}}</a>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType"
+                          label="发放情况" :sortable="false" width="115px" align="center">
+            <template slot-scope="scope">
+              已领取：{{scope.row.noUseTotal?scope.row.noUseTotal:'0'}}&nbsp;张<br>
+              已使用：{{scope.row.useTotal?scope.row.useTotal:'0'}}&nbsp;张
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType"
+                          label="启用" :sortable="false" width="100px" align="center">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.start"
+                active-color="#13ce66"
+                inactive-color="#8C8C8C">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType"
+                          label="操作" :sortable="false" width="100px" align="center">
+                          <div style="color:#0094FC;font-size:14px">编辑</div>
+          </el-table-column>
+        </el-table>
+      </div>
     </template>
     <!-- 表格-结束 -->
 
     <!-- 分页 -->
     <template slot="pagination">
-      <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
+      <el-pagination v-if="_data._pagination.enable" class="template-table__pagination" background
                      :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
                      :current-page.sync="_data._pagination.page" :page-size="_data._pagination.size"
                      layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
@@ -204,6 +225,7 @@ export default NsTableSgCoupon
 
 <style scoped>
   @import "@theme/variables.pcss";
+  @import '@components/NewUi/styles/reset.css';
 
   .w80{
     text-align: right;
@@ -216,7 +238,28 @@ export default NsTableSgCoupon
   .resetbtn {
     margin-left: var(--default-margin-larger);
   }
-  .text-yellow {
-    color: #FFAE09;
+  .text-base {
+    color: rgba(0,0,0,0.85);
+    padding: 0 10px;
+    display: inline-block;
+    border-radius: 2px;
+    font-size: 12px;
+  }
+  .text-invalid {
+    background: #FFF4E6;
+    border: 1px solid #FFD8A8;
+  }
+  .text-disable {
+    background: #FFEFE6;
+    border: 1px solid #C34120;
+  }
+  .text-enable {
+    background: #EDFAE1;
+    border: 1px solid #C2F099;
+  }
+  .drawer-table {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
   }
 </style>
