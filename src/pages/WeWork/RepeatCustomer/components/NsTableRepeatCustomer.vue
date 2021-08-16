@@ -2,8 +2,8 @@
  * @Descripttion: 智能欢迎语列表组件
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-31 19:08:56
+ * @LastEditors: yuye.huang
+ * @LastEditTime: 2021-08-16 11:05:59
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -137,7 +137,7 @@
         </el-table-column>
         <el-table-column label="性别" align="center">
           <template slot-scope="scope">
-            {{scope.row.gender==0?scope.row.gender==1?'男':'女':'未知'}}
+            {{scope.row.gender==1?scope.row.gender==2?'男':'女':'未知'}}
           </template>
         </el-table-column>
         <el-table-column label="所属员工" align="center">
