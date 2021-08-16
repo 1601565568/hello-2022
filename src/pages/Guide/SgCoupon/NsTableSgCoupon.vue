@@ -104,7 +104,7 @@
       <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-      <div style="margin-top:20px;background-color:white;padding:10px">
+      <div style="margin-top:10px;background-color:white;padding:10px">
         <el-table ref="table" :data="_data._table.data" class="new-table_border drawer-table"
                   v-loading.lock="_data._table.loadingtable"
                   max-height="800"
