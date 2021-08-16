@@ -3,7 +3,7 @@
  * @Author: xiaotx
  * @Date: 2021-02-7 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2021-08-16 11:37:10
+ * @LastEditTime: 2021-08-16 13:39:35
  -->
 <template>
   <div>
@@ -30,7 +30,7 @@
           </el-form-item>
           <el-form-item label="性别：">
             <el-form-grid>
-              <span>{{guide.gender==1?guide.gender==2?'男':'女':'未知'}}</span>
+              <span>{{guide.gender==1?'男'?guide.gender==2:'女':'未知'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
