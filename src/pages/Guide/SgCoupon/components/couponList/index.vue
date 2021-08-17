@@ -10,11 +10,11 @@
         <el-form
           ref="form"
           :model="activityModel"
-          label-width="80px"
+          label-width="90px"
           class="form-main"
           @submit.native.prevent
         >
-          <el-form-item label="优惠券：" prop="coupon_id">
+          <el-form-item label="优惠券" prop="coupon_id" required>
             <el-form-grid size="xmd">
               <div class="choose-coupon" @click="onOpenCoupon()">
                 <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
@@ -26,7 +26,7 @@
               <span class="remind-color"></span><span class="remind-text">选择中台已新增的优惠券至导购系统</span>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
+          <el-form-item label="剩余数量" v-if="activityModel.coupon_id !== 0">
             <el-form-item prop="store_coupon_total">
               <div
                 class="disabled"
@@ -43,11 +43,11 @@
               </div>
             </el-form-item>
           </el-form-item>
-          <el-form-item label="总配额：" required>
+          <el-form-item label="总配额" required>
             <el-form-grid size="xmd">
               <el-form-item prop="coupon_total">
                 <el-input
-                  style="width: 360px"
+                  style="width: 360px;font-size:14px;"
                   placeholder="请输入正整数"
                   type="number"
                   v-model="activityModel.coupon_total"
@@ -62,7 +62,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item
-            label="分配渠道："
+            label="分配渠道"
             v-if="activityModel.coupon_id !== 0"
             required
           >
@@ -101,7 +101,7 @@
           </template>
           <template v-if="apportionChannel === 0">
             <el-form-item
-              label="分配方式："
+              label="分配方式"
               v-if="activityModel.coupon_id !== 0"
               required
             >
@@ -122,7 +122,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item
-              label="分配门店："
+              label="分配门店"
               v-if="activityModel.coupon_id !== 0"
               required
             >
@@ -276,6 +276,7 @@ export default index
   height: 28px;
   padding: 0 9px;
   justify-content: space-between;
+  font-size: 14px;
 }
 .remind-color {
   width: 8px;

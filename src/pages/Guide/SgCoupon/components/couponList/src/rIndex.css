@@ -1,9 +1,24 @@
 >>> .el-radio__input.is-checked + .el-radio__label {
   color: #0091FA !important;
+  font-size:14px;
+  line-height:22px;
 }
 >>> .el-radio__input.is-checked .el-radio__inner {
     background: #0091FA !important;
     border-color: #0091FA !important;
     width:16px;
     height:16px;
+    line-height:22px;
+}
+
+>>> .el-form-item__label{
+  font-size:14px;
+  text-align:left;
+}
+>>> .el-form-item--small .el-form-item__content {
+  margin-bottom:5px;
+}
+>>> .el-dialog__header {
+  height: 56px;
+  font-weight: 500
 }
