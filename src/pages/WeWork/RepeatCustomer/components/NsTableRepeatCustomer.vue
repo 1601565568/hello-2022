@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2021-08-16 13:36:03
+ * @LastEditTime: 2021-08-17 16:43:50
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -137,7 +137,7 @@
         </el-table-column>
         <el-table-column label="性别" align="center">
           <template slot-scope="scope">
-            {{scope.row.gender==1?'男'?scope.row.gender==2:'女':'未知'}}
+            {{ scope.row.gender === 1 ? '男' : scope.row.gender === 2 ? '女' : '未知' }}
           </template>
         </el-table-column>
         <el-table-column label="所属员工" align="center">
