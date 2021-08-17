@@ -68,7 +68,7 @@
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel">
+                <el-radio-group v-model="apportionChannel" fill="red">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -262,6 +262,7 @@ export default index
 </script>
 <style scoped lang="scss">
 @import './src/index.scss';
+@import './src/rIndex.css';
 .empty-text {
   color: #bfbfbf;
 }
@@ -290,4 +291,5 @@ export default index
   line-height: 20px;
   font-weight: 400;
 }
+
 </style>
