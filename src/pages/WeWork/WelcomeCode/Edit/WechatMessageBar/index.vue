@@ -8,7 +8,6 @@
     <div class="add-material-item">
       <ImageMessage
         @confirm="addMessage"
-        @uploadProgress="uploadImageProgress"
       >
         <div class="add-material-item" ref="ImageMessage">
           <Icon type="tupianbeifen-4" class="icon" />
@@ -154,11 +153,12 @@ export default {
           type = 4
         }
       }
-      this.$emit('addMessage', { type, ...msg, content: message.content })
+      const checkMsg = msg.type === type ? { ...msg } : { }
+      this.$emit('addMessage', { ...checkMsg, type, content: message.content })
       // }
 
       if (this.imageMsg) this.imageMsg = null
-      if (this.videoMsg) this.videoMsg = null
+      // if (this.videoMsg) this.videoMsg = null
     },
     addCustomImg () {
       this.visiblePitbitMessageDialog = true

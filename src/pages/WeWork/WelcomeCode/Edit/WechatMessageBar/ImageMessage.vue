@@ -57,7 +57,7 @@ export default {
       }
     },
     onProgress (event, file, fileList) {
-      this.$emit('uploadProgress', { type: 'image', content: { percent: event.percent.toFixed(2), image: file.name } })
+      // this.$emit('uploadProgress', { type: 'image', content: { percent: event.percent.toFixed(2), image: file.name } })
     }
   }
 }

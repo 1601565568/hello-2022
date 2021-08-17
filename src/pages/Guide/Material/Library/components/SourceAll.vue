@@ -80,7 +80,6 @@
               ref="WechatMessageBar"
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"
-              @uploadImageProgress="uploadProgress"
             />
           </el-popover>
       </el-form-item>
@@ -357,20 +356,22 @@ export default {
         if (data.isDelete) {
           return
         }
-        const limit = parseInt(data.content.percent) === 100
-        if (data.index >= 0) {
-          this.$set(this.model.mediaList, data.index, data)
+        let isLargeNumber = (item) => item.uid === data.content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        console.log('uploadProgress: ', findEditIndex)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.mediaList.length
+          let objData = { ...data, uid: data.content.uid, isLoad: true, isVideo: true }
+          this.model.mediaList.push(objData)
+          this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
         } else {
-          if (data.index) {
-            // 编辑 更新
-            this.$set(this.model.mediaList, data.index, data)
-          } else {
-            // 新添加
-            let findIndex = this.model.mediaList.length
-            let objData = { ...data, index: findIndex }
-            this.model.mediaList.push(objData)
-            this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
-          }
+          this.model.mediaList.splice(findEditIndex, 1, data)
+        }
+        const limit = Number(data.content.percent) === 100
+        if (limit) {
+          let objData = { ...data, isLoad: false }
+          this.model.mediaList.splice(findEditIndex, 1, data)
         }
       }
     },
@@ -432,28 +433,40 @@ export default {
       this.showEidtImg = ''
     },
     deleteAnnexMessage (context) {
-      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
+      this.model.mediaList.splice(context.index, 1)
+      // this.$refs.WechatMessageBar.setMessageByEdit(context, true)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
-      const { index, content, type, isDelete } = context
-      if (index > -1) {
-        if (isDelete) {
-          return
+      console.log('addAnnexMessage')
+      console.log(context)
+      const { index, content, type, isDelete, uid, isLoad, isVideo } = context
+      if (isDelete) {
+        return
+      }
+      if (isVideo && type === 2) {
+        let isLargeNumber = (item) => item.uid === uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        console.log('视频', findEditIndex)
+        if (findEditIndex > -1) {
+          this.$set(this.model.mediaList, findEditIndex, context)
         }
-        // 编辑消息
-        // this.$set(this.model.mediaList, index, context)
-        this.model.mediaList.splice(index, 1, context)
       } else {
-        // 新增消息
-        if (this.model.mediaList.length < 9) {
-          this.model.mediaList.push(context)
+        if (index > -1) {
+          // 编辑消息
+          this.$set(this.model.mediaList, index, context)
         } else {
-          this.$notify.error('附件已达上限（9个），不能再添加')
+          // 新增消息
+          if (this.model.mediaList.length < 9) {
+            this.model.mediaList.push(context)
+          } else {
+            this.$notify.error('附件已达上限（9个），不能再添加')
+          }
         }
       }
+      console.log(this.model.mediaList)
     },
     editImage (index) {
       this.editIndex = index

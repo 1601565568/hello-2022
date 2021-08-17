@@ -62,7 +62,7 @@ export default {
       }
     },
     onProgress (event, file, fileList) {
-      this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), video: file.name } })
+      this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), video: file.name, uid: String(file.uid) } })
     }
   }
 }
