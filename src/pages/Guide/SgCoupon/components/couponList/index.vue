@@ -10,11 +10,11 @@
         <el-form
           ref="form"
           :model="activityModel"
-          label-width="80px"
+          label-width="90px"
           class="form-main"
           @submit.native.prevent
         >
-          <el-form-item label="优惠券：" prop="coupon_id">
+          <el-form-item label="优惠券" prop="coupon_id" required>
             <el-form-grid size="xmd">
               <div class="choose-coupon" @click="onOpenCoupon()">
                 <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
@@ -23,10 +23,10 @@
               </div>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <Icon type="info-circle" /> 选择中台已新增的优惠券至导购系统
+              <span class="remind-color"></span><span class="remind-text">选择中台已新增的优惠券至导购系统</span>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
+          <el-form-item label="剩余数量" v-if="activityModel.coupon_id !== 0">
             <el-form-item prop="store_coupon_total">
               <div
                 class="disabled"
@@ -43,11 +43,11 @@
               </div>
             </el-form-item>
           </el-form-item>
-          <el-form-item label="配额：" required>
+          <el-form-item label="总配额" required>
             <el-form-grid size="xmd">
               <el-form-item prop="coupon_total">
                 <el-input
-                  style="width: 360px"
+                  style="width: 360px;font-size:14px;"
                   placeholder="请输入正整数"
                   type="number"
                   v-model="activityModel.coupon_total"
@@ -58,17 +58,17 @@
               </el-form-item>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <Icon type="info-circle" /> 设置优惠券的数量
+              <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item
-            label="分配渠道："
+            label="分配渠道"
             v-if="activityModel.coupon_id !== 0"
             required
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel">
+                <el-radio-group v-model="apportionChannel" fill="red">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -95,14 +95,13 @@
               </el-select>
               </el-form-grid>
               <el-form-grid block class="text-primary">
-                <Icon type="info-circle" />
-                可参与发放券的门店在活动内单独控制
+                <span class="remind-color"></span><span class="remind-text">可参与发放券的门店在活动内单独控制</span>
               </el-form-grid>
             </el-form-item>
           </template>
           <template v-if="apportionChannel === 0">
             <el-form-item
-              label="分配方式："
+              label="分配方式"
               v-if="activityModel.coupon_id !== 0"
               required
             >
@@ -119,12 +118,11 @@
                 </el-form-item>
               </el-form-grid>
               <el-form-grid block class="text-primary">
-                <Icon type="info-circle" />
-                公用：分配门店共享配额；自由分配：手动设置分配门店的配额
+                <span class="remind-color"></span><span class="remind-text">公用：分配门店共享配额；自由分配：手动设置分配门店的配额</span>
               </el-form-grid>
             </el-form-item>
             <el-form-item
-              label="分配门店："
+              label="分配门店"
               v-if="activityModel.coupon_id !== 0"
               required
             >
@@ -264,6 +262,7 @@ export default index
 </script>
 <style scoped lang="scss">
 @import './src/index.scss';
+@import './src/rIndex.css';
 .empty-text {
   color: #bfbfbf;
 }
@@ -277,5 +276,21 @@ export default index
   height: 28px;
   padding: 0 9px;
   justify-content: space-between;
+  font-size: 14px;
 }
+.remind-color {
+  width: 8px;
+  height: 8px;
+  background: #F2AA18;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.remind-text {
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  font-weight: 400;
+}
+
 </style>
