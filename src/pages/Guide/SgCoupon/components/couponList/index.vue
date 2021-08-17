@@ -23,7 +23,7 @@
               </div>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <Icon type="info-circle" /> 选择中台已新增的优惠券至导购系统
+              <span class="remind-color"></span><span class="remind-text">选择中台已新增的优惠券至导购系统</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
@@ -43,7 +43,7 @@
               </div>
             </el-form-item>
           </el-form-item>
-          <el-form-item label="配额：" required>
+          <el-form-item label="总配额：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="coupon_total">
                 <el-input
@@ -58,7 +58,7 @@
               </el-form-item>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <Icon type="info-circle" /> 设置优惠券的数量
+              <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item
@@ -95,8 +95,7 @@
               </el-select>
               </el-form-grid>
               <el-form-grid block class="text-primary">
-                <Icon type="info-circle" />
-                可参与发放券的门店在活动内单独控制
+                <span class="remind-color"></span><span class="remind-text">可参与发放券的门店在活动内单独控制</span>
               </el-form-grid>
             </el-form-item>
           </template>
@@ -119,8 +118,7 @@
                 </el-form-item>
               </el-form-grid>
               <el-form-grid block class="text-primary">
-                <Icon type="info-circle" />
-                公用：分配门店共享配额；自由分配：手动设置分配门店的配额
+                <span class="remind-color"></span><span class="remind-text">公用：分配门店共享配额；自由分配：手动设置分配门店的配额</span>
               </el-form-grid>
             </el-form-item>
             <el-form-item
@@ -277,5 +275,19 @@ export default index
   height: 28px;
   padding: 0 9px;
   justify-content: space-between;
+}
+.remind-color {
+  width: 8px;
+  height: 8px;
+  background: #F2AA18;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.remind-text {
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  font-weight: 400;
 }
 </style>
