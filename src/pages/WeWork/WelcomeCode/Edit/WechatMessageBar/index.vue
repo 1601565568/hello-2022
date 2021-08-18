@@ -8,7 +8,6 @@
     <div class="add-material-item">
       <ImageMessage
         @confirm="addMessage"
-        @uploadProgress="uploadImageProgress"
       >
         <div class="add-material-item" ref="ImageMessage">
           <Icon type="tupianbeifen-4" class="icon" />
@@ -154,8 +153,7 @@ export default {
           type = 4
         }
       }
-      this.$emit('addMessage', { type, ...msg, content: message.content })
-      // }
+      this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
       if (this.videoMsg) this.videoMsg = null
@@ -199,6 +197,7 @@ export default {
       }
     },
 
+    // 替代写入数据的方法 已不用了
     setMessageByEdit (context, booleans = false) {
       const { type, index, content } = context
       let tType = booleans ? ScWelcomeMessageType : WelcomeMessageType
