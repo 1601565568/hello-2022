@@ -353,25 +353,22 @@ export default {
   methods: {
     uploadProgress (data) {
       if (data) {
-        if (data.isDelete) {
-          return
-        }
-        let isLargeNumber = (item) => item.uid === data.content.uid
-        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-        console.log('uploadProgress: ', findEditIndex)
-        if (findEditIndex === -1) {
-          // 新添加
-          let findIndex = this.model.mediaList.length
-          let objData = { ...data, uid: data.content.uid, isLoad: true, isVideo: true }
-          this.model.mediaList.push(objData)
-          this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
+        if (Number(data.index) >= 0) {
+          // 编辑
+          this.model.mediaList.splice(data.index, 1, data)
         } else {
-          this.model.mediaList.splice(findEditIndex, 1, data)
-        }
-        const limit = Number(data.content.percent) === 100
-        if (limit) {
-          let objData = { ...data, isLoad: false }
-          this.model.mediaList.splice(findEditIndex, 1, data)
+          // 根据uid判断是否存在
+          let isLargeNumber = (item) => item.content.uid === data.content.uid
+          let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+          if (findEditIndex === -1) {
+            // 新添加
+            let findIndex = this.model.mediaList.length
+            let objData = { ...data, uid: data.content.uid }
+            this.model.mediaList.push(objData)
+          } else {
+            this.model.mediaList.splice(findEditIndex, 1, data)
+          }
+          const limit = Number(data.content.percent) === 100
         }
       }
     },
@@ -434,22 +431,20 @@ export default {
     },
     deleteAnnexMessage (context) {
       this.model.mediaList.splice(context.index, 1)
-      // this.$refs.WechatMessageBar.setMessageByEdit(context, true)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
-      console.log('addAnnexMessage')
-      console.log(context)
-      const { index, content, type, isDelete, uid, isLoad, isVideo } = context
-      if (isDelete) {
-        return
-      }
-      if (isVideo && type === 2) {
-        let isLargeNumber = (item) => item.uid === uid
+      const { index, content, type, isDelete } = context
+      // if (isDelete) {
+      //   return
+      // }
+      if (index) {
+        this.$set(this.model.mediaList, index, context)
+      } else if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-        console.log('视频', findEditIndex)
         if (findEditIndex > -1) {
           this.$set(this.model.mediaList, findEditIndex, context)
         }
@@ -466,7 +461,6 @@ export default {
           }
         }
       }
-      console.log(this.model.mediaList)
     },
     editImage (index) {
       this.editIndex = index
