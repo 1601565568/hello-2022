@@ -3,6 +3,15 @@
   font-size:14px;
   line-height:22px;
 }
+>>> .el-radio__label, .el-checkbox__label  {
+  font-size:14px;
+  line-height:22px;
+}
+
+>>> .el-radio__inner {
+  width:16px;
+  height:16px;
+}
 >>> .el-radio__input.is-checked .el-radio__inner {
     background: #0091FA !important;
     border-color: #0091FA !important;
