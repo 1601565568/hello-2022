@@ -353,6 +353,10 @@ export default {
   methods: {
     uploadProgress (data) {
       if (data) {
+        const deleteData = sessionStorage.getItem(data.content.uid)
+        if (deleteData) {
+          return
+        }
         if (Number(data.index) >= 0) {
           // 编辑
           this.model.mediaList.splice(data.index, 1, data)
@@ -430,6 +434,9 @@ export default {
       this.showEidtImg = ''
     },
     deleteAnnexMessage (context) {
+      if (context.type === 2 && Number(context.content.percent) < 100) {
+        sessionStorage.setItem(context.content.uid, context.content.uid)
+      }
       this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
@@ -437,9 +444,11 @@ export default {
     },
     addAnnexMessage (context) {
       const { index, content, type, isDelete } = context
-      // if (isDelete) {
-      //   return
-      // }
+      const deleteData = sessionStorage.getItem(content.uid)
+      if (deleteData && type === 2) {
+        sessionStorage.removeItem(content.uid)
+        return
+      }
       if (index) {
         this.$set(this.model.mediaList, index, context)
       } else if (content.uid) {
