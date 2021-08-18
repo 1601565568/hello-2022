@@ -59,7 +59,8 @@ export default {
       shopList: [], // 选择的门店
       apportionChannel: 0, // 分配渠道
       activityType: 1, // 分配活动
-      activityTypeList: [{ value: 1, label: '裂变大师' }]
+      activityTypeList: [{ value: 1, label: '裂变大师' }],
+      selectShopName: 0 // 分配门店
     }
   },
   methods: {
