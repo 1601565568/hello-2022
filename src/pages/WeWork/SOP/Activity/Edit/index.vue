@@ -433,7 +433,7 @@ export default {
      * 保存活动
      */
     saveActivity (submitReview) {
-      let isLargeNumber = (item) => item.type === 2 && Number(item.content.percent) < 100
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
       let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
       if (findEditIndex > -1) {
         this.$notify.warning('视频资源上传中，无法保存')
