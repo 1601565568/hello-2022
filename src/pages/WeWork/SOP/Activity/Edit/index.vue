@@ -379,22 +379,26 @@ export default {
   methods: {
     uploadProgress (data) {
       if (data) {
-        if (data.isDelete) {
+        const deleteData = sessionStorage.getItem(data.content.uid)
+        if (deleteData) {
           return
         }
-        if (data.index >= 0) {
-          this.$set(this.model.contentList, data.index, data)
+        if (Number(data.index) >= 0) {
+          // 编辑
+          this.model.contentList.splice(data.index, 1, data)
         } else {
-          if (data.index) {
-            // 编辑 更新
-            this.$set(this.model.contentList, data.index, data)
-          } else {
+          // 根据uid判断是否存在
+          let isLargeNumber = (item) => item.content.uid === data.content.uid
+          let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+          if (findEditIndex === -1) {
             // 新添加
             let findIndex = this.model.contentList.length
-            let objData = { ...data, index: findIndex }
+            let objData = { ...data, uid: data.content.uid }
             this.model.contentList.push(objData)
-            this.$refs.WechatMessageBar.setMessageByEdit(objData, true)
+          } else {
+            this.model.contentList.splice(findEditIndex, 1, data)
           }
+          const limit = Number(data.content.percent) === 100
         }
       }
     },
@@ -429,6 +433,12 @@ export default {
      * 保存活动
      */
     saveActivity (submitReview) {
+      let isLargeNumber = (item) => item.type === 2 && Number(item.content.percent) < 100
+      let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，无法保存')
+        return false
+      }
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           this.btnLoading = true
@@ -487,18 +497,30 @@ export default {
      */
     addMessage (context) {
       const { index, content, type, isDelete } = context
-      if (index > -1) {
-        // 编辑消息
-        if (isDelete) {
-          return
+      const deleteData = sessionStorage.getItem(content.uid)
+      if (deleteData && type === 2) {
+        sessionStorage.removeItem(content.uid)
+        return
+      }
+      if (index) {
+        this.$set(this.model.contentList, index, context)
+      } else if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.contentList, findEditIndex, context)
         }
-        this.model.contentList.splice(index, 1, context)
       } else {
-        // 新增消息
-        if (this.model.contentList.length < 10) {
-          this.model.contentList.push(context)
+        if (index > -1) {
+          // 编辑消息
+          this.$set(this.model.contentList, index, context)
         } else {
-          this.$message.error('最多添加10条消息')
+          // 新增消息
+          if (this.model.contentList.length < 9) {
+            this.model.contentList.push(context)
+          } else {
+            this.$notify.error('附件已达上限（9个），不能再添加')
+          }
         }
       }
     },
@@ -509,7 +531,11 @@ export default {
       this.$refs.WechatMessageBar.openMessageDialogByEdit({ ...data, index })
     },
     deleteMessage (data, index) {
-      this.model.contentList.splice(index, 1)
+      // this.model.contentList.splice(index, 1)
+      if (context.type === 2 && Number(context.content.percent) < 100) {
+        sessionStorage.setItem(context.content.uid, context.content.uid)
+      }
+      this.model.contentList.splice(context.index, 1)
     },
     deleteAnnexMessage (context) {
       this.$refs.WechatMessageBar.setMessageByEdit(context, true)

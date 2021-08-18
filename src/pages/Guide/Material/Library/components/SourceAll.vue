@@ -602,6 +602,12 @@ export default {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
       params.mediaList = this.mediaList
+      let isLargeNumber = (item) => item.type === 2 && Number(item.content.percent) < 100
+      let findEditIndex = this.mediaList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，无法保存')
+        return false
+      }
       // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0
