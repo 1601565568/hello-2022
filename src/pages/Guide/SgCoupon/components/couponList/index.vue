@@ -149,7 +149,7 @@
                   <div class="employee-suffix">
                     <shopSelect
                       @callBack="handleChangeShop"
-                      :hasShopArr="shopList"
+                      :hasShopArr.sync="shopList"
                       isDIYBtn
                     >
                       <template slot="btnIcon">
@@ -168,6 +168,7 @@
                 :shopMap="shopMap"
                 :shopListAll="shopAllList"
                 @changeShopMap="changeShopMap"
+                @removeShop="removeShop"
               ></StoreList>
             </el-form-item>
           </template>

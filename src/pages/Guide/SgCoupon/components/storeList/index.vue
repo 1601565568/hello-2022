@@ -67,6 +67,17 @@
                         style="width:80px"/>
             </template>
             </el-table-column>
+            <el-table-column
+              prop="operation"
+              label="操作"
+              :show-overflow-tooltip="true"
+              align="left"
+              :sortable="false"
+            >
+            <template slot-scope="scope">
+              <div class="remove-button" @click="removeShop(scope)">移除</div>
+            </template>
+            </el-table-column>
         </el-table>
         <!--分页开始-->
         <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
@@ -131,5 +142,10 @@ export default index
   padding: 0;
   font-size: 14px;
   font-weight: 400;
+}
+.remove-button {
+  color:#0094FC;
+  font-size:14px;
+  cursor: pointer;
 }
 </style>

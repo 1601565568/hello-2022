@@ -48,6 +48,12 @@ export default {
     }
   },
   methods: {
+    // 点击移除选择的店铺
+    removeShop (item) {
+      const index = item.$index
+      this.shopList.splice(index, 1)
+      this.$emit('removeShop', index)
+    },
     init (status, resp) {
       this.shopAllList = JSON.parse(JSON.stringify(this.shopListAll))
       this.findShopList(status, resp)

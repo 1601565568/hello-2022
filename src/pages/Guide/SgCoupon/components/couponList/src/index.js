@@ -64,6 +64,9 @@ export default {
     }
   },
   methods: {
+    removeShop (index) {
+      this.shopList.splice(index, 1)
+    },
     init () {
       this.addCouponDialogVisible = true
       this.activityModel.coupon_id = 0
