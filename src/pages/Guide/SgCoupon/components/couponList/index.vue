@@ -27,7 +27,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="剩余数量" v-if="activityModel.coupon_id !== 0">
-            <el-form-item prop="store_coupon_total">
+            <el-form-grid prop="store_coupon_total">
               <div
                 class="disabled"
                 v-if="
@@ -41,7 +41,10 @@
               <div class="disabled" v-else>
                 {{ storeModel.remainingQuantity }}
               </div>
-            </el-form-item>
+            </el-form-grid>
+            <el-form-grid block class="text-primary">
+              <span class="remind-color"></span><span class="remind-text">中台发放优惠券的剩余数量</span>
+            </el-form-grid>
           </el-form-item>
           <el-form-item label="总配额" required>
             <el-form-grid size="xmd">
@@ -105,18 +108,18 @@
               v-if="activityModel.coupon_id !== 0"
               required
             >
-              <el-form-grid>
-                <el-form-item prop="type">
-                  <el-radio-group v-model="activityModel.type">
-                    <el-radio :label="0" @change="onChangeDistributionMode(0)"
-                      >公用</el-radio
-                    >
-                    <el-radio :label="1" @change="onChangeDistributionMode(1)"
-                      >自由分配</el-radio
-                    >
-                  </el-radio-group>
-                </el-form-item>
-              </el-form-grid>
+              <!-- <el-form-grid> -->
+              <el-form-item prop="type">
+                <el-radio-group v-model="activityModel.type">
+                  <el-radio :label="0" @change="onChangeDistributionMode(0)"
+                    >公用</el-radio
+                  >
+                  <el-radio :label="1" @change="onChangeDistributionMode(1)"
+                    >自由分配</el-radio
+                  >
+                </el-radio-group>
+              </el-form-item>
+              <!-- </el-form-grid> -->
               <el-form-grid block class="text-primary">
                 <span class="remind-color"></span><span class="remind-text">公用：分配门店共享配额；自由分配：手动设置分配门店的配额</span>
               </el-form-grid>
@@ -126,7 +129,13 @@
               v-if="activityModel.coupon_id !== 0"
               required
             >
-              <el-form-grid>
+              <el-form-item prop="type">
+                <el-radio-group v-model="selectShopName" fill="red">
+                  <el-radio :label="0">全部门店</el-radio>
+                  <el-radio :label="1">部分门店</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-grid v-if="selectShopName === 1">
                 <div class="flex-box">
                   <div class="employee-list">
                     <template v-if="shopList.length > 0">
@@ -147,16 +156,11 @@
                         <Icon type="ns-store" />
                       </template>
                     </shopSelect>
-                    <!-- <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
-                    <template slot='btnIcon'>
-                      <Icon type="ns-store"/>
-                    </template>
-                  </NsShopDialog> -->
                   </div>
                 </div>
               </el-form-grid>
             </el-form-item>
-            <el-form-item v-if="shopList && shopList.length">
+            <el-form-item v-show="selectShopName === 1 && shopList && shopList.length ">
               <StoreList
                 ref="storeList"
                 :activityModel="activityModel"
@@ -277,6 +281,9 @@ export default index
   padding: 0 9px;
   justify-content: space-between;
   font-size: 14px;
+  .employee-text {
+    color: #BFBFBF;
+  }
 }
 .remind-color {
   width: 8px;

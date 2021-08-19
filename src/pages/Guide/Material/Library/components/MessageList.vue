@@ -40,7 +40,7 @@
         <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
         <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)">删除</ns-button>
       </div>
-      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
+      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="2" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
   </ul>
 </template>
