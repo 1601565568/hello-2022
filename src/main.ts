@@ -88,3 +88,6 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount('#app')
+
+// 清除行政区划缓存
+localStorage.removeItem('DS_area')
