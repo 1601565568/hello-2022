@@ -77,6 +77,7 @@
                        layout="total, sizes, prev, pager, next, jumper"
                        @size-change="shopSizeChange"
                        @current-change="shopPageChange"
+                       background
                        >
         </el-pagination>
         <!--分页结束-->
