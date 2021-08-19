@@ -29,13 +29,13 @@
           </el-form-item>
         </el-form>
         <el-table
-            class="template-table__main"
+            class="new-table_border drawer-table"
             :data="pageData"
-            stripe
             ref="table"
             resizable
             v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')"
+            :header-row-style="{'height': '35px'}"
         >
             <el-table-column
                 prop="shopName"
@@ -77,6 +77,7 @@
                        layout="total, sizes, prev, pager, next, jumper"
                        @size-change="shopSizeChange"
                        @current-change="shopPageChange"
+                       background
                        >
         </el-pagination>
         <!--分页结束-->
@@ -87,6 +88,7 @@ import index from './src/index'
 export default index
 </script>
 <style scoped>
+@import '@components/NewUi/styles/reset.css';
 .search {
   width: 360px;
   /* margin-bottom: 16px; */
@@ -124,5 +126,10 @@ export default index
   .el-message-box__status + .el-message-box__message {
     padding-left: 24px;
   }
+}
+.drawer-table {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
 }
 </style>

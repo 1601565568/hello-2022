@@ -281,6 +281,9 @@ export default index
   padding: 0 9px;
   justify-content: space-between;
   font-size: 14px;
+  .employee-text {
+    color: #BFBFBF;
+  }
 }
 .remind-color {
   width: 8px;
