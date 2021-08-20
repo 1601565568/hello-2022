@@ -98,7 +98,7 @@
               </el-select>
               </el-form-grid>
               <el-form-grid block class="text-primary">
-                <span class="remind-color"></span><span class="remind-text">可参与发放券的门店在活动内单独控制</span>
+                <span class="remind-color"></span><span class="remind-text">在活动内可单独控制发放券数量</span>
               </el-form-grid>
             </el-form-item>
           </template>
@@ -161,7 +161,7 @@
                 <div v-show="activityModel.type === 1" class="allocated-coupon">已分配优惠券：10000</div>
               </el-form-item>
             </el-form-item>
-            <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && shopList && shopList.length ">
+            <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && shopList && shopList.length  && apportionChannel === 0">
               <StoreList
                 ref="storeList"
                 :activityModel="activityModel"
