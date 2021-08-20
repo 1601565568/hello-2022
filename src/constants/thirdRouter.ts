@@ -28,6 +28,8 @@ export const thirdRouter:THIRD_ROUTER = {
   '/WeWork/WelcomeCode/WelcomeCodeList': setPortals(),
   '/Social/SocialOperation/CustomerCode/List': setPortals(),
   '/Guide/LBS/Friends/Index': setPortals(),
+  '/Guide/LBS/Group/Index': setPortals(),
+  '/Social/WeWorkGroup/chatRoomGroup': setPortals(),
   '/Marketing/EnterpriseMessage': setPortals(),
   '/Marketing/EnterpriseGroupMessage': setPortals(),
   '/Marketing/SOP': setPortals(),
