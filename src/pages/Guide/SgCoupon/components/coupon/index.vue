@@ -9,7 +9,7 @@
                 ref="model"
                 :inline="true"
                 :model="model"
-                label-width="80px"
+                label-width="90px"
                 class="form-main"
             >
                 <el-form-item label="卡券类型：">
