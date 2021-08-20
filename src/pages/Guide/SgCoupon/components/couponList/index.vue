@@ -16,14 +16,12 @@
         >
           <el-form-item label="优惠券" prop="coupon_id" required>
             <el-form-grid size="xmd">
-              <div class="choose-coupon">
-                <div v-if="isEditCoupon">
-                  <p class="text">{{ activityModel.couponTitle }}</p>
-                </div>
-                <div v-else @click="onOpenCoupon()">
-                  <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
-                  <p v-else class="text">{{ storeModel.couponTitle }}</p>
-                </div>
+              <div class="choose-coupon" v-if="isEditCoupon">
+                <p class="text">{{ activityModel.couponTitle }}</p>
+              </div>
+              <div v-else class="choose-coupon" @click="onOpenCoupon()">
+                <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
+                <p v-else class="text">{{ storeModel.couponTitle }}</p>
                 <Icon type="couponicon" />
               </div>
             </el-form-grid>
@@ -76,7 +74,7 @@
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel">
+                <el-radio-group v-model="apportionChannel" :disabled="isEditCoupon">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -115,13 +113,9 @@
               v-show="apportionChannel === 0"
             >
               <el-form-item prop="type">
-                <el-radio-group v-model="activityModel.type">
-                  <el-radio :label="0" @change="onChangeDistributionMode(0)"
-                    >公用</el-radio
-                  >
-                  <el-radio :label="1" @change="onChangeDistributionMode(1)"
-                    >自由分配</el-radio
-                  >
+                <el-radio-group v-model="activityModel.type" :disabled="isEditCoupon">
+                  <el-radio :label="0" @change="onChangeDistributionMode(0)">公用</el-radio>
+                  <el-radio :label="1" @change="onChangeDistributionMode(1)">自由分配</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-grid block class="text-primary">
