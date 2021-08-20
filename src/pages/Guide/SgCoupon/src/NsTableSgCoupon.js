@@ -154,6 +154,9 @@ export default {
   },
   components: {},
   methods: {
+    editCoupon (item) {
+      this.$emit('add', item)
+    },
     showListDialog (id) {
       this.$emit('showListDialogMain', id)
     },

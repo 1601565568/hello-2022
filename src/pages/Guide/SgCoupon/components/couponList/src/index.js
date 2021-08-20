@@ -60,14 +60,19 @@ export default {
       apportionChannel: 0, // 分配渠道
       activityType: 1, // 分配活动
       activityTypeList: [{ value: 1, label: '裂变大师' }],
-      selectShopName: 0 // 分配门店
+      selectShopName: 0, // 分配门店
+      isEditCoupon: false,
+      hasCoupon: {}
     }
   },
   methods: {
     removeShop (index) {
       this.shopList.splice(index, 1)
     },
-    init () {
+    init (item) {
+      // 是否编辑优惠券
+      this.isEditCoupon = item !== undefined
+      this.hasCoupon = item !== undefined ? item : {}
       this.addCouponDialogVisible = true
       this.activityModel.coupon_id = 0
     },

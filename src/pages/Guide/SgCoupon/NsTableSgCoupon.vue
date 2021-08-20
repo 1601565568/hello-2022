@@ -189,7 +189,9 @@
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType"
                           label="操作" :sortable="false" width="100px" align="center">
-                          <div style="color:#0094FC;font-size:14px">编辑</div>
+            <template slot-scope="scope">
+                <div class="edit-coupon" @click="editCoupon(scope.row)">编辑</div>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -261,5 +263,10 @@ export default NsTableSgCoupon
     padding: 0;
     font-size: 14px;
     font-weight: 400;
+  }
+  .edit-coupon {
+    color:#0094FC;
+    font-size:14px;
+    cursor: pointer;
   }
 </style>
