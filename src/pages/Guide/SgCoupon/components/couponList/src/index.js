@@ -73,6 +73,7 @@ export default {
       // 是否编辑优惠券
       this.isEditCoupon = item !== undefined
       this.hasCoupon = item !== undefined ? item : {}
+      this.activityModel = item !== undefined ? item : {}
       this.addCouponDialogVisible = true
       this.activityModel.coupon_id = 0
     },

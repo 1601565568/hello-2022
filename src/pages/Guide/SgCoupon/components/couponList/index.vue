@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-dialog
-      title="新增优惠券发放"
       width="960px"
       :visible.sync="addCouponDialogVisible"
       @closed="closeDialog"
     >
+      <div slot="title" class="dialog-title">{{ isEditCoupon ? '编辑优惠券发放' : '新增优惠券发放' }}</div>
       <div class="addCouponDialogVisible">
         <el-form
           ref="form"
@@ -16,9 +16,14 @@
         >
           <el-form-item label="优惠券" prop="coupon_id" required>
             <el-form-grid size="xmd">
-              <div class="choose-coupon" @click="onOpenCoupon()">
-                <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
-                <p v-else class="text">{{ storeModel.couponTitle }}</p>
+              <div class="choose-coupon">
+                <div v-if="isEditCoupon">
+                  <p class="text">{{ activityModel.couponTitle }}</p>
+                </div>
+                <div v-else @click="onOpenCoupon()">
+                  <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
+                  <p v-else class="text">{{ storeModel.couponTitle }}</p>
+                </div>
                 <Icon type="couponicon" />
               </div>
             </el-form-grid>
@@ -308,6 +313,11 @@ export default index
   color: #595959;
   text-align: right;
   line-height: 20px;
+}
+.dialog-title {
+  font-size: 16px;
+  color: #303133;
+  line-height: 24px;
 }
 
 </style>
