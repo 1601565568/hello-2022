@@ -133,13 +133,14 @@
               required
               v-show="apportionChannel === 0"
             >
-              <el-form-item prop="type" v-show="activityModel.type === 0">
-                <el-radio-group v-model="selectShopName" >
+              <el-form-item prop="type" v-show="activityModel.type === 0 || isEditCoupon">
+                <el-radio-group v-model="selectShopName" v-show="activityModel.type === 0">
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
+                <span v-if="isEditCoupon && activityModel.type === 1" class="edit-show-total">共986家门店</span>
                 <span v-if="isEditCoupon && selectShopName ===1" v-show="isEditCoupon" class="edit-show-total">（共221家门店）</span>
-                <div class="show-edit-style" v-if="isEditCoupon && selectShopName ===1">
+                <div class="show-edit-style" v-if="isEditCoupon && (selectShopName ===1 || activityModel.type === 1)">
                   <shopSelect
                       @callBack="handleChangeShop"
                       :hasShopArr.sync="shopList"
@@ -191,6 +192,7 @@
                 :shopListAll="shopAllList"
                 @changeShopMap="changeShopMap"
                 @removeShop="removeShop"
+                :isEditCoupon="isEditCoupon"
               ></StoreList>
             </el-form-item>
           </template>
@@ -365,8 +367,8 @@ export default index
     justify-content: center;
     .icon {
       color:#0091FA;
-      width: 14px;
-      font-size:14px;
+      // width: 14px;
+      // font-size:14px;
       margin-right:5px;
     }
   }
