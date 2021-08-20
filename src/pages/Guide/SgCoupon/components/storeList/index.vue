@@ -24,7 +24,7 @@
                 />
             </el-input>
           </el-form-item>
-          <el-form-item v-if='activityModel.type===1'>
+          <el-form-item v-show='activityModel.type===1'>
             <ns-button @click="handleDevide" class='sharing'>{{devideText}}</ns-button>
           </el-form-item>
         </el-form>
@@ -45,29 +45,28 @@
             >
             </el-table-column>
             <el-table-column label="所属地区" align="left" >
-            <template slot-scope="scope">
-              <span>{{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}</span>
-            </template>
-          </el-table-column>>
+              <template slot-scope="scope">
+                <span>{{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}</span>
+              </template>
+            </el-table-column>
             <!-- 新增字段需要自己添加 -->
-            <!-- <el-table-column
+            <el-table-column
                 prop="couponNumber"
                 label="配额"
                 :show-overflow-tooltip="true"
                 align="left"
                 :sortable="false"
+                v-if='activityModel.type===1'
             >
               <template slot-scope="scope" >
                 <ElInput type="text"
                   @input="(e)=>{inputChange(e,scope.row)}"
                   :value="scope.row.shopCouponNumber"
-                  :disabled='activityModel.type===0'
                   maxlength="8"
-                  show-word-limit
                   style="width:80px"
                 />
               </template>
-            </el-table-column> -->
+            </el-table-column>
             <el-table-column
               prop="operation"
               label="操作"
@@ -75,9 +74,9 @@
               align="left"
               :sortable="false"
             >
-            <template slot-scope="scope">
-              <div class="remove-button" @click="removeShop(scope)">移除</div>
-            </template>
+              <template slot-scope="scope">
+                <div class="remove-button" @click="removeShop(scope)">移除</div>
+              </template>
             </el-table-column>
         </el-table>
         <!--分页开始-->

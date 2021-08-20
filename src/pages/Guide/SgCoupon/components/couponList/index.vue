@@ -129,13 +129,13 @@
               required
               v-show="apportionChannel === 0"
             >
-              <el-form-item prop="type">
+              <el-form-item prop="type" v-show="activityModel.type === 0">
                 <el-radio-group v-model="selectShopName" >
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-grid v-if="selectShopName === 1">
+              <el-form-item v-show="selectShopName === 1 || activityModel.type === 1">
                 <div class="flex-box">
                   <div class="employee-list">
                     <template v-if="shopList.length > 0">
@@ -158,9 +158,10 @@
                     </shopSelect>
                   </div>
                 </div>
-              </el-form-grid>
+                <div v-show="activityModel.type === 1" class="allocated-coupon">已分配优惠券：10000</div>
+              </el-form-item>
             </el-form-item>
-            <el-form-item v-show="selectShopName === 1 && shopList && shopList.length ">
+            <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && shopList && shopList.length ">
               <StoreList
                 ref="storeList"
                 :activityModel="activityModel"
@@ -299,6 +300,14 @@ export default index
   color: #595959;
   line-height: 20px;
   font-weight: 400;
+}
+.allocated-coupon {
+  margin-top: 2px;
+  width: 360px;
+  font-size: 12px;
+  color: #595959;
+  text-align: right;
+  line-height: 20px;
 }
 
 </style>
