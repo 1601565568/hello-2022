@@ -64,7 +64,12 @@
               </el-form-item>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
+              <div class="total-number">
+                <div>
+                  <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
+                </div>
+                <div v-if="isEditCoupon" class="send-number">已发出2000，剩余8000</div>
+              </div>
             </el-form-grid>
           </el-form-item>
           <el-form-item
@@ -313,5 +318,14 @@ export default index
   color: #303133;
   line-height: 24px;
 }
-
+.total-number {
+  width:360px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .send-number {
+    font-size: 12px;
+    color: #595959;
+  }
+}
 </style>
