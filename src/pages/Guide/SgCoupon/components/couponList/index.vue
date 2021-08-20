@@ -71,7 +71,7 @@
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel" fill="red">
+                <el-radio-group v-model="apportionChannel">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -102,13 +102,13 @@
               </el-form-grid>
             </el-form-item>
           </template>
-          <template v-if="apportionChannel === 0">
+          <template>
             <el-form-item
               label="分配方式"
               v-if="activityModel.coupon_id !== 0"
               required
+              v-show="apportionChannel === 0"
             >
-              <!-- <el-form-grid> -->
               <el-form-item prop="type">
                 <el-radio-group v-model="activityModel.type">
                   <el-radio :label="0" @change="onChangeDistributionMode(0)"
@@ -119,7 +119,6 @@
                   >
                 </el-radio-group>
               </el-form-item>
-              <!-- </el-form-grid> -->
               <el-form-grid block class="text-primary">
                 <span class="remind-color"></span><span class="remind-text">公用：分配门店共享配额；自由分配：手动设置分配门店的配额</span>
               </el-form-grid>
@@ -128,14 +127,15 @@
               label="分配门店"
               v-if="activityModel.coupon_id !== 0"
               required
+              v-show="apportionChannel === 0"
             >
-              <el-form-item prop="type">
-                <el-radio-group v-model="selectShopName" fill="red">
+              <el-form-item prop="type" v-show="activityModel.type === 0">
+                <el-radio-group v-model="selectShopName" >
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-grid v-if="selectShopName === 1">
+              <el-form-item v-show="selectShopName === 1 || activityModel.type === 1">
                 <div class="flex-box">
                   <div class="employee-list">
                     <template v-if="shopList.length > 0">
@@ -149,7 +149,7 @@
                   <div class="employee-suffix">
                     <shopSelect
                       @callBack="handleChangeShop"
-                      :hasShopArr="shopList"
+                      :hasShopArr.sync="shopList"
                       isDIYBtn
                     >
                       <template slot="btnIcon">
@@ -158,9 +158,10 @@
                     </shopSelect>
                   </div>
                 </div>
-              </el-form-grid>
+                <div v-show="activityModel.type === 1" class="allocated-coupon">已分配优惠券：10000</div>
+              </el-form-item>
             </el-form-item>
-            <el-form-item v-show="selectShopName === 1 && shopList && shopList.length ">
+            <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && shopList && shopList.length ">
               <StoreList
                 ref="storeList"
                 :activityModel="activityModel"
@@ -168,6 +169,7 @@
                 :shopMap="shopMap"
                 :shopListAll="shopAllList"
                 @changeShopMap="changeShopMap"
+                @removeShop="removeShop"
               ></StoreList>
             </el-form-item>
           </template>
@@ -298,6 +300,14 @@ export default index
   color: #595959;
   line-height: 20px;
   font-weight: 400;
+}
+.allocated-coupon {
+  margin-top: 2px;
+  width: 360px;
+  font-size: 12px;
+  color: #595959;
+  text-align: right;
+  line-height: 20px;
 }
 
 </style>
