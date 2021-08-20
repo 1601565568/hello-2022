@@ -62,7 +62,8 @@ export default {
       activityTypeList: [{ value: 1, label: '裂变大师' }],
       selectShopName: 0, // 分配门店
       isEditCoupon: false,
-      hasCoupon: {}
+      hasCoupon: {},
+      defaultActivityModel: activityModel
     }
   },
   methods: {
@@ -73,8 +74,11 @@ export default {
       // 是否编辑优惠券
       this.isEditCoupon = item !== undefined
       this.hasCoupon = item !== undefined ? item : {}
+      this.activityModel = item !== undefined ? item : this.defaultActivityModel
+      // 之前处理
       this.addCouponDialogVisible = true
-      this.activityModel.coupon_id = 0
+      // 之前默认显示0
+      this.activityModel.coupon_id = item !== undefined ? item.couponId : 0
     },
     // 关闭新增弹窗
     closeDialog () {

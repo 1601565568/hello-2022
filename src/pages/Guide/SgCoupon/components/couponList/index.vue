@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-dialog
-      title="新增优惠券发放"
       width="960px"
       :visible.sync="addCouponDialogVisible"
       @closed="closeDialog"
     >
+      <div slot="title" class="dialog-title">{{ isEditCoupon ? '编辑优惠券发放' : '新增优惠券发放' }}</div>
       <div class="addCouponDialogVisible">
         <el-form
           ref="form"
@@ -16,7 +16,10 @@
         >
           <el-form-item label="优惠券" prop="coupon_id" required>
             <el-form-grid size="xmd">
-              <div class="choose-coupon" @click="onOpenCoupon()">
+              <div class="choose-coupon" v-if="isEditCoupon">
+                <p class="text">{{ activityModel.couponTitle }}</p>
+              </div>
+              <div v-else class="choose-coupon" @click="onOpenCoupon()">
                 <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
                 <p v-else class="text">{{ storeModel.couponTitle }}</p>
                 <Icon type="couponicon" />
@@ -61,7 +64,12 @@
               </el-form-item>
             </el-form-grid>
             <el-form-grid block class="text-primary">
-              <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
+              <div class="total-number">
+                <div>
+                  <span class="remind-color"></span><span class="remind-text">设置优惠券的数量</span>
+                </div>
+                <div v-if="isEditCoupon" class="send-number">已发出2000，剩余8000</div>
+              </div>
             </el-form-grid>
           </el-form-item>
           <el-form-item
@@ -71,7 +79,7 @@
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel">
+                <el-radio-group v-model="apportionChannel" :disabled="isEditCoupon">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -110,13 +118,9 @@
               v-show="apportionChannel === 0"
             >
               <el-form-item prop="type">
-                <el-radio-group v-model="activityModel.type">
-                  <el-radio :label="0" @change="onChangeDistributionMode(0)"
-                    >公用</el-radio
-                  >
-                  <el-radio :label="1" @change="onChangeDistributionMode(1)"
-                    >自由分配</el-radio
-                  >
+                <el-radio-group v-model="activityModel.type" :disabled="isEditCoupon">
+                  <el-radio :label="0" @change="onChangeDistributionMode(0)">公用</el-radio>
+                  <el-radio :label="1" @change="onChangeDistributionMode(1)">自由分配</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-grid block class="text-primary">
@@ -129,13 +133,31 @@
               required
               v-show="apportionChannel === 0"
             >
-              <el-form-item prop="type" v-show="activityModel.type === 0">
-                <el-radio-group v-model="selectShopName" >
+              <el-form-item prop="type" v-show="activityModel.type === 0 || isEditCoupon">
+                <el-radio-group v-model="selectShopName" v-show="activityModel.type === 0">
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
+                <span v-if="isEditCoupon && activityModel.type === 1" class="edit-show-total">共986家门店</span>
+                <span v-if="isEditCoupon && selectShopName ===1" v-show="isEditCoupon" class="edit-show-total">（共221家门店）</span>
+                <div class="show-edit-style" v-if="isEditCoupon && (selectShopName ===1 || activityModel.type === 1)">
+                  <shopSelect
+                      @callBack="handleChangeShop"
+                      :hasShopArr.sync="shopList"
+                      isDIYBtn
+                    >
+                      <template slot="btnIcon">
+                        <div class="edit-add-shop">
+                          <div class="edit-add-shop-base">
+                            <Icon type="ns-add-border" class="icon" />
+                            <span class="edit-show-total edit-show-total-add">追加门店</span>
+                          </div>
+                        </div>
+                      </template>
+                   </shopSelect>
+                </div>
               </el-form-item>
-              <el-form-item v-show="selectShopName === 1 || activityModel.type === 1">
+              <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && !isEditCoupon">
                 <div class="flex-box">
                   <div class="employee-list">
                     <template v-if="shopList.length > 0">
@@ -170,6 +192,7 @@
                 :shopListAll="shopAllList"
                 @changeShopMap="changeShopMap"
                 @removeShop="removeShop"
+                :isEditCoupon="isEditCoupon"
               ></StoreList>
             </el-form-item>
           </template>
@@ -309,5 +332,48 @@ export default index
   text-align: right;
   line-height: 20px;
 }
-
+.dialog-title {
+  font-size: 16px;
+  color: #303133;
+  line-height: 24px;
+}
+.total-number {
+  width:360px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .send-number {
+    font-size: 12px;
+    color: #595959;
+  }
+}
+.edit-show-total {
+  font-size: 14px;
+  color: #303133;
+}
+.edit-show-total-add {
+  color: #0091FA;
+  text-anchor: middle;  /* 文本水平居中 */
+  dominant-baseline: middle; /* 文本垂直居中 */
+}
+.edit-add-shop {
+  color: #0091FA;
+  margin-left:16px;
+  display: inline-block;
+  .edit-add-shop-base {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      color:#0091FA;
+      // width: 14px;
+      // font-size:14px;
+      margin-right:5px;
+    }
+  }
+}
+.show-edit-style {
+  display: inline-block;
+}
 </style>

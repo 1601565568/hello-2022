@@ -69,6 +69,43 @@
             </el-table-column>
             <el-table-column
               prop="operation"
+              label="已发出"
+              :show-overflow-tooltip="true"
+              align="left"
+              :sortable="false"
+              width="150px"
+              v-if='isEditCoupon'
+            >899
+            </el-table-column>
+            <el-table-column
+              prop="operation"
+              label="剩余"
+              :show-overflow-tooltip="true"
+              align="left"
+              :sortable="false"
+              width="150px"
+              v-if='isEditCoupon && activityModel.type===1'
+            >900
+            </el-table-column>
+            <el-table-column
+              prop="operation"
+              label="启用"
+              :show-overflow-tooltip="true"
+              align="left"
+              :sortable="false"
+              width="100px"
+              v-if='isEditCoupon'
+            >
+              <template slot-scope="scope">
+                <el-switch
+                  v-model="scope.row.activityState"
+                  active-color="#13ce66"
+                  inactive-color="#8C8C8C">
+                </el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="operation"
               label="操作"
               :show-overflow-tooltip="true"
               align="left"

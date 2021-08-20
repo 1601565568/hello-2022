@@ -181,7 +181,7 @@
                           label="启用" :sortable="false" width="100px" align="center">
             <template slot-scope="scope">
               <el-switch
-                v-model="scope.row.start"
+                v-model="scope.row.activityState"
                 active-color="#13ce66"
                 inactive-color="#8C8C8C">
               </el-switch>

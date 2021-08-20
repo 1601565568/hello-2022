@@ -3,6 +3,17 @@
   font-size:14px;
   line-height:22px;
 }
+
+>>> .el-radio__input.is-checked.is-disabled + .el-radio__label {
+  color:  #303133 !important;
+  font-size:14px;
+  line-height:22px;
+}
+
+>>> .el-radio__input.is-disabled + span.el-radio__label {
+  color:  #303133
+}
+
 >>> .el-radio__label, .el-checkbox__label  {
   font-size:14px;
   line-height:22px;
@@ -18,6 +29,14 @@
     width:16px;
     height:16px;
     line-height:22px;
+}
+
+>>> .el-radio__input.is-checked.is-disabled .el-radio__inner {
+  background: #8C8C8C !important;
+  border-color: #8C8C8C !important;
+  width:16px;
+  height:16px;
+  line-height:22px;
 }
 
 >>> .el-form-item__label{

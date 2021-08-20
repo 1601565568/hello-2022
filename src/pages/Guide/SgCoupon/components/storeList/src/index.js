@@ -45,6 +45,9 @@ export default {
     },
     storeModel: {
       type: Object
+    },
+    isEditCoupon: { // 是否编辑
+      type: Boolean
     }
   },
   methods: {
