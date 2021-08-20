@@ -138,8 +138,17 @@
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
+                <div class="show-edit-style" v-if="isEditCoupon && selectShopName ===1">
+                  <span v-show="isEditCoupon" class="edit-show-total">（共221家门店）</span>
+                  <div class="edit-add-shop">
+                    <div class="edit-add-shop-base">
+                      <Icon type="ns-add-border" class="icon" />
+                      <span class="edit-show-total edit-show-total-add">追加门店</span>
+                    </div>
+                  </div>
+                </div>
               </el-form-item>
-              <el-form-item v-show="selectShopName === 1 || activityModel.type === 1">
+              <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && !isEditCoupon">
                 <div class="flex-box">
                   <div class="employee-list">
                     <template v-if="shopList.length > 0">
@@ -327,5 +336,34 @@ export default index
     font-size: 12px;
     color: #595959;
   }
+}
+.edit-show-total {
+  font-size: 14px;
+  color: #303133;
+}
+.edit-show-total-add {
+  color: #0091FA;
+  text-anchor: middle;  /* 文本水平居中 */
+  dominant-baseline: middle; /* 文本垂直居中 */
+}
+.edit-add-shop {
+  color: #0091FA;
+  margin-left:16px;
+  display: inline-block;
+  .edit-add-shop-base {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      color:#0091FA;
+      width: 14px;
+      font-size:14px;
+      margin-right:5px;
+    }
+  }
+}
+.show-edit-style {
+  display: inline-block;
 }
 </style>
