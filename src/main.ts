@@ -43,22 +43,23 @@ Vue.prototype.$ELEMENT = {
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
-router.beforeEach(async (to:any, from, next) => {
-  if (interceptRouter.includes(to.name)) {
-    const result = await queryGroupMsg()
-    if (result === 1) {
-      const name1 = to.matched[0].name || ''
-      const name2 = to.matched[1].name || ''
-      const random = new Date().getTime()
-      router.addRoutes([addRouter(name1, name2, name1 + random, 'Greeting')])
-      next({ name: (name1 + random) })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+// 和三方需求功能相同所以隐藏
+// router.beforeEach(async (to:any, from, next) => {
+//   if (interceptRouter.includes(to.name)) {
+//     const result = await queryGroupMsg()
+//     if (result === 1) {
+//       const name1 = to.matched[0].name || ''
+//       const name2 = to.matched[1].name || ''
+//       const random = new Date().getTime()
+//       router.addRoutes([addRouter(name1, name2, name1 + random, 'Greeting')])
+//       next({ name: (name1 + random) })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
   if (thirdRouter[to.path]) {
