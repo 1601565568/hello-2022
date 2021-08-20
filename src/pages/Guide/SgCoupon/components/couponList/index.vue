@@ -71,7 +71,7 @@
           >
             <el-form-grid>
               <el-form-item prop="type">
-                <el-radio-group v-model="apportionChannel" fill="red">
+                <el-radio-group v-model="apportionChannel">
                   <el-radio :label="0">导购分发</el-radio>
                   <el-radio :label="1">活动分发</el-radio>
                 </el-radio-group>
@@ -102,13 +102,13 @@
               </el-form-grid>
             </el-form-item>
           </template>
-          <template v-if="apportionChannel === 0">
+          <template>
             <el-form-item
               label="分配方式"
               v-if="activityModel.coupon_id !== 0"
               required
+              v-show="apportionChannel === 0"
             >
-              <!-- <el-form-grid> -->
               <el-form-item prop="type">
                 <el-radio-group v-model="activityModel.type">
                   <el-radio :label="0" @change="onChangeDistributionMode(0)"
@@ -119,7 +119,6 @@
                   >
                 </el-radio-group>
               </el-form-item>
-              <!-- </el-form-grid> -->
               <el-form-grid block class="text-primary">
                 <span class="remind-color"></span><span class="remind-text">公用：分配门店共享配额；自由分配：手动设置分配门店的配额</span>
               </el-form-grid>
@@ -128,9 +127,10 @@
               label="分配门店"
               v-if="activityModel.coupon_id !== 0"
               required
+              v-show="apportionChannel === 0"
             >
               <el-form-item prop="type">
-                <el-radio-group v-model="selectShopName" fill="red">
+                <el-radio-group v-model="selectShopName" >
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>

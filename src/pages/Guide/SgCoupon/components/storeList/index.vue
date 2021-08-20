@@ -50,23 +50,24 @@
             </template>
           </el-table-column>>
             <!-- 新增字段需要自己添加 -->
-            <el-table-column
+            <!-- <el-table-column
                 prop="couponNumber"
                 label="配额"
                 :show-overflow-tooltip="true"
                 align="left"
                 :sortable="false"
             >
-            <template slot-scope="scope" >
-              <ElInput type="text"
-                        @input="(e)=>{inputChange(e,scope.row)}"
-                        :value="scope.row.shopCouponNumber"
-                        :disabled='activityModel.type===0'
-                        maxlength="8"
-                        show-word-limit
-                        style="width:80px"/>
-            </template>
-            </el-table-column>
+              <template slot-scope="scope" >
+                <ElInput type="text"
+                  @input="(e)=>{inputChange(e,scope.row)}"
+                  :value="scope.row.shopCouponNumber"
+                  :disabled='activityModel.type===0'
+                  maxlength="8"
+                  show-word-limit
+                  style="width:80px"
+                />
+              </template>
+            </el-table-column> -->
             <el-table-column
               prop="operation"
               label="操作"
