@@ -122,10 +122,10 @@ export default {
     /**
      * 打开弹框
      */
-    addCoupon: function () {
+    addCoupon: function (item) {
       this.couponListShow = true
       this.$nextTick(() => {
-        this.$refs.couponList.init()
+        this.$refs.couponList.init(item)
       })
     },
     closeDialogCouponList () {
