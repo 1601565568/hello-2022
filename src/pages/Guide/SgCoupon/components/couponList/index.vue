@@ -138,14 +138,22 @@
                   <el-radio :label="0">全部门店</el-radio>
                   <el-radio :label="1">部分门店</el-radio>
                 </el-radio-group>
+                <span v-if="isEditCoupon && selectShopName ===1" v-show="isEditCoupon" class="edit-show-total">（共221家门店）</span>
                 <div class="show-edit-style" v-if="isEditCoupon && selectShopName ===1">
-                  <span v-show="isEditCoupon" class="edit-show-total">（共221家门店）</span>
-                  <div class="edit-add-shop">
-                    <div class="edit-add-shop-base">
-                      <Icon type="ns-add-border" class="icon" />
-                      <span class="edit-show-total edit-show-total-add">追加门店</span>
-                    </div>
-                  </div>
+                  <shopSelect
+                      @callBack="handleChangeShop"
+                      :hasShopArr.sync="shopList"
+                      isDIYBtn
+                    >
+                      <template slot="btnIcon">
+                        <div class="edit-add-shop">
+                          <div class="edit-add-shop-base">
+                            <Icon type="ns-add-border" class="icon" />
+                            <span class="edit-show-total edit-show-total-add">追加门店</span>
+                          </div>
+                        </div>
+                      </template>
+                   </shopSelect>
                 </div>
               </el-form-item>
               <el-form-item v-show="(selectShopName === 1 || activityModel.type === 1) && !isEditCoupon">
