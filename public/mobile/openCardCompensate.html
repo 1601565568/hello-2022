@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=2.0, user-scalable=no"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <link rel="stylesheet" href="./invalid/invalid.css">
+  <title></title>
+</head>
+<div class='fail' style="display: none;">
+  <div class='fail__bgimg'>
+    <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
+  </div>
+  <div class="fail__text">您好，二维码已失效哦~</div>
+</div>
+<body>
+<script type="text/javascript" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/commonJs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/commonJs/common.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+  $(document).ready(function () {
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideOptionMenu');
+    });
+    $(".fail").hide();
+    var search = window.location.search
+    var params =  search.split('?')
+    if (3 != params.length) {
+      // 跳转错误页
+      $(".fail").show();
+      $('.fail__text').html("激活失败，身份识别失败");
+      return;
+    }
+    search = params[2];
+    var id = params[1]
+    var success = getPar(search, 'success');
+    var msg = getPar(search, 'msg');
+    var data = getPar(search, 'data');
+    if (success) {
+      getCustomerInfo(data, id)
+    } else {
+      // 跳转错误页
+      $(".fail").show();
+      $('.fail__text').html(msg || "授权失败");
+    }
+  })
+  window.onload = function () {
+    wx.hideAllNonBaseMenuItem();
+  }
+
+  function getCustomerInfo(encryptNascentId, id) {
+    var url = backstageURL() + '/guideRecruit/openCardCompensate?id=' + id
+      + '&encryptNascentId=' + encodeURIComponent(encryptNascentId)
+    window.location.replace(url)
+  }
+
+  // 获取参数封装
+  function getPar(search, name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+    var r = search.match(reg)
+    if (r != null) {
+      return decodeURIComponent(r[2])
+    }
+    return null
+  }
+
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: "post",
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          // 跳转错误页
+          $(".fail").show();
+          $('.fail__text').html(res.msg);
+        }
+      });
+    });
+  }
+</script>
+</body>
+</html>
