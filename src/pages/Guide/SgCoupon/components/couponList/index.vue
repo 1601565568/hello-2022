@@ -22,7 +22,7 @@
               <div v-else class="choose-coupon" @click="onOpenCoupon()">
                 <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
                 <p v-else class="text">{{ storeModel.couponTitle }}</p>
-                <Icon type="couponicon" />
+                <Icon type="couponicon"  style="color:#8C8C8C;"/>
               </div>
             </el-form-grid>
             <el-form-grid block class="text-primary">
