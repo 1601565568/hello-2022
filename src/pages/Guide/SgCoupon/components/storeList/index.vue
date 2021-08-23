@@ -36,6 +36,7 @@
             v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')"
             :header-row-style="{'height': '35px'}"
+            :cell-style="{'height': '48px'}"
         >
             <el-table-column
                 prop="shopName"
