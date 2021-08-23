@@ -85,40 +85,62 @@ export default {
       this.addCouponDialogVisible = false
       this.$emit('closeDialog')
     },
+    // 点击保存
     onSaveActivityCoupon () {
+      // 判断是否选择优惠券
       if (this.activityModel.coupon_id === 0) {
         this.$notify.error('请选择优惠券')
         return
       }
+      // 判断总配额 是否输入
+      if (this.activityModel.coupon_total === 0 || this.activityModel.coupon_total < 0) {
+        this.$notify.error('总配额必须大于0')
+        return
+      }
+      // 判断总配额与剩余数量的大小关系
+      // 剩余数量为限量
+      if (this.storeModel.maxType < 0) {
+        // 限量
+        const remainingQuantity = Number(this.storeModel.remainingQuantity)
+        const couponTotal = Number(this.activityModel.coupon_total)
+        if (couponTotal > remainingQuantity) {
+          this.$notify.error('总配额不能大于优惠券剩余数量')
+          return
+        }
+      }
+
+      // 判断分配渠道
       if (this.apportionChannel === 0) {
+        // 导购分发
         this.onSaveGuidActivityCoupon()
       } else {
+        // 活动分发
         this.onSaveSendActivityCoupon()
       }
     },
     onSaveSendActivityCoupon () {
       this.forbidden = true
       let _this = this
-      if (_this.storeModel.maxType >= 0) {
-        if (
-          _this.activityModel.coupon_total === 0 ||
-          _this.activityModel.coupon_total < 0
-        ) {
-          _this.$notify.error('总配额必须大于0')
-          this.forbidden = false
-          // _this.forbidden = false
-          return
-        }
-      } else if (_this.storeModel.maxType < 0) {
-        if (
-          _this.storeModel.remainingQuantity < _this.activityModel.coupon_total
-        ) {
-          _this.activityModel.coupon_total = 0
-          _this.$notify.error('配额不能大于优惠券剩余数量')
-          this.forbidden = false
-          return
-        }
-      }
+      // if (_this.storeModel.maxType >= 0) {
+      //   if (
+      //     _this.activityModel.coupon_total === 0 ||
+      //     _this.activityModel.coupon_total < 0
+      //   ) {
+      //     _this.$notify.error('总配额必须大于0')
+      //     this.forbidden = false
+      //     // _this.forbidden = false
+      //     return
+      //   }
+      // } else if (_this.storeModel.maxType < 0) {
+      //   if (
+      //     _this.storeModel.remainingQuantity < _this.activityModel.coupon_total
+      //   ) {
+      //     _this.activityModel.coupon_total = 0
+      //     _this.$notify.error('配额不能大于优惠券剩余数量')
+      //     this.forbidden = false
+      //     return
+      //   }
+      // }
       this.$http
         .fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
           apportionChannel: this.apportionChannel, // 分配渠道
@@ -148,27 +170,27 @@ export default {
         _this.$notify.error('分配门店是必填字段')
         return
       }
-      if (_this.storeModel.maxType >= 0) {
-        if (
-          _this.activityModel.coupon_total === 0 ||
-          _this.activityModel.coupon_total < 0
-        ) {
-          _this.$notify.error('总配额必须大于0')
-          this.forbidden = false
-          // _this.forbidden = false
-          return
-        }
-      }
-      if (_this.storeModel.maxType < 0) {
-        if (
-          _this.storeModel.remainingQuantity < _this.activityModel.coupon_total
-        ) {
-          _this.activityModel.coupon_total = 0
-          _this.$notify.error('配额不能大于优惠券剩余数量')
-        }
-        this.forbidden = false
-        return
-      }
+      // if (_this.storeModel.maxType >= 0) {
+      //   if (
+      //     _this.activityModel.coupon_total === 0 ||
+      //     _this.activityModel.coupon_total < 0
+      //   ) {
+      //     _this.$notify.error('总配额必须大于0')
+      //     this.forbidden = false
+      //     // _this.forbidden = false
+      //     return
+      //   }
+      // }
+      // if (_this.storeModel.maxType < 0) {
+      //   if (
+      //     _this.storeModel.remainingQuantity < _this.activityModel.coupon_total
+      //   ) {
+      //     _this.activityModel.coupon_total = 0
+      //     _this.$notify.error('配额不能大于优惠券剩余数量')
+      //   }
+      //   this.forbidden = false
+      //   return
+      // }
       // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
@@ -412,7 +434,7 @@ export default {
           _this.storeModel.remainingQuantity < _this.activityModel.coupon_total
         ) {
           _this.activityModel.coupon_total = 0
-          _this.$notify.info('配额不能大于优惠券剩余数量')
+          _this.$notify.info('总配额不能大于优惠券剩余数量')
         }
       }
       const { type } = _this.activityModel
