@@ -50,3 +50,8 @@
   height: 56px;
   font-weight: 500
 }
+
+>>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  color: #BFBFBF;
+}
