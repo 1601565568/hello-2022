@@ -151,7 +151,8 @@
                   <div class='form-item_toptext'>
                   将同步店长端显示，提示店长群名称格式规范
                   </div>
-                  <length-input :disabled='isStating' type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
+                  <tag-area v-model='model.roomRule' className='normal' :disabled='isStating' tag="wise" ref="tagAreaText" :maxlength="50" placeholder="请输入群名称提示，长度50个字符以内"/>
+                  <!-- <length-input :disabled='isStating' type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/> -->
                 </el-form-item>
                 <div class='step-content'>
                   <div class='step-name'>Step2：</div>

@@ -73,7 +73,8 @@
               <div class='form-item_toptext'>
                 活动说明会显示在推广大师的查询页面
               </div>
-              <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入活动说明" :length='1000'/>
+              <tag-area v-model='model.activityDescription' className='normal' :disabled='isStating' tag="wise" ref="tagAreaText" :maxlength="1000" placeholder="请输入活动说明"/>
+              <!-- <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入活动说明" :length='1000'/> -->
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='企微互动内容' :name="2">
