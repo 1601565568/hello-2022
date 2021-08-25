@@ -114,7 +114,7 @@
         <recruitment-collapse phoneTitle='效果展示' title='引导关注公众号页设置' v-if='model.mpFollowState === 1' phoneBar='关注我们'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='mpFollowBackground'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过1M）' :maxWidth='750' :maxHeight='1206' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg' :isNeedCrop='true'>
+              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过1M）' :maxWidth='750' :maxHeight='1334' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg' :isNeedCrop='true'>
                 <template slot='footer'>
                   <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                 </template>
@@ -125,7 +125,7 @@
             <div class='chat-content'>
               <div class='mobile_content' :style="{
                         backgroundImage: 'url(' +model.mpFollowBackground+')',
-                        backgroundSize: 'cover'
+                        backgroundSize: '100% 100%'
                       }" v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
                 <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
                   <img src='@/assets/qrcode.png' style='width:100%;height:100%'>

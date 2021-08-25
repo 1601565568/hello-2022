@@ -8,7 +8,6 @@
         </ns-table-operate-button>
       </template>
       <!-- 按钮-结束 -->
-
       <!-- 简单搜索 -->
       <!-- el-form 需添加 @submit.native.prevent 配置 -->
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
@@ -224,4 +223,5 @@ export default personalQrcode
   .resetbtn {
     margin-left: var(--default-margin-larger);
   }
+
 </style>

@@ -146,10 +146,12 @@ export default {
       }
     },
     update () {
-      this.loading = true
+      this.btnLoad = true
       this.$refs.searchform.validate(valid => {
         if (valid) {
           this.doUpdate()
+        } else {
+          this.btnLoad = false
         }
       })
     },
@@ -201,7 +203,7 @@ export default {
         this.btnLoad = false
         this.$notify.success('修改成功')
       }).catch((resp) => {
-        this.btnLoad = true
+        this.btnLoad = false
         this.$notify.error(getErrorMsg('修改失败', resp))
       })
     }
