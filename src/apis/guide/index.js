@@ -484,5 +484,10 @@ export default {
     // 素材列表
     url: '/guide/material/findMaterialList',
     method: 'post'
+  },
+  // 三方是否授权
+  getAppIdletInfo: {
+    url: '/guide/sgwxaccount/getAppIdletInfo',
+    method: 'get'
   }
 }

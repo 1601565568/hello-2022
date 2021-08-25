@@ -7,7 +7,9 @@ import store from './store'
 import { i18n } from '@nascent/ecrp-ecrm/src/i18n'
 import LOG from '@nascent/log'
 import interceptRouter from '@/constants/interceptRouter'
+import { thirdRouter } from './constants/thirdRouter'
 import queryGroupMsg from '@/utils/queryGroupMsg'
+import addRouter from '@/utils/addRouter'
 import './register'
 import 'normalize.css'
 import '@theme/NuiJs/index.scss'
@@ -41,13 +43,40 @@ Vue.prototype.$ELEMENT = {
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
-router.beforeEach(async (to:any, from, next) => {
-  if (interceptRouter.includes(to.name)) {
-    const result = await queryGroupMsg()
-    if (result === 1) {
-      next('/Greeting')
-    } else {
+// 和三方需求功能相同所以隐藏
+// router.beforeEach(async (to:any, from, next) => {
+//   if (interceptRouter.includes(to.name)) {
+//     const result = await queryGroupMsg()
+//     if (result === 1) {
+//       const name1 = to.matched[0].name || ''
+//       const name2 = to.matched[1].name || ''
+//       const random = new Date().getTime()
+//       router.addRoutes([addRouter(name1, name2, name1 + random, 'Greeting')])
+//       next({ name: (name1 + random) })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
+// 三方路由拦截
+router.beforeEach(async (to, from, next) => {
+  if (thirdRouter[to.path]) {
+    if (!store.state.companyPlan.isLoad) {
+      await store.dispatch('companyPlan/getCompanyPlan')
+    }
+    const typeObj = thirdRouter[to.path]
+    const companyPlanState = store.state.companyPlan
+    if (companyPlanState[typeObj.type] === typeObj.value) {
       next()
+    } else {
+      // 为了解决node包中写的神奇的导航栏判断
+      const name1 = to.matched[0].name || ''
+      const name2 = to.matched[1].name || ''
+      const random = new Date().getTime()
+      router.addRoutes([addRouter(name1, name2, name1 + random, 'ThirdAuth')])
+      next({ name: (name1 + random) })
     }
   } else {
     next()
