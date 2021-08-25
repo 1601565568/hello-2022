@@ -318,7 +318,7 @@ export default {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      this.model.annexList.splice(context.index, 1)
+      // this.model.annexList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context)
