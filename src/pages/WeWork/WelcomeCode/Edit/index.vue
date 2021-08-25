@@ -257,7 +257,7 @@ export default {
         if (deleteData) {
           return
         }
-        if (Number(data.index) >= 0) {
+        if (data.index >= 0) {
           // 编辑
           this.model.annexList.splice(data.index, 1, data)
         } else {
