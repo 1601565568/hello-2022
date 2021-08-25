@@ -437,10 +437,16 @@ export default {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      // this.model.mediaList.splice(context.index, 1)
+      this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
-      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中， 请稍等')
+      } else {
+        this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      }
     },
     addAnnexMessage (context) {
       const { index, content, type, isDelete } = context

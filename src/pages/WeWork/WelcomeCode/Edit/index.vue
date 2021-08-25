@@ -314,14 +314,19 @@ export default {
       }
     },
     deleteAnnexMessage (context) {
-      // this.$refs.WechatMessageBar.setMessageByEdit(context, true)
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      // this.model.annexList.splice(context.index, 1)
+      this.model.annexList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
-      this.$refs.WechatMessageBar.openMessageDialogByEdit(context)
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，请稍等')
+      } else {
+        this.$refs.WechatMessageBar.openMessageDialogByEdit(context)
+      }
     },
     confirmChannelCodes (channelIds) {
       this.model.channelCodes = channelIds
