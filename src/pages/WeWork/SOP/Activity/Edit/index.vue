@@ -532,13 +532,17 @@ export default {
     },
     deleteMessage (data, index) {
       // this.model.contentList.splice(index, 1)
+      // if (context.type === 2 && Number(context.content.percent) < 100) {
+      //   sessionStorage.setItem(context.content.uid, context.content.uid)
+      // }
+      // this.model.contentList.splice(context.index, 1)
+    },
+    deleteAnnexMessage (context) {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
       this.model.contentList.splice(context.index, 1)
-    },
-    deleteAnnexMessage (context) {
-      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
+      // this.$refs.WechatMessageBar.setMessageByEdit(context, true)
     }
   }
 }
