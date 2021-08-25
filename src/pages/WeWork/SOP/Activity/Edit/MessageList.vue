@@ -6,35 +6,27 @@
       :key="key"
     >
       <div class="message-detail">
-        <template v-if="type !== 0">
-          <template v-if="content.percent < 100 && (type == 1 || type == 2)">
-            <img src="@/assets/materical-loading.gif" class="bitpit" />
-          </template>
-          <template v-else>
-            <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
-          </template>
+        <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+          <img src="@/assets/materical-loading.gif" class="bitpit" />
         </template>
         <template v-else>
-          <img class="bitpit" src="@/assets/kwBig.png" alt="">
+          <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
         </template>
-        <span v-if="type !== 0">{{content | msgText(type)}}</span>
-        <span v-else>自建坑位</span>
+        <span>{{content | msgText(type)}}</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
-        <!-- <view v-show="isShowEdit({ type, content })"> -->
-          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
-            <Icon type="zhiding" />
-          </ns-button>
-          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
-            <Icon type="top-arr" />
-          </ns-button>
-          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
-            <Icon type="down-arr" />
-          </ns-button>
-          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
-            <Icon type="zhidi" />
-          </ns-button>
-        <!-- </view> -->
+        <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
+          <Icon type="zhiding" />
+        </ns-button>
+        <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
+          <Icon type="top-arr" />
+        </ns-button>
+        <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
+          <Icon type="down-arr" />
+        </ns-button>
+        <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
+          <Icon type="zhidi" />
+        </ns-button>
       </div>
       <div class="message-operate">
         <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
@@ -46,7 +38,7 @@
 </template>
 
 <script>
-import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
+import { WelcomeMessageType, WelcomeMessageTypeTip } from './types'
 import ElProgress from '@nascent/nui/lib/progress'
 export default {
   components: {
@@ -63,16 +55,16 @@ export default {
   filters: {
     msgText (content, type) {
       switch (type) {
+        case WelcomeMessageType.Poster:
         case WelcomeMessageType.Image:
-          return content.image.slice(content.image.lastIndexOf('/') + 1)
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Video:
-          return content.video.slice(content.video.lastIndexOf('/') + 1)
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Link:
         case WelcomeMessageType.MiniProgram:
-        case WelcomeMessageType.Poster:
           return content.title
         case WelcomeMessageType.Pitbit:
-          return content.pitText
+          return content.content
         default:
           return ''
       }
@@ -126,17 +118,13 @@ export default {
       this.$emit('update:list', list)
     },
     editMessage (data, index) {
-      this.$emit('edit', { ...data, index })
+      this.$emit('edit', data, index)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-progress-bar__outer,
-.el-progress-bar__inner {
-    border-radius: none;
-}
 .message-list {
   width: 626px;
   list-style: none;
@@ -158,7 +146,7 @@ export default {
         margin-left: 9px;
       }
       .icon {
-        font-size: 20px;
+        font-size: 16px;
         margin-left: 9px;
       }
       span {
@@ -198,5 +186,4 @@ export default {
     }
   }
 }
-
 </style>
