@@ -36,7 +36,7 @@
                 </div>
               </template>
             </NsShopDialog> -->
-            <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+            <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
               <template slot='btnIcon'>
                <div class='self-btn'>
                   {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
