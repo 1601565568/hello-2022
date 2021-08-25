@@ -145,7 +145,12 @@ export default {
       default: null
     },
     areaName: {},
-    callBack: Function// 选择完后的回调
+    // 选择完后的回调
+    callBack: Function,
+    // 是否对外透出1：是；0：否 默认为null
+    penetrate: {
+      type: Number
+    }
   },
   mixins: [listPageMixin, tableMixin],
   data () {
@@ -252,7 +257,7 @@ export default {
     },
     getShopAreaAndShop: function () {
       let that = this
-      that.$http.fetch(that.$api.core.sysShop.getShopTree)
+      that.$http.fetch(that.$api.core.sysShop.getShopTree, { penetrate: this.penetrate })
         .then((resp) => {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
@@ -330,7 +335,8 @@ export default {
           shopType: this.model.shopType,
           district: this.model.area[2],
           city: this.model.area[1],
-          province: this.model.area[0]
+          province: this.model.area[0],
+          penetrate: this.penetrate
         }
       }
       this.$http
@@ -419,7 +425,8 @@ export default {
           shopType: this.model.shopType,
           district: this.model.area[2],
           city: this.model.area[1],
-          province: this.model.area[0]
+          province: this.model.area[0],
+          penetrate: this.penetrate
         }
       }
       this.$http

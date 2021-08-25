@@ -266,15 +266,9 @@
                 }}</el-form-grid>
               </el-form-item>
               <el-form-item label="公众号状态：" class="el-inline-block">
-                <el-form-grid size="xxmd">{{
-                  items.fansStatus
-                    ? items.fansStatus === 1
-                      ? '已关注'
-                      : items.fansStatus === 0
-                      ? '未关注'
-                      : '未知'
-                    : '-'
-                }}</el-form-grid>
+                <el-form-grid size="xxmd">
+                  {{ items.fansStatusVos ? (items.fansStatusVos.some((item)=>{ return item.subscribe === 1 }) ? '已关注'
+                    : (items.fansStatusVos.some((item)=>{ return item.subscribe === -1 }) ? '未关注' : '未知')) : '-' }}</el-form-grid>
               </el-form-item>
               <el-form-item label="会员卡号：" class="el-inline-block">
                 <el-form-grid size="xxmd">{{ items.memberCard }}</el-form-grid>
