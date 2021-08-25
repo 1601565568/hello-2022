@@ -57,6 +57,7 @@
           <MessageList
             :list.sync="mediaList"
             @edit="editAnnexMessage"
+            @delete="deleteAnnexMessage"
           />
           <el-popover
             placement="top-start"
@@ -78,6 +79,7 @@
               :pitBit='true'
               ref="WechatMessageBar"
               @addMessage="addAnnexMessage"
+              @uploadVideoProgress="uploadProgress"
             />
           </el-popover>
       </el-form-item>
@@ -349,6 +351,31 @@ export default {
     }
   },
   methods: {
+    uploadProgress (data) {
+      if (data) {
+        const deleteData = sessionStorage.getItem(data.content.uid)
+        if (deleteData) {
+          return
+        }
+        if (Number(data.index) >= 0) {
+          // 编辑
+          this.model.mediaList.splice(data.index, 1, data)
+        } else {
+          // 根据uid判断是否存在
+          let isLargeNumber = (item) => item.content.uid === data.content.uid
+          let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+          if (findEditIndex === -1) {
+            // 新添加
+            let findIndex = this.model.mediaList.length
+            let objData = { ...data, uid: data.content.uid }
+            this.model.mediaList.push(objData)
+          } else {
+            this.model.mediaList.splice(findEditIndex, 1, data)
+          }
+          const limit = Number(data.content.percent) === 100
+        }
+      }
+    },
     getdata (data) {},
     datadragEnd (evt) {},
     removeGuideImage () {
@@ -406,20 +433,41 @@ export default {
       this.guideText = ''
       this.showEidtImg = ''
     },
+    deleteAnnexMessage (context) {
+      if (context.type === 2 && Number(context.content.percent) < 100) {
+        sessionStorage.setItem(context.content.uid, context.content.uid)
+      }
+      this.model.mediaList.splice(context.index, 1)
+    },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
-      const { index, content, type } = context
-      if (index > -1) {
-        // 编辑消息
-        this.model.mediaList.splice(index, 1, context)
+      const { index, content, type, isDelete } = context
+      const deleteData = sessionStorage.getItem(content.uid)
+      if (deleteData && type === 2) {
+        sessionStorage.removeItem(content.uid)
+        return
+      }
+      if (index) {
+        this.$set(this.model.mediaList, index, context)
+      } else if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.mediaList, findEditIndex, context)
+        }
       } else {
-        // 新增消息
-        if (this.model.mediaList.length < 9) {
-          this.model.mediaList.push(context)
+        if (index > -1) {
+          // 编辑消息
+          this.$set(this.model.mediaList, index, context)
         } else {
-          this.$notify.error('附件已达上限（9个），不能再添加')
+          // 新增消息
+          if (this.model.mediaList.length < 9) {
+            this.model.mediaList.push(context)
+          } else {
+            this.$notify.error('附件已达上限（9个），不能再添加')
+          }
         }
       }
     },
@@ -554,6 +602,12 @@ export default {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
       params.mediaList = this.mediaList
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let findEditIndex = this.mediaList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，无法保存')
+        return false
+      }
       // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0

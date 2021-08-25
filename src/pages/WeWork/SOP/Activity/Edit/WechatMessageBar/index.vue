@@ -17,6 +17,7 @@
     <div class="add-material-item">
       <VideoMessage
         @confirm="addMessage"
+        @uploadProgress="uploadVideoProgress"
       >
         <div class="add-material-item" ref="VideoMessage">
           <Icon type="shipinbeifen-4" class="icon" />
@@ -100,6 +101,11 @@ export default {
     }
   },
   methods: {
+    uploadVideoProgress (message) {
+      let msg = {}
+      if (this.videoMsg) msg = this.videoMsg
+      this.$emit('uploadVideoProgress', { type: 2, ...msg, content: message.content })
+    },
     messageLimit () {
       this.$message.error('最多添加10条消息')
     },
@@ -152,6 +158,19 @@ export default {
         case SOPActivityMessageType.Poster:
           this.posterMsg = context
           this.visiblePosterMessageDialog = true
+          break
+        default:
+          break
+      }
+    },
+    setMessageByEdit (context, booleans = false) {
+      const { type, index, content } = context
+      switch (type) {
+        case SOPActivityMessageType.Image:
+          this.imageMsg = context
+          break
+        case SOPActivityMessageType.Video:
+          this.videoMsg = context
           break
         default:
           break
