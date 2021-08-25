@@ -37,36 +37,39 @@
       :id="contentId"
       @blur="handleBlur()"
       @focus="handleFouce"
+      @keydown='handleDown($event)'
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
     ></div>
     <!-- 内容输入区域 end -->
     <!-- 字数限制 start -->
-    <span
-      :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
-      v-if="maxlength"
-    >
-      {{ count.text }}
-    </span>
-    <!-- 字数限制 end -->
-    <!-- 图片表情 start -->
-    <div class="w-textarea_tools__emoji" v-if="showEmoji">
-      <el-popover width="447" trigger="hover" v-model='visbleImgEmotion'>
-        <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
-        <!-- 可通过 emojiList 传入自定义的图标列表 -->
-        <emotion @emotion="addEmotion" :height="200" ref="emotion" />
-      </el-popover>
-    </div>
-    <!-- 图片表情 end -->
-    <!-- 字体表情 start -->
-    <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
-      <el-popover  trigger="hover" v-model='visbleEmotion'>
-        <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
-        <!-- 可通过 emojiList 传入自定义的图标列表 -->
-        <VEmojiPicker :pack="pack" @select="selectEmoji" />
-      </el-popover>
-    </div>
     <!-- 字体表情 end -->
+   <div class="v_footer">
+      <span
+        :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
+        v-if="maxlength"
+      >
+        {{ count.text }}
+      </span>
+      <!-- 字数限制 end -->
+      <!-- 图片表情 start -->
+      <div class="w-textarea_tools__emoji" v-if="showEmoji">
+        <el-popover width="447" trigger="hover">
+          <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
+          <!-- 可通过 emojiList 传入自定义的图标列表 -->
+          <emotion @emotion="addEmotion" :height="200" ref="emotion" />
+        </el-popover>
+      </div>
+      <!-- 图片表情 end -->
+      <!-- 字体表情 start -->
+      <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
+        <el-popover trigger="hover">
+          <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
+          <!-- 可通过 emojiList 传入自定义的图标列表 -->
+          <VEmojiPicker :pack="pack" @select="selectEmoji" />
+        </el-popover>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -88,11 +91,11 @@ export const toolFn = {
   htmlToString (html, hasBracket = true) {
     const pre = hasBracket ? '{' : ''
     const after = hasBracket ? '}' : ''
-    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '').replace(/<img.*?\bclass="/g, pre).replace(/">/g, after)
+    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
   },
   // 替换标签成文字
   htmlToText (html) {
-    return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '').replace(/<img.*?\bclass="/g, '{').replace(new RegExp(this.emojiClass, 'g'), '').replace(/">/g, '}')
+    return html.replace(/<wise.*?\bclass=".*?">/g, '{').replace(/<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
   },
   /**
    * 替换模板成标签
@@ -105,7 +108,7 @@ export const toolFn = {
     let { tools = [], emojiClass = 'EMOJI_', showEmoji = true } = this
     if (Object.prototype.toString.call(replaceData) === '[object Object]') {
       tools = replaceData.tools || tools
-      emojiClass = replaceData.emojiClass === null || replaceData.emojiClass === undefined ? emojiClass : replaceData.emojiClass
+      emojiClass = replaceData.emojiClass || emojiClass
       showEmoji = replaceData.showEmoji || showEmoji
     }
     if (showEmoji) {
@@ -116,7 +119,9 @@ export const toolFn = {
         )
         string = string.replace(
           regexp,
-          `<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/${item}.png" id="${toolFn.getGuid()}" contenteditable="false"  class="${emojiClass}[${item}]">`
+          `<wise id="${toolFn.getGuid()}" class="${
+            emojiClass
+          }[${item}]">${`[${item}]`}</wise>`
         )
       })
     }
@@ -177,18 +182,24 @@ export default {
       // 光标元素
       endDon: null,
       // 字符表情插件的数据
-      pack: packData.data,
-      // 是否展示表情
-      visbleEmotion: false,
-      visbleImgEmotion: false
+      pack: packData.data
     }
   },
   components: { Emotion, VEmojiPicker },
   props: {
+    // 是否禁用回车键
+    disabledEnter: {
+      type: Boolean,
+      default: false
+    },
     // 输入框类名 如页面由多个组件必传
     className: {
       type: String,
       default: 'w-textarea__input'
+    },
+    isShow: {
+      type: Boolean,
+      default: false
     },
     // 输入框值
     value: {
@@ -276,11 +287,9 @@ export default {
   methods: {
     // 添加图片表情
     addEmotion: function (val) {
-      this.visbleImgEmotion = false
       // 创建模版标签
-      let node = document.createElement('img')
-      const src = val.replace(new RegExp('\\[', 'g'), 'https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/').replace(new RegExp(']', 'g'), '.png')
-      node.src = src
+      let node = document.createElement(this.tag)
+      node.innerText = val
       // 添加id便于删除
       node.id = this.getGuid()
       node.setAttribute('contenteditable', false)
@@ -289,7 +298,6 @@ export default {
     },
     // 添加字体表情
     selectEmoji (val) {
-      this.visbleEmotion = false
       this.addText(val.emoji)
     },
     updateData (text) {
@@ -351,25 +359,19 @@ export default {
       if (this.disabled) {
         return false
       }
-      if (!this.savedRange.commonAncestorContainer) {
-        const dom = document.getElementsByClassName(`${this.className}`)[0]
-        dom.focus()
-      }
-      setTimeout(() => {
-        this.savedRange.insertNode(node)
-        this.endDon = node
-        this.endOffset = this.savedRange.endOffset
-        // 更新双向绑定数据
-        if (this.endDon.style) {
-          this.savedRange.setStartAfter(this.endDon)
-        } else {
-          this.savedRange.setStartAfter(this.endDon)
+      this.savedRange.insertNode(node)
+      this.endDon = node
+      this.endOffset = this.savedRange.endOffset
+      // 更新双向绑定数据
+      if (this.endDon.style) {
+        this.savedRange.setStartAfter(this.endDon)
+      } else {
+        this.savedRange.setStartAfter(this.endDon)
         // this.savedRange.setStart(this.endDon, this.endOffset)
-        }
-        let target = this.$refs[this.className]
-        this.updateData(target.innerHTML)
-        this.currentText = target.innerText
-      }, 0)
+      }
+      let target = this.$refs[this.className]
+      this.updateData(target.innerHTML)
+      this.currentText = target.innerText
     },
     handleInput (target) {
       // 即时更新数据
@@ -378,6 +380,11 @@ export default {
     },
     handleFouce () {
       this.isLocked = true
+    },
+    handleDown (e) {
+      if (e.keyCode === 13 && this.disabledEnter) {
+        e.preventDefault()
+      }
     },
     handleDelete (e) {
       // 监听“删除”事件
@@ -402,7 +409,6 @@ export default {
       // 监听选定文本的变动
       let sel = window.getSelection()
       let range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
-      // console.log(111, range)
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
@@ -443,6 +449,21 @@ export default {
       if (!this.isLocked) {
         this.$refs[this.className].innerHTML = val
       }
+    },
+    isShow: {
+      handler (val) {
+        if (val) {
+          this.createStyle()
+          // 每次光标变化的时候，保存 range
+          document.addEventListener('selectionchange', this.selectHandler)
+          setTimeout(() => {
+            const dom = document.getElementsByClassName(this.className)[0]
+            this.currentText = dom.innerText
+          }, 1000)
+          this.$refs[this.className].innerHTML = this.value
+        }
+      },
+      deep: true
     }
   }
 }
@@ -462,11 +483,6 @@ export default {
   .active {
     background: #dcdfe6;
   }
-}
-.w-textarea_input img {
-  height: 1.3em;
-  position: relative;
-  top:-0.11em;
 }
 </style>
 
@@ -489,7 +505,7 @@ $textColor: #595959;
     min-height: 100px;
     box-sizing: border-box;
     padding: 10px;
-    padding-bottom: 32px;
+    // padding-bottom: 32px;
     line-height: 1.5;
     word-break: break-word;
     // 允许编辑，禁止富文本
@@ -550,24 +566,22 @@ $textColor: #595959;
       -ms-interpolation-mode: nearest-neighbor;
     }
     &__emoji {
-      position: absolute;
-      bottom: 0;
-      left: 12px;
+      // position: absolute;
+      // bottom: 0;
+      // left: 12px;
+      display: inline-block;
+      margin-left: 12px;
       &.emoji-text {
-        left: 42px;
+        margin-left: 12px;
       }
     }
     &__text {
       display: inline-block;
-      line-height: 40px;
       padding: 0 8px;
       float: right;
       color: $textColor;
       cursor: default;
       transition: all 0.3s;
-      position: absolute;
-      bottom: 0;
-      right: 12px;
       color: #c0c4cc;
       &:hover {
         opacity: 1;
@@ -590,5 +604,10 @@ $textColor: #595959;
 }
 .w-textarea_input:focus:before{
   content:none;
+}
+.v_footer{
+  height: 20px;
+  line-height: 20px;
+  margin-bottom: 8px;
 }
 </style>

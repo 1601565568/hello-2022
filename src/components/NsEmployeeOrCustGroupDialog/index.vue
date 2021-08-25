@@ -57,7 +57,7 @@
           <el-form-item v-show="tabType === 'employee'">
             <el-form-item label="工作门店：">
               <el-form-grid size="md">
-                <ns-droptree ref="shopAreaTree" :defaultExpandAll='true' placeholder="请选择区域" :data="areaTree" v-model="model.shopArea" clearable></ns-droptree>
+                <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
               </el-form-grid>
               <el-form-grid size="md" style="margin-left:10px">
                 <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -214,7 +214,7 @@
 // groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
 // queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
 
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
@@ -241,6 +241,12 @@ export default {
           data: [],
           type: 'group'
         }
+      }
+    },
+    // 判断是否需要门店回显
+    echoStore: {
+      default: function () {
+        return false
       }
     },
     disabled: {
@@ -287,6 +293,11 @@ export default {
     },
     // 是否展示微信昵称条件
     showWechatNick: {
+      type: Boolean,
+      default: false
+    },
+    // 是否需要和右上角区域联动
+    isNeedLink: {
       type: Boolean,
       default: false
     },
@@ -370,11 +381,12 @@ export default {
       loadSelectedData: [],
       shopAreaData: [],
       deptData: [],
-      viewOptions: [] // 视角列表
+      viewOptions: [], // 视角列表
+      isLoadShopAreaTree: false // 判断区域树是否请求完成
     }
   },
   computed: mapState({
-    areaTree: state => state.user.areaTree
+    area: state => state.user.area
   }),
   watch: {
     tabType: function (val) {
@@ -475,7 +487,7 @@ export default {
     loadShopAreaNode (node, resolve) {
       const shopAreaTree = this.shopAreaTree
       if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree))
+        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? this.$store.state.user.area.id : null))
       }
       if (node.level >= 1) {
         // 点击之后触发
@@ -489,7 +501,7 @@ export default {
         }
       }
     },
-    getRootTree (shopAreaTree) {
+    getRootTree (shopAreaTree, areaId = null) {
       const rootTree = []
       for (let item of shopAreaTree) {
         let parentId = item.parentId // 每一项的父级id
@@ -500,7 +512,9 @@ export default {
             break
           }
         }
-        if (!flag) {
+        if (!flag && !areaId) {
+          rootTree.push(item)
+        } else if (areaId && item.id === areaId) {
           rootTree.push(item)
         }
       }
@@ -546,6 +560,7 @@ export default {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
+          this.isLoadShopAreaTree = true
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -853,7 +868,10 @@ export default {
         vm.model.name = ''
         vm.model.selectedDepart.value = ''
         vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的门店区域
+        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+          value: this.area.id,
+          text: this.area.name
+        } : {}
         vm.model.mobile = ''
         vm.model.shopId = '' // 选择的门店
         vm.model.employeeType = '' // 选择的员工类型

@@ -16,7 +16,7 @@ import '@theme/NuiJs/index.scss'
 import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
-
+import '@/assets/fonts/iconfont.css'
 LOG.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
@@ -89,3 +89,6 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount('#app')
+
+// 清除行政区划缓存
+localStorage.removeItem('DS_area')

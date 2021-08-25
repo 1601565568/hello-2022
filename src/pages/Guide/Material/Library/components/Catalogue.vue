@@ -91,11 +91,13 @@
                   popper-class="table-body__tooltip"
                 >
                   <div slot="content" v-html="strToRichText(item.content)"></div>
-                  <div v-html="strToRichText(item.content)" class="showContent"></div>
+                  <div class="showContent">
+                    <EmojiText :text='item.content' />
+                  </div>
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
-                <div
+                <!-- <div
                   v-if="item.mType === 0"
                   class="catalogue-materials__article"
                 >
@@ -141,9 +143,64 @@
                       @click="showPreview(index, item)"
                     />
                   </li>
-                </div>
-                <div v-else class="catalogue-materials__video">
-                  <div v-if="item.mediaList">
+                </div> -->
+                <div v-for="(c_item, c_index) in item.mediaList" :key="c_index" class="catalogue-materials__image">
+                  <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
+                    <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
+                    <img
+                      v-else
+                      :style="{
+                        width: imageHeight - 2 + 'px',
+                        height: imageHeight - 2 + 'px'
+                      }"
+                      alt=""
+                      :src="
+                        c_item.content.image +
+                          '?x-oss-process=image/resize,m_mfit,h_200,w_200'
+                      "
+                      @click="showPreview(c_index, c_item, item)"
+                      />
+                  </div>
+                  <div class="v_image" v-if="c_item.type === 2">
+                    <img
+                      :style="{
+                        width: imageHeight - 2 + 'px',
+                        height: imageHeight - 2 + 'px'
+                      }"
+                      alt=""
+                      :src="c_item.content.video + '?x-oss-process=video/snapshot,t_10000,f_jpg'"
+                      />
+                    <div
+                      class="mask"
+                      @click="showPreview(c_index, c_item, item)"
+                    >
+                      <div class="wrapper">
+                        <Icon type="begin" />
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="c_item.type === 3" class="u_linkList">
+                    <div class="u_t">{{c_item.content.title}}</div>
+                    <div class="u_desc">{{c_item.content.desc}}</div>
+                    <img class="u_link_img" :src='c_item.content.image || linkImage' alt="">
+                    <div class="u_line"></div>
+                  </div>
+                  <div v-if="c_item.type === 4" class="u_appList">
+                    <!-- <div class="u_t">{{item.content.title}}</div>
+                    <Icon type="xiaochengxushouquan" className="icon"/>
+                    <div class="u_desc">{{item.content.desc}}</div>
+                    <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
+                    <div class="u_line"></div> -->
+                    <div class="u_app_title">
+                      <span class="v1"></span>
+                      <span class="v2">小程序名称</span>
+                    </div>
+                    <div class="u_content">{{c_item.content.title}}</div>
+                    <img class="u_app_img" :src='c_item.content.image' alt="">
+                    <div class="u_line"></div>
+                    <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
+                  </div>
+                  <!-- <div v-if="item.mediaList">
                     <video
                       :src="videoUrl(item)"
                       :style="{ height: videoHeight + 'px' }"
@@ -158,8 +215,26 @@
                     <div class="catalogue-materials__video--wrapper">
                       <Icon type="begin" />
                     </div>
-                  </div>
+                  </div> -->
                 </div>
+                <!-- <div v-if="c_item.type === 2" class="catalogue-materials__video">
+                  <div class="v_video">
+                    <video
+                      :src="videoUrl(item)"
+                      :style="{ height: videoHeight + 'px' }"
+                    >
+                      您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+                    </video>
+                    <div
+                      class="catalogue-materials__video--mask"
+                      @click="showPreview(0, item)"
+                    >
+                      <div class="catalogue-materials__video--wrapper">
+                        <Icon type="begin" />
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
               </div>
               <div class="catalogue-materials__item--action clearfix">
                 <el-select
@@ -233,6 +308,7 @@
 </template>
 <script>
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import EmojiText from '@/components/NewUi/EmojiText'
 import GuideInfo from './GuideInfo'
 export default {
   props: {
@@ -262,7 +338,7 @@ export default {
     },
     operate_buttons: Array
   },
-  components: { NsNoData, GuideInfo },
+  components: { NsNoData, GuideInfo, EmojiText },
   data () {
     return {
       // 卡片容器宽度
@@ -293,6 +369,7 @@ export default {
       materialShow: this.materials,
       //
       selectItem: {},
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
     }
@@ -430,16 +507,14 @@ export default {
     onEnter (row) {
       this.$emit('onEnter', row)
     },
-    showPreview (current, row) {
-      let type = +row.mType === 2 ? 'video' : 'img'
-      let item = row.mediaList[current]
+    showPreview (current, row, data) {
+      let type = +row.type === 2 ? 'video' : 'img'
+      let item = data.mediaList[current]
       let imgs = []
-      row.mediaList.forEach(item => {
-        if (item.pitType === 1) {
-          imgs.push(item.url)
-        }
+      data.mediaList.forEach(item => {
+        imgs.push(item.type === 1 ? item.content.image : item.content.video)
       })
-      this.$emit('preview', 0, imgs, type)
+      this.$emit('preview', current, imgs, type)
     },
     showGuideInfo (current, row) {
       let item = row.mediaList[current]
@@ -448,24 +523,149 @@ export default {
     },
     videoUrl (list) {
       if (list.mediaList && list.mediaList.length > 0) {
-        return list.mediaList[0].url
+        let obj = list.mediaList.find(item => item.type === 2)
+        return obj.content.video + '?x-oss-process=video/snapshot,t_10000,f_jpg'
       }
       return ''
     }
   }
 }
 </script>
+<style scoped lang='scss'>
+.u_linkList{
+  width: 278px;
+  height: auto;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  overflow: auto;
+  border-radius: 4px;
+  .u_t{
+    width: 253.26px;
+    font-size: 14px;
+    color: #262626;
+    line-height: 18px;
+    font-weight: bold;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .u_desc{
+    width: 197.94px;
+    font-size: 12px;
+    color: #262626;
+    line-height: 17px;
+    font-weight: 400;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    float: left;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+  }
+  .u_link_img{
+    width: 45px;
+    height: 45px;
+    margin-left: 7px;
+  }
+  .u_line{
+    width: 253.26px;
+    height: 1px;
+    margin-top: 5px;
+    margin-bottom: 18px;
+    background: #EEEEEE;
+  }
+}
+.u_appList{
+  width: 278px;
+  height: 278px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  padding: 0 16px;
+  margin-bottom: 12px;
+  .u_app_title{
+    margin-top: 16px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    color: #909399;
+    .v1{
+      margin-right: 8px;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #D9D9D9;
+    }
+    .v2{
+      vertical-align: top;
+    }
+  }
+  .u_content{
+    margin: 0;
+    margin-top: 4px;
+    width: 210px;
+    height: 22px;
+    font-size: 14px;
+    color: #383838;
+    letter-spacing: 0;
+    line-height: 22px;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .u_app_img{
+    width: 246px;
+    height: 168px;
+    margin-top: 4px;
+  }
+  .u_line{
+    margin-top: 7.5px;
+    width: 246px;
+    height: 1px;
+    background:#EBEBEB;
+  }
+  .u_bottom{
+    margin-top: 7.5px;
+    height: 20px;
+    font-size: 12px;
+    color: #909399;
+    line-height: 20px;
+    .icon{
+      font-size: 10.57px;
+      margin-right: 4px;
+    }
+  }
+}
+</style>
 <style scoped>
 @import '../styles/image.css';
-.test-li {
-  /* display: flex;
-  flex-direction: row; */
-  margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
-  list-style: none;
-}
 .pit-img-view {
   border: 1px dashed #D9D9D9;
   background-color: white;
+}
+.v_image {
+  /* display: flex;
+  flex-direction: row; */
+  /* width: 100px;
+  height: 100px; */
+  position: relative;
+  list-style: none;
+  margin: 0 5px 5px 0;
+}
+.v_video{
+
 }
 .showContent {
   word-break: break-all;
@@ -736,31 +936,22 @@ export default {
       }
     }
     @e image {
-      margin-right: -5px;
-      margin-bottom: -5px;
-      display: flex;
+      display: inline-flex;
       flex-direction: row;
       flex-wrap: wrap;
       img {
-        margin: 0 5px 5px 0;
         width: 78px;
         height: 78px;
         border-radius: 3px;
         cursor: pointer;
         object-fit: cover;
       }
-    }
-    @e video {
-      position: relative;
-      font-size: 0;
-      line-height: 1;
-      video {
-        width: 100%;
-        height: 142px;
-        border-radius: 3px;
-        object-fit: cover;
+      &:nth-child(3n){
+        .v_image{
+          margin-right: 0;
+        }
       }
-      @m mask {
+      .mask {
         position: absolute;
         top: 0;
         left: 0;
@@ -770,7 +961,7 @@ export default {
         cursor: pointer;
         border-radius: 3px;
       }
-      @m wrapper {
+      .wrapper {
         position: relative;
         top: 50%;
         left: 50%;
@@ -785,6 +976,16 @@ export default {
           font-size: 30px;
           color: #fff;
         }
+      }
+    }
+    @e video {
+      position: relative;
+      font-size: 0;
+      line-height: 1;
+      video {
+        width: 100%;
+        border-radius: 3px;
+        object-fit: cover;
       }
     }
   }

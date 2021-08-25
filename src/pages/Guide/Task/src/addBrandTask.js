@@ -7,12 +7,18 @@ import selectMaterialListModal from '../selectMaterialListModal'
 import shopSelect from '../../components/selectShops'
 import { getErrorMsg } from '@/utils/toast'
 import lookCardList from '../lookCardList'
+import AddMaterial from '../addMaterial'
+import Preview from '@/components/NsPreview'
+import materialDialog from '../materialDialog'
 export default {
   props: {
     callBack: Function
   },
   mixins: [scrollHeight],
   components: {
+    Preview,
+    materialDialog,
+    AddMaterial,
     ElBreadcrumb,
     ElBreadcrumbItem,
     ElCollapse,
@@ -45,6 +51,8 @@ export default {
       }
     }
     return {
+      dialogFlag: false,
+      listMap: {},
       pickerOptions0: {
         // disabledDate (time) {
         //   return time.getTime()
@@ -124,6 +132,13 @@ export default {
     }
   },
   methods: {
+    subNumber (type, data) {
+      if (type === 0) {
+        return data && data.some(item => item.type === 0 || item.type === 1)
+      } else {
+        return data && data.some(item => item.type === type)
+      }
+    },
     timeFun (val) {},
     selectShopBack (val) {
       this.hasShopArr = val
@@ -149,6 +164,13 @@ export default {
         }).catch(res => {
           this.$notify.error('视角列表查询失败')
         })
+    },
+    dialogClick (row) {
+      this.dialogFlag = true
+      this.listMap = row
+    },
+    togglePreview (current, list, type) {
+      this.$refs.preview.toggleShow(current, list, type)
     },
     // 选择视角
     chooseView (viewId) {

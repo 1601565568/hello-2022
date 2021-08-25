@@ -6,35 +6,44 @@
       :key="key"
     >
       <div class="message-detail">
-        <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+        <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+          <img src="@/assets/materical-loading.gif" class="bitpit" />
+        </template>
+        <template v-else>
+          <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+        </template>
         <span>{{content | msgText(type)}}</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
-        <ns-button v-show="key !== 0" type="text" @click="sortMessage(key, 'top')">
+        <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
           <Icon type="zhiding" />
         </ns-button>
-        <ns-button v-show="key !== 0" type="text" @click="sortMessage(key, 'up')">
+        <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
           <Icon type="top-arr" />
         </ns-button>
-        <ns-button v-show="key !== list.length - 1" type="text" @click="sortMessage(key, 'down')">
+        <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
           <Icon type="down-arr" />
         </ns-button>
-        <ns-button v-show="key !== list.length - 1" type="text" @click="sortMessage(key, 'bottom')">
+        <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
           <Icon type="zhidi" />
         </ns-button>
       </div>
       <div class="message-operate">
-        <ns-button type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
-        <ns-button type="text" size="small" @click="deleteMessage(key)">删除</ns-button>
+        <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
+        <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)">删除</ns-button>
       </div>
+      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
   </ul>
 </template>
 
 <script>
 import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
-
+import ElProgress from '@nascent/nui/lib/progress'
 export default {
+  components: {
+    ElProgress
+  },
   props: {
     list: {
       type: Array,
@@ -54,6 +63,8 @@ export default {
         case WelcomeMessageType.MiniProgram:
         case WelcomeMessageType.Poster:
           return content.title
+        case WelcomeMessageType.Pitbit:
+          return content.pitText
         default:
           return ''
       }
@@ -62,10 +73,24 @@ export default {
   data () {
     return {
       WelcomeMessageType: WelcomeMessageType,
-      WelcomeMessageTypeTip: WelcomeMessageTypeTip
+      WelcomeMessageTypeTip: WelcomeMessageTypeTip,
+      customColor: '#0094FC'
     }
   },
   methods: {
+    isShowEdit (data) {
+      let isShow
+      if (data.type !== 1 && data.type !== 2) {
+        isShow = true
+      } else {
+        if (parseInt(data.content.percent) < 100) {
+          isShow = false
+        } else {
+          isShow = true
+        }
+      }
+      return isShow
+    },
     /**
      * 改变消息顺序
      * @param index 当前消息位置
@@ -86,7 +111,8 @@ export default {
       }
       this.$emit('update:list', list)
     },
-    deleteMessage (index) {
+    deleteMessage (data, index) {
+      this.$emit('delete', { ...data, index, isDelete: true })
       const list = [ ...this.list ]
       list.splice(index, 1)
       this.$emit('update:list', list)
@@ -108,11 +134,17 @@ export default {
     align-items: center;
     height: 52px;
     border-bottom: 1px solid #e8e8e8;
+    position: relative;
 
     .message-detail {
       width: 212px;
       display: flex;
       align-items: center;
+      .bitpit{
+        width: 20px;
+        height: 20px;
+        margin-left: 9px;
+      }
       .icon {
         font-size: 16px;
         margin-left: 9px;
@@ -145,6 +177,12 @@ export default {
     .message-operate {
       margin-left: 69px;
       width: 128px;
+    }
+    .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
     }
   }
 }
