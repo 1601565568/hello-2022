@@ -528,7 +528,13 @@ export default {
      * 编辑素材消息
      */
     editMessage (data, index) {
-      this.$refs.WechatMessageBar.openMessageDialogByEdit({ ...data, index })
+      let isLargeNumber = (item) => item.type === 2 && !item.content.mediaid.includes('http')
+      let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，请稍等')
+      } else {
+        this.$refs.WechatMessageBar.openMessageDialogByEdit({ ...data, index })
+      }
     },
     deleteMessage (data, index) {
       this.model.contentList.splice(index, 1)
@@ -537,7 +543,7 @@ export default {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      // this.model.contentList.splice(context.index, 1)
+      this.model.contentList.splice(context.index, 1)
     }
   }
 }
