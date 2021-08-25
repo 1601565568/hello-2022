@@ -4,6 +4,7 @@ import customerCenter from './customerCenter'
 import Database from './database'
 import dataCenter from './dataCenter'
 import greeting from './greeting'
+import thirdAuth from './thirdAuth'
 // import Isv from './isv'
 // import Management from './management'
 import Other from './other'
@@ -27,6 +28,7 @@ export default [
   dataCenter,
   WeWork, // 企业微信
   greeting,
+  thirdAuth,
   customerCenter,
   pullNew,
   chatManage,
