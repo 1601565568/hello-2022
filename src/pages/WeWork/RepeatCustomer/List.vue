@@ -2,8 +2,8 @@
  * @Descripttion: 重复好友
  * @Author: xiaotx
  * @Date: 2021-02-7 17:28:29
- * @LastEditors: xiaotx
- * @LastEditTime: 2021-02-7 17:28:29
+ * @LastEditors: yuye.huang
+ * @LastEditTime: 2021-08-17 16:42:38
  -->
 <template>
   <div>
@@ -30,7 +30,7 @@
           </el-form-item>
           <el-form-item label="性别：">
             <el-form-grid>
-              <span>{{guide.gender}}</span>
+              <span> {{ guide.gender === 1 ? '男' : guide.gender === 2 ? '女' : '未知' }} </span>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
