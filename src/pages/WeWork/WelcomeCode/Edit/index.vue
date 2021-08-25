@@ -34,6 +34,7 @@
                   <MessageList
                     :list.sync="model.annexList"
                     @edit="editAnnexMessage"
+                    @delete="deleteAnnexMessage"
                   />
                   <el-popover
                     placement="top-start"
@@ -54,6 +55,7 @@
                     <WechatMessageBar
                       ref="WechatMessageBar"
                       @addMessage="addAnnexMessage"
+                      @uploadVideoProgress="uploadProgress"
                     />
                   </el-popover>
                 </el-form-item>
@@ -249,6 +251,31 @@ export default {
     this.getWelcomeCode()
   },
   methods: {
+    uploadProgress (data) {
+      if (data) {
+        const deleteData = sessionStorage.getItem(data.content.uid)
+        if (deleteData) {
+          return
+        }
+        if (Number(data.index) >= 0) {
+          // 编辑
+          this.model.annexList.splice(data.index, 1, data)
+        } else {
+          // 根据uid判断是否存在
+          let isLargeNumber = (item) => item.content.uid === data.content.uid
+          let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+          if (findEditIndex === -1) {
+            // 新添加
+            let findIndex = this.model.annexList.length
+            let objData = { ...data, uid: data.content.uid }
+            this.model.annexList.push(objData)
+          } else {
+            this.model.annexList.splice(findEditIndex, 1, data)
+          }
+          const limit = Number(data.content.percent) === 100
+        }
+      }
+    },
     tagAreaInputLength (length) {
       this.welcomeInputLength = length
       if (length > 0) {
@@ -258,18 +285,40 @@ export default {
       }
     },
     addAnnexMessage (context) {
-      const { index, content, type } = context
-      if (index > -1) {
-        // 编辑消息
-        this.model.annexList.splice(index, 1, context)
+      const { index, content, type, isDelete } = context
+      const deleteData = sessionStorage.getItem(content.uid)
+      if (deleteData && type === 2) {
+        sessionStorage.removeItem(content.uid)
+        return
+      }
+      if (index) {
+        this.$set(this.model.annexList, index, context)
+      } else if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.annexList, findEditIndex, context)
+        }
       } else {
-        // 新增消息
-        if (this.model.annexList.length < 9) {
-          this.model.annexList.push(context)
+        if (index > -1) {
+          // 编辑消息
+          this.$set(this.model.annexList, index, context)
         } else {
-          this.$notify.error('附件已达上限（9个），不能再添加')
+          // 新增消息
+          if (this.model.annexList.length < 9) {
+            this.model.annexList.push(context)
+          } else {
+            this.$notify.error('附件已达上限（9个），不能再添加')
+          }
         }
       }
+    },
+    deleteAnnexMessage (context) {
+      // this.$refs.WechatMessageBar.setMessageByEdit(context, true)
+      if (context.type === 2 && Number(context.content.percent) < 100) {
+        sessionStorage.setItem(context.content.uid, context.content.uid)
+      }
+      this.model.annexList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context)
@@ -298,6 +347,12 @@ export default {
       }
     },
     saveWelcome () {
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，无法保存')
+        return false
+      }
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
@@ -389,7 +444,7 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      // justify-content: center;
       .icon {
         font-size: 13px;
         color:#0091FA;

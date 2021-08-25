@@ -7,6 +7,10 @@
     <slot name='tab'></slot>
     <div class="template-table">
       <div class='teplate-table__box'>
+        <!-- 头部提示 -->
+        <div class='header-tip' v-if='headerTip'>
+          <div class='header-tip__content'>{{headerTip}}</div>
+        </div>
         <!-- 工具栏 -->
         <div class="template-table__bar">
           <el-row class="template-table__bar-base">
@@ -38,6 +42,9 @@
 export default {
   name: 'PageTablePro',
   props: {
+    headerTip: {
+      default: false
+    },
     searchCol: {
       default: 21
     },
@@ -94,5 +101,16 @@ export default {
 }
 .el-pagination {
   box-shadow: none
+}
+.header-tip {
+  padding-bottom: 16px;
+  background: #fff;
+}
+.header-tip__content {
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  background: #F2F9FE;
+  padding: 9px 16px;
 }
 </style>

@@ -8,6 +8,7 @@
     :before-upload="beforeUpload"
     modal-append-to-body
     append-to-body
+    :on-progress="onProgress"
   >
     <slot>上传</slot>
   </ElUpload>
@@ -47,18 +48,21 @@ export default {
         return false
       }
 
-      this.$notify.info('上传中')
+      // this.$notify.info('上传中')
 
       return true
     },
     onSuccess (uploadRes, file) {
       this.loading = false
       if (uploadRes.success) {
-        this.$emit('confirm', { type: 'video', content: { video: uploadRes.result.url } })
+        this.$emit('confirm', { type: 'video', content: { video: uploadRes.result.url, uid: String(file.uid) } })
         // this.$message.success('上传视频成功')
       } else {
         this.$message.error('上传视频失败')
       }
+    },
+    onProgress (event, file, fileList) {
+      this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), video: file.name, uid: String(file.uid) } })
     }
   }
 }

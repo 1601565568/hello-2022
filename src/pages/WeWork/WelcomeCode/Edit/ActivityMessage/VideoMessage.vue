@@ -1,15 +1,22 @@
 <template>
   <div class="video-message">
     <div class="video-area">
-      <img
-        :src="videoThumbUrl"
-      >
-      <!-- <span v-if="preview" class="video-total">3个</span> -->
-      <div class="video-mask" @click="showPreview">
-        <div class="play-icon">
-          <Icon class="icon" type="begin" />
+      <div v-if="videoThumbUrl.includes('http')" @click="showPreview">
+        <img :src="videoThumbUrl">
+        <div class="video-mask">
+          <div class="play-icon">
+            <Icon class="icon" type="begin" />
+          </div>
         </div>
       </div>
+      <div v-else>
+        <div class="video-default">
+          <div class="play-icon">
+            <Icon class="icon" type="begin" />
+          </div>
+        </div>
+      </div>
+      <!-- <span v-if="preview" class="video-total">3个</span> -->
     </div>
     <NsPreview v-if="preview" ref="NsPreview" :appendToBody="true"/>
   </div>
@@ -107,6 +114,28 @@ export default {
           width: 50%;
           height: 50%;
         }
+      }
+    }
+  }
+  .video-default {
+    width: 91px;
+    height: 91px;
+    background-color: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .play-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.4);
+      position: relative;
+      > svg {
+        margin: 11px 0 0 14px;
+        font-size: 30px;
+        color: #fff;
       }
     }
   }

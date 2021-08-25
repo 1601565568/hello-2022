@@ -19,6 +19,7 @@
     <div class="add-material-item">
       <VideoMessage
         @confirm="addMessage"
+        @uploadProgress="uploadVideoProgress"
       >
         <div class="add-material-item" ref="VideoMessage">
           <i class="iconfont icon-shipinbeifen4 icon"></i>
@@ -113,6 +114,16 @@ export default {
     }
   },
   methods: {
+    uploadImageProgress (message) {
+      let msg = {}
+      if (this.imageMsg) msg = this.imageMsg
+      this.$emit('uploadImageProgress', { type: 1, ...msg, content: message.content })
+    },
+    uploadVideoProgress (message) {
+      let msg = {}
+      if (this.videoMsg) msg = this.videoMsg
+      this.$emit('uploadVideoProgress', { type: 2, ...msg, content: message.content })
+    },
     messageLimit () {
       this.$message.error('最多添加10条消息')
     },
@@ -142,8 +153,7 @@ export default {
           type = 4
         }
       }
-      this.$emit('addMessage', { type, ...msg, content: message.content })
-      // }
+      this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
       if (this.videoMsg) this.videoMsg = null
@@ -181,6 +191,22 @@ export default {
         case tType.Pitbit:
           this.pitbitMsg = context
           this.visiblePitbitMessageDialog = true
+          break
+        default:
+          break
+      }
+    },
+
+    // 替代写入数据的方法 已不用了
+    setMessageByEdit (context, booleans = false) {
+      const { type, index, content } = context
+      let tType = booleans ? ScWelcomeMessageType : WelcomeMessageType
+      switch (type) {
+        case tType.Image:
+          this.imageMsg = context
+          break
+        case tType.Video:
+          this.videoMsg = context
           break
         default:
           break

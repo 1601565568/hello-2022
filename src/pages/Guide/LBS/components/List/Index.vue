@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table :title='title'>
+    <page-table :title='title' :headerTip='headerTip'>
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
