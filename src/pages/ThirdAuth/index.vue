@@ -12,7 +12,9 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      redPacketEmpty
+      redPacketEmpty,
+      cloudUrl: '',
+      zhikuUrl: ''
     }
   },
   computed: mapState({
@@ -20,8 +22,16 @@ export default {
   }),
   methods: {
     handleJump () {
-      window.open('https://sandboxecloudv5.vecrp.com/basic/workWx/index')
+      window.open(`${this.cloudUrl}/basic/workWx/index`)
     }
+  },
+  mounted () {
+    this.$http.fetch(this.$api.getsysUrls)
+      .then(resp => {
+        const { cloudUrl, zhikuUrl } = resp.result
+        this.cloudUrl = cloudUrl
+        this.zhikuUrl = zhikuUrl
+      })
   }
 }
 </script>
