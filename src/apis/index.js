@@ -28,6 +28,11 @@ export default {
     url: '/guide/sgmoreaccount/getMoreAccountByWeight',
     method: 'get'
   },
+  // 获取三方地址
+  getsysUrls: {
+    url: '/setting/sys/urls',
+    method: 'get'
+  },
   getChangeChannel: {
     url: '/group/queryGroupMsg',
     method: 'get'
