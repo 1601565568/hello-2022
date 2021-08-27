@@ -2,7 +2,7 @@
  * 欢迎语附件消息类型
  */
 export enum WelcomeMessageType {
-  Pitbit = 0,
+  a,
   Image,
   Video,
   Link,
@@ -31,10 +31,6 @@ export const WelcomeMessageTypeTip = {
   },
   [WelcomeMessageType.Poster]: {
     tip: '二维码海报',
-    icon: 'poster-1'
-  },
-  [WelcomeMessageType.Pitbit]: {
-    tip: '坑位',
     icon: 'poster-1'
   }
 }
