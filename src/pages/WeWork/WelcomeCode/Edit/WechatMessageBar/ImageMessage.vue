@@ -1,12 +1,15 @@
 <template>
   <ElUpload
+    ref='elupload'
     name="file"
     :action="uploadUrl"
     :show-file-list="false"
     accept=".jpg,.jpeg,.png"
     :on-success="onSuccess"
+    :on-exceed='onExceed'
     :before-upload="beforeUpload"
     :on-progress="onProgress"
+    :multiple='multiple'
   >
     <slot>上传</slot>
   </ElUpload>
@@ -18,6 +21,16 @@ import ElUpload from '@nascent/nui/lib/upload'
 export default {
   components: {
     ElUpload
+  },
+  props: {
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    limit: {
+      type: Number,
+      default: 99999
+    }
   },
   data () {
     return {
@@ -45,7 +58,6 @@ export default {
         this.loading = false
         return false
       }
-
       return true
     },
     onSuccess (uploadRes, file) {
@@ -59,6 +71,9 @@ export default {
     onProgress (event, file, fileList) {
       // this.$emit('uploadProgress', { type: 'image', content: { percent: event.percent.toFixed(2), image: file.name } })
     }
+    // onExceed (files, fileList) {
+    //   console.log(files, fileList)
+    // }
   }
 }
 </script>

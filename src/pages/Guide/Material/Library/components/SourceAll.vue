@@ -78,6 +78,8 @@
             <WechatMessageBar
               :pitBit='true'
               ref="WechatMessageBar"
+              :multipleImage='true'
+              :limitImage='limitImage'
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"
             />
@@ -294,6 +296,10 @@ export default {
         }
         this.model.mediaList = arr
       }
+    },
+    // 图片多选时，判断还能选择的张数
+    limitImage () {
+      return this.imageNum - this.mediaList.length
     }
   },
   watch: {
