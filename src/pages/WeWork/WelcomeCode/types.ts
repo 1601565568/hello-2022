@@ -17,10 +17,6 @@ export const WelcomeMessageTypeTip = {
     tip: '图片',
     icon: 'tupianbeifen-5'
   },
-  [WelcomeMessageType.Video]: {
-    tip: '视频',
-    icon: 'shipinbeifen-4'
-  },
   [WelcomeMessageType.Link]: {
     tip: '链接',
     icon: 'lianjiebeifen-4'
@@ -32,5 +28,9 @@ export const WelcomeMessageTypeTip = {
   [WelcomeMessageType.Poster]: {
     tip: '二维码海报',
     icon: 'poster-1'
+  },
+  [WelcomeMessageType.Video]: {
+    tip: '视频',
+    icon: 'shipinbeifen-4'
   }
 }
