@@ -99,7 +99,7 @@ export default {
   methods: {
     messageToolTipList (list) {
       return list.map(type => {
-        return WelcomeMessageTypeTip[type]
+        return WelcomeMessageTypeTip[type] || []
       })
     },
     /**
