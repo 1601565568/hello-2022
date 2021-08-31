@@ -347,8 +347,7 @@ export default {
       }
     },
     saveWelcome () {
-      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
-      let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+      let findEditIndex = this.model.annexList.findIndex((item) => item.type === 5 && !item.content.video.includes('http'))
       if (findEditIndex > -1) {
         this.$notify.warning('视频资源上传中，无法保存')
         return false
