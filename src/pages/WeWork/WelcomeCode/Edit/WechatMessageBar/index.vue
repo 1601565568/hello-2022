@@ -172,7 +172,6 @@ export default {
           type = 4
         }
       }
-      console.log(message)
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
