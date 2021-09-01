@@ -257,23 +257,23 @@ export default {
         if (deleteData) {
           return
         }
-        if (Number(data.index) >= 0) {
-          // 编辑
-          this.model.annexList.splice(data.index, 1, data)
+        // if (Number(data.index) >= 0) {
+        //   // 编辑
+        //   this.model.annexList.splice(data.index, 1, data)
+        // } else {
+        // 根据uid判断是否存在
+        let isLargeNumber = (item) => item.content.uid === data.content.uid
+        let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.annexList.length
+          let objData = { ...data, uid: data.content.uid }
+          this.model.annexList.push(objData)
         } else {
-          // 根据uid判断是否存在
-          let isLargeNumber = (item) => item.content.uid === data.content.uid
-          let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
-          if (findEditIndex === -1) {
-            // 新添加
-            let findIndex = this.model.annexList.length
-            let objData = { ...data, uid: data.content.uid }
-            this.model.annexList.push(objData)
-          } else {
-            this.model.annexList.splice(findEditIndex, 1, data)
-          }
-          const limit = Number(data.content.percent) === 100
+          this.model.annexList.splice(findEditIndex, 1, data)
         }
+        // const limit = Number(data.content.percent) === 100
+        // }
       }
     },
     tagAreaInputLength (length) {
@@ -291,25 +291,18 @@ export default {
         sessionStorage.removeItem(content.uid)
         return
       }
-      if (index) {
-        this.$set(this.model.annexList, index, context)
-      } else if (content.uid) {
+      if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
         if (findEditIndex > -1) {
           this.$set(this.model.annexList, findEditIndex, context)
         }
       } else {
-        if (index > -1) {
-          // 编辑消息
-          this.$set(this.model.annexList, index, context)
+        // 新增消息
+        if (this.model.annexList.length < 9) {
+          this.model.annexList.push(context)
         } else {
-          // 新增消息
-          if (this.model.annexList.length < 9) {
-            this.model.annexList.push(context)
-          } else {
-            this.$notify.error('附件已达上限（9个），不能再添加')
-          }
+          this.$notify.error('附件已达上限（9个），不能再添加')
         }
       }
     },

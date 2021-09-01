@@ -187,7 +187,7 @@ export default {
     }
 
     .message-operate {
-      margin-left: 90px;
+      margin-left: 67px;
       width: 128px;
     }
     .progress {
