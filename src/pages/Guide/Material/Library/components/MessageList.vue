@@ -64,9 +64,9 @@ export default {
     msgText (content, type) {
       switch (type) {
         case WelcomeMessageType.Image:
-          return content.fileName
+          return content.image.slice(content.image.lastIndexOf('/') + 1)
         case WelcomeMessageType.Video:
-          return content.fileName
+          return content.video.slice(content.video.lastIndexOf('/') + 1)
         case WelcomeMessageType.Link:
         case WelcomeMessageType.MiniProgram:
         case WelcomeMessageType.Poster:

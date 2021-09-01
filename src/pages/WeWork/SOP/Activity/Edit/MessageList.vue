@@ -57,9 +57,9 @@ export default {
       switch (type) {
         case WelcomeMessageType.Poster:
         case WelcomeMessageType.Image:
-          return content.fileName
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Video:
-          return content.fileName
+          return content.mediaid.slice(content.mediaid.lastIndexOf('/') + 1)
         case WelcomeMessageType.Link:
         case WelcomeMessageType.MiniProgram:
           return content.title
