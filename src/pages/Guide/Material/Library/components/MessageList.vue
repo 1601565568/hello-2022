@@ -37,7 +37,7 @@
         <!-- </view> -->
       </div>
       <div class="message-operate">
-        <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
+        <!-- <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button> -->
         <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)">删除</ns-button>
       </div>
       <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="2" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
@@ -64,9 +64,9 @@ export default {
     msgText (content, type) {
       switch (type) {
         case WelcomeMessageType.Image:
-          return content.image.slice(content.image.lastIndexOf('/') + 1)
+          return content.fileName
         case WelcomeMessageType.Video:
-          return content.video.slice(content.video.lastIndexOf('/') + 1)
+          return content.fileName
         case WelcomeMessageType.Link:
         case WelcomeMessageType.MiniProgram:
         case WelcomeMessageType.Poster:
@@ -187,7 +187,7 @@ export default {
     }
 
     .message-operate {
-      margin-left: 69px;
+      margin-left: 90px;
       width: 128px;
     }
     .progress {
