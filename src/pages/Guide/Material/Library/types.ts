@@ -3,8 +3,8 @@
  */
 export enum WelcomeMessageType {
   Pitbit = 0,
-  Image,
   Video,
+  Image,
   Link,
   MiniProgram
 }

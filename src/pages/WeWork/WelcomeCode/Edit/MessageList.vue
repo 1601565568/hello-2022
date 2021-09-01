@@ -6,7 +6,7 @@
       :key="key"
     >
       <div class="message-detail">
-        <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+        <template v-if="content.percent < 100 && (type == 1 || type == 5)">
           <img src="@/assets/materical-loading.gif" class="bitpit" />
         </template>
         <template v-else>
