@@ -383,23 +383,23 @@ export default {
         if (deleteData) {
           return
         }
-        if (Number(data.index) >= 0) {
-          // 编辑
-          this.model.contentList.splice(data.index, 1, data)
+        // if (Number(data.index) >= 0) {
+        //   // 编辑
+        //   this.model.contentList.splice(data.index, 1, data)
+        // } else {
+        // 根据uid判断是否存在
+        let isLargeNumber = (item) => item.content.uid === data.content.uid
+        let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.contentList.length
+          let objData = { ...data, uid: data.content.uid }
+          this.model.contentList.push(objData)
         } else {
-          // 根据uid判断是否存在
-          let isLargeNumber = (item) => item.content.uid === data.content.uid
-          let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
-          if (findEditIndex === -1) {
-            // 新添加
-            let findIndex = this.model.contentList.length
-            let objData = { ...data, uid: data.content.uid }
-            this.model.contentList.push(objData)
-          } else {
-            this.model.contentList.splice(findEditIndex, 1, data)
-          }
-          const limit = Number(data.content.percent) === 100
+          this.model.contentList.splice(findEditIndex, 1, data)
         }
+        // const limit = Number(data.content.percent) === 100
+        // }
       }
     },
     getActivityDetailById (id) {
@@ -502,25 +502,18 @@ export default {
         sessionStorage.removeItem(content.uid)
         return
       }
-      if (index) {
-        this.$set(this.model.contentList, index, context)
-      } else if (content.uid) {
+      if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
         if (findEditIndex > -1) {
           this.$set(this.model.contentList, findEditIndex, context)
         }
       } else {
-        if (index > -1) {
-          // 编辑消息
-          this.$set(this.model.contentList, index, context)
+        // 新增消息
+        if (this.model.contentList.length < 9) {
+          this.model.contentList.push(context)
         } else {
-          // 新增消息
-          if (this.model.contentList.length < 9) {
-            this.model.contentList.push(context)
-          } else {
-            this.$notify.error('附件已达上限（9个），不能再添加')
-          }
+          this.$notify.error('附件已达上限（9个），不能再添加')
         }
       }
     },
@@ -528,17 +521,22 @@ export default {
      * 编辑素材消息
      */
     editMessage (data, index) {
-      this.$refs.WechatMessageBar.openMessageDialogByEdit({ ...data, index })
+      let isLargeNumber = (item) => item.type === 2 && !item.content.mediaid.includes('http')
+      let findEditIndex = this.model.contentList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中，请稍等')
+      } else {
+        this.$refs.WechatMessageBar.openMessageDialogByEdit({ ...data, index })
+      }
     },
     deleteMessage (data, index) {
-      // this.model.contentList.splice(index, 1)
+      this.model.contentList.splice(index, 1)
+    },
+    deleteAnnexMessage (context) {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      this.model.contentList.splice(context.index, 1)
-    },
-    deleteAnnexMessage (context) {
-      this.$refs.WechatMessageBar.setMessageByEdit(context, true)
+      // this.model.contentList.splice(context.index, 1)
     }
   }
 }

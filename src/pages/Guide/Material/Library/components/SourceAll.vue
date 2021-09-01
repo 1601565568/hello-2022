@@ -357,22 +357,16 @@ export default {
         if (deleteData) {
           return
         }
-        if (Number(data.index) >= 0) {
-          // 编辑
-          this.model.mediaList.splice(data.index, 1, data)
+        // 根据uid判断是否存在
+        let isLargeNumber = (item) => item.content.uid === data.content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.mediaList.length
+          let objData = { ...data, uid: data.content.uid }
+          this.model.mediaList.push(objData)
         } else {
-          // 根据uid判断是否存在
-          let isLargeNumber = (item) => item.content.uid === data.content.uid
-          let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-          if (findEditIndex === -1) {
-            // 新添加
-            let findIndex = this.model.mediaList.length
-            let objData = { ...data, uid: data.content.uid }
-            this.model.mediaList.push(objData)
-          } else {
-            this.model.mediaList.splice(findEditIndex, 1, data)
-          }
-          const limit = Number(data.content.percent) === 100
+          this.model.mediaList.splice(findEditIndex, 1, data)
         }
       }
     },
@@ -437,10 +431,16 @@ export default {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      this.model.mediaList.splice(context.index, 1)
+      // this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
-      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+      if (findEditIndex > -1) {
+        this.$notify.warning('视频资源上传中， 请稍等')
+      } else {
+        this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      }
     },
     addAnnexMessage (context) {
       const { index, content, type, isDelete } = context
@@ -449,26 +449,24 @@ export default {
         sessionStorage.removeItem(content.uid)
         return
       }
-      if (index) {
-        this.$set(this.model.mediaList, index, context)
-      } else if (content.uid) {
+      if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
         if (findEditIndex > -1) {
           this.$set(this.model.mediaList, findEditIndex, context)
         }
       } else {
-        if (index > -1) {
-          // 编辑消息
-          this.$set(this.model.mediaList, index, context)
+        // if (index > -1) {
+        //   // 编辑消息
+        //   this.$set(this.model.mediaList, index, context)
+        // } else {
+        // 新增消息
+        if (this.model.mediaList.length < 9) {
+          this.model.mediaList.push(context)
         } else {
-          // 新增消息
-          if (this.model.mediaList.length < 9) {
-            this.model.mediaList.push(context)
-          } else {
-            this.$notify.error('附件已达上限（9个），不能再添加')
-          }
+          this.$notify.error('附件已达上限（9个），不能再添加')
         }
+        // }
       }
     },
     editImage (index) {
