@@ -17,10 +17,6 @@ export const WelcomeMessageTypeTip = {
     tip: '图片',
     icon: 'tupianbeifen-5'
   },
-  [WelcomeMessageType.Video]: {
-    tip: '视频',
-    icon: 'shipinbeifen-4'
-  },
   [WelcomeMessageType.Link]: {
     tip: '链接',
     icon: 'lianjiebeifen-4'

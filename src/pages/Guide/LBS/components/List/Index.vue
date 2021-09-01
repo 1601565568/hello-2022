@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table :title='title'>
+    <page-table :title='title' :headerTip='headerTip'>
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
@@ -13,7 +13,7 @@
                 </div>
               </template>
             </NsShopDialog> -->
-            <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}

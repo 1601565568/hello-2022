@@ -37,7 +37,7 @@
                         <Icon type="shop" class='shop-icon'></Icon>
                       </template>
                     </NsShopDialog> -->
-                    <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+                    <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
                       <template slot='btnIcon'>
                         <Icon type="shop" class='shop-icon'></Icon>
                       </template>
