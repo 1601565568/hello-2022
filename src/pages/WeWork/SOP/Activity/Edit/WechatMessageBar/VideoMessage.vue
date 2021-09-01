@@ -56,14 +56,14 @@ export default {
     onSuccess (uploadRes, file) {
       this.loading = false
       if (uploadRes.success) {
-        this.$emit('confirm', { ...this.defaultModel, mediaid: uploadRes.result.url, uid: String(file.uid) })
+        this.$emit('confirm', { ...this.defaultModel, mediaid: uploadRes.result.url, uid: String(file.uid), fileName: file.name })
         // this.$message.success('上传视频成功')
       } else {
         this.$message.error('上传视频失败')
       }
     },
     onProgress (event, file, fileList) {
-      this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), mediaid: file.name, uid: String(file.uid) } })
+      this.$emit('uploadProgress', { type: 'video', content: { percent: event.percent.toFixed(2), mediaid: file.name, uid: String(file.uid), fileName: file.name } })
       // this.$emit('uploadProgress', { ...this.defaultModel, percent: event.percent.toFixed(2), mediaid: file.name })
     }
   }

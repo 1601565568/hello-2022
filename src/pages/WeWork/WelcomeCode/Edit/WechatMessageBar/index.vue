@@ -133,8 +133,14 @@ export default {
     },
     uploadVideoProgress (message) {
       let msg = {}
+      let type
       if (this.videoMsg) msg = this.videoMsg
-      this.$emit('uploadVideoProgress', { type: 2, ...msg, content: message.content })
+      if (this.pitBit) {
+        type = 2
+      } else {
+        type = 5
+      }
+      this.$emit('uploadVideoProgress', { type, ...msg, content: message.content })
     },
     messageLimit () {
       this.$message.error('最多添加10条消息')
@@ -142,7 +148,12 @@ export default {
     addVideoMessage (message) {
       let msg = {}
       if (this.videoMsg) msg = this.videoMsg
-      let type = 2
+      let type
+      if (this.pitBit) {
+        type = 2
+      } else {
+        type = 5
+      }
       this.$emit('addMessage', { ...msg, type, content: message.content })
       if (this.videoMsg) this.videoMsg = null
     },
