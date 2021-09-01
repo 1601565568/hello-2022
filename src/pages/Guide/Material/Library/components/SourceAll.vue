@@ -431,7 +431,7 @@ export default {
       if (context.type === 2 && Number(context.content.percent) < 100) {
         sessionStorage.setItem(context.content.uid, context.content.uid)
       }
-      this.model.mediaList.splice(context.index, 1)
+      // this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
       let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')

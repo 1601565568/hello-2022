@@ -120,7 +120,7 @@ export default {
       this.$emit('update:list', list)
     },
     deleteMessage (data, index) {
-      // this.$emit('delete', { ...data, index, isDelete: true })
+      this.$emit('delete', { ...data, index, isDelete: true })
       const list = [ ...this.list ]
       list.splice(index, 1)
       this.$emit('update:list', list)
