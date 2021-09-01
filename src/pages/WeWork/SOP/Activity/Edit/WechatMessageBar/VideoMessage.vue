@@ -49,7 +49,7 @@ export default {
         return false
       }
 
-      this.$notify.info('上传中')
+      // this.$notify.info('上传中')
 
       return true
     },
