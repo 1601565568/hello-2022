@@ -450,7 +450,6 @@ export default {
         return
       }
       if (content.uid) {
-        console.log('you uid', content.uid)
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
         if (findEditIndex > -1) {
