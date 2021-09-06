@@ -613,6 +613,7 @@ export default {
               if (this.selectTagData[j].id === tag.id) {
                 let tagInfo = {}
                 tagInfo.id = tag.id
+                tagInfo.tagArr = tag.tagArr
                 tagInfo.tagType = tag.tagType
                 // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
                 // 新：1：字符文本框 2：数字文本框 3：小数文本框 4:  选择框 5：日期框 6：单选框 7：复选框',
@@ -724,9 +725,6 @@ export default {
           let check = this.mapTag[i]
           if (check.id === row.id) {
             if (!row.selectValue || row.selectValue.trim().length === 0) {
-              // 判断是否为空
-              // this.mapTag.splice(i, 1)
-              // this.textIds.splice(num, 1)
               check.value = null
               this.attribute -= 1
               this.attributeValue -= 1
@@ -742,7 +740,8 @@ export default {
           let check = {
             id: row.id,
             value: row.selectValue,
-            tagType: row.tagType
+            tagType: row.tagType,
+            tagArr: row.tagArr
           }
           this.mapTag.push(check)
           this.attribute += 1
@@ -779,7 +778,8 @@ export default {
         let check = {
           id: row.id,
           value: row.selectValue,
-          tagType: row.tagType
+          tagType: row.tagType,
+          tagArr: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -810,7 +810,8 @@ export default {
         let check = {
           id: row.id,
           value: row.selectValue,
-          tagType: row.tagType
+          tagType: row.tagType,
+          tagArr: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -833,7 +834,8 @@ export default {
         let check = {
           id: row.id,
           value: item,
-          tagType: row.tagType
+          tagType: row.tagType,
+          tagArr: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -877,7 +879,8 @@ export default {
         let check = {
           id: row.id,
           value: [item],
-          tagType: row.tagType
+          tagType: row.tagType,
+          tagArr: row.tagArr
         }
         this.mapTag.push(check)
         this.$set(row, 'selectValue', [item])
