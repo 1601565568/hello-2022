@@ -613,7 +613,7 @@ export default {
               if (this.selectTagData[j].id === tag.id) {
                 let tagInfo = {}
                 tagInfo.id = tag.id
-                tagInfo.tagArr = tag.tagArr
+                tagInfo.tagCode = tag.tagArr
                 tagInfo.tagType = tag.tagType
                 // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
                 // 新：1：字符文本框 2：数字文本框 3：小数文本框 4:  选择框 5：日期框 6：单选框 7：复选框',
@@ -741,7 +741,7 @@ export default {
             id: row.id,
             value: row.selectValue,
             tagType: row.tagType,
-            tagArr: row.tagArr
+            tagCode: row.tagArr
           }
           this.mapTag.push(check)
           this.attribute += 1
@@ -779,7 +779,7 @@ export default {
           id: row.id,
           value: row.selectValue,
           tagType: row.tagType,
-          tagArr: row.tagArr
+          tagCode: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -811,7 +811,7 @@ export default {
           id: row.id,
           value: row.selectValue,
           tagType: row.tagType,
-          tagArr: row.tagArr
+          tagCode: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -835,7 +835,7 @@ export default {
           id: row.id,
           value: item,
           tagType: row.tagType,
-          tagArr: row.tagArr
+          tagCode: row.tagArr
         }
         this.mapTag.push(check)
         this.attribute += 1
@@ -880,7 +880,7 @@ export default {
           id: row.id,
           value: [item],
           tagType: row.tagType,
-          tagArr: row.tagArr
+          tagCode: row.tagArr
         }
         this.mapTag.push(check)
         this.$set(row, 'selectValue', [item])
@@ -905,7 +905,7 @@ export default {
         'sysCustomerId': this.sysCustomerId,
         'shopId': this.offLineShopId,
         'areaId': this.areaId,
-        'tagList': JSON.stringify(this.mapTag)
+        'list': JSON.stringify(this.mapTag)
       }).then(resp => {
         if (resp.success && resp.result != null) {
           this.restTag(true)
