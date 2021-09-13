@@ -901,7 +901,7 @@ export default {
         'areaId': this.areaId,
         'list': this.mapTag
       }).then(resp => {
-        if (resp.success && resp.result != null) {
+        if (resp.success) {
           this.restTag(true)
           this.$notify.success('保存成功！')
         }
