@@ -1,6 +1,9 @@
 <template>
   <div class="adder-detail-container">
     <div class="adder-tool-bar">
+      <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
+    </div>
+    <div class="adder-tool-bar">
       <div class="adder-owners">
         <span class="owners-label">所属员工：</span>
         <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
@@ -23,9 +26,12 @@
         class="table-form_reset"
         row-class-name="employee-table_row"
         header-cell-class-name="employee-talbe-header-cell"
+         @selection-change="onHandleSelectChange"
         :data="_data._table.data"
         @sort-change="sortChange"
       >
+        <el-table-column type="selection" align="center" :width="50">
+        </el-table-column>
         <el-table-column
           prop="friendAvatar"
           label="头像">
@@ -67,25 +73,28 @@
       @size-change="$sizeChange$"
       @current-change="$pageChange$">
     </el-pagination>
+    <MarkingDialog ref='markingDialog' @onChangeCheckedTagList='onChangeCheckedTagList'/>
   </div>
 </template>
 
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
-
+import MarkingDialog from '@/components/NewUi/MarkingDialog'
+import { getErrorMsg } from '@/utils/toast'
 /**
  * 添加明细
  */
 export default {
   components: {
-    NsGuideDialog
+    NsGuideDialog, MarkingDialog
   },
   mixins: [tableMixin],
   data () {
     return {
       url: this.$api.guide.sgPersonalQrcode.getQrCodeInviteFriendDetailList,
       seachVal: '',
+      checkedCustomerList: [],
       // 筛选数据
       model: {
         guid: this.$route.params.guid,
@@ -97,8 +106,37 @@ export default {
   },
   mounted () {
     this.searchform()
+    this.$store.dispatch('marking/getTagGroupList')
   },
   methods: {
+    // 打标
+    handleMarking () {
+      if (this.checkedCustomerList.length > 0) {
+        this.$refs.markingDialog.handleChangeVisible(true)
+        return
+      }
+      this.$notify.warning('请先选择要打标的客户')
+    },
+    // 打标多选框选中事件
+    onHandleSelectChange: function (list) {
+      this.checkedCustomerList = list.map(item => ({
+        externalUserId: item.externalUserId,
+        userId: item.userId
+      }))
+    },
+    onChangeCheckedTagList (data) {
+      this.saveBatchMarking({ 'checkedCustomerList': this.checkedCustomerList, 'checkedTagList': data })
+    },
+    saveBatchMarking (params) {
+      this.$http.fetch(this.$api.weWork.externalContact.saveBatchMarking, params).then((resp) => {
+        this.$notify.success('批量打标成功')
+        this.$refs.markingDialog.handleChangeVisible(false)
+        this.$searchAction$()
+      }).catch((resp) => {
+        this.$refs.markingDialog.loading = false
+        this.$notify.error(getErrorMsg('批量打标失败', resp))
+      })
+    },
     searchform () {
       this.$searchAction$()
     },
@@ -203,7 +241,11 @@ export default {
         }
       }
     }
-
+    .export-cvs-btn-left {
+      position: absolute;
+      top: 12px;
+      left: 16px;
+    }
     .export-cvs-btn {
       position: absolute;
       top: 12px;
