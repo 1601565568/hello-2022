@@ -63,7 +63,7 @@
                           label="企业标签" dbcolumn="groupTags" column="groupTags" align="left">
           <template slot-scope="scope">
             <template v-if="scope.row.groupTags">
-              <el-tag style="margin-right: 5px;cursor: default"
+              <el-tag style="margin-right: 5px;cursor: default;margin-bottom: 5px"
                       v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
                       :key="index">
                 <template v-if="tag.length > 10">
