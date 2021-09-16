@@ -59,6 +59,26 @@
           label="添加时间"
           sortable="custom">
         </el-table-column>
+        <el-table-column type="default" prop="groupTags"
+                          label="企业标签" dbcolumn="groupTags" column="groupTags" align="left">
+          <template slot-scope="scope">
+            <template v-if="scope.row.groupTags">
+              <el-tag style="margin-right: 5px;cursor: default"
+                      v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
+                      :key="index">
+                <template v-if="tag.length > 10">
+                  <el-tooltip :content="tag" effect="light"><span>{{tag.substring(0,10)+ '...'}}</span></el-tooltip>
+                </template>
+                <template v-else>
+                  {{tag}}
+                </template>
+              </el-tag>
+            </template>
+            <template v-else>
+              -
+            </template>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <el-pagination
