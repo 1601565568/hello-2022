@@ -1,24 +1,26 @@
 <template>
   <div class="adder-detail-container">
     <div class="adder-tool-bar">
-      <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
-    </div>
-    <div class="adder-tool-bar">
-      <div class="adder-owners">
-        <span class="owners-label">所属员工：</span>
-        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
-          <template slot='selfBtn'>
-            <div class="owners-select">
-              <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
-              <Icon type="geren" class="select-icon"/>
-            </div>
-          </template>
-        </NsGuideDialog>
+      <div class='flex-box'>
+        <div class="adder-owners">
+          <span class="owners-label">所属员工：</span>
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+            <template slot='selfBtn'>
+              <div class="owners-select">
+                <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
+                <Icon type="geren" class="select-icon"/>
+              </div>
+            </template>
+          </NsGuideDialog>
+        </div>
+        <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+          <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
+        </el-input>
       </div>
-      <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
-        <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
-      </el-input>
-      <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+      <div>
+        <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
+        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+      </div>
     </div>
     <div class="adder-detail-table">
       <el-table
@@ -34,6 +36,7 @@
         </el-table-column>
         <el-table-column
           prop="friendAvatar"
+          width='65px'
           label="头像">
           <template slot-scope="scope">
             <img class="scope-avatar" :src="scope.row.friendAvatar" alt="">
@@ -54,16 +57,11 @@
             {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="createTime"
-          label="添加时间"
-          sortable="custom">
-        </el-table-column>
         <el-table-column type="default" prop="groupTags"
                           label="企业标签" dbcolumn="groupTags" column="groupTags" align="left">
           <template slot-scope="scope">
             <template v-if="scope.row.groupTags">
-              <el-tag style="margin-right: 5px;cursor: default;margin-bottom: 5px"
+              <el-tag class='qy-name_tag'
                       v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
                       :key="index">
                 <template v-if="tag.length > 10">
@@ -78,6 +76,11 @@
               -
             </template>
           </template>
+        </el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="添加时间"
+          sortable="custom">
         </el-table-column>
       </el-table>
     </div>
@@ -223,9 +226,14 @@ export default {
     width: 100%;
     height: 56px;
     display: flex;
-    align-items: center;
     position: relative;
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .flex-box {
+      display: flex;
+      align-items: center;
+    }
     .adder-owners {
       position: relative;
       width: 230px;
@@ -261,15 +269,8 @@ export default {
         }
       }
     }
-    .export-cvs-btn-left {
-      position: absolute;
-      top: 12px;
-      left: 16px;
-    }
     .export-cvs-btn {
-      position: absolute;
-      top: 12px;
-      right: 16px;
+      margin-right: 16px
     }
   }
 
@@ -283,5 +284,14 @@ export default {
       border-radius: 4px;
     }
   }
+}
+.qy-name_tag.el-tag {
+  margin-right: 8px;
+  cursor: default;
+  margin-bottom: 8px;
+  background: #E6F2FF;
+  border: 1px solid #BDDCFF;
+  border-radius: 2px;
+  color: rgba(0,0,0,0.85);
 }
 </style>
