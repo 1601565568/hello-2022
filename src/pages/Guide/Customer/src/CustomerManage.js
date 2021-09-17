@@ -1007,6 +1007,9 @@ export default {
         }
       }
       this.createCustomerTransferTask(params, taskType)
+      if (taskType === 1) {
+        this.$refs.remindMsg.showMsg()
+      }
     },
     // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
