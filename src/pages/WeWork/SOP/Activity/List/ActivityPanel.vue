@@ -99,7 +99,7 @@
   </div>
   <div v-else class="activity-panel no-date-area">
     <div class="no-data">
-      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/mobile/no_data.png"/>
+      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/component/mobile/no_data.png"/>
       <span>没有数据哦~</span>
     </div>
   </div>
