@@ -14,7 +14,7 @@
           </NsGuideDialog>
         </div>
         <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
-          <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
+          <Icon type="ns-search" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
         </el-input>
       </div>
       <div>
@@ -286,9 +286,8 @@ export default {
   }
 }
 .qy-name_tag.el-tag {
-  margin-right: 8px;
+  margin:4px 8px 4px 0 ;
   cursor: default;
-  margin-bottom: 8px;
   background: #E6F2FF;
   border: 1px solid #BDDCFF;
   border-radius: 2px;
