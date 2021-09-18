@@ -3,7 +3,13 @@
  * @param {*} url OSS地址
  */
 export const fileName = url => {
-  const arr = url.split('/')
+  const findOSS = url.split('?')
+  let arr = []
+  if (findOSS.length > 0) {
+    arr = findOSS[0].split('/')
+  } else {
+    arr = url.split('/')
+  }
   if (arr.length > 0) {
     const next = arr[arr.length - 1]
     const strArr = next.split('@@')
