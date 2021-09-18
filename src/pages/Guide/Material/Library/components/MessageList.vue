@@ -18,10 +18,10 @@
           <img class="bitpit" src="@/assets/kwBig.png" alt="">
         </template>
         <span v-if="type !== 0">
-          <span v-if="type === 1">{{analysisFileName(content.image || '')}}</span>
+          <span v-if="type === 1">{{getFileName(content.image || '')}}</span>
           <span v-else-if="type === 2">
             <span v-if="content.percent">{{content.video}}</span>
-            <span v-else>{{analysisFileName(content.video || '')}}</span>
+            <span v-else>{{getFileName(content.video || '')}}</span>
           </span>
           <span v-else>
             {{content | msgText(type)}}
@@ -57,6 +57,7 @@
 <script>
 import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
 import ElProgress from '@nascent/nui/lib/progress'
+import { fileName } from '@/utils/fileName'
 export default {
   components: {
     ElProgress
@@ -95,16 +96,8 @@ export default {
     }
   },
   methods: {
-    analysisFileName (url) {
-      const arr = url.split('/')
-      if (arr.length > 0) {
-        const next = arr[arr.length - 1]
-        const strArr = next.split('@@')
-        const pArr = next.split('.')
-        const suffix = pArr[1] || ''
-        return strArr[0] + '.' + suffix
-      }
-      return ''
+    getFileName (url) {
+      return fileName(url)
     },
     isShowEdit (data) {
       let isShow
