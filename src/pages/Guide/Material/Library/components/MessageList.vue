@@ -17,7 +17,16 @@
         <template v-else>
           <img class="bitpit" src="@/assets/kwBig.png" alt="">
         </template>
-        <span v-if="type !== 0">{{content | msgText(type)}}</span>
+        <span v-if="type !== 0">
+          <span v-if="type === 1">{{analysisFileName(content.image || '')}}</span>
+          <span v-else-if="type === 2">
+            <span v-if="content.percent">{{content.video}}</span>
+            <span v-else>{{analysisFileName(content.video || '')}}</span>
+          </span>
+          <span v-else>
+            {{content | msgText(type)}}
+          </span>
+        </span>
         <span v-else>自建坑位</span>
       </div>
       <div class="message-order" :class="{ 'first-line': key === 0 }">
@@ -86,6 +95,17 @@ export default {
     }
   },
   methods: {
+    analysisFileName (url) {
+      const arr = url.split('/')
+      if (arr.length > 0) {
+        const next = arr[arr.length - 1]
+        const strArr = next.split('@@')
+        const pArr = next.split('.')
+        const suffix = pArr[1] || ''
+        return strArr[0] + '.' + suffix
+      }
+      return ''
+    },
     isShowEdit (data) {
       let isShow
       if (data.type !== 1 && data.type !== 2) {
@@ -164,6 +184,7 @@ export default {
       span {
         margin-left: 5px;
         line-height: 20px;
+        height: 20px;
         display: inline-block;
         width: 180px;
         white-space: nowrap;
