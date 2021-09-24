@@ -20,7 +20,7 @@
         >
       </div>
     </div>
-    <el-row class="customer-box" v-loading="customerLoading">
+    <el-row class="customer-box">
       <el-col :span="16" class="customer-edit">
         <el-form
           label-width="100px"
@@ -157,9 +157,8 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="customer-box" v-loading="customerLoading">
-      <el-col :span="16" class="customer-edit">
-        <el-form
+    <el-row class="customer-box">
+      <el-form
           label-width="100px"
           label-position="left"
           :model="model"
@@ -168,23 +167,53 @@
           :rules="rules"
           ref="ruleForm"
         >
-          <el-collapse class="customer-collapse" v-model="collapseList">
+          <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
-              选择配色方案
+              <el-col :span="16">
+                <div class="form-item_tip" style="margin-bottom:0">
+                  活动页面将根据下面排列顺序显示
+                </div>
+                <div class="edit-list-arrow common-collapse">
+                  <draggable
+                    handle=".draggableIcon"
+                    animation="300"
+                  >
+                    <transition-group>
+                      <template v-for="(item, index) in eidtList">
+                        <el-collapse-item
+                          :key="index"
+                        >
+                          <template slot="title">
+                            <div class="edit-view">
+                              <div class="draggableIcon" v-if="!item.hideImg">
+                                <img :src="draggableIcon"/>
+                              </div>
+                              <span>{{ item.name }}</span>
+                              <div class="edit-switch">
+                                <el-switch active-color="#0091FA" inactive-color="#8C8C8C"></el-switch>
+                              </div>
+                            </div>
+                          </template>
+                          <component :is="formatSettingType(item.itemCode)"></component>
+                        </el-collapse-item>
+                      </template>
+                    </transition-group>
+                  </draggable>
+                </div>
+              </el-col>
+              <el-col :span="8" class="customer-mobile">
+                <div class="customer-mobile_box">
+                  <div
+                    class="customer-mobile_content"
+                    :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
+                  ></div>
+                </div>
+              </el-col>
             </el-collapse-item>
           </el-collapse>
         </el-form>
-      </el-col>
-      <el-col :span="8" class="customer-mobile">
-        <div class="customer-mobile_box">
-          <div
-            class="customer-mobile_content"
-            :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
-          ></div>
-        </div>
-      </el-col>
     </el-row>
-    <el-row class="customer-box" v-loading="customerLoading">
+    <el-row class="customer-box">
       <el-col :span="16" class="customer-edit">
         <el-form
           label-width="100px"
@@ -363,7 +392,7 @@
         <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
       </el-col>
     </el-row>
-    <el-row class="customer-box" v-loading="customerLoading">
+    <el-row class="customer-box">
       <el-col :span="16" class="customer-edit">
         <el-form
           label-width="100px"
@@ -375,7 +404,7 @@
           ref="ruleForm"
         >
           <el-collapse class="customer-collapse" v-model="collapseList">
-            <el-collapse-item title="裂变欢迎语" :name="3">
+            <el-collapse-item title="裂变欢迎语" :name="4">
               <div class="form-item_tip">
                 通过裂变大师添加的好友，会收到欢迎语和活动卡片。好友进入活动卡片后，可分享活动邀请好友。
               </div>
@@ -408,12 +437,12 @@
                       v-model="popoverShow"
                       trigger="click"
                     >
-                      <span
+                      <!-- <span
                         class="form-item_exmple"
                         slot="reference"
                         @click.native="handleChangePopoverShow(true)"
                         >查看示例</span
-                      >
+                      > -->
                       <template>
                         <div class="popover-title">
                           活动介绍示例
@@ -528,442 +557,6 @@
         <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
       </el-col>
     </el-row>
-    <el-row class="customer-box" v-loading="customerLoading">
-      <el-col :span="16" class="customer-edit">
-        <el-form
-          label-width="100px"
-          label-position="left"
-          :model="model"
-          size="medium"
-          class="normal-from"
-          :rules="rules"
-          ref="ruleForm"
-        >
-          <el-collapse class="customer-collapse" v-model="collapseList">
-            <el-collapse-item title="活动基础信息" :name="1">
-              <el-form-item
-                label="活动名称"
-                required
-                prop="name"
-                class="larger-item"
-              >
-                <length-input
-                  v-model="model.name"
-                  placeholder="请输入名称"
-                  :length="20"
-                  :disabled="isStating"
-                />
-              </el-form-item>
-              <el-form-item label="参加活动人员" prop="guideIds">
-                <div class="flex-box form-item_toptext">
-                  <span>选择的员工可以在企微侧边栏使用该裂变大师活动</span>
-                  <span class="form-item_toptext__length"
-                    >已选<span>{{ model.guideIds.length }}</span
-                    >人</span
-                  >
-                </div>
-                <html-area>
-                  <div class="employee-list">
-                    <template v-if="model.guideDatas.length > 0">
-                      <template v-for="(item, index) in model.guideDatas">
-                        <div class="employee-list_item" :key="item.id">
-                          {{ item.name }}
-                          <i
-                            class="el-icon-close"
-                            @click="handleDelect(index)"
-                          ></i>
-                        </div>
-                      </template>
-                      <span
-                        class="employee-list_all"
-                        v-if="model.guideDatas.length > 0"
-                      >
-                        <i class="el-icon-close" @click="handleDelectAll()"></i>
-                      </span>
-                    </template>
-                    <template v-else>
-                      <p class="employee-text">
-                        请选择可以在企微侧边栏使用该活动裂变大师的员工
-                      </p>
-                    </template>
-                  </div>
-                  <template slot="suffix">
-                    <div class="employee-suffix">
-                      <NsGuideDialog
-                        :selfBtn="true"
-                        :appendToBody="true"
-                        :isButton="false"
-                        :validNull="true"
-                        :auth="false"
-                        btnTitle=""
-                        type="text"
-                        dialogTitle="选择员工"
-                        v-model="model.guideIds"
-                        @inputAllData="handleChangeGuide"
-                      >
-                        <template slot="selfBtn">
-                          <Icon type="geren"></Icon>
-                        </template>
-                      </NsGuideDialog>
-                    </div>
-                  </template>
-                </html-area>
-              </el-form-item>
-              <el-form-item label="有效时间" required prop="validTimeType">
-                <div class="form-item_toptext">
-                  <el-radio
-                    v-model="model.validTimeType"
-                    :label="1"
-                    :disabled="isStating"
-                    >固定时间</el-radio
-                  >
-                  <el-radio
-                    v-model="model.validTimeType"
-                    :label="0"
-                    :disabled="isStating"
-                    >永久有效</el-radio
-                  >
-                </div>
-                <div class="form-item_time" v-if="model.validTimeType === 1">
-                  <div>时间范围</div>
-                  <el-form-item
-                    label-width="8px"
-                    label=" "
-                    prop="time"
-                    hide-required-asterisk
-                  >
-                    <el-date-picker
-                      v-model="model.time"
-                      type="datetimerange"
-                      value-format="yyyy-MM-dd HH:mm:ss"
-                      range-separator="至"
-                      start-placeholder="请选择开始日期"
-                      end-placeholder="请选择结束日期"
-                      :default-time="['00:00:00', '23:59:59']"
-                      align="right"
-                    >
-                    </el-date-picker>
-                  </el-form-item>
-                </div>
-              </el-form-item>
-              <el-form-item
-                label="活动说明"
-                required
-                prop="activityDescription"
-              >
-                <div class="form-item_toptext">
-                  活动说明会显示在推广大师的查询页面
-                </div>
-                <length-input
-                  type="textarea"
-                  :disabled="isStating"
-                  v-model="model.activityDescription"
-                  placeholder="请输入活动说明"
-                  :length="1000"
-                />
-              </el-form-item>
-            </el-collapse-item>
-            <el-collapse-item title="企微互动内容" :name="2">
-              <div class="form-item_tip">
-                通过裂变大师添加进来的好友，会自动收到活动介绍和活动海报
-              </div>
-              <el-form-item
-                label="活动介绍"
-                required
-                prop="activityIntroduction"
-                :rules="[
-                  {
-                    required: true,
-                    message: '请输入活动介绍',
-                    trigger: ['blur', 'change']
-                  },
-                  {
-                    validator: validates.validateActivityIntroduction.bind(
-                      this,
-                      activityIntroductionLength
-                    ),
-                    trigger: ['blur', 'change']
-                  }
-                ]"
-              >
-                <div class="flex-box form-item_toptext">
-                  <div class="form-item_exmple__content">
-                    <span>活动介绍不知道怎么写？</span>
-                    <el-popover
-                      placement="bottom-start"
-                      popper-class="form-item_popover"
-                      width="480"
-                      v-model="popoverShow"
-                      trigger="click"
-                    >
-                      <span
-                        class="form-item_exmple"
-                        slot="reference"
-                        @click.native="handleChangePopoverShow(true)"
-                        >查看示例</span
-                      >
-                      <template>
-                        <div class="popover-title">
-                          活动介绍示例
-                          <ns-button
-                            type="text"
-                            @click.native="handleSynch"
-                            :disabled="isStating"
-                            >同步到文本框</ns-button
-                          >
-                        </div>
-                        <div>
-                          你好， (好友微信昵称) ,
-                          我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br />
-                          活动有效期：2020-03-03~2020-03-13 <br />
-                          点击以下链接可查询助力进展哦！（推广大师查询链接）<br />
-                          注册会员也可享受会员专属礼哦 <br />
-                          点击立即入会：（招募链接）<br />
-                          快去分享你的专属海报 ↓↓
-                        </div>
-                      </template>
-                    </el-popover>
-                  </div>
-                </div>
-                <tag-area
-                  v-model="model.activityIntroduction"
-                  :disabled="isStating"
-                  tag="wise"
-                  ref="tagAreaText"
-                  :maxlength="1000"
-                  :tools="tools"
-                  placeholder="请输入活动介绍"
-                  @inputLength="inputLength"
-                  :showEmoji="true"
-                  :showTextEmoji="true"
-                />
-                <!-- 选择品牌Dialog -->
-                <NsBrandDialog
-                  :visible.sync="brandDialogVisible"
-                  @confirm="insertBrandId"
-                />
-              </el-form-item>
-              <el-form-item label="活动海报" required prop="backgroundPic">
-                <div class="poster-content">
-                  <!-- <el-upload
-                  class="upload-demo"
-                  ref='upload'
-                  drag
-                  accept=".jpg,.jpeg,.png"
-                  :action="$api.core.sgUploadFile('test')"
-                  :on-remove='handleRemove'
-                  :before-upload="beforeUpload"
-                  :disabled='isStating'
-                  :file-list='fileList'
-                  :on-success="handleUploadSuccess">
-                  <i class="el-icon-upload"></i>
-                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                  <div class="el-upload__tip" slot="tip">（上传限制：750*1334像素，小于1M，jpg、png、jpeg格式）</div>
-                </el-upload> -->
-                  <drap-upload
-                    tip="（请上传格式为jpg、jpeg或png的图片，大小不超过1M）"
-                    v-model="model.backgroundPic"
-                    :maxWidth="750"
-                    :maxHeight="1334"
-                    :showPont="false"
-                    :maxSize="1"
-                    :isNeedCrop="true"
-                    :showFooter="false"
-                  >
-                  </drap-upload>
-                  <div class="poster-set_content">
-                    <el-form-item label="推广人信息：" size="mini">
-                      <el-row>
-                        <el-col :span="12">
-                          <el-checkbox
-                            v-model="model.headPortrait"
-                            :disabled="isStating"
-                            >显示推广人头像、昵称</el-checkbox
-                          >
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="字体颜色：" label-width="80px">
-                            <el-color-picker
-                              v-model="model.nickColour"
-                              :disabled="isStating"
-                            ></el-color-picker>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item
-                            label="头像样式："
-                            label-width="80px"
-                            class="scope-row_headIcon"
-                          >
-                            <el-radio
-                              v-model="model.headPortraitShape"
-                              :label="1"
-                              :disabled="isStating"
-                            >
-                              <div
-                                :class="
-                                  'square logo-type ' +
-                                    (model.headPortraitShape === 1
-                                      ? 'active'
-                                      : '')
-                                "
-                              ></div>
-                            </el-radio>
-                            <el-radio
-                              v-model="model.headPortraitShape"
-                              :label="0"
-                              :disabled="isStating"
-                            >
-                              <div
-                                :class="
-                                  'circle logo-type ' +
-                                    (model.headPortraitShape === 0
-                                      ? 'active'
-                                      : '')
-                                "
-                              ></div>
-                            </el-radio>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="样式：" label-width="50px">
-                            <el-radio
-                              v-model="model.headerType"
-                              :label="0"
-                              :disabled="isStating"
-                            >
-                              竖排
-                            </el-radio>
-                            <el-radio
-                              v-model="model.headerType"
-                              :label="1"
-                              :disabled="isStating"
-                            >
-                              横排
-                            </el-radio>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                    </el-form-item>
-                  </div>
-                </div>
-              </el-form-item>
-              <el-form-item
-                required
-                prop="effectiveCycle"
-                :disabled="false"
-                class="larger-item"
-              >
-                <template slot="label" class="larger-item_icon">
-                  <span>过期设置</span>
-                  <el-tooltip
-                    content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"
-                    placement="top"
-                  >
-                    <Icon type="question-circle" class="question-circle" />
-                  </el-tooltip>
-                </template>
-                <el-input-number
-                  style="width:118px;"
-                  size="medium"
-                  v-model="model.effectiveCycle"
-                  controls-position="right"
-                  :min="1"
-                  :step="1"
-                  step-strictly
-                  controls
-                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                ></el-input-number
-                >天内未邀请到新的好友 裂变大师二维码过期
-                <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
-                <p class="prompt-text">
-                  <span class="yellow-point"></span
-                  >因企业微信生成联系我二维码数量限制，请合理设置过期时间
-                </p>
-              </el-form-item>
-            </el-collapse-item>
-            <el-collapse-item title="奖励机制" :name="3">
-              <SetPrize
-                v-if="!customerLoading"
-                :prizeModel="prizeModel"
-                :isStating="isStating"
-                :isSetPrize="isSetPrize"
-                ref="setPrize"
-              />
-            </el-collapse-item>
-          </el-collapse>
-        </el-form>
-      </el-col>
-      <el-col :span="8" class="customer-mobile">
-        <h2>活动海报效果展示</h2>
-        <div class="customer-mobile_box">
-          <div
-            class="customer-mobile_content"
-            :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
-          >
-            <div
-              :class="
-                'user-content ' +
-                  (model.headerType === 0 ? 'vertical' : 'align')
-              "
-              v-if="model.headPortrait"
-            >
-              <img
-                :style="{
-                  borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
-                }"
-                class="user-content_img"
-                src="./Images/touxiang.png"
-              />
-              <div
-                class="user-content_name"
-                :style="{ color: model.nickColour }"
-              >
-                推广人昵称
-              </div>
-            </div>
-            <div class="user-content_bg" v-if="!model.backgroundPic">
-              你还未上传裂变大师背景图
-            </div>
-            <div class="upload-content_lbs" v-if="!model.backgroundPic">
-              <drap-upload
-                v-model="model.backgroundPic"
-                :maxWidth="750"
-                :maxHeight="1334"
-                :showPont="false"
-                :drag="false"
-                :isNeedCrop="true"
-              >
-              </drap-upload>
-              上传背景图
-            </div>
-            <template v-if="isLoading">
-              <VueDragResize
-                :isActive="!isStating"
-                :isDraggable="!isStating"
-                :isResizable="!isStating"
-                :w="model.qrcodeSize"
-                :h="model.qrcodeSize"
-                :parentLimitation="true"
-                :aspectRatio="true"
-                :x="model.qrcodeX"
-                :y="model.qrcodeY"
-                @dragstop="onDragResize"
-                @resizestop="onDragResize"
-                :sticks="['tl', 'tr', 'bl', 'br']"
-              >
-                <img src="./Images/qrcode.png" style="width:100%;height:100%" />
-              </VueDragResize>
-            </template>
-          </div>
-        </div>
-        <p class="customer-mobile_p">
-          1.
-          支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域
-        </p>
-        <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
-      </el-col>
-    </el-row>
   </div>
 </template>
 <script>
@@ -979,7 +572,13 @@ import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
 import NsBrandDialog from '@/components/NsBrandDialog'
 import DrapUpload from '@/components/NewUi/DrapUpload'
-
+import draggable from 'vuedraggable'
+import HeadImg from './components/HeadImg'
+import Banner from './components/Banner'
+import Active from './components/Active'
+import Register from './components/Register'
+import Rules from './components/Rules'
+import Share from './components/Share'
 Edit.components = {
   LengthInput,
   HtmlArea,
@@ -991,12 +590,20 @@ Edit.components = {
   ElInputNumber,
   SetPrize,
   NsBrandDialog,
-  DrapUpload
+  DrapUpload,
+  draggable,
+  HeadImg,
+  Banner,
+  Active,
+  Register,
+  Share,
+  Rules
 }
 export default Edit
 </script>
 <style lang="scss" scoped>
 @import './styles/reset.css';
+@import './styles/leftview.css';
 .customer-header {
   background-color: #fff;
   margin: -10px -10px 0;
@@ -1022,25 +629,6 @@ export default Edit
   //   width: 1px;
   //   background: #e8e8e8;
   // }
-  .customer-edit {
-    box-sizing: border-box;
-    padding: 0 40px 44px 16px;
-  }
-  .customer-edit,
-  .customer-mobile {
-    // max-height: calc(100vh - 172px);
-    // overflow: auto;
-    &::-webkit-scrollbar-thumb {
-      display: none;
-    }
-    &::-webkit-scrollbar-track {
-      display: none;
-    }
-    &::-webkit-scrollbar {
-      display: none;
-      /*height: 4px;*/
-    }
-  }
   @media screen and (max-width: 1625px) {
     .customer-edit,
     .customer-mobile {
@@ -1147,6 +735,25 @@ export default Edit
     &.square {
       border-radius: 2px;
     }
+  }
+}
+.customer-edit {
+  box-sizing: border-box;
+  padding: 0 40px 0px 16px;
+}
+.customer-edit,
+.customer-mobile {
+  // max-height: calc(100vh - 172px);
+  // overflow: auto;
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+    /*height: 4px;*/
   }
 }
 .customer-mobile {
@@ -1299,6 +906,35 @@ export default Edit
     border-radius: 50%;
     display: inline-block;
     margin-right: 8px;
+  }
+}
+.edit-view {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 80px;
+  position: relative;
+  .draggableIcon {
+    position: absolute;
+    width: 50px;
+    left: 4px;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    height: 100%;
+    padding-left: 12px;
+    transform: translate(0, -50%);
+    img {
+      width: 16px;
+      height: 16px;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
   }
 }
 </style>

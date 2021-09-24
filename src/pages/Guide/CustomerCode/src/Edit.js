@@ -3,7 +3,7 @@ export default {
   data () {
     return {
       normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
-      collapseList: [1, 2, 3],
+      collapseList: [1, 2, 3, 4],
       customerLoading: false,
       guestCodeId: null,
       copyGuestCodeId: null,
@@ -93,7 +93,19 @@ export default {
       isLoading: false,
       prizeModel: {}, // 奖品组件回显
       brandDialogVisible: false,
-      popoverShow: false // 查看示例tip
+      popoverShow: false, // 查看示例tip
+      eidtList: [
+        { name: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo' },
+        { name: 'banner模块', itemCode: 'banner' },
+        { name: '倒计时模块', itemCode: 'countdown' },
+        { name: '活动奖励模块', itemCode: 'reward' },
+        { name: '成功邀请好友模块', itemCode: 'invitedFriend' },
+        { name: '活动规则', itemCode: 'activityRule' },
+        { name: '注册会员模块', itemCode: 'memberRegister' },
+        { name: '分享按钮模块', hideImg: true, itemCode: 'shareButton' }
+      ],
+      draggableIcon:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png'
     }
   },
   computed: {
@@ -134,6 +146,30 @@ export default {
     }
   },
   methods: {
+    formatSettingType (code) {
+      let setComponent
+      switch (code) {
+        case 'masterInfo':
+          setComponent = 'HeadImg'
+          break
+        case 'banner':
+          setComponent = 'Banner'
+          break
+        case 'reward':
+          setComponent = 'Active'
+          break
+        case 'activityRule':
+          setComponent = 'Rules'
+          break
+        case 'shareButton':
+          setComponent = 'Share'
+          break
+        case 'memberRegister':
+          setComponent = 'Register'
+          break
+      }
+      return setComponent
+    },
     handleChangePopoverShow (popoverShow = !this.popoverShow) {
       this.popoverShow = popoverShow
     },
