@@ -174,31 +174,23 @@
                   活动页面将根据下面排列顺序显示
                 </div>
                 <div class="edit-list-arrow common-collapse">
-                  <draggable
-                    handle=".draggableIcon"
-                    animation="300"
-                  >
-                    <transition-group>
-                      <template v-for="(item, index) in eidtList">
-                        <el-collapse-item
-                          :key="index"
-                        >
-                          <template slot="title">
-                            <div class="edit-view">
-                              <div class="draggableIcon" v-if="!item.hideImg">
-                                <img :src="draggableIcon"/>
-                              </div>
-                              <span>{{ item.name }}</span>
-                              <div class="edit-switch">
-                                <el-switch active-color="#0091FA" inactive-color="#8C8C8C"></el-switch>
-                              </div>
+                  <transition-group>
+                    <template v-for="(item, index) in eidtList">
+                      <el-collapse-item
+                        :key="index"
+                      >
+                        <template slot="title">
+                          <div class="edit-view">
+                            <span>{{ item.name }}</span>
+                            <div class="edit-switch">
+                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C"></el-switch>
                             </div>
-                          </template>
-                          <component :is="formatSettingType(item.itemCode)"></component>
-                        </el-collapse-item>
-                      </template>
-                    </transition-group>
-                  </draggable>
+                          </div>
+                        </template>
+                        <component :is="formatSettingType(item.itemCode)"></component>
+                      </el-collapse-item>
+                    </template>
+                  </transition-group>
                 </div>
               </el-col>
               <el-col :span="8" class="customer-mobile">
@@ -214,8 +206,7 @@
         </el-form>
     </el-row>
     <el-row class="customer-box">
-      <el-col :span="16" class="customer-edit">
-        <el-form
+      <el-form
           label-width="100px"
           label-position="left"
           :model="model"
@@ -224,8 +215,9 @@
           :rules="rules"
           ref="ruleForm"
         >
-          <el-collapse class="customer-collapse" v-model="collapseList">
-            <el-collapse-item title="裂变海报" :name="3">
+        <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
+          <el-collapse-item title="裂变海报" :name="3">
+            <el-col :span="16">
               <div class="form-item_tip">
                 裂变大师可分享海报，邀请好友添加员工企业微信。
               </div>
@@ -319,243 +311,232 @@
                   </div>
                 </div>
               </el-form-item>
-            </el-collapse-item>
-          </el-collapse>
-        </el-form>
-      </el-col>
-      <el-col :span="8" class="customer-mobile">
-        <div class="customer-mobile_box">
-          <div
-            class="customer-mobile_content"
-            :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
-          >
-            <div
-              :class="
-                'user-content ' +
-                  (model.headerType === 0 ? 'vertical' : 'align')
-              "
-              v-if="model.headPortrait"
-            >
-              <img
-                :style="{
-                  borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
-                }"
-                class="user-content_img"
-                src="./Images/touxiang.png"
-              />
-              <div
-                class="user-content_name"
-                :style="{ color: model.nickColour }"
-              >
-                推广人昵称
+            </el-col>
+            <el-col :span="8" class="customer-mobile">
+              <div class="customer-mobile_box">
+                <div
+                  class="customer-mobile_content"
+                  :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
+                >
+                  <div
+                    :class="
+                      'user-content ' +
+                        (model.headerType === 0 ? 'vertical' : 'align')
+                    "
+                    v-if="model.headPortrait"
+                  >
+                    <img
+                      :style="{
+                        borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
+                      }"
+                      class="user-content_img"
+                      src="./Images/touxiang.png"
+                    />
+                    <div
+                      class="user-content_name"
+                      :style="{ color: model.nickColour }"
+                    >
+                      推广人昵称
+                    </div>
+                  </div>
+                  <div class="user-content_bg" v-if="!model.backgroundPic">
+                    你还未上传裂变大师背景图
+                  </div>
+                  <div class="upload-content_lbs" v-if="!model.backgroundPic">
+                    <drap-upload
+                      v-model="model.backgroundPic"
+                      :maxWidth="750"
+                      :maxHeight="1334"
+                      :showPont="false"
+                      :drag="false"
+                      :isNeedCrop="true"
+                    >
+                    </drap-upload>
+                    上传背景图
+                  </div>
+                  <template v-if="isLoading">
+                    <VueDragResize
+                      :isActive="!isStating"
+                      :isDraggable="!isStating"
+                      :isResizable="!isStating"
+                      :w="model.qrcodeSize"
+                      :h="model.qrcodeSize"
+                      :parentLimitation="true"
+                      :aspectRatio="true"
+                      :x="model.qrcodeX"
+                      :y="model.qrcodeY"
+                      @dragstop="onDragResize"
+                      @resizestop="onDragResize"
+                      :sticks="['tl', 'tr', 'bl', 'br']"
+                    >
+                      <img src="./Images/qrcode.png" style="width:100%;height:100%" />
+                    </VueDragResize>
+                  </template>
+                </div>
               </div>
-            </div>
-            <div class="user-content_bg" v-if="!model.backgroundPic">
-              你还未上传裂变大师背景图
-            </div>
-            <div class="upload-content_lbs" v-if="!model.backgroundPic">
-              <drap-upload
-                v-model="model.backgroundPic"
-                :maxWidth="750"
-                :maxHeight="1334"
-                :showPont="false"
-                :drag="false"
-                :isNeedCrop="true"
-              >
-              </drap-upload>
-              上传背景图
-            </div>
-            <template v-if="isLoading">
-              <VueDragResize
-                :isActive="!isStating"
-                :isDraggable="!isStating"
-                :isResizable="!isStating"
-                :w="model.qrcodeSize"
-                :h="model.qrcodeSize"
-                :parentLimitation="true"
-                :aspectRatio="true"
-                :x="model.qrcodeX"
-                :y="model.qrcodeY"
-                @dragstop="onDragResize"
-                @resizestop="onDragResize"
-                :sticks="['tl', 'tr', 'bl', 'br']"
-              >
-                <img src="./Images/qrcode.png" style="width:100%;height:100%" />
-              </VueDragResize>
-            </template>
-          </div>
-        </div>
-        <p class="customer-mobile_p">
-          1.
-          支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域
-        </p>
-        <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
-      </el-col>
+              <p class="customer-mobile_p">
+                1.
+                支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域
+              </p>
+              <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
+            </el-col>
+          </el-collapse-item>
+        </el-collapse>
+      </el-form>
     </el-row>
     <el-row class="customer-box">
-      <el-col :span="16" class="customer-edit">
-        <el-form
-          label-width="100px"
-          label-position="left"
-          :model="model"
-          size="medium"
-          class="normal-from"
-          :rules="rules"
-          ref="ruleForm"
-        >
-          <el-collapse class="customer-collapse" v-model="collapseList">
-            <el-collapse-item title="裂变欢迎语" :name="4">
-              <div class="form-item_tip">
-                通过裂变大师添加的好友，会收到欢迎语和活动卡片。好友进入活动卡片后，可分享活动邀请好友。
+      <el-form
+        label-width="100px"
+        label-position="left"
+        :model="model"
+        size="medium"
+        class="normal-from"
+        :rules="rules"
+        ref="ruleForm"
+      >
+      <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
+        <el-collapse-item title="裂变欢迎语" :name="4">
+          <el-col :span="16">
+            <div class="form-item_tip">
+              通过裂变大师添加的好友，会收到欢迎语和活动卡片。好友进入活动卡片后，可分享活动邀请好友。
+            </div>
+            <el-form-item
+              label="活动介绍"
+              required
+              prop="activityIntroduction"
+              :rules="[
+                {
+                  required: true,
+                  message: '请输入活动介绍',
+                  trigger: ['blur', 'change']
+                },
+                {
+                  validator: validates.validateActivityIntroduction.bind(
+                    this,
+                    activityIntroductionLength
+                  ),
+                  trigger: ['blur', 'change']
+                }
+              ]"
+            >
+              <div class="flex-box form-item_toptext">
+                <div class="form-item_exmple__content">
+                  <span>活动介绍不知道怎么写？</span>
+                  <el-popover
+                    placement="bottom-start"
+                    popper-class="form-item_popover"
+                    width="480"
+                    v-model="popoverShow"
+                    trigger="click"
+                  >
+                    <template>
+                      <div class="popover-title">
+                        活动介绍示例
+                        <ns-button
+                          type="text"
+                          @click.native="handleSynch"
+                          :disabled="isStating"
+                          >同步到文本框</ns-button
+                        >
+                      </div>
+                      <div>
+                        你好， (好友微信昵称) ,
+                        我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br />
+                        活动有效期：2020-03-03~2020-03-13 <br />
+                        点击以下链接可查询助力进展哦！（推广大师查询链接）<br />
+                        注册会员也可享受会员专属礼哦 <br />
+                        点击立即入会：（招募链接）<br />
+                        快去分享你的专属海报 ↓↓
+                      </div>
+                    </template>
+                  </el-popover>
+                </div>
               </div>
-              <el-form-item
-                label="活动介绍"
-                required
-                prop="activityIntroduction"
-                :rules="[
-                  {
-                    required: true,
-                    message: '请输入活动介绍',
-                    trigger: ['blur', 'change']
-                  },
-                  {
-                    validator: validates.validateActivityIntroduction.bind(
-                      this,
-                      activityIntroductionLength
-                    ),
-                    trigger: ['blur', 'change']
-                  }
-                ]"
+              <tag-area
+                v-model="model.activityIntroduction"
+                :disabled="isStating"
+                tag="wise"
+                ref="tagAreaText"
+                :maxlength="1000"
+                :tools="tools"
+                placeholder="请输入活动介绍"
+                @inputLength="inputLength"
+                :showEmoji="true"
+                :showTextEmoji="true"
+              />
+              <NsBrandDialog
+                :visible.sync="brandDialogVisible"
+                @confirm="insertBrandId"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="customer-mobile">
+            <div class="customer-mobile_box">
+              <div
+                class="customer-mobile_content"
+                :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
               >
-                <div class="flex-box form-item_toptext">
-                  <div class="form-item_exmple__content">
-                    <span>活动介绍不知道怎么写？</span>
-                    <el-popover
-                      placement="bottom-start"
-                      popper-class="form-item_popover"
-                      width="480"
-                      v-model="popoverShow"
-                      trigger="click"
-                    >
-                      <!-- <span
-                        class="form-item_exmple"
-                        slot="reference"
-                        @click.native="handleChangePopoverShow(true)"
-                        >查看示例</span
-                      > -->
-                      <template>
-                        <div class="popover-title">
-                          活动介绍示例
-                          <ns-button
-                            type="text"
-                            @click.native="handleSynch"
-                            :disabled="isStating"
-                            >同步到文本框</ns-button
-                          >
-                        </div>
-                        <div>
-                          你好， (好友微信昵称) ,
-                          我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br />
-                          活动有效期：2020-03-03~2020-03-13 <br />
-                          点击以下链接可查询助力进展哦！（推广大师查询链接）<br />
-                          注册会员也可享受会员专属礼哦 <br />
-                          点击立即入会：（招募链接）<br />
-                          快去分享你的专属海报 ↓↓
-                        </div>
-                      </template>
-                    </el-popover>
+                <div
+                  :class="
+                    'user-content ' +
+                      (model.headerType === 0 ? 'vertical' : 'align')
+                  "
+                  v-if="model.headPortrait"
+                >
+                  <!-- <img/> -->
+                  <img
+                    :style="{
+                      borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
+                    }"
+                    class="user-content_img"
+                    src="./Images/touxiang.png"
+                  />
+                  <div
+                    class="user-content_name"
+                    :style="{ color: model.nickColour }"
+                  >
+                    推广人昵称
                   </div>
                 </div>
-                <tag-area
-                  v-model="model.activityIntroduction"
-                  :disabled="isStating"
-                  tag="wise"
-                  ref="tagAreaText"
-                  :maxlength="1000"
-                  :tools="tools"
-                  placeholder="请输入活动介绍"
-                  @inputLength="inputLength"
-                  :showEmoji="true"
-                  :showTextEmoji="true"
-                />
-                <NsBrandDialog
-                  :visible.sync="brandDialogVisible"
-                  @confirm="insertBrandId"
-                />
-              </el-form-item>
-            </el-collapse-item>
-          </el-collapse>
-        </el-form>
-      </el-col>
-      <el-col :span="8" class="customer-mobile">
-        <div class="customer-mobile_box">
-          <div
-            class="customer-mobile_content"
-            :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
-          >
-            <div
-              :class="
-                'user-content ' +
-                  (model.headerType === 0 ? 'vertical' : 'align')
-              "
-              v-if="model.headPortrait"
-            >
-              <!-- <img/> -->
-              <img
-                :style="{
-                  borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
-                }"
-                class="user-content_img"
-                src="./Images/touxiang.png"
-              />
-              <div
-                class="user-content_name"
-                :style="{ color: model.nickColour }"
-              >
-                推广人昵称
+                <div class="user-content_bg" v-if="!model.backgroundPic">
+                  你还未上传裂变大师背景图
+                </div>
+                <div class="upload-content_lbs" v-if="!model.backgroundPic">
+                  <drap-upload
+                    v-model="model.backgroundPic"
+                    :maxWidth="750"
+                    :maxHeight="1334"
+                    :showPont="false"
+                    :drag="false"
+                    :isNeedCrop="true"
+                  >
+                  </drap-upload>
+                  上传背景图
+                </div>
+                <template v-if="isLoading">
+                  <VueDragResize
+                    :isActive="!isStating"
+                    :isDraggable="!isStating"
+                    :isResizable="!isStating"
+                    :w="model.qrcodeSize"
+                    :h="model.qrcodeSize"
+                    :parentLimitation="true"
+                    :aspectRatio="true"
+                    :x="model.qrcodeX"
+                    :y="model.qrcodeY"
+                    @dragstop="onDragResize"
+                    @resizestop="onDragResize"
+                    :sticks="['tl', 'tr', 'bl', 'br']"
+                  >
+                    <img src="./Images/qrcode.png" style="width:100%;height:100%" />
+                  </VueDragResize>
+                </template>
               </div>
             </div>
-            <div class="user-content_bg" v-if="!model.backgroundPic">
-              你还未上传裂变大师背景图
-            </div>
-            <div class="upload-content_lbs" v-if="!model.backgroundPic">
-              <drap-upload
-                v-model="model.backgroundPic"
-                :maxWidth="750"
-                :maxHeight="1334"
-                :showPont="false"
-                :drag="false"
-                :isNeedCrop="true"
-              >
-              </drap-upload>
-              上传背景图
-            </div>
-            <template v-if="isLoading">
-              <VueDragResize
-                :isActive="!isStating"
-                :isDraggable="!isStating"
-                :isResizable="!isStating"
-                :w="model.qrcodeSize"
-                :h="model.qrcodeSize"
-                :parentLimitation="true"
-                :aspectRatio="true"
-                :x="model.qrcodeX"
-                :y="model.qrcodeY"
-                @dragstop="onDragResize"
-                @resizestop="onDragResize"
-                :sticks="['tl', 'tr', 'bl', 'br']"
-              >
-                <img src="./Images/qrcode.png" style="width:100%;height:100%" />
-              </VueDragResize>
-            </template>
-          </div>
-        </div>
-        <p class="customer-mobile_p">
-          1.
-          支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域
-        </p>
-        <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
-      </el-col>
+          </el-col>
+        </el-collapse-item>
+      </el-collapse>
+      </el-form>
     </el-row>
   </div>
 </template>
@@ -914,28 +895,7 @@ export default Edit
   align-content: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 80px;
-  position: relative;
-  .draggableIcon {
-    position: absolute;
-    width: 50px;
-    left: 4px;
-    display: flex;
-    align-items: center;
-    top: 50%;
-    height: 100%;
-    padding-left: 12px;
-    transform: translate(0, -50%);
-    img {
-      width: 16px;
-      height: 16px;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-crisp-edges;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
-      -ms-interpolation-mode: nearest-neighbor;
-    }
-  }
+  padding-left: 35px;
 }
 </style>
 <style scoped>
