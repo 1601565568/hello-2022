@@ -48,10 +48,6 @@ export default {
           { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
           { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
-        // activityIntroduction: [
-        //   { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
-        //   { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), trigger: ['blur', 'change'] }
-        // ],
         backgroundPic: [
           { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
         ],
@@ -138,9 +134,6 @@ export default {
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
-      // if (guestCodeId) {
-
-      // }
     } else {
       this.isLoading = true
     }
@@ -358,7 +351,6 @@ export default {
     stringTohtml (string) {
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
-
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
       return string

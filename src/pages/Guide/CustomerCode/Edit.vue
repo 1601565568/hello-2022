@@ -165,7 +165,7 @@
           size="medium"
           class="normal-from"
           :rules="rules"
-          ref="ruleForm"
+          ref="ruleForm1"
         >
           <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
@@ -206,14 +206,14 @@
         </el-form>
     </el-row>
     <el-row class="customer-box">
-      <el-form
+       <el-form
           label-width="100px"
           label-position="left"
           :model="model"
           size="medium"
           class="normal-from"
           :rules="rules"
-          ref="ruleForm"
+          ref="ruleForm2"
         >
         <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
           <el-collapse-item title="裂变海报" :name="3">
@@ -235,79 +235,56 @@
                   >
                   </drap-upload>
                   <div class="poster-set_content">
-                    <el-form-item label="推广人信息：" size="mini">
-                      <el-row>
-                        <el-col :span="12">
-                          <el-checkbox
-                            v-model="model.headPortrait"
-                            :disabled="isStating"
-                            >显示推广人头像、昵称</el-checkbox
-                          >
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="字体颜色：" label-width="80px">
-                            <el-color-picker
-                              v-model="model.nickColour"
-                              :disabled="isStating"
-                            ></el-color-picker>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item
-                            label="头像样式："
-                            label-width="80px"
-                            class="scope-row_headIcon"
-                          >
-                            <el-radio
-                              v-model="model.headPortraitShape"
-                              :label="1"
-                              :disabled="isStating"
-                            >
-                              <div
-                                :class="
-                                  'square logo-type ' +
-                                    (model.headPortraitShape === 1
-                                      ? 'active'
-                                      : '')
-                                "
-                              ></div>
-                            </el-radio>
-                            <el-radio
-                              v-model="model.headPortraitShape"
-                              :label="0"
-                              :disabled="isStating"
-                            >
-                              <div
-                                :class="
-                                  'circle logo-type ' +
-                                    (model.headPortraitShape === 0
-                                      ? 'active'
-                                      : '')
-                                "
-                              ></div>
-                            </el-radio>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="样式：" label-width="50px">
-                            <el-radio
-                              v-model="model.headerType"
-                              :label="0"
-                              :disabled="isStating"
-                            >
-                              竖排
-                            </el-radio>
-                            <el-radio
-                              v-model="model.headerType"
-                              :label="1"
-                              :disabled="isStating"
-                            >
-                              横排
-                            </el-radio>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                    </el-form-item>
+                    <div class="row-view">裂变大师信息：</div>
+                    <div class="row-view">显示裂变大师头像、昵称：
+                      <el-radio
+                        v-model="model.headPortraitShape"
+                        :label="1"
+                        :disabled="isStating"
+                      >显示
+                      </el-radio>
+                      <el-radio
+                        v-model="model.headPortraitShape"
+                        :label="0"
+                        :disabled="isStating"
+                      >不显示
+                      </el-radio>
+                      <span style="margin-left:16px">昵称颜色：</span>
+                      <el-color-picker
+                        v-model="model.nickColour"
+                        :disabled="isStating"
+                      ></el-color-picker>
+                    </div>
+                    <div class="row-view">
+                      <span>头像框样式：</span>
+                      <el-radio
+                        v-model="model.headPortraitShape"
+                        :label="1"
+                        :disabled="isStating"
+                      >方形
+                      </el-radio>
+                      <el-radio
+                        v-model="model.headPortraitShape"
+                        :label="0"
+                        :disabled="isStating"
+                      >圆形
+                      </el-radio>
+                      <span style="margin-left:16px">排版样式：</span>
+                        <el-radio
+                          v-model="model.headerType"
+                          :label="0"
+                          :disabled="isStating"
+                        >
+                          竖排
+                        </el-radio>
+                        <el-radio
+                          v-model="model.headerType"
+                          :label="1"
+                          :disabled="isStating"
+                        >
+                          横排
+                        </el-radio>
+                    </div>
                   </div>
                 </div>
               </el-form-item>
@@ -392,7 +369,7 @@
         size="medium"
         class="normal-from"
         :rules="rules"
-        ref="ruleForm"
+        ref="ruleForm3"
       >
       <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
         <el-collapse-item title="裂变欢迎语" :name="4">
@@ -421,7 +398,6 @@
             >
               <div class="flex-box form-item_toptext">
                 <div class="form-item_exmple__content">
-                  <span>活动介绍不知道怎么写？</span>
                   <el-popover
                     placement="bottom-start"
                     popper-class="form-item_popover"
@@ -476,61 +452,6 @@
                 class="customer-mobile_content"
                 :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
               >
-                <div
-                  :class="
-                    'user-content ' +
-                      (model.headerType === 0 ? 'vertical' : 'align')
-                  "
-                  v-if="model.headPortrait"
-                >
-                  <!-- <img/> -->
-                  <img
-                    :style="{
-                      borderRadius: model.headPortraitShape === 1 ? '4px' : '50%'
-                    }"
-                    class="user-content_img"
-                    src="./Images/touxiang.png"
-                  />
-                  <div
-                    class="user-content_name"
-                    :style="{ color: model.nickColour }"
-                  >
-                    推广人昵称
-                  </div>
-                </div>
-                <div class="user-content_bg" v-if="!model.backgroundPic">
-                  你还未上传裂变大师背景图
-                </div>
-                <div class="upload-content_lbs" v-if="!model.backgroundPic">
-                  <drap-upload
-                    v-model="model.backgroundPic"
-                    :maxWidth="750"
-                    :maxHeight="1334"
-                    :showPont="false"
-                    :drag="false"
-                    :isNeedCrop="true"
-                  >
-                  </drap-upload>
-                  上传背景图
-                </div>
-                <template v-if="isLoading">
-                  <VueDragResize
-                    :isActive="!isStating"
-                    :isDraggable="!isStating"
-                    :isResizable="!isStating"
-                    :w="model.qrcodeSize"
-                    :h="model.qrcodeSize"
-                    :parentLimitation="true"
-                    :aspectRatio="true"
-                    :x="model.qrcodeX"
-                    :y="model.qrcodeY"
-                    @dragstop="onDragResize"
-                    @resizestop="onDragResize"
-                    :sticks="['tl', 'tr', 'bl', 'br']"
-                  >
-                    <img src="./Images/qrcode.png" style="width:100%;height:100%" />
-                  </VueDragResize>
-                </template>
               </div>
             </div>
           </el-col>
@@ -553,7 +474,6 @@ import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
 import NsBrandDialog from '@/components/NsBrandDialog'
 import DrapUpload from '@/components/NewUi/DrapUpload'
-import draggable from 'vuedraggable'
 import HeadImg from './components/HeadImg'
 import Banner from './components/Banner'
 import Active from './components/Active'
@@ -572,7 +492,6 @@ Edit.components = {
   SetPrize,
   NsBrandDialog,
   DrapUpload,
-  draggable,
   HeadImg,
   Banner,
   Active,
@@ -613,7 +532,7 @@ export default Edit
   @media screen and (max-width: 1625px) {
     .customer-edit,
     .customer-mobile {
-      max-height: calc(100vh - 152px);
+      // max-height: calc(100vh - 152px);
     }
   }
   .form-item_toptext {
@@ -681,7 +600,6 @@ export default Edit
     padding-bottom: 0;
     background-color: #f5f5f5;
     .poster-set_content {
-      padding-top: 16px;
       position: relative;
       &::before {
         border-top: 1px solid #e8e8e8;
@@ -696,6 +614,14 @@ export default Edit
       }
       >>> .el-radio {
         margin-right: 0;
+      }
+      .row-view {
+        font-size: 14px;
+        color: #595959;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 40px;
       }
     }
   }
@@ -738,13 +664,7 @@ export default Edit
   }
 }
 .customer-mobile {
-  h2 {
-    font-size: 16px;
-    color: #262626;
-    text-align: center;
-    line-height: 24px;
-    margin: 24px auto 8px;
-  }
+  padding-bottom: 20px;
   .customer-mobile_box {
     width: 346px;
     height: 664px;
@@ -915,11 +835,7 @@ export default Edit
   }
 }
 .scope-row_headIcon {
-  >>> .el-radio {
-    display: flex;
-    float: left;
-    padding-top: 4px;
-  }
+  padding-bottom: 16px;
 }
 .user-content_img {
   height: 48px;
