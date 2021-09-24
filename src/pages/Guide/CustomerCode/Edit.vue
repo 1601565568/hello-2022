@@ -197,7 +197,6 @@
                 <div class="customer-mobile_box">
                   <div
                     class="customer-mobile_content"
-                    :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
                   ></div>
                 </div>
               </el-col>
@@ -450,7 +449,6 @@
             <div class="customer-mobile_box">
               <div
                 class="customer-mobile_content"
-                :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
               >
               </div>
             </div>
