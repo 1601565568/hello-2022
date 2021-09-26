@@ -13,15 +13,13 @@
         <div class="radio-view">
           <el-radio
             v-model="gender"
-            :label="0"
-          >
-            <div :class='"square logo-type "+(gender===0?"active":"")'></div>
+            :label="1"
+          >方形
           </el-radio>
           <el-radio
             v-model="gender"
-            :label="1"
-          >
-            <div :class='"square logo-type "+(gender===1?"active":"")'></div>
+            :label="0"
+          >圆形
           </el-radio>
         </div>
       </el-form-item>
@@ -34,7 +32,7 @@ export default {
   name: 'headeImg',
   data () {
     return {
-      gender: '0',
+      gender: 1,
       rules: {
         name: [
           { required: true, message: '请选择头像样式', trigger: ['blur', 'change'] }
@@ -46,6 +44,9 @@ export default {
 </script>
 
 <style scoped>
+.radio-view {
+
+}
 .item-view {
   margin-top: 24px;
   margin-bottom: 24px;

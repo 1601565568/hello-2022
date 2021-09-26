@@ -105,7 +105,9 @@ export default {
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
       goodsName: '',
       goodsDes: '',
-      goodsImage: ''
+      goodsImage: '',
+      defauletWelcome: `你好 , 我是<wise>员工微信昵称~</wise>\n恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加<wise>员工微信昵称~</wise>为好友\n邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：<wise>活动有效时间</wise>\n点击下方链接去分享吧 ↓↓
+      `
     }
   },
   computed: {
@@ -114,18 +116,16 @@ export default {
     },
     tools () {
       const tools = [
-        { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
         { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ]
 
       // 按品牌运营
-      if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
-        tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
-      } else {
-        tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
-      }
+      // if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
+      //   tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
+      // } else {
+      //   tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
+      // }
 
       return tools
     }
