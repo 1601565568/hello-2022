@@ -170,6 +170,7 @@
           <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
               <el-col :span="16">
+                <ColorView/>
                 <div class="form-item_tip" style="margin-bottom:0">
                   活动页面将根据下面排列顺序显示
                 </div>
@@ -511,6 +512,7 @@ import Active from './components/Active'
 import Register from './components/Register'
 import Rules from './components/Rules'
 import Share from './components/Share'
+import ColorView from './components/ColorView'
 Edit.components = {
   LengthInput,
   HtmlArea,
@@ -528,7 +530,8 @@ Edit.components = {
   Active,
   Register,
   Share,
-  Rules
+  Rules,
+  ColorView
 }
 export default Edit
 </script>
