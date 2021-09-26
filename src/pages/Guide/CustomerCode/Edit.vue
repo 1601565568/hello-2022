@@ -378,7 +378,7 @@
               通过裂变大师添加的好友，会收到欢迎语和活动卡片。好友进入活动卡片后，可分享活动邀请好友。
             </div>
             <el-form-item
-              label="活动介绍"
+              label="欢迎语"
               required
               prop="activityIntroduction"
               :rules="[
@@ -444,6 +444,37 @@
                 :visible.sync="brandDialogVisible"
                 @confirm="insertBrandId"
               />
+            </el-form-item>
+            <el-form-item
+              label="活动卡片"
+              required
+            >
+              <div class="goods-view">
+                <div class="input-view">
+                  <length-input
+                    v-model="goodsName"
+                    placeholder="请输入奖品名称"
+                    :length="20"
+                  />
+                  <div style="height:16px"></div>
+                  <length-input
+                    v-model="goodsDes"
+                    placeholder="请输入奖品简介"
+                    :length="50"
+                  />
+                </div>
+                <drap-upload
+                    tip=""
+                    v-model="goodsImage"
+                    :maxWidth="750"
+                    :maxHeight="1334"
+                    :showPont="false"
+                    :maxSize="1"
+                    :isNeedCrop="true"
+                    :showFooter="false"
+                  >
+                  </drap-upload>
+              </div>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="customer-mobile">
@@ -923,5 +954,11 @@ export default Edit
 }
 .upload-content_lbs >>> .poster-set_content {
   display: none;
+}
+.goods-view {
+  background: #F5F5F5;
+  .input-view {
+    padding: 16px 16px 0 16px;
+  }
 }
 </style>

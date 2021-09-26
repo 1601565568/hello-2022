@@ -16,7 +16,6 @@
           tag="wise"
           ref="tagAreaText"
           :maxlength="1000"
-          :tools="tools"
           placeholder="请输入活动规则"
           @inputLength="inputLength"
           :showEmoji="true"
@@ -42,6 +41,10 @@ export default {
           { required: true, message: '请输入活动规则', trigger: ['blur', 'change'] }
         ]
       }
+    }
+  },
+  methods: {
+    inputLength () {
     }
   }
 }

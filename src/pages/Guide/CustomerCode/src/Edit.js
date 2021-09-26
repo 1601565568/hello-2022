@@ -102,7 +102,10 @@ export default {
       ],
       editBaseList: [0, 1, 2, 3, 4, 5, 6, 7],
       draggableIcon:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
+      goodsName: '',
+      goodsDes: '',
+      goodsImage: ''
     }
   },
   computed: {
