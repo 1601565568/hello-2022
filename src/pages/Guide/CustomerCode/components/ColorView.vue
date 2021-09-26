@@ -45,6 +45,18 @@
       </div>
       <div>
         <div class="dialog-subtitle">自定义配色方案</div>
+        <div class="color-sel-base custom-color">
+          <div class="color-sel-base-cont custom-color-cont">
+            <div :style="{background:colorList[0].one}" class="color-base"></div>
+            <div :style="{background:colorList[0].two}" class="color-base"></div>
+            <div :style="{background:colorList[0].three}" class="color-base"></div>
+          </div>
+        </div>
+        <div>
+          <span class="custom-color-text">主题色</span>
+          <span class="custom-color-text">背景色</span>
+          <span class="custom-color-text">文字色</span>
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="dialogVisible = false">保存该配色</ns-button>
@@ -178,4 +190,24 @@ export default {
   line-height: 22px;
   margin-bottom: 16px;
 }
+.custom-color {
+  width: 678px;
+  height: 132px;
+  border: 2px solid #EEEEEE;
+}
+.custom-color-cont {
+  width: 662px;
+  height: 116px;
+}
+
+.custom-color-text {
+  margin-top: 8px;
+  display: inline-block;
+  width: 33.33%;
+  text-align: center;
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
+}
+
 </style>
