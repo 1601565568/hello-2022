@@ -173,15 +173,16 @@
                 <div class="form-item_tip" style="margin-bottom:0">
                   活动页面将根据下面排列顺序显示
                 </div>
-                <div class="edit-list-arrow common-collapse">
-                  <transition-group>
+                <el-collapse v-model="editBaseList">
+                  <div class="edit-list-arrow common-collapse">
                     <template v-for="(item, index) in eidtList">
                       <el-collapse-item
                         :key="index"
+                        :name="index"
                       >
                         <template slot="title">
                           <div class="edit-view">
-                            <span>{{ item.name }}</span>
+                            <div>{{ item.name }}</div>
                             <div class="edit-switch">
                               <el-switch active-color="#0091FA" inactive-color="#8C8C8C"></el-switch>
                             </div>
@@ -190,8 +191,8 @@
                         <component :is="formatSettingType(item.itemCode)"></component>
                       </el-collapse-item>
                     </template>
-                  </transition-group>
-                </div>
+                  </div>
+                </el-collapse>
               </el-col>
               <el-col :span="8" class="customer-mobile">
                 <div class="customer-mobile_box">
