@@ -10,14 +10,13 @@
         class="larger-item"
       >
         <drap-upload
-          tip=""
+          tip="（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）"
           v-model="image"
-          :maxWidth="750"
-          :maxHeight="1334"
           :showPont="false"
           :maxSize="1"
-          :isNeedCrop="true"
+          :isNeedCrop="false"
           :showFooter="false"
+          uploadTitle="点击或拖拽上传引导图"
         >
         </drap-upload>
         <div class="remind-text">恢复默认引导图</div>

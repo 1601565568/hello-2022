@@ -25,14 +25,13 @@
             />
           </div>
           <drap-upload
-              tip=""
+              tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
               v-model="image"
-              :maxWidth="750"
-              :maxHeight="1334"
               :showPont="false"
-              :maxSize="1"
-              :isNeedCrop="true"
+              :maxSize="2"
+              :isNeedCrop="false"
               :showFooter="false"
+              uploadTitle="点击或拖拽上传奖品图片"
             >
             </drap-upload>
         </div>

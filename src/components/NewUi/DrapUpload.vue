@@ -12,7 +12,8 @@
       :on-success="handleUploadSuccess">
       <template v-if='drag'>
         <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div v-if="uploadTitle.length > 0" class="upload-title">{{uploadTitle}}</div>
+        <div v-else class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
       </template>
     </el-upload>
@@ -149,6 +150,11 @@ export default {
     // 是否需要裁剪
     isNeedCrop: {
       default: false
+    },
+    // 上传提示标题
+    uploadTitle: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -348,5 +354,10 @@ export default {
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
+}
+.upload-title {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
 }
 </style>

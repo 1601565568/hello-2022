@@ -234,6 +234,7 @@
                     :maxSize="1"
                     :isNeedCrop="true"
                     :showFooter="false"
+                    uploadTitle="点击或拖拽上传活动海报"
                   >
                   </drap-upload>
                   <div class="poster-set_content">
