@@ -814,7 +814,7 @@ export default Edit
   align-content: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 35px;
+  padding-left: 40px;
 }
 </style>
 <style scoped>
