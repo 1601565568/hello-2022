@@ -174,24 +174,26 @@
                   活动页面将根据下面排列顺序显示
                 </div>
                 <el-collapse v-model="editBaseList">
-                  <div class="edit-list-arrow common-collapse">
-                    <template v-for="(item, index) in eidtList">
+                  <template v-for="(item, index) in eidtList">
+                    <div :class="(index === 2 || index === 4) ? 'hidden-common-collapse': 'common-collapse'" :key="index">
                       <el-collapse-item
                         :key="index"
                         :name="index"
                       >
                         <template slot="title">
-                          <div class="edit-view">
-                            <div>{{ item.name }}</div>
-                            <div class="edit-switch">
-                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C"></el-switch>
+                          <div class="edit-view" @click="onShowEdit(item.itemCode)">
+                            <div>
+                              {{ item.name }}
+                            </div>
+                            <div class="edit-switch" @click="onclick(item.itemCode)">
+                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.isOpen"></el-switch>
                             </div>
                           </div>
                         </template>
                         <component :is="formatSettingType(item.itemCode)"></component>
                       </el-collapse-item>
-                    </template>
-                  </div>
+                    </div>
+                  </template>
                 </el-collapse>
               </el-col>
               <el-col :span="8" class="customer-mobile">

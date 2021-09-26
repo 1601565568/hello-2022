@@ -91,14 +91,14 @@ export default {
       brandDialogVisible: false,
       popoverShow: false, // 查看示例tip
       eidtList: [
-        { name: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo' },
-        { name: 'banner模块', itemCode: 'banner' },
-        { name: '倒计时模块', itemCode: 'countdown' },
-        { name: '活动奖励模块', itemCode: 'reward' },
-        { name: '成功邀请好友模块', itemCode: 'invitedFriend' },
-        { name: '活动规则', itemCode: 'activityRule' },
-        { name: '注册会员模块', itemCode: 'memberRegister' },
-        { name: '分享按钮模块', hideImg: true, itemCode: 'shareButton' }
+        { name: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', isOpen: true },
+        { name: 'banner模块', itemCode: 'banner', isOpen: true },
+        { name: '倒计时模块', itemCode: 'countdown', isOpen: true },
+        { name: '活动奖励模块', itemCode: 'reward', isOpen: true },
+        { name: '成功邀请好友模块', itemCode: 'invitedFriend', isOpen: true },
+        { name: '活动规则', itemCode: 'activityRule', isOpen: true },
+        { name: '注册会员模块', itemCode: 'memberRegister', isOpen: true },
+        { name: '分享按钮模块', hideImg: true, itemCode: 'shareButton', isOpen: true }
       ],
       editBaseList: [0, 1, 2, 3, 4, 5, 6, 7],
       draggableIcon:
@@ -143,6 +143,15 @@ export default {
     }
   },
   methods: {
+    onclick (itemCode) {
+      let event = window.event
+      event.stopPropagation()
+      this.onShowEdit(itemCode)
+    },
+    // 点击获取编辑模块
+    onShowEdit (itemCode) {
+      this.$emit('onShowEdit', itemCode)
+    },
     formatSettingType (code) {
       let setComponent
       switch (code) {

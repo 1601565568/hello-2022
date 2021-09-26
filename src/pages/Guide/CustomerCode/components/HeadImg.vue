@@ -10,16 +10,20 @@
         prop="name"
         class="larger-item"
       >
-        <el-radio
-          v-model="sex"
-          :label="0"
-        >男生
-        </el-radio>
-        <el-radio
-          v-model="sex"
-          :label="1"
-        >女生
-        </el-radio>
+        <div class="radio-view">
+          <el-radio
+            v-model="gender"
+            :label="0"
+          >
+            <div :class='"square logo-type "+(gender===0?"active":"")'></div>
+          </el-radio>
+          <el-radio
+            v-model="gender"
+            :label="1"
+          >
+            <div :class='"square logo-type "+(gender===1?"active":"")'></div>
+          </el-radio>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -30,7 +34,7 @@ export default {
   name: 'headeImg',
   data () {
     return {
-      sex: '',
+      gender: '0',
       rules: {
         name: [
           { required: true, message: '请选择头像样式', trigger: ['blur', 'change'] }
@@ -42,20 +46,24 @@ export default {
 </script>
 
 <style scoped>
-@import '../styles/reset.css';
 .item-view {
   margin-top: 24px;
   margin-bottom: 24px;
 }
-.item-base {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  >>> .el-radio__label {
-    font-size: 14px;
-    color: #606266;
+.logo-type {
+  height: 24px;
+  width: 24px;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  display: inline-block;
+  &.active {
+    border-color: #41a2e8;
+  }
+  &.circle {
+    border-radius: 50%;
+  }
+  &.square {
+    border-radius: 2px;
   }
 }
 </style>

@@ -40,3 +40,46 @@
     overflow: visible !important;
   }
 }
+
+.hidden-common-collapse{
+  >>> .el-collapse-item__header {
+    
+    background-color: #FBFBFB;
+    font-size: 14px;
+    color: #303133;
+    position: relative;
+    padding-left: 0px;
+    padding-right: 16px;
+    height: 48px;
+    font-weight: bold;
+    line-height: 48px;
+    margin-bottom:0;
+    &::after {
+      position: absolute;
+      content: '';
+      top: 46px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #E8E8E8;
+    } 
+    .el-collapse-item__arrow {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: 38px;
+      margin-left: 20px;
+      margin-top: -19px;
+      display: none
+    }
+  }
+  >>> .el-collapse-item__wrap {
+    padding-left: 0px;
+  }
+  >>> .el-collapse-item__content {
+    padding-bottom: 0px !important;
+  }
+  &.noOver >>> .el-collapse-item__wrap {
+    overflow: visible !important;
+  }
+}

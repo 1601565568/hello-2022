@@ -57,7 +57,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../styles/reset.css';
 .item-view {
   margin-top: 24px;
   margin-bottom: 24px;
