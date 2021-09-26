@@ -467,12 +467,10 @@
                   />
                 </div>
                 <drap-upload
-                    tip=""
+                    tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
                     v-model="goodsImage"
-                    :maxWidth="750"
-                    :maxHeight="1334"
                     :showPont="false"
-                    :maxSize="1"
+                    :maxSize="2"
                     :isNeedCrop="true"
                     :showFooter="false"
                   >
