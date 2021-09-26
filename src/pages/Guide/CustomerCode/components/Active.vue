@@ -5,21 +5,37 @@
       label-position="left"
       size="medium"
       class="normal-from">
+      <SetPrize/>
       <el-form-item
-        label="奖品设置"
+        label=""
         class="larger-item"
       >
-        <drap-upload
-          tip=""
-          v-model="image"
-          :maxWidth="750"
-          :maxHeight="1334"
-          :showPont="false"
-          :maxSize="1"
-          :isNeedCrop="true"
-          :showFooter="false"
-        >
-        </drap-upload>
+        <div class="goods-view">
+          <div class="input-view">
+            <length-input
+              v-model="goodsName"
+              placeholder="一个奖品名称"
+              :length="20"
+            />
+            <div style="height:16px"></div>
+            <length-input
+              v-model="goodsDes"
+              placeholder="请输入奖品简介"
+              :length="50"
+            />
+          </div>
+          <drap-upload
+              tip=""
+              v-model="image"
+              :maxWidth="750"
+              :maxHeight="1334"
+              :showPont="false"
+              :maxSize="1"
+              :isNeedCrop="true"
+              :showFooter="false"
+            >
+            </drap-upload>
+        </div>
       </el-form-item>
       <el-form-item
         label="虚拟完成人数"
@@ -49,18 +65,22 @@
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import LengthInput from '@/components/NewUi/LengthInput'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
+import SetPrize from './SetPrize'
 export default {
   name: 'active',
   components: {
     DrapUpload,
     LengthInput,
-    ElColorPicker
+    ElColorPicker,
+    SetPrize
   },
   data () {
     return {
       image: '',
       number: '',
-      nickColour: '#262626'
+      nickColour: '#262626',
+      goodsName: '',
+      goodsDes: ''
     }
   }
 }
@@ -83,6 +103,13 @@ export default {
   line-height: 20px;
   display: inline-block;
   margin-left: 16px;
+}
+
+.goods-view {
+  background: #F5F5F5;
+}
+.input-view {
+  padding: 16px 16px 0 16px;
 }
 
 </style>

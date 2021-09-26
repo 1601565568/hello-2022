@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="Tips">通过裂变大师添加导购成功后，系统根据设置自动发放奖励</div>
+  <div class="prize-view">
+    <!-- <div class="Tips">通过裂变大师添加导购成功后，系统根据设置自动发放奖励</div> -->
     <el-form
       label-width="100px"
       label-position="left"
@@ -10,7 +10,7 @@
       :rules="rules"
       ref="setPrizeruleForm"
     >
-      <el-form-item class="larger-item" label="奖励机制">
+      <!-- <el-form-item class="larger-item" label="奖励机制">
         <el-switch
           :disabled="isStating"
           active-color="#0091FA"
@@ -18,9 +18,9 @@
           v-model="model.prizeStatus"
         >
         </el-switch>
-      </el-form-item>
+      </el-form-item> -->
       <template v-if="model.prizeStatus">
-        <el-form-item class="larger-item" label="发放设置" prop="prizeSendPlan">
+        <el-form-item class="larger-item" label="奖品设置" prop="prizeSendPlan">
           <el-select
             :disabled="isStating || isEditSetPrize"
             v-model="model.prizeSendPlan"
@@ -39,7 +39,7 @@
         <el-form-item>
           <el-table
             ref="table"
-            class="new-table_border"
+            class="new-table_border test-view"
             :data="model.prizeRuleList"
           >
             <el-table-column type="default" label="助力人数" min-width="120"  :sortable="false">
@@ -208,6 +208,10 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="remind-view">
+            <span class="remind-color"></span>
+            <span>活动奖励总数用完后，将不再对符合获奖规则的消费者发放奖励</span>
+          </div>
         </el-form-item>
       </template>
     </el-form>
@@ -257,7 +261,7 @@ export default {
     }
     return {
       model: {
-        prizeStatus: 0, // 奖励机制 0 关闭 1 开启
+        prizeStatus: 1, // 奖励机制 0 关闭 1 开启
         prizeSendPlan: 1, // 发放奖励
         prizeRuleList: [
           {
@@ -397,6 +401,20 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.remind-view {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  .remind-color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #F2AA18;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
 }
 // .normal-from >>> .el-table .cell {
 //   overflow: visible !important;
