@@ -58,6 +58,9 @@
           <span class="custom-color-text">文字色</span>
         </div>
       </div>
+      <div class="color-picker">
+        <Sketch v-model="colors"/>
+      </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="dialogVisible = false">保存该配色</ns-button>
         <ns-button type="primary" @click="dialogVisible = false">使用该配色</ns-button>
@@ -67,58 +70,73 @@
 </template>
 
 <script>
+import Sketch from './ColorPicker'
 export default {
   name: 'colorView',
+  components: {
+    Sketch
+  },
   data () {
     return {
       colorIndex: 0,
       dialogIndex: null,
       colorList: [
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         },
         {
-          one: '#FFB6C1',
-          two: '#FFC0CB',
-          three: '#DC143C'
+          one: '#F57E61',
+          two: '#F8B369',
+          three: '#FFFFFF'
         }
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      colors: {
+        hex: '#194d33',
+        hex8: '#194D33A8',
+        hsl: { h: 150, s: 0.5, l: 0.2, a: 1 },
+        hsv: { h: 150, s: 0.66, v: 0.30, a: 1 },
+        rgba: { r: 25, g: 77, b: 51, a: 1 },
+        a: 1
+      },
+      colorPicker: false
     }
   },
   methods: {
+    onChange () {
+    },
     colorClick (index) {
       this.colorIndex = index
     },
@@ -131,7 +149,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .item-view {
   margin-top: 24px;
