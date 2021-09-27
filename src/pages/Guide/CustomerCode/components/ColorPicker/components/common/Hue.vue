@@ -157,7 +157,7 @@ export default {
 }
 .vc-hue--horizontal {
   background: linear-gradient(
-    to right,
+    to left,
     #f00 0%,
     #ff0 17%,
     #0f0 33%,

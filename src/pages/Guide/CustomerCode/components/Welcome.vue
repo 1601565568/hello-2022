@@ -132,6 +132,7 @@ export default {
   width: 320px;
   height: 64px;
   margin-bottom: 12px;
+  object-fit: contain;
 }
 .edit-view {
   position: absolute;

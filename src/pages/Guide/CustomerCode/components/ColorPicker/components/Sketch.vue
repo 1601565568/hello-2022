@@ -3,32 +3,18 @@
     <div class="vc-sketch-saturation-wrap">
       <saturation v-model="colors" @change="childChange"></saturation>
     </div>
-    <div class="test-color">
+    <div class="color-view">
       <div class="vc-sketch-sliders">
         <div class="vc-sketch-hue-wrap">
           <hue v-model="colors" @change="childChange"></hue>
         </div>
       </div>
     </div>
-    <div class="test-color">
+    <div class="color-view">
       <div class="vc-sketch-sliders">
         <div class="vc-sketch-alpha-wrap">
           <alpha v-model="colors" @change="childChange"></alpha>
         </div>
-      </div>
-    </div>
-    <div class="vc-sketch-controls">
-      <div class="vc-sketch-sliders">
-        <div class="vc-sketch-hue-wrap">
-          <hue v-model="colors" @change="childChange"></hue>
-        </div>
-        <div class="vc-sketch-alpha-wrap" v-if="!disableAlpha">
-          <alpha v-model="colors" @change="childChange"></alpha>
-        </div>
-      </div>
-      <div class="vc-sketch-color-wrap">
-        <div :aria-label="`Current color is ${activeColor}`" class="vc-sketch-active-color" :style="{background: activeColor}"></div>
-        <checkboard></checkboard>
       </div>
     </div>
     <div class="vc-sketch-field" v-if="!disableFields">
@@ -48,26 +34,6 @@
         <ed-in label="a" :value="colors.a" :arrow-offset="0.01" :max="1" @change="inputChange"></ed-in>
       </div>
     </div>
-    <!-- <div class="vc-sketch-presets" role="group" aria-label="A color preset, pick one to set as current color">
-      <template v-for="c in presetColors">
-        <div
-          v-if="!isTransparent(c)"
-          class="vc-sketch-presets-color"
-          :aria-label="'Color:' + c"
-          :key="c"
-          :style="{background: c}"
-          @click="handlePreset(c)">
-        </div>
-        <div
-          v-else
-          :key="c"
-          :aria-label="'Color:' + c"
-          class="vc-sketch-presets-color"
-          @click="handlePreset(c)">
-          <checkboard />
-        </div>
-      </template>
-    </div> -->
   </div>
 </template>
 
@@ -77,7 +43,6 @@ import editableInput from './common/EditableInput.vue'
 import saturation from './common/Saturation.vue'
 import hue from './common/Hue.vue'
 import alpha from './common/Alpha.vue'
-import checkboard from './common/Checkboard.vue'
 
 const presetColors = [
   '#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321',
@@ -93,8 +58,7 @@ export default {
     saturation,
     hue,
     alpha,
-    'ed-in': editableInput,
-    checkboard
+    'ed-in': editableInput
   },
   props: {
     presetColors: {
@@ -311,7 +275,7 @@ export default {
   height: 10px;
 }
 
-.test-color {
+.color-view {
   display: flex;
   margin-left: 32px;
 }
