@@ -121,7 +121,7 @@
             </el-form-item>
             <el-form-item label="海报" v-if="memberManagePlan == 1">
               <div class="poster-content">
-                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过10M）' v-model='personalQrcode.posterBackgroundUrl' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='10' :isNeedCrop='true'>
+                <drap-upload tip='（请上传格式为jpg、jpeg或png的图片，大小不超过10M）' v-model='personalQrcode.poster_background_url' :maxWidth='750' :maxHeight='1334' :showPont='false' :maxSize='10' :isNeedCrop='true'>
                 </drap-upload>
                 <!-- <el-upload
                   size="xlg"
@@ -149,10 +149,10 @@
       <el-col v-if="memberManagePlan === 1" :span="8" class="qrcode-content_show">
         <PosterPreviewPanel
           :showQrcode="showPosterQrcode"
-          :posterBackgroundUrl="personalQrcode.posterBackgroundUrl"
-          :qrcodeX="personalQrcode.qrcodeX"
-          :qrcodeY="personalQrcode.qrcodeY"
-          :qrcodeSize="personalQrcode.qrcodeSize"
+          :posterBackgroundUrl="personalQrcode.poster_background_url"
+          :qrcodeX="personalQrcode.qrcode_x"
+          :qrcodeY="personalQrcode.qrcode_y"
+          :qrcodeSize="personalQrcode.qrcode_size"
           @posterQrcode="getPosterQrcodeInfo"
         />
       </el-col>

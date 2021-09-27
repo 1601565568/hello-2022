@@ -68,10 +68,10 @@ export default {
         keyword: null,
         channel_code: null,
         child_qrcodes: [],
-        posterBackgroundUrl: '',
-        qrcodeSize: 172,
-        qrcodeX: 74,
-        qrcodeY: 349,
+        poster_background_url: '',
+        qrcode_size: 172,
+        qrcode_x: 74,
+        qrcode_y: 349,
         tagList: ''
       },
       title: null,
@@ -158,10 +158,10 @@ export default {
         this.initType = data.result.type
         this.personalQrcode = {
           ...data.result,
-          posterBackgroundUrl: data.result.poster_background_url || '',
-          qrcodeSize: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
-          qrcodeX: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
-          qrcodeY: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
+          poster_background_url: data.result.poster_background_url || '',
+          qrcode_size: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
+          qrcode_x: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
+          qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
         }
 
         this.showPosterQrcode = true
@@ -294,7 +294,7 @@ export default {
         }
       }
       that.personalQrcode.personnelIds = personalIds.join(',')
-      that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
+      that.personalQrcode.child_qrcodes = JSON.stringify(that.tableData)
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
