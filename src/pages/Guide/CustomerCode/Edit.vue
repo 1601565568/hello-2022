@@ -479,13 +479,8 @@
               </div>
             </el-form-item>
           </el-col>
-          <el-col :span="8" class="customer-mobile">
-            <div class="customer-mobile_box">
-              <div
-                class="customer-mobile_content"
-              >
-              </div>
-            </div>
+          <el-col :span="8">
+            <Welcome/>
           </el-col>
         </el-collapse-item>
       </el-collapse>
@@ -513,6 +508,7 @@ import Register from './components/Register'
 import Rules from './components/Rules'
 import Share from './components/Share'
 import ColorView from './components/ColorView'
+import Welcome from './components/Welcome'
 Edit.components = {
   LengthInput,
   HtmlArea,
@@ -531,7 +527,8 @@ Edit.components = {
   Register,
   Share,
   Rules,
-  ColorView
+  ColorView,
+  Welcome
 }
 export default Edit
 </script>
