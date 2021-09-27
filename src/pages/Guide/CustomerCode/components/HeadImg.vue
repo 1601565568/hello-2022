@@ -30,7 +30,7 @@ export default {
   name: 'headeImg',
   data () {
     return {
-      gender: null,
+      gender: 0,
       rules: {
         name: [
           { required: true, message: '请选择头像样式', trigger: ['blur', 'change'] }

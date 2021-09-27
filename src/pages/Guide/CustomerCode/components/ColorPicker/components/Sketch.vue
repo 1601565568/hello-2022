@@ -19,19 +19,19 @@
     </div>
     <div class="vc-sketch-field" v-if="!disableFields">
       <div class="vc-sketch-field--double">
-        <ed-in label="hex" :value="hex" @change="inputChange"></ed-in>
+        <ed-in label="hex" labelText="HEX" :value="hex" @change="inputChange"></ed-in>
       </div>
       <div class="vc-sketch-field--single">
-        <ed-in label="r" :value="colors.rgba.r" @change="inputChange"></ed-in>
+        <ed-in label="r" labelText="R" :value="colors.rgba.r" @change="inputChange"></ed-in>
       </div>
       <div class="vc-sketch-field--single">
-        <ed-in label="g" :value="colors.rgba.g" @change="inputChange"></ed-in>
+        <ed-in label="g" labelText="G" :value="colors.rgba.g" @change="inputChange"></ed-in>
       </div>
       <div class="vc-sketch-field--single">
-        <ed-in label="b" :value="colors.rgba.b" @change="inputChange"></ed-in>
+        <ed-in label="b" labelText="B" :value="colors.rgba.b" @change="inputChange"></ed-in>
       </div>
       <div class="vc-sketch-field--single" v-if="!disableAlpha">
-        <ed-in label="a" :value="colors.a" :arrow-offset="0.01" :max="1" @change="inputChange"></ed-in>
+        <ed-in label="a" labelText="Alpha" :value="colors.a" :arrow-offset="0.01" :max="1" @change="inputChange"></ed-in>
       </div>
     </div>
   </div>
