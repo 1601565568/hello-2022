@@ -11,7 +11,7 @@
       >
       <div class="color-view">
         <div class="color-sel">
-          <div v-for="(item,index) in colorList.slice(0, 3)" :key="index">
+          <div v-for="(item,index) in colorList.slice(0, 1)" :key="index">
             <div :class="colorIndex === index ? 'color-sel-base color-sel-base-user': 'color-sel-base'" @click="colorClick(index)">
               <div class="color-sel-base-cont">
                 <div :style="{background:item.one}" class="color-base"></div>
