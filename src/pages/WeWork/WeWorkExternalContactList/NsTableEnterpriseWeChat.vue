@@ -184,7 +184,7 @@
       <!-- 分页 -->
       <template slot="pagination">
         <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
-                       :page-sizes="_data._pagination.sizeOpts"
+                       :page-sizes="[15, 25]"
                        :total="_data._pagination.total"
                        :current-page="_data._pagination.page"
                        :page-size="_data._pagination.size"
