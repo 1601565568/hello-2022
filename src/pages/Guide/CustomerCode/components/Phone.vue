@@ -42,7 +42,7 @@ export default {
       position: relative;
       background-size: cover;
       background-repeat: no-repeat;
-      background-color: #EDEDED;
+      background-color: white;
     }
   }
 }
