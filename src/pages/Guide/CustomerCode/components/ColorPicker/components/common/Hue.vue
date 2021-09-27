@@ -36,27 +36,13 @@ export default {
   data () {
     return {
       oldHue: 0,
-      pullDirection: '',
-      colors: {
-        hex: '#194d33',
-        hex8: '#194D33A8',
-        hsl: { h: 150, s: 0.5, l: 0.2, a: 1 },
-        hsv: { h: 150, s: 0.66, v: 0.30, a: 1 },
-        rgba: { r: 25, g: 77, b: 51, a: 1 },
-        a: 1
-      }
-    }
-  },
-  watch: {
-    colors (newValue, oldValue) {
-      const h = this.value.hsl.h
-      if (h !== 0 && h - this.oldHue > 0) this.pullDirection = 'right'
-      if (h !== 0 && h - this.oldHue < 0) this.pullDirection = 'left'
-      this.oldHue = h
-      return this.value
+      pullDirection: ''
     }
   },
   computed: {
+    colors () {
+      return this.value
+    },
     directionClass () {
       return {
         'vc-hue--horizontal': this.direction === 'horizontal',
@@ -84,23 +70,23 @@ export default {
     handleChange (e, skip) {
       !skip && e.preventDefault()
 
-      var container = this.$refs.container
+      const container = this.$refs.container
       if (!container) {
         // for some edge cases, container may not exist. see #220
         return
       }
-      var containerWidth = container.clientWidth
-      var containerHeight = container.clientHeight
+      const containerWidth = container.clientWidth
+      const containerHeight = container.clientHeight
 
-      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      var yOffset = container.getBoundingClientRect().top + window.pageYOffset
-      var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
-      var pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
-      var left = pageX - xOffset
-      var top = pageY - yOffset
+      const xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      const yOffset = container.getBoundingClientRect().top + window.pageYOffset
+      const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
+      const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
+      const left = pageX - xOffset
+      const top = pageY - yOffset
 
-      var h
-      var percent
+      let h
+      let percent
 
       if (this.direction === 'vertical') {
         if (top < 0) {

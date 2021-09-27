@@ -11,7 +11,7 @@
       @touchmove="handleChange"
       @touchstart="handleChange"
     >
-      <div class="vc-alpha-pointer" :style="{ left: colors.a * 100 + '%' }">
+      <div class="vc-alpha-pointer" :style="{ top: colors.a * 100 + '%' }">
         <div class="vc-alpha-picker"></div>
       </div>
     </div>
@@ -55,19 +55,27 @@ export default {
         return
       }
       var containerWidth = container.clientWidth
+      var containerHeight = container.clientHeight
 
       // var xOffset = container.getBoundingClientRect().bottom + window.pageXOffset
-      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
-      var left = pageX - xOffset
+      // var xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      // var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
+      // var left = pageX - xOffset
 
+      const xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      const yOffset = container.getBoundingClientRect().top + window.pageXOffset
+      const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
+      const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
+      // const left = clamp(pageX - xOffset, 0, containerWidth)
+      // const top = clamp(pageY - yOffset, 0, containerHeight)
+      var top = pageY - yOffset
       var a
-      if (left < 0) {
+      if (top < 0) {
         a = 0
-      } else if (left > containerWidth) {
+      } else if (top > containerHeight) {
         a = 1
       } else {
-        a = Math.round((left * 100) / containerWidth) / 100
+        a = Math.round((top * 100) / containerHeight) / 100
       }
 
       if (this.colors.a !== a) {
@@ -112,7 +120,7 @@ export default {
   left: 0px;
   overflow: hidden;
   border: 1px solid #979797;
-  border-radius: 9px;
+border-radius: 9px;
 }
 .vc-alpha-gradient {
   position: absolute;
@@ -134,12 +142,10 @@ export default {
 }
 .vc-alpha-picker {
   cursor: pointer;
-  width: 4px;
-  border-radius: 1px;
-  height: 8px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
-  background: #fff;
-  margin-top: 1px;
-  transform: translateX(-2px);
+  width: 14px;
+  height: 14px;
+  background: #FFFFFF;
+  border: 1px solid #979797;
+  border-radius: 50%;
 }
 </style>

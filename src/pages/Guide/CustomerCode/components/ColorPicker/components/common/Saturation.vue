@@ -4,8 +4,6 @@
     :style="{ background: bgColor }"
     ref="container"
     @mousedown="handleMouseDown"
-    @touchmove="handleChange"
-    @touchstart="handleChange"
   >
     <div class="vc-saturation--white"></div>
     <div class="vc-saturation--black"></div>
@@ -63,14 +61,13 @@ export default {
       const containerHeight = container.clientHeight
 
       const xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      const yOffset = container.getBoundingClientRect().top + window.pageYOffset
+      const yOffset = container.getBoundingClientRect().top + window.pageXOffset
       const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
       const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
       const left = clamp(pageX - xOffset, 0, containerWidth)
       const top = clamp(pageY - yOffset, 0, containerHeight)
       const saturation = left / containerWidth
       const bright = clamp(-(top / containerHeight) + 1, 0, 1)
-
       this.throttle(this.onChange, {
         h: this.colors.hsv.h,
         s: saturation,
