@@ -2,12 +2,12 @@
  * 欢迎语附件消息类型
  */
 export enum WelcomeMessageType {
-  Pitbit = 0,
+  a = 0,
   Image,
-  Video,
   Link,
   MiniProgram,
-  Poster
+  Poster,
+  Video
 }
 /**
  * 欢迎语附件类型对应Icon和标题
@@ -33,7 +33,7 @@ export const WelcomeMessageTypeTip = {
     tip: '二维码海报',
     icon: 'poster-1'
   },
-  [WelcomeMessageType.Pitbit]: {
+  [WelcomeMessageType.a]: {
     tip: '坑位',
     icon: 'poster-1'
   }

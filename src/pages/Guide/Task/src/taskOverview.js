@@ -194,7 +194,7 @@ export default {
                 this.taskTime = moment(obj.startTime).format('YYYY-MM-DD HH:mm:ss')
               } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
                 this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
-                this.taskTime = moment(new Date().getTime).format('YYYY-MM-DD HH:mm:ss')
+                this.taskTime = moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
                 this.taskTime = moment(obj.endTime).format('YYYY-MM-DD HH:mm:ss')

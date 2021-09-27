@@ -63,7 +63,7 @@ export default {
     onSuccess (uploadRes, file) {
       this.loading = false
       if (uploadRes.success) {
-        this.$emit('confirm', { type: 'image', content: { image: uploadRes.result.url } })
+        this.$emit('confirm', { type: 'image', content: { image: uploadRes.result.url, fileName: file.name } })
       } else {
         this.$message.error('上传图片失败')
       }

@@ -6,7 +6,7 @@
       :key="key"
     >
       <div class="message-detail">
-        <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+        <template v-if="content.percent < 100 && (type == 1 || type == 5)">
           <img src="@/assets/materical-loading.gif" class="bitpit" />
         </template>
         <template v-else>
@@ -29,10 +29,10 @@
         </ns-button>
       </div>
       <div class="message-operate">
-        <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button>
+        <!-- <ns-button v-show="isShowEdit({ type, content })" type="text" size="small" @click="editMessage({ type, content }, key)">编辑</ns-button> -->
         <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)">删除</ns-button>
       </div>
-      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
+      <el-progress v-if="content.percent < 100 && (type == 1 || type == 5)" class="progress" :stroke-width="1" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
   </ul>
 </template>
@@ -80,7 +80,7 @@ export default {
   methods: {
     isShowEdit (data) {
       let isShow
-      if (data.type !== 1 && data.type !== 2) {
+      if (data.type !== 1 && data.type !== 5) {
         isShow = true
       } else {
         if (parseInt(data.content.percent) < 100) {
