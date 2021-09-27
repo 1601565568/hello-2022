@@ -111,6 +111,8 @@ export default {
   bottom: 0px;
   left: 0px;
   overflow: hidden;
+  border: 1px solid #979797;
+  border-radius: 9px;
 }
 .vc-alpha-gradient {
   position: absolute;

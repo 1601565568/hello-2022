@@ -30,7 +30,7 @@
       :visible.sync="dialogVisible"
       width="720px">
       <div>
-        <div class="dialog-subtitle">选择配色方案</div>
+        <div class="dialog-subtitle">预置配色方案</div>
         <div class="color-sel dialog-color-sel">
           <div v-for="(item,index) in colorList" :key="index">
             <div :class="dialogIndex === index ? 'color-sel-base dialog-color-sel-base color-sel-base-user': 'color-sel-base dialog-color-sel-base'" @click="dialogIndexClick(index)">

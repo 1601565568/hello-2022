@@ -162,6 +162,7 @@ export default {
 
 <style>
 .vc-sketch {
+  margin-bottom: 32px;
   margin-top: 32px;
   position: relative;
   width: 100%;
@@ -178,10 +179,11 @@ export default {
 .vc-sketch-saturation-wrap {
   width: 400px;
   height: 224px;
+  border: 1px solid #979797;
+  border-radius: 2px;
   /* width: 100%;
   padding-bottom: 75%; */
-  position: relative;
-  /* overflow: hidden; */
+  position: relative;  /* overflow: hidden; */
 }
 
 .vc-sketch-controls {
@@ -240,30 +242,39 @@ export default {
 .vc-sketch-field {
   display: flex;
   padding-top: 4px;
-  display: none;
+  flex-direction: column;
+  margin-left: 32px;
+  /* display: none; */
 }
 
 .vc-sketch-field .vc-input__input {
-  width: 90%;
-  padding: 4px 0 3px 10%;
+  height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  padding: 5px 8px;
+  width: 80px;
+  /* width:41px; */
+  /* padding: 4px 0 3px 10%; */
+  /* text-align: center; */
+  /* width: 90%; */
+  /* padding: 4px 0 3px 10%;
   border: none;
   box-shadow: inset 0 0 0 1px #ccc;
-  font-size: 10px;
+  font-size: 10px; */
 }
 
 .vc-sketch-field .vc-input__label {
-  display: block;
-  text-align: center;
-  font-size: 11px;
-  color: #222;
-  padding-top: 3px;
-  padding-bottom: 4px;
-  text-transform: capitalize;
+  font-size: 14px;
+  color: #262626;
+  font-weight: 400;
+  line-height: 32px;
+  margin-left: 8px;
 }
 
 .vc-sketch-field--single {
   flex: 1;
-  padding-left: 6px;
+  /* padding-left: 6px; */
 }
 
 .vc-sketch-field--double {
@@ -302,6 +313,6 @@ export default {
 
 .test-color {
   display: flex;
-  margin-left: 16px;
+  margin-left: 32px;
 }
 </style>

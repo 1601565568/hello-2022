@@ -106,6 +106,8 @@ export default {
 <style>
 .vc-editable-input {
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 .vc-input__input {
   padding: 0;
@@ -113,6 +115,8 @@ export default {
   outline: none;
 }
 .vc-input__label {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
+  display: inline-block;
+  width: 80px;
 }
 </style>

@@ -165,7 +165,9 @@ export default {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  border-radius: 2px;
+  /* border-radius: 2px; */
+  border: 1px solid #979797;
+  border-radius: 9px;
 }
 .vc-hue--horizontal {
   background: linear-gradient(
