@@ -472,7 +472,7 @@
                     v-model="goodsImage"
                     :showPont="false"
                     :maxSize="2"
-                    :isNeedCrop="true"
+                    :isNeedCrop="false"
                     :showFooter="false"
                   >
                   </drap-upload>
@@ -480,7 +480,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <Welcome/>
+            <Welcome :url="goodsImage" :title="goodsName" :detail="goodsDes" :info="defauletWelcome"/>
           </el-col>
         </el-collapse-item>
       </el-collapse>
