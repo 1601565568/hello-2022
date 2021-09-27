@@ -35,8 +35,8 @@ export default {
       return this.value
     },
     gradientColor () {
-      var rgba = this.colors.rgba
-      var rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
+      const rgba = this.colors.rgba
+      const rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
       return (
         'linear-gradient(to bottom, rgba(' +
         rgbStr +
@@ -49,27 +49,16 @@ export default {
   methods: {
     handleChange (e, skip) {
       !skip && e.preventDefault()
-      var container = this.$refs.container
+      const container = this.$refs.container
       if (!container) {
         // for some edge cases, container may not exist. see #220
         return
       }
-      var containerWidth = container.clientWidth
-      var containerHeight = container.clientHeight
-
-      // var xOffset = container.getBoundingClientRect().bottom + window.pageXOffset
-      // var xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      // var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
-      // var left = pageX - xOffset
-
-      const xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      const containerHeight = container.clientHeight
       const yOffset = container.getBoundingClientRect().top + window.pageXOffset
-      const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
       const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
-      // const left = clamp(pageX - xOffset, 0, containerWidth)
-      // const top = clamp(pageY - yOffset, 0, containerHeight)
-      var top = pageY - yOffset
-      var a
+      const top = pageY - yOffset
+      let a
       if (top < 0) {
         a = 0
       } else if (top > containerHeight) {
@@ -134,11 +123,12 @@ border-radius: 9px;
   position: relative;
   z-index: 2;
   height: 100%;
-  margin: 0 3px;
+  /* margin: 0 3px; */
 }
 .vc-alpha-pointer {
   z-index: 2;
   position: absolute;
+  left: 2px;
 }
 .vc-alpha-picker {
   cursor: pointer;

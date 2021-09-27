@@ -181,23 +181,21 @@ export default {
 }
 .vc-hue-container {
   cursor: pointer;
-  margin: 0 2px;
+  /* margin: 0 2px; */
   position: relative;
   height: 100%;
 }
 .vc-hue-pointer {
   z-index: 2;
   position: absolute;
+  left: 2px;
 }
 .vc-hue-picker {
   cursor: pointer;
-  margin-top: 1px;
   width: 14px;
   border-radius: 50%;
   border: 1px solid #979797;
   height: 14px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   background: #fff;
-  transform: translateX(-2px);
 }
 </style>
