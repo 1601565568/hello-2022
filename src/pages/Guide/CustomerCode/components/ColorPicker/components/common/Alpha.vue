@@ -3,15 +3,12 @@
     <div class="vc-alpha-checkboard-wrap">
       <checkboard></checkboard>
     </div>
-    <div class="vc-alpha-gradient" :style="{ background: gradientColor }"></div>
-    <div
-      class="vc-alpha-container"
-      ref="container"
-      @mousedown="handleMouseDown"
-      @touchmove="handleChange"
-      @touchstart="handleChange"
-    >
-      <div class="vc-alpha-pointer" :style="{ top: colors.a * 100 + '%' }">
+    <div class="vc-alpha-gradient" :style="{background: gradientColor}"></div>
+    <div class="vc-alpha-container" ref="container"
+        @mousedown="handleMouseDown"
+        @touchmove="handleChange"
+        @touchstart="handleChange">
+      <div class="vc-alpha-pointer" :style="{top: colors.a * 100 + '%'}">
         <div class="vc-alpha-picker"></div>
       </div>
     </div>
@@ -35,36 +32,32 @@ export default {
       return this.value
     },
     gradientColor () {
-      const rgba = this.colors.rgba
-      const rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
-      return (
-        'linear-gradient(to bottom, rgba(' +
-        rgbStr +
-        ', 0) 0%, rgba(' +
-        rgbStr +
-        ', 1) 100%)'
-      )
+      var rgba = this.colors.rgba
+      var rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
+      return 'linear-gradient(to bottom, rgba(' + rgbStr + ', 0) 0%, rgba(' + rgbStr + ', 1) 100%)'
     }
   },
   methods: {
     handleChange (e, skip) {
       !skip && e.preventDefault()
-      const container = this.$refs.container
+      var container = this.$refs.container
       if (!container) {
         // for some edge cases, container may not exist. see #220
         return
       }
-      const containerHeight = container.clientHeight
-      const yOffset = container.getBoundingClientRect().top + window.pageXOffset
-      const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
-      const top = pageY - yOffset
-      let a
-      if (top < 0) {
+      var containerHeight = container.clientHeight
+
+      var yOffset = container.getBoundingClientRect().top + window.pageYOffset
+      var pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
+      var left = pageY - yOffset
+
+      var a
+      if (left < 0) {
         a = 0
-      } else if (top > containerHeight) {
+      } else if (left > containerHeight) {
         a = 1
       } else {
-        a = Math.round((top * 100) / containerHeight) / 100
+        a = Math.round(left * 100 / containerHeight) / 100
       }
 
       if (this.colors.a !== a) {
@@ -91,6 +84,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>
@@ -108,8 +102,7 @@ export default {
   bottom: 0px;
   left: 0px;
   overflow: hidden;
-  border: 1px solid #979797;
-border-radius: 9px;
+  border-radius: 9px;
 }
 .vc-alpha-gradient {
   position: absolute;
@@ -128,14 +121,14 @@ border-radius: 9px;
 .vc-alpha-pointer {
   z-index: 2;
   position: absolute;
-  left: 2px;
 }
 .vc-alpha-picker {
   cursor: pointer;
   width: 14px;
-  height: 14px;
-  background: #FFFFFF;
-  border: 1px solid #979797;
   border-radius: 50%;
+  height: 14px;
+  background: #fff;
+  border: 1px solid #979797;
+  transform: translate(2px,-14px);
 }
 </style>

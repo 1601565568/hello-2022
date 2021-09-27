@@ -4,6 +4,8 @@
     :style="{ background: bgColor }"
     ref="container"
     @mousedown="handleMouseDown"
+    @touchmove="handleChange"
+    @touchstart="handleChange"
   >
     <div class="vc-saturation--white"></div>
     <div class="vc-saturation--black"></div>
@@ -52,22 +54,23 @@ export default {
     ),
     handleChange (e, skip) {
       !skip && e.preventDefault()
-      const container = this.$refs.container
+      var container = this.$refs.container
       if (!container) {
         // for some edge cases, container may not exist. see #220
         return
       }
-      const containerWidth = container.clientWidth
-      const containerHeight = container.clientHeight
+      var containerWidth = container.clientWidth
+      var containerHeight = container.clientHeight
 
-      const xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      const yOffset = container.getBoundingClientRect().top + window.pageXOffset
-      const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
-      const pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
-      const left = clamp(pageX - xOffset, 0, containerWidth)
-      const top = clamp(pageY - yOffset, 0, containerHeight)
-      const saturation = left / containerWidth
-      const bright = clamp(-(top / containerHeight) + 1, 0, 1)
+      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      var yOffset = container.getBoundingClientRect().top + window.pageYOffset
+      var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
+      var pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
+      var left = clamp(pageX - xOffset, 0, containerWidth)
+      var top = clamp(pageY - yOffset, 0, containerHeight)
+      var saturation = left / containerWidth
+      var bright = clamp(-(top / containerHeight) + 1, 0, 1)
+
       this.throttle(this.onChange, {
         h: this.colors.hsv.h,
         s: saturation,
@@ -123,11 +126,9 @@ export default {
   cursor: head;
   width: 14px;
   height: 14px;
-  /* box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), */
-    /* 0 0 1px 2px rgba(0, 0, 0, 0.4); */
-  border-radius: 50%;
-  /* transform: translate(-2px, -2px); */
   border: 1px solid #979797;
-  background: #FFFFFF;
+  border-radius: 50%;
+  transform: translate(-7px, -7px);
+  background: #fff;
 }
 </style>

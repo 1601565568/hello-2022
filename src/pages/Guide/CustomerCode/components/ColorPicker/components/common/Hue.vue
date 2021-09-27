@@ -13,7 +13,7 @@
     >
       <div
         class="vc-hue-pointer"
-        :style="{ top: pointerTop, left: pointerLeft }"
+        :style="{ top: pointerTop }"
         role="presentation"
       >
         <div class="vc-hue-picker"></div>
@@ -151,7 +151,6 @@ export default {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  /* border-radius: 2px; */
   border: 1px solid #979797;
   border-radius: 9px;
 }
@@ -188,14 +187,14 @@ export default {
 .vc-hue-pointer {
   z-index: 2;
   position: absolute;
-  left: 2px;
 }
 .vc-hue-picker {
   cursor: pointer;
   width: 14px;
   border-radius: 50%;
-  border: 1px solid #979797;
   height: 14px;
   background: #fff;
+  border: 1px solid #979797;
+  transform: translate(1px,-14px);
 }
 </style>

@@ -145,9 +145,7 @@ export default {
   height: 224px;
   border: 1px solid #979797;
   border-radius: 2px;
-  /* width: 100%;
-  padding-bottom: 75%; */
-  position: relative;  /* overflow: hidden; */
+  position: relative;
 }
 
 .vc-sketch-controls {
