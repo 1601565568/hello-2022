@@ -5,7 +5,7 @@
       label-position="left"
       size="medium"
       class="normal-from">
-      <SetPrize/>
+      <SetPrize :prizeModel='prizeModel' ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
         label=""
         class="larger-item"
@@ -89,10 +89,14 @@ export default {
         getColor: '#FF6A41',
         goodsName: '',
         goodsDes: ''
-      }
+      },
+      prizeModel: {}
     }
   },
   methods: {
+    updatePrize (model) {
+      this.$emit('updateActiveModel', model)
+    },
     updateGetColor () {
       this.activeInfo.getColor = '#FF6A41'
     }

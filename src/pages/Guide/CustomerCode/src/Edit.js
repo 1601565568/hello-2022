@@ -12,24 +12,39 @@ export default {
       model: {
         headerType: 0,
         time: [],
-        activityDescription: '',
-        activityIntroduction: '',
-        backgroundPic: '',
-        effectiveCycle: 1,
-        guideIds: [],
+        activityDescription: '', // 活动说明
+        activityIntroduction: '', // 活动介绍
+        backgroundPic: '', // 一客一码背景图片
+        cardCopywriting: '', // 活动消息卡片文案
+        cardCoverPic: '', // 活动消息卡片封面图片
+        cardTitle: '', // 活动消息卡片标题
+        effectiveCycle: 1, // 一客一码有效周期-天（过期时间）
+        guideIds: [], // 使用导购ids
         guideDatas: [],
-        headPortrait: true,
-        headPortraitShape: 1,
-        name: '',
-        nick: 0,
-        nickColour: '#262626',
-        nickSize: 0,
-        qrcodeSize: 172,
-        qrcodeX: 74,
-        qrcodeY: 349,
-        validTimeEnd: '',
-        validTimeStart: '',
-        validTimeType: 1
+        headPortrait: true, // 用户头像：0无，1有
+        headPortraitShape: 1, // 用户头像形状：0圆 1方
+        name: '', // 一客一码活动名称
+        nick: 0, // 用户昵称：0无，1有
+        nickColour: '#262626', // 用户昵称字体颜色：十六进制
+        nickSize: 0, // 用户昵称字体大小
+        qrcodeSize: 172, // 二维码大小
+        qrcodeX: 74, // 二维码X轴坐标值
+        qrcodeY: 349, // 二维码Y轴坐标值
+        validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
+        pageColor: '', // 活动页面配色方案
+        pageDecoration: '', // 裂变大师活动页面装修配置
+        prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
+        guestCodeId: '', // 一客一码活动ID
+        headPortraitCoordinateX: '', // 用户头像坐标X轴
+        headPortraitCoordinateY: '', // 用户头像坐标Y轴
+        headPortraitSize: '', // 用户头像大小
+        nickCoordinateX: '', // 用户昵称坐标X轴
+        nickCoordinateY: '', // 用户昵称坐标Y轴
+        nickPosition: '', // 昵称位置：0居中、1居左
+        prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
+        prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
+        validTimeEnd: '', // 活动有效时间结束
+        validTimeStart: '' // 活动有效时间结束
       },
       // 校验规则
       rules: {
@@ -90,16 +105,6 @@ export default {
       prizeModel: {}, // 奖品组件回显
       brandDialogVisible: false,
       popoverShow: false, // 查看示例tip
-      eidtList: [
-        { name: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', isOpen: true },
-        { name: 'banner模块', itemCode: 'banner', isOpen: true },
-        { name: '倒计时模块', itemCode: 'countdown', isOpen: true },
-        { name: '活动奖励模块', itemCode: 'reward', isOpen: true },
-        { name: '成功邀请好友模块', itemCode: 'invitedFriend', isOpen: true },
-        { name: '活动规则', itemCode: 'activityRule', isOpen: true },
-        { name: '注册会员模块', itemCode: 'memberRegister', isOpen: true },
-        { name: '分享按钮模块', hideImg: true, itemCode: 'shareButton', isOpen: true }
-      ],
       editBaseList: [0, 1, 2, 3, 4, 5, 6, 7],
       draggableIcon:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
@@ -108,7 +113,7 @@ export default {
       goodsImage: '',
       defauletWelcome: `你好 , 我是<wise>员工微信昵称~</wise><br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加<wise>员工微信昵称~</wise>为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：<wise>活动有效时间</wise><br/>点击下方链接去分享吧 ↓↓`,
       pageObj: {
-        headStyle: 0,
+        headStyle: 1,
         bannerUrl: '',
         activeInfo: {
           image: '',
@@ -123,7 +128,17 @@ export default {
           color: '#FFA30E',
           name: '立即分享'
         }
-      }
+      },
+      eidtList: [
+        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {} },
+        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {} },
+        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {} },
+        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {} },
+        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {} },
+        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {} },
+        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {} },
+        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
+      ]
     }
   },
   computed: {
@@ -162,23 +177,38 @@ export default {
     }
   },
   methods: {
+    updateActiveModel (obj) {
+      this.model.prizeRuleList = obj.prizeRuleList
+      this.model.prizeSendPlan = obj.prizeSendPlan
+    },
     updateShare (obj) {
       this.pageObj.share = obj
+      this.eidtList[7].value.color = obj.color
+      this.eidtList[7].value.name = obj.color
     },
     updateRegUrl (url) {
       this.pageObj.regUrl = url
+      this.eidtList[6].value.pic = url
     },
     updateRules (str) {
       this.pageObj.rules = str
+      this.eidtList[5].value.content = str
     },
     updateActiveInfo (obj) {
       this.pageObj.activeInfo = obj
+      this.eidtList[3].value.virtualFinishedCount = obj.number
+      this.eidtList[3].value.btnColor = obj.getColor
+      this.model.cardTitle = obj.goodsName
+      this.model.cardCopywriting = obj.goodsDes
+      this.model.cardCoverPic = obj.image
     },
     updateHeadImgStyle (index) {
       this.pageObj.headStyle = index
+      this.eidtList[0].value.headPortraitShape = index
     },
     updateBannerUrl (url) {
       this.pageObj.bannerUrl = url
+      this.eidtList[1].value.pic = url
     },
     onclick (itemCode) {
       let event = window.event
@@ -373,25 +403,37 @@ export default {
     },
     // 保存
     handleSave () {
-      this.$refs.ruleForm.validate(async (valid) => {
-        if (valid) {
-          const prizeModel = await this.$refs.setPrize.onSave()
-          this.btnLoad = true
-          if (!prizeModel) {
-            this.btnLoad = false
-            return false
-          }
-          const save = Object.assign(this.formatModel(), prizeModel)
-          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
-            this.$notify.success('保存成功')
-            this.handleCancel()
-          }).catch(res => {
-            this.$notify.error(res.msg)
-          }).finally(res => {
-            this.btnLoad = false
-          })
-        }
-      })
+      if (this.model.validTimeType === 0) {
+        this.model.time = []
+        this.model.validTimeStart = ''
+        this.model.validTimeEnd = ''
+      }
+      if (this.model.time.length > 0) {
+        this.model.validTimeStart = this.model.time[0]
+        this.model.validTimeEnd = this.model.time[1]
+      }
+      this.model.prizeStatus = this.eidtList[3].status
+      this.model.pageDecoration = JSON.stringify(this.eidtList)
+      this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
+      // this.$refs.ruleForm.validate(async (valid) => {
+      //   if (valid) {
+      //     const prizeModel = await this.$refs.setPrize.onSave()
+      //     this.btnLoad = true
+      //     if (!prizeModel) {
+      //       this.btnLoad = false
+      //       return false
+      //     }
+      //     const save = Object.assign(this.formatModel(), prizeModel)
+      //     this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
+      //       this.$notify.success('保存成功')
+      //       this.handleCancel()
+      //     }).catch(res => {
+      //       this.$notify.error(res.msg)
+      //     }).finally(res => {
+      //       this.btnLoad = false
+      //     })
+      //   }
+      // })
     },
     // 替换标签成模板
     htmlToString (html) {

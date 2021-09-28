@@ -144,7 +144,7 @@
                 prop="activityDescription"
               >
                 <div class="qrcode-top-view">
-                  <input type="number" class="number-view" />
+                  <input type="number" class="number-view"  v-model="model.effectiveCycle"/>
                   天内未邀请到新的好友，分享二维码将失效，推广大师可重新下载
                 </div>
                 <div class="qrcode-bottom-view">
@@ -184,10 +184,10 @@
                         <template slot="title">
                           <div class="edit-view" @click="onShowEdit(item.itemCode)">
                             <div>
-                              {{ item.name }}
+                              {{ item.itemName }}
                             </div>
                             <div class="edit-switch" @click="onclick(item.itemCode)">
-                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.isOpen"></el-switch>
+                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0"></el-switch>
                             </div>
                           </div>
                         </template>
@@ -198,6 +198,7 @@
                          @updateRules="updateRules"
                          @updateRegUrl="updateRegUrl"
                          @updateShare="updateShare"
+                         @updateActiveModel="updateActiveModel"
                          ></component>
                       </el-collapse-item>
                     </div>
@@ -459,20 +460,20 @@
               <div class="goods-view">
                 <div class="input-view">
                   <length-input
-                    v-model="goodsName"
-                    placeholder="请输入奖品名称"
+                    v-model="model.cardTitle"
+                    placeholder="请输入标题"
                     :length="20"
                   />
                   <div style="height:16px"></div>
                   <length-input
-                    v-model="goodsDes"
-                    placeholder="请输入奖品简介"
+                    v-model="model.cardCopywriting"
+                    placeholder="请输入文案"
                     :length="50"
                   />
                 </div>
                 <drap-upload
                     tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
-                    v-model="goodsImage"
+                    v-model="model.cardCoverPic"
                     :showPont="false"
                     :maxSize="2"
                     :isNeedCrop="false"

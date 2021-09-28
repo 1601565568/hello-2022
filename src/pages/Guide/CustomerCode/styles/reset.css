@@ -49,9 +49,9 @@
   }
 }
 .normal-from {
-  >>> .el-table__body-wrapper {
+  /* >>> .el-table__body-wrapper {
     padding-bottom: 0;
-  }
+  } */
   >>> .el-form-item__label {
     font-size: 14px;
     line-height: 22px;

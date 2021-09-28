@@ -1,6 +1,5 @@
 <template>
   <div class="prize-view">
-    <!-- <div class="Tips">通过裂变大师添加导购成功后，系统根据设置自动发放奖励</div> -->
     <el-form
       label-width="100px"
       label-position="left"
@@ -10,15 +9,6 @@
       :rules="rules"
       ref="setPrizeruleForm"
     >
-      <!-- <el-form-item class="larger-item" label="奖励机制">
-        <el-switch
-          :disabled="isStating"
-          active-color="#0091FA"
-          inactive-color="#8C8C8C"
-          v-model="model.prizeStatus"
-        >
-        </el-switch>
-      </el-form-item> -->
       <template v-if="model.prizeStatus">
         <el-form-item class="larger-item" label="奖品设置" prop="prizeSendPlan">
           <el-select
@@ -39,7 +29,7 @@
         <el-form-item>
           <el-table
             ref="table"
-            class="new-table_border test-view"
+            class="new-table_border"
             :data="model.prizeRuleList"
           >
             <el-table-column type="default" label="助力人数" min-width="120"  :sortable="false">
@@ -157,7 +147,6 @@
                     type="number"
                   ></el-input
                 ></el-form-item>
-                <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
             <el-table-column
@@ -235,6 +224,15 @@ export default {
     },
     isSetPrize: {
       type: Boolean
+    }
+  },
+  watch: {
+    model: {
+      handler (newValue, oldValue) {
+        const item = this.formartSave(newValue)
+        this.$emit('updatePrize', item)
+      },
+      deep: true
     }
   },
   data () {
@@ -320,7 +318,6 @@ export default {
           prizeRuleList: this.prizeModel.prizeRuleList
         }
       }
-      // console.log(this.prizeModel.prizeRuleList, '123123123123')
     },
     getCoupon () {
       if (this.isStating || this.isEditSetPrize) {
