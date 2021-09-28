@@ -196,6 +196,7 @@
                          @updateBannerUrl="updateBannerUrl"
                          @updateActiveInfo="updateActiveInfo"
                          @updateRules="updateRules"
+                         @updateRegUrl="updateRegUrl"
                          ></component>
                       </el-collapse-item>
                     </div>

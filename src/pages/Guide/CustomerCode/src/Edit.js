@@ -117,7 +117,8 @@ export default {
           goodsName: '',
           goodsDes: ''
         },
-        rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！'
+        rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！',
+        regUrl: ''
       }
     }
   },
@@ -157,6 +158,9 @@ export default {
     }
   },
   methods: {
+    updateRegUrl (url) {
+      this.pageObj.regUrl = url
+    },
     updateRules (str) {
       this.pageObj.rules = str
     },

@@ -66,6 +66,9 @@
                 <div style="margin-top:8px">活动有效期：永久有效</div>
               </div>
             </div>
+            <div class="register-view">
+              <img class="register-view-img" :src="pageObj.regUrl||defRegUrl"/>
+            </div>
           </div>
           <div class="share-view">
             <div class="share-button">立即分享</div>
@@ -123,7 +126,8 @@ export default {
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
       ],
       defBanner: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      defGoodsUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0'
+      defGoodsUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0',
+      defRegUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0'
     }
   }
 }
@@ -340,5 +344,13 @@ export default {
   display: flex;
   flex-direction: row;
   margin-right: 8px;
+}
+.register-view {
+  margin: 8px 16px;
+}
+.register-view-img {
+  width: 100%;
+  height: 176px;
+  border-radius: 12px;
 }
 </style>

@@ -32,6 +32,11 @@ export default {
   components: {
     DrapUpload
   },
+  watch: {
+    image (newValue, oldValue) {
+      this.$emit('updateRegUrl', newValue)
+    }
+  },
   data () {
     return {
       image: ''
