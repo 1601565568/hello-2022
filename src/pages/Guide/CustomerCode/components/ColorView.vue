@@ -39,8 +39,8 @@
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
                 <div class="mask-view" v-if="showMask && (dialogIndex === index)">
-                  <span>编辑</span>
-                  <span>使用</span>
+                  <span @click="eidtColor">编辑</span>
+                  <span @click="setColor">使用</span>
                 </div>
               </div>
             </div>
@@ -50,10 +50,10 @@
       <div>
         <div class="dialog-subtitle">自定义配色方案</div>
         <div class="color-sel-base custom-color">
-          <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:colorList[0].mianColor}" class="color-base"></div>
-            <div :style="{background:colorList[0].bgColor}" class="color-base"></div>
-            <div :style="{background:colorList[0].strColor}" class="color-base"></div>
+          <div class="color-sel-base-cont custom-color-cont" v-if="customColor.length">
+            <div :style="{background:customColor[0].mianColor}" class="color-base"></div>
+            <div :style="{background:customColor[0].bgColor}" class="color-base"></div>
+            <div :style="{background:customColor[0].strColor}" class="color-base"></div>
           </div>
         </div>
         <div>
@@ -135,15 +135,30 @@ export default {
         a: 1
       },
       colorPicker: false,
-      showColor: [],
-      showMask: false
+      showColor: [
+        {
+          mianColor: '#FF544E',
+          bgColor: '#FF8C5C',
+          strColor: '#FFFFFF'
+        }
+      ],
+      showMask: false,
+      customColor: []
     }
   },
   mounted () {
-    this.showColor = []
-    this.showColor.push(this.colorList[0])
+    this.customColor = []
+    this.customColor.push(this.colorList[0])
   },
   methods: {
+    setColor () {
+      this.customColor = []
+      this.customColor.push(this.colorList[this.dialogIndex])
+    },
+    eidtColor () {
+      this.customColor = []
+      this.customColor.push(this.colorList[this.dialogIndex])
+    },
     leaveMaskView () {
       this.showMask = false
     },
