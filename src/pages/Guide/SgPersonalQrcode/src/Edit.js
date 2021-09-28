@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import { getErrorMsg } from '@/utils/toast'
+import { isConstructorDeclaration } from 'typescript'
 
 export default {
   name: 'index',
@@ -72,7 +73,7 @@ export default {
         qrcode_size: 172,
         qrcode_x: 74,
         qrcode_y: 349,
-        tagList: ''
+        tag_list: ''
       },
       title: null,
       parameter: {
@@ -163,24 +164,14 @@ export default {
           qrcode_x: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
           qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
         }
-
         this.showPosterQrcode = true
         if (data.result.type === 1) {
           this.tableData = JSON.parse(data.result.child_qrcodes)
         }
         this.addTableData = JSON.parse(data.result.child_qrcodes)
-
-        // 显示已经上传的海报
-        if (data.result.poster_background_url) {
-          this.uploadPosterFileList = [ { name: data.result.poster_background_url, url: data.result.poster_background_url } ]
-        }
         // 获取打标签列表
         await this.getWeWorkTagList()
         let checkList = []
-        if (this.personalQrcode.tagList) {
-          checkList = this.personalQrcode.tagList.split(',')
-        }
-
         if (this.personalQrcode.tag_list) {
           checkList = this.personalQrcode.tag_list.split(',')
         }
@@ -208,32 +199,6 @@ export default {
       this.showPosterQrcode = true
       this.title = '新增聚合二维码'
     }
-
-    // 获取打标签列表
-    // await this.getWeWorkTagList()
-    // if (id > 0) {
-    //   let checkList = []
-    //   if (this.personalQrcode.tagList) {
-    //     checkList = this.personalQrcode.tagList.split(',')
-    //   }
-
-    //   if (this.personalQrcode.tag_list) {
-    //     checkList = this.personalQrcode.tag_list.split(',')
-    //   }
-    //   if (checkList.length) {
-    //     const tagId2TagGroupId = {}
-    //     for (const tagGroupItem of this.tagList) {
-    //       const tagGroupId = tagGroupItem.tagGroupId
-    //       for (const tagValItem of tagGroupItem.tagValueList) {
-    //         const tagId = tagValItem.tagId
-    //         if (checkList.indexOf(tagId) > -1) {
-    //           tagId2TagGroupId[tagId] = tagGroupId
-    //         }
-    //       }
-    //     }
-    //     this.tagId2TagGroupId = tagId2TagGroupId
-    //   }
-    // }
   },
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
@@ -245,7 +210,7 @@ export default {
       this.addTagDialogVisible = state
     },
     selectedTags (info) { // 打标签已选标签
-      this.personalQrcode = { ...this.personalQrcode, tagList: info.checkList }
+      this.personalQrcode = { ...this.personalQrcode, tag_list: info.checkList }
       this.tagId2TagGroupId = info.tagId2TagGroupId
     },
     async getWeWorkTagList () { // 获取标签列表
@@ -412,13 +377,10 @@ export default {
           if (!dataParent.disabled) {
             if (dataParent.id) {
               this.tree.selectedData.push(dataParent)
-              // this.choosePerson.push(dataParent.id)
             }
           }
         }
       }
-      // this.personalQrcode.personnelIds = this.choosePerson.join(',')
-      // return this.tree.selectedData
     },
     onCloseTree () {
       this.tree.selectedData = this.tree.copySelectedData
@@ -557,59 +519,6 @@ export default {
     },
     cancel () { // 取消
       this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
-    },
-    uploadPosterSuccess (uploadRes, file, fileList) { // 上传海报成功回调
-      const { success, result } = uploadRes
-      this.uploadPosterFileList = [ { name: file.name, url: file.response.result.url } ]
-      if (success) {
-        // 展示背景图
-        this.personalQrcode = { ...this.personalQrcode, posterBackgroundUrl: result.url }
-      } else {
-        this.$message.error('上传失败')
-      }
-
-      this.disableSaveBtn = false
-    },
-    uploadPosterError () { // 上传海报失败回调
-      this.$message.error('上传海报失败')
-      this.disableSaveBtn = false
-    },
-    uploadPosterBefore (file) { // 上传海报前回调
-      this.disableSaveBtn = true
-      const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isPngOrJpg || !isLt10M) {
-        this.$message.error('请上传jpg、jpeg或png图片，大小不超过10M')
-        this.disableSaveBtn = false
-        return false
-      }
-
-      return new Promise((resolve, reject) => {
-        const _URL = window.URL || window.webkitURL
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = () => {
-          const { width, height } = img
-          let valid = true
-          if (width !== 750 || height !== 1334) {
-            valid = false
-          }
-          if (valid) {
-            return resolve(file)
-          } else {
-            const msg = `上传图片尺寸只能是750x1334`
-            this.$notify.error(msg)
-            this.disableSaveBtn = false
-            return reject(msg)
-          }
-        }
-      })
-    },
-    uploadPosterRemove (file, fileList) {
-      this.disableSaveBtn = false
-      // this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''
-      this.personalQrcode.posterBackgroundUrl = ''
     }
   },
   watch: {

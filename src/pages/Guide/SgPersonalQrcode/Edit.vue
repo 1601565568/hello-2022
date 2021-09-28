@@ -222,7 +222,7 @@
     <AddTagsDialog
       :visible="addTagDialogVisible"
       :tagList="tagList"
-      :selectedTags="personalQrcode.tagList || personalQrcode.tag_list"
+      :selectedTags="personalQrcode.tag_list"
       @hide="switchTagDialog(false)"
       @confirm="selectedTags"
     />
