@@ -106,7 +106,11 @@ export default {
       goodsName: '',
       goodsDes: '',
       goodsImage: '',
-      defauletWelcome: `你好 , 我是<wise>员工微信昵称~</wise><br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加<wise>员工微信昵称~</wise>为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：<wise>活动有效时间</wise><br/>点击下方链接去分享吧 ↓↓`
+      defauletWelcome: `你好 , 我是<wise>员工微信昵称~</wise><br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加<wise>员工微信昵称~</wise>为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：<wise>活动有效时间</wise><br/>点击下方链接去分享吧 ↓↓`,
+      pageObj: {
+        headStyle: 0,
+        bannerUrl: ''
+      }
     }
   },
   computed: {
@@ -145,6 +149,12 @@ export default {
     }
   },
   methods: {
+    updateHeadImgStyle (index) {
+      this.pageObj.headStyle = index
+    },
+    updateBannerUrl (url) {
+      this.pageObj.bannerUrl = url
+    },
     onclick (itemCode) {
       let event = window.event
       event.stopPropagation()

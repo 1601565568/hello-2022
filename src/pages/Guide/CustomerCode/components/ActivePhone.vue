@@ -8,14 +8,14 @@
           </div>
           <div class="info-view">
             <div class="user-info">
-              <img class="user-img"/>
+              <img :class="pageObj.headStyle === 0 ? 'user-img ': 'user-img user-img-rund'"/>
               <span>没有毛的猫</span>
             </div>
             <div class="invitation-text">邀请好友4人</div>
           </div>
           <div class="scroll-view">
             <div class="banner-view">
-              <img src="https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="banner-img"/>
+              <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
             <div class="time-view">
               <div class="time-title-view"></div>
@@ -85,6 +85,14 @@ export default {
     Phone,
     ElProgress
   },
+  props: {
+    value: Object
+  },
+  computed: {
+    pageObj () {
+      return this.value
+    }
+  },
   data () {
     return {
       fiends: [
@@ -113,7 +121,8 @@ export default {
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-      ]
+      ],
+      defBanner: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
     }
   }
 }
@@ -178,6 +187,9 @@ export default {
   border: 1px solid #FFFFFF;
   background-color: lightgrey;
   margin-right: 10px;
+}
+.user-img-rund {
+  border-radius: 50%;
 }
 .banner-img {
   width: 100%;

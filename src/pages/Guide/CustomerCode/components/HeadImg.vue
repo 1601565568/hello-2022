@@ -41,6 +41,7 @@ export default {
   methods: {
     genderClick (index) {
       this.gender = index
+      this.$emit('updateHeadImgStyle', index)
     }
   }
 }

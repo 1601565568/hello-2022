@@ -69,6 +69,7 @@ export default {
 .content-view {
   position: relative;
   height: 100%;
+  background-color: #EDEDED;
 }
 .base-view {
   margin-top: 8px;

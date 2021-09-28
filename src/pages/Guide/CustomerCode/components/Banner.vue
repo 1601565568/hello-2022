@@ -19,7 +19,7 @@
           uploadTitle="点击或拖拽上传banner图"
         >
         </drap-upload>
-        <div class="remind-text">恢复默认banner图</div>
+        <div class="remind-text" @click="updateImg">恢复默认banner图</div>
       </el-form-item>
     </el-form>
   </div>
@@ -36,6 +36,16 @@ export default {
     return {
       image: ''
     }
+  },
+  watch: {
+    image (newValue, oldValue) {
+      this.$emit('updateBannerUrl', newValue)
+    }
+  },
+  methods: {
+    updateImg () {
+      this.image = ''
+    }
   }
 }
 </script>
@@ -50,5 +60,6 @@ export default {
   font-size: 14px;
   color: #0392FB;
   line-height: 22px;
+  cursor: pointer;
 }
 </style>

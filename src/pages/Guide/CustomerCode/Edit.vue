@@ -191,14 +191,14 @@
                             </div>
                           </div>
                         </template>
-                        <component :is="formatSettingType(item.itemCode)"></component>
+                        <component :is="formatSettingType(item.itemCode)" @updateHeadImgStyle="updateHeadImgStyle" @updateBannerUrl="updateBannerUrl"></component>
                       </el-collapse-item>
                     </div>
                   </template>
                 </el-collapse>
               </el-col>
               <el-col :span="8">
-                <ActivePhone/>
+                <ActivePhone v-model="pageObj"/>
               </el-col>
             </el-collapse-item>
           </el-collapse>
