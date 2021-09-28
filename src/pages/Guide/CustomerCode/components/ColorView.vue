@@ -51,9 +51,9 @@
         <div class="dialog-subtitle">自定义配色方案</div>
         <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
           <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:customColor.mianColor,border: editMain? '5px solid #ffffff':''}" class="color-base" @click.stop="editMainColor"></div>
-            <div :style="{background:customColor.bgColor,border: editBg? '5px solid #ffffff':''}" class="color-base"  @click.stop="editBgColor"></div>
-            <div :style="{background:customColor.strColor,border: editStr? '5px solid #ffffff':''}" class="color-base"  @click.stop="editStrColor"></div>
+            <div :style="{background:customColor.mianColor,border: editWhere === 1 ? '5px solid #ffffff':''}" class="color-base" @click.stop="editWhere = editColorEnum.MAIN"></div>
+            <div :style="{background:customColor.bgColor,border: editWhere === 2 ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editWhere = editColorEnum.BG"></div>
+            <div :style="{background:customColor.strColor,border: editWhere === 3 ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editWhere = editColorEnum.STR"></div>
           </div>
         </div>
         <div>
@@ -149,54 +149,39 @@ export default {
         strColor: '#FFFFFF'
       },
       isEdit: false,
-      editMain: false,
-      editBg: false,
-      editStr: false
+      editColorEnum: {
+        MAIN: 1,
+        BG: 2,
+        STR: 3
+      },
+      editWhere: null
     }
   },
   watch: {
     colors: {
       handler (newValue, oldValue) {
         if (!this.isEdit) return
-        if (this.editMain) this.customColor.mianColor = newValue.hex
-        if (this.editBg) this.customColor.bgColor = newValue.hex
-        if (this.editStr) this.customColor.strColor = newValue.hex
+        if (this.editWhere === 1) this.customColor.mianColor = newValue.hex
+        if (this.editWhere === 2) this.customColor.bgColor = newValue.hex
+        if (this.editWhere === 3) this.customColor.strColor = newValue.hex
       },
       deep: true
     }
   },
   methods: {
-    editStrColor () {
-      if (!this.isEdit) return
-      this.editMain = false
-      this.editBg = false
-      this.editStr = true
-    },
-    editBgColor () {
-      if (!this.isEdit) return
-      this.editMain = false
-      this.editBg = true
-      this.editStr = false
-    },
-    editMainColor () {
-      if (!this.isEdit) return
-      this.editMain = true
-      this.editBg = false
-      this.editStr = false
-    },
     setColor () {
-      const item = this.colorList[this.dialogIndex]
-      this.customColor.mainColor = item.mainColor
-      this.customColor.bgColor = item.bgColor
-      this.customColor.strColor = item.strColor
+      this.setCustomer()
     },
     eidtColor () {
+      this.setCustomer()
+      this.dialogIndex = null
+      this.isEdit = true
+    },
+    setCustomer () {
       const item = this.colorList[this.dialogIndex]
       this.customColor.mainColor = item.mainColor
       this.customColor.bgColor = item.bgColor
       this.customColor.strColor = item.strColor
-      this.dialogIndex = null
-      this.isEdit = true
     },
     leaveMaskView () {
       this.showMask = false
