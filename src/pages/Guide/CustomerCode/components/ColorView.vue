@@ -39,8 +39,8 @@
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
                 <div class="mask-view" v-if="showMask && (dialogIndex === index)">
-                  <span @click="eidtColor">编辑</span>
-                  <span @click="setColor">使用</span>
+                  <span @click.stop="eidtColor">编辑</span>
+                  <span @click.stop="setColor">使用</span>
                 </div>
               </div>
             </div>
@@ -49,11 +49,11 @@
       </div>
       <div>
         <div class="dialog-subtitle">自定义配色方案</div>
-        <div class="color-sel-base custom-color">
-          <div class="color-sel-base-cont custom-color-cont" v-if="customColor.length">
-            <div :style="{background:customColor[0].mianColor}" class="color-base"></div>
-            <div :style="{background:customColor[0].bgColor}" class="color-base"></div>
-            <div :style="{background:customColor[0].strColor}" class="color-base"></div>
+        <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
+          <div class="color-sel-base-cont custom-color-cont">
+            <div :style="{background:customColor.mianColor,border: editMain? '5px solid #ffffff':''}" class="color-base" @click.stop="editMainColor"></div>
+            <div :style="{background:customColor.bgColor,border: editBg? '5px solid #ffffff':''}" class="color-base"  @click.stop="editBgColor"></div>
+            <div :style="{background:customColor.strColor,border: editStr? '5px solid #ffffff':''}" class="color-base"  @click.stop="editStrColor"></div>
           </div>
         </div>
         <div>
@@ -143,21 +143,60 @@ export default {
         }
       ],
       showMask: false,
-      customColor: []
+      customColor: {
+        mianColor: '#FF544E',
+        bgColor: '#FF8C5C',
+        strColor: '#FFFFFF'
+      },
+      isEdit: false,
+      editMain: false,
+      editBg: false,
+      editStr: false
     }
   },
-  mounted () {
-    this.customColor = []
-    this.customColor.push(this.colorList[0])
+  watch: {
+    colors: {
+      handler (newValue, oldValue) {
+        if (!this.isEdit) return
+        if (this.editMain) this.customColor.mianColor = newValue.hex
+        if (this.editBg) this.customColor.bgColor = newValue.hex
+        if (this.editStr) this.customColor.strColor = newValue.hex
+      },
+      deep: true
+    }
   },
   methods: {
+    editStrColor () {
+      if (!this.isEdit) return
+      this.editMain = false
+      this.editBg = false
+      this.editStr = true
+    },
+    editBgColor () {
+      if (!this.isEdit) return
+      this.editMain = false
+      this.editBg = true
+      this.editStr = false
+    },
+    editMainColor () {
+      if (!this.isEdit) return
+      this.editMain = true
+      this.editBg = false
+      this.editStr = false
+    },
     setColor () {
-      this.customColor = []
-      this.customColor.push(this.colorList[this.dialogIndex])
+      const item = this.colorList[this.dialogIndex]
+      this.customColor.mainColor = item.mainColor
+      this.customColor.bgColor = item.bgColor
+      this.customColor.strColor = item.strColor
     },
     eidtColor () {
-      this.customColor = []
-      this.customColor.push(this.colorList[this.dialogIndex])
+      const item = this.colorList[this.dialogIndex]
+      this.customColor.mainColor = item.mainColor
+      this.customColor.bgColor = item.bgColor
+      this.customColor.strColor = item.strColor
+      this.dialogIndex = null
+      this.isEdit = true
     },
     leaveMaskView () {
       this.showMask = false
@@ -168,11 +207,14 @@ export default {
       }
     },
     saveColor () {
-      this.showColor = []
-      this.showColor.push(this.colorList[this.dialogIndex])
+      if (this.isEdit) {
+        this.showColor = []
+        this.showColor.push(this.customColor)
+      } else if (this.dialogIndex >= 0) {
+        this.showColor = []
+        this.showColor.push(this.colorList[this.dialogIndex])
+      }
       this.dialogVisible = false
-    },
-    onChange () {
     },
     colorClick (index) {
       this.colorIndex = index
@@ -182,6 +224,7 @@ export default {
     },
     dialogIndexClick (index) {
       this.dialogIndex = index
+      if (this.isEdit) this.isEdit = false
     }
   }
 }
@@ -239,6 +282,7 @@ export default {
 .color-base {
   width: 33.33%;
   height: 100%;
+  box-sizing: border-box;
 }
 .dialog-subtitle {
   font-size: 14px;
@@ -249,8 +293,8 @@ export default {
 .custom-color {
   width: 678px;
   height: 132px;
-  border: 2px solid #EEEEEE;
 }
+
 .custom-color-cont {
   width: 662px;
   height: 116px;
