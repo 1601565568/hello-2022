@@ -8,7 +8,7 @@
           </div>
           <div class="info-view">
             <div class="user-info">
-              <img :class="pageObj.headStyle === 0 ? 'user-img ': 'user-img user-img-rund'"/>
+              <img :class="pageObj.headStyle === 0 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
               <span>没有毛的猫</span>
             </div>
             <div class="invitation-text">邀请好友4人</div>
@@ -189,8 +189,7 @@ export default {
 .user-img {
   width: 24px;
   height: 24px;
-  border: 1px solid #FFFFFF;
-  background-color: lightgrey;
+  background-color:white;
   margin-right: 10px;
 }
 .user-img-rund {
