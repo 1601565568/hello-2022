@@ -11,7 +11,7 @@
       >
       <div class="color-view">
         <div class="color-sel">
-          <div v-for="(item,index) in colorList.slice(0, 1)" :key="index">
+          <div v-for="(item,index) in showColor" :key="index">
             <div :class="colorIndex === index ? 'color-sel-base color-sel-base-user': 'color-sel-base'" @click="colorClick(index)">
               <div class="color-sel-base-cont">
                 <div :style="{background:item.mianColor}" class="color-base"></div>
@@ -34,10 +34,14 @@
         <div class="color-sel dialog-color-sel">
           <div v-for="(item,index) in colorList" :key="index">
             <div :class="dialogIndex === index ? 'color-sel-base dialog-color-sel-base color-sel-base-user': 'color-sel-base dialog-color-sel-base'" @click="dialogIndexClick(index)">
-              <div class="color-sel-base-cont">
+              <div class="color-sel-base-cont" @mouseenter="showMaskView(index)" @mouseleave="leaveMaskView">
                 <div :style="{background:item.mianColor}" class="color-base"></div>
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
+                <div class="mask-view" v-if="showMask && (dialogIndex === index)">
+                  <span>编辑</span>
+                  <span>使用</span>
+                </div>
               </div>
             </div>
           </div>
@@ -62,8 +66,8 @@
         <Sketch v-model="colors"/>
       </div>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="dialogVisible = false">保存该配色</ns-button>
-        <ns-button type="primary" @click="dialogVisible = false">使用该配色</ns-button>
+        <!-- <ns-button @click="dialogVisible = false">保存该配色</ns-button> -->
+        <ns-button type="primary" @click="saveColor">使用该配色</ns-button>
       </span>
     </el-dialog>
   </div>
@@ -130,10 +134,29 @@ export default {
         rgba: { r: 247, g: 247, b: 247, a: 1 },
         a: 1
       },
-      colorPicker: false
+      colorPicker: false,
+      showColor: [],
+      showMask: false
     }
   },
+  mounted () {
+    this.showColor = []
+    this.showColor.push(this.colorList[0])
+  },
   methods: {
+    leaveMaskView () {
+      this.showMask = false
+    },
+    showMaskView (index) {
+      if (this.dialogIndex === index) {
+        this.showMask = true
+      }
+    },
+    saveColor () {
+      this.showColor = []
+      this.showColor.push(this.colorList[this.dialogIndex])
+      this.dialogVisible = false
+    },
     onChange () {
     },
     colorClick (index) {
@@ -188,6 +211,8 @@ export default {
   height: 44px;
   border: 2px solid #979797;
   border-radius: 2px;
+  position: relative;
+  cursor: pointer;
 }
 
 .dialog-color-sel-base {
@@ -225,5 +250,18 @@ export default {
   color: #8C8C8C;
   line-height: 22px;
 }
-
+.mask-view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(151,151,151,0.45);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 14px;
+  color: #FFFFFF;
+  align-items: center;
+}
 </style>
