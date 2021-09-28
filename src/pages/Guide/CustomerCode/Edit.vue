@@ -197,6 +197,7 @@
                          @updateActiveInfo="updateActiveInfo"
                          @updateRules="updateRules"
                          @updateRegUrl="updateRegUrl"
+                         @updateShare="updateShare"
                          ></component>
                       </el-collapse-item>
                     </div>

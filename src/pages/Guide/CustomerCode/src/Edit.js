@@ -118,7 +118,11 @@ export default {
           goodsDes: ''
         },
         rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！',
-        regUrl: ''
+        regUrl: '',
+        share: {
+          color: '#FFA30E',
+          name: '立即分享'
+        }
       }
     }
   },
@@ -158,6 +162,9 @@ export default {
     }
   },
   methods: {
+    updateShare (obj) {
+      this.pageObj.share = obj
+    },
     updateRegUrl (url) {
       this.pageObj.regUrl = url
     },

@@ -1,7 +1,6 @@
 <template>
   <div class="item-view">
     <el-form
-      :rules="rules"
       label-width="100px"
       label-position="left"
       size="medium"
@@ -12,9 +11,9 @@
       >
       <div class="color-view">
         <el-color-picker
-          v-model="nickColour"
+          v-model="share.color"
         ></el-color-picker>
-        <span class="color-text">重置</span>
+        <span class="color-text" @click="updateColor">重置</span>
       </div>
       </el-form-item>
       <el-form-item
@@ -23,7 +22,7 @@
         prop="shareText"
       >
         <length-input
-          v-model="shareText"
+          v-model="share.name"
           placeholder="请输入分享按钮名称"
           :length="10"
         />
@@ -42,15 +41,25 @@ export default {
     LengthInput,
     ElColorPicker
   },
+  watch: {
+    share: {
+      handler (newValue, oldValue) {
+        this.$emit('updateShare', newValue)
+      },
+      deep: true
+    }
+  },
   data () {
     return {
-      shareText: '立即分享',
-      nickColour: '#262626',
-      rules: {
-        shareText: [
-          { required: true, message: '请输入分享按钮名称', trigger: ['blur', 'change'] }
-        ]
+      share: {
+        color: '#FFA30E',
+        name: '立即分享'
       }
+    }
+  },
+  methods: {
+    updateColor () {
+      this.share.color = '#FFA30E'
     }
   }
 }
@@ -72,6 +81,7 @@ export default {
   line-height: 20px;
   display: inline-block;
   margin-left: 16px;
+  cursor: pointer;
 }
 
 .goods-view {

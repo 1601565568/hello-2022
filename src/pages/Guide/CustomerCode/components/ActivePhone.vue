@@ -71,7 +71,7 @@
             </div>
           </div>
           <div class="share-view">
-            <div class="share-button">立即分享</div>
+            <div class="share-button" :style="{background:pageObj.share.color}">{{pageObj.share.name}}</div>
           </div>
         </div>
       </template>
