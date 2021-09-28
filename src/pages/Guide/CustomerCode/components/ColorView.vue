@@ -14,9 +14,9 @@
           <div v-for="(item,index) in colorList.slice(0, 1)" :key="index">
             <div :class="colorIndex === index ? 'color-sel-base color-sel-base-user': 'color-sel-base'" @click="colorClick(index)">
               <div class="color-sel-base-cont">
-                <div :style="{background:item.one}" class="color-base"></div>
-                <div :style="{background:item.two}" class="color-base"></div>
-                <div :style="{background:item.three}" class="color-base"></div>
+                <div :style="{background:item.mianColor}" class="color-base"></div>
+                <div :style="{background:item.bgColor}" class="color-base"></div>
+                <div :style="{background:item.strColor}" class="color-base"></div>
               </div>
             </div>
           </div>
@@ -35,9 +35,9 @@
           <div v-for="(item,index) in colorList" :key="index">
             <div :class="dialogIndex === index ? 'color-sel-base dialog-color-sel-base color-sel-base-user': 'color-sel-base dialog-color-sel-base'" @click="dialogIndexClick(index)">
               <div class="color-sel-base-cont">
-                <div :style="{background:item.one}" class="color-base"></div>
-                <div :style="{background:item.two}" class="color-base"></div>
-                <div :style="{background:item.three}" class="color-base"></div>
+                <div :style="{background:item.mianColor}" class="color-base"></div>
+                <div :style="{background:item.bgColor}" class="color-base"></div>
+                <div :style="{background:item.strColor}" class="color-base"></div>
               </div>
             </div>
           </div>
@@ -47,9 +47,9 @@
         <div class="dialog-subtitle">自定义配色方案</div>
         <div class="color-sel-base custom-color">
           <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:colorList[0].one}" class="color-base"></div>
-            <div :style="{background:colorList[0].two}" class="color-base"></div>
-            <div :style="{background:colorList[0].three}" class="color-base"></div>
+            <div :style="{background:colorList[0].mianColor}" class="color-base"></div>
+            <div :style="{background:colorList[0].bgColor}" class="color-base"></div>
+            <div :style="{background:colorList[0].strColor}" class="color-base"></div>
           </div>
         </div>
         <div>
@@ -82,44 +82,44 @@ export default {
       dialogIndex: 0,
       colorList: [
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#FF544E',
+          bgColor: '#FF8C5C',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#FFA30E',
+          bgColor: '#F96C39',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#32A7FF',
+          bgColor: '#D6EDFE',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#7234F0',
+          bgColor: '#769EFF',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#804AC3',
+          bgColor: '#1A0240',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#7FC3AD',
+          bgColor: '#DFF2EE',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#E9607F',
+          bgColor: '#FFE6E9',
+          strColor: '#FFFFFF'
         },
         {
-          one: '#F57E61',
-          two: '#F8B369',
-          three: '#FFFFFF'
+          mianColor: '#B9A873',
+          bgColor: '#F1EFE2',
+          strColor: '#FFFFFF'
         }
       ],
       dialogVisible: false,
