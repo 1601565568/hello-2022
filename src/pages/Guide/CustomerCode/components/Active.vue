@@ -13,20 +13,20 @@
         <div class="goods-view">
           <div class="input-view">
             <length-input
-              v-model="goodsName"
+              v-model="activeInfo.goodsName"
               placeholder="一个奖品名称"
               :length="20"
             />
             <div style="height:16px"></div>
             <length-input
-              v-model="goodsDes"
+              v-model="activeInfo.goodsDes"
               placeholder="请输入奖品简介"
               :length="50"
             />
           </div>
           <drap-upload
               tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
-              v-model="image"
+              v-model="activeInfo.image"
               :showPont="false"
               :maxSize="2"
               :isNeedCrop="false"
@@ -41,7 +41,7 @@
         class="larger-item"
       >
         <length-input
-          v-model="number"
+          v-model="activeInfo.number"
           placeholder="请输入人数"
         />
       </el-form-item>
@@ -51,9 +51,9 @@
       >
       <div class="color-view">
         <el-color-picker
-          v-model="nickColour"
+          v-model="activeInfo.getColor"
         ></el-color-picker>
-        <span class="color-text">重置</span>
+        <span class="color-text" @click="updateGetColor">重置</span>
       </div>
       </el-form-item>
     </el-form>
@@ -73,13 +73,28 @@ export default {
     ElColorPicker,
     SetPrize
   },
+  watch: {
+    activeInfo: {
+      handler (newValue, oldValue) {
+        this.$emit('updateActiveInfo', newValue)
+      },
+      deep: true
+    }
+  },
   data () {
     return {
-      image: '',
-      number: '',
-      nickColour: '#262626',
-      goodsName: '',
-      goodsDes: ''
+      activeInfo: {
+        image: '',
+        number: '0',
+        getColor: '#FF6A41',
+        goodsName: '',
+        goodsDes: ''
+      }
+    }
+  },
+  methods: {
+    updateGetColor () {
+      this.activeInfo.getColor = '#FF6A41'
     }
   }
 }
@@ -101,6 +116,7 @@ export default {
   line-height: 20px;
   display: inline-block;
   margin-left: 16px;
+  cursor: pointer;
 }
 
 .goods-view {

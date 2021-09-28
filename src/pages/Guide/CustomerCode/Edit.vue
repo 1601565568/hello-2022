@@ -191,7 +191,7 @@
                             </div>
                           </div>
                         </template>
-                        <component :is="formatSettingType(item.itemCode)" @updateHeadImgStyle="updateHeadImgStyle" @updateBannerUrl="updateBannerUrl"></component>
+                        <component :is="formatSettingType(item.itemCode)" @updateHeadImgStyle="updateHeadImgStyle" @updateBannerUrl="updateBannerUrl" @updateActiveInfo="updateActiveInfo"></component>
                       </el-collapse-item>
                     </div>
                   </template>
