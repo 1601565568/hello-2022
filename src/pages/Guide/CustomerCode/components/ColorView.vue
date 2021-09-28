@@ -14,7 +14,7 @@
           <div v-for="(item,index) in showColor" :key="index">
             <div :class="colorIndex === index ? 'color-sel-base color-sel-base-user': 'color-sel-base'" @click="colorClick(index)">
               <div class="color-sel-base-cont">
-                <div :style="{background:item.mianColor}" class="color-base"></div>
+                <div :style="{background:item.mainColor}" class="color-base"></div>
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
               </div>
@@ -35,7 +35,7 @@
           <div v-for="(item,index) in colorList" :key="index">
             <div :class="dialogIndex === index ? 'color-sel-base dialog-color-sel-base color-sel-base-user': 'color-sel-base dialog-color-sel-base'" @click="dialogIndexClick(index)">
               <div class="color-sel-base-cont" @mouseenter="showMaskView(index)" @mouseleave="leaveMaskView">
-                <div :style="{background:item.mianColor}" class="color-base"></div>
+                <div :style="{background:item.mainColor}" class="color-base"></div>
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
                 <div class="mask-view" v-if="showMask && (dialogIndex === index)">
@@ -51,9 +51,9 @@
         <div class="dialog-subtitle">自定义配色方案</div>
         <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
           <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:customColor.mianColor,border: editWhere === 1 ? '5px solid #ffffff':''}" class="color-base" @click.stop="editWhere = editColorEnum.MAIN"></div>
-            <div :style="{background:customColor.bgColor,border: editWhere === 2 ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editWhere = editColorEnum.BG"></div>
-            <div :style="{background:customColor.strColor,border: editWhere === 3 ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editWhere = editColorEnum.STR"></div>
+            <div :style="{background:customColor.mainColor,border: editWhere === 1 && isEdit ? '5px solid #ffffff':''}" class="color-base" @click.stop="editClickColor(1)"></div>
+            <div :style="{background:customColor.bgColor,border: editWhere === 2 && isEdit ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editClickColor(2)"></div>
+            <div :style="{background:customColor.strColor,border: editWhere === 3 && isEdit ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editClickColor(3)"></div>
           </div>
         </div>
         <div>
@@ -86,42 +86,42 @@ export default {
       dialogIndex: 0,
       colorList: [
         {
-          mianColor: '#FF544E',
+          mainColor: '#FF544E',
           bgColor: '#FF8C5C',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#FFA30E',
+          mainColor: '#FFA30E',
           bgColor: '#F96C39',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#32A7FF',
+          mainColor: '#32A7FF',
           bgColor: '#D6EDFE',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#7234F0',
+          mainColor: '#7234F0',
           bgColor: '#769EFF',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#804AC3',
+          mainColor: '#804AC3',
           bgColor: '#1A0240',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#7FC3AD',
+          mainColor: '#7FC3AD',
           bgColor: '#DFF2EE',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#E9607F',
+          mainColor: '#E9607F',
           bgColor: '#FFE6E9',
           strColor: '#FFFFFF'
         },
         {
-          mianColor: '#B9A873',
+          mainColor: '#B9A873',
           bgColor: '#F1EFE2',
           strColor: '#FFFFFF'
         }
@@ -137,23 +137,18 @@ export default {
       colorPicker: false,
       showColor: [
         {
-          mianColor: '#FF544E',
+          mainColor: '#FF544E',
           bgColor: '#FF8C5C',
           strColor: '#FFFFFF'
         }
       ],
       showMask: false,
       customColor: {
-        mianColor: '#FF544E',
+        mainColor: '#FF544E',
         bgColor: '#FF8C5C',
         strColor: '#FFFFFF'
       },
       isEdit: false,
-      editColorEnum: {
-        MAIN: 1,
-        BG: 2,
-        STR: 3
-      },
       editWhere: null
     }
   },
@@ -161,7 +156,7 @@ export default {
     colors: {
       handler (newValue, oldValue) {
         if (!this.isEdit) return
-        if (this.editWhere === 1) this.customColor.mianColor = newValue.hex
+        if (this.editWhere === 1) this.customColor.mainColor = newValue.hex
         if (this.editWhere === 2) this.customColor.bgColor = newValue.hex
         if (this.editWhere === 3) this.customColor.strColor = newValue.hex
       },
@@ -169,6 +164,10 @@ export default {
     }
   },
   methods: {
+    editClickColor (index) {
+      if (!this.isEdit) return
+      this.editWhere = index
+    },
     setColor () {
       this.setCustomer()
     },
