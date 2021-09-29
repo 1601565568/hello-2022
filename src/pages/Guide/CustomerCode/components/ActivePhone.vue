@@ -133,7 +133,8 @@ export default {
   },
   props: {
     value: Object,
-    showColor: Object
+    showColor: Object,
+    model: Object
   },
   computed: {
     pageObj () {

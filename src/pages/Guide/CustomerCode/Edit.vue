@@ -191,17 +191,22 @@
                             </div>
                           </div>
                         </template>
-                        <component :is="formatSettingType(item.itemCode)"
-                         @updateActiveModel="updateActiveModel"
-                         v-model="pageObj"
-                         ></component>
+                        <div class="edit-body">
+                          <div class="noEdit" v-if="item.status === 0">
+                            开启后可编辑内容
+                          </div>
+                          <component :is="formatSettingType(item.itemCode)"
+                          @updateActiveModel="updateActiveModel"
+                          v-model="pageObj"
+                          ></component>
+                        </div>
                       </el-collapse-item>
                     </div>
                   </template>
                 </el-collapse>
               </el-col>
               <el-col :span="8">
-                <ActivePhone v-model="pageObj" :showColor="showColor"/>
+                <ActivePhone v-model="pageObj" :showColor="showColor" :model="model"/>
               </el-col>
             </el-collapse-item>
           </el-collapse>
@@ -848,6 +853,29 @@ export default Edit
   justify-content: space-between;
   width: 100%;
   padding-left: 40px;
+}
+.edit-body {
+  position: relative;
+  .noEdit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    left: 0;
+    top: 0;
+    z-index: 1002;
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    font-size: 14px;
+    color: #595959;
+  }
+  &:hover .noEdit {
+    opacity: 0.85;
+  }
 }
 </style>
 <style scoped>
