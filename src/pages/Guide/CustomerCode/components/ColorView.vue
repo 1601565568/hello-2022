@@ -191,7 +191,9 @@ export default {
     },
     saveColor () {
       if (this.isEdit) {
-        this.showColor = this.customColor
+        this.showColor.mainColor = this.customColor.mainColor
+        this.showColor.bgColor = this.customColor.bgColor
+        this.showColor.strColor = this.customColor.strColor
       } else if (this.dialogIndex >= 0) {
         const item = this.colorList[this.dialogIndex]
         this.showColor.mainColor = item.mainColor

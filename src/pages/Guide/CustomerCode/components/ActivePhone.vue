@@ -48,12 +48,20 @@
               </div>
             </div>
             <div class="friends-view" :style="{background:showColor.mainColor + '66'}">
-              <div class="rules-title-view">成功邀请好友4人</div>
+              <div class="rules-title-view" :style="{color:showColor.strColor}">
+                <span class="iconfont icon-a-000 rules-icon"></span>
+                <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
+                <span :style="{background:showColor.mainColor}" class="rules-number">
+                  <span class="iconfont icon-a-4" style="lineHeight:20px"></span>
+                </span>
+                <span class="iconfont icon-ren rules-icon"></span>
+                <span class="iconfont icon-a-000-copy rules-icon"></span>
+              </div>
               <div class="friends-content-view">
                 <div v-for="(item,index) in fiends" :key="index">
                   <div class="friends-list">
                     <div>
-                      <img :src="item.url" style="width:24px;height:24px;margin-right:4px"/>
+                      <img :src="item.url" style="width:24px;height:24px;margin-right:4px;borderRadius:50%"/>
                       <span>{{item.name}}</span>
                     </div>
                     <div style="font-size:12px;color:#8C8C8C;">{{item.time}}</div>
@@ -62,7 +70,11 @@
               </div>
             </div>
             <div class="rules-view" :style="{background:showColor.mainColor + '66'}">
-              <div class="rules-title-view">活动规则</div>
+              <div class="rules-title-view" :style="{color:showColor.strColor}">
+                <span class="iconfont icon-a-000 rules-icon"></span>
+                <span class="iconfont icon-huodongguize rules-icon"></span>
+                <span class="iconfont icon-a-000-copy rules-icon"></span>
+              </div>
               <div class="rules-content-view">
                 <div>{{pageObj.rules}}</div>
                 <div style="margin-top:8px">活动有效期：永久有效</div>
@@ -194,6 +206,7 @@ export default {
   height: 24px;
   background-color:white;
   margin-right: 10px;
+  border: 1px solid #FFFFFF;
 }
 .user-img-rund {
   border-radius: 50%;
@@ -233,11 +246,12 @@ export default {
   border-radius: 8px;
 }
 .rules-title-view {
-  font-size: 20px;
-  color: #FFFFFF;
   line-height: 20px;
   width: 100%;
   text-align: center;
+}
+.rules-icon {
+  font-size: 20px;
 }
 .friends-content-view {
   border-radius: 8px;
@@ -345,7 +359,13 @@ export default {
 }
 .register-view-img {
   width: 100%;
-  height: 91px;
-  border-radius: 12px;
+  height: 81px;
+  margin-bottom: 60px;
+}
+.rules-number {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 6px;
 }
 </style>
