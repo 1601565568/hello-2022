@@ -18,7 +18,36 @@
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
             <div class="time-view" :style="{background:showColor.mainColor + '66'}">
-              <div class="time-title-view"></div>
+              <div class="time-title-view" :style="{color:showColor.strColor}">
+                <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                </span>
+                <span class="iconfont icon-tian time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-2 time-icon-dian"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-3 time-icon-dian"></span>
+                </span>
+                <span>:</span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-1 time-icon-dian"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                </span>
+                <span>:</span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-5 time-icon-dian"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.mainColor}">
+                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                </span>
+              </div>
               <div class="time-content-view">
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="pageObj.activeInfo.image || defGoodsUrl" alt="" srcset="">
@@ -152,6 +181,7 @@ export default {
 .content-view {
   position: relative;
   height: 100%;
+  width: 100%;
 }
 .phone-view {
   width: 320px;
@@ -222,7 +252,7 @@ export default {
 .time-view {
   border-radius: 12px;
   margin: 8px 16px;
-  padding-top: 32px;
+  padding-top: 8px;
   padding-bottom: 16px;
 }
 .friends-view {
@@ -363,9 +393,20 @@ export default {
   margin-bottom: 60px;
 }
 .rules-number {
-  width: 20px;
-  height: 20px;
   display: inline-block;
+  width: 18px;
+  height: 18px;
   border-radius: 6px;
+  text-align: center;
+  margin-right: 1px;
+}
+.time-title-view {
+  line-height: 20px;
+  width: 100%;
+  padding-left: 13px;
+}
+
+.time-icon-dian {
+  font-size: 12px
 }
 </style>

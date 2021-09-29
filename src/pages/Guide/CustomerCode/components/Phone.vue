@@ -36,7 +36,7 @@ export default {
     margin-bottom: 4px;
     padding-top: 47px;
     .customer-mobile_content {
-      width: 318px;
+      width: 320px;
       height: 567px;
       margin: 0 auto;
       position: relative;
