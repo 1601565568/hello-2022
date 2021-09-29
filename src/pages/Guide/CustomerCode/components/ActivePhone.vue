@@ -8,8 +8,8 @@
           </div>
           <div class="info-view">
             <div class="user-info">
-              <img :class="pageObj.headStyle === 0 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
-              <span>没有毛的猫</span>
+              <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
+              <span>裂变大师昵称</span>
             </div>
             <div class="invitation-text">邀请好友0人</div>
           </div>
@@ -17,22 +17,22 @@
             <div class="banner-view">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
-            <div class="time-view">
+            <div class="time-view" :style="{background:showColor.mainColor + '66'}">
               <div class="time-title-view"></div>
               <div class="time-content-view">
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="pageObj.activeInfo.image || defGoodsUrl" alt="" srcset="">
                   <div style="margin-left:8px;">
-                    <div class="goods-title">{{pageObj.activeInfo.goodsName}}</div>
-                    <div class="goods-desc">{{pageObj.activeInfo.goodsDes}}</div>
+                    <div class="goods-title">{{pageObj.activeInfo.goodsName || '请输入商品名称'}}</div>
+                    <div class="goods-desc">{{pageObj.activeInfo.goodsDes || '请输入商品描述'}}</div>
                   </div>
                 </div>
                 <div class="progress-view">
                   <div style="margin-bottom:8px;">
-                    <div class="tip-view">已邀请：4人，还需邀请1人</div>
-                    <div class="triangle-down"></div>
+                    <div class="tip-view" :style="{background:showColor.mainColor}">已邀请：4人</div>
+                    <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
                   </div>
-                  <el-progress :percentage="50" :show-text="false" color="#FF6A41"></el-progress>
+                  <el-progress :percentage="50" :show-text="false" :color="showColor.mainColor"></el-progress>
                 </div>
                 <div class="get-number-view">
                   <div class="number-img">
@@ -40,12 +40,14 @@
                       <img :src="item" class="img-view"/>
                     </div>
                   </div>
-                  <div class="">已有{{pageObj.activeInfo.number}}人领取</div>
+                  <div class="">已有
+                    <span :style="{color:showColor.mainColor}">{{pageObj.activeInfo.number}}</span>
+                  人领取</div>
                 </div>
                 <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
             </div>
-            <div class="friends-view">
+            <div class="friends-view" :style="{background:showColor.mainColor + '66'}">
               <div class="rules-title-view">成功邀请好友4人</div>
               <div class="friends-content-view">
                 <div v-for="(item,index) in fiends" :key="index">
@@ -59,7 +61,7 @@
                 </div>
               </div>
             </div>
-            <div class="rules-view">
+            <div class="rules-view" :style="{background:showColor.mainColor + '66'}">
               <div class="rules-title-view">活动规则</div>
               <div class="rules-content-view">
                 <div>{{pageObj.rules}}</div>
@@ -205,21 +207,18 @@ export default {
   overflow: scroll;
 }
 .time-view {
-  background: #F57E61;
   border-radius: 12px;
   margin: 8px 16px;
   padding-top: 32px;
   padding-bottom: 16px;
 }
 .friends-view {
-  background: #F57E61;
   border-radius: 12px;
   margin: 8px 16px;
   padding-top: 32px;
   padding-bottom: 16px;
 }
 .rules-view {
-  background: #F57E61;
   border-radius: 12px;
   margin: 8px 16px;
   padding-top: 32px;
@@ -305,14 +304,12 @@ export default {
   margin-bottom: 16px;
 }
 .tip-view {
-  width: 180px;
-  background: #FF6A41;
   border-radius: 11px;
   font-size: 12px;
   color: #FFFFFF;
-  line-height: 20px;
   padding-left: 14px;
   padding-right: 14px;
+  width: 100px;
 }
 .triangle-down {
   margin-left: 20px;
@@ -320,7 +317,8 @@ export default {
   height: 0;
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
-  border-top: 3px solid #FF6A41;
+  border-top-width: 3px;
+  border-top-style: solid;
 }
 .get-number-view {
   display: flex;

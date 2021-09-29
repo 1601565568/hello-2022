@@ -142,6 +142,14 @@ export default {
       ]
     }
   },
+  watch: {
+    showColor: {
+      handler (newValue, oldValue) {
+        this.pageObj.activeInfo.getColor = newValue.mainColor
+      },
+      deep: true
+    }
+  },
   computed: {
     welcomeInfo () {
       return this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
@@ -182,7 +190,6 @@ export default {
       bgColor: colors[1],
       strColor: colors[2]
     }
-    this.pageObj.activeInfo.getColor = this.showColor.mainColor
   },
   methods: {
     updateActiveModel (obj) {
