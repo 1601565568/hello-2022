@@ -192,13 +192,8 @@
                           </div>
                         </template>
                         <component :is="formatSettingType(item.itemCode)"
-                         @updateHeadImgStyle="updateHeadImgStyle"
-                         @updateBannerUrl="updateBannerUrl"
-                         @updateActiveInfo="updateActiveInfo"
-                         @updateRules="updateRules"
-                         @updateRegUrl="updateRegUrl"
-                         @updateShare="updateShare"
                          @updateActiveModel="updateActiveModel"
+                         v-model="pageObj"
                          ></component>
                       </el-collapse-item>
                     </div>

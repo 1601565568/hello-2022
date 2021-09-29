@@ -28,6 +28,14 @@
 <script>
 export default {
   name: 'headeImg',
+  props: {
+    value: Object
+  },
+  computed: {
+    pageObj () {
+      return this.value
+    }
+  },
   data () {
     return {
       gender: 1,
@@ -40,8 +48,8 @@ export default {
   },
   methods: {
     genderClick (index) {
+      this.pageObj.headStyle = index
       this.gender = index
-      this.$emit('updateHeadImgStyle', index)
     }
   }
 }

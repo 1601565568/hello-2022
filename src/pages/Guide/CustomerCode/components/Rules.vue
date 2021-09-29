@@ -12,7 +12,7 @@
         prop="rulesText"
       >
         <tag-area
-          v-model="rulesText"
+          v-model="pageObj.rules"
           tag="wise"
           ref="tagAreaText"
           :maxlength="1000"
@@ -33,9 +33,12 @@ export default {
   components: {
     TagArea
   },
-  watch: {
-    rulesText (newValue, oldValue) {
-      this.$emit('updateRules', newValue)
+  props: {
+    value: Object
+  },
+  computed: {
+    pageObj () {
+      return this.value
     }
   },
   data () {

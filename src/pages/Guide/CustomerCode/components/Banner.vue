@@ -11,7 +11,7 @@
       >
         <drap-upload
           tip="（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）"
-          v-model="image"
+          v-model="pageObj.bannerUrl"
           :showPont="false"
           :maxSize="1"
           :isNeedCrop="false"
@@ -32,19 +32,17 @@ export default {
   components: {
     DrapUpload
   },
-  data () {
-    return {
-      image: ''
-    }
+  props: {
+    value: Object
   },
-  watch: {
-    image (newValue, oldValue) {
-      this.$emit('updateBannerUrl', newValue)
+  computed: {
+    pageObj () {
+      return this.value
     }
   },
   methods: {
     updateImg () {
-      this.image = ''
+      this.pageObj.bannerUrl = ''
     }
   }
 }

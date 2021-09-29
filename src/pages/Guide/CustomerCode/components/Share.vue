@@ -11,7 +11,7 @@
       >
       <div class="color-view">
         <el-color-picker
-          v-model="share.color"
+          v-model="pageObj.share.color"
         ></el-color-picker>
         <span class="color-text" @click="updateColor">重置</span>
       </div>
@@ -22,7 +22,7 @@
         prop="shareText"
       >
         <length-input
-          v-model="share.name"
+          v-model="pageObj.share.name"
           placeholder="请输入分享按钮名称"
           :length="10"
         />
@@ -41,25 +41,17 @@ export default {
     LengthInput,
     ElColorPicker
   },
-  watch: {
-    share: {
-      handler (newValue, oldValue) {
-        this.$emit('updateShare', newValue)
-      },
-      deep: true
-    }
+  props: {
+    value: Object
   },
-  data () {
-    return {
-      share: {
-        color: '#FFA30E',
-        name: '立即分享'
-      }
+  computed: {
+    pageObj () {
+      return this.value
     }
   },
   methods: {
     updateColor () {
-      this.share.color = '#FFA30E'
+      this.pageObj.share.color = '#FFA30E'
     }
   }
 }

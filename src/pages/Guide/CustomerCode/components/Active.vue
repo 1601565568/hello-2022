@@ -13,20 +13,20 @@
         <div class="goods-view">
           <div class="input-view">
             <length-input
-              v-model="activeInfo.goodsName"
+              v-model="pageObj.activeInfo.goodsName"
               placeholder="一个奖品名称"
               :length="20"
             />
             <div style="height:16px"></div>
             <length-input
-              v-model="activeInfo.goodsDes"
+              v-model="pageObj.activeInfo.goodsDes"
               placeholder="请输入奖品简介"
               :length="50"
             />
           </div>
           <drap-upload
               tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
-              v-model="activeInfo.image"
+              v-model="pageObj.activeInfo.image"
               :showPont="false"
               :maxSize="2"
               :isNeedCrop="false"
@@ -41,7 +41,7 @@
         class="larger-item"
       >
         <length-input
-          v-model="activeInfo.number"
+          v-model="pageObj.activeInfo.number"
           placeholder="请输入人数"
         />
       </el-form-item>
@@ -51,7 +51,7 @@
       >
       <div class="color-view">
         <el-color-picker
-          v-model="activeInfo.getColor"
+          v-model="pageObj.activeInfo.getColor"
         ></el-color-picker>
         <span class="color-text" @click="updateGetColor">重置</span>
       </div>
@@ -73,23 +73,16 @@ export default {
     ElColorPicker,
     SetPrize
   },
-  watch: {
-    activeInfo: {
-      handler (newValue, oldValue) {
-        this.$emit('updateActiveInfo', newValue)
-      },
-      deep: true
+  props: {
+    value: Object
+  },
+  computed: {
+    pageObj () {
+      return this.value
     }
   },
   data () {
     return {
-      activeInfo: {
-        image: '',
-        number: '0',
-        getColor: '#FF6A41',
-        goodsName: '',
-        goodsDes: ''
-      },
       prizeModel: {}
     }
   },
@@ -98,7 +91,7 @@ export default {
       this.$emit('updateActiveModel', model)
     },
     updateGetColor () {
-      this.activeInfo.getColor = '#FF6A41'
+      this.pageObj.activeInfo.getColor = '#FF6A41'
     }
   }
 }

@@ -11,7 +11,7 @@
       >
         <drap-upload
           tip="（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）"
-          v-model="image"
+          v-model="pageObj.regUrl"
           :showPont="false"
           :maxSize="1"
           :isNeedCrop="false"
@@ -19,7 +19,7 @@
           uploadTitle="点击或拖拽上传引导图"
         >
         </drap-upload>
-        <div class="remind-text">恢复默认引导图</div>
+        <div class="remind-text" @click="showDefaultUrl">恢复默认引导图</div>
       </el-form-item>
     </el-form>
   </div>
@@ -32,14 +32,17 @@ export default {
   components: {
     DrapUpload
   },
-  watch: {
-    image (newValue, oldValue) {
-      this.$emit('updateRegUrl', newValue)
+  props: {
+    value: Object
+  },
+  computed: {
+    pageObj () {
+      return this.value
     }
   },
-  data () {
-    return {
-      image: ''
+  methods: {
+    showDefaultUrl () {
+      this.pageObj.regUrl = ''
     }
   }
 }
@@ -56,5 +59,6 @@ export default {
   font-size: 14px;
   color: #0392FB;
   line-height: 22px;
+  cursor: pointer;
 }
 </style>

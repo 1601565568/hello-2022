@@ -181,35 +181,35 @@ export default {
       this.model.prizeRuleList = obj.prizeRuleList
       this.model.prizeSendPlan = obj.prizeSendPlan
     },
-    updateShare (obj) {
-      this.pageObj.share = obj
-      this.eidtList[7].value.color = obj.color
-      this.eidtList[7].value.name = obj.color
-    },
-    updateRegUrl (url) {
-      this.pageObj.regUrl = url
-      this.eidtList[6].value.pic = url
-    },
-    updateRules (str) {
-      this.pageObj.rules = str
-      this.eidtList[5].value.content = str
-    },
-    updateActiveInfo (obj) {
-      this.pageObj.activeInfo = obj
-      this.eidtList[3].value.virtualFinishedCount = obj.number
-      this.eidtList[3].value.btnColor = obj.getColor
-      this.model.cardTitle = obj.goodsName
-      this.model.cardCopywriting = obj.goodsDes
-      this.model.cardCoverPic = obj.image
-    },
-    updateHeadImgStyle (index) {
-      this.pageObj.headStyle = index
-      this.eidtList[0].value.headPortraitShape = index
-    },
-    updateBannerUrl (url) {
-      this.pageObj.bannerUrl = url
-      this.eidtList[1].value.pic = url
-    },
+    // updateShare (obj) {
+    //   this.pageObj.share = obj
+    //   this.eidtList[7].value.color = obj.color
+    //   this.eidtList[7].value.name = obj.color
+    // },
+    // updateRegUrl (url) {
+    //   this.pageObj.regUrl = url
+    //   this.eidtList[6].value.pic = url
+    // },
+    // updateRules (str) {
+    //   this.pageObj.rules = str
+    //   this.eidtList[5].value.content = str
+    // },
+    // updateActiveInfo (obj) {
+    //   this.pageObj.activeInfo = obj
+    //   this.eidtList[3].value.virtualFinishedCount = obj.number
+    //   this.eidtList[3].value.btnColor = obj.getColor
+    //   this.model.cardTitle = obj.goodsName
+    //   this.model.cardCopywriting = obj.goodsDes
+    //   this.model.cardCoverPic = obj.image
+    // },
+    // updateHeadImgStyle (index) {
+    //   this.pageObj.headStyle = index
+    //   this.eidtList[0].value.headPortraitShape = index
+    // },
+    // updateBannerUrl (url) {
+    //   this.pageObj.bannerUrl = url
+    //   this.eidtList[1].value.pic = url
+    // },
     onclick (itemCode) {
       let event = window.event
       event.stopPropagation()
@@ -412,6 +412,19 @@ export default {
         this.model.validTimeStart = this.model.time[0]
         this.model.validTimeEnd = this.model.time[1]
       }
+
+      this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
+      this.eidtList[1].value.pic = this.pageObj.bannerUrl
+      this.eidtList[3].value.virtualFinishedCount = this.pageObj.activeInfo.number
+      this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
+      this.model.cardTitle = this.pageObj.activeInfo.goodsName
+      this.model.cardCopywriting = this.pageObj.activeInfo.goodsDes
+      this.model.cardCoverPic = this.pageObj.activeInfo.image
+      this.eidtList[5].value.content = this.pageObj.rules
+      this.eidtList[6].value.pic = this.pageObj.regUrl
+      this.eidtList[7].value.color = this.pageOb.share.color
+      this.eidtList[7].value.name = this.pageOb.share.color
+
       this.model.prizeStatus = this.eidtList[3].status
       this.model.pageDecoration = JSON.stringify(this.eidtList)
       this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
