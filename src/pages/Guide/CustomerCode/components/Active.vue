@@ -91,7 +91,7 @@ export default {
       this.$emit('updateActiveModel', model)
     },
     updateGetColor () {
-      this.pageObj.activeInfo.getColor = '#FF6A41'
+      this.pageObj.activeInfo.getColor = this.pageObj.mainColor
     }
   }
 }

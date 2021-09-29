@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     updateColor () {
-      this.pageObj.share.color = '#FFA30E'
+      this.pageObj.share.color = this.pageObj.mainColor
     }
   }
 }
