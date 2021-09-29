@@ -12,7 +12,7 @@ export default {
       model: {
         headerType: 0,
         time: [],
-        activityDescription: '', // 活动说明
+        activityDescription: '活动说明', // 活动说明
         activityIntroduction: '', // 活动介绍
         backgroundPic: '', // 一客一码背景图片
         cardCopywriting: '', // 活动消息卡片文案
@@ -440,12 +440,22 @@ export default {
       this.model.cardCoverPic = this.pageObj.activeInfo.image
       this.eidtList[5].value.content = this.pageObj.rules
       this.eidtList[6].value.pic = this.pageObj.regUrl
-      this.eidtList[7].value.color = this.pageOb.share.color
-      this.eidtList[7].value.name = this.pageOb.share.color
+      this.eidtList[7].value.color = this.pageObj.share.color
+      this.eidtList[7].value.name = this.pageObj.share.color
 
       this.model.prizeStatus = this.eidtList[3].status
       this.model.pageDecoration = JSON.stringify(this.eidtList)
       this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
+      this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, this.model).then(res => {
+        this.$notify.success('保存成功')
+        // this.handleCancel()
+      }).catch(res => {
+        this.$notify.error(res.msg)
+      }).finally(res => {
+        // this.btnLoad = false
+      })
+
       // this.$refs.ruleForm.validate(async (valid) => {
       //   if (valid) {
       //     const prizeModel = await this.$refs.setPrize.onSave()

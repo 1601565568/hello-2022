@@ -106,6 +106,11 @@ export default {
   color: #262626;
   line-height: 14px;
   font-weight: 500;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .active-desc-view {
   margin-top: 5px;
@@ -123,6 +128,7 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-all;
 }
 .active-image {
   width: 48px;
