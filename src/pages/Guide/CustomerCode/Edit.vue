@@ -170,7 +170,7 @@
           <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
               <el-col :span="16">
-                <ColorView/>
+                <ColorView v-model="model"/>
                 <div class="form-item_tip" style="margin-bottom:0">
                   活动页面将根据下面排列顺序显示
                 </div>

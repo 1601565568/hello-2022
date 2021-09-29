@@ -11,13 +11,11 @@
       >
       <div class="color-view">
         <div class="color-sel">
-          <div v-for="(item,index) in showColor" :key="index">
-            <div :class="colorIndex === index ? 'color-sel-base color-sel-base-user': 'color-sel-base'" @click="colorClick(index)">
-              <div class="color-sel-base-cont">
-                <div :style="{background:item.mainColor}" class="color-base"></div>
-                <div :style="{background:item.bgColor}" class="color-base"></div>
-                <div :style="{background:item.strColor}" class="color-base"></div>
-              </div>
+          <div class="color-sel-base color-sel-base-user" @click="colorClick(index)">
+            <div class="color-sel-base-cont">
+              <div :style="{background:model.showColor.mainColor}" class="color-base"></div>
+              <div :style="{background:model.showColor.bgColor}" class="color-base"></div>
+              <div :style="{background:model.showColor.strColor}" class="color-base"></div>
             </div>
           </div>
         </div>
@@ -80,6 +78,14 @@ export default {
   components: {
     Sketch
   },
+  props: {
+    value: Object
+  },
+  computed: {
+    model () {
+      return this.value
+    }
+  },
   data () {
     return {
       colorIndex: 0,
@@ -135,13 +141,6 @@ export default {
         a: 1
       },
       colorPicker: false,
-      showColor: [
-        {
-          mainColor: '#FF544E',
-          bgColor: '#FF8C5C',
-          strColor: '#FFFFFF'
-        }
-      ],
       showMask: false,
       customColor: {
         mainColor: '#FF544E',
@@ -192,11 +191,12 @@ export default {
     },
     saveColor () {
       if (this.isEdit) {
-        this.showColor = []
-        this.showColor.push(this.customColor)
+        this.model.showColor = this.customColor
       } else if (this.dialogIndex >= 0) {
-        this.showColor = []
-        this.showColor.push(this.colorList[this.dialogIndex])
+        const item = this.colorList[this.dialogIndex]
+        this.model.showColor.mainColor = item.mainColor
+        this.model.showColor.bgColor = item.bgColor
+        this.model.showColor.strColor = item.strColor
       }
       this.dialogVisible = false
     },

@@ -31,7 +31,8 @@ export default {
         qrcodeX: 74, // 二维码X轴坐标值
         qrcodeY: 349, // 二维码Y轴坐标值
         validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
-        pageColor: '', // 活动页面配色方案
+        pageColor: '#FF544E,#FF8C5C,#FFFFFF', // 活动页面配色方案
+        showColor: {},
         pageDecoration: '', // 裂变大师活动页面装修配置
         prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
         guestCodeId: '', // 一客一码活动ID
@@ -174,6 +175,12 @@ export default {
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
     } else {
       this.isLoading = true
+    }
+    const colors = this.model.pageColor.split(',')
+    this.model.showColor = {
+      mainColor: colors[0],
+      bgColor: colors[1],
+      strColor: colors[2]
     }
   },
   methods: {
