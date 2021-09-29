@@ -125,7 +125,7 @@ export default {
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
         'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
       ],
-      defBanner: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+      defBanner: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png',
       defGoodsUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0',
       defRegUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0'
     }
@@ -197,7 +197,7 @@ export default {
 }
 .banner-img {
   width: 100%;
-  height: 200px;
+  height: 350px;
   background-color: lightgrey;
 }
 .scroll-view {
