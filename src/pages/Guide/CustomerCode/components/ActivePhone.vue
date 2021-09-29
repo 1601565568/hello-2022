@@ -6,7 +6,7 @@
           <div>
             <img class="phone-view" src="../Images/iphoneActive.jpg"/>
           </div>
-          <div class="info-view">
+          <div class="info-view" v-show="eidtList[0].status === 1">
             <div class="user-info">
               <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
               <span>裂变大师昵称</span>
@@ -14,11 +14,11 @@
             <div class="invitation-text">邀请好友0人</div>
           </div>
           <div class="scroll-view" :style="{background:showColor.bgColor}">
-            <div class="banner-view">
+            <div class="banner-view" v-show="eidtList[1].status === 1">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor + '66'}">
-              <div class="time-title-view" :style="{color:showColor.strColor}">
+            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
+              <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1">
                 <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
                 <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-0 time-icon-dian"></span>
@@ -48,7 +48,7 @@
                   <span class="iconfont icon-a-0 time-icon-dian"></span>
                 </span>
               </div>
-              <div class="time-content-view">
+              <div class="time-content-view" v-show="eidtList[3].status === 1">
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="pageObj.activeInfo.image || defGoodsUrl" alt="" srcset="">
                   <div style="margin-left:8px;">
@@ -76,7 +76,7 @@
                 <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
             </div>
-            <div class="friends-view" :style="{background:showColor.mainColor + '66'}">
+            <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
@@ -98,7 +98,7 @@
                 </div>
               </div>
             </div>
-            <div class="rules-view" :style="{background:showColor.mainColor + '66'}">
+            <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-huodongguize rules-icon"></span>
@@ -109,11 +109,11 @@
                 <div style="margin-top:8px">活动有效期：永久有效</div>
               </div>
             </div>
-            <div class="register-view">
+            <div class="register-view" v-show="eidtList[6].status === 1">
               <img class="register-view-img" :src="pageObj.regUrl||defRegUrl"/>
             </div>
           </div>
-          <div class="share-view">
+          <div class="share-view" v-show="eidtList[7].status === 1">
             <div class="share-button" :style="{background:pageObj.share.color}">{{pageObj.share.name}}</div>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default {
   props: {
     value: Object,
     showColor: Object,
-    model: Object
+    eidtList: Array
   },
   computed: {
     pageObj () {
