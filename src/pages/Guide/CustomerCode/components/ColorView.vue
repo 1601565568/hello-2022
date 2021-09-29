@@ -13,9 +13,9 @@
         <div class="color-sel">
           <div class="color-sel-base color-sel-base-user" @click="colorClick(index)">
             <div class="color-sel-base-cont">
-              <div :style="{background:model.showColor.mainColor}" class="color-base"></div>
-              <div :style="{background:model.showColor.bgColor}" class="color-base"></div>
-              <div :style="{background:model.showColor.strColor}" class="color-base"></div>
+              <div :style="{background:showColor.mainColor}" class="color-base"></div>
+              <div :style="{background:showColor.bgColor}" class="color-base"></div>
+              <div :style="{background:showColor.strColor}" class="color-base"></div>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default {
     value: Object
   },
   computed: {
-    model () {
+    showColor () {
       return this.value
     }
   },
@@ -191,12 +191,12 @@ export default {
     },
     saveColor () {
       if (this.isEdit) {
-        this.model.showColor = this.customColor
+        this.showColor = this.customColor
       } else if (this.dialogIndex >= 0) {
         const item = this.colorList[this.dialogIndex]
-        this.model.showColor.mainColor = item.mainColor
-        this.model.showColor.bgColor = item.bgColor
-        this.model.showColor.strColor = item.strColor
+        this.showColor.mainColor = item.mainColor
+        this.showColor.bgColor = item.bgColor
+        this.showColor.strColor = item.strColor
       }
       this.dialogVisible = false
     },

@@ -32,7 +32,6 @@ export default {
         qrcodeY: 349, // 二维码Y轴坐标值
         validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
         pageColor: '#FF544E,#FF8C5C,#FFFFFF', // 活动页面配色方案
-        showColor: {},
         pageDecoration: '', // 裂变大师活动页面装修配置
         prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
         guestCodeId: '', // 一客一码活动ID
@@ -119,7 +118,7 @@ export default {
         activeInfo: {
           image: '',
           number: '0',
-          getColor: '#FF6A41',
+          getColor: '',
           goodsName: '',
           goodsDes: ''
         },
@@ -130,6 +129,7 @@ export default {
           name: '立即分享'
         }
       },
+      showColor: {},
       eidtList: [
         { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {} },
         { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {} },
@@ -177,11 +177,12 @@ export default {
       this.isLoading = true
     }
     const colors = this.model.pageColor.split(',')
-    this.model.showColor = {
+    this.showColor = {
       mainColor: colors[0],
       bgColor: colors[1],
       strColor: colors[2]
     }
+    this.pageObj.activeInfo.getColor = this.showColor.mainColor
   },
   methods: {
     updateActiveModel (obj) {

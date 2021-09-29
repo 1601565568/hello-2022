@@ -11,9 +11,9 @@
               <img :class="pageObj.headStyle === 0 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
               <span>没有毛的猫</span>
             </div>
-            <div class="invitation-text">邀请好友4人</div>
+            <div class="invitation-text">邀请好友0人</div>
           </div>
-          <div class="scroll-view">
+          <div class="scroll-view" :style="{background:showColor.bgColor}">
             <div class="banner-view">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
@@ -42,7 +42,7 @@
                   </div>
                   <div class="">已有{{pageObj.activeInfo.number}}人领取</div>
                 </div>
-                <div class="get-view" :style="{background:pageObj.activeInfo.getColor}">领取奖励</div>
+                <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
             </div>
             <div class="friends-view">
@@ -89,7 +89,8 @@ export default {
     ElProgress
   },
   props: {
-    value: Object
+    value: Object,
+    showColor: Object
   },
   computed: {
     pageObj () {
@@ -198,10 +199,8 @@ export default {
 .banner-img {
   width: 100%;
   height: 350px;
-  background-color: lightgrey;
 }
 .scroll-view {
-  background-color: #F8B369;
   max-height: calc(100% - 62px -42px -80px);
   overflow: scroll;
 }
@@ -268,7 +267,6 @@ export default {
   margin-left: 16px;
   margin-right: 16px;
   height: 42px;
-  background: #FF6A41;
   border-radius: 24px;
   line-height: 42px;
   text-align: center;
