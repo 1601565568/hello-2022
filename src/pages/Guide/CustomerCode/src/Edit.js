@@ -21,7 +21,7 @@ export default {
         effectiveCycle: 1, // 一客一码有效周期-天（过期时间）
         guideIds: [], // 使用导购ids
         guideDatas: [],
-        headPortrait: true, // 用户头像：0无，1有
+        headPortrait: 1, // 用户头像：0无，1有
         headPortraitShape: 1, // 用户头像形状：0圆 1方
         name: '', // 一客一码活动名称
         nick: 0, // 用户昵称：0无，1有
@@ -44,7 +44,10 @@ export default {
         prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
         prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
         validTimeEnd: '', // 活动有效时间结束
-        validTimeStart: '' // 活动有效时间结束
+        validTimeStart: '', // 活动有效时间结束
+        prizeNameSetting: '', // 奖品名称
+        prizeIntro: '', // 礼品说明
+        prizePic: '' // 奖品图片
       },
       // 校验规则
       rules: {
@@ -132,14 +135,14 @@ export default {
       },
       showColor: {},
       eidtList: [
-        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {} },
-        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {} },
-        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {} },
-        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {} },
-        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {} },
-        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {} },
-        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {} },
-        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
+        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {}, sortable: 0 },
+        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {}, sortable: 1 },
+        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {}, sortable: 2 },
+        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {}, sortable: 3 },
+        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {}, sortable: 4 },
+        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {}, sortable: 5 },
+        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6 },
+        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7 }
       ]
     }
   },
@@ -435,9 +438,10 @@ export default {
       this.eidtList[1].value.pic = this.pageObj.bannerUrl
       this.eidtList[3].value.virtualFinishedCount = this.pageObj.activeInfo.number
       this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-      this.model.cardTitle = this.pageObj.activeInfo.goodsName
-      this.model.cardCopywriting = this.pageObj.activeInfo.goodsDes
-      this.model.cardCoverPic = this.pageObj.activeInfo.image
+      this.model.prizeNameSetting = this.pageObj.activeInfo.goodsName
+      this.model.prizeIntro = this.pageObj.activeInfo.goodsDes
+      this.model.prizePic = this.pageObj.activeInfo.image
+      // this.model.cardCoverPic = this.pageObj.activeInfo.image
       this.eidtList[5].value.content = this.pageObj.rules
       this.eidtList[6].value.pic = this.pageObj.regUrl
       this.eidtList[7].value.color = this.pageObj.share.color
@@ -447,7 +451,9 @@ export default {
       this.model.pageDecoration = JSON.stringify(this.eidtList)
       this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
       this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
-      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, this.model).then(res => {
+      const headPosition = this.headPosition[this.model.headerType]
+      const data = { ...this.model, ...headPosition }
+      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
         this.$notify.success('保存成功')
         // this.handleCancel()
       }).catch(res => {

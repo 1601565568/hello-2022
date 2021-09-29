@@ -246,13 +246,13 @@
                     <div class="row-view">裂变大师信息：</div>
                     <div class="row-view">显示裂变大师头像、昵称：
                       <el-radio
-                        v-model="model.headPortraitShape"
+                        v-model="model.headPortrait"
                         :label="1"
                         :disabled="isStating"
                       >显示
                       </el-radio>
                       <el-radio
-                        v-model="model.headPortraitShape"
+                        v-model="model.headPortrait"
                         :label="0"
                         :disabled="isStating"
                       >不显示

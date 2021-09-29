@@ -14,7 +14,7 @@
           <div class="input-view">
             <length-input
               v-model="pageObj.activeInfo.goodsName"
-              placeholder="一个奖品名称"
+              placeholder="请输入奖品名称"
               :length="20"
             />
             <div style="height:16px"></div>
