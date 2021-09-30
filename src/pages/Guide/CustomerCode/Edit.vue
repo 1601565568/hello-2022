@@ -391,7 +391,7 @@
               prop="activityIntroduction"
             >
               <tag-area
-                v-model="defauletWelcome"
+                v-model="model.activityIntroduction"
                 :disabled="isStating"
                 tag="wise"
                 ref="tagAreaText"

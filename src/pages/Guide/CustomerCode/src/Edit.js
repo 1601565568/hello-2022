@@ -204,6 +204,7 @@ export default {
       bgColor: colors[1],
       strColor: colors[2]
     }
+    this.model.activityIntroduction = this.defauletWelcome
   },
   methods: {
     updateActiveModel (obj) {
