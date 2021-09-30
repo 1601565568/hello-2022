@@ -32,13 +32,13 @@
         <div class="color-sel dialog-color-sel">
           <div v-for="(item,index) in colorList" :key="index">
             <div :class="dialogIndex === index ? 'color-sel-base dialog-color-sel-base color-sel-base-user': 'color-sel-base dialog-color-sel-base'" @click="dialogIndexClick(index)">
-              <div class="color-sel-base-cont" @mouseenter="showMaskView(index)" @mouseleave="leaveMaskView">
+              <div class="color-sel-base-cont">
                 <div :style="{background:item.mainColor}" class="color-base"></div>
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
-                <div class="mask-view" v-if="showMask && (dialogIndex === index)">
-                  <span @click.stop="eidtColor">编辑</span>
-                  <span @click.stop="setColor">使用</span>
+                <div class="mask-view">
+                  <span @click.stop="eidtColor(index)">编辑</span>
+                  <span @click.stop="setColor(index)">使用</span>
                 </div>
               </div>
             </div>
@@ -167,16 +167,19 @@ export default {
       if (!this.isEdit) return
       this.editWhere = index
     },
-    setColor () {
-      this.setCustomer()
+    setColor (index) {
+      this.setCustomer(index)
+      this.dialogIndex = index
+      this.isEdit = false
     },
-    eidtColor () {
-      this.setCustomer()
+    eidtColor (index) {
+      this.setCustomer(index)
       this.dialogIndex = null
       this.isEdit = true
+      this.editWhere = 1
     },
-    setCustomer () {
-      const item = this.colorList[this.dialogIndex]
+    setCustomer (index) {
+      const item = this.colorList[index]
       this.customColor.mainColor = item.mainColor
       this.customColor.bgColor = item.bgColor
       this.customColor.strColor = item.strColor
@@ -308,5 +311,9 @@ export default {
   font-size: 14px;
   color: #FFFFFF;
   align-items: center;
+  opacity: 0;
+}
+.color-sel-base-cont:hover .mask-view {
+  opacity: 1;
 }
 </style>

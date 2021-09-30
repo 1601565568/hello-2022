@@ -135,14 +135,14 @@ export default {
       },
       showColor: {},
       eidtList: [
-        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {}, sortable: 0 },
-        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {}, sortable: 1 },
-        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {}, sortable: 2 },
-        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {}, sortable: 3 },
-        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {}, sortable: 4 },
-        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {}, sortable: 5 },
-        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6 },
-        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7 }
+        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {}, sortable: 0, switchable: 0 },
+        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {}, sortable: 1, switchable: 1 },
+        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {}, sortable: 2, switchable: 1 },
+        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {}, sortable: 3, switchable: 1 },
+        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {}, sortable: 4, switchable: 1 },
+        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {}, sortable: 5, switchable: 1 },
+        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
+        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ]
     }
   },
@@ -436,7 +436,7 @@ export default {
 
       this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
       this.eidtList[1].value.pic = this.pageObj.bannerUrl
-      this.eidtList[3].value.virtualFinishedCount = this.pageObj.activeInfo.number
+      this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
       this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
       this.model.prizeNameSetting = this.pageObj.activeInfo.goodsName
       this.model.prizeIntro = this.pageObj.activeInfo.goodsDes
