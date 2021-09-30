@@ -32,7 +32,7 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
-            <el-table-column type="default" label="助力人数" min-width="120"  :sortable="false">
+            <el-table-column type="default" label="邀请人数" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
@@ -111,7 +111,7 @@
                 <p>{{ scope.row.validNumber }}</p>
               </template></el-table-column
             >
-            <el-table-column type="default" min-width="150"  label="发放数量" :sortable="false">
+            <el-table-column type="default" min-width="150"  label="活动奖励总数" :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -123,7 +123,7 @@
                     },
                     {
                       required: true,
-                      message: '请设置发放数量',
+                      message: '请设置活动奖励总数',
                       trigger: ['blur', 'change']
                     },
                     {
@@ -243,9 +243,9 @@ export default {
         return
       }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('发放数量不能大于剩余数量'))
+        callback(new Error('活动奖励总数不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
-        callback(new Error('发放数量不能0'))
+        callback(new Error('活动奖励总数不能0'))
       } else {
         callback()
       }
@@ -264,11 +264,11 @@ export default {
         prizeRuleList: [
           {
             prizeGrade: 1,
-            addPrizeNumber: 0, // 新增发放数量
+            addPrizeNumber: 0, // 新增活动奖励总数
             prizeId: null,
-            recruitment: 1, // 助力人数
+            recruitment: 1, // 邀请人数
             prizeName: '', // 优惠券名称
-            prizeNumber: '', // 设置发放数量
+            prizeNumber: '', // 设置活动奖励总数
             validNumber: 0 // 优惠券剩余数量
           }
         ]

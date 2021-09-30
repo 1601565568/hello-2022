@@ -63,7 +63,7 @@
                   </div>
                   <el-progress :percentage="50" :show-text="false" :color="showColor.mainColor"></el-progress>
                 </div>
-                <div class="get-number-view">
+                <div class="get-number-view" v-show="parseInt(pageObj.activeInfo.number) > 0">
                   <div class="number-img">
                     <div v-for="(item,index) in imgs" :key="index">
                       <img :src="item" class="img-view"/>
