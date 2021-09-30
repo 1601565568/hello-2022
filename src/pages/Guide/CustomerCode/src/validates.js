@@ -6,6 +6,13 @@ export default {
       callback()
     }
   },
+  validateString: (rule, value, callback) => {
+    if (value.length > 50) {
+      callback(new Error('活动文案最多50个字'))
+    } else {
+      callback()
+    }
+  },
   // 活动名称不大于20个子
   validateName: (rule, value, callback) => {
     if (value.length > 20) {

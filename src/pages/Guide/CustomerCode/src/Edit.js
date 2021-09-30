@@ -44,10 +44,10 @@ export default {
         prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
         prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
         validTimeEnd: '', // 活动有效时间结束
-        validTimeStart: '', // 活动有效时间结束
-        prizeNameSetting: '', // 奖品名称
-        prizeIntro: '', // 礼品说明
-        prizePic: '' // 奖品图片
+        validTimeStart: '' // 活动有效时间结束
+        // prizeNameSetting: '', // 奖品名称
+        // prizeIntro: '', // 礼品说明
+        // prizePic: '' // 奖品图片
       },
       // 校验规则
       rules: {
@@ -63,29 +63,20 @@ export default {
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
         cardTitle: [
-          { required: true, message: '请输入活动消息卡片标题', trigger: ['blur', 'change'] },
-          { validator: (rule, value, callback) => {
-            let cardCopywriting = this.model.cardCopywriting
-            let cardCoverPic = this.model.cardCoverPic
-            if (value.length > 20) {
-              callback(new Error('活动消息卡片标题最多20个字'))
-            }
-            if (cardCopywriting.length > 50) {
-              callback(new Error('活动消息卡片文案最多50个字'))
-            }
-            if (!cardCoverPic) {
-              callback(new Error('请输入活动消息卡片封面图片'))
-            }
-          },
-          trigger: ['blur', 'change'] }
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片标题' },
+          { validator: validates.validateCard, trigger: ['blur', 'change'] }
+        ],
+        cardCopywriting: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片文案' },
+          { validator: validates.validateString, trigger: ['blur', 'change'] }
+        ],
+        cardCoverPic: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ],
         activityIntroduction: [
           { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this.defauletWelcome, '活动说明'), trigger: ['blur', 'change'] }
+          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
-        // backgroundPic: [
-        //   { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
-        // ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
         ]
@@ -455,10 +446,7 @@ export default {
           }
         })
       })
-      Promise.all([ruleForm, ruleForm3]).then(() => {
-        console.log('====================================')
-        console.log('do save')
-        console.log('====================================')
+      Promise.all([ruleForm]).then(() => {
       })
       if (this.model.validTimeType === 0) {
         this.model.time = []
@@ -474,9 +462,15 @@ export default {
       this.eidtList[1].value.pic = this.pageObj.bannerUrl
       this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
       this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-      this.model.prizeNameSetting = this.pageObj.activeInfo.goodsName
-      this.model.prizeIntro = this.pageObj.activeInfo.goodsDes
-      this.model.prizePic = this.pageObj.activeInfo.image
+      // this.model.prizeNameSetting = this.pageObj.activeInfo.goodsName
+      // this.model.prizeIntro = this.pageObj.activeInfo.goodsDes
+      // this.model.prizePic = this.pageObj.activeInfo.image
+      let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+      prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
+      prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
+      prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
+      this.model.prizeRuleList[0] = prizeRuleListObj
+
       // this.model.cardCoverPic = this.pageObj.activeInfo.image
       this.eidtList[5].value.content = this.pageObj.rules
       this.eidtList[6].value.pic = this.pageObj.regUrl

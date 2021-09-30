@@ -406,23 +406,27 @@
             <el-form-item
               label="活动卡片"
               required
-              prop="cardTitle"
             >
               <div class="goods-view">
                 <div class="input-view">
-                  <length-input
-                    v-model="model.cardTitle"
-                    placeholder="请输入标题"
-                    :length="20"
-                  />
+                  <el-form-item prop="cardTitle">
+                    <length-input
+                      v-model="model.cardTitle"
+                      placeholder="请输入标题"
+                      :length="20"
+                    />
+                  </el-form-item>
                   <div style="height:16px"></div>
-                  <length-input
-                    v-model="model.cardCopywriting"
-                    placeholder="请输入文案"
-                    :length="50"
-                  />
+                  <el-form-item prop="cardCopywriting">
+                    <length-input
+                      v-model="model.cardCopywriting"
+                      placeholder="请输入文案"
+                      :length="50"
+                    />
+                  </el-form-item>
                 </div>
-                <drap-upload
+                <el-form-item prop="cardCoverPic">
+                  <drap-upload
                     tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
                     v-model="model.cardCoverPic"
                     :showPont="false"
@@ -431,6 +435,7 @@
                     :showFooter="false"
                   >
                   </drap-upload>
+                </el-form-item>
               </div>
             </el-form-item>
           </el-col>
