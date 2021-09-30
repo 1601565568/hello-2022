@@ -228,20 +228,22 @@
               <div class="form-item_tip">
                 裂变大师可分享海报，邀请好友添加员工企业微信。
               </div>
-              <el-form-item label="上传海报" required prop="backgroundPic">
+              <el-form-item label="上传海报" required>
                 <div class="poster-content">
-                  <drap-upload
-                    tip="（请上传格式为jpg、jpeg或png的图片，大小不超过1M）"
-                    v-model="model.backgroundPic"
-                    :maxWidth="750"
-                    :maxHeight="1334"
-                    :showPont="false"
-                    :maxSize="1"
-                    :isNeedCrop="true"
-                    :showFooter="false"
-                    uploadTitle="点击或拖拽上传活动海报"
-                  >
+                  <el-form-item prop="backgroundPic">
+                    <drap-upload
+                      tip="（请上传格式为jpg、jpeg或png的图片，大小不超过1M）"
+                      v-model="model.backgroundPic"
+                      :maxWidth="750"
+                      :maxHeight="1334"
+                      :showPont="false"
+                      :maxSize="1"
+                      :isNeedCrop="true"
+                      :showFooter="false"
+                      uploadTitle="点击或拖拽上传活动海报"
+                    >
                   </drap-upload>
+                  </el-form-item>
                   <div class="poster-set_content">
                     <div class="row-view">裂变大师信息：</div>
                     <div class="row-view">显示裂变大师头像、昵称：

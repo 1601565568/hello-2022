@@ -153,6 +153,9 @@
       width: 100%
     }
   }
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
 }
 >>>.el-popover.dwaer-popper {
   min-width: 0 !important;

@@ -73,6 +73,9 @@ export default {
         cardCoverPic: [
           { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ],
+        backgroundPic: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择裂变大师海报封面图片' }
+        ],
         activityIntroduction: [
           { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
           { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
@@ -211,35 +214,6 @@ export default {
       this.model.prizeRuleList = obj.prizeRuleList
       this.model.prizeSendPlan = obj.prizeSendPlan
     },
-    // updateShare (obj) {
-    //   this.pageObj.share = obj
-    //   this.eidtList[7].value.color = obj.color
-    //   this.eidtList[7].value.name = obj.color
-    // },
-    // updateRegUrl (url) {
-    //   this.pageObj.regUrl = url
-    //   this.eidtList[6].value.pic = url
-    // },
-    // updateRules (str) {
-    //   this.pageObj.rules = str
-    //   this.eidtList[5].value.content = str
-    // },
-    // updateActiveInfo (obj) {
-    //   this.pageObj.activeInfo = obj
-    //   this.eidtList[3].value.virtualFinishedCount = obj.number
-    //   this.eidtList[3].value.btnColor = obj.getColor
-    //   this.model.cardTitle = obj.goodsName
-    //   this.model.cardCopywriting = obj.goodsDes
-    //   this.model.cardCoverPic = obj.image
-    // },
-    // updateHeadImgStyle (index) {
-    //   this.pageObj.headStyle = index
-    //   this.eidtList[0].value.headPortraitShape = index
-    // },
-    // updateBannerUrl (url) {
-    //   this.pageObj.bannerUrl = url
-    //   this.eidtList[1].value.pic = url
-    // },
     onclick (itemCode) {
       let event = window.event
       event.stopPropagation()
@@ -440,6 +414,13 @@ export default {
           }
         })
       })
+      const ruleForm2 = new Promise((resolve, reject) => {
+        this.$refs.ruleForm2.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
       const ruleForm3 = new Promise((resolve, reject) => {
         this.$refs.ruleForm3.validate((valid) => {
           if (valid) {
@@ -447,7 +428,7 @@ export default {
           }
         })
       })
-      Promise.all([ruleForm]).then(() => {
+      Promise.all([ruleForm, ruleForm2, ruleForm3]).then(() => {
       })
       if (this.model.validTimeType === 0) {
         this.model.time = []
@@ -463,9 +444,6 @@ export default {
       this.eidtList[1].value.pic = this.pageObj.bannerUrl
       this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
       this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-      // this.model.prizeNameSetting = this.pageObj.activeInfo.goodsName
-      // this.model.prizeIntro = this.pageObj.activeInfo.goodsDes
-      // this.model.prizePic = this.pageObj.activeInfo.image
       let prizeRuleListObj = this.model.prizeRuleList[0] || {}
       prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
       prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
