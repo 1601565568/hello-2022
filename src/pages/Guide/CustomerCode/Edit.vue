@@ -440,7 +440,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <Welcome :url="model.cardCoverPic" :title="model.cardTitle" :detail="model.cardCopywriting" :info="defauletWelcome"/>
+            <Welcome :url="model.cardCoverPic" :title="model.cardTitle" :detail="model.cardCopywriting" :info="model.activityIntroduction"/>
           </el-col>
         </el-collapse-item>
       </el-collapse>

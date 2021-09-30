@@ -8,9 +8,7 @@
           </div>
           <div class="base-view" v-if="info.length>0">
             <img class="head-view" src="@/assets/default-avatar.png"/>
-            <div class="info-view">
-              {{info}}
-            </div>
+            <div class="welcome-info-view" ref="infoContent"></div>
           </div>
           <div class="base-view" v-if="title || detail || url">
             <img class="head-view" src="@/assets/default-avatar.png"/>
@@ -56,15 +54,35 @@ export default {
       default: ''
     }
   },
-  data () {
-    return {
-      defauletWelcome: `你好 , 我是<wise>员工微信昵称~</wise>\n恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加<wise>员工微信昵称~</wise>为好友\n邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：<wise>活动有效时间</wise>\n点击下方链接去分享吧 ↓↓
-      `
+  watch: {
+    info (newValue, oldValue) {
+      setTimeout(() => {
+        this.$refs.infoContent.innerHTML = newValue
+      }, 0)
     }
   }
 }
 </script>
-
+<style lang="scss">
+.welcome-info-view {
+  padding: 8px;
+  font-size: 12px;
+  color: #262626;
+  line-height: 20px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  width: 220px;
+  margin-left: 8px;
+  border-radius: 3px;
+  wise {
+    color: #26a2ff;
+    padding: 0 1px;
+    white-space: nowrap;
+    cursor: default;
+    -webkit-user-modify: read-only !important;
+  }
+}
+</style>
 <style scoped>
 .content-view {
   position: relative;
@@ -80,17 +98,6 @@ export default {
   width: 35px;
   height: 35px;
   margin-left: 12px;
-}
-.info-view {
-  padding: 8px;
-  font-size: 12px;
-  color: #262626;
-  line-height: 20px;
-  background: #FFFFFF;
-  border-radius: 2px;
-  width: 220px;
-  margin-left: 8px;
-  border-radius: 3px;
 }
 .active-view {
   margin-left: 8px;
