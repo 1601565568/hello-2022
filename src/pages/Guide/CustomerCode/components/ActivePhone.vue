@@ -8,7 +8,7 @@
           </div>
           <div class="info-view" v-show="eidtList[0].status === 1">
             <div class="user-info">
-              <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="https://tse1-mm.cn.bing.net/th/id/R-C.f734c09c3d6d4b144ef9677b12f48156?rik=6RhzLoO3GplZOw&riu=http%3a%2f%2fpic32.nipic.com%2f20130815%2f11947767_140701376136_2.jpg&ehk=1HM0HfhEOvCVbq91Uy9KKvYwvtb1NvtWJV30gOAy8Rs%3d&risl=&pid=ImgRaw&r=0"/>
+              <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="../Images/iphone-1.jpg"/>
               <span>裂变大师昵称</span>
             </div>
             <div class="invitation-text">邀请好友0人</div>
@@ -145,31 +145,27 @@ export default {
     return {
       fiends: [
         {
-          url: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: '没有毛的猫',
+          url: require('../Images/iphone-1.jpg'),
+          name: '好友昵称',
           time: '2020/09/10 09:00:08'
         },
         {
-          url: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: '没有毛的猫',
-          time: '2020/09/10 09:00:08'
+          url: require('../Images/iphone-2.jpg'),
+          name: '好友昵称',
+          time: '2020/09/10 09:00:09'
         },
         {
-          url: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: '没有毛的猫',
-          time: '2020/09/10 09:00:08'
+          url: require('../Images/iphone-3.jpg'),
+          name: '好友昵称',
+          time: '2020/09/10 09:00:10'
         },
         {
-          url: 'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: '没有毛的猫',
-          time: '2020/09/10 09:00:08'
+          url: require('../Images/iphone-4.jpg'),
+          name: '好友昵称',
+          time: '2020/09/10 09:00:11'
         }
       ],
-      imgs: [
-        'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        'https://images.pexels.com/photos/163046/welcome-to-our-home-welcome-tablet-an-array-of-163046.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-      ],
+      imgs: [require('../Images/iphone-5.jpg'), require('../Images/iphone-6.jpg'), require('../Images/iphone-7.jpg')],
       defBanner: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png',
       defGoodsUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0',
       defRegUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
