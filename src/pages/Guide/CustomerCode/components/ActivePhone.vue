@@ -167,7 +167,7 @@ export default {
       ],
       imgs: [require('../Images/iphone-5.jpg'), require('../Images/iphone-6.jpg'), require('../Images/iphone-7.jpg')],
       defBanner: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png',
-      defGoodsUrl: 'https://tse1-mm.cn.bing.net/th/id/R-C.c2a271d6ee4c369aabb236109338b926?rik=EALdV8BlkAdMyQ&riu=http%3a%2f%2fpic18.nipic.com%2f20111228%2f5252423_135810845000_2.jpg&ehk=3BgyAioO14HCKwRr0LIr2D%2fkjxgwP9s3deUTHC9lPTk%3d&risl=&pid=ImgRaw&r=0',
+      defGoodsUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg',
       defRegUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
     }
   }

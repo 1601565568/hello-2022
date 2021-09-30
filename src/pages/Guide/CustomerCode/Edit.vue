@@ -323,7 +323,7 @@
                       class="user-content_name"
                       :style="{ color: model.nickColour }"
                     >
-                      推广人昵称
+                      裂变大师昵称
                     </div>
                   </div>
                   <div class="user-content_bg" v-if="!model.backgroundPic">
@@ -363,7 +363,7 @@
               </div>
               <p class="customer-mobile_p">
                 1.
-                支持显示推广人头像、昵称，推广人昵称长度在1-15字之间，设计海报时请注意留空对应区域
+                支持显示裂变大师头像、昵称，裂变大师昵称长度在1-15字之间，设计海报时请注意留空对应区域
               </p>
               <p class="customer-mobile_p">2. 二维码支持调整大小及移动位置</p>
             </el-col>

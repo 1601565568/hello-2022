@@ -166,3 +166,8 @@
     margin-bottom: 0px;
   }
 }
+.goods-input-view {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
+}

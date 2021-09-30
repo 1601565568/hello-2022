@@ -1,4 +1,18 @@
 export default {
+  goodsName: (rule, value, callback) => {
+    if (value.length > 20) {
+      callback(new Error('奖品名称最多20个字'))
+    } else {
+      callback()
+    }
+  },
+  goodsDesc: (rule, value, callback) => {
+    if (value.length > 50) {
+      callback(new Error('奖品简介最多50个字'))
+    } else {
+      callback()
+    }
+  },
   validateCard: (rule, value, callback) => {
     if (value.length > 20) {
       callback(new Error('活动名称最多20个字'))
