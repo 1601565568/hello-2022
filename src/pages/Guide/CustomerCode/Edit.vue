@@ -389,53 +389,7 @@
               label="欢迎语"
               required
               prop="activityIntroduction"
-              :rules="[
-                {
-                  required: true,
-                  message: '请输入活动介绍',
-                  trigger: ['blur', 'change']
-                },
-                {
-                  validator: validates.validateActivityIntroduction.bind(
-                    this,
-                    activityIntroductionLength
-                  ),
-                  trigger: ['blur', 'change']
-                }
-              ]"
             >
-              <div class="flex-box form-item_toptext">
-                <div class="form-item_exmple__content">
-                  <el-popover
-                    placement="bottom-start"
-                    popper-class="form-item_popover"
-                    width="480"
-                    v-model="popoverShow"
-                    trigger="click"
-                  >
-                    <template>
-                      <div class="popover-title">
-                        活动介绍示例
-                        <ns-button
-                          type="text"
-                          @click.native="handleSynch"
-                          :disabled="isStating"
-                          >同步到文本框</ns-button
-                        >
-                      </div>
-                      <div>
-                        你好， (好友微信昵称) ,
-                        我是（员工微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br />
-                        活动有效期：2020-03-03~2020-03-13 <br />
-                        点击以下链接可查询助力进展哦！（推广大师查询链接）<br />
-                        注册会员也可享受会员专属礼哦 <br />
-                        点击立即入会：（招募链接）<br />
-                        快去分享你的专属海报 ↓↓
-                      </div>
-                    </template>
-                  </el-popover>
-                </div>
-              </div>
               <tag-area
                 v-model="defauletWelcome"
                 :disabled="isStating"
@@ -448,14 +402,11 @@
                 :showEmoji="true"
                 :showTextEmoji="true"
               />
-              <NsBrandDialog
-                :visible.sync="brandDialogVisible"
-                @confirm="insertBrandId"
-              />
             </el-form-item>
             <el-form-item
               label="活动卡片"
               required
+              prop="cardTitle"
             >
               <div class="goods-view">
                 <div class="input-view">
@@ -503,7 +454,6 @@ import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
-import NsBrandDialog from '@/components/NsBrandDialog'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import HeadImg from './components/HeadImg'
 import Banner from './components/Banner'
@@ -524,7 +474,6 @@ Edit.components = {
   NsGuideDialog,
   ElInputNumber,
   SetPrize,
-  NsBrandDialog,
   DrapUpload,
   HeadImg,
   Banner,

@@ -62,13 +62,30 @@ export default {
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
-        activityDescription: [
-          { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
+        cardTitle: [
+          { required: true, message: '请输入活动消息卡片标题', trigger: ['blur', 'change'] },
+          { validator: (rule, value, callback) => {
+            let cardCopywriting = this.model.cardCopywriting
+            let cardCoverPic = this.model.cardCoverPic
+            if (value.length > 20) {
+              callback(new Error('活动消息卡片标题最多20个字'))
+            }
+            if (cardCopywriting.length > 50) {
+              callback(new Error('活动消息卡片文案最多50个字'))
+            }
+            if (!cardCoverPic) {
+              callback(new Error('请输入活动消息卡片封面图片'))
+            }
+          },
+          trigger: ['blur', 'change'] }
         ],
-        backgroundPic: [
-          { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
+        activityIntroduction: [
+          { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
+          { validator: validates.validateActivityDescription.bind(this.defauletWelcome, '活动说明'), trigger: ['blur', 'change'] }
         ],
+        // backgroundPic: [
+        //   { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
+        // ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
         ]
@@ -424,6 +441,25 @@ export default {
     },
     // 保存
     handleSave () {
+      const ruleForm = new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+      const ruleForm3 = new Promise((resolve, reject) => {
+        this.$refs.ruleForm3.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+      Promise.all([ruleForm, ruleForm3]).then(() => {
+        console.log('====================================')
+        console.log('do save')
+        console.log('====================================')
+      })
       if (this.model.validTimeType === 0) {
         this.model.time = []
         this.model.validTimeStart = ''
@@ -453,14 +489,14 @@ export default {
       this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
       const headPosition = this.headPosition[this.model.headerType]
       const data = { ...this.model, ...headPosition }
-      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
-        this.$notify.success('保存成功')
-        // this.handleCancel()
-      }).catch(res => {
-        this.$notify.error(res.msg)
-      }).finally(res => {
-        // this.btnLoad = false
-      })
+      // this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
+      //   this.$notify.success('保存成功')
+      //   // this.handleCancel()
+      // }).catch(res => {
+      //   this.$notify.error(res.msg)
+      // }).finally(res => {
+      //   // this.btnLoad = false
+      // })
 
       // this.$refs.ruleForm.validate(async (valid) => {
       //   if (valid) {

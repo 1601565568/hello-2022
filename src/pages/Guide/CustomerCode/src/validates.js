@@ -1,4 +1,11 @@
 export default {
+  validateCard: (rule, value, callback) => {
+    if (value.length > 20) {
+      callback(new Error('活动名称最多20个字'))
+    } else {
+      callback()
+    }
+  },
   // 活动名称不大于20个子
   validateName: (rule, value, callback) => {
     if (value.length > 20) {
