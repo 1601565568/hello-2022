@@ -140,7 +140,7 @@
               <el-form-item
                 label="分享二维码过期设置"
                 required
-                prop="activityDescription"
+                prop="effectiveCycle"
               >
                 <div class="qrcode-top-view">
                   <input type="number" class="number-view"  v-model="model.effectiveCycle"/>

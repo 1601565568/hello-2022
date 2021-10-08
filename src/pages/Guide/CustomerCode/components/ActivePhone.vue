@@ -65,7 +65,7 @@
                 </div>
                 <div class="get-number-view" v-show="parseInt(pageObj.activeInfo.number) > 0">
                   <div class="number-img">
-                    <div v-for="(item,index) in imgs" :key="index">
+                    <div v-for="(item,index) in imgs.slice(0,parseInt(pageObj.activeInfo.number) > 3 ? 3 : parseInt(pageObj.activeInfo.number))" :key="index">
                       <img :src="item" class="img-view"/>
                     </div>
                   </div>
