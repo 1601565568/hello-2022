@@ -1,9 +1,10 @@
 import validates from './validates'
+import { formatePageObj } from '../util/Edit'
 export default {
   data () {
     return {
       normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
-      collapseList: [1, 2, 3],
+      collapseList: [1, 2, 3, 4],
       customerLoading: false,
       guestCodeId: null,
       copyGuestCodeId: null,
@@ -12,24 +13,39 @@ export default {
       model: {
         headerType: 0,
         time: [],
-        activityDescription: '',
-        activityIntroduction: '',
-        backgroundPic: '',
-        effectiveCycle: 1,
-        guideIds: [],
+        activityDescription: '活动说明', // 活动说明
+        activityIntroduction: '', // 活动介绍
+        backgroundPic: '', // 一客一码背景图片
+        cardCopywriting: '', // 活动消息卡片文案
+        cardCoverPic: '', // 活动消息卡片封面图片
+        cardTitle: '', // 活动消息卡片标题
+        effectiveCycle: 1, // 一客一码有效周期-天（过期时间）
+        guideIds: [], // 使用导购ids
         guideDatas: [],
-        headPortrait: true,
-        headPortraitShape: 1,
-        name: '',
-        nick: 0,
-        nickColour: '#262626',
-        nickSize: 0,
-        qrcodeSize: 172,
-        qrcodeX: 74,
-        qrcodeY: 349,
-        validTimeEnd: '',
-        validTimeStart: '',
-        validTimeType: 1
+        headPortrait: 1, // 用户头像：0无，1有
+        headPortraitShape: 1, // 用户头像形状：0圆 1方
+        name: '', // 一客一码活动名称
+        nick: 0, // 用户昵称：0无，1有
+        nickColour: '#262626', // 用户昵称字体颜色：十六进制
+        nickSize: 0, // 用户昵称字体大小
+        qrcodeSize: 172, // 二维码大小
+        qrcodeX: 74, // 二维码X轴坐标值
+        qrcodeY: 349, // 二维码Y轴坐标值
+        validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
+        pageColor: '#FF544E,#FF8C5C,#FFFFFF', // 活动页面配色方案
+        pageDecoration: '', // 裂变大师活动页面装修配置
+        prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
+        guestCodeId: '', // 一客一码活动ID
+        headPortraitCoordinateX: '', // 用户头像坐标X轴
+        headPortraitCoordinateY: '', // 用户头像坐标Y轴
+        headPortraitSize: '', // 用户头像大小
+        nickCoordinateX: '', // 用户昵称坐标X轴
+        nickCoordinateY: '', // 用户昵称坐标Y轴
+        nickPosition: '', // 昵称位置：0居中、1居左
+        prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
+        prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
+        validTimeEnd: '', // 活动有效时间结束
+        validTimeStart: '' // 活动有效时间结束
       },
       // 校验规则
       rules: {
@@ -44,16 +60,23 @@ export default {
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
-        activityDescription: [
-          { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
+        cardTitle: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片标题' },
+          { validator: validates.validateCard, trigger: ['blur', 'change'] }
         ],
-        // activityIntroduction: [
-        //   { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
-        //   { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), trigger: ['blur', 'change'] }
-        // ],
+        cardCopywriting: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片文案' },
+          { validator: validates.validateString, trigger: ['blur', 'change'] }
+        ],
+        cardCoverPic: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
+        ],
         backgroundPic: [
-          { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
+          { required: true, trigger: ['blur', 'change'], message: '请选择裂变大师海报封面图片' }
+        ],
+        activityIntroduction: [
+          { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
+          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
@@ -93,7 +116,54 @@ export default {
       isLoading: false,
       prizeModel: {}, // 奖品组件回显
       brandDialogVisible: false,
-      popoverShow: false // 查看示例tip
+      popoverShow: false, // 查看示例tip
+      editBaseList: [0, 1, 2, 3, 4, 5, 6, 7],
+      draggableIcon:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
+      goodsName: '',
+      goodsDes: '',
+      goodsImage: '',
+      defauletWelcome: `你好 , 我是{USER_NICK}<br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：{ACTIVITY_VALIT_TIME}<br/>点击下方链接去分享吧 ↓↓`,
+      pageObj: {
+        headStyle: 1,
+        bannerUrl: '',
+        activeInfo: {
+          image: '',
+          number: null,
+          getColor: '',
+          goodsName: '',
+          goodsDes: ''
+        },
+        rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！',
+        regUrl: '',
+        share: {
+          color: '',
+          name: '立即分享'
+        },
+        mainColor: ''
+      },
+      showColor: {},
+      eidtList: [
+        { itemName: '裂变大师信息模块', hideImg: true, itemCode: 'masterInfo', status: 1, value: {}, sortable: 0, switchable: 0 },
+        { itemName: 'banner模块', itemCode: 'banner', status: 1, value: {}, sortable: 1, switchable: 1 },
+        { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {}, sortable: 2, switchable: 1 },
+        { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {}, sortable: 3, switchable: 1 },
+        { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {}, sortable: 4, switchable: 1 },
+        { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {}, sortable: 5, switchable: 1 },
+        { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
+        { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
+      ],
+      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
+    }
+  },
+  watch: {
+    showColor: {
+      handler (newValue, oldValue) {
+        this.pageObj.activeInfo.getColor = newValue.mainColor
+        this.pageObj.share.color = newValue.mainColor
+        this.pageObj.mainColor = newValue.mainColor
+      },
+      deep: true
     }
   },
   computed: {
@@ -102,18 +172,16 @@ export default {
     },
     tools () {
       const tools = [
-        { type: 'tag', text: '插入好友微信昵称', id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
         { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入裂变大师查询链接', id: 'PROMOTION_URL', value: '裂变大师查询链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ]
 
       // 按品牌运营
-      if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
-        tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
-      } else {
-        tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
-      }
+      // if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
+      //   tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
+      // } else {
+      //   tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
+      // }
 
       return tools
     }
@@ -126,14 +194,57 @@ export default {
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
-      // if (guestCodeId) {
-
-      // }
     } else {
       this.isLoading = true
+      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
+      const colors = this.model.pageColor.split(',')
+      this.showColor = {
+        mainColor: colors[0],
+        bgColor: colors[1],
+        strColor: colors[2]
+      }
     }
+    // init
   },
   methods: {
+    updateActiveModel (obj) {
+      this.model.prizeRuleList = obj.prizeRuleList
+      this.model.prizeSendPlan = obj.prizeSendPlan
+    },
+    onclick (itemCode) {
+      let event = window.event
+      event.stopPropagation()
+      this.onShowEdit(itemCode)
+    },
+    // 点击获取编辑模块
+    onShowEdit (itemCode) {
+      this.$emit('onShowEdit', itemCode)
+    },
+    formatSettingType (code) {
+      const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
+      let setComponent
+      switch (code) {
+        case 'masterInfo':
+          setComponent = 'HeadImg'
+          break
+        case 'banner':
+          setComponent = 'Banner'
+          break
+        case 'reward':
+          setComponent = 'Active'
+          break
+        case 'activityRule':
+          setComponent = 'Rules'
+          break
+        case 'shareButton':
+          setComponent = 'Share'
+          break
+        case 'memberRegister':
+          setComponent = 'Register'
+          break
+      }
+      return setComponent
+    },
     handleChangePopoverShow (popoverShow = !this.popoverShow) {
       this.popoverShow = popoverShow
     },
@@ -151,36 +262,53 @@ export default {
       this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
     },
     // 获取详情
-    loadActivity (guestCodeId) {
+    async loadActivity (guestCodeId) {
       this.customerLoading = true
-      this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
-        const { result } = res
-        this.model = {
-          ...this.model,
-          activityDescription: result.activityDescription,
-          activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
-          backgroundPic: result.backgroundPic,
-          effectiveCycle: result.effectiveCycle,
-          headPortrait: !!result.headPortrait,
-          name: result.name,
-          nickColour: '#' + result.nickColour,
-          qrcodeSize: result.qrcodeSize,
-          qrcodeX: result.qrcodeX,
-          headerType: result.nickPosition,
-          headPortraitShape: result.headPortraitShape,
-          qrcodeY: result.qrcodeY,
-          time: [result.validTimeStart, result.validTimeEnd],
-          validTimeType: result.validTimeType
-        }
-        this.formatPrizeModel(result)
-        this.customerLoading = false
-        this.isStating = !!(result.status === 2 && this.guestCodeId)
-        // 是否可以在未开始活动编辑奖励
-        this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
-        this.fileList = [{ name: result.backgroundPic }]
-        this.$nextTick(() => {
-          this.isLoading = true
-        })
+      const json = await this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId })
+      if (!json.success) return
+      const result = json.result
+      this.model = {
+        ...this.model,
+        activityDescription: result.activityDescription,
+        activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
+        backgroundPic: result.backgroundPic,
+        effectiveCycle: result.effectiveCycle,
+        headPortrait: result.headPortrait,
+        name: result.name,
+        nickColour: result.nickColour,
+        qrcodeSize: result.qrcodeSize,
+        qrcodeX: result.qrcodeX,
+        headerType: result.nickPosition,
+        headPortraitShape: result.headPortraitShape,
+        qrcodeY: result.qrcodeY,
+        time: [result.validTimeStart, result.validTimeEnd],
+        validTimeType: 0,
+        cardTitle: result.cardTitle,
+        cardCoverPic: result.cardCoverPic,
+        cardCopywriting: result.cardCopywriting,
+        pageColor: result.pageColor,
+        prizeSendPlan: result.prizeSendPlan
+      }
+      // // 数据解析
+      const colors = this.model.pageColor.split(',')
+      this.showColor = {
+        mainColor: colors[0],
+        bgColor: colors[1],
+        strColor: colors[2]
+      }
+      const pageDecoration = JSON.parse(result.pageDecoration)
+      if (Array.isArray(pageDecoration)) {
+        this.eidtList = pageDecoration || []
+      }
+      this.formatPrizeModel(result)
+      this.customerLoading = false
+      this.isStating = !!(result.status === 2 && this.guestCodeId)
+      // 是否可以在未开始活动编辑奖励
+      this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
+      this.fileList = [{ name: result.backgroundPic }]
+      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      this.$nextTick(() => {
+        this.isLoading = true
       })
     },
     formatPrizeModel (result) {
@@ -293,26 +421,88 @@ export default {
       return { ...newModel, ...headPosition }
     },
     // 保存
-    handleSave () {
-      this.$refs.ruleForm.validate(async (valid) => {
-        if (valid) {
-          const prizeModel = await this.$refs.setPrize.onSave()
-          this.btnLoad = true
-          if (!prizeModel) {
-            this.btnLoad = false
-            return false
+    async handleSave () {
+      const ruleForm = new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            resolve()
           }
-          const save = Object.assign(this.formatModel(), prizeModel)
-          this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
-            this.$notify.success('保存成功')
-            this.handleCancel()
-          }).catch(res => {
-            this.$notify.error(res.msg)
-          }).finally(res => {
-            this.btnLoad = false
-          })
-        }
+        })
       })
+      const ruleForm2 = new Promise((resolve, reject) => {
+        this.$refs.ruleForm2.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+      const ruleForm3 = new Promise((resolve, reject) => {
+        this.$refs.ruleForm3.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
+      if (checks.length === 3) {
+        if (this.model.validTimeType === 0) {
+          this.model.time = []
+          this.model.validTimeStart = ''
+          this.model.validTimeEnd = ''
+        }
+        if (this.model.time.length > 0) {
+          this.model.validTimeStart = this.model.time[0]
+          this.model.validTimeEnd = this.model.time[1]
+        }
+        this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
+        this.eidtList[1].value.pic = this.pageObj.bannerUrl
+        this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
+        this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
+        let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+        prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
+        prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
+        prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
+        this.model.prizeRuleList[0] = prizeRuleListObj
+        this.eidtList[5].value.content = this.pageObj.rules
+        this.eidtList[6].value.pic = this.pageObj.regUrl
+        this.eidtList[7].value.color = this.pageObj.share.color
+        this.eidtList[7].value.name = this.pageObj.share.name
+        this.model.prizeStatus = this.eidtList[3].status
+        this.model.pageDecoration = JSON.stringify(this.eidtList)
+        this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+        this.model.guestCodeId = this.$route.query.guestCodeId || null
+        this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
+        const headPosition = this.headPosition[this.model.headerType]
+        const data = { ...this.model, ...headPosition }
+        this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
+          this.$notify.success('保存成功')
+          this.handleCancel()
+        }).catch(res => {
+          this.$notify.error(res.msg)
+        }).finally(res => {
+          // this.btnLoad = false
+        })
+      }
+
+      // this.$refs.ruleForm.validate(async (valid) => {
+      //   if (valid) {
+      //     const prizeModel = await this.$refs.setPrize.onSave()
+      //     this.btnLoad = true
+      //     if (!prizeModel) {
+      //       this.btnLoad = false
+      //       return false
+      //     }
+      //     const save = Object.assign(this.formatModel(), prizeModel)
+      //     this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
+      //       this.$notify.success('保存成功')
+      //       this.handleCancel()
+      //     }).catch(res => {
+      //       this.$notify.error(res.msg)
+      //     }).finally(res => {
+      //       this.btnLoad = false
+      //     })
+      //   }
+      // })
     },
     // 替换标签成模板
     htmlToString (html) {
@@ -322,7 +512,6 @@ export default {
     stringTohtml (string) {
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
-
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
       return string

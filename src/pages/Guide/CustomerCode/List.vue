@@ -56,8 +56,8 @@
               prop="name"
               label="活动名称">
               <template slot-scope="scope">
-                <div class="scope-title" @click='handleShowDetail(scope.row,scope.$index)'>
-                  <img :src='scope.row.activityPlacard' class="scope-title_img">
+                <div class="scope-title">
+                  <!-- <img :src='scope.row.activityPlacard' class="scope-title_img"> -->
                   <div class="scope-title_text">
                     {{scope.row.name}}
                   </div>

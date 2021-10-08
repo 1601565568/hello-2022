@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div class="Tips">通过裂变大师添加导购成功后，系统根据设置自动发放奖励</div>
+  <div class="prize-view">
     <el-form
       label-width="100px"
       label-position="left"
@@ -10,17 +9,8 @@
       :rules="rules"
       ref="setPrizeruleForm"
     >
-      <el-form-item class="larger-item" label="奖励机制">
-        <el-switch
-          :disabled="isStating"
-          active-color="#0091FA"
-          inactive-color="#8C8C8C"
-          v-model="model.prizeStatus"
-        >
-        </el-switch>
-      </el-form-item>
       <template v-if="model.prizeStatus">
-        <el-form-item class="larger-item" label="发放设置" prop="prizeSendPlan">
+        <el-form-item class="larger-item" label="奖品设置" prop="prizeSendPlan">
           <el-select
             :disabled="isStating || isEditSetPrize"
             v-model="model.prizeSendPlan"
@@ -42,7 +32,7 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
-            <el-table-column type="default" label="助力人数" min-width="120"  :sortable="false">
+            <el-table-column type="default" label="邀请人数" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
@@ -121,7 +111,7 @@
                 <p>{{ scope.row.validNumber }}</p>
               </template></el-table-column
             >
-            <el-table-column type="default" min-width="150"  label="发放数量" :sortable="false">
+            <el-table-column type="default" min-width="150"  label="活动奖励总数" :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -133,7 +123,7 @@
                     },
                     {
                       required: true,
-                      message: '请设置发放数量',
+                      message: '请设置活动奖励总数',
                       trigger: ['blur', 'change']
                     },
                     {
@@ -157,7 +147,6 @@
                     type="number"
                   ></el-input
                 ></el-form-item>
-                <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
             <el-table-column
@@ -208,6 +197,10 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="remind-view">
+            <span class="remind-color"></span>
+            <span>活动奖励总数用完后，将不再对符合获奖规则的消费者发放奖励</span>
+          </div>
         </el-form-item>
       </template>
     </el-form>
@@ -233,6 +226,18 @@ export default {
       type: Boolean
     }
   },
+  watch: {
+    model: {
+      handler (newValue, oldValue) {
+        const item = this.formartSave(newValue)
+        this.$emit('updatePrize', item)
+      },
+      deep: true
+    },
+    prizeModel () {
+      this.setModel()
+    }
+  },
   data () {
     // 效验库存设置
     const checkStock = (item, rule, value, callback) => {
@@ -241,9 +246,9 @@ export default {
         return
       }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('发放数量不能大于剩余数量'))
+        callback(new Error('活动奖励总数不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
-        callback(new Error('发放数量不能0'))
+        callback(new Error('活动奖励总数不能0'))
       } else {
         callback()
       }
@@ -257,16 +262,16 @@ export default {
     }
     return {
       model: {
-        prizeStatus: 0, // 奖励机制 0 关闭 1 开启
+        prizeStatus: 1, // 奖励机制 0 关闭 1 开启
         prizeSendPlan: 1, // 发放奖励
         prizeRuleList: [
           {
             prizeGrade: 1,
-            addPrizeNumber: 0, // 新增发放数量
+            addPrizeNumber: 0, // 新增活动奖励总数
             prizeId: null,
-            recruitment: 1, // 助力人数
+            recruitment: 1, // 邀请人数
             prizeName: '', // 优惠券名称
-            prizeNumber: '', // 设置发放数量
+            prizeNumber: '', // 设置活动奖励总数
             validNumber: 0 // 优惠券剩余数量
           }
         ]
@@ -316,7 +321,6 @@ export default {
           prizeRuleList: this.prizeModel.prizeRuleList
         }
       }
-      // console.log(this.prizeModel.prizeRuleList, '123123123123')
     },
     getCoupon () {
       if (this.isStating || this.isEditSetPrize) {
@@ -397,6 +401,20 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.remind-view {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #595959;
+  line-height: 20px;
+  .remind-color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #F2AA18;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
 }
 // .normal-from >>> .el-table .cell {
 //   overflow: visible !important;
