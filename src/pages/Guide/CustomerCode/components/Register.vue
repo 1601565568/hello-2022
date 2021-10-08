@@ -17,6 +17,7 @@
           :isNeedCrop="false"
           :showFooter="false"
           uploadTitle="点击或拖拽上传引导图"
+          @input="input"
         >
         </drap-upload>
         <div class="remind-text" @click="showDefaultUrl">恢复默认引导图</div>
@@ -43,6 +44,9 @@ export default {
   methods: {
     showDefaultUrl () {
       this.pageObj.regUrl = ''
+    },
+    input () {
+      this.$emit('scrollPhone', 'register-view')
     }
   }
 }

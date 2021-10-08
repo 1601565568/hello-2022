@@ -169,7 +169,7 @@
           <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
               <el-col :span="16">
-                <ColorView v-model="showColor"/>
+                <ColorView v-model="showColor" ref="colorView"/>
                 <div class="form-item_tip" style="margin-bottom:0">
                   活动页面将根据下面排列顺序显示
                 </div>
@@ -200,6 +200,7 @@
                           :prizeModel="prizeModel"
                           :isStating="isStating"
                           :isSetPrize="isSetPrize"
+                          @scrollPhone="scrollPhone"
                           ></component>
                         </div>
                       </el-collapse-item>
@@ -208,7 +209,7 @@
                 </el-collapse>
               </el-col>
               <el-col :span="8">
-                <ActivePhone v-model="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model"/>
+                <ActivePhone v-model="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
               </el-col>
             </el-collapse-item>
           </el-collapse>

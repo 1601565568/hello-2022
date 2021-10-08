@@ -17,6 +17,7 @@
           :isNeedCrop="false"
           :showFooter="false"
           uploadTitle="点击或拖拽上传banner图"
+          @input="input"
         >
         </drap-upload>
         <div class="remind-text" @click="updateImg">恢复默认banner图</div>
@@ -43,6 +44,9 @@ export default {
   methods: {
     updateImg () {
       this.pageObj.bannerUrl = ''
+    },
+    input () {
+      this.$emit('scrollPhone', 'banner-view')
     }
   }
 }

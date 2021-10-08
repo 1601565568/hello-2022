@@ -14,7 +14,7 @@
         <tag-area
           v-model="pageObj.rules"
           tag="wise"
-          ref="tagAreaText"
+          ref="tagAreaTextRules"
           :maxlength="1000"
           placeholder="请输入活动规则"
           @inputLength="inputLength"
@@ -53,6 +53,9 @@ export default {
   },
   methods: {
     inputLength () {
+      if (this.$refs.tagAreaTextRules) {
+        this.$emit('scrollPhone', 'register-view')
+      }
     }
   }
 }
