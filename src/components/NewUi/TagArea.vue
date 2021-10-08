@@ -69,6 +69,7 @@
           <VEmojiPicker :pack="pack" @select="selectEmoji" />
         </el-popover>
       </div>
+      <span class="show-default-text" v-if="isShowDefault" @click="showDefaultText">恢复默认欢迎语</span>
     </div>
   </div>
 </template>
@@ -246,6 +247,10 @@ export default {
     // 图片表情占位符前缀，h5端如果是微信自己发送的需要传""
     emojiClass: {
       default: 'EMOJI_'
+    },
+    isShowDefault: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -285,6 +290,9 @@ export default {
     document.removeEventListener('selectionchange', this.selectHandler)
   },
   methods: {
+    showDefaultText () {
+      this.$emit('showDefaultText')
+    },
     // 添加图片表情
     addEmotion: function (val) {
       // 创建模版标签
@@ -591,6 +599,22 @@ $textColor: #595959;
         color: red;
       }
     }
+     &__default {
+      display: inline-block;
+      padding: 0 8px;
+      float: left;
+      color: $textColor;
+      cursor: default;
+      transition: all 0.3s;
+      color: #c0c4cc;
+      &:hover {
+        opacity: 1;
+      }
+
+      &.__danger {
+        color: red;
+      }
+    }
   }
 }
 .emoji-icon {
@@ -609,5 +633,13 @@ $textColor: #595959;
   height: 20px;
   line-height: 20px;
   margin-bottom: 8px;
+  position: relative;
+}
+.show-default-text {
+  font-size: 14px;
+  color: #0392FB;
+  position: absolute;
+  left: 80px;
+  cursor: pointer;
 }
 </style>

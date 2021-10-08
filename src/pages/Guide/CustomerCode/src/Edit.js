@@ -207,6 +207,11 @@ export default {
     // init
   },
   methods: {
+    showDefaultText () {
+      const str = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
+      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(str)
+      this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = str
+    },
     scrollPhone (name) {
       this.$refs.activePhone.acScrollPhone(name)
     },

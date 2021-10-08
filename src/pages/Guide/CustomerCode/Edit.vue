@@ -398,6 +398,8 @@
                 @inputLength="inputLength"
                 :showEmoji="true"
                 :showTextEmoji="true"
+                :isShowDefault="true"
+                @showDefaultText="showDefaultText"
               />
             </el-form-item>
             <el-form-item
