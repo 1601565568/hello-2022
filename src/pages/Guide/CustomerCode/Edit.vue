@@ -43,7 +43,6 @@
                   v-model="model.name"
                   placeholder="请输入名称"
                   :length="20"
-                  :disabled="isStating"
                 />
               </el-form-item>
               <el-form-item label="参加活动人员" prop="guideIds">
@@ -198,6 +197,9 @@
                           <component :is="formatSettingType(item.itemCode)"
                           @updateActiveModel="updateActiveModel"
                           v-model="pageObj"
+                          :prizeModel="prizeModel"
+                          :isStating="isStating"
+                          :isSetPrize="isSetPrize"
                           ></component>
                         </div>
                       </el-collapse-item>
@@ -245,24 +247,21 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
-                    <div class="row-view">裂变大师信息：</div>
+                    <!-- <div class="row-view">裂变大师信息：</div> -->
                     <div class="row-view">显示裂变大师头像、昵称：
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
-                        :disabled="isStating"
                       >显示
                       </el-radio>
                       <el-radio
                         v-model="model.headPortrait"
                         :label="0"
-                        :disabled="isStating"
                       >不显示
                       </el-radio>
                       <span style="margin-left:16px">昵称颜色：</span>
                       <el-color-picker
                         v-model="model.nickColour"
-                        :disabled="isStating"
                       ></el-color-picker>
                     </div>
                     <div class="row-view">
@@ -270,27 +269,23 @@
                       <el-radio
                         v-model="model.headPortraitShape"
                         :label="1"
-                        :disabled="isStating"
                       >方形
                       </el-radio>
                       <el-radio
                         v-model="model.headPortraitShape"
                         :label="0"
-                        :disabled="isStating"
                       >圆形
                       </el-radio>
                       <span style="margin-left:16px">排版样式：</span>
                         <el-radio
                           v-model="model.headerType"
                           :label="0"
-                          :disabled="isStating"
                         >
                           竖排
                         </el-radio>
                         <el-radio
                           v-model="model.headerType"
                           :label="1"
-                          :disabled="isStating"
                         >
                           横排
                         </el-radio>
@@ -394,7 +389,6 @@
             >
               <tag-area
                 v-model="model.activityIntroduction"
-                :disabled="isStating"
                 tag="wise"
                 ref="tagAreaText"
                 :maxlength="1000"

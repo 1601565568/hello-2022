@@ -23,7 +23,7 @@
           <i class="el-icon-document"></i>
           {{fileList}}
         </a>
-        <label class="el-upload-list__item-status-label">
+        <label class="el-upload-list__item-status-label" v-if="showDelImg">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
             <i class="el-icon-close" @click='handleRemove(false)'></i>
           </el-tooltip>
@@ -155,6 +155,11 @@ export default {
     uploadTitle: {
       type: String,
       default: ''
+    },
+    // 删除图片按钮是否显示
+    showDelImg: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {

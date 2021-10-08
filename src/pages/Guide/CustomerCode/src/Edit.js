@@ -1,4 +1,5 @@
 import validates from './validates'
+import { formatePageObj } from '../util/Edit'
 export default {
   data () {
     return {
@@ -45,9 +46,6 @@ export default {
         prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
         validTimeEnd: '', // 活动有效时间结束
         validTimeStart: '' // 活动有效时间结束
-        // prizeNameSetting: '', // 奖品名称
-        // prizeIntro: '', // 礼品说明
-        // prizePic: '' // 奖品图片
       },
       // 校验规则
       rules: {
@@ -154,7 +152,9 @@ export default {
         { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {}, sortable: 5, switchable: 1 },
         { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
-      ]
+      ],
+      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register'],
+      isEdit: false
     }
   },
   watch: {
@@ -196,18 +196,20 @@ export default {
     this.guestCodeId = guestCodeId
     this.copyGuestCodeId = copyGuestCodeId
     if (guestCodeId || copyGuestCodeId) {
+      this.isEdit = true
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
     } else {
       this.isLoading = true
+      this.model.activityIntroduction = this.defauletWelcome
+      const colors = this.model.pageColor.split(',')
+      this.showColor = {
+        mainColor: colors[0],
+        bgColor: colors[1],
+        strColor: colors[2]
+      }
     }
-    const colors = this.model.pageColor.split(',')
-    this.showColor = {
-      mainColor: colors[0],
-      bgColor: colors[1],
-      strColor: colors[2]
-    }
-    this.model.activityIntroduction = this.defauletWelcome
+    // init
   },
   methods: {
     updateActiveModel (obj) {
@@ -224,6 +226,7 @@ export default {
       this.$emit('onShowEdit', itemCode)
     },
     formatSettingType (code) {
+      const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
       let setComponent
       switch (code) {
         case 'masterInfo':
@@ -264,36 +267,54 @@ export default {
       this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
     },
     // 获取详情
-    loadActivity (guestCodeId) {
+    async loadActivity (guestCodeId) {
       this.customerLoading = true
-      this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
-        const { result } = res
-        this.model = {
-          ...this.model,
-          activityDescription: result.activityDescription,
-          activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
-          backgroundPic: result.backgroundPic,
-          effectiveCycle: result.effectiveCycle,
-          headPortrait: !!result.headPortrait,
-          name: result.name,
-          nickColour: '#' + result.nickColour,
-          qrcodeSize: result.qrcodeSize,
-          qrcodeX: result.qrcodeX,
-          headerType: result.nickPosition,
-          headPortraitShape: result.headPortraitShape,
-          qrcodeY: result.qrcodeY,
-          time: [result.validTimeStart, result.validTimeEnd],
-          validTimeType: result.validTimeType
-        }
-        this.formatPrizeModel(result)
-        this.customerLoading = false
-        this.isStating = !!(result.status === 2 && this.guestCodeId)
-        // 是否可以在未开始活动编辑奖励
-        this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
-        this.fileList = [{ name: result.backgroundPic }]
-        this.$nextTick(() => {
-          this.isLoading = true
-        })
+      const json = await this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId })
+      if (!json.success) return
+      const result = json.result
+      this.model = {
+        ...this.model,
+        activityDescription: result.activityDescription,
+        activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
+        backgroundPic: result.backgroundPic,
+        effectiveCycle: result.effectiveCycle,
+        headPortrait: result.headPortrait,
+        name: result.name,
+        nickColour: '#' + result.nickColour,
+        qrcodeSize: result.qrcodeSize,
+        qrcodeX: result.qrcodeX,
+        headerType: result.nickPosition,
+        headPortraitShape: result.headPortraitShape,
+        qrcodeY: result.qrcodeY,
+        time: [result.validTimeStart, result.validTimeEnd],
+        validTimeType: 0,
+        cardTitle: result.cardTitle,
+        cardCoverPic: result.cardCoverPic,
+        cardCopywriting: result.cardCopywriting,
+        pageColor: result.pageColor,
+        prizeSendPlan: result.prizeSendPlan
+      }
+      const pageDecoration = JSON.parse(result.pageDecoration)
+      if (Array.isArray(pageDecoration)) {
+        this.eidtList = pageDecoration || []
+      }
+      // 数据解析
+      const colors = this.model.pageColor.split(',')
+      this.showColor = {
+        mainColor: colors[0],
+        bgColor: colors[1],
+        strColor: colors[2]
+      }
+      this.formatPrizeModel(result)
+      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      // this.formatePageObj()
+      this.customerLoading = false
+      this.isStating = !!(result.status === 2 && this.guestCodeId)
+      // 是否可以在未开始活动编辑奖励
+      this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
+      this.fileList = [{ name: result.backgroundPic }]
+      this.$nextTick(() => {
+        this.isLoading = true
       })
     },
     formatPrizeModel (result) {
@@ -458,18 +479,20 @@ export default {
 
       this.model.prizeStatus = this.eidtList[3].status
       this.model.pageDecoration = JSON.stringify(this.eidtList)
-      this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.defauletWelcome)
+      const introStr = this.model.activityIntroduction.length > 0 ? this.model.activityIntroduction : this.defauletWelcome
+      this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(introStr)
       this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+      this.model.guestCodeId = this.$route.query.guestCodeId || null
       const headPosition = this.headPosition[this.model.headerType]
       const data = { ...this.model, ...headPosition }
-      // this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
-      //   this.$notify.success('保存成功')
-      //   // this.handleCancel()
-      // }).catch(res => {
-      //   this.$notify.error(res.msg)
-      // }).finally(res => {
-      //   // this.btnLoad = false
-      // })
+      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
+        this.$notify.success('保存成功')
+        this.handleCancel()
+      }).catch(res => {
+        this.$notify.error(res.msg)
+      }).finally(res => {
+        // this.btnLoad = false
+      })
 
       // this.$refs.ruleForm.validate(async (valid) => {
       //   if (valid) {

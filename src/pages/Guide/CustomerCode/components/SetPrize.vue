@@ -233,6 +233,9 @@ export default {
         this.$emit('updatePrize', item)
       },
       deep: true
+    },
+    prizeModel () {
+      this.setModel()
     }
   },
   data () {

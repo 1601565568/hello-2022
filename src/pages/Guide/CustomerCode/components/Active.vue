@@ -6,7 +6,7 @@
       :model="pageObj.activeInfo"
       :rules="rules"
       class="normal-from">
-      <SetPrize :prizeModel='prizeModel' ref="setPrize" @updatePrize="updatePrize"/>
+      <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
         label=""
         class="larger-item"
@@ -18,6 +18,7 @@
                 v-model="pageObj.activeInfo.goodsName"
                 placeholder="请输入奖品名称"
                 :length="20"
+                :disabled="isStating"
               />
             </el-form-item>
             <div style="height:16px"></div>
@@ -25,6 +26,7 @@
               <length-input
                 v-model="pageObj.activeInfo.goodsDes"
                 placeholder="请输入奖品简介"
+                :disabled="isStating"
                 :length="50"
               />
             </el-form-item>
@@ -38,6 +40,7 @@
               :isNeedCrop="false"
               :showFooter="false"
               uploadTitle="点击或拖拽上传奖品图片"
+              :showDelImg="!isStating"
             >
             </drap-upload>
           </el-form-item>
@@ -82,7 +85,10 @@ export default {
     SetPrize
   },
   props: {
-    value: Object
+    value: Object,
+    prizeModel: Object,
+    isStating: Boolean,
+    isSetPrize: Boolean
   },
   computed: {
     pageObj () {
@@ -91,7 +97,6 @@ export default {
   },
   data () {
     return {
-      prizeModel: {},
       rules: {
         goodsName: [
           {

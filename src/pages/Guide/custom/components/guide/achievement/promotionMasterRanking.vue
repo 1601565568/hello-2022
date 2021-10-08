@@ -1,5 +1,5 @@
 <template>
-  <CardTitle title="我的推广大师TOP5">
+  <CardTitle title="我的裂变大师TOP5">
     <img slot="image" class="dataIcon" src="../../../image/guideIcon.png" />
     <div slot="content" class="storeGuideTop">
       <div class="list" v-for="(item, index) in 5" :key="index">
