@@ -106,7 +106,8 @@
               </div>
               <div class="rules-content-view">
                 <div>{{pageObj.rules}}</div>
-                <div style="margin-top:8px">活动有效期：永久有效</div>
+                <div style="margin-top:8px" v-if="model.validTimeType === 1">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
+                <div style="margin-top:8px" v-else>活动有效期：永久有效</div>
               </div>
             </div>
             <div class="register-view" v-show="eidtList[6].status === 1">
@@ -134,7 +135,8 @@ export default {
   props: {
     value: Object,
     showColor: Object,
-    eidtList: Array
+    eidtList: Array,
+    model: Object
   },
   computed: {
     pageObj () {

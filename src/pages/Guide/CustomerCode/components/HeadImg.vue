@@ -12,12 +12,12 @@
       >
         <div class="radio-view">
           <div class="base-view" @click="genderClick(1)">
-            <span :class="gender == 1 ? 'iconfont icon-ns_arrow-circle-leftfuben6 icon-color': 'iconfont icon-ns-succeed'"></span>
-            <img :class="gender == 1 ? 'base-view-img base-view-img-sel' : 'base-view-img'" src="@/assets/default-avatar.png">
+            <span :class="pageObj.headStyle == 1 ? 'iconfont icon-ns_arrow-circle-leftfuben6 icon-color': 'iconfont icon-ns-succeed'"></span>
+            <img :class="pageObj.headStyle == 1 ? 'base-view-img base-view-img-sel' : 'base-view-img'" src="@/assets/default-avatar.png">
           </div>
           <div class="base-view" @click="genderClick(0)">
-            <span :class="gender == 0 ? 'iconfont icon-ns_arrow-circle-leftfuben6 icon-color': 'iconfont icon-ns-succeed'"></span>
-            <img :class="gender == 0 ? 'base-view-img base-view-img-radius base-view-img-sel' : 'base-view-img base-view-img-radius'"  src="@/assets/default-avatar.png">
+            <span :class="pageObj.headStyle == 0 ? 'iconfont icon-ns_arrow-circle-leftfuben6 icon-color': 'iconfont icon-ns-succeed'"></span>
+            <img :class="pageObj.headStyle == 0 ? 'base-view-img base-view-img-radius base-view-img-sel' : 'base-view-img base-view-img-radius'"  src="@/assets/default-avatar.png">
           </div>
         </div>
       </el-form-item>
@@ -38,7 +38,6 @@ export default {
   },
   data () {
     return {
-      gender: 1,
       rules: {
         name: [
           { required: true, message: '请选择头像样式', trigger: ['blur', 'change'] }
@@ -49,7 +48,6 @@ export default {
   methods: {
     genderClick (index) {
       this.pageObj.headStyle = index
-      this.gender = index
     }
   }
 }

@@ -208,7 +208,7 @@
                 </el-collapse>
               </el-col>
               <el-col :span="8">
-                <ActivePhone v-model="pageObj" :showColor="showColor" :eidtList.sync="eidtList"/>
+                <ActivePhone v-model="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model"/>
               </el-col>
             </el-collapse-item>
           </el-collapse>

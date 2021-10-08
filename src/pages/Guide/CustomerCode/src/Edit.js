@@ -475,7 +475,7 @@ export default {
       this.eidtList[5].value.content = this.pageObj.rules
       this.eidtList[6].value.pic = this.pageObj.regUrl
       this.eidtList[7].value.color = this.pageObj.share.color
-      this.eidtList[7].value.name = this.pageObj.share.color
+      this.eidtList[7].value.name = this.pageObj.share.name
 
       this.model.prizeStatus = this.eidtList[3].status
       this.model.pageDecoration = JSON.stringify(this.eidtList)
