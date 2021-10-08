@@ -72,7 +72,7 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ],
         backgroundPic: [
-          { required: true, trigger: ['blur', 'change'], message: '请选择裂变大师海报封面图片' }
+          { required: true, trigger: ['blur', 'change'], message: '请上传裂变大师海报' }
         ],
         activityIntroduction: [
           { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
@@ -129,7 +129,7 @@ export default {
         bannerUrl: '',
         activeInfo: {
           image: '',
-          number: null,
+          number: 0,
           getColor: '',
           goodsName: '',
           goodsDes: ''
@@ -153,7 +153,8 @@ export default {
         { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ],
-      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
+      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register'],
+      isEdit: false
     }
   },
   watch: {
@@ -192,9 +193,11 @@ export default {
     this.guestCodeId = guestCodeId
     this.copyGuestCodeId = copyGuestCodeId
     if (guestCodeId || copyGuestCodeId) {
+      this.isEdit = true
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
     } else {
+      this.isEdit = false
       this.isLoading = true
       this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
       const colors = this.model.pageColor.split(',')

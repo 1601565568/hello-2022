@@ -65,7 +65,7 @@
                 </div>
                 <div class="get-number-view" v-show="parseInt(pageObj.activeInfo.number) > 0">
                   <div class="number-img">
-                    <div v-for="(item,index) in imgs" :key="index">
+                    <div v-for="(item,index) in imgs.slice(0,parseInt(pageObj.activeInfo.number) > 3 ? 3 : parseInt(pageObj.activeInfo.number))" :key="index">
                       <img :src="item" class="img-view"/>
                     </div>
                   </div>
@@ -280,7 +280,7 @@ export default {
 }
 .banner-img {
   width: 100%;
-  height: 350px;
+  height: 100%;
 }
 .scroll-view {
   max-height: calc(100% - 62px -42px -80px);
@@ -430,7 +430,7 @@ export default {
 }
 .register-view-img {
   width: 100%;
-  height: 81px;
+  height: auto;
   margin-bottom: 60px;
 }
 .rules-number {
