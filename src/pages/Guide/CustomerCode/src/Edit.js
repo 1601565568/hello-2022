@@ -427,7 +427,7 @@ export default {
       return { ...newModel, ...headPosition }
     },
     // 保存
-    handleSave () {
+    async handleSave () {
       const ruleForm = new Promise((resolve, reject) => {
         this.$refs.ruleForm.validate((valid) => {
           if (valid) {
@@ -449,50 +449,48 @@ export default {
           }
         })
       })
-      Promise.all([ruleForm, ruleForm2, ruleForm3]).then(() => {
-      })
-      if (this.model.validTimeType === 0) {
-        this.model.time = []
-        this.model.validTimeStart = ''
-        this.model.validTimeEnd = ''
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
+      if (checks.length === 3) {
+        if (this.model.validTimeType === 0) {
+          this.model.time = []
+          this.model.validTimeStart = ''
+          this.model.validTimeEnd = ''
+        }
+        if (this.model.time.length > 0) {
+          this.model.validTimeStart = this.model.time[0]
+          this.model.validTimeEnd = this.model.time[1]
+        }
+        this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
+        this.eidtList[1].value.pic = this.pageObj.bannerUrl
+        this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
+        this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
+        let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+        prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
+        prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
+        prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
+        this.model.prizeRuleList[0] = prizeRuleListObj
+        // this.model.cardCoverPic = this.pageObj.activeInfo.image
+        this.eidtList[5].value.content = this.pageObj.rules
+        this.eidtList[6].value.pic = this.pageObj.regUrl
+        this.eidtList[7].value.color = this.pageObj.share.color
+        this.eidtList[7].value.name = this.pageObj.share.name
+        this.model.prizeStatus = this.eidtList[3].status
+        this.model.pageDecoration = JSON.stringify(this.eidtList)
+        const introStr = this.model.activityIntroduction.length > 0 ? this.model.activityIntroduction : this.defauletWelcome
+        this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(introStr)
+        this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+        this.model.guestCodeId = this.$route.query.guestCodeId || null
+        const headPosition = this.headPosition[this.model.headerType]
+        const data = { ...this.model, ...headPosition }
+        this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
+          this.$notify.success('保存成功')
+          this.handleCancel()
+        }).catch(res => {
+          this.$notify.error(res.msg)
+        }).finally(res => {
+          // this.btnLoad = false
+        })
       }
-      if (this.model.time.length > 0) {
-        this.model.validTimeStart = this.model.time[0]
-        this.model.validTimeEnd = this.model.time[1]
-      }
-
-      this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
-      this.eidtList[1].value.pic = this.pageObj.bannerUrl
-      this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
-      this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-      let prizeRuleListObj = this.model.prizeRuleList[0] || {}
-      prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
-      prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
-      prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
-      this.model.prizeRuleList[0] = prizeRuleListObj
-
-      // this.model.cardCoverPic = this.pageObj.activeInfo.image
-      this.eidtList[5].value.content = this.pageObj.rules
-      this.eidtList[6].value.pic = this.pageObj.regUrl
-      this.eidtList[7].value.color = this.pageObj.share.color
-      this.eidtList[7].value.name = this.pageObj.share.name
-
-      this.model.prizeStatus = this.eidtList[3].status
-      this.model.pageDecoration = JSON.stringify(this.eidtList)
-      const introStr = this.model.activityIntroduction.length > 0 ? this.model.activityIntroduction : this.defauletWelcome
-      this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(introStr)
-      this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
-      this.model.guestCodeId = this.$route.query.guestCodeId || null
-      const headPosition = this.headPosition[this.model.headerType]
-      const data = { ...this.model, ...headPosition }
-      this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
-        this.$notify.success('保存成功')
-        this.handleCancel()
-      }).catch(res => {
-        this.$notify.error(res.msg)
-      }).finally(res => {
-        // this.btnLoad = false
-      })
 
       // this.$refs.ruleForm.validate(async (valid) => {
       //   if (valid) {
