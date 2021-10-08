@@ -19,6 +19,7 @@
                 placeholder="请输入奖品名称"
                 :length="20"
                 :disabled="isStating"
+                @input='input'
               />
             </el-form-item>
             <div style="height:16px"></div>
@@ -28,6 +29,7 @@
                 placeholder="请输入奖品简介"
                 :disabled="isStating"
                 :length="50"
+                @input='input'
               />
             </el-form-item>
           </div>
@@ -53,6 +55,7 @@
         <length-input
           v-model="pageObj.activeInfo.number"
           placeholder="请输入人数"
+          @input='input'
         />
       </el-form-item>
       <el-form-item
@@ -127,9 +130,13 @@ export default {
   methods: {
     updatePrize (model) {
       this.$emit('updateActiveModel', model)
+      this.$emit('scrollPhone', 'time-view')
     },
     updateGetColor () {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
+    },
+    input () {
+      this.$emit('scrollPhone', 'time-view')
     }
   }
 }
