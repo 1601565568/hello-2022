@@ -208,7 +208,7 @@ export default {
   },
   methods: {
     scrollPhone (name) {
-      this.$refs.activePhone.scrollPhone(name)
+      this.$refs.activePhone.acScrollPhone(name)
     },
     updateActiveModel (obj) {
       this.model.prizeRuleList = obj.prizeRuleList

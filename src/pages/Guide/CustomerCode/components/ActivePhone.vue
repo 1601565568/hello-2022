@@ -174,10 +174,9 @@ export default {
     }
   },
   methods: {
-    scrollPhone (name) {
-      const className = `.${name}`
-      let target = document.querySelector(className)
-      target.parentNode.scrollTop = target.offsetTop - target.parentNode.offsetTop
+    acScrollPhone (name) {
+      let target = document.querySelector(`.${name}`)
+      target.parentNode.scrollTop = target.offsetTop
     }
   }
 }
