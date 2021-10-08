@@ -215,18 +215,24 @@ export default {
       this.model.prizeSendPlan = obj.prizeSendPlan
     },
     onclick (itemCode) {
-      if (itemCode === 'countdown' || itemCode === 'reward') {
-        this.$refs.activePhone.acScrollPhone('time-view')
-      }
-      if (itemCode === 'banner') {
-        this.$refs.activePhone.acScrollPhone('banner-view')
-      }
       let event = window.event
       event.stopPropagation()
       this.onShowEdit(itemCode)
     },
     // 点击获取编辑模块
     onShowEdit (itemCode) {
+      if (itemCode === 'countdown' || itemCode === 'reward') {
+        this.$refs.activePhone.acScrollPhone('time-view')
+      }
+      if (itemCode === 'banner') {
+        this.$refs.activePhone.acScrollPhone('banner-view')
+      }
+      if (itemCode === 'invitedFriend') {
+        this.$refs.activePhone.acScrollPhone('friends-view')
+      }
+      if (itemCode === 'activityRule' || itemCode === 'memberRegister') {
+        this.$refs.activePhone.acScrollPhone('register-view')
+      }
       this.$emit('onShowEdit', itemCode)
     },
     formatSettingType (code) {
