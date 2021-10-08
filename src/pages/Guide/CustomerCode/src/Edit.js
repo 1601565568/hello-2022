@@ -215,6 +215,12 @@ export default {
       this.model.prizeSendPlan = obj.prizeSendPlan
     },
     onclick (itemCode) {
+      if (itemCode === 'countdown' || itemCode === 'reward') {
+        this.$refs.activePhone.acScrollPhone('time-view')
+      }
+      if (itemCode === 'banner') {
+        this.$refs.activePhone.acScrollPhone('banner-view')
+      }
       let event = window.event
       event.stopPropagation()
       this.onShowEdit(itemCode)
