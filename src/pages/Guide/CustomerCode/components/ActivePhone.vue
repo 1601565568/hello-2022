@@ -286,6 +286,16 @@ export default {
   max-height: calc(100% - 62px -42px -80px);
   overflow: scroll;
   position: relative;
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+    /*height: 4px;*/
+  }
 }
 .time-view {
   border-radius: 12px;

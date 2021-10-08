@@ -1,5 +1,6 @@
 import validates from './validates'
 import { formatePageObj } from '../util/Edit'
+import { clone } from 'lodash'
 export default {
   data () {
     return {
@@ -154,12 +155,17 @@ export default {
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ],
       componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register'],
-      isEdit: false
+      isEdit: false,
+      ieEditCount: 0
     }
   },
   watch: {
     showColor: {
       handler (newValue, oldValue) {
+        if (this.isEdit && this.ieEditCount === 1) {
+          this.ieEditCount = 2
+          return
+        }
         this.pageObj.activeInfo.getColor = newValue.mainColor
         this.pageObj.share.color = newValue.mainColor
         this.pageObj.mainColor = newValue.mainColor
@@ -194,6 +200,7 @@ export default {
     this.copyGuestCodeId = copyGuestCodeId
     if (guestCodeId || copyGuestCodeId) {
       this.isEdit = true
+      this.ieEditCount = 1
       this.loadActivity(guestCodeId || copyGuestCodeId)
       this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
     } else {
