@@ -307,6 +307,7 @@ export default {
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
       this.fileList = [{ name: result.backgroundPic }]
       this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      this.$refs.colorView.selctColor(this.showColor)
       this.$nextTick(() => {
         this.isLoading = true
       })

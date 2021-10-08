@@ -163,6 +163,19 @@ export default {
     }
   },
   methods: {
+    selctColor (item) {
+      const index = this.colorList.indexOf(item)
+      if (index !== -1) {
+        this.dialogIndex = index
+        this.isEdit = false
+      } else {
+        this.dialogIndex = null
+        this.isEdit = true
+        this.customColor.mainColor = item.mainColor
+        this.customColor.bgColor = item.bgColor
+        this.customColor.strColor = item.strColor
+      }
+    },
     editClickColor (index) {
       if (!this.isEdit) return
       this.editWhere = index
@@ -232,6 +245,7 @@ export default {
   font-size: 14px;
   color: #0392FB;
   line-height: 22px;
+  cursor: pointer;
 }
 .color-sel {
   display: flex;
