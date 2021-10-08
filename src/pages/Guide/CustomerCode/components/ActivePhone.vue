@@ -75,21 +75,23 @@
                 </div>
                 <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
-              <div class="rouder-bottom">
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              <div v-show="eidtList[3].status === 1 || eidtList[2].status === 1">
+                <div class="rouder-bottom">
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                </div>
+                <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
+                <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
-              <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
-              <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
             </div>
             <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
-              <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
-              <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
-              <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
-              <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
-              <div class="rouder-top">
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              <div v-show="eidtList[3].status === 1 || eidtList[2].status === 1">
+                <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
+                <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
+                <div class="rouder-top">
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                </div>
               </div>
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
@@ -111,17 +113,23 @@
                   </div>
                 </div>
               </div>
-              <div class="rouder-bottom">
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              <div v-show="eidtList[5].status === 1">
+                <div class="rouder-bottom">
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                </div>
+                <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
+                <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
             <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
-              <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
-              <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
-              <div class="rouder-top">
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
-                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              <div v-show="eidtList[4].status === 1">
+                <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
+                <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
+                <div class="rouder-top">
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                  <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                </div>
               </div>
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
