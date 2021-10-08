@@ -280,7 +280,7 @@ export default {
         effectiveCycle: result.effectiveCycle,
         headPortrait: result.headPortrait,
         name: result.name,
-        nickColour: '#' + result.nickColour,
+        nickColour: result.nickColour,
         qrcodeSize: result.qrcodeSize,
         qrcodeX: result.qrcodeX,
         headerType: result.nickPosition,
@@ -469,17 +469,16 @@ export default {
         prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
         prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
         this.model.prizeRuleList[0] = prizeRuleListObj
-        // this.model.cardCoverPic = this.pageObj.activeInfo.image
         this.eidtList[5].value.content = this.pageObj.rules
         this.eidtList[6].value.pic = this.pageObj.regUrl
         this.eidtList[7].value.color = this.pageObj.share.color
         this.eidtList[7].value.name = this.pageObj.share.name
         this.model.prizeStatus = this.eidtList[3].status
         this.model.pageDecoration = JSON.stringify(this.eidtList)
-        const introStr = this.model.activityIntroduction.length > 0 ? this.model.activityIntroduction : this.defauletWelcome
-        this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(introStr)
         this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
         this.model.guestCodeId = this.$route.query.guestCodeId || null
+        const introStr = this.model.activityIntroduction.length > 0 ? this.model.activityIntroduction : this.defauletWelcome
+        this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(introStr)
         const headPosition = this.headPosition[this.model.headerType]
         const data = { ...this.model, ...headPosition }
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
