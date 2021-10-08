@@ -75,8 +75,22 @@
                 </div>
                 <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
+              <div class="rouder-bottom">
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              </div>
+              <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
+              <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
             </div>
             <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
+              <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
+              <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
+              <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
+              <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
+              <div class="rouder-top">
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              </div>
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
@@ -97,8 +111,18 @@
                   </div>
                 </div>
               </div>
+              <div class="rouder-bottom">
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              </div>
             </div>
             <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
+              <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
+              <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
+              <div class="rouder-top">
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+                <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
+              </div>
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-huodongguize rules-icon"></span>
@@ -260,18 +284,21 @@ export default {
   margin: 8px 16px;
   padding-top: 8px;
   padding-bottom: 16px;
+  position: relative;
 }
 .friends-view {
   border-radius: 12px;
   margin: 8px 16px;
-  padding-top: 32px;
+  padding-top: 16px;
   padding-bottom: 16px;
+  position: relative;
 }
 .rules-view {
   border-radius: 12px;
   margin: 8px 16px;
-  padding-top: 32px;
+  padding-top: 16px;
   padding-bottom: 16px;
+  position: relative;
 }
 .rules-content-view {
   padding: 16px;
@@ -415,4 +442,60 @@ export default {
 .time-icon-dian {
   font-size: 12px
 }
+.rouder-bottom {
+  margin-left: 39px;
+  margin-right: 39px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.rouder-top {
+  margin-left: 39px;
+  margin-right: 39px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.rounder-view {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+.line-left-bottom {
+  position: absolute;
+  width: 6px;
+  height: 22px;
+  bottom: 0;
+  left: 44px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.line-right-bottom {
+  position: absolute;
+  width: 6px;
+  height: 22px;
+  bottom: 0;
+  right: 44px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.line-left-top {
+  position: absolute;
+  width: 6px;
+  height: 38px;
+  top: -16px;
+  left: 44px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+.line-right-top{
+  position: absolute;
+  width: 6px;
+  height: 38px;
+  top: -16px;
+  right: 44px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
 </style>
