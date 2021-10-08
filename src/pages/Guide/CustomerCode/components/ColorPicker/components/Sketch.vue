@@ -10,13 +10,13 @@
         </div>
       </div>
     </div>
-    <div class="color-view">
+    <!-- <div class="color-view">
       <div class="vc-sketch-sliders">
         <div class="vc-sketch-alpha-wrap">
           <alpha v-model="colors" @change="childChange"></alpha>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="vc-sketch-field" v-if="!disableFields">
       <div class="vc-sketch-field--double">
         <ed-in label="hex" labelText="HEX" :value="hex" @change="inputChange"></ed-in>
@@ -42,7 +42,7 @@ import colorMixin from '../mixin/color'
 import editableInput from './common/EditableInput.vue'
 import saturation from './common/Saturation.vue'
 import hue from './common/Hue.vue'
-import alpha from './common/Alpha.vue'
+// import alpha from './common/Alpha.vue'
 
 const presetColors = [
   '#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321',
@@ -57,7 +57,6 @@ export default {
   components: {
     saturation,
     hue,
-    alpha,
     'ed-in': editableInput
   },
   props: {
