@@ -172,6 +172,13 @@ export default {
       defGoodsUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg',
       defRegUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
     }
+  },
+  methods: {
+    scrollPhone (name) {
+      const className = `.${name}`
+      let target = document.querySelector(className)
+      target.parentNode.scrollTop = target.offsetTop - target.parentNode.offsetTop
+    }
   }
 }
 </script>
@@ -247,6 +254,7 @@ export default {
 .scroll-view {
   max-height: calc(100% - 62px -42px -80px);
   overflow: scroll;
+  position: relative;
 }
 .time-view {
   border-radius: 12px;

@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     inputLength () {
+      this.$emit('scrollPhone', 'rules-content-view')
     }
   }
 }
