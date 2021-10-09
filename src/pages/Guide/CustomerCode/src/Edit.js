@@ -245,8 +245,11 @@ export default {
       if (itemCode === 'invitedFriend') {
         this.$refs.activePhone.acScrollPhone('friends-view')
       }
-      if (itemCode === 'activityRule' || itemCode === 'memberRegister') {
+      if (itemCode === 'memberRegister') {
         this.$refs.activePhone.acScrollPhone('register-view')
+      }
+      if (itemCode === 'activityRule') {
+        this.$refs.activePhone.acScrollPhone('rules-view')
       }
       this.$emit('onShowEdit', itemCode)
     },
@@ -300,7 +303,7 @@ export default {
       this.model = {
         ...this.model,
         activityDescription: result.activityDescription,
-        activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
+        // activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
         backgroundPic: result.backgroundPic,
         effectiveCycle: result.effectiveCycle,
         headPortrait: result.headPortrait,
@@ -337,9 +340,14 @@ export default {
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
       this.fileList = [{ name: result.backgroundPic }]
       this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
-      this.$refs.colorView.selctColor(this.showColor)
       this.$nextTick(() => {
         this.isLoading = true
+        if (this.$refs.colorView) {
+          this.$refs.colorView.selctColor(this.showColor)
+        }
+        if (this.$refs.tagAreaText) {
+          this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(result.activityIntroduction)
+        }
       })
     },
     formatPrizeModel (result) {
