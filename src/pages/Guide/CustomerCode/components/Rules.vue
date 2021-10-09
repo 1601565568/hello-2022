@@ -17,7 +17,7 @@
           ref="tagAreaTextRules"
           :maxlength="1000"
           placeholder="请输入活动规则"
-          @inputLength="inputLength"
+          @input="inputLength"
           :showEmoji="true"
           :showTextEmoji="true"
         />
