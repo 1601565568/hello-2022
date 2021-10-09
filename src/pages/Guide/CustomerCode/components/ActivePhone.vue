@@ -137,7 +137,7 @@
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
               <div class="rules-content-view">
-                <div>{{pageObj.rules}}</div>
+                <div ref="activePhoneRules"></div>
                 <div style="margin-top:8px" v-if="model.validTimeType === 1">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
                 <div style="margin-top:8px" v-else>活动有效期：永久有效</div>
               </div>
@@ -173,6 +173,14 @@ export default {
   computed: {
     pageObj () {
       return this.value
+    }
+  },
+  watch: {
+    pageObj: {
+      handler (newValue, oldValue) {
+        this.$refs.activePhoneRules.innerHTML = newValue.rules
+      },
+      deep: true
     }
   },
   data () {
