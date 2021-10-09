@@ -137,7 +137,7 @@
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
               <div class="rules-content-view">
-                <div ref="activePhoneRules"></div>
+                <div class="rules-context-text" ref="activePhoneRules"></div>
                 <div style="margin-top:8px" v-if="model.validTimeType === 1">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
                 <div style="margin-top:8px" v-else>活动有效期：永久有效</div>
               </div>
@@ -222,7 +222,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .content-view {
   position: relative;
   height: 100%;
@@ -329,10 +329,19 @@ export default {
 .rules-content-view {
   padding: 16px;
   background-color: white;
-  font-size: 14px;
-  color: #595959;
   margin: 8px;
   border-radius: 8px;
+  font-size: 14px;
+  color: #595959;
+  .rules-context-text {
+    wise {
+      color: #26a2ff;
+      padding: 0 1px;
+      white-space: nowrap;
+      cursor: default;
+      -webkit-user-modify: read-only !important;
+    }
+  }
 }
 .rules-title-view {
   line-height: 20px;

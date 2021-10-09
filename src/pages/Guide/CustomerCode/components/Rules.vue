@@ -54,7 +54,7 @@ export default {
   methods: {
     inputLength () {
       if (this.$refs.tagAreaTextRules) {
-        this.$emit('scrollPhone', 'register-view')
+        this.$emit('scrollPhone', 'rules-view')
       }
     }
   }

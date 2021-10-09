@@ -245,8 +245,11 @@ export default {
       if (itemCode === 'invitedFriend') {
         this.$refs.activePhone.acScrollPhone('friends-view')
       }
-      if (itemCode === 'activityRule' || itemCode === 'memberRegister') {
+      if (itemCode === 'memberRegister') {
         this.$refs.activePhone.acScrollPhone('register-view')
+      }
+      if (itemCode === 'activityRule') {
+        this.$refs.activePhone.acScrollPhone('rules-view')
       }
       this.$emit('onShowEdit', itemCode)
     },
