@@ -1,6 +1,5 @@
 import validates from './validates'
-import { formatePageObj } from '../util/Edit'
-import { clone } from 'lodash'
+import { formatePageObj, formatModel, formatCustomComponent } from '../util/Edit'
 export default {
   data () {
     return {
@@ -154,7 +153,6 @@ export default {
         { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ],
-      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register'],
       isEdit: false,
       ieEditCount: 0
     }
@@ -214,7 +212,6 @@ export default {
         strColor: colors[2]
       }
     }
-    // init
   },
   methods: {
     showDefaultText () {
@@ -254,29 +251,7 @@ export default {
       this.$emit('onShowEdit', itemCode)
     },
     formatSettingType (code) {
-      const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
-      let setComponent
-      switch (code) {
-        case 'masterInfo':
-          setComponent = 'HeadImg'
-          break
-        case 'banner':
-          setComponent = 'Banner'
-          break
-        case 'reward':
-          setComponent = 'Active'
-          break
-        case 'activityRule':
-          setComponent = 'Rules'
-          break
-        case 'shareButton':
-          setComponent = 'Share'
-          break
-        case 'memberRegister':
-          setComponent = 'Register'
-          break
-      }
-      return setComponent
+      return formatCustomComponent(code)
     },
     handleChangePopoverShow (popoverShow = !this.popoverShow) {
       this.popoverShow = popoverShow
@@ -391,41 +366,41 @@ export default {
       this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 上传之前钩子
-    beforeUpload (file) {
-      // this.fileList = [file]
-      // 图片格式判断
-      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-        return false
-      }
-      if (file.size / 1024 / 1024 > 1) {
-        this.$notify.error('上传图片不能超过1M')
-        return false
-      }
-      return new Promise((resolve, reject) => {
-        const _URL = window.URL || window.webkitURL
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = () => {
-          let valid = img.width === 750 && img.height === 1334
-          if (valid) {
-            this.fileList = [file]
-            resolve(file)
-          } else {
-            this.fileList = [...this.fileList]
-            this.$notify.error('上传图片尺寸只能是750X1334')
-          }
-        }
-      })
-    },
+    // beforeUpload (file) {
+    //   // this.fileList = [file]
+    //   // 图片格式判断
+    //   if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+    //     this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+    //     return false
+    //   }
+    //   if (file.size / 1024 / 1024 > 1) {
+    //     this.$notify.error('上传图片不能超过1M')
+    //     return false
+    //   }
+    //   return new Promise((resolve, reject) => {
+    //     const _URL = window.URL || window.webkitURL
+    //     const img = new Image()
+    //     img.src = _URL.createObjectURL(file)
+    //     img.onload = () => {
+    //       let valid = img.width === 750 && img.height === 1334
+    //       if (valid) {
+    //         this.fileList = [file]
+    //         resolve(file)
+    //       } else {
+    //         this.fileList = [...this.fileList]
+    //         this.$notify.error('上传图片尺寸只能是750X1334')
+    //       }
+    //     }
+    //   })
+    // },
     // 上传完成钩子
-    handleUploadSuccess (res) {
-      this.model.backgroundPic = res.result.url
-    },
+    // handleUploadSuccess (res) {
+    //   this.model.backgroundPic = res.result.url
+    // },
     // 删除文件钩子
-    handleRemove () {
-      this.model.backgroundPic = ''
-    },
+    // handleRemove () {
+    //   this.model.backgroundPic = ''
+    // },
     // 拖动二维码
     onDragResize (params) {
       this.model = { ...this.model,
@@ -434,31 +409,31 @@ export default {
         qrcodeY: params.top
       }
     },
-    // 格式化上传数据
-    formatModel (model = this.model) {
-      const newModel = {
-        activityDescription: model.activityDescription,
-        activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
-        backgroundPic: model.backgroundPic,
-        effectiveCycle: model.effectiveCycle,
-        guestCodeId: this.$route.query.guestCodeId || null,
-        guideIds: model.guideIds,
-        headPortrait: model.headPortrait * 1,
-        headPortraitShape: model.headPortraitShape,
-        name: model.name,
-        nick: model.headPortrait * 1,
-        nickColour: model.nickColour.split('#')[1],
-        nickSize: 14,
-        qrcodeSize: model.qrcodeSize,
-        qrcodeX: model.qrcodeX,
-        qrcodeY: model.qrcodeY,
-        validTimeStart: model.time[0],
-        validTimeEnd: model.time[1],
-        validTimeType: model.validTimeType
-      }
-      const headPosition = this.headPosition[model.headerType]
-      return { ...newModel, ...headPosition }
-    },
+    // // 格式化上传数据
+    // formatModel (model = this.model) {
+    //   const newModel = {
+    //     activityDescription: model.activityDescription,
+    //     activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
+    //     backgroundPic: model.backgroundPic,
+    //     effectiveCycle: model.effectiveCycle,
+    //     guestCodeId: this.$route.query.guestCodeId || null,
+    //     guideIds: model.guideIds,
+    //     headPortrait: model.headPortrait * 1,
+    //     headPortraitShape: model.headPortraitShape,
+    //     name: model.name,
+    //     nick: model.headPortrait * 1,
+    //     nickColour: model.nickColour.split('#')[1],
+    //     nickSize: 14,
+    //     qrcodeSize: model.qrcodeSize,
+    //     qrcodeX: model.qrcodeX,
+    //     qrcodeY: model.qrcodeY,
+    //     validTimeStart: model.time[0],
+    //     validTimeEnd: model.time[1],
+    //     validTimeType: model.validTimeType
+    //   }
+    //   const headPosition = this.headPosition[model.headerType]
+    //   return { ...newModel, ...headPosition }
+    // },
     // 保存
     async handleSave () {
       const ruleForm = new Promise((resolve, reject) => {
@@ -484,31 +459,7 @@ export default {
       })
       const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
       if (checks.length === 3) {
-        if (this.model.validTimeType === 0) {
-          this.model.time = []
-          this.model.validTimeStart = ''
-          this.model.validTimeEnd = ''
-        }
-        if (this.model.time.length > 0) {
-          this.model.validTimeStart = this.model.time[0]
-          this.model.validTimeEnd = this.model.time[1]
-        }
-        this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
-        this.eidtList[1].value.pic = this.pageObj.bannerUrl
-        this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
-        this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-        let prizeRuleListObj = this.model.prizeRuleList[0] || {}
-        prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
-        prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
-        prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
-        this.model.prizeRuleList[0] = prizeRuleListObj
-        this.eidtList[5].value.content = this.pageObj.rules
-        this.eidtList[6].value.pic = this.pageObj.regUrl
-        this.eidtList[7].value.color = this.pageObj.share.color
-        this.eidtList[7].value.name = this.pageObj.share.name
-        this.model.prizeStatus = this.eidtList[3].status
-        this.model.pageDecoration = JSON.stringify(this.eidtList)
-        this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+        this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
         const headPosition = this.headPosition[this.model.headerType]
@@ -543,18 +494,18 @@ export default {
       //   }
       // })
     },
-    // 替换标签成模板
-    htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
-    },
-    // 替换模板成标签
-    stringTohtml (string) {
-      this.tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
-        string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
-      })
-      return string
-    },
+    // // 替换标签成模板
+    // htmlToString (html) {
+    //   return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    // },
+    // // 替换模板成标签
+    // stringTohtml (string) {
+    //   this.tools.map(item => {
+    //     const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
+    //     string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
+    //   })
+    //   return string
+    // },
     // 生成随机ID
     getGuid () {
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`

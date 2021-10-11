@@ -158,6 +158,7 @@
 <script>
 import Phone from './Phone'
 import ElProgress from '@nascent/nui/lib/progress'
+import { defBanner, defGoodsUrl, defRegUrl } from '../util/Edit'
 export default {
   name: 'activephone',
   components: {
@@ -211,9 +212,9 @@ export default {
         }
       ],
       imgs: [require('../Images/iphone-5.jpg'), require('../Images/iphone-6.jpg'), require('../Images/iphone-7.jpg')],
-      defBanner: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png',
-      defGoodsUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg',
-      defRegUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
+      defBanner: defBanner,
+      defGoodsUrl: defGoodsUrl,
+      defRegUrl: defRegUrl
     }
   },
   methods: {
