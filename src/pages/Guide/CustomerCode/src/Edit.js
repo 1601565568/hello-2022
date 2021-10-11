@@ -61,11 +61,11 @@ export default {
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
         cardTitle: [
-          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片标题' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片标题' },
           { validator: validates.validateCard, trigger: ['blur', 'change'] }
         ],
         cardCopywriting: [
-          { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片文案' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片文案' },
           { validator: validates.validateString, trigger: ['blur', 'change'] }
         ],
         cardCoverPic: [
@@ -448,9 +448,46 @@ export default {
           }
         })
       })
+      this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
+      if (!this.model.name) {
+        this.$notify.error('活动名称不能为空')
+        return
+      }
+      if (this.model.guideIds.length === 0) {
+        this.$notify.error('请选择参加活动人员')
+        return
+      }
+      if (this.model.validTimeType === 1) {
+        this.$notify.error('请选择有效日期')
+        return
+      }
+      if (Number(this.model.effectiveCycle) <= 0) {
+        this.$notify.error('请填写过期时间')
+        return
+      }
+      if (!this.model.backgroundPic) {
+        this.$notify.error('请上传裂变大师海报')
+        return
+      }
+      if (!this.model.activityIntroduction) {
+        this.$notify.error('请输入欢迎语')
+        return
+      }
+      if (!this.model.cardTitle) {
+        this.$notify.error('请输入活动消息卡片标题')
+        return
+      }
+      if (!this.model.cardCopywriting) {
+        this.$notify.error('请输入活动消息卡片文案')
+        return
+      }
+      if (!this.model.cardCoverPic) {
+        this.$notify.error('请选择活动消息卡片封面图片')
+        return
+      }
       const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
       if (checks.length === 3) {
-        this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
+        // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
         const headPosition = this.headPosition[this.model.headerType]

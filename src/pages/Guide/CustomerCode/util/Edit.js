@@ -39,11 +39,16 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   eidtList[1].value.pic = pageObj.bannerUrl.length > 0 ? pageObj.bannerUrl : defBanner
   eidtList[3].value.virtualFinishedCount = parseInt(pageObj.activeInfo.number)
   eidtList[3].value.btnColor = pageObj.activeInfo.getColor
-  let prizeRuleListObj = model.prizeRuleList[0] || {}
-  prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
-  prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
-  prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
-  model.prizeRuleList[0] = prizeRuleListObj
+  let activeItem = eidtList[3] || {}
+  if (activeItem.status === 0) {
+    model.prizeRuleList[0] = {}
+  } else {
+    let prizeRuleListObj = model.prizeRuleList[0] || {}
+    prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
+    prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
+    prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
+    model.prizeRuleList[0] = prizeRuleListObj
+  }
   eidtList[5].value.content = pageObj.rules
   eidtList[6].value.pic = pageObj.regUrl.length > 0 ? pageObj.regUrl : defRegUrl
   eidtList[7].value.color = pageObj.share.color
