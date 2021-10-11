@@ -10,10 +10,10 @@
         class="larger-item"
       >
         <drap-upload
-          tip="（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）"
+          tip="（建议：宽度750像素，高度不限，小于2M，jpg、png、jpeg格式）"
           v-model="pageObj.regUrl"
           :showPont="false"
-          :maxSize="1"
+          :maxSize="2"
           :isNeedCrop="false"
           :showFooter="false"
           uploadTitle="点击或拖拽上传引导图"
