@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent } from '../util/Edit'
 import { clone } from 'lodash'
 export default {
   data () {
@@ -154,7 +154,6 @@ export default {
         { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, sortable: 6, switchable: 1 },
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ],
-      componentList: ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register'],
       isEdit: false,
       ieEditCount: 0
     }
@@ -254,29 +253,7 @@ export default {
       this.$emit('onShowEdit', itemCode)
     },
     formatSettingType (code) {
-      const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
-      let setComponent
-      switch (code) {
-        case 'masterInfo':
-          setComponent = 'HeadImg'
-          break
-        case 'banner':
-          setComponent = 'Banner'
-          break
-        case 'reward':
-          setComponent = 'Active'
-          break
-        case 'activityRule':
-          setComponent = 'Rules'
-          break
-        case 'shareButton':
-          setComponent = 'Share'
-          break
-        case 'memberRegister':
-          setComponent = 'Register'
-          break
-      }
-      return setComponent
+      return formatCustomComponent(code)
     },
     handleChangePopoverShow (popoverShow = !this.popoverShow) {
       this.popoverShow = popoverShow
@@ -519,18 +496,18 @@ export default {
       //   }
       // })
     },
-    // 替换标签成模板
-    htmlToString (html) {
-      return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
-    },
-    // 替换模板成标签
-    stringTohtml (string) {
-      this.tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
-        string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
-      })
-      return string
-    },
+    // // 替换标签成模板
+    // htmlToString (html) {
+    //   return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    // },
+    // // 替换模板成标签
+    // stringTohtml (string) {
+    //   this.tools.map(item => {
+    //     const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
+    //     string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
+    //   })
+    //   return string
+    // },
     // 生成随机ID
     getGuid () {
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`

@@ -48,3 +48,29 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   model.pageColor = showColor.mainColor + ',' + showColor.bgColor + ',' + showColor.strColor
   return model
 }
+
+export const formatCustomComponent = (itemCode) => {
+  const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
+  let setComponent
+  switch (itemCode) {
+    case 'masterInfo':
+      setComponent = 'HeadImg'
+      break
+    case 'banner':
+      setComponent = 'Banner'
+      break
+    case 'reward':
+      setComponent = 'Active'
+      break
+    case 'activityRule':
+      setComponent = 'Rules'
+      break
+    case 'shareButton':
+      setComponent = 'Share'
+      break
+    case 'memberRegister':
+      setComponent = 'Register'
+      break
+  }
+  return setComponent
+}
