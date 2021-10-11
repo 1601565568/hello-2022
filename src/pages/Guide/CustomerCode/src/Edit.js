@@ -212,7 +212,6 @@ export default {
         strColor: colors[2]
       }
     }
-    // init
   },
   methods: {
     showDefaultText () {
@@ -367,41 +366,41 @@ export default {
       this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 上传之前钩子
-    beforeUpload (file) {
-      // this.fileList = [file]
-      // 图片格式判断
-      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-        return false
-      }
-      if (file.size / 1024 / 1024 > 1) {
-        this.$notify.error('上传图片不能超过1M')
-        return false
-      }
-      return new Promise((resolve, reject) => {
-        const _URL = window.URL || window.webkitURL
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = () => {
-          let valid = img.width === 750 && img.height === 1334
-          if (valid) {
-            this.fileList = [file]
-            resolve(file)
-          } else {
-            this.fileList = [...this.fileList]
-            this.$notify.error('上传图片尺寸只能是750X1334')
-          }
-        }
-      })
-    },
+    // beforeUpload (file) {
+    //   // this.fileList = [file]
+    //   // 图片格式判断
+    //   if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+    //     this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+    //     return false
+    //   }
+    //   if (file.size / 1024 / 1024 > 1) {
+    //     this.$notify.error('上传图片不能超过1M')
+    //     return false
+    //   }
+    //   return new Promise((resolve, reject) => {
+    //     const _URL = window.URL || window.webkitURL
+    //     const img = new Image()
+    //     img.src = _URL.createObjectURL(file)
+    //     img.onload = () => {
+    //       let valid = img.width === 750 && img.height === 1334
+    //       if (valid) {
+    //         this.fileList = [file]
+    //         resolve(file)
+    //       } else {
+    //         this.fileList = [...this.fileList]
+    //         this.$notify.error('上传图片尺寸只能是750X1334')
+    //       }
+    //     }
+    //   })
+    // },
     // 上传完成钩子
-    handleUploadSuccess (res) {
-      this.model.backgroundPic = res.result.url
-    },
+    // handleUploadSuccess (res) {
+    //   this.model.backgroundPic = res.result.url
+    // },
     // 删除文件钩子
-    handleRemove () {
-      this.model.backgroundPic = ''
-    },
+    // handleRemove () {
+    //   this.model.backgroundPic = ''
+    // },
     // 拖动二维码
     onDragResize (params) {
       this.model = { ...this.model,

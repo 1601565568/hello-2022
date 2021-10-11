@@ -1,4 +1,8 @@
 // 解析页面数据
+export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png'
+export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg'
+export const defRegUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
+
 export const formatePageObj = (eidtList, prizeModel) => {
   if (!eidtList && !prizeModel) return
   let pageObj = {
@@ -27,20 +31,20 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     model.validTimeEnd = ''
   }
   if (model.time.length > 0) {
-    model.validTimeStart = this.model.time[0]
-    model.validTimeEnd = this.model.time[1]
+    model.validTimeStart = model.time[0]
+    model.validTimeEnd = model.time[1]
   }
   eidtList[0].value.headPortraitShape = pageObj.headStyle
-  eidtList[1].value.pic = pageObj.bannerUrl
+  eidtList[1].value.pic = pageObj.bannerUrl.length > 0 ? pageObj.bannerUrl : defBanner
   eidtList[3].value.virtualFinishedCount = parseInt(pageObj.activeInfo.number)
   eidtList[3].value.btnColor = pageObj.activeInfo.getColor
   let prizeRuleListObj = model.prizeRuleList[0] || {}
   prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
   prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
-  prizeRuleListObj.prizePic = pageObj.activeInfo.image || ''
+  prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
   model.prizeRuleList[0] = prizeRuleListObj
   eidtList[5].value.content = pageObj.rules
-  eidtList[6].value.pic = pageObj.regUrl
+  eidtList[6].value.pic = pageObj.regUrl.length > 0 ? pageObj.regUrl : defRegUrl
   eidtList[7].value.color = pageObj.share.color
   eidtList[7].value.name = pageObj.share.name
   model.prizeStatus = eidtList[3].status
