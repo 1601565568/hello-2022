@@ -434,31 +434,31 @@ export default {
         qrcodeY: params.top
       }
     },
-    // 格式化上传数据
-    formatModel (model = this.model) {
-      const newModel = {
-        activityDescription: model.activityDescription,
-        activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
-        backgroundPic: model.backgroundPic,
-        effectiveCycle: model.effectiveCycle,
-        guestCodeId: this.$route.query.guestCodeId || null,
-        guideIds: model.guideIds,
-        headPortrait: model.headPortrait * 1,
-        headPortraitShape: model.headPortraitShape,
-        name: model.name,
-        nick: model.headPortrait * 1,
-        nickColour: model.nickColour.split('#')[1],
-        nickSize: 14,
-        qrcodeSize: model.qrcodeSize,
-        qrcodeX: model.qrcodeX,
-        qrcodeY: model.qrcodeY,
-        validTimeStart: model.time[0],
-        validTimeEnd: model.time[1],
-        validTimeType: model.validTimeType
-      }
-      const headPosition = this.headPosition[model.headerType]
-      return { ...newModel, ...headPosition }
-    },
+    // // 格式化上传数据
+    // formatModel (model = this.model) {
+    //   const newModel = {
+    //     activityDescription: model.activityDescription,
+    //     activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
+    //     backgroundPic: model.backgroundPic,
+    //     effectiveCycle: model.effectiveCycle,
+    //     guestCodeId: this.$route.query.guestCodeId || null,
+    //     guideIds: model.guideIds,
+    //     headPortrait: model.headPortrait * 1,
+    //     headPortraitShape: model.headPortraitShape,
+    //     name: model.name,
+    //     nick: model.headPortrait * 1,
+    //     nickColour: model.nickColour.split('#')[1],
+    //     nickSize: 14,
+    //     qrcodeSize: model.qrcodeSize,
+    //     qrcodeX: model.qrcodeX,
+    //     qrcodeY: model.qrcodeY,
+    //     validTimeStart: model.time[0],
+    //     validTimeEnd: model.time[1],
+    //     validTimeType: model.validTimeType
+    //   }
+    //   const headPosition = this.headPosition[model.headerType]
+    //   return { ...newModel, ...headPosition }
+    // },
     // 保存
     async handleSave () {
       const ruleForm = new Promise((resolve, reject) => {
