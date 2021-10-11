@@ -264,28 +264,30 @@ export default {
       const json = await this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId })
       if (!json.success) return
       const result = json.result
-      this.model = {
-        ...this.model,
-        activityDescription: result.activityDescription,
-        // activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
-        backgroundPic: result.backgroundPic,
-        effectiveCycle: result.effectiveCycle,
-        headPortrait: result.headPortrait,
-        name: result.name,
-        nickColour: result.nickColour,
-        qrcodeSize: result.qrcodeSize,
-        qrcodeX: result.qrcodeX,
-        headerType: result.nickPosition,
-        headPortraitShape: result.headPortraitShape,
-        qrcodeY: result.qrcodeY,
-        time: [result.validTimeStart, result.validTimeEnd],
-        validTimeType: 0,
-        cardTitle: result.cardTitle,
-        cardCoverPic: result.cardCoverPic,
-        cardCopywriting: result.cardCopywriting,
-        pageColor: result.pageColor,
-        prizeSendPlan: result.prizeSendPlan
-      }
+      this.model = { ...this.model, ...result }
+      this.model.time = [result.validTimeStart, result.validTimeEnd]
+      // this.model = {
+      //   ...this.model,
+      //   activityDescription: result.activityDescription,
+      //   // activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
+      //   backgroundPic: result.backgroundPic,
+      //   effectiveCycle: result.effectiveCycle,
+      //   headPortrait: result.headPortrait,
+      //   name: result.name,
+      //   nickColour: result.nickColour,
+      //   qrcodeSize: result.qrcodeSize,
+      //   qrcodeX: result.qrcodeX,
+      //   headerType: result.nickPosition,
+      //   headPortraitShape: result.headPortraitShape,
+      //   qrcodeY: result.qrcodeY,
+      //   time: [result.validTimeStart, result.validTimeEnd],
+      //   validTimeType: 0,
+      //   cardTitle: result.cardTitle,
+      //   cardCoverPic: result.cardCoverPic,
+      //   cardCopywriting: result.cardCopywriting,
+      //   pageColor: result.pageColor,
+      //   prizeSendPlan: result.prizeSendPlan
+      // }
       // // 数据解析
       const colors = this.model.pageColor.split(',')
       this.showColor = {
@@ -302,7 +304,7 @@ export default {
       this.isStating = !!(result.status === 2 && this.guestCodeId)
       // 是否可以在未开始活动编辑奖励
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
-      this.fileList = [{ name: result.backgroundPic }]
+      // this.fileList = [{ name: result.backgroundPic }]
       this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
       this.$nextTick(() => {
         this.isLoading = true
