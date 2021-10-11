@@ -453,6 +453,7 @@ export default {
       })
       const ruleForm4 = this.$refs.componentList[2].validateRules()
       const ruleForm5 = this.$refs.componentList[3].validateRules()
+      const ruleForm6 = this.$refs.componentList[5].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
       if (!this.model.name) {
         this.$notify.error('请输入活动名称')
@@ -521,8 +522,15 @@ export default {
           return
         }
       }
-      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5])
-      if (checks.length === 5) {
+      const shareItem = this.eidtList[5]
+      if (shareItem.status === 1) {
+        if (!this.pageObj.share.name) {
+          this.$notify.error('请输入分享按钮名称')
+          return
+        }
+      }
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
+      if (checks.length === 6) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)

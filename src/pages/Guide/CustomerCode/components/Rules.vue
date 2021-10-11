@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     validateRules () {
-      console.log('validateRules')
       return new Promise((resolve, reject) => {
         this.$refs.rulesForm.validate((valid) => {
           if (valid) {

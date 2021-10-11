@@ -1,4 +1,11 @@
 export default {
+  shareName: (rule, value, callback) => {
+    if (value.length > 10) {
+      callback(new Error('奖品名称最多10个字'))
+    } else {
+      callback()
+    }
+  },
   goodsName: (rule, value, callback) => {
     if (value.length > 20) {
       callback(new Error('奖品名称最多20个字'))
