@@ -5,6 +5,7 @@
       label-position="left"
       :model="pageObj.activeInfo"
       :rules="rules"
+      ref="reward"
       class="normal-from">
       <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
@@ -129,6 +130,15 @@ export default {
     }
   },
   methods: {
+    validateRules () {
+      return new Promise((resolve, reject) => {
+        this.$refs.reward.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+    },
     updatePrize (model) {
       this.$emit('updateActiveModel', model)
       this.$emit('scrollPhone', 'time-view')

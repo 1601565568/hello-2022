@@ -201,6 +201,7 @@
                           :isStating="isStating"
                           :isSetPrize="isSetPrize"
                           @scrollPhone="scrollPhone"
+                          ref="componentList"
                           ></component>
                         </div>
                       </el-collapse-item>

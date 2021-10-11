@@ -451,16 +451,17 @@ export default {
           }
         })
       })
+      const ruleForm4 = this.$refs.componentList[2].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
       if (!this.model.name) {
-        this.$notify.error('活动名称不能为空')
+        this.$notify.error('请输入活动名称')
         return
       }
       if (this.model.guideIds.length === 0) {
         this.$notify.error('请选择参加活动人员')
         return
       }
-      if (this.model.validTimeType === 1) {
+      if (this.model.validTimeType === 1 && this.model.time.length === 0) {
         this.$notify.error('请选择有效日期')
         return
       }
@@ -488,8 +489,23 @@ export default {
         this.$notify.error('请选择活动消息卡片封面图片')
         return
       }
-      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
-      if (checks.length === 3) {
+      const activeItem = this.eidtList[3]
+      if (activeItem.status === 1 && !this.isEdit) {
+        if (!this.pageObj.activeInfo.goodsName) {
+          this.$notify.error('请输入奖品名称')
+          return
+        }
+        if (!this.pageObj.activeInfo.goodsDes) {
+          this.$notify.error('请输入奖品简介')
+          return
+        }
+        if (!this.pageObj.activeInfo.image) {
+          this.$notify.error('请上传上传奖品图片')
+          return
+        }
+      }
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4])
+      if (checks.length === 4) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
