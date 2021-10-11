@@ -1,6 +1,5 @@
 import validates from './validates'
 import { formatePageObj, formatModel, formatCustomComponent } from '../util/Edit'
-import { clone } from 'lodash'
 export default {
   data () {
     return {
