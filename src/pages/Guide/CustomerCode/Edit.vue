@@ -235,12 +235,12 @@
                 <div class="poster-content">
                   <el-form-item prop="backgroundPic">
                     <drap-upload
-                      tip="（请上传格式为jpg、jpeg或png的图片，大小不超过1M）"
+                      tip="（请上传格式为jpg、jpeg或png的图片，大小不超过2M）"
                       v-model="model.backgroundPic"
                       :maxWidth="750"
                       :maxHeight="1334"
                       :showPont="false"
-                      :maxSize="1"
+                      :maxSize="2"
                       :isNeedCrop="true"
                       :showFooter="false"
                       uploadTitle="点击或拖拽上传活动海报"
