@@ -143,7 +143,7 @@
                 prop="effectiveCycle"
               >
                 <div class="qrcode-top-view">
-                  <input type="number" class="number-view"  v-model="model.effectiveCycle"/>
+                  <input type="number" class="number-view"  v-model="model.effectiveCycle" @input="inputEffectiveCycle"/>
                   天内未邀请到新的好友，分享二维码将失效，推广大师可重新下载
                 </div>
                 <div class="qrcode-bottom-view">

@@ -136,7 +136,9 @@ export default {
     updateGetColor () {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
     },
-    input () {
+    input (value) {
+      this.pageObj.activeInfo.number = value.replace(/[^\d]/g, '')
+      // @input="(value)=>{model.everyoneLimit = value.replace(/[^\d]/g,'')}"
       this.$emit('scrollPhone', 'time-view')
     }
   }

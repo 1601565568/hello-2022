@@ -203,6 +203,9 @@ export default {
     }
   },
   methods: {
+    inputEffectiveCycle (e) {
+      this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
+    },
     showDefaultText () {
       const str = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
       this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(str)
