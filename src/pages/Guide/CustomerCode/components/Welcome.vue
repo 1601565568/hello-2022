@@ -57,7 +57,9 @@ export default {
   watch: {
     info (newValue, oldValue) {
       setTimeout(() => {
-        this.$refs.infoContent.innerHTML = newValue
+        if (this.$refs.infoContent) {
+          this.$refs.infoContent.innerHTML = newValue
+        }
       }, 0)
     }
   }

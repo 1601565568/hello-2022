@@ -1,6 +1,7 @@
 <template>
   <div class='poster-content'>
     <el-upload
+      :disabled="disabled"
       class="upload-demo"
       ref='upload'
       :drag='drag'
@@ -160,6 +161,10 @@ export default {
     showDelImg: {
       type: Boolean,
       default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
