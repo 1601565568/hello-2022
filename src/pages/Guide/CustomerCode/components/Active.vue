@@ -118,14 +118,14 @@ export default {
             trigger: ['blur', 'change']
           },
           { validator: validates.goodsDesc, trigger: ['blur', 'change'] }
-        ],
-        image: [
-          {
-            required: true,
-            message: '请上传上传奖品图片',
-            trigger: ['blur', 'change']
-          }
         ]
+        // image: [
+        //   {
+        //     required: true,
+        //     message: '请上传上传奖品图片',
+        //     trigger: ['blur', 'change']
+        //   }
+        // ]
       }
     }
   },

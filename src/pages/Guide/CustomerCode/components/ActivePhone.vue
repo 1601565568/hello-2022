@@ -181,7 +181,9 @@ export default {
     pageObj: {
       handler (newValue, oldValue) {
         if (this.$refs.activePhoneRules) {
-          this.$refs.activePhoneRules.innerHTML = newValue.rules
+          if (newValue.rules) {
+            this.$refs.activePhoneRules.innerHTML = newValue.rules.replace(/\n/g, '<br/>')
+          }
         }
       },
       deep: true

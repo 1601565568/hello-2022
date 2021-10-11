@@ -56,6 +56,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   model.prizeStatus = eidtList[3].status
   model.pageDecoration = JSON.stringify(eidtList)
   model.pageColor = showColor.mainColor + ',' + showColor.bgColor + ',' + showColor.strColor
+  model.nick = model.headPortrait
   return model
 }
 

@@ -131,7 +131,7 @@ export default {
           goodsName: '',
           goodsDes: ''
         },
-        rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！',
+        rules: '',
         regUrl: '',
         share: {
           color: '',
@@ -452,6 +452,7 @@ export default {
         })
       })
       const ruleForm4 = this.$refs.componentList[2].validateRules()
+      const ruleForm5 = this.$refs.componentList[3].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
       if (!this.model.name) {
         this.$notify.error('请输入活动名称')
@@ -504,17 +505,24 @@ export default {
       }
       const activeItem = this.eidtList[3]
       if (activeItem.status === 1 && !this.isEdit) {
-        if (!prizeRuleListObj.prizeIntro) {
+        if (!this.pageObj.activeInfo.goodsName) {
           this.$notify.error('请输入奖品名称')
           return
         }
-        if (!prizeRuleListObj.prizeNameSetting) {
+        if (!this.pageObj.activeInfo.goodsDes) {
           this.$notify.error('请输入奖品简介')
           return
         }
       }
-      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4])
-      if (checks.length === 4) {
+      const rulesItem = this.eidtList[5]
+      if (rulesItem.status === 1) {
+        if (!this.pageObj.rules) {
+          this.$notify.error('请输入活动规则')
+          return
+        }
+      }
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5])
+      if (checks.length === 5) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
