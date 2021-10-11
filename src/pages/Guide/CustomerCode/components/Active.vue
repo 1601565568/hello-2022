@@ -57,7 +57,7 @@
         <length-input
           v-model="pageObj.activeInfo.number"
           placeholder="请输入人数"
-          @input='input'
+          @input='inputNumber'
         />
       </el-form-item>
       <el-form-item
@@ -131,13 +131,15 @@ export default {
   },
   methods: {
     validateRules () {
-      return new Promise((resolve, reject) => {
+      const formRules = new Promise((resolve, reject) => {
         this.$refs.reward.validate((valid) => {
           if (valid) {
             resolve()
           }
         })
       })
+      const prizeRules = this.$refs.setPrize.validateRules()
+      return Promise.all([formRules, prizeRules])
     },
     updatePrize (model) {
       this.$emit('updateActiveModel', model)
@@ -146,9 +148,11 @@ export default {
     updateGetColor () {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
     },
-    input (value) {
+    inputNumber (value) {
       this.pageObj.activeInfo.number = value.replace(/[^\d]/g, '')
-      // @input="(value)=>{model.everyoneLimit = value.replace(/[^\d]/g,'')}"
+      this.$emit('scrollPhone', 'time-view')
+    },
+    input () {
       this.$emit('scrollPhone', 'time-view')
     }
   }

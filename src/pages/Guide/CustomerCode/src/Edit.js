@@ -489,18 +489,27 @@ export default {
         this.$notify.error('请选择活动消息卡片封面图片')
         return
       }
+      let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+      if (!prizeRuleListObj.prizeType) {
+        this.$notify.error('请选择奖励类型')
+        return
+      }
+      if (!prizeRuleListObj.prizeId) {
+        this.$notify.error('请选择奖励内容')
+        return
+      }
+      if (!prizeRuleListObj.prizeNumber) {
+        this.$notify.error('请设置活动奖励总数')
+        return
+      }
       const activeItem = this.eidtList[3]
       if (activeItem.status === 1 && !this.isEdit) {
-        if (!this.pageObj.activeInfo.goodsName) {
+        if (!prizeRuleListObj.prizeIntro) {
           this.$notify.error('请输入奖品名称')
           return
         }
-        if (!this.pageObj.activeInfo.goodsDes) {
+        if (!prizeRuleListObj.prizeNameSetting) {
           this.$notify.error('请输入奖品简介')
-          return
-        }
-        if (!this.pageObj.activeInfo.image) {
-          this.$notify.error('请上传上传奖品图片')
           return
         }
       }

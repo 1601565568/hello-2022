@@ -299,6 +299,15 @@ export default {
     this.setModel()
   },
   methods: {
+    validateRules () {
+      return new Promise((resolve, reject) => {
+        this.$refs.setPrizeruleForm.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+    },
     setModel () {
       const query = this.$route.query
       const { copyGuestCodeId } = query
