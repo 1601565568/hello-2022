@@ -43,6 +43,7 @@
               :showFooter="false"
               uploadTitle="点击或拖拽上传奖品图片"
               :showDelImg="!isStating"
+              :disabled="isStating"
             >
             </drap-upload>
           </el-form-item>

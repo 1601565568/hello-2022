@@ -168,17 +168,20 @@ export default {
     value: Object,
     showColor: Object,
     eidtList: Array,
-    model: Object
+    model: Object,
+    pageObj: Object
   },
-  computed: {
-    pageObj () {
-      return this.value
-    }
-  },
+  // computed: {
+  //   pageObj () {
+  //     return this.value
+  //   }
+  // },
   watch: {
     pageObj: {
       handler (newValue, oldValue) {
-        this.$refs.activePhoneRules.innerHTML = newValue.rules
+        if (this.$refs.activePhoneRules) {
+          this.$refs.activePhoneRules.innerHTML = newValue.rules
+        }
       },
       deep: true
     }
