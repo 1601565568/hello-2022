@@ -44,8 +44,8 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     model.prizeRuleList[0] = {}
   } else {
     let prizeRuleListObj = model.prizeRuleList[0] || {}
-    prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
-    prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
+    prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsDes || ''
+    prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsName || ''
     prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
     model.prizeRuleList[0] = prizeRuleListObj
   }
@@ -56,6 +56,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   model.prizeStatus = eidtList[3].status
   model.pageDecoration = JSON.stringify(eidtList)
   model.pageColor = showColor.mainColor + ',' + showColor.bgColor + ',' + showColor.strColor
+  model.nick = model.headPortrait
   return model
 }
 

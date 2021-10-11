@@ -6,17 +6,19 @@
           <div>
             <img class="phone-view" src="../Images/iphoneName.jpg"/>
           </div>
-          <div class="base-view" v-if="info.length>0">
-            <img class="head-view" src="@/assets/default-avatar.png"/>
-            <div class="welcome-info-view" ref="infoContent"></div>
-          </div>
-          <div class="base-view" v-if="title || detail || url">
-            <img class="head-view" src="@/assets/default-avatar.png"/>
-            <div class="active-view">
-              <div class="active-title">{{title}}</div>
-              <div class="active-desc-view">
-                <div class="active-info">{{detail}}</div>
-                <img class="active-image" :src="url" v-if="url.length > 0"/>
+          <div class="scroll-view">
+            <div class="base-view" v-if="info.length>0">
+              <img class="head-view" src="@/assets/default-avatar.png"/>
+              <div class="welcome-info-view" ref="infoContent"></div>
+            </div>
+            <div class="base-view" v-if="title || detail || url">
+              <img class="head-view" src="@/assets/default-avatar.png"/>
+              <div class="active-view">
+                <div class="active-title">{{title}}</div>
+                <div class="active-desc-view">
+                  <div class="active-info">{{detail}}</div>
+                  <img class="active-image" :src="url" v-if="url.length > 0"/>
+                </div>
               </div>
             </div>
           </div>
@@ -58,7 +60,7 @@ export default {
     info (newValue, oldValue) {
       setTimeout(() => {
         if (this.$refs.infoContent) {
-          this.$refs.infoContent.innerHTML = newValue
+          this.$refs.infoContent.innerHTML = newValue.replace(/\n/g, '<br/>')
         }
       }, 0)
     }
@@ -86,6 +88,20 @@ export default {
 }
 </style>
 <style scoped>
+.scroll-view {
+  max-height: 480px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+    /*height: 4px;*/
+  }
+}
 .content-view {
   position: relative;
   height: 100%;
@@ -157,5 +173,6 @@ export default {
   width: 320px;
   height: 50px;
   object-fit: cover;
+  z-index: 100;
 }
 </style>

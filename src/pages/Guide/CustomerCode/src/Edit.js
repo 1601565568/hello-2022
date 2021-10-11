@@ -131,7 +131,7 @@ export default {
           goodsName: '',
           goodsDes: ''
         },
-        rules: '分享下方海报，邀请好友扫码助力，添加于员工微信昵称为好友；邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！',
+        rules: '',
         regUrl: '',
         share: {
           color: '',
@@ -203,6 +203,9 @@ export default {
     }
   },
   methods: {
+    inputEffectiveCycle (e) {
+      this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
+    },
     showDefaultText () {
       const str = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
       this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(str)
@@ -448,16 +451,19 @@ export default {
           }
         })
       })
+      const ruleForm4 = this.$refs.componentList[2].validateRules()
+      const ruleForm5 = this.$refs.componentList[3].validateRules()
+      const ruleForm6 = this.$refs.componentList[5].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
       if (!this.model.name) {
-        this.$notify.error('活动名称不能为空')
+        this.$notify.error('请输入活动名称')
         return
       }
       if (this.model.guideIds.length === 0) {
         this.$notify.error('请选择参加活动人员')
         return
       }
-      if (this.model.validTimeType === 1) {
+      if (this.model.validTimeType === 1 && this.model.time.length === 0) {
         this.$notify.error('请选择有效日期')
         return
       }
@@ -485,8 +491,46 @@ export default {
         this.$notify.error('请选择活动消息卡片封面图片')
         return
       }
-      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
-      if (checks.length === 3) {
+      let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+      if (!prizeRuleListObj.prizeType) {
+        this.$notify.error('请选择奖励类型')
+        return
+      }
+      if (!prizeRuleListObj.prizeId) {
+        this.$notify.error('请选择奖励内容')
+        return
+      }
+      if (!prizeRuleListObj.prizeNumber) {
+        this.$notify.error('请设置活动奖励总数')
+        return
+      }
+      const activeItem = this.eidtList[3]
+      if (activeItem.status === 1 && !this.isEdit) {
+        if (!this.pageObj.activeInfo.goodsName) {
+          this.$notify.error('请输入奖品名称')
+          return
+        }
+        if (!this.pageObj.activeInfo.goodsDes) {
+          this.$notify.error('请输入奖品简介')
+          return
+        }
+      }
+      const rulesItem = this.eidtList[5]
+      if (rulesItem.status === 1) {
+        if (!this.pageObj.rules) {
+          this.$notify.error('请输入活动规则')
+          return
+        }
+      }
+      const shareItem = this.eidtList[5]
+      if (shareItem.status === 1) {
+        if (!this.pageObj.share.name) {
+          this.$notify.error('请输入分享按钮名称')
+          return
+        }
+      }
+      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
+      if (checks.length === 6) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)

@@ -5,6 +5,7 @@
       label-position="left"
       :model="pageObj.activeInfo"
       :rules="rules"
+      ref="reward"
       class="normal-from">
       <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
@@ -56,7 +57,7 @@
         <length-input
           v-model="pageObj.activeInfo.number"
           placeholder="请输入人数"
-          @input='input'
+          @input='inputNumber'
         />
       </el-form-item>
       <el-form-item
@@ -117,24 +118,39 @@ export default {
             trigger: ['blur', 'change']
           },
           { validator: validates.goodsDesc, trigger: ['blur', 'change'] }
-        ],
-        image: [
-          {
-            required: true,
-            message: '请上传上传奖品图片',
-            trigger: ['blur', 'change']
-          }
         ]
+        // image: [
+        //   {
+        //     required: true,
+        //     message: '请上传上传奖品图片',
+        //     trigger: ['blur', 'change']
+        //   }
+        // ]
       }
     }
   },
   methods: {
+    validateRules () {
+      const formRules = new Promise((resolve, reject) => {
+        this.$refs.reward.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+      const prizeRules = this.$refs.setPrize.validateRules()
+      return Promise.all([formRules, prizeRules])
+    },
     updatePrize (model) {
       this.$emit('updateActiveModel', model)
       this.$emit('scrollPhone', 'time-view')
     },
     updateGetColor () {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
+    },
+    inputNumber (value) {
+      this.pageObj.activeInfo.number = value.replace(/[^\d]/g, '')
+      this.$emit('scrollPhone', 'time-view')
     },
     input () {
       this.$emit('scrollPhone', 'time-view')

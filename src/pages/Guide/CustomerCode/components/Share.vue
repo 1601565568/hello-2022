@@ -1,9 +1,12 @@
 <template>
   <div class="item-view">
     <el-form
+      :model="pageObj.share"
+      :rules="rules"
       label-width="100px"
       label-position="left"
       size="medium"
+      ref="shareForm"
       class="normal-from">
       <el-form-item
         label="分享按钮颜色"
@@ -19,7 +22,7 @@
       <el-form-item
         label="分享按钮名称"
         class="larger-item"
-        prop="shareText"
+        prop="name"
       >
         <length-input
           v-model="pageObj.share.name"
@@ -35,6 +38,7 @@
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import LengthInput from '@/components/NewUi/LengthInput'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
+import validates from '../src/validates'
 export default {
   name: 'share',
   components: {
@@ -44,12 +48,31 @@ export default {
   props: {
     value: Object
   },
+  data () {
+    return {
+      rules: {
+        name: [
+          { required: true, message: '请输入分享按钮名称', trigger: ['blur', 'change'] },
+          { validator: validates.shareName, trigger: ['blur', 'change'] }
+        ]
+      }
+    }
+  },
   computed: {
     pageObj () {
       return this.value
     }
   },
   methods: {
+    validateRules () {
+      return new Promise((resolve, reject) => {
+        this.$refs.shareForm.validate((valid) => {
+          if (valid) {
+            resolve()
+          }
+        })
+      })
+    },
     updateColor () {
       this.pageObj.share.color = this.pageObj.mainColor
     }
