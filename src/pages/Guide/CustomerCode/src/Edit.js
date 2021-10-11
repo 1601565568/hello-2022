@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj } from '../util/Edit'
+import { formatePageObj, formatModel } from '../util/Edit'
 import { clone } from 'lodash'
 export default {
   data () {
@@ -484,31 +484,7 @@ export default {
       })
       const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3])
       if (checks.length === 3) {
-        if (this.model.validTimeType === 0) {
-          this.model.time = []
-          this.model.validTimeStart = ''
-          this.model.validTimeEnd = ''
-        }
-        if (this.model.time.length > 0) {
-          this.model.validTimeStart = this.model.time[0]
-          this.model.validTimeEnd = this.model.time[1]
-        }
-        this.eidtList[0].value.headPortraitShape = this.pageObj.headStyle
-        this.eidtList[1].value.pic = this.pageObj.bannerUrl
-        this.eidtList[3].value.virtualFinishedCount = parseInt(this.pageObj.activeInfo.number)
-        this.eidtList[3].value.btnColor = this.pageObj.activeInfo.getColor
-        let prizeRuleListObj = this.model.prizeRuleList[0] || {}
-        prizeRuleListObj.prizeNameSetting = this.pageObj.activeInfo.goodsName || ''
-        prizeRuleListObj.prizeIntro = this.pageObj.activeInfo.goodsDes || ''
-        prizeRuleListObj.prizePic = this.pageObj.activeInfo.image || ''
-        this.model.prizeRuleList[0] = prizeRuleListObj
-        this.eidtList[5].value.content = this.pageObj.rules
-        this.eidtList[6].value.pic = this.pageObj.regUrl
-        this.eidtList[7].value.color = this.pageObj.share.color
-        this.eidtList[7].value.name = this.pageObj.share.name
-        this.model.prizeStatus = this.eidtList[3].status
-        this.model.pageDecoration = JSON.stringify(this.eidtList)
-        this.model.pageColor = this.showColor.mainColor + ',' + this.showColor.bgColor + ',' + this.showColor.strColor
+        this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
         const headPosition = this.headPosition[this.model.headerType]
