@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel, formatCustomComponent } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel } from '../util/Edit'
 export default {
   data () {
     return {
@@ -120,9 +120,6 @@ export default {
       editBaseList: [0, 1, 2, 3, 4, 5, 6, 7],
       draggableIcon:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
-      goodsName: '',
-      goodsDes: '',
-      goodsImage: '',
       defauletWelcome: `你好 , 我是{USER_NICK}<br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：{ACTIVITY_VALIT_TIME}<br/>点击下方链接去分享吧 ↓↓`,
       pageObj: {
         headStyle: 1,
@@ -180,14 +177,6 @@ export default {
         { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ]
-
-      // 按品牌运营
-      // if (this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange === 1) {
-      //   tools.push({ type: 'custom', text: `插入招募链接`, id: 'RECRUIT_URL', value: `招募链接`, callback: this.openBrandDialog.bind(this) })
-      // } else {
-      //   tools.push({ type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' })
-      // }
-
       return tools
     }
   },
@@ -308,7 +297,7 @@ export default {
       if (Array.isArray(pageDecoration)) {
         this.eidtList = pageDecoration || []
       }
-      this.formatPrizeModel(result)
+      this.prizeModel = formatPrizeModel(result, this.copyGuestCodeId)
       this.customerLoading = false
       this.isStating = !!(result.status === 2 && this.guestCodeId)
       // 是否可以在未开始活动编辑奖励
@@ -325,20 +314,20 @@ export default {
         }
       })
     },
-    formatPrizeModel (result) {
-      this.prizeModel = {
-        prizeStatus: result.prizeStatus === 1,
-        prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
-          return {
-            ...item,
-            addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
-            validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
-            uuid: this.copyGuestCodeId ? null : item.uuid
-          }
-        }) : [],
-        prizeSendPlan: result.prizeSendPlan
-      }
-    },
+    // formatPrizeModel (result) {
+    //   this.prizeModel = {
+    //     prizeStatus: result.prizeStatus === 1,
+    //     prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
+    //       return {
+    //         ...item,
+    //         addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
+    //         validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
+    //         uuid: this.copyGuestCodeId ? null : item.uuid
+    //       }
+    //     }) : [],
+    //     prizeSendPlan: result.prizeSendPlan
+    //   }
+    // },
     // 获取员工详情
     getGuideListByGuestCodeId (guestCodeId) {
       const { start, length } = this.employeePage

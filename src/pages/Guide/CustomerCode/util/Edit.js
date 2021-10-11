@@ -1,8 +1,9 @@
-// 解析页面数据
+// 默认数据
 export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png'
 export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg'
 export const defRegUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
 
+// 解析页面数据
 export const formatePageObj = (eidtList, prizeModel) => {
   if (!eidtList && !prizeModel) return
   let pageObj = {
@@ -53,6 +54,24 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   return model
 }
 
+export const formatPrizeModel = (result, copyGuestCodeId) => {
+  let prizeModel = {}
+  prizeModel = {
+    prizeStatus: result.prizeStatus === 1,
+    prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
+      return {
+        ...item,
+        addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
+        validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
+        uuid: copyGuestCodeId ? null : item.uuid
+      }
+    }) : [],
+    prizeSendPlan: result.prizeSendPlan
+  }
+  return prizeModel
+}
+
+// 动态组件组件
 export const formatCustomComponent = (itemCode) => {
   const arr = ['HeadImg', 'Banner', 'Active', 'Rules', 'Share', 'Register']
   let setComponent
