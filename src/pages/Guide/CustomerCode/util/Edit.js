@@ -23,8 +23,8 @@ export const formatePageObj = (eidtList, prizeModel) => {
   pageObj.share.color = shareColor
   pageObj.share.name = eidtList[7].value.name
   let prizeRuleListObj = prizeModel.prizeRuleList[0] || {}
-  pageObj.activeInfo.goodsName = prizeRuleListObj.prizeIntro || ''
-  pageObj.activeInfo.goodsDes = prizeRuleListObj.prizeNameSetting || ''
+  pageObj.activeInfo.goodsName = prizeRuleListObj.prizeNameSetting || ''
+  pageObj.activeInfo.goodsDes = prizeRuleListObj.prizeIntro || ''
   pageObj.activeInfo.image = prizeRuleListObj.prizePic || ''
   return pageObj
 }
@@ -48,8 +48,8 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     model.prizeRuleList[0] = null
   } else {
     let prizeRuleListObj = model.prizeRuleList[0] || {}
-    prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsDes || ''
-    prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsName || ''
+    prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
+    prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
     prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
     model.prizeRuleList[0] = prizeRuleListObj
   }
