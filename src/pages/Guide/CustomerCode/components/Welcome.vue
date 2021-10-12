@@ -9,7 +9,7 @@
           <div class="scroll-view">
             <div class="base-view" v-if="info.length>0">
               <img class="head-view" src="@/assets/default-avatar.png"/>
-              <div class="welcome-info-view" ref="infoContent"></div>
+              <div class="welcome-info-view" v-html="info"></div>
             </div>
             <div class="base-view" v-if="title || detail || url">
               <img class="head-view" src="@/assets/default-avatar.png"/>
@@ -60,15 +60,6 @@ export default {
     return {
       showTitle: ''
     }
-  },
-  watch: {
-    info (newValue, oldValue) {
-      setTimeout(() => {
-        if (this.$refs.infoContent) {
-          this.$refs.infoContent.innerHTML = newValue.replace(/\n/g, '<br/>')
-        }
-      }, 0)
-    }
   }
 }
 </script>
@@ -83,6 +74,7 @@ export default {
   width: 220px;
   margin-left: 8px;
   border-radius: 3px;
+  white-space: pre-wrap;
   wise {
     color: #26a2ff;
     padding: 0 1px;
