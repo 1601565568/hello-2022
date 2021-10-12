@@ -27,7 +27,7 @@ export default {
         name: '', // 一客一码活动名称
         nick: 0, // 用户昵称：0无，1有
         nickColour: '#262626', // 用户昵称字体颜色：十六进制
-        nickSize: 0, // 用户昵称字体大小
+        nickSize: 14, // 用户昵称字体大小
         qrcodeSize: 172, // 二维码大小
         qrcodeX: 74, // 二维码X轴坐标值
         qrcodeY: 349, // 二维码Y轴坐标值
