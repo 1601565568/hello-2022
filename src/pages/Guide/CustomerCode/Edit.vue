@@ -402,6 +402,7 @@
                 v-model="model.activityIntroduction"
                 tag="wise"
                 ref="tagAreaText"
+                className="tagAreaText"
                 :maxlength="1000"
                 :tools="tools"
                 placeholder="请输入活动介绍"
@@ -436,7 +437,7 @@
                 </div>
                 <el-form-item prop="cardCoverPic">
                   <drap-upload
-                    tip="（请上传格式为jpg的图片，建议长宽比例为1:1，大小不超过2M）"
+                    tip="（请上传格式为jpg、jpeg或png的图片，建议长宽比例为1:1，大小不超过2M）"
                     v-model="model.cardCoverPic"
                     :showPont="false"
                     :maxSize="2"

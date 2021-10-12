@@ -192,22 +192,23 @@ export default {
     } else {
       this.isEdit = false
       this.isLoading = true
-      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
+      // this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
       const colors = this.model.pageColor.split(',')
       this.showColor = {
         mainColor: colors[0],
         bgColor: colors[1],
         strColor: colors[2]
       }
+      this.showDefaultText(this.defauletWelcome)
     }
   },
   methods: {
     inputEffectiveCycle (e) {
       this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
     },
-    showDefaultText () {
-      const str = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
-      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(str)
+    showDefaultText (introText) {
+      const str = this.$refs.tagAreaText.stringTohtml(introText)
+      this.model.activityIntroduction = str
       this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = str
     },
     scrollPhone (name) {
@@ -314,8 +315,8 @@ export default {
           this.$refs.colorView.selctColor(this.showColor)
         }
         if (this.$refs.tagAreaText) {
-          this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(result.activityIntroduction)
           this.pageObj.rules = this.$refs.tagAreaText.stringTohtml(this.eidtList[5].value.content || '')
+          this.showDefaultText(result.activityIntroduction || '')
         }
       })
     },
@@ -540,22 +541,24 @@ export default {
           return
         }
       }
-      const shareItem = this.eidtList[5]
+      const shareItem = this.eidtList[7]
       if (shareItem.status === 1) {
         if (!this.pageObj.share.name) {
           this.$notify.error('请输入分享按钮名称')
           return
         }
       }
-      let checks = []
-      let checksRules = []
+      let checksRules = [ruleForm, ruleForm2, ruleForm3]
       if (activeItem.status === 1 && !this.isEdit) {
-        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
-        checksRules = [1, 2, 3, 4, 5, 6]
-      } else {
-        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm5, ruleForm6])
-        checksRules = [1, 2, 3, 4, 5]
+        checksRules.push(ruleForm4)
       }
+      if (rulesItem.status === 1) {
+        checksRules.push(ruleForm5)
+      }
+      if (shareItem.status === 1) {
+        checksRules.push(ruleForm6)
+      }
+      const checks = await Promise.all(checksRules)
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         const guestCodeId = this.$route.query.guestCodeId || null
@@ -623,7 +626,7 @@ export default {
         this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
         this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
         this.model.activityIntroduction = text
-        this.handleChangePopoverShow(false)
+        // this.handleChangePopoverShow(false)
       }
     }
   }
