@@ -23,8 +23,8 @@ export const formatePageObj = (eidtList, prizeModel) => {
   pageObj.share.color = shareColor
   pageObj.share.name = eidtList[7].value.name
   let prizeRuleListObj = prizeModel.prizeRuleList[0] || {}
-  pageObj.activeInfo.goodsName = prizeRuleListObj.prizeNameSetting || ''
-  pageObj.activeInfo.goodsDes = prizeRuleListObj.prizeIntro || ''
+  pageObj.activeInfo.goodsName = prizeRuleListObj.prizeIntro || ''
+  pageObj.activeInfo.goodsDes = prizeRuleListObj.prizeNameSetting || ''
   pageObj.activeInfo.image = prizeRuleListObj.prizePic || ''
   return pageObj
 }

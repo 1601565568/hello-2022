@@ -14,7 +14,7 @@
             <div class="base-view" v-if="title || detail || url">
               <img class="head-view" src="@/assets/default-avatar.png"/>
               <div class="active-view">
-                <div class="active-title" ref="titleContent" contenteditable="true"></div>
+                <div class="active-title">{{title}}</div>
                 <div class="active-desc-view">
                   <div class="active-info">{{detail}}</div>
                   <img class="active-image" :src="url" v-if="url.length > 0"/>
@@ -56,18 +56,16 @@ export default {
       default: ''
     }
   },
+  data () {
+    return {
+      showTitle: ''
+    }
+  },
   watch: {
     info (newValue, oldValue) {
       setTimeout(() => {
         if (this.$refs.infoContent) {
           this.$refs.infoContent.innerHTML = newValue.replace(/\n/g, '<br/>')
-        }
-      }, 0)
-    },
-    title (newValue, oldValue) {
-      setTimeout(() => {
-        if (this.$refs.titleContent) {
-          this.$refs.titleContent.innerHTML = newValue
         }
       }, 0)
     }
@@ -144,6 +142,8 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 .active-desc-view {
   margin-top: 5px;
@@ -162,6 +162,7 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-all;
+  white-space: pre-wrap;
 }
 .active-image {
   width: 48px;

@@ -8,7 +8,7 @@
     <span slot="cardTitleother"></span>
     <div slot="content" class="customerCodeData">
       <div class="customerCode-list">
-        <div class="customerCode-list__title">推广大师 （人）</div>
+        <div class="customerCode-list__title">裂变大师 （人）</div>
         <div class="customerCode-list__num">0</div>
       </div>
       <div class="customerCode-list">
@@ -16,7 +16,7 @@
         <div class="customerCode-list__num">0</div>
       </div>
       <div class="customerCode-list">
-        <div class="customerCode-list__title">今日新增推广大师 （人）</div>
+        <div class="customerCode-list__title">今日新增裂变大师 （人）</div>
         <div class="customerCode-list__num">0</div>
       </div>
       <div class="customerCode-list">
