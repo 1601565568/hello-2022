@@ -217,6 +217,9 @@ export default {
     updateActiveModel (obj) {
       this.model.prizeRuleList = obj.prizeRuleList
       this.model.prizeSendPlan = obj.prizeSendPlan
+      if (!this.isEdit) {
+        this.$refs.activePhone.acScrollPhone('time-view')
+      }
     },
     onclick (itemCode) {
       let event = window.event
