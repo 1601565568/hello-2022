@@ -451,7 +451,6 @@ export default {
           }
         })
       })
-      const ruleForm4 = this.$refs.componentList[2].validateRules()
       const ruleForm5 = this.$refs.componentList[3].validateRules()
       const ruleForm6 = this.$refs.componentList[5].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
@@ -491,21 +490,23 @@ export default {
         this.$notify.error('请选择活动消息卡片封面图片')
         return
       }
-      let prizeRuleListObj = this.model.prizeRuleList[0] || {}
-      if (!prizeRuleListObj.prizeType) {
-        this.$notify.error('请选择奖励类型')
-        return
-      }
-      if (!prizeRuleListObj.prizeId) {
-        this.$notify.error('请选择奖励内容')
-        return
-      }
-      if (!prizeRuleListObj.prizeNumber) {
-        this.$notify.error('请设置活动奖励总数')
-        return
-      }
       const activeItem = this.eidtList[3]
+      let ruleForm4
       if (activeItem.status === 1 && !this.isEdit) {
+        ruleForm4 = this.$refs.componentList[2].validateRules()
+        let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+        if (!prizeRuleListObj.prizeType) {
+          this.$notify.error('请选择奖励类型')
+          return
+        }
+        if (!prizeRuleListObj.prizeId) {
+          this.$notify.error('请选择奖励内容')
+          return
+        }
+        if (!prizeRuleListObj.prizeNumber) {
+          this.$notify.error('请设置活动奖励总数')
+          return
+        }
         if (!this.pageObj.activeInfo.goodsName) {
           this.$notify.error('请输入奖品名称')
           return
@@ -529,8 +530,16 @@ export default {
           return
         }
       }
-      const checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
-      if (checks.length === 6) {
+      let checks = []
+      let checksRules = []
+      if (activeItem.status === 1 && !this.isEdit) {
+        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
+        checksRules = [1, 2, 3, 4, 5, 6]
+      } else {
+        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm5, ruleForm6])
+        checksRules = [1, 2, 3, 4, 5]
+      }
+      if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
         this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)

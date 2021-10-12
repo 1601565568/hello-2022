@@ -41,7 +41,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   eidtList[3].value.btnColor = pageObj.activeInfo.getColor
   let activeItem = eidtList[3] || {}
   if (activeItem.status === 0) {
-    model.prizeRuleList[0] = {}
+    model.prizeRuleList[0] = null
   } else {
     let prizeRuleListObj = model.prizeRuleList[0] || {}
     prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsDes || ''
