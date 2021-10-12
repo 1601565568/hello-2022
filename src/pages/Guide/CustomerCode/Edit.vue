@@ -402,6 +402,7 @@
                 v-model="model.activityIntroduction"
                 tag="wise"
                 ref="tagAreaText"
+                className="tagAreaText"
                 :maxlength="1000"
                 :tools="tools"
                 placeholder="请输入活动介绍"

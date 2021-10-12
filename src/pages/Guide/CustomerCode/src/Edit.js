@@ -192,22 +192,23 @@ export default {
     } else {
       this.isEdit = false
       this.isLoading = true
-      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
+      // this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
       const colors = this.model.pageColor.split(',')
       this.showColor = {
         mainColor: colors[0],
         bgColor: colors[1],
         strColor: colors[2]
       }
+      this.showDefaultText(this.defauletWelcome)
     }
   },
   methods: {
     inputEffectiveCycle (e) {
       this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
     },
-    showDefaultText () {
-      const str = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
-      this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(str)
+    showDefaultText (introText) {
+      const str = this.$refs.tagAreaText.stringTohtml(introText)
+      this.model.activityIntroduction = str
       this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = str
     },
     scrollPhone (name) {
@@ -314,8 +315,8 @@ export default {
           this.$refs.colorView.selctColor(this.showColor)
         }
         if (this.$refs.tagAreaText) {
-          this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(result.activityIntroduction)
           this.pageObj.rules = this.$refs.tagAreaText.stringTohtml(this.eidtList[5].value.content || '')
+          this.showDefaultText(result.activityIntroduction || '')
         }
       })
     },
@@ -623,7 +624,7 @@ export default {
         this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
         this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
         this.model.activityIntroduction = text
-        this.handleChangePopoverShow(false)
+        // this.handleChangePopoverShow(false)
       }
     }
   }
