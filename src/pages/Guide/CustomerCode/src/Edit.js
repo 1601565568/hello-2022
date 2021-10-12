@@ -75,8 +75,7 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请上传裂变大师海报' }
         ],
         activityIntroduction: [
-          { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
+          { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] }
         ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
@@ -454,6 +453,15 @@ export default {
       const ruleForm5 = this.$refs.componentList[3].validateRules()
       const ruleForm6 = this.$refs.componentList[5].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
+      let activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
+      const preRegexp = new RegExp('\\{' + 'EMOJI_', 'g')
+      const afterRegexp = new RegExp('}', 'g')
+      activityIntroduction = activityIntroduction.replace(preRegexp, '')
+      activityIntroduction = activityIntroduction.replace(afterRegexp, '')
+
+      let activeRules = this.$refs.tagAreaText.htmlToString(this.pageObj.rules)
+      activeRules = activeRules.replace(preRegexp, '')
+      activeRules = activeRules.replace(afterRegexp, '')
       if (!this.model.name) {
         this.$notify.error('请输入活动名称')
         return
@@ -476,6 +484,10 @@ export default {
       }
       if (!this.model.activityIntroduction) {
         this.$notify.error('请输入欢迎语')
+        return
+      }
+      if (activityIntroduction.length > 1000) {
+        this.$notify.error('欢迎语最多1000个字')
         return
       }
       if (!this.model.cardTitle) {
@@ -522,6 +534,10 @@ export default {
           this.$notify.error('请输入活动规则')
           return
         }
+        if (activeRules.length > 1000) {
+          this.$notify.error('活动规则最多1000个字')
+          return
+        }
       }
       const shareItem = this.eidtList[5]
       if (shareItem.status === 1) {
@@ -542,7 +558,7 @@ export default {
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         this.model.guestCodeId = this.$route.query.guestCodeId || null
-        this.model.activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
+        this.model.activityIntroduction = activityIntroduction
         const headPosition = this.headPosition[this.model.headerType]
         const data = { ...this.model, ...headPosition }
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
