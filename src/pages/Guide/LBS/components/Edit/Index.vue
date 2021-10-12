@@ -99,7 +99,7 @@
         </recruitment-collapse>
          <!-- 基础信息 end -->
         <!-- 消费者进群页面设置 start -->
-        <recruitment-collapse  :title='groupTip' phoneTitle='' :phoneBar='phoneTitle'>
+        <recruitment-collapse  :title='groupTip' phoneTitle='' :phoneBar='phoneTitle' :isH5bar='true'>
           <template slot='collapse-left'>
             <!-- 群聚合码设置 start -->
             <template v-if='type === "Group"'>
@@ -193,7 +193,7 @@
               </div>
               <div class='step-content'>
                 <div class='step-name'>Step1：</div>
-                <div class='step-value'>聚合二维码海报配置</div>
+                <div class='step-value'>门店聚合码设置</div>
                 <div class='step-tip'>
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle"  class='question-circle_detail'/>
@@ -203,12 +203,12 @@
                   </el-tooltip>
                 </div>
               </div>
-              <el-form-item label='聚合码设置' required prop='qrcodeType'  class='larger-item'>
+              <el-form-item label='聚合码中员工设置' required prop='qrcodeType'  class='larger-item'>
                 <el-radio-group v-model="model.qrcodeType">
                   <el-radio :label="1">门店全部员工</el-radio>
                   <el-radio :label="2">仅店长</el-radio>
                 </el-radio-group>
-                <p class='prompt-text'><span class='yellow-point'></span>聚合码最多添加100人，超过时将自动截取</p>
+                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加100人，超过时将自动截取</p>
               </el-form-item>
               <div class='step-content'>
                 <div class='step-name'>Step2：</div>
@@ -217,7 +217,7 @@
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle"  class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>消费者选择定位后，展示此海报和开启的企微聚合码</p>
+                      <p class='popperClass'>消费者选择门店后，展示此海报和门店的企微聚合码</p>
                     </template>
                   </el-tooltip>
                 </div>
