@@ -234,6 +234,7 @@ export default {
   margin-left: 0;
   font-size: 14px;
   color: #595959;
+  width: 100%;
 }
 .content-view {
   position: relative;
