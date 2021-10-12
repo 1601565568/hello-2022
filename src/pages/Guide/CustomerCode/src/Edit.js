@@ -541,22 +541,24 @@ export default {
           return
         }
       }
-      const shareItem = this.eidtList[5]
+      const shareItem = this.eidtList[7]
       if (shareItem.status === 1) {
         if (!this.pageObj.share.name) {
           this.$notify.error('请输入分享按钮名称')
           return
         }
       }
-      let checks = []
-      let checksRules = []
+      let checksRules = [ruleForm, ruleForm2, ruleForm3]
       if (activeItem.status === 1 && !this.isEdit) {
-        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm4, ruleForm5, ruleForm6])
-        checksRules = [1, 2, 3, 4, 5, 6]
-      } else {
-        checks = await Promise.all([ruleForm, ruleForm2, ruleForm3, ruleForm5, ruleForm6])
-        checksRules = [1, 2, 3, 4, 5]
+        checksRules.push(ruleForm4)
       }
+      if (rulesItem.status === 1) {
+        checksRules.push(ruleForm5)
+      }
+      if (shareItem.status === 1) {
+        checksRules.push(ruleForm6)
+      }
+      const checks = await Promise.all(checksRules)
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
         const guestCodeId = this.$route.query.guestCodeId || null

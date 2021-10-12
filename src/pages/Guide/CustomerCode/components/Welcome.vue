@@ -14,7 +14,7 @@
             <div class="base-view" v-if="title || detail || url">
               <img class="head-view" src="@/assets/default-avatar.png"/>
               <div class="active-view">
-                <div class="active-title">{{title}}</div>
+                <div class="active-title" ref="titleContent" contenteditable="true"></div>
                 <div class="active-desc-view">
                   <div class="active-info">{{detail}}</div>
                   <img class="active-image" :src="url" v-if="url.length > 0"/>
@@ -61,6 +61,13 @@ export default {
       setTimeout(() => {
         if (this.$refs.infoContent) {
           this.$refs.infoContent.innerHTML = newValue.replace(/\n/g, '<br/>')
+        }
+      }, 0)
+    },
+    title (newValue, oldValue) {
+      setTimeout(() => {
+        if (this.$refs.titleContent) {
+          this.$refs.titleContent.innerHTML = newValue
         }
       }, 0)
     }
