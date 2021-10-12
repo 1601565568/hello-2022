@@ -16,7 +16,11 @@ export const formatePageObj = (eidtList, prizeModel) => {
   pageObj.activeInfo.getColor = eidtList[3].value.btnColor
   pageObj.rules = eidtList[5].value.content
   pageObj.regUrl = eidtList[6].value.pic
-  pageObj.share.color = eidtList[7].value.color
+  let shareColor = eidtList[7].value.color
+  if (!shareColor.includes('#')) {
+    shareColor = '#' + eidtList[7].value.color
+  }
+  pageObj.share.color = shareColor
   pageObj.share.name = eidtList[7].value.name
   let prizeRuleListObj = prizeModel.prizeRuleList[0] || {}
   pageObj.activeInfo.goodsName = prizeRuleListObj.prizeNameSetting || ''
@@ -51,7 +55,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   }
   eidtList[5].value.content = pageObj.rules
   eidtList[6].value.pic = pageObj.regUrl.length > 0 ? pageObj.regUrl : defRegUrl
-  eidtList[7].value.color = pageObj.share.color
+  eidtList[7].value.color = pageObj.share.color.replace(/#/g, '')
   eidtList[7].value.name = pageObj.share.name
   model.prizeStatus = eidtList[3].status
   model.pageDecoration = JSON.stringify(eidtList)
