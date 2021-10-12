@@ -168,7 +168,7 @@
         >
           <el-collapse class="customer-collapse customer-edit" v-model="collapseList">
             <el-collapse-item title="活动页面装修" :name="2">
-              <el-col :span="16">
+              <el-col :span="16" class="active-phone-view">
                 <ColorView v-model="showColor" ref="colorView"/>
                 <div class="form-item_tip" style="margin-bottom:0">
                   活动页面将根据下面排列顺序显示
@@ -505,6 +505,19 @@ export default Edit
 <style lang="scss" scoped>
 @import './styles/reset.css';
 @import './styles/leftview.css';
+.active-phone-view {
+  max-height: 800px;
+  overflow: scroll;
+   &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 .customer-header {
   background-color: #fff;
   margin: -10px -10px 0;
