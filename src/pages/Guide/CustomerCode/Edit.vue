@@ -185,7 +185,7 @@
                             <div>
                               {{ item.itemName }}
                             </div>
-                            <div class="edit-switch" @click="onclick(item.itemCode)">
+                            <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode)">
                               <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="isStating && item.itemCode ==='reward'"></el-switch>
                             </div>
                           </div>
@@ -830,6 +830,9 @@ export default Edit
   justify-content: space-between;
   width: 100%;
   padding-left: 40px;
+}
+.hide-edit-switch {
+  display: none;
 }
 .edit-body {
   position: relative;
