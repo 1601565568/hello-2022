@@ -60,6 +60,14 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   return model
 }
 
+export const formatModelSave = (model, activityIntroduction, activeRules, guestCodeId, eidtList) => {
+  model.activityIntroduction = activityIntroduction
+  eidtList[5].value.content = activeRules
+  model.pageDecoration = JSON.stringify(eidtList)
+  model.guestCodeId = guestCodeId
+  return model
+}
+
 export const formatPrizeModel = (result, copyGuestCodeId) => {
   let prizeModel = {}
   prizeModel = {

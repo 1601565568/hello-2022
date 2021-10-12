@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave } from '../util/Edit'
 export default {
   data () {
     return {
@@ -315,6 +315,7 @@ export default {
         }
         if (this.$refs.tagAreaText) {
           this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(result.activityIntroduction)
+          this.pageObj.rules = this.$refs.tagAreaText.stringTohtml(this.eidtList[5].value.content || '')
         }
       })
     },
@@ -557,8 +558,10 @@ export default {
       }
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
-        this.model.guestCodeId = this.$route.query.guestCodeId || null
-        this.model.activityIntroduction = activityIntroduction
+        const guestCodeId = this.$route.query.guestCodeId || null
+        const saveIntro = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
+        const saveRules = this.$refs.tagAreaText.htmlToString(this.pageObj.rules)
+        this.model = formatModelSave(this.model, saveIntro, saveRules, guestCodeId, this.eidtList)
         const headPosition = this.headPosition[this.model.headerType]
         const data = { ...this.model, ...headPosition }
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
