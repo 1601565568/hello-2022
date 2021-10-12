@@ -245,6 +245,8 @@
                       :isNeedCrop="true"
                       :showFooter="false"
                       uploadTitle="点击或拖拽上传活动海报"
+                      :disabled="isStating"
+                      :showDelImg="!isStating"
                     >
                   </drap-upload>
                   </el-form-item>
@@ -254,16 +256,19 @@
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
+                        :disabled="isStating"
                       >显示
                       </el-radio>
                       <el-radio
                         v-model="model.headPortrait"
                         :label="0"
+                        :disabled="isStating"
                       >不显示
                       </el-radio>
                       <span style="margin-left:16px">昵称颜色：</span>
                       <el-color-picker
                         v-model="model.nickColour"
+                        :disabled="isStating"
                       ></el-color-picker>
                     </div>
                     <div class="row-view">
@@ -271,23 +276,27 @@
                       <el-radio
                         v-model="model.headPortraitShape"
                         :label="1"
+                        :disabled="isStating"
                       >方形
                       </el-radio>
                       <el-radio
                         v-model="model.headPortraitShape"
                         :label="0"
+                        :disabled="isStating"
                       >圆形
                       </el-radio>
                       <span style="margin-left:16px">排版样式：</span>
                         <el-radio
                           v-model="model.headerType"
                           :label="0"
+                          :disabled="isStating"
                         >
                           竖排
                         </el-radio>
                         <el-radio
                           v-model="model.headerType"
                           :label="1"
+                          :disabled="isStating"
                         >
                           横排
                         </el-radio>
