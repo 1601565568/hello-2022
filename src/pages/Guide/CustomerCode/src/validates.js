@@ -1,7 +1,7 @@
 export default {
   shareName: (rule, value, callback) => {
     if (value.length > 10) {
-      callback(new Error('奖品名称最多10个字'))
+      callback(new Error('分享按钮名称最多10个字'))
     } else {
       callback()
     }

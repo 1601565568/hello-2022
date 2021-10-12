@@ -91,6 +91,7 @@ export default {
 .scroll-view {
   max-height: 480px;
   overflow: scroll;
+  padding-bottom: 100px;
   &::-webkit-scrollbar-thumb {
     display: none;
   }
