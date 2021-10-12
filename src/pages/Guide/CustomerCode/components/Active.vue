@@ -143,7 +143,6 @@ export default {
     },
     updatePrize (model) {
       this.$emit('updateActiveModel', model)
-      this.$emit('scrollPhone', 'time-view')
     },
     updateGetColor () {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
