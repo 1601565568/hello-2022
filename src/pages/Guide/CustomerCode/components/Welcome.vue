@@ -11,12 +11,12 @@
               <img class="head-view" src="@/assets/default-avatar.png"/>
               <div class="welcome-info-view" v-html="info"></div>
             </div>
-            <div class="base-view" v-if="title || detail || url">
+            <div class="base-view">
               <img class="head-view" src="@/assets/default-avatar.png"/>
               <div class="active-view">
-                <div class="active-title">{{title}}</div>
+                <div class="active-title">{{title || '这是标题'}}</div>
                 <div class="active-desc-view">
-                  <div class="active-info">{{detail}}</div>
+                  <div class="active-info">{{detail || '这是文案'}}</div>
                   <img class="active-image" :src="url" v-if="url.length > 0"/>
                 </div>
               </div>

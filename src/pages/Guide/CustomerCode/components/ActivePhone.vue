@@ -2,18 +2,18 @@
   <div>
     <Phone>
       <template v-slot:content>
-        <div class="content-view">
+        <div class="content-view" :style="{background:showColor.bgColor}">
           <div>
             <img class="phone-view" src="../Images/iphoneActive.jpg"/>
           </div>
-          <div class="info-view" v-show="eidtList[0].status === 1">
-            <div class="user-info">
-              <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="../Images/iphone-1.jpg"/>
-              <span>裂变大师昵称</span>
+          <div class="scroll-view">
+            <div class="info-view" v-show="eidtList[0].status === 1">
+              <div class="user-info">
+                <img :class="pageObj.headStyle === 1 ? 'user-img ': 'user-img user-img-rund'" src="../Images/iphone-1.jpg"/>
+                <span>裂变大师昵称</span>
+              </div>
+              <div class="invitation-text">邀请好友0人</div>
             </div>
-            <div class="invitation-text">邀请好友0人</div>
-          </div>
-          <div class="scroll-view" :style="{background:showColor.bgColor}">
             <div class="banner-view" v-show="eidtList[1].status === 1">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="get-view" :style="{background:pageObj.activeInfo.getColor || showColor.mainColor}">领取奖励</div>
               </div>
-              <div v-show="eidtList[3].status === 1 || eidtList[2].status === 1">
+              <div v-show="eidtList[3].status === 1">
                 <div class="rouder-bottom">
                   <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
                   <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
@@ -85,7 +85,7 @@
               </div>
             </div>
             <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
-              <div v-show="eidtList[3].status === 1 || eidtList[2].status === 1">
+              <div v-show="eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
                 <div class="rouder-top">
@@ -247,7 +247,6 @@ export default {
 .phone-view {
   width: 320px;
   height: 62px;
-  object-fit: contain;
 }
 .info-view {
   display: flex;
@@ -307,7 +306,7 @@ export default {
   height: 100%;
 }
 .scroll-view {
-  max-height: calc(100% - 62px -42px -80px);
+  max-height: calc(100% - 62px -80px);
   overflow: scroll;
   position: relative;
   &::-webkit-scrollbar-thumb {

@@ -233,7 +233,7 @@
                 <div class="poster-content">
                   <el-form-item prop="backgroundPic">
                     <drap-upload
-                      tip="（请上传格式为jpg、jpeg或png的图片，大小不超过2M）"
+                      tip="（上传限制：750*1334像素，小于2M，jpg、png、jpeg格式）"
                       v-model="model.backgroundPic"
                       :maxWidth="750"
                       :maxHeight="1334"
@@ -248,8 +248,8 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
-                    <!-- <div class="row-view">裂变大师信息：</div> -->
-                    <div class="row-view">显示裂变大师头像、昵称：
+                    <div style="height:16px"></div>
+                    <div class="row-view" style="height:60px;">显示裂变大师头像、昵称：
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
