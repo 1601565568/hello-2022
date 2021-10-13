@@ -438,7 +438,7 @@
                     v-model="model.cardCoverPic"
                     :showPont="false"
                     :maxSize="2"
-                    :isNeedCrop="false"
+                    :isNeedCrop="true"
                     :showFooter="false"
                   >
                   </drap-upload>
