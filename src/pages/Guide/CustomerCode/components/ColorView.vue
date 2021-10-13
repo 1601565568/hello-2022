@@ -50,9 +50,9 @@
         <div class="dialog-subtitle">自定义配色方案</div>
         <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
           <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:customColor.mainColor,border: editWhere === 1 && isEdit ? '5px solid #ffffff':''}" class="color-base" @click.stop="editClickColor(1)"></div>
-            <div :style="{background:customColor.bgColor,border: editWhere === 2 && isEdit ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editClickColor(2)"></div>
-            <div :style="{background:customColor.strColor,border: editWhere === 3 && isEdit ? '5px solid #ffffff':''}" class="color-base"  @click.stop="editClickColor(3)"></div>
+            <div :style="{background:customColor.mainColor,border: editWhere === 1 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 1 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base" @click.stop="editClickColor(1)"></div>
+            <div :style="{background:customColor.bgColor,border: editWhere === 2 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 2 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base"  @click.stop="editClickColor(2)"></div>
+            <div :style="{background:customColor.strColor,border: editWhere === 3 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 3 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base"  @click.stop="editClickColor(3)"></div>
           </div>
         </div>
         <div>
