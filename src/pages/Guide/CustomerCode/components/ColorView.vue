@@ -37,8 +37,8 @@
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
                 <div class="mask-view">
-                  <span @click.stop="eidtColor(index)">编辑</span>
-                  <span @click.stop="setColor(index)">使用</span>
+                  <span @click.stop="eidtColor(index)" class="mask-base-view mask-base-view-hover-edit">编辑</span>
+                  <span @click.stop="setColor(index)" class="mask-base-view mask-base-view-hover-set">使用</span>
                 </div>
               </div>
             </div>
@@ -46,6 +46,7 @@
         </div>
       </div>
       <div>
+          <!-- box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .05); -->
         <div class="dialog-subtitle">自定义配色方案</div>
         <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
           <div class="color-sel-base-cont custom-color-cont">
@@ -206,6 +207,10 @@ export default {
       this.customColor.mainColor = item.mainColor
       this.customColor.bgColor = item.bgColor
       this.customColor.strColor = item.strColor
+
+      this.showColor.mainColor = item.mainColor
+      this.showColor.bgColor = item.bgColor
+      this.showColor.strColor = item.strColor
     },
     leaveMaskView () {
       this.showMask = false
@@ -327,7 +332,7 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  background: rgba(151,151,151,0.45);
+  background: rgba(151,151,151,0.6);
   width: 100%;
   height: 100%;
   display: flex;
@@ -337,6 +342,22 @@ export default {
   color: #FFFFFF;
   align-items: center;
   opacity: 0;
+}
+.mask-base-view {
+  width: 60px;
+  height: 36px;
+  border-radius: 2px;
+  line-height: 36px;
+  text-align: center;
+  display: inline-block;
+  opacity: 1;
+}
+
+.mask-base-view-hover-edit:hover {
+  background: rgba(255,255,255,0.45);
+}
+.mask-base-view-hover-set:hover {
+  background: rgba(255,255,255,0.45);
 }
 .color-sel-base-cont:hover .mask-view {
   opacity: 1;
