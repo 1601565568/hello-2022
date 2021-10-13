@@ -12,7 +12,7 @@
         label="分享按钮颜色"
         class="larger-item"
       >
-      <div class="color-view">
+      <div class="share-color-view">
         <el-color-picker
           v-model="pageObj.share.color"
         ></el-color-picker>
@@ -85,10 +85,11 @@ export default {
   margin-top: 24px;
   margin-bottom: 24px;
 }
-.color-view {
+.share-color-view {
   display: flex;
   align-items: center;
   flex-direction: row;
+  margin-left: 0;
 }
 .color-text {
   font-size: 14px;

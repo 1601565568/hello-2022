@@ -6,6 +6,7 @@
       :model="pageObj.activeInfo"
       :rules="rules"
       ref="reward"
+      size="medium"
       class="normal-from">
       <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
@@ -64,7 +65,7 @@
         label="领取奖励按钮颜色"
         class="larger-item"
       >
-      <div class="color-view">
+      <div class="active-color-view">
         <el-color-picker
           v-model="pageObj.activeInfo.getColor"
         ></el-color-picker>
@@ -163,10 +164,12 @@ export default {
   margin-top: 24px;
   margin-bottom: 24px;
 }
-.color-view {
+.active-color-view {
   display: flex;
   align-items: center;
   flex-direction: row;
+  margin-left: 0px;
+  /* height: 60px; */
 }
 .color-text {
   font-size: 14px;

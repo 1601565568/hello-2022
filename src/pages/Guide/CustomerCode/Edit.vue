@@ -170,9 +170,6 @@
             <el-collapse-item title="活动页面装修" :name="2">
               <el-col :span="16" class="active-phone-view">
                 <ColorView v-model="showColor" ref="colorView"/>
-                <div class="form-item_tip" style="margin-bottom:0">
-                  活动页面将根据下面排列顺序显示
-                </div>
                 <el-collapse v-model="editBaseList">
                   <template v-for="(item, index) in eidtList">
                     <div :class="(index === 2 || index === 4) ? 'hidden-common-collapse': 'common-collapse'" :key="index">
@@ -181,11 +178,11 @@
                         :name="index"
                       >
                         <template slot="title">
-                          <div class="edit-view" @click="onShowEdit(item.itemCode)">
+                          <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
                             <div>
                               {{ item.itemName }}
                             </div>
-                            <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode)">
+                            <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' || item.itemCode === 'activityRule' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode)">
                               <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="isStating && item.itemCode ==='reward'"></el-switch>
                             </div>
                           </div>
@@ -236,7 +233,7 @@
                 <div class="poster-content">
                   <el-form-item prop="backgroundPic">
                     <drap-upload
-                      tip="（请上传格式为jpg、jpeg或png的图片，大小不超过2M）"
+                      tip="（上传限制：750*1334像素，小于2M，jpg、png、jpeg格式）"
                       v-model="model.backgroundPic"
                       :maxWidth="750"
                       :maxHeight="1334"
@@ -251,8 +248,8 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
-                    <!-- <div class="row-view">裂变大师信息：</div> -->
-                    <div class="row-view">显示裂变大师头像、昵称：
+                    <div style="height:16px"></div>
+                    <div class="row-view" style="height:60px;">显示裂变大师头像、昵称：
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
@@ -536,9 +533,9 @@ export default Edit
   // &::before {
   //   content: ' ';
   //   position: absolute;
-  //   left: 66.666%;
-  //   top: 0;
-  //   height: 100%;
+  //   left: 66.6%;
+  //   top: 5%;
+  //   height: 90%;
   //   bottom: 0;
   //   width: 1px;
   //   background: #e8e8e8;
@@ -843,7 +840,7 @@ export default Edit
     background: #fff;
     left: 0;
     top: 0;
-    z-index: 10;
+    z-index:10;
     opacity: 0;
     transition: opacity 0.5s;
     display: flex;

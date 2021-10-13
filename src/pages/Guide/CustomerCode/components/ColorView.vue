@@ -11,15 +11,15 @@
       >
       <div class="color-view">
         <div class="color-sel">
-          <div class="color-sel-base color-sel-base-user" @click="colorClick(index)">
+          <div class="color-sel-base" @click="getMoreColor">
             <div class="color-sel-base-cont">
               <div :style="{background:showColor.mainColor}" class="color-base"></div>
               <div :style="{background:showColor.bgColor}" class="color-base"></div>
               <div :style="{background:showColor.strColor}" class="color-base"></div>
             </div>
+            <span class="iconfont icon-ns-arrow-down select-color-icon"></span>
           </div>
         </div>
-        <div class="color-more" @click="getMoreColor">更多配色方案</div>
       </div>
       </el-form-item>
     </el-form>
@@ -92,13 +92,13 @@ export default {
       dialogIndex: 0,
       colorList: [
         {
-          mainColor: '#FF544E',
-          bgColor: '#FF8C5C',
+          mainColor: '#F96C39',
+          bgColor: '#FFA30E',
           strColor: '#FFFFFF'
         },
         {
-          mainColor: '#FFA30E',
-          bgColor: '#F96C39',
+          mainColor: '#FF544E',
+          bgColor: '#FF8C5C',
           strColor: '#FFFFFF'
         },
         {
@@ -164,7 +164,17 @@ export default {
   },
   methods: {
     selctColor (item) {
-      const index = this.colorList.indexOf(item)
+      let index = -1
+      for (let i = 0; i < this.colorList.length; i++) {
+        let color = this.colorList[i]
+        if (
+          item.mainColor === color.mainColor &&
+          item.bgColor === color.bgColor &&
+          item.strColor === color.strColor
+        ) {
+          index = i
+        }
+      }
       if (index !== -1) {
         this.dialogIndex = index
         this.isEdit = false
@@ -264,6 +274,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .color-sel-base-cont {
   display: flex;
@@ -329,5 +340,16 @@ export default {
 }
 .color-sel-base-cont:hover .mask-view {
   opacity: 1;
+}
+.select-color-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  color: white;
+  margin-top: -16px;
+  margin-left: -8px;
+  font-size: 16px;
 }
 </style>
