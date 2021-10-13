@@ -41,11 +41,12 @@
               v-model="pageObj.activeInfo.image"
               :showPont="false"
               :maxSize="2"
-              :isNeedCrop="false"
+              :isNeedCrop="true"
               :showFooter="false"
               uploadTitle="点击或拖拽上传奖品图片"
               :showDelImg="!isStating"
               :disabled="isStating"
+              @input="input"
             >
             </drap-upload>
           </el-form-item>

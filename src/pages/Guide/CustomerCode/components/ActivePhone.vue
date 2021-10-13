@@ -18,7 +18,7 @@
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
             <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
-              <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1">
+              <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1 && model.validTimeType === 1">
                 <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
                 <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-0 time-icon-dian"></span>
