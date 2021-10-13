@@ -18,6 +18,7 @@
                 <div class="active-desc-view">
                   <div class="active-info">{{detail || '这是文案'}}</div>
                   <img class="active-image" :src="url" v-if="url.length > 0"/>
+                  <img class="active-image" :src="defurl" v-else/>
                 </div>
               </div>
             </div>
@@ -58,7 +59,8 @@ export default {
   },
   data () {
     return {
-      showTitle: ''
+      showTitle: '',
+      defurl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   }
 }
