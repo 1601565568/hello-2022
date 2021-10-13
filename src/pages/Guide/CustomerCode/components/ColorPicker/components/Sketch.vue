@@ -68,7 +68,7 @@ export default {
     },
     disableAlpha: {
       type: Boolean,
-      default: false
+      default: true
     },
     disableFields: {
       type: Boolean,
