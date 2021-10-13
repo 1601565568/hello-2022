@@ -144,8 +144,8 @@ export default {
       colorPicker: false,
       showMask: false,
       customColor: {
-        mainColor: '#FF544E',
-        bgColor: '#FF8C5C',
+        mainColor: '#F96C39',
+        bgColor: '#FFA30E',
         strColor: '#FFFFFF'
       },
       isEdit: false,
@@ -193,6 +193,7 @@ export default {
     },
     setColor (index) {
       this.setCustomer(index)
+      this.setShowColor(index)
       this.dialogIndex = index
       this.isEdit = false
     },
@@ -202,15 +203,17 @@ export default {
       this.isEdit = true
       this.editWhere = 1
     },
+    setShowColor (index) {
+      const item = this.colorList[index]
+      this.showColor.mainColor = item.mainColor
+      this.showColor.bgColor = item.bgColor
+      this.showColor.strColor = item.strColor
+    },
     setCustomer (index) {
       const item = this.colorList[index]
       this.customColor.mainColor = item.mainColor
       this.customColor.bgColor = item.bgColor
       this.customColor.strColor = item.strColor
-
-      this.showColor.mainColor = item.mainColor
-      this.showColor.bgColor = item.bgColor
-      this.showColor.strColor = item.strColor
     },
     leaveMaskView () {
       this.showMask = false
