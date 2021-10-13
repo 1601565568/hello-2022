@@ -116,3 +116,26 @@ export const formatCustomComponent = (itemCode) => {
   }
   return setComponent
 }
+
+export const RichText = (str) => {
+  let escapeStr = str
+  const preRegexp = new RegExp('\\{' + 'EMOJI_', 'g')
+  const afterRegexp = new RegExp('}', 'g')
+  escapeStr = escapeStr.replace(/{USER_NICK}/g, '员工微信昵称')
+  escapeStr = escapeStr.replace(/{EXTERNAL_CONTACT_NICK}/g, '好友微信昵称')
+  escapeStr = escapeStr.replace(/{PROMOTION_URL}/g, '好友微信昵称')
+  escapeStr = escapeStr.replace(/{RECRUIT_URL}/g, '招募链接')
+  escapeStr = escapeStr.replace(/{ACTIVITY_VALIT_TIME}/g, '活动有效时间')
+  escapeStr = escapeStr.replace(preRegexp, '')
+  escapeStr = escapeStr.replace(afterRegexp, '')
+  escapeStr = escape2Html(escapeStr)
+  return escapeStr
+}
+
+// 富文本反转义
+function escape2Html (str) {
+  let arrEntities = { 'lt': '<', 'gt': '>', 'amp': '&', 'quot': '"' }
+  return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) {
+    return arrEntities[t]
+  })
+}

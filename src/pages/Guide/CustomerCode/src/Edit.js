@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText } from '../util/Edit'
 export default {
   data () {
     return {
@@ -283,7 +283,7 @@ export default {
       //   // activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
       //   backgroundPic: result.backgroundPic,
       //   effectiveCycle: result.effectiveCycle,
-      //   headPortrait: result.headPortrait,
+      //   headPortrait: result.headPortrait
       //   name: result.name,
       //   nickColour: result.nickColour,
       //   qrcodeSize: result.qrcodeSize,
@@ -464,14 +464,9 @@ export default {
       const ruleForm6 = this.$refs.componentList[5].validateRules()
       this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
       let activityIntroduction = this.$refs.tagAreaText.htmlToString(this.model.activityIntroduction)
-      const preRegexp = new RegExp('\\{' + 'EMOJI_', 'g')
-      const afterRegexp = new RegExp('}', 'g')
-      activityIntroduction = activityIntroduction.replace(preRegexp, '')
-      activityIntroduction = activityIntroduction.replace(afterRegexp, '')
-
+      activityIntroduction = RichText(activityIntroduction)
       let activeRules = this.$refs.tagAreaText.htmlToString(this.pageObj.rules)
-      activeRules = activeRules.replace(preRegexp, '')
-      activeRules = activeRules.replace(afterRegexp, '')
+      activeRules = RichText(activeRules)
       if (!this.model.name) {
         this.$notify.error('请输入活动名称')
         return
