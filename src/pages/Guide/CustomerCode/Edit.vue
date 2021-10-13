@@ -182,7 +182,7 @@
                             <div>
                               {{ item.itemName }}
                             </div>
-                            <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode)">
+                            <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' || item.itemCode === 'activityRule' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode)">
                               <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="isStating && item.itemCode ==='reward'"></el-switch>
                             </div>
                           </div>
@@ -533,9 +533,9 @@ export default Edit
   // &::before {
   //   content: ' ';
   //   position: absolute;
-  //   left: 66.666%;
-  //   top: 0;
-  //   height: 100%;
+  //   left: 66.6%;
+  //   top: 5%;
+  //   height: 90%;
   //   bottom: 0;
   //   width: 1px;
   //   background: #e8e8e8;

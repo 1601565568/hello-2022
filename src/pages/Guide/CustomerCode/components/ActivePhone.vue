@@ -138,7 +138,10 @@
               </div>
               <div class="rules-content-view">
                 <div class="welcome-info-view" v-html="pageObj.rules"></div>
-                <div style="margin-top:8px" v-if="model.validTimeType === 1">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
+                <div style="margin-top:8px" v-if="model.validTimeType === 1">
+                  <div v-if="model.time.length > 0">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
+                  <div v-else>活动有效期：</div>
+                </div>
                 <div style="margin-top:8px" v-else>活动有效期：永久有效</div>
               </div>
             </div>
@@ -379,8 +382,6 @@ export default {
   font-size: 14px;
 }
 .get-view {
-  margin-left: 16px;
-  margin-right: 16px;
   height: 42px;
   border-radius: 24px;
   line-height: 42px;
