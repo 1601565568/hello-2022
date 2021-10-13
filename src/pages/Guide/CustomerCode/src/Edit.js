@@ -499,8 +499,16 @@ export default {
         this.$notify.error('请输入活动消息卡片标题')
         return
       }
+      if (this.model.cardTitle.length > 20) {
+        this.$notify.error('活动名称最多20个字')
+        return
+      }
       if (!this.model.cardCopywriting) {
         this.$notify.error('请输入活动消息卡片文案')
+        return
+      }
+      if (this.model.cardCopywriting.length > 50) {
+        this.$notify.error('活动文案最多50个字')
         return
       }
       if (!this.model.cardCoverPic) {
@@ -528,8 +536,16 @@ export default {
           this.$notify.error('请输入奖品名称')
           return
         }
+        if (this.pageObj.activeInfo.goodsName.length > 20) {
+          this.$notify.error('奖品名称最多20个字')
+          return
+        }
         if (!this.pageObj.activeInfo.goodsDes) {
           this.$notify.error('请输入奖品简介')
+          return
+        }
+        if (this.pageObj.activeInfo.goodsDes.length > 50) {
+          this.$notify.error('奖品简介最多50个字')
           return
         }
       }
@@ -548,6 +564,10 @@ export default {
       if (shareItem.status === 1) {
         if (!this.pageObj.share.name) {
           this.$notify.error('请输入分享按钮名称')
+          return
+        }
+        if (this.pageObj.share.name > 10) {
+          this.$notify.error('分享按钮名称最多10个字')
           return
         }
       }

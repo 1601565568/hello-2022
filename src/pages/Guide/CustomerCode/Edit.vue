@@ -209,7 +209,7 @@
                   </template>
                 </el-collapse>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="8" style="margin-top:100px">
                 <ActivePhone :pageObj.sync="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
               </el-col>
             </el-collapse-item>
@@ -506,7 +506,7 @@ export default Edit
 @import './styles/reset.css';
 @import './styles/leftview.css';
 .active-phone-view {
-  max-height: 800px;
+  max-height: 900px;
   overflow: scroll;
    &::-webkit-scrollbar-thumb {
     display: none;
