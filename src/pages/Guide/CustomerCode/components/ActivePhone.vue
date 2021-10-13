@@ -123,7 +123,7 @@
               </div>
             </div>
             <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
-              <div v-show="eidtList[4].status === 1">
+              <div v-show="eidtList[4].status === 1 || eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
                 <div class="rouder-top">

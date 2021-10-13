@@ -840,7 +840,7 @@ export default Edit
     background: #fff;
     left: 0;
     top: 0;
-    z-index: 1002;
+    z-index:10;
     opacity: 0;
     transition: opacity 0.5s;
     display: flex;
