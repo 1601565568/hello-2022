@@ -227,7 +227,7 @@ export default {
       this.onShowEdit(itemCode)
     },
     // 点击获取编辑模块
-    onShowEdit (itemCode) {
+    onShowEdit (itemCode, status) {
       if (itemCode === 'countdown' || itemCode === 'reward') {
         this.$refs.activePhone.acScrollPhone('time-view')
       }
@@ -235,7 +235,11 @@ export default {
         this.$refs.activePhone.acScrollPhone('banner-view')
       }
       if (itemCode === 'invitedFriend') {
-        this.$refs.activePhone.acScrollPhone('friends-view')
+        if (status === 0) {
+          this.$refs.activePhone.acScrollPhone('banner-view')
+        } else {
+          this.$refs.activePhone.acScrollPhone('friends-view')
+        }
       }
       if (itemCode === 'memberRegister') {
         this.$refs.activePhone.acScrollPhone('register-view')

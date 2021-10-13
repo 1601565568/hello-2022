@@ -178,7 +178,7 @@
                         :name="index"
                       >
                         <template slot="title">
-                          <div class="edit-view" @click="onShowEdit(item.itemCode)">
+                          <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
                             <div>
                               {{ item.itemName }}
                             </div>
