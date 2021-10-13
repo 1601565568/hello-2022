@@ -416,6 +416,7 @@ export default {
   font-size: 12px;
   color: #595959;
   line-height: 20px;
+  width: 400px;
   .remind-color {
     display: inline-block;
     width: 8px;

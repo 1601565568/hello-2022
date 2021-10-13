@@ -272,6 +272,11 @@ export default {
       const result = json.result
       this.model = { ...this.model, ...result }
       this.model.time = [result.validTimeStart, result.validTimeEnd]
+      let nickColor = this.model.nickColour
+      if (!nickColor.includes('#')) {
+        nickColor = '#' + nickColor
+      }
+      this.model.nickColour = nickColor
       // this.model = {
       //   ...this.model,
       //   activityDescription: result.activityDescription,
