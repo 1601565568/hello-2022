@@ -32,7 +32,7 @@ export default {
         qrcodeX: 74, // 二维码X轴坐标值
         qrcodeY: 349, // 二维码Y轴坐标值
         validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
-        pageColor: '#F96C39,#FFA30E,#FFFFFF', // 活动页面配色方案
+        pageColor: '#FFA30E,#F96C39,#FFFFFF', // 活动页面配色方案
         pageDecoration: '', // 裂变大师活动页面装修配置
         prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
         guestCodeId: '', // 一客一码活动ID
@@ -221,10 +221,10 @@ export default {
         this.$refs.activePhone.acScrollPhone('time-view')
       }
     },
-    onclick (itemCode) {
+    onclick (itemCode, status) {
       let event = window.event
       event.stopPropagation()
-      this.onShowEdit(itemCode)
+      this.onShowEdit(itemCode, status)
     },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
@@ -236,7 +236,7 @@ export default {
       }
       if (itemCode === 'invitedFriend') {
         if (status === 0) {
-          this.$refs.activePhone.acScrollPhone('banner-view')
+          this.$refs.activePhone.acScrollPhone('rules-view')
         } else {
           this.$refs.activePhone.acScrollPhone('friends-view')
         }

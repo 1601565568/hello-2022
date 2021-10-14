@@ -17,35 +17,35 @@
             <div class="banner-view" v-show="eidtList[1].status === 1">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
+            <div class="time-view" :style="{background:showColor.mainColor}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
               <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1 && model.validTimeType === 1">
                 <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-4 time-icon-number"></span>
                 </span>
                 <span class="iconfont icon-tian time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-2 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-2 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-3 time-icon-dian"></span>
-                </span>
-                <span>:</span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-1 time-icon-dian"></span>
-                </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-3 time-icon-number"></span>
                 </span>
                 <span>:</span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-5 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-1 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-4 time-icon-number"></span>
+                </span>
+                <span>:</span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-5 time-icon-number"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
               </div>
               <div class="time-content-view" v-show="eidtList[3].status === 1">
@@ -57,11 +57,17 @@
                   </div>
                 </div>
                 <div class="progress-view">
-                  <div style="margin-bottom:8px;">
-                    <div class="tip-view" :style="{background:showColor.mainColor}">已邀请：4人</div>
-                    <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
+                  <div style="margin-bottom:0px;">
+                    <div class="tip-view" :style="{background:showColor.bgColor}">已邀请5人</div>
+                    <div class="triangle-down" :style="{borderTopColor: showColor.bgColor}"></div>
                   </div>
-                  <el-progress :percentage="50" :show-text="false" :color="showColor.mainColor"></el-progress>
+                  <div class="cus-progress-view">
+                    <div class="progress-view-bar" :style="{background:showColor.bgColor}"></div>
+                    <div>
+                      <span :style="{color:showColor.bgColor,fontSize:'13px'}">5</span>
+                      <span style="color:#8C8C8C;font-size:13px">/5</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="get-number-view" v-show="parseInt(pageObj.activeInfo.number) > 0">
                   <div class="number-img">
@@ -84,7 +90,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
-            <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
+            <div class="friends-view" :style="{background:showColor.mainColor}" v-show="eidtList[4].status === 1">
               <div v-show="eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -96,7 +102,7 @@
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
-                <span :style="{background:showColor.mainColor}" class="rules-number">
+                <span :style="{background:showColor.bgColor}" class="rules-number">
                   <span class="iconfont icon-a-4" style="lineHeight:20px"></span>
                 </span>
                 <span class="iconfont icon-ren rules-icon"></span>
@@ -122,7 +128,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
-            <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
+            <div class="rules-view" :style="{background:showColor.mainColor}" v-show="eidtList[5].status === 1">
               <div v-show="eidtList[4].status === 1 || eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -159,14 +165,15 @@
 </template>
 
 <script>
+import { FileExclamationFill } from '@ant-design/icons'
 import Phone from './Phone'
-import ElProgress from '@nascent/nui/lib/progress'
+// import ElProgress from '@nascent/nui/lib/progress'
 import { defBanner, defGoodsUrl, defRegUrl } from '../util/Edit'
 export default {
   name: 'activephone',
   components: {
-    Phone,
-    ElProgress
+    Phone
+    // ElProgress
   },
   props: {
     value: Object,
@@ -226,6 +233,11 @@ export default {
     acScrollPhone (name) {
       let target = document.querySelector(`.${name}`)
       target.parentNode.scrollTop = target.offsetTop
+    },
+    setItemText () {
+      return () => {
+        return ''
+      }
     }
   }
 }
@@ -324,7 +336,7 @@ export default {
   border-radius: 12px;
   margin: 8px 16px;
   padding-top: 8px;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   position: relative;
 }
 .friends-view {
@@ -359,19 +371,22 @@ export default {
 }
 .friends-content-view {
   border-radius: 8px;
+  padding: 8px;
   margin: 8px;
-  padding: 16px;
   background-color: white;
   font-size: 14px;
+  color: #8C8C8C;
 }
 
 .friends-list {
   display: flex;
   flex-direction: row;
-  height: 22px;
+  // height: 22px;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  // margin-bottom: 8px;
 }
 .time-content-view {
   border-radius: 8px;
@@ -425,10 +440,13 @@ export default {
   color: #FFFFFF;
   padding-left: 14px;
   padding-right: 14px;
-  width: 100px;
+  height: 22px;
+  width: 72px;
+  margin-left: 150px;
+  text-align: center;
 }
 .triangle-down {
-  margin-left: 20px;
+  margin-left: 185px;
   width: 0;
   height: 0;
   border-left: 3px solid transparent;
@@ -471,16 +489,30 @@ export default {
   border-radius: 6px;
   text-align: center;
   margin-right: 1px;
+  position: relative;
 }
 .time-title-view {
-  line-height: 20px;
+  // line-height: 20px;
   width: 100%;
-  padding-left: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // padding-left: 13px;
 }
 
 .time-icon-dian {
-  font-size: 12px
+  font-size: 12px;
 }
+
+.time-icon-number {
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  position: absolute;
+  top: -1px;
+  left: 1px;
+}
+
 .rouder-bottom {
   margin-left: 39px;
   margin-right: 39px;
@@ -537,4 +569,15 @@ export default {
   border-bottom-right-radius: 16px;
 }
 
+.cus-progress-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.progress-view-bar {
+  width: 190px;
+  height: 8px;
+  border-radius: 4px;
+}
 </style>

@@ -412,7 +412,9 @@ export default {
     white-space: nowrap;
 }
 .remind-view {
-  margin-top: 4px;
+  position: absolute;
+  top: 100px;
+  left: 0;
   font-size: 12px;
   color: #595959;
   line-height: 20px;
