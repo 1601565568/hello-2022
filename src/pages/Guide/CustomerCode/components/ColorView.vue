@@ -50,9 +50,10 @@
         <div class="dialog-subtitle">自定义配色方案</div>
         <div :class="isEdit ? 'color-sel-base custom-color color-sel-base-user' : 'color-sel-base custom-color'">
           <div class="color-sel-base-cont custom-color-cont">
-            <div :style="{background:customColor.mainColor,border: editWhere === 1 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 1 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base" @click.stop="editClickColor(1)"></div>
-            <div :style="{background:customColor.bgColor,border: editWhere === 2 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 2 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base"  @click.stop="editClickColor(2)"></div>
-            <div :style="{background:customColor.strColor,border: editWhere === 3 && isEdit ? '5px solid #ffffff':'', boxShadow: editWhere === 3 && isEdit ? '0px 0px 20px #979797' : ''}" class="color-base"  @click.stop="editClickColor(3)"></div>
+            <!-- zIndex:100,position: relative -->
+            <div :style="{background:customColor.mainColor}" :class="editWhere === 1 && isEdit ? 'color-base color-edit-sel': 'color-base'" @click.stop="editClickColor(1)"></div>
+            <div :style="{background:customColor.bgColor}" :class="editWhere === 2 && isEdit ? 'color-base color-edit-sel': 'color-base'"  @click.stop="editClickColor(2)"></div>
+            <div :style="{background:customColor.strColor}" :class="editWhere === 3 && isEdit ? 'color-base color-edit-sel': 'color-base'"  @click.stop="editClickColor(3)"></div>
           </div>
         </div>
         <div>
@@ -304,7 +305,13 @@ export default {
 .color-base {
   width: 33.33%;
   height: 100%;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
+  /* box-sizing: content-box; */
+}
+.color-edit-sel {
+  z-index: 100;
+  box-shadow: 0px 0px 20px 0 rgba(0,0,0,0.5);
+  border: 5px solid #ffffff;
 }
 .dialog-subtitle {
   font-size: 14px;
