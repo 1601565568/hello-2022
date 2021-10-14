@@ -17,35 +17,35 @@
             <div class="banner-view" v-show="eidtList[1].status === 1">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
+            <div class="time-view" :style="{background:showColor.mainColor}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
               <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1 && model.validTimeType === 1">
                 <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-4 time-icon-number"></span>
                 </span>
                 <span class="iconfont icon-tian time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-2 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-2 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-3 time-icon-dian"></span>
-                </span>
-                <span>:</span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-1 time-icon-dian"></span>
-                </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-4 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-3 time-icon-number"></span>
                 </span>
                 <span>:</span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-5 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-1 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.mainColor}">
-                  <span class="iconfont icon-a-0 time-icon-dian"></span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-4 time-icon-number"></span>
+                </span>
+                <span>:</span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-5 time-icon-number"></span>
+                </span>
+                <span class="rules-number" :style="{background:showColor.bgColor}">
+                  <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
               </div>
               <div class="time-content-view" v-show="eidtList[3].status === 1">
@@ -90,7 +90,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
-            <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
+            <div class="friends-view" :style="{background:showColor.mainColor}" v-show="eidtList[4].status === 1">
               <div v-show="eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -102,8 +102,8 @@
               <div class="rules-title-view" :style="{color:showColor.strColor}">
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
-                <span :style="{background:showColor.mainColor}" class="rules-number">
-                  <span class="iconfont icon-a-0" style="lineHeight:20px"></span>
+                <span :style="{background:showColor.bgColor}" class="rules-number">
+                  <span class="iconfont icon-a-4" style="lineHeight:20px"></span>
                 </span>
                 <span class="iconfont icon-ren rules-icon"></span>
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
@@ -128,7 +128,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
-            <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
+            <div class="rules-view" :style="{background:showColor.mainColor}" v-show="eidtList[5].status === 1">
               <div v-show="eidtList[4].status === 1 || eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -489,16 +489,30 @@ export default {
   border-radius: 6px;
   text-align: center;
   margin-right: 1px;
+  position: relative;
 }
 .time-title-view {
-  line-height: 20px;
+  // line-height: 20px;
   width: 100%;
-  padding-left: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // padding-left: 13px;
 }
 
 .time-icon-dian {
-  font-size: 10px;
+  font-size: 12px;
 }
+
+.time-icon-number {
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  position: absolute;
+  top: -1px;
+  left: 1px;
+}
+
 .rouder-bottom {
   margin-left: 39px;
   margin-right: 39px;
