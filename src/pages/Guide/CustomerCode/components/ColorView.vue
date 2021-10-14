@@ -260,6 +260,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 0;
 }
 .color-more {
   font-size: 14px;
@@ -311,7 +312,7 @@ export default {
 }
 .color-edit-sel {
   z-index: 100;
-  box-shadow: 0px 0px 20px 0 rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 6px 0 rgba(0,0,0,0.5);
   border: 5px solid #ffffff;
 }
 .dialog-subtitle {
