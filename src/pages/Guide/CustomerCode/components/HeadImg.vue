@@ -1,7 +1,7 @@
 <template>
   <div class="item-view">
     <el-form :rules="rules"
-      label-width="100px"
+      label-width="110px"
       label-position="left"
       size="medium"
       class="normal-from">

@@ -23,7 +23,7 @@
     <el-row class="customer-box">
       <el-col :span="16" class="customer-edit">
         <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -138,7 +138,7 @@
                 </div>
               </el-form-item>
               <el-form-item
-                label="分享二维码过期设置"
+                label="分享二维码过 期设置"
                 required
                 prop="effectiveCycle"
               >
@@ -156,9 +156,9 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
       <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -206,16 +206,18 @@
                   </template>
                 </el-collapse>
               </el-col>
-              <el-col :span="8" style="margin-top:100px">
-                <ActivePhone :pageObj.sync="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
+              <el-col :span="8">
+                <div style="margin-top:100px">
+                  <ActivePhone :pageObj.sync="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
+                </div>
               </el-col>
             </el-collapse-item>
           </el-collapse>
         </el-form>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
        <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -248,8 +250,8 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
-                    <div style="height:16px"></div>
-                    <div class="row-view" style="height:60px;">显示裂变大师头像、昵称：
+                    <div class="row-view">裂变大师信息：</div>
+                    <div class="row-view">显示裂变大师头像、昵称：
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
@@ -262,7 +264,9 @@
                         :disabled="isStating"
                       >不显示
                       </el-radio>
-                      <span style="margin-left:16px">昵称颜色：</span>
+                    </div>
+                    <div class="row-view" style="height:60px;">
+                      <span>昵称颜色：</span>
                       <el-color-picker
                         v-model="model.nickColour"
                         :disabled="isStating"
@@ -282,7 +286,9 @@
                         :disabled="isStating"
                       >圆形
                       </el-radio>
-                      <span style="margin-left:16px">排版样式：</span>
+                    </div>
+                    <div class="row-view">
+                      <span>排版样式：</span>
                         <el-radio
                           v-model="model.headerType"
                           :label="0"
@@ -374,9 +380,9 @@
         </el-collapse>
       </el-form>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
       <el-form
-        label-width="100px"
+        label-width="110px"
         label-position="left"
         :model="model"
         size="medium"
@@ -503,7 +509,8 @@ export default Edit
 @import './styles/reset.css';
 @import './styles/leftview.css';
 .active-phone-view {
-  max-height: 900px;
+  // max-height: 900px;
+  height: 900px;
   overflow: scroll;
    &::-webkit-scrollbar-thumb {
     display: none;
@@ -967,5 +974,17 @@ export default Edit
   .input-view {
     padding: 16px 16px 0 16px;
   }
+}
+.max-view {
+  &::before {
+    content: ' ';
+    position: absolute;
+    right: 31.5%;
+    top: 2%;
+    height: 96%;
+    bottom: 0;
+    width: 1px;
+    background: #E8E8E8;
+   }
 }
 </style>

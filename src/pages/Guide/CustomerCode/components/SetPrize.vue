@@ -1,7 +1,7 @@
 <template>
   <div class="prize-view">
     <el-form
-      label-width="100px"
+      label-width="110px"
       label-position="left"
       :model="model"
       size="medium"

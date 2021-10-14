@@ -3,7 +3,7 @@
     <el-form
       :model="pageObj.share"
       :rules="rules"
-      label-width="100px"
+      label-width="110px"
       label-position="left"
       size="medium"
       ref="shareForm"

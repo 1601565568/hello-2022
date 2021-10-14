@@ -1,7 +1,7 @@
 <template>
   <div class="item-view">
     <el-form
-      label-width="100px"
+      label-width="110px"
       label-position="left"
       :model="pageObj.activeInfo"
       :rules="rules"
@@ -63,7 +63,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="领取奖励按钮 颜色"
+        label="领取奖励按钮颜色"
         class="larger-item"
       >
       <div class="active-color-view">
