@@ -32,7 +32,7 @@ export default {
         qrcodeX: 74, // 二维码X轴坐标值
         qrcodeY: 349, // 二维码Y轴坐标值
         validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
-        pageColor: '#F96C39,#FFA30E,#FFFFFF', // 活动页面配色方案
+        pageColor: '#FFA30E,#F96C39,#FFFFFF', // 活动页面配色方案
         pageDecoration: '', // 裂变大师活动页面装修配置
         prizeStatus: '', // 奖励机制启用状态：0 关闭 1开启
         guestCodeId: '', // 一客一码活动ID

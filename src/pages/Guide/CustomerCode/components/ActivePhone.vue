@@ -57,11 +57,17 @@
                   </div>
                 </div>
                 <div class="progress-view">
-                  <div style="margin-bottom:8px;">
-                    <div class="tip-view" :style="{background:showColor.mainColor}">已邀请：4人</div>
-                    <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
+                  <div style="margin-bottom:0px;">
+                    <div class="tip-view" :style="{background:showColor.bgColor}">已邀请5人</div>
+                    <div class="triangle-down" :style="{borderTopColor: showColor.bgColor}"></div>
                   </div>
-                  <el-progress :percentage="50" :show-text="false" :color="showColor.mainColor"></el-progress>
+                  <div class="cus-progress-view">
+                    <div class="progress-view-bar" :style="{background:showColor.bgColor}"></div>
+                    <div>
+                      <span :style="{color:showColor.bgColor,fontSize:'13px'}">5</span>
+                      <span style="color:#8C8C8C;font-size:13px">/5</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="get-number-view" v-show="parseInt(pageObj.activeInfo.number) > 0">
                   <div class="number-img">
@@ -160,14 +166,15 @@
 </template>
 
 <script>
+import { FileExclamationFill } from '@ant-design/icons'
 import Phone from './Phone'
-import ElProgress from '@nascent/nui/lib/progress'
+// import ElProgress from '@nascent/nui/lib/progress'
 import { defBanner, defGoodsUrl, defRegUrl } from '../util/Edit'
 export default {
   name: 'activephone',
   components: {
-    Phone,
-    ElProgress
+    Phone
+    // ElProgress
   },
   props: {
     value: Object,
@@ -227,6 +234,11 @@ export default {
     acScrollPhone (name) {
       let target = document.querySelector(`.${name}`)
       target.parentNode.scrollTop = target.offsetTop
+    },
+    setItemText () {
+      return () => {
+        return ''
+      }
     }
   }
 }
@@ -430,10 +442,13 @@ export default {
   color: #FFFFFF;
   padding-left: 14px;
   padding-right: 14px;
-  width: 100px;
+  height: 22px;
+  width: 72px;
+  margin-left: 150px;
+  text-align: center;
 }
 .triangle-down {
-  margin-left: 20px;
+  margin-left: 185px;
   width: 0;
   height: 0;
   border-left: 3px solid transparent;
@@ -542,4 +557,15 @@ export default {
   border-bottom-right-radius: 16px;
 }
 
+.cus-progress-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.progress-view-bar {
+  width: 190px;
+  height: 8px;
+  border-radius: 4px;
+}
 </style>

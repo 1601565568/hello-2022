@@ -37,8 +37,8 @@
                 <div :style="{background:item.bgColor}" class="color-base"></div>
                 <div :style="{background:item.strColor}" class="color-base"></div>
                 <div class="mask-view">
-                  <span @click.stop="eidtColor(index)" class="mask-base-view mask-base-view-hover-edit">编辑</span>
                   <span @click.stop="setColor(index)" class="mask-base-view mask-base-view-hover-set">使用</span>
+                  <span @click.stop="eidtColor(index)" class="mask-base-view mask-base-view-hover-edit">编辑</span>
                 </div>
               </div>
             </div>
@@ -94,8 +94,8 @@ export default {
       dialogIndex: 0,
       colorList: [
         {
-          mainColor: '#F96C39',
-          bgColor: '#FFA30E',
+          mainColor: '#FFA30E',
+          bgColor: '#F96C39',
           strColor: '#FFFFFF'
         },
         {
@@ -145,8 +145,8 @@ export default {
       colorPicker: false,
       showMask: false,
       customColor: {
-        mainColor: '#F96C39',
-        bgColor: '#FFA30E',
+        mainColor: '#FFA30E',
+        bgColor: '#F96C39',
         strColor: '#FFFFFF'
       },
       isEdit: false,
@@ -209,6 +209,7 @@ export default {
       this.showColor.mainColor = item.mainColor
       this.showColor.bgColor = item.bgColor
       this.showColor.strColor = item.strColor
+      this.dialogVisible = false
     },
     setCustomer (index) {
       const item = this.colorList[index]
