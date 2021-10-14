@@ -54,6 +54,10 @@
     height: 60px;
     padding: 6px;
   }
+  >>> .el-color-picker--medium .el-color-picker__mask {
+    width: 60px;
+    height: 60px;
+  }
   >>> .el-color-picker--medium {
     height: 60px;
   }
