@@ -109,8 +109,7 @@
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
               <div class="friends-content-view">
-                快去邀请好友吧～
-                <!-- <div v-for="(item,index) in fiends" :key="index">
+                <div v-for="(item,index) in fiends" :key="index">
                   <div class="friends-list">
                     <div>
                       <img :src="item.url" style="width:24px;height:24px;margin-right:4px;borderRadius:50%"/>
@@ -118,7 +117,7 @@
                     </div>
                     <div style="font-size:12px;color:#8C8C8C;">{{item.time}}</div>
                   </div>
-                </div> -->
+                </div>
               </div>
               <div v-show="eidtList[5].status === 1">
                 <div class="rouder-bottom">
@@ -372,23 +371,22 @@ export default {
 }
 .friends-content-view {
   border-radius: 8px;
+  padding: 8px;
   margin: 8px;
   background-color: white;
   font-size: 14px;
-  height: 84px;
-  font-size: 12px;
   color: #8C8C8C;
-  text-align: center;
-  line-height: 84px;
 }
 
 .friends-list {
   display: flex;
   flex-direction: row;
-  height: 22px;
+  // height: 22px;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  // margin-bottom: 8px;
 }
 .time-content-view {
   border-radius: 8px;
