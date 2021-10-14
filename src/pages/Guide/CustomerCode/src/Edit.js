@@ -221,10 +221,10 @@ export default {
         this.$refs.activePhone.acScrollPhone('time-view')
       }
     },
-    onclick (itemCode) {
+    onclick (itemCode, status) {
       let event = window.event
       event.stopPropagation()
-      this.onShowEdit(itemCode)
+      this.onShowEdit(itemCode, status)
     },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
@@ -236,7 +236,7 @@ export default {
       }
       if (itemCode === 'invitedFriend') {
         if (status === 0) {
-          this.$refs.activePhone.acScrollPhone('banner-view')
+          this.$refs.activePhone.acScrollPhone('rules-view')
         } else {
           this.$refs.activePhone.acScrollPhone('friends-view')
         }
