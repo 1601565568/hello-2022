@@ -165,6 +165,13 @@ export default {
         this.pageObj.mainColor = newValue.mainColor
       },
       deep: true
+    },
+    model: {
+      handler (newValue, oldValue) {
+        const item = this.eidtList[2]
+        item.status = newValue.validTimeType === 1 ? 1 : 0
+      },
+      deep: true
     }
   },
   computed: {
@@ -225,6 +232,10 @@ export default {
       let event = window.event
       event.stopPropagation()
       this.onShowEdit(itemCode, status)
+      if (itemCode === 'countdown' && this.model.validTimeType === 0) {
+        this.eidtList[2].status = 0
+        this.$notify.warning('活动永久有效，无需显示倒计时')
+      }
     },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {

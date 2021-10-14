@@ -60,6 +60,7 @@
           v-model="pageObj.activeInfo.number"
           placeholder="请输入人数"
           @input='inputNumber'
+          :length="10"
         />
       </el-form-item>
       <el-form-item
@@ -150,7 +151,12 @@ export default {
       this.pageObj.activeInfo.getColor = this.pageObj.mainColor
     },
     inputNumber (value) {
-      this.pageObj.activeInfo.number = value.replace(/[^\d]/g, '')
+      let str = value
+      str = str.replace(/[^\d]/g, '')
+      if (str.length > 10) {
+        str = str.substr(0, 10)
+      }
+      this.pageObj.activeInfo.number = str
       this.$emit('scrollPhone', 'time-view')
     },
     input () {

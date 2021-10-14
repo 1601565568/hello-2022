@@ -183,7 +183,7 @@
                               {{ item.itemName }}
                             </div>
                             <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' || item.itemCode === 'masterInfo' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode,item.status)">
-                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="isStating && item.itemCode ==='reward'"></el-switch>
+                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward')"></el-switch>
                             </div>
                           </div>
                         </template>
