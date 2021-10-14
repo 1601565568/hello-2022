@@ -86,8 +86,8 @@
                   <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
                   <div class="rounder-view" :style="{background:showColor.bgColor}"></div>
                 </div>
-                <div class="line-left-bottom" :style="{background:showColor.mainColor}"></div>
-                <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
+                <div class="line-left-bottom" :style="{background:showColor.mainColor,height:'16px'}"></div>
+                <div class="line-right-bottom" :style="{background:showColor.mainColor,height:'16px'}"></div>
               </div>
             </div>
             <div class="friends-view" :style="{background:showColor.mainColor}" v-show="eidtList[4].status === 1">
@@ -441,7 +441,7 @@ export default {
   padding-left: 14px;
   padding-right: 14px;
   height: 22px;
-  width: 72px;
+  width: 85px;
   margin-left: 150px;
   text-align: center;
 }
