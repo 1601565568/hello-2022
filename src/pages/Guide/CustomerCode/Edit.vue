@@ -156,9 +156,9 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
       <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -206,16 +206,18 @@
                   </template>
                 </el-collapse>
               </el-col>
-              <el-col :span="8" style="margin-top:100px">
-                <ActivePhone :pageObj.sync="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
+              <el-col :span="8">
+                <div style="margin-top:100px">
+                  <ActivePhone :pageObj.sync="pageObj" :showColor="showColor" :eidtList.sync="eidtList" :model.sync="model" ref="activePhone"/>
+                </div>
               </el-col>
             </el-collapse-item>
           </el-collapse>
         </el-form>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
        <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -378,9 +380,9 @@
         </el-collapse>
       </el-form>
     </el-row>
-    <el-row class="customer-box">
+    <el-row class="customer-box max-view">
       <el-form
-        label-width="100px"
+        label-width="110px"
         label-position="left"
         :model="model"
         size="medium"
@@ -507,7 +509,8 @@ export default Edit
 @import './styles/reset.css';
 @import './styles/leftview.css';
 .active-phone-view {
-  max-height: 900px;
+  // max-height: 900px;
+  height: 900px;
   overflow: scroll;
    &::-webkit-scrollbar-thumb {
     display: none;
@@ -971,5 +974,17 @@ export default Edit
   .input-view {
     padding: 16px 16px 0 16px;
   }
+}
+.max-view {
+  &::before {
+    content: ' ';
+    position: absolute;
+    right: 31.5%;
+    top: 2%;
+    height: 96%;
+    bottom: 0;
+    width: 1px;
+    background: #E8E8E8;
+   }
 }
 </style>

@@ -63,7 +63,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="领取奖励按钮 颜色"
+        label="领取奖励按钮颜色"
         class="larger-item"
       >
       <div class="active-color-view">
