@@ -23,7 +23,7 @@
     <el-row class="customer-box">
       <el-col :span="16" class="customer-edit">
         <el-form
-          label-width="100px"
+          label-width="110px"
           label-position="left"
           :model="model"
           size="medium"
@@ -138,7 +138,7 @@
                 </div>
               </el-form-item>
               <el-form-item
-                label="分享二维码过期设置"
+                label="分享二维码过 期设置"
                 required
                 prop="effectiveCycle"
               >
@@ -248,8 +248,8 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
-                    <div style="height:16px"></div>
-                    <div class="row-view" style="height:60px;">显示裂变大师头像、昵称：
+                    <div class="row-view">裂变大师信息：</div>
+                    <div class="row-view">显示裂变大师头像、昵称：
                       <el-radio
                         v-model="model.headPortrait"
                         :label="1"
@@ -262,7 +262,9 @@
                         :disabled="isStating"
                       >不显示
                       </el-radio>
-                      <span style="margin-left:16px">昵称颜色：</span>
+                    </div>
+                    <div class="row-view" style="height:60px;">
+                      <span>昵称颜色：</span>
                       <el-color-picker
                         v-model="model.nickColour"
                         :disabled="isStating"
@@ -282,7 +284,9 @@
                         :disabled="isStating"
                       >圆形
                       </el-radio>
-                      <span style="margin-left:16px">排版样式：</span>
+                    </div>
+                    <div class="row-view">
+                      <span>排版样式：</span>
                         <el-radio
                           v-model="model.headerType"
                           :label="0"

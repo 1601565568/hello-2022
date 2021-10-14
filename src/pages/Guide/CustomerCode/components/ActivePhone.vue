@@ -438,8 +438,8 @@ export default {
   border-radius: 11px;
   font-size: 12px;
   color: #FFFFFF;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding-left: 11px;
+  padding-right: 11px;
   height: 22px;
   width: 85px;
   margin-left: 150px;
