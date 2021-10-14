@@ -97,13 +97,14 @@
                 <span class="iconfont icon-a-000 rules-icon"></span>
                 <span class="iconfont icon-chenggongyaoqinghaoyou rules-icon"></span>
                 <span :style="{background:showColor.mainColor}" class="rules-number">
-                  <span class="iconfont icon-a-4" style="lineHeight:20px"></span>
+                  <span class="iconfont icon-a-0" style="lineHeight:20px"></span>
                 </span>
                 <span class="iconfont icon-ren rules-icon"></span>
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
               <div class="friends-content-view">
-                <div v-for="(item,index) in fiends" :key="index">
+                快去邀请好友吧～
+                <!-- <div v-for="(item,index) in fiends" :key="index">
                   <div class="friends-list">
                     <div>
                       <img :src="item.url" style="width:24px;height:24px;margin-right:4px;borderRadius:50%"/>
@@ -111,7 +112,7 @@
                     </div>
                     <div style="font-size:12px;color:#8C8C8C;">{{item.time}}</div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div v-show="eidtList[5].status === 1">
                 <div class="rouder-bottom">
@@ -324,7 +325,7 @@ export default {
   border-radius: 12px;
   margin: 8px 16px;
   padding-top: 8px;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   position: relative;
 }
 .friends-view {
@@ -360,9 +361,13 @@ export default {
 .friends-content-view {
   border-radius: 8px;
   margin: 8px;
-  padding: 16px;
   background-color: white;
   font-size: 14px;
+  height: 84px;
+  font-size: 12px;
+  color: #8C8C8C;
+  text-align: center;
+  line-height: 84px;
 }
 
 .friends-list {
@@ -479,7 +484,7 @@ export default {
 }
 
 .time-icon-dian {
-  font-size: 12px
+  font-size: 10px;
 }
 .rouder-bottom {
   margin-left: 39px;
