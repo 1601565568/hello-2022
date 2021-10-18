@@ -183,3 +183,9 @@
     margin-bottom: 0px;
   }
 }
+
+.form-item_time {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
+}

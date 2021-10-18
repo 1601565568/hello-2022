@@ -120,18 +120,30 @@
                   <el-form-item
                     label-width="8px"
                     label=" "
-                    prop="time"
+                    prop="validTimeStart"
                     hide-required-asterisk
                   >
                     <el-date-picker
-                      v-model="model.time"
-                      type="datetimerange"
+                      v-model="model.validTimeStart"
+                      type="date"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      range-separator="至"
-                      start-placeholder="请选择开始日期"
-                      end-placeholder="请选择结束日期"
-                      :default-time="['00:00:00', '23:59:59']"
-                      align="right"
+                      placeholder="请输入开始时间"
+                      :disabled="isStating"
+                    >
+                    </el-date-picker>
+                  </el-form-item>
+                  <span class="time-line-view">~</span>
+                  <el-form-item
+                    label-width="8px"
+                    label=" "
+                    prop="validTimeEnd"
+                    hide-required-asterisk
+                  >
+                    <el-date-picker
+                      v-model="model.validTimeEnd"
+                      type="date"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      placeholder="请输入结束时间"
                     >
                     </el-date-picker>
                   </el-form-item>
@@ -986,5 +998,9 @@ export default Edit
     width: 1px;
     background: #E8E8E8;
    }
+}
+.time-line-view {
+  display: inline-block;
+  margin-left: 8px;
 }
 </style>

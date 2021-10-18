@@ -1,7 +1,16 @@
 import validates from './validates'
 import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText } from '../util/Edit'
+import moment from 'moment'
 export default {
   data () {
+    const validTimeEndFunc = (rule, value, callback) => {
+      const isCompare = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
+      if (isCompare) {
+        callback(new Error('结束时间不能大于开始时间'))
+      } else {
+        callback()
+      }
+    }
     return {
       normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
       collapseList: [1, 2, 3, 4],
@@ -57,8 +66,12 @@ export default {
           { required: true, message: '请选择参加活动人员', trigger: ['blur', 'change'] },
           { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
         ],
-        time: [
-          { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
+        validTimeStart: [
+          { required: true, message: '请选择开始日期', trigger: ['blur', 'change'] }
+        ],
+        validTimeEnd: [
+          { required: true, message: '请选择结束日期', trigger: ['blur', 'change'] },
+          { validator: validTimeEndFunc, trigger: ['blur', 'change'] }
         ],
         cardTitle: [
           { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片标题' },
@@ -210,6 +223,13 @@ export default {
     }
   },
   methods: {
+    isCompareDate () {
+      const isCompare = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
+      if (isCompare) {
+        this.$notify.error('结束时间不能大于开始时间')
+      }
+      return isCompare
+    },
     inputEffectiveCycle (e) {
       this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
     },
@@ -490,9 +510,19 @@ export default {
         this.$notify.error('请选择参加活动人员')
         return
       }
-      if (this.model.validTimeType === 1 && this.model.time.length === 0) {
-        this.$notify.error('请选择有效日期')
-        return
+      if (this.model.validTimeType === 1) {
+        if (!this.model.validTimeStart) {
+          this.$notify.error('请选择开始时间')
+          return
+        }
+        if (!this.model.validTimeEnd) {
+          this.$notify.error('请选择结束时间')
+          return
+        }
+        const isCompare = this.isCompareDate()
+        if (isCompare) {
+          return
+        }
       }
       if (Number(this.model.effectiveCycle) <= 0) {
         this.$notify.error('请填写过期时间')

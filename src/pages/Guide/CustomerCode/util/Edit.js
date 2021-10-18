@@ -35,10 +35,10 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     model.validTimeStart = ''
     model.validTimeEnd = ''
   }
-  if (model.time.length > 0) {
-    model.validTimeStart = model.time[0]
-    model.validTimeEnd = model.time[1]
-  }
+  // if (model.time.length > 0) {
+  //   model.validTimeStart = model.time[0]
+  //   model.validTimeEnd = model.time[1]
+  // }
   const defPrizeModel = {
     prizeGrade: 1,
     addPrizeNumber: 0, // 新增活动奖励总数
