@@ -12,7 +12,7 @@ export const formatePageObj = (eidtList, prizeModel) => {
   }
   pageObj.headStyle = eidtList[0].value.headPortraitShape
   pageObj.bannerUrl = eidtList[1].value.pic
-  pageObj.activeInfo.number = eidtList[3].value.virtualFinishedCount
+  pageObj.activeInfo.number = eidtList[3].value.virtualFinishedCount.toString()
   pageObj.activeInfo.getColor = eidtList[3].value.btnColor
   pageObj.rules = eidtList[5].value.content
   pageObj.regUrl = eidtList[6].value.pic

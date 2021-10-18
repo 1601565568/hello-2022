@@ -48,6 +48,7 @@ export default {
   methods: {
     genderClick (index) {
       this.pageObj.headStyle = index
+      this.$emit('scrollPhone', 'info-view')
     }
   }
 }

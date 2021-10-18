@@ -125,7 +125,7 @@ export default {
         bannerUrl: '',
         activeInfo: {
           image: '',
-          number: 0,
+          number: '0',
           getColor: '',
           goodsName: '',
           goodsDes: ''
