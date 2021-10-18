@@ -16,7 +16,7 @@
         <el-color-picker
           v-model="pageObj.share.color"
         ></el-color-picker>
-        <span class="color-text" @click="updateColor">重置</span>
+        <!-- <span class="color-text" @click="updateColor">重置</span> -->
       </div>
       </el-form-item>
       <el-form-item
