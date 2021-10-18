@@ -125,7 +125,7 @@ export default {
         bannerUrl: '',
         activeInfo: {
           image: '',
-          number: 0,
+          number: '0',
           getColor: '',
           goodsName: '',
           goodsDes: ''
@@ -535,6 +535,10 @@ export default {
       if (activeItem.status === 1 && !this.isEdit) {
         ruleForm4 = this.$refs.componentList[2].validateRules()
         let prizeRuleListObj = this.model.prizeRuleList[0] || {}
+        if (!prizeRuleListObj.recruitment) {
+          this.$notify.error('请输入邀请人数')
+          return
+        }
         if (!prizeRuleListObj.prizeType) {
           this.$notify.error('请选择奖励类型')
           return

@@ -17,34 +17,34 @@
             <div class="banner-view" v-show="eidtList[1].status === 1">
               <img :src="pageObj.bannerUrl || defBanner" class="banner-img"/>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
+            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[2].status === 1 || eidtList[3].status === 1">
               <div class="time-title-view" :style="{color:showColor.strColor}" v-show="eidtList[2].status === 1 && model.validTimeType === 1">
                 <span class="iconfont icon-julihuodongjieshuhuanyou time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-4 time-icon-number"></span>
                 </span>
                 <span class="iconfont icon-tian time-icon-dian"></span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-2 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-3 time-icon-number"></span>
                 </span>
                 <span>:</span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-1 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-4 time-icon-number"></span>
                 </span>
                 <span>:</span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-5 time-icon-number"></span>
                 </span>
-                <span class="rules-number" :style="{background:showColor.bgColor}">
+                <span class="rules-number" :style="{background:showColor.mainColor}">
                   <span class="iconfont icon-a-0 time-icon-number"></span>
                 </span>
               </div>
@@ -58,13 +58,13 @@
                 </div>
                 <div class="progress-view">
                   <div style="margin-bottom:0px;">
-                    <div class="tip-view" :style="{background:showColor.bgColor}">已邀请5人</div>
-                    <div class="triangle-down" :style="{borderTopColor: showColor.bgColor}"></div>
+                    <div class="tip-view" :style="{background:showColor.mainColor}">已邀请5人</div>
+                    <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
                   </div>
                   <div class="cus-progress-view">
-                    <div class="progress-view-bar" :style="{background:showColor.bgColor}"></div>
+                    <div class="progress-view-bar" :style="{background:showColor.mainColor}"></div>
                     <div>
-                      <span :style="{color:showColor.bgColor,fontSize:'13px'}">5</span>
+                      <span :style="{color:showColor.mianColor,fontSize:'13px'}">5</span>
                       <span style="color:#8C8C8C;font-size:13px">/5</span>
                     </div>
                   </div>
@@ -90,7 +90,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor,height:'16px'}"></div>
               </div>
             </div>
-            <div class="friends-view" :style="{background:showColor.mainColor}" v-show="eidtList[4].status === 1">
+            <div class="friends-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[4].status === 1">
               <div v-show="eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -128,7 +128,7 @@
                 <div class="line-right-bottom" :style="{background:showColor.mainColor}"></div>
               </div>
             </div>
-            <div class="rules-view" :style="{background:showColor.mainColor}" v-show="eidtList[5].status === 1">
+            <div class="rules-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[5].status === 1">
               <div v-show="eidtList[4].status === 1 || eidtList[3].status === 1">
                 <div class="line-left-top" :style="{background:showColor.mainColor}"></div>
                 <div class="line-right-top" :style="{background:showColor.mainColor}"></div>
@@ -143,12 +143,12 @@
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
               <div class="rules-content-view">
-                <div class="welcome-info-view" v-html="pageObj.rules"></div>
-                <div style="margin-top:8px" v-if="model.validTimeType === 1">
+                <div class="welcome-info-view" v-html="pageObj.rules" v-if="pageObj.rules"></div>
+                <!-- <div style="margin-top:8px" v-if="model.validTimeType === 1">
                   <div v-if="model.time.length > 0">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
                   <div v-else>活动有效期：</div>
-                </div>
-                <div style="margin-top:8px" v-else>活动有效期：永久有效</div>
+                </div> -->
+                <!-- <div style="margin-top:8px" v-else>活动有效期：永久有效</div> -->
               </div>
             </div>
             <div class="register-view" v-show="eidtList[6].status === 1">
