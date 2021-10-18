@@ -39,6 +39,15 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     model.validTimeStart = model.time[0]
     model.validTimeEnd = model.time[1]
   }
+  const defPrizeModel = {
+    prizeGrade: 1,
+    addPrizeNumber: 0, // 新增活动奖励总数
+    prizeId: null,
+    recruitment: 1, // 邀请人数
+    prizeName: '', // 优惠券名称
+    prizeNumber: '', // 设置活动奖励总数
+    validNumber: 0 // 优惠券剩余数量
+  }
   eidtList[0].value.headPortraitShape = pageObj.headStyle
   eidtList[1].value.pic = pageObj.bannerUrl.length > 0 ? pageObj.bannerUrl : defBanner
   eidtList[3].value.virtualFinishedCount = parseInt(pageObj.activeInfo.number)
@@ -47,7 +56,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   if (activeItem.status === 0) {
     model.prizeRuleList[0] = null
   } else {
-    let prizeRuleListObj = model.prizeRuleList[0] || {}
+    let prizeRuleListObj = model.prizeRuleList[0] || defPrizeModel
     prizeRuleListObj.prizeNameSetting = pageObj.activeInfo.goodsName || ''
     prizeRuleListObj.prizeIntro = pageObj.activeInfo.goodsDes || ''
     prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
