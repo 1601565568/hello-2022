@@ -121,7 +121,6 @@
                     label-width="8px"
                     label=" "
                     prop="validTimeStart"
-                    hide-required-asterisk
                   >
                     <el-date-picker
                       v-model="model.validTimeStart"
@@ -137,7 +136,6 @@
                     label-width="8px"
                     label=" "
                     prop="validTimeEnd"
-                    hide-required-asterisk
                   >
                     <el-date-picker
                       v-model="model.validTimeEnd"

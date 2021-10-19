@@ -142,8 +142,8 @@
                 <span class="iconfont icon-huodongguize rules-icon"></span>
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
-              <div class="rules-content-view">
-                <div class="welcome-info-view" v-html="pageObj.rules" v-if="pageObj.rules"></div>
+              <div class="rules-content-view" v-if="pageObj.rules">
+                <div class="welcome-info-view" v-html="pageObj.rules"></div>
                 <!-- <div style="margin-top:8px" v-if="model.validTimeType === 1">
                   <div v-if="model.time.length > 0">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
                   <div v-else>活动有效期：</div>
