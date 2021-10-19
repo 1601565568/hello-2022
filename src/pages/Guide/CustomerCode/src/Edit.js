@@ -68,18 +68,18 @@ export default {
           { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
         ],
         validTimeStart: [
-          { required: true, message: '请选择开始日期', trigger: ['change'] }
+          { required: true, message: '请选择开始日期', trigger: ['blur', 'change'] }
         ],
         validTimeEnd: [
-          { required: true, message: '请选择结束日期', trigger: ['change'] },
-          { validator: validTimeEndFunc, trigger: ['change'] }
+          { required: true, message: '请选择结束日期', trigger: ['blur', 'change'] },
+          { validator: validTimeEndFunc, trigger: ['blur', 'change'] }
         ],
         cardTitle: [
           { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片标题' },
           { validator: validates.validateCard, trigger: ['blur', 'change'] }
         ],
         cardCopywriting: [
-          { equired: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片文案' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片文案' },
           { validator: validates.validateString, trigger: ['blur', 'change'] }
         ],
         cardCoverPic: [
