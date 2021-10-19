@@ -214,24 +214,20 @@ export default {
     } else {
       this.isEdit = false
       this.isLoading = true
-      // this.model.activityIntroduction = this.$refs.tagAreaText.stringTohtml(this.defauletWelcome)
-      const colors = this.model.pageColor.split(',')
-      this.showColor = {
-        mainColor: colors[0],
-        bgColor: colors[1],
-        strColor: colors[2]
-      }
+      this.setPageColor()
       this.showDefaultText(this.defauletWelcome)
     }
   },
   methods: {
-    isCompareDate () {
-      const isBefore = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
-      const isSame = moment(this.model.validTimeEnd).isSame(this.model.validTimeStart)
-      if (isBefore || isSame) {
-        this.$notify.error('结束时间不能大于等于开始时间')
+    setPageColor () {
+      const colors = this.model.pageColor.split(',')
+      if (colors.length > 0) {
+        this.showColor = {
+          mainColor: colors[0],
+          bgColor: colors[1],
+          strColor: colors[2]
+        }
       }
-      return isCompare
     },
     inputEffectiveCycle (e) {
       this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
@@ -286,9 +282,9 @@ export default {
     formatSettingType (code) {
       return formatCustomComponent(code)
     },
-    handleChangePopoverShow (popoverShow = !this.popoverShow) {
-      this.popoverShow = popoverShow
-    },
+    // handleChangePopoverShow (popoverShow = !this.popoverShow) {
+    //   this.popoverShow = popoverShow
+    // },
     /**
      * 打开选择品牌模态框
      */
@@ -299,9 +295,9 @@ export default {
      * 向tagArea文本框中插入品牌id
      * @param {string} barndId
      */
-    insertBrandId (barndId) {
-      this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
-    },
+    // insertBrandId (barndId) {
+    //   this.$refs.tagAreaText.addTag({ id: `RECRUIT_URL?barndId=${barndId}`, value: '招募链接' })
+    // },
     // 获取详情
     async loadActivity (guestCodeId) {
       this.customerLoading = true
@@ -315,35 +311,8 @@ export default {
         nickColor = '#' + nickColor
       }
       this.model.nickColour = nickColor
-      // this.model = {
-      //   ...this.model,
-      //   activityDescription: result.activityDescription,
-      //   // activityIntroduction: this.$refs.tagAreaText.stringTohtml(result.activityIntroduction),
-      //   backgroundPic: result.backgroundPic,
-      //   effectiveCycle: result.effectiveCycle,
-      //   headPortrait: result.headPortrait
-      //   name: result.name,
-      //   nickColour: result.nickColour,
-      //   qrcodeSize: result.qrcodeSize,
-      //   qrcodeX: result.qrcodeX,
-      //   headerType: result.nickPosition,
-      //   headPortraitShape: result.headPortraitShape,
-      //   qrcodeY: result.qrcodeY,
-      //   time: [result.validTimeStart, result.validTimeEnd],
-      //   validTimeType: 0,
-      //   cardTitle: result.cardTitle,
-      //   cardCoverPic: result.cardCoverPic,
-      //   cardCopywriting: result.cardCopywriting,
-      //   pageColor: result.pageColor,
-      //   prizeSendPlan: result.prizeSendPlan
-      // }
       // // 数据解析
-      const colors = this.model.pageColor.split(',')
-      this.showColor = {
-        mainColor: colors[0],
-        bgColor: colors[1],
-        strColor: colors[2]
-      }
+      this.setPageColor()
       const pageDecoration = JSON.parse(result.pageDecoration)
       if (Array.isArray(pageDecoration)) {
         this.eidtList = pageDecoration || []
@@ -366,20 +335,6 @@ export default {
         }
       })
     },
-    // formatPrizeModel (result) {
-    //   this.prizeModel = {
-    //     prizeStatus: result.prizeStatus === 1,
-    //     prizeRuleList: result.prizeRuleList ? result.prizeRuleList.map((item) => {
-    //       return {
-    //         ...item,
-    //         addPrizeNumber: item.addPrizeNumber ? item.addPrizeNumber : 0,
-    //         validNumber: item.prizeValidSum, // 保存回显奖品剩余数量字段不一样
-    //         uuid: this.copyGuestCodeId ? null : item.uuid
-    //       }
-    //     }) : [],
-    //     prizeSendPlan: result.prizeSendPlan
-    //   }
-    // },
     // 获取员工详情
     getGuideListByGuestCodeId (guestCodeId) {
       const { start, length } = this.employeePage
@@ -406,42 +361,6 @@ export default {
       this.model.guideDatas = []
       this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
-    // 上传之前钩子
-    // beforeUpload (file) {
-    //   // this.fileList = [file]
-    //   // 图片格式判断
-    //   if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-    //     this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-    //     return false
-    //   }
-    //   if (file.size / 1024 / 1024 > 1) {
-    //     this.$notify.error('上传图片不能超过1M')
-    //     return false
-    //   }
-    //   return new Promise((resolve, reject) => {
-    //     const _URL = window.URL || window.webkitURL
-    //     const img = new Image()
-    //     img.src = _URL.createObjectURL(file)
-    //     img.onload = () => {
-    //       let valid = img.width === 750 && img.height === 1334
-    //       if (valid) {
-    //         this.fileList = [file]
-    //         resolve(file)
-    //       } else {
-    //         this.fileList = [...this.fileList]
-    //         this.$notify.error('上传图片尺寸只能是750X1334')
-    //       }
-    //     }
-    //   })
-    // },
-    // 上传完成钩子
-    // handleUploadSuccess (res) {
-    //   this.model.backgroundPic = res.result.url
-    // },
-    // 删除文件钩子
-    // handleRemove () {
-    //   this.model.backgroundPic = ''
-    // },
     // 拖动二维码
     onDragResize (params) {
       this.model = { ...this.model,
@@ -450,31 +369,6 @@ export default {
         qrcodeY: params.top
       }
     },
-    // // 格式化上传数据
-    // formatModel (model = this.model) {
-    //   const newModel = {
-    //     activityDescription: model.activityDescription,
-    //     activityIntroduction: this.$refs.tagAreaText.htmlToString(model.activityIntroduction),
-    //     backgroundPic: model.backgroundPic,
-    //     effectiveCycle: model.effectiveCycle,
-    //     guestCodeId: this.$route.query.guestCodeId || null,
-    //     guideIds: model.guideIds,
-    //     headPortrait: model.headPortrait * 1,
-    //     headPortraitShape: model.headPortraitShape,
-    //     name: model.name,
-    //     nick: model.headPortrait * 1,
-    //     nickColour: model.nickColour.split('#')[1],
-    //     nickSize: 14,
-    //     qrcodeSize: model.qrcodeSize,
-    //     qrcodeX: model.qrcodeX,
-    //     qrcodeY: model.qrcodeY,
-    //     validTimeStart: model.time[0],
-    //     validTimeEnd: model.time[1],
-    //     validTimeType: model.validTimeType
-    //   }
-    //   const headPosition = this.headPosition[model.headerType]
-    //   return { ...newModel, ...headPosition }
-    // },
     // 保存
     async handleSave () {
       const ruleForm = new Promise((resolve, reject) => {
@@ -653,39 +547,7 @@ export default {
           // this.btnLoad = false
         })
       }
-
-      // this.$refs.ruleForm.validate(async (valid) => {
-      //   if (valid) {
-      //     const prizeModel = await this.$refs.setPrize.onSave()
-      //     this.btnLoad = true
-      //     if (!prizeModel) {
-      //       this.btnLoad = false
-      //       return false
-      //     }
-      //     const save = Object.assign(this.formatModel(), prizeModel)
-      //     this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, save).then(res => {
-      //       this.$notify.success('保存成功')
-      //       this.handleCancel()
-      //     }).catch(res => {
-      //       this.$notify.error(res.msg)
-      //     }).finally(res => {
-      //       this.btnLoad = false
-      //     })
-      //   }
-      // })
     },
-    // // 替换标签成模板
-    // htmlToString (html) {
-    //   return html.replace(/<wise.*?\bclass="/g, '{').replace(/">.*?<\/wise>/g, '}').replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
-    // },
-    // // 替换模板成标签
-    // stringTohtml (string) {
-    //   this.tools.map(item => {
-    //     const regexp = new RegExp('{' + item.id + '(\\?((&?\\w*=\\w*)+))?}', 'g')
-    //     string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
-    //   })
-    //   return string
-    // },
     // 生成随机ID
     getGuid () {
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`

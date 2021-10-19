@@ -124,7 +124,7 @@
                   >
                     <el-date-picker
                       v-model="model.validTimeStart"
-                      type="date"
+                      type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       placeholder="请输入开始时间"
                       :disabled="isStating"
@@ -139,7 +139,7 @@
                   >
                     <el-date-picker
                       v-model="model.validTimeEnd"
-                      type="date"
+                      type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       placeholder="请输入结束时间"
                     >
