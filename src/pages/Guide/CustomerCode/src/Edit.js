@@ -4,9 +4,10 @@ import moment from 'moment'
 export default {
   data () {
     const validTimeEndFunc = (rule, value, callback) => {
-      const isCompare = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
-      if (isCompare) {
-        callback(new Error('结束时间不能大于开始时间'))
+      const isBefore = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
+      const isSame = moment(this.model.validTimeEnd).isSame(this.model.validTimeStart)
+      if (isBefore || isSame) {
+        callback(new Error('结束时间不能大于等于开始时间'))
       } else {
         callback()
       }
@@ -67,18 +68,18 @@ export default {
           { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
         ],
         validTimeStart: [
-          { required: true, message: '请选择开始日期', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择开始日期', trigger: ['change'] }
         ],
         validTimeEnd: [
-          { required: true, message: '请选择结束日期', trigger: ['blur', 'change'] },
-          { validator: validTimeEndFunc, trigger: ['blur', 'change'] }
+          { required: true, message: '请选择结束日期', trigger: ['change'] },
+          { validator: validTimeEndFunc, trigger: ['change'] }
         ],
         cardTitle: [
           { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片标题' },
           { validator: validates.validateCard, trigger: ['blur', 'change'] }
         ],
         cardCopywriting: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片文案' },
+          { equired: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片文案' },
           { validator: validates.validateString, trigger: ['blur', 'change'] }
         ],
         cardCoverPic: [
@@ -181,6 +182,7 @@ export default {
     },
     model: {
       handler (newValue, oldValue) {
+        if (this.isEdit) return
         const item = this.eidtList[2]
         item.status = newValue.validTimeType === 1 ? 1 : 0
       },
@@ -224,9 +226,10 @@ export default {
   },
   methods: {
     isCompareDate () {
-      const isCompare = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
-      if (isCompare) {
-        this.$notify.error('结束时间不能大于开始时间')
+      const isBefore = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
+      const isSame = moment(this.model.validTimeEnd).isSame(this.model.validTimeStart)
+      if (isBefore || isSame) {
+        this.$notify.error('结束时间不能大于等于开始时间')
       }
       return isCompare
     },
@@ -519,8 +522,10 @@ export default {
           this.$notify.error('请选择结束时间')
           return
         }
-        const isCompare = this.isCompareDate()
-        if (isCompare) {
+        const isBefore = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
+        const isSame = moment(this.model.validTimeEnd).isSame(this.model.validTimeStart)
+        if (isBefore || isSame) {
+          this.$notify.error('结束时间不能大于等于开始时间')
           return
         }
       }
