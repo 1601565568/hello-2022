@@ -43,7 +43,7 @@
       <template slot='header'>
           <div class='common-header flex-box'>
             <h3>小程序信息展示</h3>
-            <div class='common-btn' v-if='!isEmpty && isLoad'>
+            <div class='common-btn' v-if='!isEmpty && isLoad && !isSaasAccount'>
               <ns-button  @click='handleCancel'>取消授权</ns-button>
             </div>
           </div>
