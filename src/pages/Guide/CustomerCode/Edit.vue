@@ -20,7 +20,7 @@
         >
       </div>
     </div>
-    <el-row class="customer-box">
+    <el-row class="customer-box" style="margin-top:70px">
       <el-col :span="16" class="customer-edit">
         <el-form
           label-width="110px"
@@ -523,13 +523,12 @@ export default Edit
   height: 900px;
   overflow: scroll;
    &::-webkit-scrollbar-thumb {
-    display: none;
-  }
-  &::-webkit-scrollbar-track {
-    display: none;
+    border-radius: 4px;
+    background: #9093994d;
   }
   &::-webkit-scrollbar {
-    display: none;
+    width: 6px;
+    height: 6px;
   }
 }
 .customer-header {
@@ -537,10 +536,20 @@ export default Edit
   margin: -10px -10px 0;
   padding: 16px;
   min-width: 1046px;
+  position: fixed;
+  top: 90px;
+  z-index: 10;
+  left: 200px;
+  width: calc(100% - 185px);;
   h3 {
     font-size: 16px;
     color: #262626;
     font-weight: bold;
+  }
+}
+ @media screen and (max-width: 1625px) {
+  .customer-header {
+    top: 70px;
   }
 }
 .customer-box {
