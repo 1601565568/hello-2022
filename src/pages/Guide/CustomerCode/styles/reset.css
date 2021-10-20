@@ -103,6 +103,11 @@
   >>> .el-input-number.is-controls-right .el-input__inner {
     padding-right: 44px;
   }
+  >>> .el-input__suffix {
+    top:1px;
+    height: 30px;
+    bottom: 0;
+  }
 }
 /* 表格 */
 .new-table_border {
