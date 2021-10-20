@@ -8,7 +8,7 @@
       ref="reward"
       size="medium"
       class="normal-from">
-      <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" ref="setPrize" @updatePrize="updatePrize"/>
+      <SetPrize :prizeModel='prizeModel' :isStating="isStating" :isSetPrize="isSetPrize" :isEdit="isEdit" ref="setPrize" @updatePrize="updatePrize"/>
       <el-form-item
         label=""
         class="larger-item"
@@ -96,7 +96,8 @@ export default {
     value: Object,
     prizeModel: Object,
     isStating: Boolean,
-    isSetPrize: Boolean
+    isSetPrize: Boolean,
+    isEdit: Boolean
   },
   computed: {
     pageObj () {

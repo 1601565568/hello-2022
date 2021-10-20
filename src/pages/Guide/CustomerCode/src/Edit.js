@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl } from '../util/Edit'
 import moment from 'moment'
 export default {
   data () {
@@ -136,16 +136,16 @@ export default {
       defauletWelcome: `你好 , 我是{USER_NICK}<br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：{ACTIVITY_VALIT_TIME}<br/>点击下方链接去分享吧 ↓↓`,
       pageObj: {
         headStyle: 1,
-        bannerUrl: '',
+        bannerUrl: defBanner,
         activeInfo: {
-          image: '',
+          image: defGoodsUrl,
           number: '0',
           getColor: '',
           goodsName: '',
           goodsDes: ''
         },
         rules: '',
-        regUrl: '',
+        regUrl: defRegUrl,
         share: {
           color: '',
           name: '立即分享'
@@ -164,7 +164,9 @@ export default {
         { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {}, sortable: 7, switchable: 0 }
       ],
       isEdit: false,
-      ieEditCount: 0
+      ieEditCount: 0,
+      pickerOptions: this.endDateDisable(),
+      editEndDate: null
     }
   },
   watch: {
@@ -219,6 +221,18 @@ export default {
     }
   },
   methods: {
+    endDateDisable () {
+      let that = this
+      return {
+        disabledDate (time) {
+          if (that.isEdit) {
+            return time.getTime() < that.editEndDate
+          } else {
+            return false
+          }
+        }
+      }
+    },
     setPageColor () {
       const colors = this.model.pageColor.split(',')
       if (colors.length > 0) {
@@ -306,6 +320,10 @@ export default {
       const result = json.result
       this.model = { ...this.model, ...result }
       this.model.time = [result.validTimeStart, result.validTimeEnd]
+      if (result.validTimeType === 1) {
+        const endTime = new Date(result.validTimeEnd).getTime()
+        this.editEndDate = endTime
+      }
       let nickColor = this.model.nickColour
       if (!nickColor.includes('#')) {
         nickColor = '#' + nickColor

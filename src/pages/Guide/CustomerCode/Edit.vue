@@ -142,6 +142,7 @@
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       placeholder="请输入结束时间"
+                      :picker-options="pickerOptions"
                     >
                     </el-date-picker>
                   </el-form-item>
@@ -206,6 +207,7 @@
                           v-model="pageObj"
                           :prizeModel="prizeModel"
                           :isStating="isStating"
+                          :isEdit="isEdit"
                           :isSetPrize="isSetPrize"
                           @scrollPhone="scrollPhone"
                           ref="componentList"

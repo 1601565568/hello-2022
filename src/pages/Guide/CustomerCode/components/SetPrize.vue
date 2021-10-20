@@ -149,6 +149,19 @@
                 ></el-form-item>
               </template>
             </el-table-column>
+            <el-table-column type="default" min-width="150"  label="活动剩余数量" :sortable="false" v-if="isEdit">
+              <template slot-scope="scope">
+                <el-form-item
+                  :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
+                >
+                  <el-input
+                    :value="remainNumber(scope.row)"
+                    type="number"
+                    :disabled="true"
+                  ></el-input
+                ></el-form-item>
+              </template>
+            </el-table-column>
             <el-table-column
               type="default"
               min-width="150"
@@ -223,6 +236,9 @@ export default {
       type: Boolean
     },
     isSetPrize: {
+      type: Boolean
+    },
+    isEdit: {
       type: Boolean
     }
   },
@@ -299,6 +315,12 @@ export default {
     this.setModel()
   },
   methods: {
+    remainNumber (item) {
+      const prizeNumber = parseInt(item.prizeNumber) || 0
+      const prizePresentsNumber = parseInt(item.prizePresentsNumber) || 0
+      const num = prizeNumber - prizePresentsNumber
+      return num
+    },
     validateRules () {
       return new Promise((resolve, reject) => {
         this.$refs.setPrizeruleForm.validate((valid) => {
