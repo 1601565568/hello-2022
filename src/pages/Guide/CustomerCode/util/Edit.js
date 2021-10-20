@@ -1,7 +1,7 @@
 // 默认数据
-export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphoneBanner.png'
-export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultGoodsImg.jpg'
-export const defRegUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/regUrl.png'
+export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认banner图.png'
+export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认奖品图.jpg'
+export const defRegUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认引导图.png'
 
 // 解析页面数据
 export const formatePageObj = (eidtList, prizeModel) => {
