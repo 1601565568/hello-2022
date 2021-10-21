@@ -324,7 +324,7 @@
               <div class="customer-mobile_box">
                 <div
                   class="customer-mobile_content"
-                  :style="{ backgroundImage: 'url(' + model.backgroundPic + ')' }"
+                  :style="{ backgroundImage: 'url(' + model.backgroundPic.replace(/\s/g, encodeURIComponent(' ')) + ')' }"
                 >
                   <div
                     :class="
