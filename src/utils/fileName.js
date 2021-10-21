@@ -12,10 +12,14 @@ export const fileName = url => {
   }
   if (arr.length > 0) {
     const next = arr[arr.length - 1]
-    const strArr = next.split('@@')
-    const pArr = next.split('.')
-    const suffix = pArr[1] || ''
-    return strArr[0] + '.' + suffix
+    if (!next.includes('@@')) {
+      return next
+    } else {
+      const strArr = next.split('@@')
+      const pArr = next.split('.')
+      const suffix = pArr[1] || ''
+      return strArr[0] + '.' + suffix
+    }
   }
   return ''
 }
