@@ -571,7 +571,7 @@ export default {
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`
     },
     handleCancel () {
-      this.$router.go('-1')
+      this.$router.push({ name: 'CustomerCodeList' })
     },
     inputLength (length) {
       this.activityIntroductionLength = length
