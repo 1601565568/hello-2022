@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column
             prop="recruitment"
-            label="邀请好友数">
+            label="达标人数">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.recruitment|| '-'}}
