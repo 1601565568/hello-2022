@@ -262,6 +262,7 @@
                   </drap-upload>
                   </el-form-item>
                   <div class="poster-set_content">
+                    <div class="row-view remind-text" @click="showDefPosters">恢复默认海报图</div>
                     <div class="row-view">裂变大师信息：</div>
                     <div class="row-view">显示裂变大师头像、昵称：
                       <el-radio
@@ -661,6 +662,12 @@ export default Edit
         flex-direction: row;
         align-items: center;
         height: 40px;
+      }
+      .remind-text {
+        font-size: 14px;
+        color: #0392FB;
+        line-height: 22px;
+        cursor: pointer;
       }
     }
   }
