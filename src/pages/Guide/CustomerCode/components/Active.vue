@@ -51,6 +51,7 @@
             </drap-upload>
           </el-form-item>
         </div>
+        <div class="remind-text" @click="showDefImg">恢复默认奖励图</div>
       </el-form-item>
       <el-form-item
         label="虚拟完成人数"
@@ -134,6 +135,9 @@ export default {
     }
   },
   methods: {
+    showDefImg () {
+      this.pageObj.activeInfo.image = ''
+    },
     validateRules () {
       const formRules = new Promise((resolve, reject) => {
         this.$refs.reward.validate((valid) => {
@@ -198,5 +202,12 @@ export default {
   >>> .el-form-item {
     margin-bottom: 0px !important;
   }
+}
+.remind-text {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #0392FB;
+  line-height: 22px;
+  cursor: pointer;
 }
 </style>

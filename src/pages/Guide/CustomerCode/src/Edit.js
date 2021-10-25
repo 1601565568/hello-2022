@@ -166,7 +166,8 @@ export default {
       isEdit: false,
       ieEditCount: 0,
       pickerOptions: this.endDateDisable(),
-      editEndDate: null
+      editEndDate: null,
+      defPosters: defPosters
     }
   },
   watch: {
@@ -221,6 +222,9 @@ export default {
     }
   },
   methods: {
+    showDefPosters () {
+      this.model.backgroundPic = defPosters
+    },
     endDateDisable () {
       let that = this
       return {
