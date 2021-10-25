@@ -1,5 +1,5 @@
 import validates from './validates'
-import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl } from '../util/Edit'
+import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl, defPosters, defCardImg } from '../util/Edit'
 import moment from 'moment'
 export default {
   data () {
@@ -21,13 +21,13 @@ export default {
       activityIntroductionLength: 0,
       validates,
       model: {
-        headerType: 0,
+        headerType: 1,
         time: [],
         activityDescription: '活动说明', // 活动说明
         activityIntroduction: '', // 活动介绍
-        backgroundPic: '', // 一客一码背景图片
+        backgroundPic: defPosters, // 一客一码背景图片
         cardCopywriting: '', // 活动消息卡片文案
-        cardCoverPic: '', // 活动消息卡片封面图片
+        cardCoverPic: defCardImg, // 活动消息卡片封面图片
         cardTitle: '', // 活动消息卡片标题
         effectiveCycle: 1, // 一客一码有效周期-天（过期时间）
         guideIds: [], // 使用导购ids
@@ -36,11 +36,11 @@ export default {
         headPortraitShape: 1, // 用户头像形状：0圆 1方
         name: '', // 一客一码活动名称
         nick: 0, // 用户昵称：0无，1有
-        nickColour: '#262626', // 用户昵称字体颜色：十六进制
+        nickColour: '#ffffff', // 用户昵称字体颜色：十六进制
         nickSize: 14, // 用户昵称字体大小
-        qrcodeSize: 172, // 二维码大小
-        qrcodeX: 74, // 二维码X轴坐标值
-        qrcodeY: 349, // 二维码Y轴坐标值
+        qrcodeSize: 70, // 二维码大小
+        qrcodeX: 220, // 二维码X轴坐标值
+        qrcodeY: 470, // 二维码Y轴坐标值
         validTimeType: 1, // 有效时间类型 0永久有效，1固定范围
         pageColor: '#FFA30E,#F96C39,#FFFFFF', // 活动页面配色方案
         pageDecoration: '', // 裂变大师活动页面装修配置
