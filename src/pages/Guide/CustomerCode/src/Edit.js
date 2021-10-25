@@ -505,6 +505,10 @@ export default {
           this.$notify.error('请设置活动奖励总数')
           return
         }
+        if (parseFloat(prizeRuleListObj.prizeNumber) > parseFloat(prizeRuleListObj.validNumber)) {
+          this.$notify.error('活动奖励总数不能大于剩余数量')
+          return
+        }
         if (!this.pageObj.activeInfo.goodsName) {
           this.$notify.error('请输入奖品名称')
           return
