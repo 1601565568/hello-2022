@@ -463,6 +463,7 @@
                   </drap-upload>
                 </el-form-item>
               </div>
+              <div class="remind-text" style="margin-top:8px" @click="showDefCard">恢复默认卡片图</div>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -663,12 +664,6 @@ export default Edit
         align-items: center;
         height: 40px;
       }
-      .remind-text {
-        font-size: 14px;
-        color: #0392FB;
-        line-height: 22px;
-        cursor: pointer;
-      }
     }
   }
   .logo-type {
@@ -708,6 +703,12 @@ export default Edit
     display: none;
     /*height: 4px;*/
   }
+}
+.remind-text {
+  font-size: 14px;
+  color: #0392FB;
+  line-height: 22px;
+  cursor: pointer;
 }
 .customer-mobile {
   padding-bottom: 20px;

@@ -225,6 +225,9 @@ export default {
     showDefPosters () {
       this.model.backgroundPic = defPosters
     },
+    showDefCard () {
+      this.model.cardCoverPic = defCardImg
+    },
     endDateDisable () {
       let that = this
       return {
