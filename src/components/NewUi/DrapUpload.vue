@@ -22,7 +22,7 @@
       <div class='el-upload-list__item'>
         <a class="el-upload-list__item-name">
           <i class="el-icon-document"></i>
-          {{fileList}}
+          {{getFileName(fileList)}}
         </a>
         <label class="el-upload-list__item-status-label" v-if="showDelImg">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
@@ -57,7 +57,8 @@
             accept=".jpg,.jpeg,.png"
             :action="$api.core.sgUploadFile('test')"
             :show-file-list='false'
-            :before-upload="beforeUpload">
+            :before-upload="beforeUpload"
+            >
             <ns-button :loading='upDataLoad' type="primary">重新上传</ns-button>
           </el-upload>
         </div>
@@ -70,13 +71,15 @@
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import Cropper from './Cropper'
+import { fileName } from '@/utils/fileName'
 export default {
   data () {
     return {
       fileList: '',
       visible: false,
       img: null,
-      upDataLoad: false
+      upDataLoad: false,
+      fileName: ''
     }
   },
   components: { ElUpload, Cropper },
@@ -168,6 +171,9 @@ export default {
     }
   },
   methods: {
+    getFileName (url) {
+      return fileName(url)
+    },
     // 小数转分数
     decimalsToFractional (decimals) {
       const formatDecimals = decimals.toFixed(2)
@@ -212,6 +218,7 @@ export default {
       }
       // 如果需要裁剪则不上传
       if (this.isNeedCrop) {
+        this.fileName = file.name
         this.beforeUploadByCrop(file)
         return false
       }
@@ -252,7 +259,7 @@ export default {
     // base64 上传
     upDataBase64 (file) {
       return new Promise(resolve => {
-        this.$http.fetch(this.$api.weWork.friendsCircle.uploadBase64File, { file }).then(res => {
+        this.$http.fetch(this.$api.weWork.friendsCircle.uploadBase64File, { file, originalFileName: this.fileName }).then(res => {
           this.handleUploadSuccess(res)
           resolve(true)
         })
