@@ -10,7 +10,7 @@
       <p>近30天</p>
     </div>
     <div slot="content" class="customerCodeChat">
-      <img src="../../../image/echart.png" />
+      <img src="../../../image/eachart.jpg" />
     </div>
   </CardTitle>
 </template>

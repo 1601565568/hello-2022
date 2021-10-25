@@ -1,4 +1,39 @@
 export default {
+  shareName: (rule, value, callback) => {
+    if (value.length > 10) {
+      callback(new Error('分享按钮名称最多10个字'))
+    } else {
+      callback()
+    }
+  },
+  goodsName: (rule, value, callback) => {
+    if (value.length > 20) {
+      callback(new Error('奖品名称最多20个字'))
+    } else {
+      callback()
+    }
+  },
+  goodsDesc: (rule, value, callback) => {
+    if (value.length > 50) {
+      callback(new Error('奖品简介最多50个字'))
+    } else {
+      callback()
+    }
+  },
+  validateCard: (rule, value, callback) => {
+    if (value.length > 20) {
+      callback(new Error('活动名称最多20个字'))
+    } else {
+      callback()
+    }
+  },
+  validateString: (rule, value, callback) => {
+    if (value.length > 50) {
+      callback(new Error('活动文案最多50个字'))
+    } else {
+      callback()
+    }
+  },
   // 活动名称不大于20个子
   validateName: (rule, value, callback) => {
     if (value.length > 20) {

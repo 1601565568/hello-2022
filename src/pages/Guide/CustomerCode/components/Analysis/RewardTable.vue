@@ -23,7 +23,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
+          <el-input v-model="seachVal" placeholder="请输入裂变大师昵称"  @keyup.enter.native="handleSearch">
             <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
           </el-input>
         </el-form-item>
@@ -42,7 +42,7 @@
           style="width: 100%">
           <el-table-column
             prop="name"
-            label="推广大师">
+            label="裂变大师">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.name|| '-'}}
@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column
             prop="recruitment"
-            label="邀请好友数">
+            label="达标人数">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.recruitment|| '-'}}

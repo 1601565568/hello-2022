@@ -1,6 +1,7 @@
 <template>
   <div class='poster-content'>
     <el-upload
+      :disabled="disabled"
       class="upload-demo"
       ref='upload'
       :drag='drag'
@@ -12,7 +13,8 @@
       :on-success="handleUploadSuccess">
       <template v-if='drag'>
         <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div v-if="uploadTitle.length > 0" class="upload-title">{{uploadTitle}}</div>
+        <div v-else class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
       </template>
     </el-upload>
@@ -22,7 +24,7 @@
           <i class="el-icon-document"></i>
           {{getFileName(fileList)}}
         </a>
-        <label class="el-upload-list__item-status-label">
+        <label class="el-upload-list__item-status-label" v-if="showDelImg">
           <el-tooltip class="item" effect="dark" content="删除" placement="top">
             <i class="el-icon-close" @click='handleRemove(false)'></i>
           </el-tooltip>
@@ -151,6 +153,20 @@ export default {
     },
     // 是否需要裁剪
     isNeedCrop: {
+      default: false
+    },
+    // 上传提示标题
+    uploadTitle: {
+      type: String,
+      default: ''
+    },
+    // 删除图片按钮是否显示
+    showDelImg: {
+      type: Boolean,
+      default: true
+    },
+    disabled: {
+      type: Boolean,
       default: false
     }
   },
@@ -355,5 +371,10 @@ export default {
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
+}
+.upload-title {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
 }
 </style>
