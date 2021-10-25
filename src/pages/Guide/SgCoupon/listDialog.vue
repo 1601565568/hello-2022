@@ -13,7 +13,7 @@
       <el-form ref="searchform" label-width="60px" :model="searchform"  :inline="true">
         <el-form-item>
           <el-form-grid>
-            <el-form-item label="所在区域：" prop="district">
+            <el-form-item label="所在地区：" prop="district">
               <el-form-grid width="260" prop="area">
                 <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
               </el-form-grid>
@@ -47,7 +47,7 @@
           >
           </el-table-column>
           <el-table-column
-            label="所属地区"
+            label="所在地区"
             align="left"
           >
             <template slot-scope="scope">

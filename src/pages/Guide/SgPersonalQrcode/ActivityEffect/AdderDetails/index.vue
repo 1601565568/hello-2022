@@ -1,21 +1,26 @@
 <template>
   <div class="adder-detail-container">
     <div class="adder-tool-bar">
-      <div class="adder-owners">
-        <span class="owners-label">所属员工：</span>
-        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
-          <template slot='selfBtn'>
-            <div class="owners-select">
-              <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
-              <Icon type="geren" class="select-icon"/>
-            </div>
-          </template>
-        </NsGuideDialog>
+      <div class='flex-box'>
+        <div class="adder-owners">
+          <span class="owners-label">所属员工：</span>
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+            <template slot='selfBtn'>
+              <div class="owners-select">
+                <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
+                <Icon type="geren" class="select-icon"/>
+              </div>
+            </template>
+          </NsGuideDialog>
+        </div>
+        <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+          <Icon type="ns-search" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
+        </el-input>
       </div>
-      <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
-        <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
-      </el-input>
-      <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+      <div>
+        <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
+        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+      </div>
     </div>
     <div class="adder-detail-table">
       <el-table
@@ -23,11 +28,15 @@
         class="table-form_reset"
         row-class-name="employee-table_row"
         header-cell-class-name="employee-talbe-header-cell"
+         @selection-change="onHandleSelectChange"
         :data="_data._table.data"
         @sort-change="sortChange"
       >
+        <el-table-column type="selection" align="center" :width="50">
+        </el-table-column>
         <el-table-column
           prop="friendAvatar"
+          width='65px'
           label="头像">
           <template slot-scope="scope">
             <img class="scope-avatar" :src="scope.row.friendAvatar" alt="">
@@ -48,6 +57,26 @@
             {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
           </template>
         </el-table-column>
+        <el-table-column type="default" prop="groupTags"
+                          label="企业标签" dbcolumn="groupTags" column="groupTags" align="left">
+          <template slot-scope="scope">
+            <template v-if="scope.row.groupTags">
+              <el-tag class='qy-name_tag'
+                      v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
+                      :key="index">
+                <template v-if="tag.length > 10">
+                  <el-tooltip :content="tag" effect="light"><span>{{tag.substring(0,10)+ '...'}}</span></el-tooltip>
+                </template>
+                <template v-else>
+                  {{tag}}
+                </template>
+              </el-tag>
+            </template>
+            <template v-else>
+              -
+            </template>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="createTime"
           label="添加时间"
@@ -58,7 +87,7 @@
     <el-pagination
       v-if="_data._pagination.enable"
       class="template-table__pagination"
-      :page-sizes="_data._pagination.sizeOpts"
+      :page-sizes="[15, 25]"
       :total="_data._pagination.total"
       :current-page="_data._pagination.page"
       :page-size="_data._pagination.size"
@@ -67,25 +96,28 @@
       @size-change="$sizeChange$"
       @current-change="$pageChange$">
     </el-pagination>
+    <MarkingDialog ref='markingDialog' @onChangeCheckedTagList='onChangeCheckedTagList'/>
   </div>
 </template>
 
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
-
+import MarkingDialog from '@/components/NewUi/MarkingDialog'
+import { getErrorMsg } from '@/utils/toast'
 /**
  * 添加明细
  */
 export default {
   components: {
-    NsGuideDialog
+    NsGuideDialog, MarkingDialog
   },
   mixins: [tableMixin],
   data () {
     return {
       url: this.$api.guide.sgPersonalQrcode.getQrCodeInviteFriendDetailList,
       seachVal: '',
+      checkedCustomerList: [],
       // 筛选数据
       model: {
         guid: this.$route.params.guid,
@@ -97,8 +129,37 @@ export default {
   },
   mounted () {
     this.searchform()
+    this.$store.dispatch('marking/getTagGroupList')
   },
   methods: {
+    // 打标
+    handleMarking () {
+      if (this.checkedCustomerList.length > 0) {
+        this.$refs.markingDialog.handleChangeVisible(true)
+        return
+      }
+      this.$notify.warning('请先选择要打标的客户')
+    },
+    // 打标多选框选中事件
+    onHandleSelectChange: function (list) {
+      this.checkedCustomerList = list.map(item => ({
+        externalUserId: item.externalUserId,
+        userId: item.userId
+      }))
+    },
+    onChangeCheckedTagList (data) {
+      this.saveBatchMarking({ 'checkedCustomerList': this.checkedCustomerList, 'checkedTagList': data })
+    },
+    saveBatchMarking (params) {
+      this.$http.fetch(this.$api.weWork.externalContact.saveBatchMarking, params).then((resp) => {
+        this.$notify.success('批量打标成功')
+        this.$refs.markingDialog.handleChangeVisible(false)
+        this.$searchAction$()
+      }).catch((resp) => {
+        this.$refs.markingDialog.loading = false
+        this.$notify.error(getErrorMsg('批量打标失败', resp))
+      })
+    },
     searchform () {
       this.$searchAction$()
     },
@@ -165,9 +226,14 @@ export default {
     width: 100%;
     height: 56px;
     display: flex;
-    align-items: center;
     position: relative;
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .flex-box {
+      display: flex;
+      align-items: center;
+    }
     .adder-owners {
       position: relative;
       width: 230px;
@@ -203,11 +269,8 @@ export default {
         }
       }
     }
-
     .export-cvs-btn {
-      position: absolute;
-      top: 12px;
-      right: 16px;
+      margin-right: 16px
     }
   }
 
@@ -221,5 +284,13 @@ export default {
       border-radius: 4px;
     }
   }
+}
+.qy-name_tag.el-tag {
+  margin:4px 8px 4px 0 ;
+  cursor: default;
+  background: #E6F2FF;
+  border: 1px solid #BDDCFF;
+  border-radius: 2px;
+  color: rgba(0,0,0,0.85);
 }
 </style>

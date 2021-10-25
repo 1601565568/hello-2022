@@ -8,6 +8,8 @@
     <div class="add-material-item">
       <ImageMessage
         @confirm="addMessage"
+        :multiple='multipleImage'
+        :limit='limitImage'
       >
         <div class="add-material-item" ref="ImageMessage">
           <Icon type="tupianbeifen-4" class="icon" />
@@ -96,6 +98,16 @@ export default {
       default () {
         return false
       }
+    },
+    // 是否支持多选图片
+    multipleImage: {
+      type: Boolean,
+      default: false
+    },
+    // 图片一次最多上传张数
+    limitImage: {
+      type: Number,
+      default: 99999
     }
   },
   data () {
@@ -171,6 +183,7 @@ export default {
           type = 4
         }
       }
+      console.log(message)
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
