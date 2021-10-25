@@ -664,6 +664,12 @@ export default Edit
         align-items: center;
         height: 40px;
       }
+      .remind-text {
+        font-size: 14px;
+        color: #0392FB;
+        line-height: 22px;
+        cursor: pointer;
+      }
     }
   }
   .logo-type {

@@ -149,7 +149,7 @@
                 ></el-form-item>
               </template>
             </el-table-column>
-            <el-table-column type="default" min-width="150"  label="活动剩余数量" :sortable="false" v-if="isEdit">
+            <el-table-column type="default" min-width="150"  label="活动剩余数量" :sortable="false" v-if="isEdit && !isCopy">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -308,10 +308,14 @@ export default {
           label: '优惠券',
           value: 1
         }
-      ]
+      ],
+      isCopy: false
     }
   },
   mounted () {
+    const query = this.$route.query
+    const { copyGuestCodeId } = query
+    this.isCopy = copyGuestCodeId && copyGuestCodeId.length > 0
     this.setModel()
   },
   methods: {
