@@ -35,7 +35,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
+          <el-input v-model="seachVal" placeholder="请输入裂变大师昵称"  @keyup.enter.native="handleSearch">
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
           </el-input>
         </el-form-item>
@@ -55,7 +55,7 @@
           style="width: 100%">
           <el-table-column
             prop="employeeName"
-            label="推广大师">
+            label="裂变大师">
             <template slot-scope="scope">
               <div class="scope-title">
                 <img :src='scope.row.promotionAvatar || defaultIcon' class="scope-title_img">
@@ -248,7 +248,7 @@ export default {
             } else {
               time = '全部'
             }
-            let fileName = '推广大师人数明细' + time + '.csv'
+            let fileName = '裂变大师人数明细' + time + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -268,7 +268,7 @@ export default {
         ...item,
         employeeName: item.promotionName,
         inviteFriendNumber: item.inviteFriendNo,
-        nextName: '推广大师'
+        nextName: '裂变大师'
       }
       this.activeIndex = index
       this.$emit('showFriend', data)
@@ -293,7 +293,7 @@ export default {
       if (type === 'prev') {
         if (this.activeIndex === 0) {
           if (page === 1) {
-            this.$notify.error('暂无上一个推广大师')
+            this.$notify.error('暂无上一个裂变大师')
           } else {
             this._data._pagination.page = page - 1
             this.$queryList$(this.$generateParams$()).then(() => {
@@ -307,7 +307,7 @@ export default {
         }
       } else if (type === 'next') {
         if (((page - 1) * size + this.activeIndex + 1) >= total) {
-          this.$notify.error('暂无下一个推广大师')
+          this.$notify.error('暂无下一个裂变大师')
         } else {
           if (this.activeIndex === size - 1) {
             this._data._pagination.page = page + 1

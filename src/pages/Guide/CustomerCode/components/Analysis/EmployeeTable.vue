@@ -85,7 +85,7 @@
             prop="promotionMasterNumber"
             align='center'
             sortable="custom"
-            label="推广大师人数">
+            label="裂变大师人数">
             <template slot-scope="scope">
               <ns-button type='text' @click="handleShowMaster(scope.row, scope.$index)">{{scope.row.promotionMasterNumber}}</ns-button>
             </template>

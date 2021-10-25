@@ -49,6 +49,21 @@
   }
 }
 .normal-from {
+  >>> .el-color-picker--medium .el-color-picker__trigger {
+    width: 60px;
+    height: 60px;
+    padding: 6px;
+  }
+  >>> .el-color-picker--medium .el-color-picker__mask {
+    width: 60px;
+    height: 60px;
+  }
+  >>> .el-color-picker--medium {
+    height: 60px;
+  }
+  >>> .el-table__body-wrapper {
+    /* padding-bottom: 0px; */
+  }
   >>> .el-form-item__label {
     font-size: 14px;
     line-height: 22px;
@@ -87,6 +102,11 @@
   }
   >>> .el-input-number.is-controls-right .el-input__inner {
     padding-right: 44px;
+  }
+  >>> .el-input__suffix {
+    top:1px;
+    height: 30px;
+    bottom: 0;
   }
 }
 /* 表格 */
@@ -150,7 +170,27 @@
       width: 100%
     }
   }
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
 }
 >>>.el-popover.dwaer-popper {
   min-width: 0 !important;
+}
+
+.input-view {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
+}
+.goods-input-view {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
+}
+
+.form-item_time {
+  >>> .el-form-item {
+    margin-bottom: 0px;
+  }
 }
