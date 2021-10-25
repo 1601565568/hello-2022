@@ -104,8 +104,8 @@
             <!-- 群聚合码设置 start -->
             <template v-if='type === "Group"'>
               <div class='form-item_tip'>
-                消费者进入此活动页面后，根据定位位置自动推荐最近门店的群聚合码，客户可扫码入群<br />
-                群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）
+                消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码入群<br />
+                群满后会根据以下规则自动创建新群
               </div>
               <div class='step-content'>
                 <div class='step-name'>Step1：</div>
@@ -135,7 +135,7 @@
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle" class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>自动创建的群聚合码不会显示在群聚合码列表</p>
+                      <p class='popperClass'>自动创建的群聚合码不会显示在【获客引流->群引流->群聚合码列表】</p>
                     </template>
                   </el-tooltip>
                 </div>
@@ -159,17 +159,17 @@
 
                   <el-tooltip content=""  placement="top">
                     <div slot="content">
-                      <span>企微接口限制，单个群码聚合超过100个群时，无法自动创建新群</span><br/>
-                      <span>请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）</span>
+                      <span>一个群聚合码最多可关联100个群，超过100个群时无法自动创建群</span><br/>
+                      <span>请设置需自动移除的群聊（不会解散群）</span>
                     </div>
                     <Icon type="question-circle" class='question-circle' />
                   </el-tooltip>
                 </template>
                 <div style='display:flex;'>
-                  当群聚合超的群过100个群时，自动移除 <div class='cha'></div>
+                  自动从群聚合码中移除 <div class='cha'></div>
                   <el-form-item prop='roomUserNum'>
                     <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
-                  </el-form-item><div class='cha'></div>人以上群聊
+                  </el-form-item><div class='cha'></div>人以上的群聊
                 </div>
               </el-form-item>
               <div class='step-content'>
@@ -179,7 +179,7 @@
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle"  class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>消费者选择定位后，展示此海报和对应的群聚合码</p>
+                      <p class='popperClass'>消费者选择门店后，展示此海报和门店的群聚合码</p>
                     </template>
                   </el-tooltip>
                 </div>
@@ -198,7 +198,7 @@
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <Icon type="question-circle"  class='question-circle_detail'/>
                     <template slot='content'>
-                      <p class='popperClass'>消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码添加门店员工为好友</p>
+                      <p class='popperClass'>设置门店的企微聚合码</p>
                     </template>
                   </el-tooltip>
                 </div>
