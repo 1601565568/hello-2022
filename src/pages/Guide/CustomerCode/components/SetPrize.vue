@@ -262,7 +262,7 @@ export default {
       //   return
       // }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('活动奖励总数不能大于剩余数量'))
+        callback(new Error('发放数量不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
         callback(new Error('活动奖励总数不能0'))
       } else {
