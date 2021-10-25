@@ -2,6 +2,8 @@
 export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认banner图.png'
 export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认奖品图.jpg'
 export const defRegUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认引导图.png'
+export const defPosters = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认海报图.jpg'
+export const defCardImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认图片.jpeg'
 
 // 解析页面数据
 export const formatePageObj = (eidtList, prizeModel) => {
