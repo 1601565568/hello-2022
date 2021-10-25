@@ -506,7 +506,7 @@ export default {
           return
         }
         if (parseFloat(prizeRuleListObj.prizeNumber) > parseFloat(prizeRuleListObj.validNumber)) {
-          this.$notify.error('活动奖励总数不能大于剩余数量')
+          this.$notify.error('发放数量不能大于剩余数量')
           return
         }
         if (!this.pageObj.activeInfo.goodsName) {
