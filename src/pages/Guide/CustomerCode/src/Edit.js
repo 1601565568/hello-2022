@@ -486,7 +486,7 @@ export default {
       }
       const activeItem = this.eidtList[3]
       let ruleForm4
-      if (activeItem.status === 1 && !this.isEdit) {
+      if (activeItem.status === 1 && (!this.isEdit || this.copyGuestCodeId.length > 0)) {
         ruleForm4 = this.$refs.componentList[2].validateRules()
         let prizeRuleListObj = this.model.prizeRuleList[0] || {}
         if (!prizeRuleListObj.recruitment) {
