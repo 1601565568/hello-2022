@@ -5,7 +5,7 @@
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
       <div class='header-title'>
-        <h4 class='header-title_text'>{{chooseMaster.employeeName}}的推广大师明细</h4>
+        <h4 class='header-title_text'>{{chooseMaster.employeeName}}的裂变大师明细</h4>
         <span class='header-title_num'>共{{chooseMaster.promotionMasterNumber}}人</span>
       </div>
       <div class='analysis-content'>
@@ -35,7 +35,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="">
-                <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
+                <el-input v-model="seachVal" placeholder="请输入裂变大师昵称"  @keyup.enter.native="handleSearch">
                   <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
                 </el-input>
               </el-form-item>
@@ -51,7 +51,7 @@
                 style="width: 100%">
                 <el-table-column
                   prop="name"
-                  label="推广大师">
+                  label="裂变大师">
                   <template slot-scope="scope">
                     <div class="scope-title">
                       <img :src='scope.row.avatar || defaultIcon' class="scope-title_img">

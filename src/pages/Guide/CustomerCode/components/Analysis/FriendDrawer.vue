@@ -5,7 +5,7 @@
         <i class="el-icon-close" @click="handleBackFirst"></i>
       </div>
       <div class='header-title'>
-        <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的推广大师明细<span class='header-title_text__span'>/</span></h4>
+        <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的裂变大师明细<span class='header-title_text__span'>/</span></h4>
         <h4 class='header-title_text'>{{chooseFriend.employeeName}}邀请好友的明细</h4>
         <span class='header-title_num'>共{{chooseFriend.inviteFriendNumber}}人</span>
       </div>

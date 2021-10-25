@@ -30,7 +30,8 @@ export default {
       linkminiapp,
       visible: false,
       isLoad: false,
-      dialogVisible: false
+      dialogVisible: false,
+      isSaasAccount: false // 是否是saas小程序
     }
   },
   mounted () {
@@ -47,6 +48,7 @@ export default {
           if (result.data && result.data.length) {
             const infoData = result.data.find(item => item.type === 0)
             if (infoData) {
+              this.isSaasAccount = infoData.work_environment && infoData.work_environment === 2
               this.infoData = this.formatInfoData(infoData)
               this.displayData = this.formatDisplayData(this.infoData)
               this.isEmpty = false
