@@ -1048,7 +1048,6 @@ export default {
           if (taskType === 2) {
             this.replaceStoreShow = false
           }
-          this.$notify.warning('转移会员以任务形式进行，需要一段时间处理。')
         } else {
           this.$notify.error('会员转移失败', res.result)
         }
