@@ -17,7 +17,7 @@
             <template slot="prepend">
               <el-select v-model='searchType' class='input-select'>
                 <el-option :key="1" label="好友昵称" :value="1"></el-option>
-                <el-option :key="2" label="推广大师" :value="2"></el-option>
+                <el-option :key="2" label="裂变大师" :value="2"></el-option>
               </el-select>
             </template>
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
@@ -50,7 +50,7 @@
           </el-table-column>
           <el-table-column
             prop="promotionName"
-            label="推广大师">
+            label="裂变大师">
             <template slot-scope="scope">
               <div class="scope-title">
                 <img :src='scope.row.promotionAvatar || defaultIcon' class="scope-title_img">
@@ -149,7 +149,7 @@ export default {
   components: { PageTable, NsGuideDialog },
   computed: {
     holderName () {
-      return ['', '好友昵称', '推广大师'][this.searchType]
+      return ['', '好友昵称', '裂变大师'][this.searchType]
     }
   },
   props: ['startTime', 'endTime'],

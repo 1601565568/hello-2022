@@ -29,10 +29,10 @@ export default {
           key: 'employeeNumber'
         },
         {
-          label: '推广大师人数',
+          label: '裂变大师人数',
           value: 0,
           tip:
-            '筛选期间内，通过此活动成为推广大师总人数（导购发送裂变大师的好友即为推广大师）',
+            '筛选期间内，通过此活动成为裂变大师总人数（员工发送裂变大师活动后，好友分享活动生成海报后，即为裂变大师',
           id: 'master',
           key: 'promotionMasterNumber'
         },
@@ -151,7 +151,7 @@ export default {
     onNextMaster () {
       this.$refs.employeeTable.getOhterGuideForMaster('next')
     },
-    // 查看上一个推广大师
+    // 查看上一个裂变大师
     onPrevMaster () {
       this.$refs.employeeTable.getOhterGuideForMaster('prev')
     },

@@ -2,7 +2,7 @@
   <div class="poster-preview-container">
     <h3>效果展示</h3>
     <div class="mobile-panel">
-      <div class="poster-content" :style='{backgroundImage:"url("+posterBackgroundUrl+")"}'>
+      <div class="poster-content" :style='{backgroundImage:"url("+encodeURI(posterBackgroundUrl)+")"}'>
         <VueDragResize
           v-if="showQrcode"
           :w="qrcodeSize"

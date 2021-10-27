@@ -724,9 +724,6 @@ export default {
           let check = this.mapTag[i]
           if (check.id === row.id) {
             if (!row.selectValue || row.selectValue.trim().length === 0) {
-              // 判断是否为空
-              // this.mapTag.splice(i, 1)
-              // this.textIds.splice(num, 1)
               check.value = null
               this.attribute -= 1
               this.attributeValue -= 1
@@ -902,7 +899,7 @@ export default {
         'sysCustomerId': this.sysCustomerId,
         'shopId': this.offLineShopId,
         'areaId': this.areaId,
-        'tagList': JSON.stringify(this.mapTag)
+        'list': this.mapTag
       }).then(resp => {
         if (resp.success) {
           this.restTag(true)
@@ -1051,6 +1048,7 @@ export default {
           if (taskType === 2) {
             this.replaceStoreShow = false
           }
+          this.$notify.warning('转移会员以任务形式进行，需要一段时间处理。')
         } else {
           this.$notify.error('会员转移失败', res.result)
         }
