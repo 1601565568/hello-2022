@@ -3,7 +3,7 @@
     <div class="msg-view">
       <div class="msg">
         <img src="./image/remidMsg.gif" style="width:20px;height:20px;margin-right:5px">
-        <span>转移会员以任务形式进行，需要一段时间处理</span>
+        <span>转移会员以任务形式进行，需要一段时间处理...</span>
       </div>
     </div>
   </div>
