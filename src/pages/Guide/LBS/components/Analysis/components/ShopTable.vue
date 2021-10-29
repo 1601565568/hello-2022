@@ -222,7 +222,7 @@ export default {
     }
   },
   mounted () {
-    this.state = this.$route.query ? this.$route.query.state : -1
+    this.state = this.$route.query ? this.$route.query.state + '' : -1
   }
 }
 </script>
