@@ -128,7 +128,7 @@ export default {
 
       if (Array.isArray(this.selectedRoomIds)) {
         // 查询所有的群 筛选选中的
-        this.findAllGroups()
+        // this.findAllGroups()
       }
     },
     selectAllGroups () {

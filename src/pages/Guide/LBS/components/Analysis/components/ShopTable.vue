@@ -146,6 +146,9 @@ export default {
     },
     // 添加群聊
     handleAddGroup (row, index) {
+      // this.activeRow = {
+      //   chooseChatroom: [{ 'chatId': 'wraQfGDQAAQnF-VJeQkl1kb6CFRC4mOw', 'name': '未命名群聊' }, { 'chatId': 'wraQfGDQAABjU802QTmUSC2_m2ISvQbA', 'name': '未命名群聊' }]
+      // }
       this.activeRow = row
       this.display = true
       this.$nextTick(() => {
@@ -205,8 +208,8 @@ export default {
     },
     onChangeItem (shopId) {
       this.$queryList$(this.$generateParams$()).then(() => {
-        const item = this._data._table.data.find(item => item.shopId)
-        const index = this._data._table.data.findIndex(item => item.shopId)
+        const item = this._data._table.data.find(item => item.shopId === shopId + '')
+        const index = this._data._table.data.findIndex(item => item.shopId === shopId + '')
         this.handleDetail(item, index)
       })
     }
