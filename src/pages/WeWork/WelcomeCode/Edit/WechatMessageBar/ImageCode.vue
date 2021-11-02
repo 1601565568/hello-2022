@@ -71,7 +71,24 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="right-view"></div>
+      <div class="right-view">
+        <div class="show-info-view">
+          <img
+            class="image-view"
+            src="https://ts1.cn.mm.bing.net/th/id/R-C.67f2b0a65aba29ce0911179ae337c2d9?rik=wr3of%2fEL%2bpsZTQ&riu=http%3a%2f%2fup.36992.com%2fpic%2fd6%2f55%2f40%2fd65540f5629702a0b326b047001d9947.jpg&ehk=4bzQeXwCiOUtD2BBo7wlW%2bsgeuXOjpEjh99iZF%2fxiFo%3d&risl=&pid=ImgRaw&r=0"
+          />
+          <div class="content-view">
+            <div class="left-view">
+              <div class="title-view">
+                商品标题最多显示三行商品标题最多显示三行商品标题最多显示三行商品标题最多
+              </div>
+              <div class="left-price-view">¥9999.99</div>
+              <div class="left-orgian-view">原价：999999.99</div>
+            </div>
+            <div class="code-img-view"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <span slot="footer" class="dialog-footer">
       <NsButton @click="handleCanle">取 消</NsButton>
@@ -124,6 +141,53 @@ export default {
 }
 .right-view {
   width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .show-info-view {
+    background: #ffffff;
+    border-radius: 6px;
+    width: 380px;
+    box-shadow: 2px 2px 5px #d8d8d8;
+    .image-view {
+      width: 100%;
+      height: 380px;
+      border-radius: 6px 6px 0px 0px;
+    }
+    .content-view {
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 0px 0px 6px 6px;
+      display: flex;
+      flex-direction: row;
+      .left-view {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .title-view {
+          font-size: 16px;
+          color: rgba(0, 0, 0, 0.85);
+          line-height: 24px;
+          font-weight: 600;
+          width: 204px;
+          margin-bottom: 8px;
+        }
+        .left-price-view {
+          font-size: 20px;
+          color: #f7454e;
+          line-height: 28px;
+          font-weight: 600;
+        }
+        .left-orgian-view {
+          font-size: 12px;
+          color: #8c8c8c;
+          line-height: 20px;
+          font-weight: 400;
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
 }
 .mini-view {
   font-size: 14px;

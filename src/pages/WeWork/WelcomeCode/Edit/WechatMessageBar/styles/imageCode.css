@@ -1,5 +1,6 @@
 
 .form-view {
+  width: 93%;
   >>> .el-form-item {
     margin-bottom: 8px;
   }
