@@ -1,0 +1,47 @@
+
+.form-view {
+  >>> .el-form-item {
+    margin-bottom: 8px;
+  }
+  >>> .el-form-item__label {
+    font-size: 14px;
+    color: #595959;
+  }
+  >>> .el-select {
+    width: 100%;
+    height: 32px;
+  }
+  >>> .el-radio__label {
+    font-size: 14px;
+  }
+  >>> .el-radio__input.is-checked + .el-radio__label {
+    font-size: 14px;
+    color: #0094FC;
+  }
+  >>> .el-radio__inner{
+    width: 16px;
+    height: 16px;
+  }
+  >>> .el-radio__input.is-checked .el-radio__inner{
+    background: #0094FC;
+  }
+  >>> .el-radio-group {
+    margin-bottom: 8px;
+  }
+  .select-shop-view {
+    >>> .el-input {
+      width: 264px;
+      height: 32px;
+    }
+  }
+  >>> .el-input.el-input--small .el-input__inner {
+    font-size: 14px;
+    height: 32px;
+  }
+  .price-view {
+    >>> .el-input {
+      width: 264px;
+      height: 32px;
+    }
+  }
+}

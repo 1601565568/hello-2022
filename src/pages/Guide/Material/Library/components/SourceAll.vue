@@ -61,7 +61,7 @@
           />
           <el-popover
             placement="top-start"
-            width="400"
+            width="480"
             trigger="hover"
             :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
           >
