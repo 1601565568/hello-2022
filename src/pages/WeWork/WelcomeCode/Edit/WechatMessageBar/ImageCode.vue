@@ -25,19 +25,31 @@
           </el-form-item>
           <el-form-item label="附码方式" required>
             <el-radio-group v-model="codeStyle">
-              <el-radio label="选择商品"></el-radio>
-              <el-radio label="输入小程序路径"></el-radio>
+              <el-radio label="0">选择商品</el-radio>
+              <el-radio label="1">输入小程序路径</el-radio>
             </el-radio-group>
-            <div class="select-shop-view">
-              <el-input placeholder="商品名称"/>
+            <div class="select-shop-view" v-show="codeStyle === '0'">
+              <el-input placeholder="商品名称" />
               <div class="shop-button">选择商品</div>
             </div>
+            <div class="parameter-view"></div>
           </el-form-item>
           <el-form-item label="货号">
             <el-input placeholder="请输入货号" />
           </el-form-item>
           <el-form-item label="图片" required>
-            <div>请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M</div>
+            <el-upload
+              class="avatar-uploader"
+              :show-file-list="false"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div class="remind-img">
+              请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
+            </div>
           </el-form-item>
           <el-form-item label="名称" required>
             <el-input placeholder="请输入标题，长度在36个字符以内" />
@@ -46,14 +58,15 @@
             <el-switch v-model="price" active-color="#0091FA"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价"/>
+              <el-input placeholder="请输入售价" />
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="originalPrice" active-color="#0091FA"> </el-switch>
+            <el-switch v-model="originalPrice" active-color="#0091FA">
+            </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价"/>
+              <el-input placeholder="请输入原价" />
             </div>
           </el-form-item>
         </el-form>
@@ -67,7 +80,11 @@
   </el-dialog>
 </template>
 <script>
+import ElUpload from '@nascent/nui/lib/upload'
 export default {
+  components: {
+    ElUpload
+  },
   props: {
     visible: {
       type: Boolean,
@@ -77,12 +94,14 @@ export default {
   data () {
     return {
       miniList: ['shanghai', 'beijing'],
-      codeStyle: '',
+      codeStyle: '0',
       price: '',
-      originalPrice: ''
+      originalPrice: '',
+      imageUrl: ''
     }
   },
   methods: {
+    handleAvatarSuccess () {},
     handleCanle () {
       this.$emit('handleImageCode', false)
     },
@@ -99,14 +118,14 @@ export default {
   flex-direction: row;
 }
 .left-view {
-  width: 50%;
+  width: 55%;
 }
 .right-view {
-  width: 50%;
+  width: 45%;
 }
 .mini-view {
   font-size: 14px;
-  color: #0094FC;
+  color: #0094fc;
   line-height: 22px;
   font-weight: 400;
   display: flex;
@@ -119,21 +138,22 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 8px;
   .shop-button {
     width: 88px;
     height: 32px;
-    background: #0094FC;
+    background: #0094fc;
     border-radius: 2px;
     text-align: center;
     font-size: 14px;
-    color: #FFFFFF;
+    color: #ffffff;
     box-sizing: content-box;
     line-height: 32px;
   }
 }
 .price-view {
   margin-top: 16px;
-  background: #F5F5F5;
+  background: #f5f5f5;
   border-radius: 2px;
   width: 100%;
   padding: 16px;
@@ -147,5 +167,19 @@ export default {
     font-size: 14px;
     color: #595959;
   }
+}
+.parameter-view {
+  background: #f5f5f5;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+.remind-img {
+  font-size: 14px;
+  color: #8c8c8c;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  margin-top: 8px;
 }
 </style>
