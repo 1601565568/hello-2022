@@ -101,7 +101,9 @@ export default {
     }
   },
   methods: {
-    handleAvatarSuccess () {},
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
     handleCanle () {
       this.$emit('handleImageCode', false)
     },
