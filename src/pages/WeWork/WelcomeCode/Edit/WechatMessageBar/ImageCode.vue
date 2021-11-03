@@ -59,35 +59,56 @@
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
+                  <div>
+                    <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
+                    <i class="iconfont icon-ns-help help-icon"></i>
+                  </div>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="internalIdChecked">内部门店ID</el-checkbox>
+                  <div>
+                    <el-checkbox v-model="internalIdChecked"
+                      >内部门店ID</el-checkbox
+                    >
+                    <i class="iconfont icon-ns-help help-icon"></i>
+                  </div>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="externalIdChecked">外部员工ID</el-checkbox>
+                  <div>
+                    <el-checkbox v-model="externalIdChecked"
+                      >外部员工ID</el-checkbox
+                    >
+                    <i class="iconfont icon-ns-help help-icon"></i>
+                  </div>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
+                  <div>
+                    <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
+                    <i class="iconfont icon-ns-help help-icon"></i>
+                  </div>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
+                  <div>
+                    <el-checkbox v-model="memberUserIdChecked"
+                      >员工userID</el-checkbox
+                    >
+                    <i class="iconfont icon-ns-help help-icon"></i>
+                  </div>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
@@ -101,8 +122,9 @@
             <el-upload
               class="avatar-uploader"
               :show-file-list="false"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :action="$api.core.sgUploadFile('test')"
               :on-success="handleAvatarSuccess"
+              accept=".jpg,.jpeg,.png"
             >
               <img v-if="imageUrl" :src="imageUrl" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -136,7 +158,7 @@
       </div>
       <div class="right-view">
         <div class="show-info-view">
-          <img class="image-view" :src="imageUrl || defaultUrl" />
+          <img class="image-view" :src="imageUrl || defaultUrl" crossOrigin="anonymous"/>
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
@@ -158,12 +180,13 @@
       <NsButton @click="handleCanle">取 消</NsButton>
       <NsButton type="primary" @click="handleSure">保 存</NsButton>
     </span>
-      <SelectGoods ref="selectGoods" :callBack="selectMarketBack" />
+    <SelectGoods ref="selectGoods" :callBack="selectMarketBack" />
   </el-dialog>
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import SelectGoods from '@/pages/Guide/Material/components/selectGoods'
+import html2canvas from 'html2canvas'
 export default {
   components: {
     ElUpload,
@@ -205,8 +228,33 @@ export default {
     handleCanle () {
       this.$emit('handleImageCode', false)
     },
+    dataURLtoFile (dataURI, type) {
+      let binary = atob(dataURI.split(',')[1])
+      let array = []
+      for (let i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i))
+      }
+      return new Blob([new Uint8Array(array)], { type: type })
+    },
     handleSure () {
-      this.$emit('handleImageCode', false)
+      // this.$emit('handleImageCode', false)
+      const view = document.querySelector('.show-info-view')
+      html2canvas(view, {
+        useCORS: true
+      }).then(canvas => {
+        const file = canvas.toDataURL('image/jpeg')
+        let blob = this.dataURLtoFile(file, 'image/jpeg')
+        let param = new FormData()
+        let fileOfBlob = new File([blob], Date.now() + '.jpg')
+        param.append('file', fileOfBlob)
+        this.$http
+          .fetch(this.$api.guide.customImage, param)
+          .then(resp => {
+            const json = resp.result
+          })
+          .catch(resp => {
+          })
+      })
     },
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
@@ -355,6 +403,10 @@ export default {
       width: 130px;
       height: 32px;
       line-height: 32px;
+      .help-icon {
+        color: #8c8c8c;
+        margin-left: 5px;
+      }
     }
   }
   .show-path-remind-view {

@@ -207,6 +207,11 @@ export default {
     url: '/guide/material/findMaterialList',
     method: 'post'
   },
+  customImage: {
+    // 素材编辑
+    url: '/core/sgfile/uploadFile/test',
+    method: 'post'
+  },
   materialEdit: {
     // 素材编辑
     url: '/guide/material/saveMaterial',
