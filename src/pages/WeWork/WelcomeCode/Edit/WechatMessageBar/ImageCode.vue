@@ -181,6 +181,7 @@ export default {
       goodsOrginPrice: '',
       goodsTitle: '',
       goodsPath: '',
+      checked: false,
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg'
     }
