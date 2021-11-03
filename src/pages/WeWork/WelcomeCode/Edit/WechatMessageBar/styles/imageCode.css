@@ -29,6 +29,14 @@
   >>> .el-radio-group {
     margin-bottom: 8px;
   }
+  >>> .el-textarea.el-input--small .el-textarea__inner {
+    font-size: 14px;
+    height: 90px;
+  }
+  >>> .el-input--small {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
   .select-shop-view {
     >>> .el-input {
       width: 264px;
@@ -43,6 +51,21 @@
     >>> .el-input {
       width: 264px;
       height: 32px;
+    }
+  }
+  .path-para-view {
+    >>> .el-input {
+      width: 60%;
+      height: 32px;
+    }
+    >>> .el-checkbox__label {
+      font-size: 14px;
+      color: #595959;
+      font-weight: 400;
+    }
+    >>> .el-checkbox__input.is-checked .el-checkbox__inner {
+      background-color: #0091FA;
+      border-color: #0091FA;
     }
   }
 }

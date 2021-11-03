@@ -29,13 +29,65 @@
               <el-radio label="1">输入小程序路径</el-radio>
             </el-radio-group>
             <div class="select-shop-view" v-show="codeStyle === '0'">
-              <el-input placeholder="商品名称" />
+              <el-input placeholder="商品名称" v-model="goodsName" />
               <div class="shop-button">选择商品</div>
             </div>
-            <div class="parameter-view"></div>
+            <div class="parameter-view">
+              <div style="margin-bottom:8px">小程序路径</div>
+              <el-input
+                type="textarea"
+                placeholder="请输入小程序路径，长度在1-255个字"
+                :rows="2"
+                v-model="goodsPath"
+                maxlength="255"
+                show-word-limit
+              >
+              </el-input>
+              <div class="show-path-url-view">
+                <span class="item-view">带参配置说明</span>
+                <span class="item-view">如何获取路径</span>
+                <span class="item-view">预览</span>
+              </div>
+              <div>路径带参</div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <el-checkbox v-model="checked">店铺编码</el-checkbox>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" />
+              </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <el-checkbox v-model="checked">内部门店ID</el-checkbox>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" />
+              </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <el-checkbox v-model="checked">外部员工ID</el-checkbox>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" />
+              </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <el-checkbox v-model="checked">员工ID</el-checkbox>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" />
+              </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <el-checkbox v-model="checked">员工userID</el-checkbox>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" />
+              </div>
+            </div>
           </el-form-item>
           <el-form-item label="货号">
-            <el-input placeholder="请输入货号" />
+            <el-input placeholder="请输入货号" v-model="goodsId" />
           </el-form-item>
           <el-form-item label="图片" required>
             <el-upload
@@ -52,13 +104,16 @@
             </div>
           </el-form-item>
           <el-form-item label="名称" required>
-            <el-input placeholder="请输入标题，长度在36个字符以内" />
+            <el-input
+              placeholder="请输入标题，长度在36个字符以内"
+              v-model="goodsTitle"
+            />
           </el-form-item>
           <el-form-item label="售价" required>
             <el-switch v-model="price" active-color="#0091FA"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" />
+              <el-input placeholder="请输入售价" v-model="goodsPrice" />
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
@@ -66,24 +121,25 @@
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" />
+              <el-input placeholder="请输入原价" v-model="goodsOrginPrice" />
             </div>
           </el-form-item>
         </el-form>
       </div>
       <div class="right-view">
         <div class="show-info-view">
-          <img
-            class="image-view"
-            src="https://ts1.cn.mm.bing.net/th/id/R-C.67f2b0a65aba29ce0911179ae337c2d9?rik=wr3of%2fEL%2bpsZTQ&riu=http%3a%2f%2fup.36992.com%2fpic%2fd6%2f55%2f40%2fd65540f5629702a0b326b047001d9947.jpg&ehk=4bzQeXwCiOUtD2BBo7wlW%2bsgeuXOjpEjh99iZF%2fxiFo%3d&risl=&pid=ImgRaw&r=0"
-          />
+          <img class="image-view" :src="imageUrl || defaultUrl" />
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
                 商品标题最多显示三行商品标题最多显示三行商品标题最多显示三行商品标题最多
               </div>
-              <div class="left-price-view">¥9999.99</div>
-              <div class="left-orgian-view">原价：999999.99</div>
+              <div class="left-price-view" v-show="goodsPrice.length > 0">
+                ¥{{ goodsPrice }}
+              </div>
+              <div class="left-orgian-view" v-show="goodsOrginPrice.length > 0">
+                原价：{{ goodsOrginPrice }}
+              </div>
             </div>
             <div class="code-img-view"></div>
           </div>
@@ -114,7 +170,15 @@ export default {
       codeStyle: '0',
       price: '',
       originalPrice: '',
-      imageUrl: ''
+      imageUrl: '',
+      goodsId: '',
+      goodsName: '',
+      goodsPrice: '',
+      goodsOrginPrice: '',
+      goodsTitle: '',
+      goodsPath: '',
+      defaultUrl:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg'
     }
   },
   methods: {
@@ -237,8 +301,38 @@ export default {
 .parameter-view {
   background: #f5f5f5;
   width: 100%;
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   margin-bottom: 8px;
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  .show-path-url-view {
+    color: #0094fc;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    .item-view {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+  .path-para-view {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    color: #595959;
+    justify-content: space-between;
+    align-content: center;
+    .path-left-view {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 130px;
+      height: 32px;
+      line-height: 32px;
+    }
+  }
 }
 .remind-img {
   font-size: 14px;
