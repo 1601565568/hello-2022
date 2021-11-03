@@ -42,7 +42,7 @@
                 type="textarea"
                 placeholder="请输入小程序路径，长度在1-255个字"
                 :rows="2"
-                v-model="goodsPath"
+                v-model="obj.path"
                 maxlength="255"
                 show-word-limit
               >
@@ -116,7 +116,7 @@
             </div>
           </el-form-item>
           <el-form-item label="货号">
-            <el-input placeholder="请输入货号" v-model="goodsId" />
+            <el-input placeholder="请输入货号" v-model="obj.outerId" />
           </el-form-item>
           <el-form-item label="图片" required>
             <el-upload
@@ -136,29 +136,29 @@
           <el-form-item label="名称" required>
             <el-input
               placeholder="请输入标题，长度在36个字符以内"
-              v-model="goodsTitle"
+              v-model="obj.title"
             />
           </el-form-item>
           <el-form-item label="售价" required>
-            <el-switch v-model="price" active-color="#0091FA"> </el-switch>
+            <el-switch v-model="obj.priceStatus" active-color="#0091FA"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="goodsPrice" />
+              <el-input placeholder="请输入售价" v-model="obj.price" />
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="originalPrice" active-color="#0091FA">
+            <el-switch v-model="obj.originalPriceStatus" active-color="#0091FA">
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="goodsOrginPrice" />
+              <el-input placeholder="请输入原价" v-model="obj.originalPrice" />
             </div>
           </el-form-item>
         </el-form>
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="imageUrl || defaultUrl" crossOrigin="anonymous"/>
+          <img class="image-view" :src="obj.image || defaultUrl" crossOrigin="anonymous"/>
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
@@ -215,7 +215,7 @@ export default {
       goodsPrice: '',
       goodsOrginPrice: '',
       goodsTitle: '',
-      goodsPath: '',
+      path: '',
       checked: false,
       shopIdChecked: false,
       internalIdChecked: false,
@@ -223,12 +223,22 @@ export default {
       memberIdChecked: false,
       memberUserIdChecked: false,
       defaultUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
+      obj: {
+        path: '',
+        title: '',
+        image: '',
+        outerId: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: false,
+        originalPriceStatus: false
+      }
     }
   },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      this.obj.image = res.result.url || ''
     },
     handleCanle () {
       this.$emit('handleImageCode', false)
@@ -242,30 +252,31 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     handleSure () {
+      console.log(this.obj)
       // this.$emit('handleImageCode', false)
-      const view = document.querySelector('.show-info-view')
-      const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
-      const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
-      // console.log(codeImg)
-      // console.log(showInfo)
-      // console.log(showInfo.bottom - codeImg.bottom)
-      // console.log(showInfo.right - codeImg.right)
-      html2canvas(view, {
-        useCORS: true
-      }).then(canvas => {
-        const file = canvas.toDataURL('image/jpeg')
-        let blob = this.dataURLtoFile(file, 'image/jpeg')
-        let param = new FormData()
-        let fileOfBlob = new File([blob], Date.now() + '.jpg')
-        param.append('file', fileOfBlob)
-        this.$http
-          .fetch(this.$api.guide.customImage, param)
-          .then(resp => {
-            const json = resp.result
-          })
-          .catch(resp => {
-          })
-      })
+      // const view = document.querySelector('.show-info-view')
+      // const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
+      // const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
+      // // console.log(codeImg)
+      // // console.log(showInfo)
+      // // console.log(showInfo.bottom - codeImg.bottom)
+      // // console.log(showInfo.right - codeImg.right)
+      // html2canvas(view, {
+      //   useCORS: true
+      // }).then(canvas => {
+      //   const file = canvas.toDataURL('image/jpeg')
+      //   let blob = this.dataURLtoFile(file, 'image/jpeg')
+      //   let param = new FormData()
+      //   let fileOfBlob = new File([blob], Date.now() + '.jpg')
+      //   param.append('file', fileOfBlob)
+      //   this.$http
+      //     .fetch(this.$api.guide.customImage, param)
+      //     .then(resp => {
+      //       const json = resp.result
+      //     })
+      //     .catch(resp => {
+      //     })
+      // })
     },
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
