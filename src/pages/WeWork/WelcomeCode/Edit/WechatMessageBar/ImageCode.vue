@@ -157,7 +157,7 @@
         </el-form>
       </div>
       <div class="right-view">
-        <div class="show-info-view">
+        <div class="show-info-view" id="show-info-view">
           <img class="image-view" :src="imageUrl || defaultUrl" crossOrigin="anonymous"/>
           <div class="content-view">
             <div class="left-view">
@@ -171,7 +171,12 @@
                 原价：{{ goodsOrginPrice }}
               </div>
             </div>
-            <div class="code-img-view"></div>
+            <div class="code-img-view">
+              <div class="code-img" id="code-img-view">
+                <img class="code-img" data-html2canvas-ignore src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guideApplet/80000002/1123181/1039937/1/1.jpg"/>
+              </div>
+              <div class="code-title">长按查看商品详情</div>
+            </div>
           </div>
         </div>
       </div>
@@ -239,6 +244,12 @@ export default {
     handleSure () {
       // this.$emit('handleImageCode', false)
       const view = document.querySelector('.show-info-view')
+      const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
+      const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
+      // console.log(codeImg)
+      // console.log(showInfo)
+      // console.log(showInfo.bottom - codeImg.bottom)
+      // console.log(showInfo.right - codeImg.right)
       html2canvas(view, {
         useCORS: true
       }).then(canvas => {
@@ -295,6 +306,7 @@ export default {
       border-radius: 0px 0px 6px 6px;
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       .left-view {
         display: flex;
         flex-direction: column;
@@ -319,6 +331,19 @@ export default {
           line-height: 20px;
           font-weight: 400;
           text-decoration: line-through;
+        }
+      }
+      .code-img-view {
+        .code-img {
+          width: 112px;
+          height: 108px;
+        }
+        .code-title {
+          margin-top: 5px;
+          font-size: 12px;
+          color: #8C8C8C;
+          text-align: center;
+          line-height: 20px;
         }
       }
     }
