@@ -125,10 +125,9 @@ export default {
         this.selectedData = seledctDateReady
         this.resetSearch()
       }
-
-      if (Array.isArray(this.selectedRoomIds)) {
+      if (Array.isArray(this.selectedRoomIds) && this.selectedRoomIds.length <= 0) {
         // 查询所有的群 筛选选中的
-        // this.findAllGroups()
+        this.findAllGroups()
       }
     },
     selectAllGroups () {
@@ -294,11 +293,6 @@ export default {
      * 群列表点击选择
      */
     selectChange (select, row) {
-      if (this.selectedData.length >= 100 && this.isSelectAll === false) {
-        this.$notify.error('群上限不允许超过100')
-        this.$refs.employeeTable.toggleRowSelection(row, false)
-        return
-      }
       if (this.selectedData.length === 0 && row) {
         this.selectedData.push(row)
       } else {
@@ -309,6 +303,12 @@ export default {
         if (index > -1) {
           this.selectedData.splice(index, 1)
         } else {
+          // 如果是添加才判断是否超出上限
+          if (this.selectedData.length >= 100 && this.isSelectAll === false) {
+            this.$notify.error('群上限不允许超过100')
+            this.$refs.employeeTable.toggleRowSelection(row, false)
+            return
+          }
           this.selectedData.push(row)
         }
       }
