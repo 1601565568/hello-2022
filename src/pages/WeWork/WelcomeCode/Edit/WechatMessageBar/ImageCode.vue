@@ -49,6 +49,10 @@
                 <span class="item-view">预览</span>
               </div>
               <div>路径带参</div>
+              <div class="show-path-remind-view">
+                <div>SCRM字段参数名称</div>
+                <div class="remid-right-view">小程序字段参数名称</div>
+              </div>
               <div class="path-para-view">
                 <div class="path-left-view">
                   <el-checkbox v-model="checked">店铺编码</el-checkbox>
@@ -331,6 +335,19 @@ export default {
       width: 130px;
       height: 32px;
       line-height: 32px;
+    }
+  }
+  .show-path-remind-view {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    color: #303133;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    .remid-right-view {
+      width: 60%;
+      text-align: center;
     }
   }
 }
