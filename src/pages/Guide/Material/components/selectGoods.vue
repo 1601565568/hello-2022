@@ -7,6 +7,8 @@
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   width="800px"
+  modal-append-to-body
+  append-to-body
   :before-close="handleClose">
     <div class="template-table">
       <div class="template-table-search">

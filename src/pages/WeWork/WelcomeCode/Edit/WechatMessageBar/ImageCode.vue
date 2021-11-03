@@ -29,8 +29,12 @@
               <el-radio label="1">输入小程序路径</el-radio>
             </el-radio-group>
             <div class="select-shop-view" v-show="codeStyle === '0'">
-              <el-input placeholder="商品名称" v-model="goodsName" />
-              <div class="shop-button">选择商品</div>
+              <el-input
+                placeholder="商品名称"
+                v-model="goodsName"
+                :disabled="true"
+              />
+              <div class="shop-button" @click="selectShopGoods">选择商品</div>
             </div>
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
@@ -55,35 +59,35 @@
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="checked">店铺编码</el-checkbox>
+                  <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="checked">内部门店ID</el-checkbox>
+                  <el-checkbox v-model="internalIdChecked">内部门店ID</el-checkbox>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="checked">外部员工ID</el-checkbox>
+                  <el-checkbox v-model="externalIdChecked">外部员工ID</el-checkbox>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="checked">员工ID</el-checkbox>
+                  <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
-                  <el-checkbox v-model="checked">员工userID</el-checkbox>
+                  <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" />
@@ -154,13 +158,16 @@
       <NsButton @click="handleCanle">取 消</NsButton>
       <NsButton type="primary" @click="handleSure">保 存</NsButton>
     </span>
+      <SelectGoods ref="selectGoods" :callBack="selectMarketBack" />
   </el-dialog>
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
+import SelectGoods from '@/pages/Guide/Material/components/selectGoods'
 export default {
   components: {
-    ElUpload
+    ElUpload,
+    SelectGoods
   },
   props: {
     visible: {
@@ -182,6 +189,11 @@ export default {
       goodsTitle: '',
       goodsPath: '',
       checked: false,
+      shopIdChecked: false,
+      internalIdChecked: false,
+      externalIdChecked: false,
+      memberIdChecked: false,
+      memberUserIdChecked: false,
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg'
     }
@@ -195,6 +207,12 @@ export default {
     },
     handleSure () {
       this.$emit('handleImageCode', false)
+    },
+    selectShopGoods () {
+      this.$refs.selectGoods.showToggle()
+    },
+    selectMarketBack (item) {
+      this.goodsName = item.title || ''
     }
   }
 }
@@ -284,6 +302,7 @@ export default {
     color: #ffffff;
     box-sizing: content-box;
     line-height: 32px;
+    cursor: pointer;
   }
 }
 .price-view {
