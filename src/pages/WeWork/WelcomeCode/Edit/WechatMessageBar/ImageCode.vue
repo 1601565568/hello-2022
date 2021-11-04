@@ -162,7 +162,7 @@
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
-                商品标题最多显示三行商品标题最多显示三行商品标题最多显示三行商品标题最多
+                {{content.title}}
               </div>
               <div class="left-price-view" v-show="content.price.length > 0">
                 ¥{{ content.price }}
@@ -335,6 +335,11 @@ export default {
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         .left-price-view {
           font-size: 20px;
