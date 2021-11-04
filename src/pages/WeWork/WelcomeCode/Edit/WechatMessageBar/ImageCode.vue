@@ -24,14 +24,14 @@
             </div>
           </el-form-item>
           <el-form-item label="附码方式" required>
-            <el-radio-group v-model="codeStyle">
+            <el-radio-group v-model="content.codeStyle">
               <el-radio label="0">选择商品</el-radio>
               <el-radio label="1">输入小程序路径</el-radio>
             </el-radio-group>
-            <div class="select-shop-view" v-show="codeStyle === '0'">
+            <div class="select-shop-view" v-show="content.codeStyle === '0'">
               <el-input
                 placeholder="商品名称"
-                v-model="goodsName"
+                v-model="content.itemName"
                 :disabled="true"
               />
               <div class="shop-button" @click="selectShopGoods">选择商品</div>
@@ -42,7 +42,7 @@
                 type="textarea"
                 placeholder="请输入小程序路径，长度在1-255个字"
                 :rows="2"
-                v-model="obj.path"
+                v-model="content.path"
                 maxlength="255"
                 show-word-limit
               >
@@ -116,7 +116,7 @@
             </div>
           </el-form-item>
           <el-form-item label="货号">
-            <el-input placeholder="请输入货号" v-model="obj.outerId" />
+            <el-input placeholder="请输入货号" v-model="content.outerId" />
           </el-form-item>
           <el-form-item label="图片" required>
             <el-upload
@@ -126,7 +126,7 @@
               :on-success="handleAvatarSuccess"
               accept=".jpg,.jpeg,.png"
             >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <img v-if="content.image" :src="content.image" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
             <div class="remind-img">
@@ -136,39 +136,39 @@
           <el-form-item label="名称" required>
             <el-input
               placeholder="请输入标题，长度在36个字符以内"
-              v-model="obj.title"
+              v-model="content.title"
             />
           </el-form-item>
           <el-form-item label="售价" required>
-            <el-switch v-model="obj.priceStatus" active-color="#0091FA"> </el-switch>
+            <el-switch v-model="content.priceStatus" active-color="#0091FA"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="obj.price" />
+              <el-input placeholder="请输入售价" v-model="content.price" />
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="obj.originalPriceStatus" active-color="#0091FA">
+            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA">
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="obj.originalPrice" />
+              <el-input placeholder="请输入原价" v-model="content.originalPrice" />
             </div>
           </el-form-item>
         </el-form>
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="obj.image || defaultUrl" crossOrigin="anonymous"/>
+          <img class="image-view" :src="content.image || defaultUrl" crossOrigin="anonymous"/>
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
                 商品标题最多显示三行商品标题最多显示三行商品标题最多显示三行商品标题最多
               </div>
-              <div class="left-price-view" v-show="goodsPrice.length > 0">
-                ¥{{ goodsPrice }}
+              <div class="left-price-view" v-show="content.price.length > 0">
+                ¥{{ content.price }}
               </div>
-              <div class="left-orgian-view" v-show="goodsOrginPrice.length > 0">
-                原价：{{ goodsOrginPrice }}
+              <div class="left-orgian-view" v-show="content.originalPrice.length > 0">
+                原价：{{ content.originalPrice }}
               </div>
             </div>
             <div class="code-img-view">
@@ -206,17 +206,6 @@ export default {
   data () {
     return {
       miniList: ['shanghai', 'beijing'],
-      codeStyle: '0',
-      price: '',
-      originalPrice: '',
-      imageUrl: '',
-      goodsId: '',
-      goodsName: '',
-      goodsPrice: '',
-      goodsOrginPrice: '',
-      goodsTitle: '',
-      path: '',
-      checked: false,
       shopIdChecked: false,
       internalIdChecked: false,
       externalIdChecked: false,
@@ -224,21 +213,33 @@ export default {
       memberUserIdChecked: false,
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
-      obj: {
+      content: {
         path: '',
         title: '',
         image: '',
-        outerId: '',
         price: '',
         originalPrice: '',
         priceStatus: false,
-        originalPriceStatus: false
+        originalPriceStatus: false,
+        outerId: '',
+        bankId: '',
+        sysItemId: '',
+        itemName: '',
+        watermarkSetting: {
+          resizeW: 112,
+          resizeH: 108,
+          gSeX: 0,
+          gSeY: 0
+        },
+        backgroundImage: '',
+        appid: '',
+        codeStyle: '0'
       }
     }
   },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.obj.image = res.result.url || ''
+      this.content.image = res.result.url || ''
     },
     handleCanle () {
       this.$emit('handleImageCode', false)
@@ -252,37 +253,42 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     handleSure () {
-      console.log(this.obj)
+      // console.log(this.content)
       // this.$emit('handleImageCode', false)
-      // const view = document.querySelector('.show-info-view')
-      // const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
-      // const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
-      // // console.log(codeImg)
-      // // console.log(showInfo)
-      // // console.log(showInfo.bottom - codeImg.bottom)
-      // // console.log(showInfo.right - codeImg.right)
-      // html2canvas(view, {
-      //   useCORS: true
-      // }).then(canvas => {
-      //   const file = canvas.toDataURL('image/jpeg')
-      //   let blob = this.dataURLtoFile(file, 'image/jpeg')
-      //   let param = new FormData()
-      //   let fileOfBlob = new File([blob], Date.now() + '.jpg')
-      //   param.append('file', fileOfBlob)
-      //   this.$http
-      //     .fetch(this.$api.guide.customImage, param)
-      //     .then(resp => {
-      //       const json = resp.result
-      //     })
-      //     .catch(resp => {
-      //     })
-      // })
+      const view = document.querySelector('.show-info-view')
+      const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
+      const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
+      this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right
+      this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
+      let that = this
+      html2canvas(view, {
+        useCORS: true
+      }).then(canvas => {
+        const file = canvas.toDataURL('image/jpeg')
+        let blob = this.dataURLtoFile(file, 'image/jpeg')
+        let param = new FormData()
+        let fileOfBlob = new File([blob], Date.now() + '.jpg')
+        param.append('file', fileOfBlob)
+        this.$http
+          .fetch(this.$api.guide.customImage, param)
+          .then(resp => {
+            const json = resp.result
+            that.content.backgroundImage = json.url || ''
+            console.log(this.content)
+          })
+          .catch(resp => {
+          })
+      })
     },
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
     },
     selectMarketBack (item) {
-      this.goodsName = item.title || ''
+      console.log(item)
+      this.content.outerId = item.outerId
+      this.content.bankId = item.bankId
+      this.content.sysItemId = item.sysItemId
+      this.content.itemName = item.title
     }
   }
 }
