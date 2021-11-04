@@ -173,7 +173,7 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" data-html2canvas-ignore src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guideApplet/80000002/1123181/1039937/1/1.jpg"/>
+                <img class="code-img" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guideApplet/80000002/1123181/1039937/1/1.jpg"/>
               </div>
               <div class="code-title">长按查看商品详情</div>
             </div>
