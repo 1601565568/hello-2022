@@ -25,10 +25,10 @@
           </el-form-item>
           <el-form-item label="附码方式" required>
             <el-radio-group v-model="content.codeStyle">
-              <el-radio label="0">选择商品</el-radio>
-              <el-radio label="1">输入小程序路径</el-radio>
+              <el-radio :label=0>选择商品</el-radio>
+              <el-radio :label=1>输入小程序路径</el-radio>
             </el-radio-group>
-            <div class="select-shop-view" v-show="content.codeStyle === '0'">
+            <div class="select-shop-view" v-show="content.codeStyle === 0">
               <el-input
                 placeholder="商品名称"
                 v-model="content.itemName"
@@ -140,18 +140,18 @@
             />
           </el-form-item>
           <el-form-item label="售价" required>
-            <el-switch v-model="content.priceStatus" active-color="#0091FA"> </el-switch>
+            <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="content.price" />
+              <el-input placeholder="请输入售价" v-model="content.price"/>
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA">
+            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0>
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="content.originalPrice" />
+              <el-input placeholder="请输入原价" v-model="content.originalPrice"/>
             </div>
           </el-form-item>
         </el-form>
@@ -224,8 +224,8 @@ export default {
         image: '',
         price: '',
         originalPrice: '',
-        priceStatus: false,
-        originalPriceStatus: false,
+        priceStatus: 1,
+        originalPriceStatus: 1,
         outerId: '',
         bankId: '',
         sysItemId: '',
@@ -238,7 +238,7 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: '0',
+        codeStyle: 0,
         presetParams: []
       }
     }
@@ -259,8 +259,54 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     handleSure () {
-      // console.log(this.content)
-      // this.$emit('handleImageCode', false)
+      if (this.content.codeStyle === 0) {
+        if (!this.content.itemName) {
+          this.$notify.warning('请选择商品名称')
+          return
+        }
+      }
+      if (!this.content.path) {
+        this.$notify.warning('请输入小程序路径')
+        return
+      }
+      if (this.shopIdChecked && !this.shopIdVal) {
+        this.$notify.warning('请输入店铺编码')
+        return
+      }
+      if (this.internalIdChecked && !this.internalIdVal) {
+        this.$notify.warning('请输入内部门店ID')
+        return
+      }
+      if (this.externalIdChecked && !this.externalIdVal) {
+        this.$notify.warning('请输入外部员工ID')
+        return
+      }
+      if (this.memberIdChecked && !this.memberIdVal) {
+        this.$notify.warning('请输入员工ID')
+        return
+      }
+      if (this.memberUserIdChecked && !this.memberUserIdVal) {
+        this.$notify.warning('请输入员工userID')
+        return
+      }
+      if (!this.content.backgroundImage) {
+        this.$notify.warning('请上传背景图片')
+        return
+      }
+      if (!this.content.title) {
+        this.$notify.warning('请输入标题')
+        return
+      }
+      if (this.content.priceStatus && !this.content.price) {
+        this.$notify.warning('请输入售价')
+        return
+      }
+      if (this.content.originalPriceStatus && !this.content.originalPrice) {
+        this.$notify.warning('请输入原价')
+        return
+      }
+      this.content.price = Number(this.content.price)
+      this.content.originalPrice = Number(this.content.originalPrice)
       const view = document.querySelector('.show-info-view')
       const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
       const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
@@ -323,8 +369,7 @@ export default {
       this.$refs.selectGoods.showToggle()
     },
     selectMarketBack (item) {
-      this.content.outerId = item.outerId
-      this.content.bankId = item.bankId
+      this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
     }
