@@ -159,16 +159,16 @@
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
           <img class="image-view" :src="content.image || defaultUrl" crossOrigin="anonymous"/>
-          <div class="content-view">
+          <div class="content-view" v-show="content.title || content.price || content.originalPrice">
             <div class="left-view">
               <div class="title-view">
                 {{content.title}}
               </div>
               <div class="left-price-view" v-show="content.price.length > 0">
-                ¥{{ content.price }}
+                <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
               <div class="left-orgian-view" v-show="content.originalPrice.length > 0">
-                原价：{{ content.originalPrice }}
+                原价：¥{{ content.originalPrice }}
               </div>
             </div>
             <div class="code-img-view">
@@ -284,7 +284,6 @@ export default {
       this.$refs.selectGoods.showToggle()
     },
     selectMarketBack (item) {
-      console.log(item)
       this.content.outerId = item.outerId
       this.content.bankId = item.bankId
       this.content.sysItemId = item.sysItemId
