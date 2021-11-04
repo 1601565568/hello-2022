@@ -65,7 +65,7 @@
                   </div>
                   <div>=</div>
                 </div>
-                <el-input placeholder="请输入对应的字段参数名称" />
+                <el-input placeholder="请输入对应的字段参数名称" v-model="shopIdVal"/>
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
@@ -77,7 +77,7 @@
                   </div>
                   <div>=</div>
                 </div>
-                <el-input placeholder="请输入对应的字段参数名称" />
+                <el-input placeholder="请输入对应的字段参数名称" v-model="internalIdVal"/>
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
@@ -89,7 +89,7 @@
                   </div>
                   <div>=</div>
                 </div>
-                <el-input placeholder="请输入对应的字段参数名称" />
+                <el-input placeholder="请输入对应的字段参数名称" v-model="externalIdVal"/>
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
@@ -99,7 +99,7 @@
                   </div>
                   <div>=</div>
                 </div>
-                <el-input placeholder="请输入对应的字段参数名称" />
+                <el-input placeholder="请输入对应的字段参数名称" v-model="memberIdVal"/>
               </div>
               <div class="path-para-view">
                 <div class="path-left-view">
@@ -111,7 +111,7 @@
                   </div>
                   <div>=</div>
                 </div>
-                <el-input placeholder="请输入对应的字段参数名称" />
+                <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
               </div>
             </div>
           </el-form-item>
@@ -126,7 +126,7 @@
               :on-success="handleAvatarSuccess"
               accept=".jpg,.jpeg,.png"
             >
-              <img v-if="content.image" :src="content.image" class="avatar" />
+              <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
             <div class="remind-img">
@@ -158,11 +158,11 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.image || defaultUrl" crossOrigin="anonymous"/>
-          <div class="content-view" v-show="content.title || content.price || content.originalPrice">
+          <img class="image-view" :src="content.backgroundImage || defaultUrl" crossOrigin="anonymous"/>
+          <div class="content-view">
             <div class="left-view">
               <div class="title-view">
-                {{content.title}}
+                {{content.title || '这是标题'}}
               </div>
               <div class="left-price-view" v-show="content.price.length > 0">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
@@ -207,10 +207,15 @@ export default {
     return {
       miniList: ['shanghai', 'beijing'],
       shopIdChecked: false,
+      shopIdVal: '',
       internalIdChecked: false,
+      internalIdVal: '',
       externalIdChecked: false,
+      externalIdVal: '',
       memberIdChecked: false,
+      memberIdVal: '',
       memberUserIdChecked: false,
+      memberUserIdVal: '',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
       content: {
@@ -233,13 +238,14 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: '0'
+        codeStyle: '0',
+        presetParams: []
       }
     }
   },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.content.image = res.result.url || ''
+      this.content.backgroundImage = res.result.url || ''
     },
     handleCanle () {
       this.$emit('handleImageCode', false)
@@ -260,6 +266,37 @@ export default {
       const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
       this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right
       this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
+      this.content.presetParams = []
+      let guideId = {
+        paramCode: 'guideId',
+        paramName: this.memberIdVal,
+        status: this.memberIdChecked ? 1 : 0
+      }
+      let shopId = {
+        paramCode: 'shopId',
+        paramName: this.shopIdVal,
+        status: this.shopIdChecked ? 1 : 0
+      }
+      let workNumber = {
+        paramCode: 'workNumber',
+        paramName: this.internalIdVal,
+        status: this.internalIdChecked ? 1 : 0
+      }
+      let outShopId = {
+        paramCode: 'outShopId',
+        paramName: this.externalIdVal,
+        status: this.externalIdChecked ? 1 : 0
+      }
+      let guideUserId = {
+        paramCode: 'guideUserId',
+        paramName: this.memberUserIdVal,
+        status: this.memberUserIdChecked ? 1 : 0
+      }
+      this.content.presetParams.push(guideId)
+      this.content.presetParams.push(shopId)
+      this.content.presetParams.push(workNumber)
+      this.content.presetParams.push(outShopId)
+      this.content.presetParams.push(guideUserId)
       let that = this
       html2canvas(view, {
         useCORS: true
@@ -273,7 +310,9 @@ export default {
           .fetch(this.$api.guide.customImage, param)
           .then(resp => {
             const json = resp.result
-            that.content.backgroundImage = json.url || ''
+            that.content.image = json.url || ''
+            that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
+            that.$emit('handleImageCode', false)
             console.log(this.content)
           })
           .catch(resp => {

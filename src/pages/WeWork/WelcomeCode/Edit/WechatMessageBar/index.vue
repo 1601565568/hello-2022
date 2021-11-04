@@ -77,6 +77,7 @@
     <ImageCode
       :visible.sync="visibleImageCodeDialog"
       @handleImageCode="handleImageCode"
+      @confirm="addMessage"
     />
   </div>
 </template>
@@ -194,9 +195,10 @@ export default {
           type = 3
         } else if (message.type === 'miniprogram') {
           type = 4
+        } else if (message.type === 'imagecode') {
+          type = 5
         }
       }
-      console.log(message)
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
