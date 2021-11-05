@@ -52,6 +52,10 @@
       width: 264px;
       height: 32px;
     }
+    >>> .el-input--small {
+      font-size: 14px;
+      margin-bottom: 0px;
+    }
   }
   .path-para-view {
     >>> .el-input {

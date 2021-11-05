@@ -320,7 +320,7 @@ export default {
         return
       }
       if (!this.content.backgroundImage) {
-        this.$notify.warning('请上传背景图片')
+        this.$notify.warning('请上传图片')
         return
       }
       if (!this.content.title) {
