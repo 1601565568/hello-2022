@@ -212,6 +212,7 @@ export default {
   data () {
     return {
       maxSize: 2,
+      maxPrice: 999999.99,
       miniList: [],
       shopIdChecked: false,
       shopIdVal: '',
@@ -327,6 +328,10 @@ export default {
         this.$notify.warning('请输入员工userID')
         return
       }
+      if (this.content.outerId && this.content.outerId.length > 48) {
+        this.$notify.warning('货号字符上限为48位')
+        return
+      }
       if (!this.content.backgroundImage) {
         this.$notify.warning('请上传图片')
         return
@@ -339,8 +344,16 @@ export default {
         this.$notify.warning('请输入售价')
         return
       }
+      if (parseFloat(this.content.price) > this.maxPrice) {
+        this.$notify.warning(`售价最大金额为${this.maxPrice}`)
+        return
+      }
       if (this.content.originalPriceStatus && !this.content.originalPrice) {
         this.$notify.warning('请输入原价')
+        return
+      }
+      if (parseFloat(this.content.originalPrice) > this.maxPrice) {
+        this.$notify.warning(`原价最大金额为${this.maxPrice}`)
         return
       }
       this.content.price = Number(this.content.price)
