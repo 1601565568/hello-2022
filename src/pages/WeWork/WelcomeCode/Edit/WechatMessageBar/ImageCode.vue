@@ -191,7 +191,7 @@
       <NsButton @click="handleCanle">取 消</NsButton>
       <NsButton type="primary" @click="handleSure">保 存</NsButton>
     </span>
-    <SelectGoods ref="selectGoods" :callBack="selectMarketBack" />
+    <SelectGoods ref="selectGoods" :callBack="selectMarketBack" :showMall="false"/>
   </el-dialog>
 </template>
 <script>
