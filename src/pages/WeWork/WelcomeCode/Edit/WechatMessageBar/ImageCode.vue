@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
             <div class="mini-view">
-              <div>已授权未显示？点此刷新</div>
+              <div @click="loadAppIds">已授权未显示？点此刷新</div>
               <div>
                 <span>如何授权&nbsp;</span>
                 <span>&nbsp;去授权</span>
@@ -564,6 +564,7 @@ export default {
   justify-content: space-between;
   margin-bottom: 25px;
   margin-top: 5px;
+  cursor: pointer;
 }
 .select-shop-view {
   display: flex;
