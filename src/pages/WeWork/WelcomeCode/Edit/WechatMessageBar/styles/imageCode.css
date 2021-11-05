@@ -73,7 +73,7 @@
     >>> .el-checkbox__input.is-checked .el-checkbox__inner {
       background-color: #0091FA;
       border-color: #0091FA;
-    }
+    }  
   }
 }
 .avatar-uploader .el-upload {

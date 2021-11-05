@@ -127,7 +127,7 @@
                       placement="bottom"
                       trigger="click"
                       width="200"
-                      content="scrm对员工的唯一标识"
+                      title="scrm对员工的唯一标识"
                     >
                       <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
                     </el-popover>
