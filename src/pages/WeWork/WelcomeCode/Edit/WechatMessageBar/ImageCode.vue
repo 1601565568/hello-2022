@@ -256,6 +256,41 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    initData () {
+      this.shopIdChecked = false
+      this.shopIdVal = ''
+      this.internalIdChecked = false
+      this.internalIdVal = ''
+      this.externalIdChecked = false
+      this.externalIdVal = ''
+      this.memberIdChecked = false
+      this.memberIdVal = ''
+      this.memberUserIdChecked = false
+      this.memberUserIdVal = ''
+      this.content = {
+        path: '',
+        title: '',
+        image: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 1,
+        originalPriceStatus: 1,
+        outerId: '',
+        bankId: '',
+        sysItemId: '',
+        itemName: '',
+        watermarkSetting: {
+          resizeW: 112,
+          resizeH: 108,
+          gSeX: 0,
+          gSeY: 0
+        },
+        backgroundImage: '',
+        appid: '',
+        codeStyle: 0,
+        presetParams: []
+      }
+    },
     beforeUpload (file) {
       if (file.size / 1024 / 1024 > this.maxSize) {
         this.$notify.warning(`上传图片不能超过${this.maxSize}M`)
@@ -283,6 +318,7 @@ export default {
       this.content.backgroundImage = res.result.url || ''
     },
     handleCanle () {
+      this.initData()
       this.$emit('handleImageCode', false)
     },
     dataURLtoFile (dataURI, type) {
@@ -409,8 +445,8 @@ export default {
             const json = resp.result
             that.content.image = json.url || ''
             that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
+            that.initData()
             that.$emit('handleImageCode', false)
-            console.log(this.content)
           })
           .catch(resp => {
           })
