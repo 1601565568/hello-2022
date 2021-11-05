@@ -212,6 +212,11 @@ export default {
     url: '/core/sgfile/uploadFile/test',
     method: 'post'
   },
+  findWxAppletsList: {
+    // 素材编辑
+    url: '/setting/sys/findWxAppletsList',
+    method: 'get'
+  },
   materialEdit: {
     // 素材编辑
     url: '/guide/material/saveMaterial',

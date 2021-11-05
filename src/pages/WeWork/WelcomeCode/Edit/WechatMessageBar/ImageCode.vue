@@ -11,9 +11,13 @@
       <div class="left-view">
         <el-form label-width="100px" label-position="left" class="form-view">
           <el-form-item label="小程序" required>
-            <el-select v-model="miniList" placeholder="请选择小程序">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="content.appid" placeholder="请选择小程序">
+              <el-option
+                v-for="item in miniList"
+                :key="item.appid"
+                :label="item.name"
+                :value="item.appid">
+              </el-option>
             </el-select>
             <div class="mini-view">
               <div>已授权未显示？点此刷新</div>
@@ -173,13 +177,14 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/guideApplet/80000002/1123181/1039937/1/1.jpg"/>
+                <img class="code-img" :src="defaultCodeUrl"/>
               </div>
-              <div class="code-title">长按查看商品详情</div>
+              <div class="code-title">长按查看详情</div>
             </div>
           </div>
         </div>
       </div>
+      <div class="line-view"></div>
     </div>
     <span slot="footer" class="dialog-footer">
       <NsButton @click="handleCanle">取 消</NsButton>
@@ -205,7 +210,7 @@ export default {
   },
   data () {
     return {
-      miniList: ['shanghai', 'beijing'],
+      miniList: [],
       shopIdChecked: false,
       shopIdVal: '',
       internalIdChecked: false,
@@ -216,6 +221,7 @@ export default {
       memberIdVal: '',
       memberUserIdChecked: false,
       memberUserIdVal: '',
+      defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultCodeUrl.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
       content: {
@@ -243,7 +249,27 @@ export default {
       }
     }
   },
+  mounted () {
+    this.loadAppIds()
+  },
   methods: {
+    loadAppIds () {
+      let that = this
+      this.$http
+        .fetch(this.$api.guide.findWxAppletsList, {})
+        .then(resp => {
+          const list = resp.result || []
+          list.forEach((item) => {
+            const obj = {
+              name: item.nickName,
+              appid: item.appId
+            }
+            that.miniList.push(obj)
+          })
+        })
+        .catch(resp => {
+        })
+    },
     handleAvatarSuccess (res, file) {
       this.content.backgroundImage = res.result.url || ''
     },
@@ -259,6 +285,10 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     handleSure () {
+      if (!this.content.appid) {
+        this.$notify.warning('请选择小程序')
+        return
+      }
       if (this.content.codeStyle === 0) {
         if (!this.content.itemName) {
           this.$notify.warning('请选择商品名称')
@@ -310,7 +340,7 @@ export default {
       const view = document.querySelector('.show-info-view')
       const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
       const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
-      this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right
+      this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
       this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
       this.content.presetParams = []
       let guideId = {
@@ -381,6 +411,15 @@ export default {
 .container-view {
   display: flex;
   flex-direction: row;
+  position: relative;
+}
+.line-view {
+  position: absolute;
+  left: 54%;
+  width: 1px;
+  height: 100%;
+  top: 0;
+  background-color: #E8E8E8;
 }
 .left-view {
   width: 55%;
