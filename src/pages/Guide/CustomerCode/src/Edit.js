@@ -102,15 +102,17 @@ export default {
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
         ],
         validIntervalTimeOfStatistical: [
-          { validator: (rule, value, callback) => {
-            if ((!value && value !== 0) || value < 0 || value > 9999) {
-              callback(new Error(`请输入0～9999的整数`))
-            } else {
-              callback()
-            }
-          },
-          message: '请输入0～9999的整数',
-          trigger: ['blur', 'change'] }
+          {
+            validator: (rule, value, callback) => {
+              if ((!value && value !== 0) || value < 0 || value > 9999) {
+                callback(new Error(`请输入0～9999的整数`))
+              } else {
+                callback()
+              }
+            },
+            message: '请输入0～9999的整数',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       // 用户信息排列方式
@@ -223,7 +225,7 @@ export default {
     },
     // 数据安全去重方式提示
     dedupWay () {
-      return EDIT_DATA[this.model.distinctType] || {}
+      return EDIT_DATA.DEDUP_WAY[this.model.distinctType] || {}
     }
   },
   mounted () {
@@ -273,7 +275,12 @@ export default {
       }
     },
     inputEffectiveCycle (e, name, max) {
-      const value = e.target.value.replace(/[^\d]/g, '')
+      let value = ''
+      if (typeof e === 'object') {
+        value = e.target.value.replace(/[^\d]/g, '')
+      } else {
+        value = e.replace(/[^\d]/g, '')
+      }
       this.model[name] = max && max < value ? max : value
     },
     showDefaultText (introText = this.defauletWelcome) {

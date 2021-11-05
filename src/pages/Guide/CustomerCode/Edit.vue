@@ -495,7 +495,7 @@
                 prop="distinctType"
                 class="larger-item"
               >
-                <el-radio-group v-model="model.distinctType">
+                <el-radio-group v-model="model.distinctType" :disabled="isStating">
                   <el-radio :label="0">不去重</el-radio>
                   <el-radio :label="1">活动内去重</el-radio>
                   <el-radio :label="2">全局去重</el-radio>
@@ -519,7 +519,7 @@
                 prop="unfriendDeduction"
                 class="larger-item"
               >
-                <el-switch v-model="model.unfriendDeduction" :active-value='1' :inactive-value='0' />
+                <el-switch v-model="model.unfriendDeduction" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
                 <div class="qrcode-bottom-view">
                   <span class="remind-view"></span>
                   开启此功能后，活动周期内，解除好友关系时，扣除裂变好友数
@@ -541,7 +541,8 @@
               >
                  <div class="qrcode-top-view">
                   好友保持期
-                    <input type="number" class="number-view middle"  v-model="model.validIntervalTimeOfStatistical" @input="(e)=>{inputEffectiveCycle(e,'validIntervalTimeOfStatistical',9999)}"/>
+                    <el-input :disabled="isStating" v-model="model.validIntervalTimeOfStatistical" class='middle' @input="(e)=>{inputEffectiveCycle(e,'validIntervalTimeOfStatistical')}"/>
+                    <!-- <input type="number" class="number-view middle"  v-model="model.validIntervalTimeOfStatistical" @input="(e)=>{inputEffectiveCycle(e,'validIntervalTimeOfStatistical',9999)}"/> -->
                   小时
                 </div>
                 <div class="qrcode-bottom-view">
@@ -558,12 +559,12 @@
                 </div>
               </el-form-item>
               <el-form-item
-                label="不允许重复参加"
+                label="允许重复参加"
                 required
                 prop="repeatParticipation"
                 class="larger-item"
               >
-                <el-switch v-model="model.repeatParticipation"  :active-value='1' :inactive-value='0'/>
+                <el-switch :disabled="isStating" v-model="model.repeatParticipation"  :active-value='0' :inactive-value='1'/>
                 <div class="qrcode-bottom-view">
                   <span class="remind-view"></span>
                   开启此功能后，单个活动内，不允许成为多位员工的裂变大师
@@ -634,7 +635,7 @@ Edit.components = {
 export default Edit
 </script>
 <style lang="scss" scoped>
-@import "@components/NewUi/styles/reset.css";
+@import "./styles/reset.css";
 @import './styles/leftview.css';
 .active-phone-view {
   // max-height: 900px;
@@ -958,18 +959,15 @@ export default Edit
     border: 1px solid #d9d9d9;
     border-radius: 2px;
     margin-right: 8px;
-    &.middle {
-      margin-left: 8px;
-    }
+  }
+  .middle {
+    margin:0 8px;
+    width: 88px;
   }
 }
 .qrcode-bottom-view {
-  display: flex;
-  flex-direction: row;
-  height: 32px;
   font-size: 12px;
   color: #595959;
-  align-items: center;
   .remind-view {
     width: 8px;
     height: 8px;

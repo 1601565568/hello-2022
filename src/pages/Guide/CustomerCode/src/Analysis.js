@@ -72,7 +72,8 @@ export default {
     // 邀请好友总数 tip展示
     inviteFriendTip () {
       const { distinctType, unfriendDeduction, validIntervalTimeOfStatistical, repeatParticipation } = this.totalData
-      return ANALYSIS_DATE.DISTINC_TYPE[distinctType] + '<br />' +
+      return '通过此活动新增好友数总和。' + '<br />' +
+       ANALYSIS_DATE.DISTINC_TYPE[distinctType] + '<br />' +
       ANALYSIS_DATE.UNFRIEND_DEDUCTION[unfriendDeduction] + '<br />' +
       ANALYSIS_DATE.VALID_INTERVAL_TIME_OF_STATISTICAL(validIntervalTimeOfStatistical) + '<br />' +
       ANALYSIS_DATE.REPEACT_PARTICIPATION[repeatParticipation]
