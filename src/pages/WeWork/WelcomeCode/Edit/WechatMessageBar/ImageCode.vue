@@ -54,7 +54,15 @@
               <div class="show-path-url-view">
                 <span class="item-view">带参配置说明</span>
                 <span class="item-view">如何获取路径</span>
-                <span class="item-view">预览</span>
+                <el-popover
+                  placement="bottom"
+                  trigger="click"
+                  width="200"
+                  :title="compPath"
+                  :disabled="compPath.length === 0"
+                >
+                  <span slot="reference" class="item-view">预览</span>
+                </el-popover>
               </div>
               <div>路径带参</div>
               <div class="show-path-remind-view">
@@ -288,6 +296,21 @@ export default {
         codeStyle: 0,
         presetParams: []
       }
+    }
+  },
+  computed: {
+    compPath () {
+      const shopId = this.shopIdChecked && this.shopIdVal ? 'shopId=' + this.shopIdVal : ''
+      const internalId = this.internalIdChecked && this.internalIdVal ? 'workNumber=' + this.internalIdVal : ''
+      const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
+      const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
+      const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
+      let arr = [shopId, internalId, outShopId, guideId, guideUserId]
+      arr = arr.filter(item => item.length > 6)
+      if (arr.length > 0) {
+        return this.content.path + '?' + arr.join('&')
+      }
+      return this.content.path
     }
   },
   mounted () {
@@ -651,6 +674,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    cursor: pointer;
     .item-view {
       display: inline-block;
       margin-left: 8px;
