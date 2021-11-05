@@ -128,6 +128,7 @@
               :show-file-list="false"
               :action="$api.core.sgUploadFile('test')"
               :on-success="handleAvatarSuccess"
+              :before-upload="beforeUpload"
               accept=".jpg,.jpeg,.png"
             >
               <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
@@ -210,6 +211,7 @@ export default {
   },
   data () {
     return {
+      maxSize: 2,
       miniList: [],
       shopIdChecked: false,
       shopIdVal: '',
@@ -253,6 +255,12 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    beforeUpload (file) {
+      if (file.size / 1024 / 1024 > this.maxSize) {
+        this.$notify.warning(`上传图片不能超过${this.maxSize}M`)
+        return false
+      }
+    },
     loadAppIds () {
       let that = this
       this.$http
