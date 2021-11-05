@@ -189,7 +189,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <NsButton @click="handleCanle">取 消</NsButton>
-      <NsButton type="primary" @click="handleSure">保 存</NsButton>
+      <NsButton type="primary" @click="handleSure" :loading="saveLoad">保 存</NsButton>
     </span>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack" :showMall="false"/>
   </el-dialog>
@@ -211,6 +211,7 @@ export default {
   },
   data () {
     return {
+      saveLoad: false,
       maxSize: 2,
       maxPrice: 999999.99,
       miniList: [],
@@ -257,6 +258,7 @@ export default {
   },
   methods: {
     initData () {
+      this.saveLoad = false
       this.shopIdChecked = false
       this.shopIdVal = ''
       this.internalIdChecked = false
@@ -431,6 +433,7 @@ export default {
       this.content.presetParams.push(outShopId)
       this.content.presetParams.push(guideUserId)
       let that = this
+      this.saveLoad = true
       html2canvas(view, {
         useCORS: true
       }).then(canvas => {
@@ -449,6 +452,7 @@ export default {
             that.$emit('handleImageCode', false)
           })
           .catch(resp => {
+            that.saveLoad = false
           })
       })
     },
