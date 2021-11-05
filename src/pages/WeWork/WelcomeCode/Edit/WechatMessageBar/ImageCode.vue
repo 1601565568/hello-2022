@@ -65,7 +65,15 @@
                 <div class="path-left-view">
                   <div>
                     <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
-                    <i class="iconfont icon-ns-help help-icon"></i>
+                    <el-popover
+                      placement="bottom"
+                      trigger="click"
+                    >
+                      <div>
+                        <img style="width:890px;449px" src='@/assets/shopId-show.jpg'/>
+                      </div>
+                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
+                    </el-popover>
                   </div>
                   <div>=</div>
                 </div>
@@ -77,7 +85,15 @@
                     <el-checkbox v-model="internalIdChecked"
                       >内部门店ID</el-checkbox
                     >
-                    <i class="iconfont icon-ns-help help-icon"></i>
+                    <el-popover
+                      placement="bottom"
+                      trigger="click"
+                    >
+                      <div>
+                        <img style="width:890px;449px" src='@/assets/internal-Id.jpg'/>
+                      </div>
+                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
+                    </el-popover>
                   </div>
                   <div>=</div>
                 </div>
@@ -89,7 +105,15 @@
                     <el-checkbox v-model="externalIdChecked"
                       >外部员工ID</el-checkbox
                     >
-                    <i class="iconfont icon-ns-help help-icon"></i>
+                    <el-popover
+                      placement="bottom"
+                      trigger="click"
+                    >
+                      <div>
+                        <img style="width:890px;449px" src='@/assets/external-Id.jpg'/>
+                      </div>
+                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
+                    </el-popover>
                   </div>
                   <div>=</div>
                 </div>
@@ -99,7 +123,14 @@
                 <div class="path-left-view">
                   <div>
                     <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
-                    <i class="iconfont icon-ns-help help-icon"></i>
+                    <el-popover
+                      placement="bottom"
+                      trigger="click"
+                      width="200"
+                      content="scrm对员工的唯一标识"
+                    >
+                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
+                    </el-popover>
                   </div>
                   <div>=</div>
                 </div>
@@ -108,10 +139,16 @@
               <div class="path-para-view">
                 <div class="path-left-view">
                   <div>
-                    <el-checkbox v-model="memberUserIdChecked"
-                      >员工userID</el-checkbox
+                    <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
+                    <el-popover
+                      placement="bottom"
+                      trigger="click"
                     >
-                    <i class="iconfont icon-ns-help help-icon"></i>
+                      <div>
+                        <img style="width:890px;449px" src='@/assets/member-userId.jpg'/>
+                      </div>
+                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
+                    </el-popover>
                   </div>
                   <div>=</div>
                 </div>
