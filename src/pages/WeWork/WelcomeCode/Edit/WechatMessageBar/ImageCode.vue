@@ -148,7 +148,7 @@
             <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="content.price"/>
+              <el-input placeholder="请输入售价" v-model="content.price" type="number"/>
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
@@ -156,7 +156,7 @@
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="content.originalPrice"/>
+              <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number"/>
             </div>
           </el-form-item>
         </el-form>

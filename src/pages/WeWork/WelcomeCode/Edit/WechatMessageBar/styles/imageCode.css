@@ -56,6 +56,9 @@
       font-size: 14px;
       margin-bottom: 0px;
     }
+    >>> .el-input .el-input__inner[type="number"]{
+      text-align: left;
+    }
   }
   .path-para-view {
     >>> .el-input {
