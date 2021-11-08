@@ -85,12 +85,12 @@
       <div class="title">数据报表</div>
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <div class="remind-data-view">
+          <!-- <div class="remind-data-view">
             <div v-if="activeName === 'second'">
               统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
             </div>
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
-          </div>
+          </div> -->
           <el-tab-pane label="按日期统计" name="first">
             <div v-if="listDate.length > 0">
               <page-table style="padding-top:0">
@@ -104,9 +104,11 @@
                     </el-table-column>
                     <el-table-column prop="nowSendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="nowDownloadSum" label="下载次数">
+                    <el-table-column prop="nowSendSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="nowCompletionSum" label="补全次数">
+                    <el-table-column prop="nowDownloadSum" label="转化订单数">
+                    </el-table-column>
+                    <el-table-column prop="nowCompletionSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -175,9 +177,88 @@
                     </el-table-column>
                     <el-table-column prop="sendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="下载次数">
+                    <el-table-column prop="downloadSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="补全次数">
+                    <el-table-column prop="downloadSum" label="转化订单数">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="转化金额">
+                    </el-table-column>
+                    <el-table-column prop="title" width="125px" label="操作">
+                      <template slot-scope="scope">
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToPerson(scope.row)"
+                          >查看明细</ns-button
+                        >
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToPerson.sizeOpts"
+                    :total="paginationToPerson.total"
+                    :current-page.sync="paginationToPerson.page"
+                    :page-size="paginationToPerson.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForPerson"
+                    @current-change="handleCurrentChangeForPerson"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
+            </div>
+            <div v-else>
+              <NoData />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="按员工统计" name="third">
+            <div v-if="listMaterial.length > 0">
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table
+                    :data="listMaterial"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="materialTitle" label="员工姓名">
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.materialTitle.length <= 15"
+                        >
+                          <div>{{ scope.row.materialTitle }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length <= 15"
+                            >{{ scope.row.materialTitle }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length > 15"
+                            >{{
+                              scope.row.materialTitle.substr(0, 15) + '...'
+                            }}</span
+                          >
+                        </el-popover>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="sendSum" label="工号">
+                    </el-table-column>
+                    <el-table-column prop="downloadSum" label="所属门店">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="发送次数">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="被浏览次数">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="转化订单数">
+                    </el-table-column>
+                    <el-table-column prop="completionSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -833,7 +914,7 @@ export default {
   line-height: 24px;
   font-weight: 400;
 }
-.remind-data-view {
+/* .remind-data-view {
   height: 60px;
   background: #f3f9ff;
   border-radius: 4px;
@@ -847,7 +928,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   line-height: 23px;
-}
+} */
 
 .no-echart-list-view {
   margin: 0 auto;
