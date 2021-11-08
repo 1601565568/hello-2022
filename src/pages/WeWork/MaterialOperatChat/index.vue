@@ -74,7 +74,7 @@
         </div>
         <div class="title">数据分析</div>
         <div v-if="echartList.length" class="charts-view">
-          <NsEcharts :options="option" />
+          <NsEcharts :options.sync="option" />
         </div>
         <div v-else class="no-echart-list-view">
           <img src="@/assets/no-data.png" alt="暂无数据" />
@@ -325,11 +325,6 @@ export default {
           icon: 'roundRect',
           itemWidth: 10,
           itemHeight: 10
-          // selected: {
-          //   素材发送次数总计: false,
-          //   素材下载总次数: false,
-          //   素材补全总次数: false
-          // }
         },
         color: [
           '#4287FF',
@@ -365,42 +360,7 @@ export default {
             lineHeight: 20
           }
         },
-        yAxis: [
-          {
-            name: '次数',
-            nameGap: 30,
-            nameLocation: 'end',
-            type: 'value',
-            axisLine: {
-              show: false
-            },
-            axisTick: {
-              show: false
-            },
-            axisLabel: {
-              fontsize: 12,
-              color: '#BFBFBF',
-              lineHeight: 20
-            }
-          },
-          {
-            name: '金额',
-            type: 'value',
-            nameGap: 30,
-            nameLocation: 'end',
-            axisLine: {
-              show: false
-            },
-            axisTick: {
-              show: false
-            },
-            axisLabel: {
-              fontsize: 12,
-              color: '#BFBFBF',
-              lineHeight: 20
-            }
-          }
-        ],
+        yAxis: [],
         series: []
       },
       activeName: 'first',
@@ -438,6 +398,12 @@ export default {
     }
   },
   methods: {
+    yAaixNum (min, max) {
+      return {
+        min: min,
+        max: max
+      }
+    },
     // initPageData
     initPageData () {
       this.paginationToDate = {
@@ -711,7 +677,6 @@ export default {
             const imagesView = []
             const order = []
             const money = []
-            const addTotal = []
             const ySendCode = []
             const yImagesView = []
             const yOrder = []
@@ -722,7 +687,6 @@ export default {
               imagesView.push(item.imagesViewedSum)
               order.push(item.nowConversionOrderSum)
               money.push(item.nowConversionAmountSum)
-              addTotal.push(item.nowConversionOrderSum)
               ySendCode.push(item.nowSendCodePicturesSum)
               yImagesView.push(item.nowImagesViewedSum)
               yOrder.push(item.nowConversionOrderSum)
@@ -777,6 +741,66 @@ export default {
                 type: 'line',
                 yAxisIndex: 1,
                 data: yMoney
+              }
+            ]
+            const leftArr = [...sendCode, ...imagesView, ...order, ...ySendCode, ...yImagesView, ...yOrder]
+            const rightArr = [...money, ...yMoney]
+            let leftMin = Math.min(...leftArr)
+            let leftMax = Math.max(...leftArr)
+            let rightMin = Math.min(...rightArr)
+            let rightMax = Math.max(...rightArr)
+            leftMax = leftMax < 5 ? 5 : leftMax
+            rightMax = rightMax < 5 ? 5 : rightMax
+            const num = leftMax > 5 && rightMax > 5 ? 5 : leftMax > rightMax ? rightMax : leftMax
+            const leftInterval = (leftMax - leftMin) / 5
+            const rightInterval = (rightMax - rightMin) / 5
+            const interval = leftInterval > rightInterval ? rightInterval : leftInterval
+            this.option.yAxis = [
+              {
+                name: '次数',
+                nameGap: 30,
+                nameLocation: 'end',
+                type: 'value',
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  fontsize: 12,
+                  color: '#BFBFBF',
+                  lineHeight: 20
+                },
+                nameTextStyle: {
+                  color: '#BFBFBF'
+                },
+                min: leftMin,
+                max: leftMax,
+                interval: leftInterval
+              },
+              {
+                name: '金额',
+                type: 'value',
+                nameGap: 30,
+                nameLocation: 'end',
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  fontsize: 12,
+                  color: '#BFBFBF',
+                  lineHeight: 20
+                },
+                nameTextStyle: {
+                  color: '#BFBFBF'
+                },
+                min: rightMin,
+                max: rightMax,
+                interval: rightInterval
               }
             ]
           }
