@@ -7,21 +7,7 @@
           <span class="sub-title">（数据截止昨日）</span>
         </div>
       </div>
-      <div class="data-view">
-        <el-row :gutter="15">
-          <template v-for="item in dataList">
-            <el-col :key="item.name" :span="6">
-              <div class="base-cell" :class="item.claseName">
-                <div class="text">{{ item.name }}</div>
-                <div class="subTitle">昨日次数</div>
-                <div class="number">{{ item.yData }}</div>
-                <div class="subTitle">总次数</div>
-                <div class="number">{{ item.data }}</div>
-              </div>
-            </el-col>
-          </template>
-        </el-row>
-      </div>
+      <TopData :dataList.sync="dataList"/>
     </div>
     <div class="material-show">
       <div class="material-chat">
@@ -285,9 +271,10 @@ import DataList from './components/DataList'
 import TimeList from './components/TimeList'
 import NoData from './components/NoData'
 import moment from 'moment'
+import TopData from './components/TopData'
 export default {
-  name: 'MaterialCahat',
-  components: { PageTable, NsEcharts, DataList, TimeList, NoData },
+  name: 'MaterialOpearatChat',
+  components: { PageTable, NsEcharts, DataList, TimeList, NoData, TopData },
   data () {
     return {
       pickerOptions: {
@@ -295,12 +282,7 @@ export default {
           return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
         }
       },
-      dataList: [
-        { name: '发送次数', data: 0, yData: 0, claseName: 'one' },
-        { name: '被浏览次数', data: 0, yData: 0, claseName: 'two' },
-        { name: '转化订单数', data: 0, yData: 0, claseName: 'three' },
-        { name: '转化金额', data: 0, yData: 0, claseName: 'four' }
-      ],
+      dataList: [],
       listData: [],
       option: {
         title: {
@@ -446,7 +428,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.exportExcelByComplete, parms)
+        .fetch(this.$api.guide.exportOperateExcelByComplete, parms)
         .then(resp => {
           that.$notify.success('下载完成')
         })
@@ -460,7 +442,7 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '素材行为数据统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
+              '附码图片累计数据' + csvStartTime + '至' + csvEndTime + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -842,10 +824,6 @@ export default {
     font-weight: 500;
     padding-left: 16px;
   }
-  .data-view {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
   .unDoneData {
     width: 116px;
     height: 32px;
@@ -860,44 +838,6 @@ export default {
     line-height: 32px;
     margin-right: 16px;
     cursor: pointer;
-  }
-  .base-cell {
-    color: #ffffff;
-    border-radius: 4px;
-    display: flex;
-    padding: 16px;
-    flex-direction: column;
-    .number {
-      font-size: 24px;
-      color: #ffffff;
-      line-height: 32px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    .subTitle {
-      font-size: 12px;
-      color: #FFFFFF;
-      font-weight: 400;
-    }
-    .text {
-      font-size: 16px;
-      color: #ffffff;
-      line-height: 24px;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-  }
-  .one {
-    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
-  }
-  .two {
-    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
-  }
-  .three {
-    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
-  }
-  .four {
-    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
   }
 }
 .material-show {
@@ -985,6 +925,7 @@ export default {
   line-height: 32px;
   text-align: center;
   font-size: 14px;
+  cursor: pointer;
 }
 .date-view {
   margin-left: 16px;

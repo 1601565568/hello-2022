@@ -160,6 +160,17 @@ export default {
   },
 
   /**
+   * 完成统计:EXCEL导出
+   */
+  exportOperateExcelByComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportOperateExcelByComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
    * 数据统计图表数据
    */
   getChartData: {
