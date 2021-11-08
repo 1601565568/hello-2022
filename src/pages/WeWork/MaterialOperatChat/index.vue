@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TipsView/>
     <TopData :dataList.sync="dataList"/>
     <div class="material-show">
       <div class="material-chat">
@@ -258,9 +259,10 @@ import TimeList from './components/TimeList'
 import NoData from './components/NoData'
 import moment from 'moment'
 import TopData from './components/TopData'
+import TipsView from './components/TipsView'
 export default {
   name: 'MaterialOpearatChat',
-  components: { PageTable, NsEcharts, DataList, TimeList, NoData, TopData },
+  components: { PageTable, NsEcharts, DataList, TimeList, NoData, TopData, TipsView },
   data () {
     return {
       pickerOptions: {
