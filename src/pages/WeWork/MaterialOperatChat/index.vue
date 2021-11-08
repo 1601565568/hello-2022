@@ -321,7 +321,7 @@ export default {
             '日转化金额'
           ],
           left: '2%',
-          bottom: '9%',
+          bottom: '6%',
           icon: 'roundRect',
           itemWidth: 10,
           itemHeight: 10
@@ -346,7 +346,7 @@ export default {
           right: '3%',
           bottom: 0,
           containLabel: true,
-          top: '4%',
+          top: '12%',
           height: 291
         },
         xAxis: {
@@ -365,20 +365,42 @@ export default {
             lineHeight: 20
           }
         },
-        yAxis: {
-          type: 'value',
-          axisLine: {
-            show: false
+        yAxis: [
+          {
+            name: '次数',
+            nameGap: 30,
+            nameLocation: 'end',
+            type: 'value',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              fontsize: 12,
+              color: '#BFBFBF',
+              lineHeight: 20
+            }
           },
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            fontsize: 12,
-            color: '#BFBFBF',
-            lineHeight: 20
+          {
+            name: '金额',
+            type: 'value',
+            nameGap: 30,
+            nameLocation: 'end',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              fontsize: 12,
+              color: '#BFBFBF',
+              lineHeight: 20
+            }
           }
-        },
+        ],
         series: []
       },
       activeName: 'first',
@@ -685,62 +707,76 @@ export default {
             const arr = json.reverse()
             this.echartList = arr
             const times = []
-            const sendTotal = []
-            const downTotal = []
+            const sendCode = []
+            const imagesView = []
+            const order = []
+            const money = []
             const addTotal = []
-            const ySendTotal = []
-            const yDownTotal = []
-            const yAddTotal = []
+            const ySendCode = []
+            const yImagesView = []
+            const yOrder = []
+            const yMoney = []
             for (const item of arr) {
               times.push(item.date)
-              sendTotal.push(item.sendSum)
-              downTotal.push(item.downloadSum)
-              addTotal.push(item.completionSum)
-              ySendTotal.push(item.nowSendSum)
-              yDownTotal.push(item.nowDownloadSum)
-              yAddTotal.push(item.nowCompletionSum)
+              sendCode.push(item.sendCodePicturesSum)
+              imagesView.push(item.imagesViewedSum)
+              order.push(item.nowConversionOrderSum)
+              money.push(item.nowConversionAmountSum)
+              addTotal.push(item.nowConversionOrderSum)
+              ySendCode.push(item.nowSendCodePicturesSum)
+              yImagesView.push(item.nowImagesViewedSum)
+              yOrder.push(item.nowConversionOrderSum)
+              yMoney.push(item.nowConversionAmountSum)
             }
             this.option.xAxis.data = times
             this.option.series = [
               {
                 name: '发送次数总计',
                 type: 'line',
-                data: sendTotal
+                yAxisIndex: 0,
+                data: sendCode
               },
               {
                 name: '被浏览次数总计',
                 type: 'line',
-                data: downTotal
+                yAxisIndex: 0,
+                data: imagesView
               },
               {
                 name: '转化订单数总计',
                 type: 'line',
-                data: addTotal
+                yAxisIndex: 0,
+                data: order
               },
               {
                 name: '转化金额总计',
                 type: 'line',
-                data: ySendTotal
+                yAxisIndex: 1,
+                data: money
               },
               {
                 name: '日发送次数',
                 type: 'line',
-                data: yDownTotal
+                yAxisIndex: 0,
+                data: ySendCode
               },
               {
                 name: '日被浏览次数',
                 type: 'line',
-                data: yAddTotal
+                yAxisIndex: 0,
+                data: yImagesView
               },
               {
                 name: '日转化订单数',
                 type: 'line',
-                data: yAddTotal
+                yAxisIndex: 0,
+                data: yOrder
               },
               {
                 name: '日转化金额',
                 type: 'line',
-                data: yAddTotal
+                yAxisIndex: 1,
+                data: yMoney
               }
             ]
           }
