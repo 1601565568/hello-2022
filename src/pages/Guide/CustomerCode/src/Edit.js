@@ -1,5 +1,6 @@
 import validates from './validates'
 import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl, defPosters, defCardImg } from '../util/Edit'
+import { EDIT_DATA, DEFAULT_DATA } from './const'
 import moment from 'moment'
 export default {
   data () {
@@ -55,7 +56,13 @@ export default {
         prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
         prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
         validTimeEnd: '', // 活动有效时间结束
-        validTimeStart: '' // 活动有效时间结束
+        validTimeStart: '', // 活动有效时间结束
+        // 数据安全
+        // distinctType: 0, // 去重方式：0=不去重；1=全局去重；2=活动内去重；
+        // unfriendDeduction: 0, // 解除好友关系是否扣减好友数：0=不扣减；1扣减
+        // validIntervalTimeOfStatistical: 0, // 统计的有效间隔时间(统计时效)：0=立即生效；>0 =间隔该时间后生效
+        // repeatParticipation: 0 // 是否允许重复参与：0=允许；1=不允许
+        ...DEFAULT_DATA
       },
       // 校验规则
       rules: {
@@ -93,6 +100,19 @@ export default {
         ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
+        ],
+        validIntervalTimeOfStatistical: [
+          {
+            validator: (rule, value, callback) => {
+              if ((!value && value !== 0) || value < 0 || value > 9999) {
+                callback(new Error(`请输入0～9999的整数`))
+              } else {
+                callback()
+              }
+            },
+            message: '请输入0～9999的整数',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       // 用户信息排列方式
@@ -202,6 +222,10 @@ export default {
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ]
       return tools
+    },
+    // 数据安全去重方式提示
+    dedupWay () {
+      return EDIT_DATA.DEDUP_WAY[this.model.distinctType] || {}
     }
   },
   mounted () {
@@ -250,8 +274,14 @@ export default {
         }
       }
     },
-    inputEffectiveCycle (e) {
-      this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
+    inputEffectiveCycle (e, name, max) {
+      let value = ''
+      if (typeof e === 'object') {
+        value = e.target.value.replace(/[^\d]/g, '')
+      } else {
+        value = e.replace(/[^\d]/g, '')
+      }
+      this.model[name] = max && max < value ? max : value
     },
     showDefaultText (introText = this.defauletWelcome) {
       const str = this.$refs.tagAreaText.stringTohtml(introText)
@@ -393,6 +423,18 @@ export default {
         qrcodeX: params.left,
         qrcodeY: params.top
       }
+    },
+    // 数据与安全模块字段检验
+    verifySafeData () {
+      return new Promise((resolve, reject) => {
+        this.$refs.datasafeForm.validate((valid) => {
+          if (valid) {
+            resolve()
+          } else {
+            reject(new Error('数据与安全校验失败'))
+          }
+        })
+      })
     },
     // 保存
     async handleSave () {
@@ -558,6 +600,7 @@ export default {
       if (shareItem.status === 1) {
         checksRules.push(ruleForm6)
       }
+      await this.verifySafeData()
       const checks = await Promise.all(checksRules)
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)

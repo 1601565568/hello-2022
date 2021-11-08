@@ -154,7 +154,7 @@
                 prop="effectiveCycle"
               >
                 <div class="qrcode-top-view">
-                  <input type="number" class="number-view"  v-model="model.effectiveCycle" @input="inputEffectiveCycle"/>
+                  <input type="number" class="number-view"  v-model="model.effectiveCycle" @input="(e)=>{inputEffectiveCycle(e,'effectiveCycle')}"/>
                   天内未邀请到新的好友，分享二维码将失效，裂变大师可重新下载
                 </div>
                 <div class="qrcode-bottom-view">
@@ -473,6 +473,117 @@
       </el-collapse>
       </el-form>
     </el-row>
+    <!-- 数据与安全 start -->
+    <div class="customer-box">
+      <SimpleCollapse title='数据与安全'>
+        <Box :noborder='true'>
+          <template slot='collapse-left'>
+            <el-form
+              label-width="110px"
+              label-position="left"
+              :model="model"
+              class="normal-from"
+              :rules="rules"
+              ref="datasafeForm"
+            >
+              <div class="form-item_tip">
+                活动开始后，统计方式将不可修改，请谨慎选择
+              </div>
+              <el-form-item
+                label="去重方式"
+                required
+                prop="distinctType"
+                class="larger-item"
+              >
+                <el-radio-group v-model="model.distinctType" :disabled="isStating">
+                  <el-radio :label="0">不去重</el-radio>
+                  <el-radio :label="1">活动内去重</el-radio>
+                  <el-radio :label="2">全局去重</el-radio>
+                </el-radio-group>
+                <div class="qrcode-bottom-view">
+                  <span class="remind-view"></span>
+                  {{dedupWay.text}}
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <ns-button type='text' class='safe-btn'>
+                      示例说明
+                    </ns-button>
+                    <template slot='content'>
+                      {{dedupWay.tip}}
+                    </template>
+                  </el-tooltip>
+                </div>
+              </el-form-item>
+              <el-form-item
+                label="解除关系扣减"
+                required
+                prop="unfriendDeduction"
+                class="larger-item"
+              >
+                <el-switch v-model="model.unfriendDeduction" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
+                <div class="qrcode-bottom-view">
+                  <span class="remind-view"></span>
+                  开启此功能后，活动周期内，解除好友关系时，扣除裂变好友数
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <ns-button type='text' class='safe-btn'>
+                      示例说明
+                    </ns-button>
+                    <template slot='content'>
+                      消费者张三通过裂变大师活动添加员工小A为好友并成功记录小A邀新好友+1，随后解除好友关系，原记录的邀新好友数会随之减去
+                    </template>
+                  </el-tooltip>
+                </div>
+              </el-form-item>
+              <el-form-item
+                label="统计时效"
+                required
+                prop="validIntervalTimeOfStatistical"
+                class="larger-item"
+              >
+                 <div class="qrcode-top-view">
+                  好友保持期
+                    <el-input :disabled="isStating" v-model="model.validIntervalTimeOfStatistical" class='middle' @input="(e)=>{inputEffectiveCycle(e,'validIntervalTimeOfStatistical')}"/>
+                    <!-- <input type="number" class="number-view middle"  v-model="model.validIntervalTimeOfStatistical" @input="(e)=>{inputEffectiveCycle(e,'validIntervalTimeOfStatistical',9999)}"/> -->
+                  小时
+                </div>
+                <div class="qrcode-bottom-view">
+                  <span class="remind-view"></span>
+                  添加导购为好友后，需要保持一定时间的好友关系，才会计为裂变成功，0表示添加即时生效
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <ns-button type='text' class='safe-btn'>
+                      示例说明
+                    </ns-button>
+                    <template slot='content'>
+                      消费者张三通过裂变大师活动添加员工小A为好友后，需等待好友保持期结束才会记录小A要邀新好友数
+                    </template>
+                  </el-tooltip>
+                </div>
+              </el-form-item>
+              <el-form-item
+                label="允许重复参加"
+                required
+                prop="repeatParticipation"
+                class="larger-item"
+              >
+                <el-switch :disabled="isStating" v-model="model.repeatParticipation"  :active-value='0' :inactive-value='1'/>
+                <div class="qrcode-bottom-view">
+                  <span class="remind-view"></span>
+                  开启此功能后，单个活动内，不允许成为多位员工的裂变大师
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <ns-button type='text' class='safe-btn'>
+                      示例说明
+                    </ns-button>
+                    <template slot='content'>
+                      消费者张三通过裂变大师活动添加员工小A为好友后，需等待好友保持期结束才会记录小A要邀新好友数
+                    </template>
+                  </el-tooltip>
+                </div>
+              </el-form-item>
+            </el-form>
+          </template>
+        </Box>
+      </SimpleCollapse>
+    </div>
+    <!-- 数据与安全 end -->
   </div>
 </template>
 <script>
@@ -487,6 +598,8 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
+import Box from '@/components/NewUi/Box'
 import HeadImg from './components/HeadImg'
 import Banner from './components/Banner'
 import Active from './components/Active'
@@ -507,6 +620,8 @@ Edit.components = {
   ElInputNumber,
   SetPrize,
   DrapUpload,
+  SimpleCollapse,
+  Box,
   HeadImg,
   Banner,
   Active,
@@ -520,7 +635,7 @@ Edit.components = {
 export default Edit
 </script>
 <style lang="scss" scoped>
-@import './styles/reset.css';
+@import "./styles/reset.css";
 @import './styles/leftview.css';
 .active-phone-view {
   // max-height: 900px;
@@ -845,14 +960,14 @@ export default Edit
     border-radius: 2px;
     margin-right: 8px;
   }
+  .middle {
+    margin:0 8px;
+    width: 88px;
+  }
 }
 .qrcode-bottom-view {
-  display: flex;
-  flex-direction: row;
-  height: 32px;
   font-size: 12px;
   color: #595959;
-  align-items: center;
   .remind-view {
     width: 8px;
     height: 8px;
@@ -1024,6 +1139,9 @@ export default Edit
 }
 .time-line-view {
   display: inline-block;
+  margin-left: 8px;
+}
+.safe-btn {
   margin-left: 8px;
 }
 </style>
