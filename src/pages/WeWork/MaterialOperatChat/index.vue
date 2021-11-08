@@ -102,13 +102,13 @@
                   >
                     <el-table-column prop="trackTime" label="日期">
                     </el-table-column>
-                    <el-table-column prop="nowSendSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="nowSendSum" label="被浏览次数">
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="nowDownloadSum" label="转化订单数">
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
                     </el-table-column>
-                    <el-table-column prop="nowCompletionSum" label="转化金额">
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -175,13 +175,13 @@
                         </el-popover>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="sendSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="被浏览次数">
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="转化订单数">
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="转化金额">
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -216,49 +216,27 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按员工统计" name="third">
-            <div v-if="listMaterial.length > 0">
+            <div v-if="listUser.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
                   <el-table
-                    :data="listMaterial"
+                    :data="listUser"
                     class="new-table_border drawer-table"
                     :row-style="{ height: '48px' }"
                   >
-                    <el-table-column prop="materialTitle" label="员工姓名">
-                      <template slot-scope="scope">
-                        <el-popover
-                          placement="top-start"
-                          width="300"
-                          trigger="hover"
-                          :disabled="scope.row.materialTitle.length <= 15"
-                        >
-                          <div>{{ scope.row.materialTitle }}</div>
-                          <span
-                            slot="reference"
-                            v-if="scope.row.materialTitle.length <= 15"
-                            >{{ scope.row.materialTitle }}</span
-                          >
-                          <span
-                            slot="reference"
-                            v-if="scope.row.materialTitle.length > 15"
-                            >{{
-                              scope.row.materialTitle.substr(0, 15) + '...'
-                            }}</span
-                          >
-                        </el-popover>
-                      </template>
+                    <el-table-column prop="guideName" label="员工姓名">
                     </el-table-column>
-                    <el-table-column prop="sendSum" label="工号">
+                    <el-table-column prop="guide_id" label="工号">
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="所属门店">
+                    <el-table-column prop="shopName" label="所属门店">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="被浏览次数">
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="转化订单数">
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="转化金额">
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -276,13 +254,13 @@
                   <el-pagination
                     background
                     class="label-dialog__pagination"
-                    :page-sizes="paginationToPerson.sizeOpts"
-                    :total="paginationToPerson.total"
-                    :current-page.sync="paginationToPerson.page"
-                    :page-size="paginationToPerson.size"
+                    :page-sizes="paginationToUser.sizeOpts"
+                    :total="paginationToUser.total"
+                    :current-page.sync="paginationToUser.page"
+                    :page-size="paginationToUser.size"
                     layout="total, sizes, prev, pager, next, jumper"
-                    @size-change="handleSizeChangeForPerson"
-                    @current-change="handleCurrentChangeForPerson"
+                    @size-change="handleSizeChangeForUser"
+                    @current-change="handleCurrentChangeForUser"
                   >
                   </el-pagination>
                 </template>
@@ -420,7 +398,14 @@ export default {
         page: 1,
         total: 0
       },
+      paginationToUser: {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      },
       listMaterial: [],
+      listUser: [],
       selectToday: true,
       datePickerArr: [],
       echartList: [],
@@ -460,6 +445,7 @@ export default {
       this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
+      this.loadUserList()
       this.loadChartData()
     },
     outputClick () {
@@ -506,6 +492,7 @@ export default {
       this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
+      this.loadUserList()
       this.loadChartData()
     },
     handleSizeChangeForDate (size) {
@@ -531,6 +518,18 @@ export default {
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
       this.loadMaterialList()
+    },
+    handleSizeChangeForUser (size) {
+      this.paginationToUser = {
+        ...this.paginationToUser,
+        size,
+        page: 1
+      }
+      this.loadUserList()
+    },
+    handleCurrentChangeForUser (page) {
+      this.paginationToUser.page = page
+      this.loadUserList()
     },
     dealTime () {
       this.today = moment()
@@ -604,7 +603,7 @@ export default {
         this.paginationToDate.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsListByDate, parms)
+        .fetch(this.$api.guide.getOperateStatisticsListByDate, parms)
         .then(resp => {
           if (resp.success) {
             const json = resp.result
@@ -631,13 +630,40 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsListByMaterial, parms)
+        .fetch(this.$api.guide.getOperateStatisticsListByMaterial, parms)
         .then(resp => {
           if (resp.success) {
             const json = resp.result
             const arr = json.data || []
             this.listMaterial = arr
             this.paginationToPerson.total = parseInt(json.recordsTotal)
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
+    },
+    loadUserList () {
+      const parms = {
+        searchMap: {
+          endTime: this.endTime + ' 23:59:59',
+          startTime: this.startTime + ' 00:00:00'
+        },
+        start:
+          (this.paginationToUser.page - 1) * this.paginationToUser.size,
+        length: this.paginationToUser.size
+      }
+      if (this.paginationToUser.page === 1) {
+        this.listUser = []
+        this.paginationToUser.total = 0
+      }
+      this.$http
+        .fetch(this.$api.guide.getOperateStatisticsListByGuideId, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result
+            const arr = json.data || []
+            this.listUser = arr
+            this.paginationToUser.total = parseInt(json.recordsTotal)
           }
         })
         .catch(resp => {})
@@ -728,6 +754,7 @@ export default {
     this.loadTopData()
     this.loadDateList()
     this.loadMaterialList()
+    this.loadUserList()
     this.loadChartData()
   }
 }

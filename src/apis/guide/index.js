@@ -176,6 +176,22 @@ export default {
     url: '/guide/material/statistics/getStatisticsListByMaterial',
     method: 'post'
   },
+  /**
+   * 以员工为纬度,获取统计报表
+   */
+  getOperateStatisticsListByGuideId: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByGuideId',
+    method: 'post'
+  },
+  /**
+   * 以素材为纬度,获取统计报表
+   */
+  getOperateStatisticsListByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByMaterial',
+    method: 'post'
+  },
 
   /**
    * 以日期为纬度,获取统计报表
@@ -183,6 +199,15 @@ export default {
   getStatisticsListByDate: {
     // 素材列表
     url: '/guide/material/statistics/getStatisticsListByDate',
+    method: 'post'
+  },
+
+  /**
+   * 以日期为纬度,获取统计报表
+   */
+  getOperateStatisticsListByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByDate',
     method: 'post'
   },
 
