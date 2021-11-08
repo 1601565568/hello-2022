@@ -1,14 +1,6 @@
 <template>
   <div>
-    <div class="material-data">
-      <div class="top-view">
-        <div class="title">
-          附码图片累计数据
-          <span class="sub-title">（数据截止昨日）</span>
-        </div>
-      </div>
-      <TopData :dataList.sync="dataList"/>
-    </div>
+    <TopData :dataList.sync="dataList"/>
     <div class="material-show">
       <div class="material-chat">
         <div class="chat-select">
@@ -71,12 +63,6 @@
       <div class="title">数据报表</div>
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <!-- <div class="remind-data-view">
-            <div v-if="activeName === 'second'">
-              统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
-            </div>
-            <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
-          </div> -->
           <el-tab-pane label="按日期统计" name="first">
             <div v-if="listDate.length > 0">
               <page-table style="padding-top:0">
@@ -805,41 +791,6 @@ export default {
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
-.material-data {
-  background-color: white;
-  /* width: 1206px; */
-  padding-bottom: 24px;
-  .top-view {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    height: 56px;
-  }
-  .title {
-    font-size: 16px;
-    color: #262626;
-    line-height: 56px;
-    font-weight: 500;
-    padding-left: 16px;
-  }
-  .unDoneData {
-    width: 116px;
-    height: 32px;
-    background: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    font-size: 14px;
-    color: #595959;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 400;
-    line-height: 32px;
-    margin-right: 16px;
-    cursor: pointer;
-  }
-}
 .material-show {
   margin-top: 16px;
   background-color: white;
@@ -930,28 +881,6 @@ export default {
 .date-view {
   margin-left: 16px;
 }
-.sub-title {
-  font-size: 16px;
-  color: #8c8c8c;
-  line-height: 24px;
-  font-weight: 400;
-}
-/* .remind-data-view {
-  height: 60px;
-  background: #f3f9ff;
-  border-radius: 4px;
-  margin: 16px 16px 0 16px;
-  font-size: 14px;
-  color: #979797;
-  letter-spacing: 0;
-  font-weight: 400;
-  padding-left: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 23px;
-} */
-
 .no-echart-list-view {
   margin: 0 auto;
   width: 320px;
