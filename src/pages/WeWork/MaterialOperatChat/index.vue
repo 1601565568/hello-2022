@@ -368,12 +368,6 @@ export default {
     }
   },
   methods: {
-    yAaixNum (min, max) {
-      return {
-        min: min,
-        max: max
-      }
-    },
     // initPageData
     initPageData () {
       this.paginationToDate = {
