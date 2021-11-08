@@ -1,7 +1,7 @@
 <template>
   <div>
     <TipsView/>
-    <TopData :dataList.sync="dataList"/>
+    <TopData/>
     <div class="material-show">
       <div class="material-chat">
         <div class="chat-select">
@@ -510,43 +510,6 @@ export default {
     showMoreToPerson (row) {
       this.$refs.detaList.openDeawer(row, this.startTime, this.endTime)
     },
-    loadTopData () {
-      this.$http
-        .fetch(this.$api.guide.getSumData, {})
-        .then(resp => {
-          if (resp.success) {
-            const json = resp.result || {}
-            this.dataList = [
-              {
-                name: '发送次数',
-                data: json.sendCodePicturesSum || 0,
-                yData: json.nowSendCodePicturesSum || 0,
-                claseName: 'one'
-              },
-              {
-                name: '被浏览次数',
-                data: json.imagesViewedSum || 0,
-                yData: json.nowImagesViewedSum || 0,
-                claseName: 'two'
-              },
-              {
-                name: '转化订单数',
-                data: json.conversionOrderSum || 0,
-                yData: json.nowConversionOrderSum || 0,
-                claseName: 'three'
-              },
-              {
-                name: '转化金额',
-                data: json.conversionAmountSum || 0,
-                yData: json.nowConversionAmountSum || 0,
-                claseName: 'four'
-              }
-            ]
-          }
-        })
-        .catch(resp => {})
-        .finally(() => {})
-    },
     loadDateList () {
       const parms = {
         searchMap: {
@@ -781,7 +744,6 @@ export default {
   },
   mounted () {
     this.dealTime()
-    this.loadTopData()
     this.loadDateList()
     this.loadMaterialList()
     this.loadUserList()

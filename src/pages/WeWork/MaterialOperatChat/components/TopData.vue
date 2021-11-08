@@ -8,7 +8,7 @@
     </div>
     <div class="data-view">
       <el-row :gutter="15">
-        <template v-for="item in list">
+        <template v-for="item in dataList">
           <el-col :key="item.name" :span="6">
             <div class="base-cell" :class="item.claseName">
               <div class="text">{{ item.name }}</div>
@@ -27,15 +27,9 @@
 <script>
 export default {
   name: 'TopData',
-  props: {
-    dataList: {
-      type: Array,
-      default: () => []
-    }
-  },
   data () {
     return {
-      defaultList: [
+      dataList: [
         { name: '发送次数', data: 0, yData: 0, claseName: 'one' },
         { name: '被浏览次数', data: 0, yData: 0, claseName: 'two' },
         { name: '转化订单数', data: 0, yData: 0, claseName: 'three' },
@@ -43,10 +37,29 @@ export default {
       ]
     }
   },
-  computed: {
-    list () {
-      return this.dataList.length > 0 ? this.dataList : this.defaultList
+  methods: {
+    loadTopData () {
+      this.$http
+        .fetch(this.$api.guide.getSumData, {})
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result || {}
+            this.dataList[0].data = json.sendCodePicturesSum || 0
+            this.dataList[0].yData = json.nowSendCodePicturesSum || 0
+            this.dataList[1].data = json.imagesViewedSum || 0
+            this.dataList[1].yData = json.nowImagesViewedSum || 0
+            this.dataList[2].data = json.conversionOrderSum || 0
+            this.dataList[2].yData = json.nowConversionOrderSum || 0
+            this.dataList[3].data = json.conversionAmountSum || 0
+            this.dataList[3].yData = json.nowConversionAmountSum || 0
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
     }
+  },
+  mounted () {
+    this.loadTopData()
   }
 }
 </script>
