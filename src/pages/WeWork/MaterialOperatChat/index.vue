@@ -559,38 +559,32 @@ export default {
         .then(resp => {
           if (resp.success) {
             const json = resp.result || {}
-            // this.dataList = [
-            //   {
-            //     name: '素材发送次数总计',
-            //     data: json.sendSum || 0,
-            //     claseName: 'one'
-            //   },
-            //   {
-            //     name: '素材下载总次数',
-            //     data: json.downloadSum || 0,
-            //     claseName: 'two'
-            //   },
-            //   {
-            //     name: '素材补全总次数',
-            //     data: json.completionSum || 0,
-            //     claseName: 'three'
-            //   },
-            //   {
-            //     name: '昨日素材发送次数',
-            //     data: json.nowSendSum || 0,
-            //     claseName: 'four'
-            //   },
-            //   {
-            //     name: '昨日素材下载次数',
-            //     data: json.nowDownloadSum || 0,
-            //     claseName: 'five'
-            //   },
-            //   {
-            //     name: '昨日素材补全次数',
-            //     data: json.nowCompletionSum || 0,
-            //     claseName: 'six'
-            //   }
-            // ]
+            this.dataList = [
+              {
+                name: '发送次数',
+                data: json.sendCodePicturesSum || 0,
+                yData: json.nowSendCodePicturesSum || 0,
+                claseName: 'one'
+              },
+              {
+                name: '被浏览次数',
+                data: json.imagesViewedSum || 0,
+                yData: json.nowImagesViewedSum || 0,
+                claseName: 'two'
+              },
+              {
+                name: '转化订单数',
+                data: json.conversionOrderSum || 0,
+                yData: json.nowConversionOrderSum || 0,
+                claseName: 'three'
+              },
+              {
+                name: '转化金额',
+                data: json.conversionAmountSum || 0,
+                yData: json.nowConversionAmountSum || 0,
+                claseName: 'four'
+              }
+            ]
           }
         })
         .catch(resp => {})
