@@ -149,11 +149,29 @@ export default {
   },
 
   /**
+   * 获取员工完成明细
+   */
+  getOperateStatisticsDetailsByGuideId: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailsByGuideId',
+    method: 'post'
+  },
+
+  /**
    * 素材纬度:获取完成明细
    */
   getStatisticsDetailByMaterial: {
     // 素材列表
     url: '/guide/material/statistics/getStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
+   * 素材纬度:获取完成明细
+   */
+  getOperateStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailByMaterial',
     method: 'post'
   },
 

@@ -11,16 +11,26 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">
-        {{
-          item.materialTitle && item.materialTitle.length > 25
-            ? item.materialTitle.substr(0, 25) + '...'
-            : item.materialTitle
-        }}
-      </div>
+      <div class="drawer-title">{{item.guideName}}{{'&nbsp;&nbsp;'}}{{ item.employeeNumber}}{{'&nbsp;&nbsp;'}}{{item.shopName}}</div>
       <div class="content-view">
         <div class="menu-view">
-          <div class="user-view">
+          <div class="input-view">
+            <el-input
+              placeholder="请输入素材标题"
+              autofocus="false"
+              type="text"
+              v-model="inputTitle"
+              @change="inputChange"
+            >
+              <Icon
+                type="ns-search"
+                slot="suffix"
+                style="font-size: 30px;"
+                @click="inputChange"
+              ></Icon>
+            </el-input>
+          </div>
+          <!-- <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
               <el-form-item label="门店/员工：">
                 <NsGuideDialog
@@ -48,7 +58,7 @@
                 </NsGuideDialog>
               </el-form-item>
             </el-form>
-          </div>
+          </div> -->
         </div>
         <div v-if="listData.length > 0">
           <page-table style="padding-top:0">
@@ -60,44 +70,37 @@
               >
                 <el-table-column prop="trackTime" label="日期">
                 </el-table-column>
-                <el-table-column
-                  prop="employeeNumber"
-                  label="工号"
-                  :width="114"
-                >
-                  <template slot-scope="scope">{{
-                    scope.row.employeeNumber || '-'
-                  }}</template>
+                <el-table-column prop="materialTitle" label="素材">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="top-start"
+                      width="300"
+                      trigger="hover"
+                      :disabled="scope.row.materialTitle.length <= 10"
+                    >
+                      <div>{{ scope.row.materialTitle }}</div>
+                      <span
+                        slot="reference"
+                        v-if="scope.row.materialTitle.length <= 10"
+                        >{{ scope.row.materialTitle }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-if="scope.row.materialTitle.length > 10"
+                        >{{
+                          scope.row.materialTitle.substr(0, 10) + '...'
+                        }}</span
+                      >
+                    </el-popover>
+                  </template>
                 </el-table-column>
-                <el-table-column prop="guideName" label="员工">
+                <el-table-column prop="sendCodePicturesSum" label="发送次数">
                 </el-table-column>
                 <el-table-column prop="imagesViewedSum" label="被浏览次数">
                 </el-table-column>
                 <el-table-column prop="conversionOrderSum" label="转化订单数">
                 </el-table-column>
                 <el-table-column prop="conversionAmountSum" label="转化金额">
-                </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
-                  <template slot-scope="scope">
-                    <el-popover
-                      placement="top-start"
-                      width="300"
-                      trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
-                    >
-                      <div>{{ scope.row.shopName }}</div>
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
-                      >
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length > 10"
-                        >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
-                      >
-                    </el-popover>
-                  </template>
                 </el-table-column>
               </el-table>
             </template>
@@ -127,17 +130,19 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
+// import NsGuideDialog from '@/components/NsGuideDialog'
 import NoData from './NoData'
 export default {
-  name: 'dataList',
-  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
+  name: 'userList',
+  components: { ElDrawer, PageTable, NoData },
   data () {
     return {
       direction: 'rtl',
       drawer: false,
       listData: [],
+      inputValue: '',
       actionValue: 0,
+      inputTitle: '',
       guideIds: [],
       item: {},
       paginationToPerson: {
@@ -152,8 +157,14 @@ export default {
     }
   },
   methods: {
-    selectOptionClick (val) {
-      this.flag = val
+    inputChange () {
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      }
+      this.loadDetail()
     },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
@@ -167,30 +178,29 @@ export default {
       this.paginationToPerson.page = page
       this.loadDetail()
     },
-    closeDeawer () {
-      this.drawer = !this.drawer
-      this.item = {}
-    },
-    openDeawer (item, startTime, endTime) {
+    openDeawer (item) {
       this.initData()
-      this.item = item
-      this.item.startTime = startTime
-      this.item.endTime = endTime
       this.drawer = true
+      this.item = item
+      this.guideIdsStr = item.guide_id || ''
       this.loadDetail()
     },
     initData () {
       this.item = {}
+      this.actionValue = 0
+      this.guideIds = []
       this.selectActionValue = 0
       this.guideIdsStr = ''
-      this.guideIds = []
-      this.actionValue = 0
+      this.inputTitle = ''
       this.paginationToPerson = {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
+    },
+    closeDeawer () {
+      this.drawer = !this.drawer
     },
     handleClose () {},
     handleClick (tab, event) {},
@@ -204,15 +214,14 @@ export default {
       this.guideIdsStr = val.join(',')
       this.loadDetail()
     },
-    loadDetail (startTime, endTime) {
+    loadDetail () {
       const parms = {
         searchMap: {
-          endTime: this.item.endTime + ' 23:59:59',
-          startTime: this.item.startTime + ' 00:00:00',
+          startTime: this.item.trackTime,
           eventType: this.selectActionValue,
           guideIdsStr: this.guideIdsStr,
           shopIdsStr: '',
-          materialId: this.item.materialId
+          materialTitle: this.inputTitle
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -223,7 +232,7 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getOperateStatisticsDetailByMaterial, parms)
+        .fetch(this.$api.guide.getOperateStatisticsDetailsByGuideId, parms)
         .then(resp => {
           const json = resp.result
           const arr = json.data || []
@@ -238,6 +247,9 @@ export default {
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
+.input-view {
+  margin-right: 0px;
+}
 .user-view {
   margin-left: 0;
 }
@@ -356,6 +368,7 @@ export default {
   height: 65px;
   display: flex;
   flex-direction: row;
+  padding-left: 16px;
   align-items: center;
 }
 
