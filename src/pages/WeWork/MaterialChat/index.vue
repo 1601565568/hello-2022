@@ -257,7 +257,7 @@ export default {
         },
         legend: {
           data: [
-            '素材发送次数总计',
+            '素材发送总次数',
             '素材下载总次数',
             '素材补全总次数',
             '素材发朋友圈总次数',
@@ -272,7 +272,7 @@ export default {
           itemWidth: 10,
           itemHeight: 10,
           selected: {
-            素材发送次数总计: false,
+            素材发送总次数: false,
             素材下载总次数: false,
             素材补全总次数: false,
             素材发朋友圈总次数: false
@@ -596,7 +596,7 @@ export default {
             this.option.xAxis.data = times
             this.option.series = [
               {
-                name: '素材发送次数总计',
+                name: '素材发送总次数',
                 type: 'line',
                 data: sendTotal
               },
