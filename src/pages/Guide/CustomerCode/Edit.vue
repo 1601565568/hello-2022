@@ -497,8 +497,8 @@
               >
                 <el-radio-group v-model="model.distinctType" :disabled="isStating">
                   <el-radio :label="0">不去重</el-radio>
-                  <el-radio :label="1">活动内去重</el-radio>
-                  <el-radio :label="2">全局去重</el-radio>
+                  <el-radio :label="2">活动内去重</el-radio>
+                  <el-radio :label="1">全局去重</el-radio>
                 </el-radio-group>
                 <div class="qrcode-bottom-view">
                   <span class="remind-view"></span>
