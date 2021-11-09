@@ -54,6 +54,8 @@
       </el-form-item>
       <el-form-item ref="imageForm" label="附件：">
         <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件（加小程序码的最多8个）</span>
+        <br/>
+        <span class="add-tip label-gap">若希望在移动端一键发送至朋友圈，附件仅支持图片、视频、链接，且只能存在一种类型</span>
           <MessageList
             :list.sync="mediaList"
             @edit="editAnnexMessage"
