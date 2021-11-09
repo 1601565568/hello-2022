@@ -18,7 +18,7 @@
         </div>
       </ImageMessage>
     </div>
-    <div class="add-material-item" @click="visibleImageCodeDialog = true">
+    <div v-if="pitBit" class="add-material-item" @click="visibleImageCodeDialog = true">
       <i class="iconfont icon-lianjie icon"></i>
       <span class="item-tip">附码图片</span>
     </div>
