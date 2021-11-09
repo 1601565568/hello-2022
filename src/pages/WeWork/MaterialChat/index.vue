@@ -261,10 +261,10 @@ export default {
             '素材下载总次数',
             '素材补全总次数',
             '素材发朋友圈总次数',
-            '昨日素材发送次数',
-            '昨日素材下载次数',
-            '昨日素材补全次数',
-            '昨日素材发朋友圈次数'
+            '每日素材发送次数',
+            '每日素材下载次数',
+            '每日素材补全次数',
+            '每日素材发朋友圈次数'
           ],
           left: '2%',
           bottom: '9%',
@@ -616,22 +616,22 @@ export default {
                 data: friendsCircleSum
               },
               {
-                name: '昨日素材发送次数',
+                name: '每日素材发送次数',
                 type: 'line',
                 data: ySendTotal
               },
               {
-                name: '昨日素材下载次数',
+                name: '每日素材下载次数',
                 type: 'line',
                 data: yDownTotal
               },
               {
-                name: '昨日素材补全次数',
+                name: '每日素材补全次数',
                 type: 'line',
                 data: yAddTotal
               },
               {
-                name: '昨日素材发朋友圈次数',
+                name: '每日素材发朋友圈次数',
                 type: 'line',
                 data: yFriendsCircleSum
               }
