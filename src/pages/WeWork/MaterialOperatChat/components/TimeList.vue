@@ -30,32 +30,6 @@
               ></Icon>
             </el-input>
           </div>
-          <div class="item-down">
-            <div class="name">动作:</div>
-            <div class="item-select">
-              <el-select
-                v-model="actionValue"
-                :default-first-option="true"
-                @change="selectAction"
-                @visible-change="selectOptionClick"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="icon-view">
-              <Icon
-                type="ns-arrow-drowdown"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-                style="color: #8C8C8C;"
-              />
-            </div>
-          </div>
           <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
               <el-form-item label="门店/员工：">
@@ -89,7 +63,6 @@
         <div v-if="listData.length > 0">
           <page-table style="padding-top:0">
             <template slot="table">
-              <!-- <div class="content-view"> -->
               <el-table
                 :data="listData"
                 class="new-table_border drawer-table"
@@ -119,11 +92,6 @@
                     </el-popover>
                   </template>
                 </el-table-column>
-                <el-table-column prop="eventType" label="动作" :width="80">
-                  <template slot-scope="scope">{{
-                    transText(scope.row.eventType)
-                  }}</template>
-                </el-table-column>
                 <el-table-column
                   prop="employeeNumber"
                   label="工号"
@@ -138,15 +106,11 @@
                     scope.row.guideName || '-'
                   }}</template>
                 </el-table-column>
-                <el-table-column prop="phone" label="电话">
-                  <template slot-scope="scope">{{
-                    scope.row.phone || '-'
-                  }}</template>
+                <el-table-column prop="imagesViewedSum" label="被浏览次数">
                 </el-table-column>
-                <el-table-column prop="post" label="岗位">
-                  <template slot-scope="scope">{{
-                    transPost(scope.row.post)
-                  }}</template>
+                <el-table-column prop="conversionOrderSum" label="转化订单数">
+                </el-table-column>
+                <el-table-column prop="conversionAmountSum" label="转化金额">
                 </el-table-column>
                 <el-table-column prop="shopName" label="所属门店">
                   <template slot-scope="scope">
@@ -171,7 +135,6 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <!-- </div> -->
             </template>
             <template slot="pagination">
               <el-pagination
@@ -210,24 +173,6 @@ export default {
       drawer: false,
       listData: [],
       inputValue: '',
-      options: [
-        {
-          value: 0,
-          label: '全部'
-        },
-        {
-          value: 14,
-          label: '下载'
-        },
-        {
-          value: 16,
-          label: '发送'
-        },
-        {
-          value: 18,
-          label: '补全'
-        }
-      ],
       actionValue: 0,
       inputTitle: '',
       guideIds: [],
@@ -244,19 +189,6 @@ export default {
     }
   },
   methods: {
-    transPost (val) {
-      if (val === 1) {
-        return '店长'
-      } else if (val === 2) {
-        return '客服'
-      } else if (val === 0) {
-        return '导购'
-      }
-      return '-'
-    },
-    selectOptionClick (val) {
-      this.flag = val
-    },
     inputChange () {
       this.paginationToPerson = {
         size: 10,
@@ -265,26 +197,6 @@ export default {
         total: 0
       }
       this.loadDetail()
-    },
-    selectAction (val) {
-      this.selectActionValue = val
-      this.paginationToPerson = {
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      }
-      this.loadDetail()
-    },
-    transText (val) {
-      if (val === 14) {
-        return '下载'
-      } else if (val === 16) {
-        return '发送'
-      } else if (val === 18) {
-        return '补全'
-      }
-      return '-'
     },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
@@ -351,7 +263,7 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsDetailByDate, parms)
+        .fetch(this.$api.guide.getOperateStatisticsDetailByDate, parms)
         .then(resp => {
           const json = resp.result
           const arr = json.data || []
@@ -367,7 +279,7 @@ export default {
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
 .input-view {
-  margin-right: 16px;
+  margin-right: 0px;
 }
 .user-view {
   margin-left: 0;
@@ -489,23 +401,6 @@ export default {
   flex-direction: row;
   padding-left: 16px;
   align-items: center;
-  /* background-color: red; */
-}
-
-.item-down {
-  width: 143px;
-  height: 32px;
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  align-items: center;
-  .name {
-    width: 42px;
-    margin-left: 8px;
-  }
 }
 
 .arrowTransform {

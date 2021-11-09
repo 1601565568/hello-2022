@@ -140,6 +140,15 @@ export default {
   },
 
   /**
+   * 获取日期完成明细
+   */
+  getOperateStatisticsDetailByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailByDate',
+    method: 'post'
+  },
+
+  /**
    * 素材纬度:获取完成明细
    */
   getStatisticsDetailByMaterial: {
