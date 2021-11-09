@@ -19,7 +19,7 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/GroupData',
     '/Customer/Group/CustomerGroup',
     '/Social/OperationData/MaterialChat',
-    '/Social/OperationData/MaterialOperatChat',
+    '/Social/OperationData/MaterialOperationChat',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/WeWork/Customer/SessionStatistics'
   ]

@@ -13,8 +13,8 @@
           <el-form-item label="小程序" required>
             <el-select v-model="content.appid" placeholder="请选择小程序">
               <el-option
-                v-for="item in miniList"
-                :key="item.appid"
+                v-for="(item, index) in miniList"
+                :key="index"
                 :label="item.name"
                 :value="item.appid">
               </el-option>
@@ -22,8 +22,8 @@
             <div class="mini-view">
               <div @click="loadAppIds">已授权未显示？点此刷新</div>
               <div>
-                <span>如何授权&nbsp;</span>
-                <span>&nbsp;去授权</span>
+                <span @click="toBlackPage('howAuth')">如何授权&nbsp;</span>
+                <span @click="toBlackPage('toAuth')">&nbsp;去授权</span>
               </div>
             </div>
           </el-form-item>
@@ -52,11 +52,21 @@
               >
               </el-input>
               <div class="show-path-url-view">
-                <span class="item-view">带参配置说明</span>
-                <span class="item-view">如何获取路径</span>
                 <el-popover
                   placement="bottom"
-                  trigger="click"
+                  trigger="hover"
+                  width="200"
+                >
+                  <div style="padding: 5px 8px;line-height: 24px;font-size: 14px;">
+                    <div>{{parmaStrTop}}</div>
+                    <div>{{parmaStrBottom}}</div>
+                  </div>
+                  <span slot="reference" class="item-view">带参配置说明</span>
+                </el-popover>
+                <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
+                <el-popover
+                  placement="bottom"
+                  trigger="hover"
                   width="200"
                   :title="compPath"
                   :disabled="compPath.length === 0"
@@ -295,7 +305,14 @@ export default {
         appid: '',
         codeStyle: 0,
         presetParams: []
-      }
+      },
+      urlObj: {
+        howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
+        toAuth: 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=wx0dffadfa29f69a65&pre_auth_code=preauthcode%40%40%40dlXS1GL3qXostt93qAxraM4uUgSKGkbomUukRYfJmoufiXmybgp1v4MgxO9mihZX44xIAhJhjn5Q872SJnMtwQ&redirect_uri=http%3A%2F%2Fsandbox-appauth.nascent.cn%2FwechatCall%2FappAuth%3FcompanyId%3D80000002%26source%3DECLOUD%26uniqueId%3D4a6536d6e90946739a49572491c3a6c9',
+        howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
+      },
+      parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
+      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}'
     }
   },
   computed: {
@@ -317,6 +334,9 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    toBlackPage (key) {
+      window.open(this.urlObj[key], '_blank')
+    },
     initData () {
       this.saveLoad = false
       this.shopIdChecked = false
@@ -360,6 +380,7 @@ export default {
       }
     },
     loadAppIds () {
+      this.miniList = []
       let that = this
       this.$http
         .fetch(this.$api.guide.findWxAppletsList, {})
