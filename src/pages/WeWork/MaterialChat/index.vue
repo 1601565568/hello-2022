@@ -270,13 +270,13 @@ export default {
           bottom: '9%',
           icon: 'roundRect',
           itemWidth: 10,
-          itemHeight: 10
-          // selected: {
-          //   素材发送次数总计: false,
-          //   素材下载总次数: false,
-          //   素材补全总次数: false,
-          //   素材发朋友圈总次数: false
-          // }
+          itemHeight: 10,
+          selected: {
+            素材发送次数总计: false,
+            素材下载总次数: false,
+            素材补全总次数: false,
+            素材发朋友圈总次数: false
+          }
         },
         color: [
           '#4287FF',
