@@ -145,7 +145,7 @@
                   </li>
                 </div> -->
                 <div v-for="(c_item, c_index) in item.mediaList" :key="c_index" class="catalogue-materials__image">
-                  <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
+                  <div v-if="c_item.type === 1 || c_item.type === 0 || c_item.type === 5" class="v_image">
                     <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
                     <img
                       v-else

@@ -7,13 +7,15 @@
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   width="800px"
+  modal-append-to-body
+  append-to-body
   :before-close="handleClose">
     <div class="template-table">
       <div class="template-table-search">
         <div class="template-table__bar-more">
           <el-form ref="searchform" label-width="80px" @submit.native.prevent
             class="surround-btn" :model="searchObj.searchMap" :inline="true">
-            <el-form-item label="商城：" prop="mallId">
+            <el-form-item label="商城：" prop="mallId" v-if="showMall">
               <el-select v-model="searchObj.searchMap.mallId" placeholder="请选择商城" required @change="selectMall">
                 <el-option v-for="item in mallList"
                 :key="item.mall_id"
@@ -92,7 +94,11 @@ export default {
   },
   mixins: [listPageMixin],
   props: {
-    callBack: Function
+    callBack: Function,
+    showMall: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
