@@ -199,7 +199,10 @@
                   >
                     <el-table-column prop="guideName" label="员工姓名">
                     </el-table-column>
-                    <el-table-column prop="guide_id" label="工号">
+                    <el-table-column prop="employeeNumber" label="工号">
+                      <template slot-scope="scope">{{
+                        scope.row.employeeNumber || '-'
+                      }}</template>
                     </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
                     </el-table-column>
