@@ -61,7 +61,7 @@
           <el-table-column
             prop="guideName">
             <template slot='header'>
-              邀请/解除好友数
+              成功邀请/扣减好友数
               <el-tooltip  effect='light' popper-class='popperClass' placement="top">
                 <Icon type="question-circle"  class='question-circle'/>
                 <template slot='content'>
