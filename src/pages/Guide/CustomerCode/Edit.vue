@@ -567,13 +567,13 @@
                 <el-switch :disabled="isStating" v-model="model.repeatParticipation"  :active-value='0' :inactive-value='1'/>
                 <div class="qrcode-bottom-view">
                   <span class="remind-view"></span>
-                  开启此功能后，单个活动内，不允许成为多位员工的裂变大师
+                  关闭此功能后，单个活动内，不允许成为多位员工的裂变大师
                   <el-tooltip  placement="top" popper-class='popperClass'>
                     <ns-button type='text' class='safe-btn'>
                       示例说明
                     </ns-button>
                     <template slot='content'>
-                      消费者张三通过裂变大师活动添加员工小A为好友后，需等待好友保持期结束才会记录小A要邀新好友数
+                      单个活动内，好友李四分享员工小A的裂变大师活动后，允许再分享员工小B的裂变大师活动
                     </template>
                   </el-tooltip>
                 </div>
