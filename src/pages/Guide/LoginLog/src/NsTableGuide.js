@@ -28,6 +28,8 @@ export default {
       validTime: null
     }
     return {
+      indexPage: 1,
+      customName: '',
       model: Object.assign({}, searchModel),
       searchModel: Object.assign({}, searchModel),
       quickSearchModel: quickSearchModel,
@@ -108,12 +110,43 @@ export default {
     }
   },
   computed: {},
+  directives: {
+    'el-select-loadmore': {
+      bind (el, binding) {
+        // 获取element-ui定义好的scroll盒子
+        const SELECTWRAP_DOM = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap')
+        SELECTWRAP_DOM.addEventListener('scroll', function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight
+          if (condition) {
+            binding.value()
+          }
+        })
+      }
+    }
+  },
   methods: {
+    loadmore () {
+      this.indexPage = this.indexPage + 1
+      this.staffFindList()
+    },
+    customSearch (val) {
+      this.indexPage = 1
+      this.customName = val
+      this.staffFindLists = []
+      this.staffFindList()
+    },
     staffFindList () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.guide.getGuideList, {}).then(resp => {
+      let params = {
+        length: 30,
+        start: (this.indexPage - 1) * 30,
+        searchMap: {
+          'name': this.customName
+        }
+      }
+      _this.$http.fetch(_this.$api.guide.guide.findList, params).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.staffFindLists = resp.result
+          _this.staffFindLists = [..._this.staffFindLists, ...resp.result.data]
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
