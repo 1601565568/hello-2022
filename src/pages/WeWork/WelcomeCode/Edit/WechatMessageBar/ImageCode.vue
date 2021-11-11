@@ -196,7 +196,7 @@
           </el-form-item>
           <el-form-item label="名称" required>
             <el-input
-              placeholder="请输入标题，长度在36个字符以内"
+              placeholder="请输入名称，长度在36个字符以内"
               v-model="content.title"
               @input="titleChange"
             />
@@ -224,7 +224,7 @@
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
-                {{content.title || '这是标题'}}
+                {{content.title || '这是名称'}}
               </div>
               <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
@@ -559,11 +559,19 @@ export default {
         return
       }
       if (!this.content.title) {
-        this.$notify.warning('请输入标题')
+        this.$notify.warning('请输入名称')
+        return
+      }
+      if (this.content.title.length > 36) {
+        this.$notify.warning('名称最多36字符')
         return
       }
       if (this.content.priceStatus && !this.content.price) {
         this.$notify.warning('请输入售价')
+        return
+      }
+      if (parseFloat(this.content.price, 10) < 0.01) {
+        this.$notify.warning('最多输入2位小数')
         return
       }
       if (parseFloat(this.content.price) > this.maxPrice) {
@@ -572,6 +580,10 @@ export default {
       }
       if (this.content.originalPriceStatus && !this.content.originalPrice) {
         this.$notify.warning('请输入原价')
+        return
+      }
+      if (parseFloat(this.content.originalPrice, 10) < 0.01) {
+        this.$notify.warning('最多输入2位小数')
         return
       }
       if (parseFloat(this.content.originalPrice) > this.maxPrice) {
@@ -634,6 +646,7 @@ export default {
             that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
             that.initData()
             that.$emit('handleImageCode', false)
+            that.visible = false
           })
           .catch(resp => {
             that.saveLoad = false
