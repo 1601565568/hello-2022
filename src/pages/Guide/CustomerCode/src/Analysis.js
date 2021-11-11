@@ -47,7 +47,7 @@ export default {
           key: 'inviteFriendNumber'
         },
         {
-          label: '达标总人数',
+          label: '当前达标总人数',
           value: 0,
           id: 'prize',
           key: 'reachStandardNumber'
