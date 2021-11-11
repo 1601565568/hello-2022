@@ -179,17 +179,23 @@
             <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
-            <el-upload
-              class="avatar-uploader"
-              :show-file-list="false"
-              :action="$api.core.sgUploadFile('test')"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeUpload"
-              accept=".jpg,.jpeg,.png"
-            >
-              <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            <div class="upload-view">
+              <div class="img-url__logo">
+                <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <drap-upload
+                  :scale='1'
+                  scaleTip='1'
+                  v-model='content.backgroundImage'
+                  :isNeedCrop='true'
+                  :showPont='false'
+                  :drag='false'
+                  :maxSize='2'
+                  @input="handleAvatarSuccess"
+                >
+                </drap-upload>
+              </div>
+            </div>
             <div class="remind-img">
               请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
             </div>
@@ -252,13 +258,13 @@
   </el-dialog>
 </template>
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
 import SelectGoods from '@/pages/Guide/Material/components/selectGoods'
 import html2canvas from 'html2canvas'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 export default {
   components: {
-    ElUpload,
-    SelectGoods
+    SelectGoods,
+    DrapUpload
   },
   data () {
     return {
@@ -493,8 +499,7 @@ export default {
         .catch(resp => {
         })
     },
-    handleAvatarSuccess (res, file) {
-      const url = res.result.url || ''
+    handleAvatarSuccess (url) {
       this.content.backgroundImage = url
       if (this.content.codeStyle === 0) {
         this.goodsCache.backgroundImage = url
@@ -865,5 +870,30 @@ export default {
   font-weight: 400;
   margin-bottom: 16px;
   margin-top: 8px;
+}
+.img-url__logo {
+  position: relative;
+  height: 110px;
+  overflow: hidden;
+}
+.img-url__logo >>> .upload-demo .el-upload {
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.img-url__logo >>> .poster-content{
+  opacity: 0;
+  padding: 0;
+}
+.img-url__logo >>> .el-upload-list {
+  display: none;
+}
+.img-url__logo >>> .poster-set_content {
+  display: none
+}
+.img-url__logo >>> .padingbottom {
+  display: none;
 }
 </style>
