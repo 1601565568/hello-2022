@@ -12,7 +12,7 @@
             </el-select>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 1">
-            <el-select placeholder="请选择员工" style="width:180px" v-model="model.operateName" clearable filterable>
+            <el-select placeholder="请选择员工" style="width:180px" :filter-method="customSearch" v-el-select-loadmore="loadmore" v-model="model.operateName" clearable filterable>
               <el-option v-for="guide in staffFindLists" :label="guide.name" :value="guide.name" :key="guide.id"></el-option>
             </el-select>
           </el-form-grid>
