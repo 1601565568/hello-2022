@@ -49,6 +49,7 @@
                 v-model="content.path"
                 maxlength="255"
                 show-word-limit
+                @input="miniPathChange"
               >
               </el-input>
               <div class="show-path-url-view">
@@ -175,7 +176,7 @@
             </div>
           </el-form-item>
           <el-form-item label="货号">
-            <el-input placeholder="请输入货号" v-model="content.outerId" />
+            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
             <el-upload
@@ -197,21 +198,22 @@
             <el-input
               placeholder="请输入标题，长度在36个字符以内"
               v-model="content.title"
+              @input="titleChange"
             />
           </el-form-item>
           <el-form-item label="售价" required>
-            <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0> </el-switch>
+            <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="priceStatusChange"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="content.price" type="number"/>
+              <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0>
+            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="originalPriceStatusChange">
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number"/>
+              <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
             </div>
           </el-form-item>
         </el-form>
@@ -224,10 +226,10 @@
               <div class="title-view">
                 {{content.title || '这是标题'}}
               </div>
-              <div class="left-price-view" v-show="content.price.length > 0">
+              <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
-              <div class="left-orgian-view" v-show="content.originalPrice.length > 0">
+              <div class="left-orgian-view" v-show="content.originalPrice && content.originalPriceStatus === 1">
                 原价：¥{{ content.originalPrice }}
               </div>
             </div>
@@ -284,8 +286,8 @@ export default {
         image: '',
         price: '',
         originalPrice: '',
-        priceStatus: 1,
-        originalPriceStatus: 1,
+        priceStatus: 0,
+        originalPriceStatus: 0,
         outerId: '',
         bankId: '',
         sysItemId: '',
@@ -307,7 +309,27 @@ export default {
         howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
       },
       parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
-      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}'
+      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}',
+      goodsCache: {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      },
+      miniCache: {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      }
     }
   },
   computed: {
@@ -329,7 +351,75 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    originalPriceStatusChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.originalPriceStatus = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.originalPriceStatus = e
+      }
+    },
+    priceStatusChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.priceStatus = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.priceStatus = e
+      }
+    },
+    originalPriceChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.originalPrice = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.originalPrice = e
+      }
+    },
+    priceChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.price = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.price = e
+      }
+    },
+    titleChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.title = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.title = e
+      }
+    },
+    outerIdChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.outerId = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.outerId = e
+      }
+    },
+    miniPathChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.path = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.path = e
+      }
+    },
     handleCodeStyle (index) {
+      if (index === 0) {
+        this.content.path = this.goodsCache.path
+        this.content.outerId = this.goodsCache.outerId
+        this.content.title = this.goodsCache.title
+        this.content.backgroundImage = this.goodsCache.backgroundImage
+        this.content.price = this.goodsCache.price
+        this.content.originalPrice = this.goodsCache.originalPrice
+        this.content.priceStatus = this.goodsCache.priceStatus
+        this.content.originalPriceStatus = this.goodsCache.originalPriceStatus
+      } else if (index === 1) {
+        this.content.path = this.miniCache.path
+        this.content.outerId = this.miniCache.outerId
+        this.content.title = this.miniCache.title
+        this.content.backgroundImage = this.miniCache.backgroundImage
+        this.content.price = this.miniCache.price
+        this.content.originalPrice = this.miniCache.originalPrice
+        this.content.priceStatus = this.miniCache.priceStatus
+        this.content.originalPriceStatus = this.miniCache.originalPriceStatus
+      }
     },
     showImageCode () {
       this.visible = true
@@ -358,8 +448,8 @@ export default {
         image: '',
         price: '',
         originalPrice: '',
-        priceStatus: 1,
-        originalPriceStatus: 1,
+        priceStatus: 0,
+        originalPriceStatus: 0,
         outerId: '',
         bankId: '',
         sysItemId: '',
@@ -404,7 +494,13 @@ export default {
         })
     },
     handleAvatarSuccess (res, file) {
-      this.content.backgroundImage = res.result.url || ''
+      const url = res.result.url || ''
+      this.content.backgroundImage = url
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.backgroundImage = url
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.backgroundImage = url
+      }
     },
     handleCanle () {
       this.initData()
@@ -551,6 +647,12 @@ export default {
       this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
+      if (parseFloat(item.costPrice, 10) > 0) {
+        this.content.price = item.costPrice
+        this.content.priceStatus = 1
+        this.goodsCache.price = item.costPrice
+        this.goodsCache.priceStatus = 1
+      }
     }
   }
 }
