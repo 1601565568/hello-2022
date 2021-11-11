@@ -28,7 +28,7 @@
             </div>
           </el-form-item>
           <el-form-item label="附码方式" required>
-            <el-radio-group v-model="content.codeStyle">
+            <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
               <el-radio :label=0>选择商品</el-radio>
               <el-radio :label=1>输入小程序路径</el-radio>
             </el-radio-group>
@@ -258,14 +258,9 @@ export default {
     ElUpload,
     SelectGoods
   },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
+      visible: false,
       saveLoad: false,
       maxSize: 2,
       maxPrice: 999999.99,
@@ -334,6 +329,14 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    handleCodeStyle (index) {
+    },
+    showImageCode () {
+      this.visible = true
+      if (this.miniList.length > 0) {
+        this.content.appid = this.miniList[0].appid
+      }
+    },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
     },
@@ -393,6 +396,9 @@ export default {
             }
             that.miniList.push(obj)
           })
+          if (list.length > 0) {
+            that.content.appid = that.miniList[0].appid
+          }
         })
         .catch(resp => {
         })
@@ -402,7 +408,8 @@ export default {
     },
     handleCanle () {
       this.initData()
-      this.$emit('handleImageCode', false)
+      this.visible = false
+      // this.$emit('handleImageCode', false)
     },
     dataURLtoFile (dataURI, type) {
       let binary = atob(dataURI.split(',')[1])
