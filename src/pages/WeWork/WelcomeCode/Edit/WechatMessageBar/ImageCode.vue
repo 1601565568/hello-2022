@@ -9,8 +9,8 @@
   >
     <div class="container-view">
       <div class="left-view">
-        <el-form label-width="100px" label-position="left" class="form-view">
-          <el-form-item label="小程序" required>
+        <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
+          <el-form-item label="小程序" required prop="appid">
             <el-select v-model="content.appid" placeholder="请选择小程序">
               <el-option
                 v-for="(item, index) in miniList"
@@ -28,7 +28,7 @@
             </div>
           </el-form-item>
           <el-form-item label="附码方式" required>
-            <el-radio-group v-model="content.codeStyle">
+            <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
               <el-radio :label=0>选择商品</el-radio>
               <el-radio :label=1>输入小程序路径</el-radio>
             </el-radio-group>
@@ -42,15 +42,18 @@
             </div>
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
-              <el-input
-                type="textarea"
-                placeholder="请输入小程序路径，长度在1-255个字"
-                :rows="2"
-                v-model="content.path"
-                maxlength="255"
-                show-word-limit
-              >
-              </el-input>
+              <el-form-item prop="path">
+                <el-input
+                  type="textarea"
+                  placeholder="请输入小程序路径，长度在1-255个字"
+                  :rows="2"
+                  v-model="content.path"
+                  maxlength="255"
+                  show-word-limit
+                  @input="miniPathChange"
+                >
+                </el-input>
+              </el-form-item>
               <div class="show-path-url-view">
                 <el-popover
                   placement="bottom"
@@ -175,43 +178,56 @@
             </div>
           </el-form-item>
           <el-form-item label="货号">
-            <el-input placeholder="请输入货号" v-model="content.outerId" />
+            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
-            <el-upload
-              class="avatar-uploader"
-              :show-file-list="false"
-              :action="$api.core.sgUploadFile('test')"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeUpload"
-              accept=".jpg,.jpeg,.png"
-            >
-              <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            <el-form-item prop="backgroundImage">
+              <div class="upload-view">
+                <div class="img-url__logo">
+                  <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <drap-upload
+                    :scale='1'
+                    scaleTip='1'
+                    v-model='content.backgroundImage'
+                    :isNeedCrop='true'
+                    :showPont='false'
+                    :drag='false'
+                    :maxSize='2'
+                    @input="handleAvatarSuccess"
+                  >
+                  </drap-upload>
+                </div>
+              </div>
+            </el-form-item>
             <div class="remind-img">
               请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
             </div>
           </el-form-item>
-          <el-form-item label="名称" required>
+          <el-form-item label="名称" required prop="title">
             <el-input
-              placeholder="请输入标题，长度在36个字符以内"
+              placeholder="请输入名称，长度在36个字符以内"
               v-model="content.title"
+              @input="titleChange"
             />
           </el-form-item>
           <el-form-item label="售价" required>
-            <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0> </el-switch>
+            <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="priceStatusChange"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="content.price" type="number"/>
+              <el-form-item prop="price">
+                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
+              </el-form-item>
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
-            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0>
+            <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="originalPriceStatusChange">
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number"/>
+              <el-form-item prop="originalPrice">
+                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
+              </el-form-item>
             </div>
           </el-form-item>
         </el-form>
@@ -222,12 +238,12 @@
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
-                {{content.title || '这是标题'}}
+                {{content.title || '这是名称'}}
               </div>
-              <div class="left-price-view" v-show="content.price.length > 0">
+              <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
-              <div class="left-orgian-view" v-show="content.originalPrice.length > 0">
+              <div class="left-orgian-view" v-show="content.originalPrice && content.originalPriceStatus === 1">
                 原价：¥{{ content.originalPrice }}
               </div>
             </div>
@@ -250,22 +266,17 @@
   </el-dialog>
 </template>
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
 import SelectGoods from '@/pages/Guide/Material/components/selectGoods'
 import html2canvas from 'html2canvas'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 export default {
   components: {
-    ElUpload,
-    SelectGoods
-  },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    }
+    SelectGoods,
+    DrapUpload
   },
   data () {
     return {
+      visible: false,
       saveLoad: false,
       maxSize: 2,
       maxPrice: 999999.99,
@@ -289,8 +300,8 @@ export default {
         image: '',
         price: '',
         originalPrice: '',
-        priceStatus: 1,
-        originalPriceStatus: 1,
+        priceStatus: 0,
+        originalPriceStatus: 0,
         outerId: '',
         bankId: '',
         sysItemId: '',
@@ -308,11 +319,103 @@ export default {
       },
       urlObj: {
         howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
-        toAuth: 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=wx0dffadfa29f69a65&pre_auth_code=preauthcode%40%40%40dlXS1GL3qXostt93qAxraM4uUgSKGkbomUukRYfJmoufiXmybgp1v4MgxO9mihZX44xIAhJhjn5Q872SJnMtwQ&redirect_uri=http%3A%2F%2Fsandbox-appauth.nascent.cn%2FwechatCall%2FappAuth%3FcompanyId%3D80000002%26source%3DECLOUD%26uniqueId%3D4a6536d6e90946739a49572491c3a6c9',
+        toAuth: 'https://sandboxecloudv5.vecrp.com/basic/wxApplets/index',
         howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
       },
       parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
-      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}'
+      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}',
+      goodsCache: {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      },
+      miniCache: {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      },
+      rules: {
+        title: [
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' },
+          { validator: (rule, value, callback) => {
+            if (value.length > 36) {
+              callback(new Error('名称长度在36个字符以内'))
+            } else {
+              callback()
+            }
+          },
+          trigger: ['blur', 'change'] }
+        ],
+        backgroundImage: [
+          { required: true, trigger: ['blur', 'change'], message: '请上传图片' }
+        ],
+        appid: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择小程序' }
+        ],
+        path: [
+          { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
+        ],
+        price: [],
+        originalPrice: []
+      }
+    }
+  },
+  watch: {
+    'content.priceStatus': {
+      handler (newValue, oldValue) {
+        if (newValue === 1) {
+          this.rules.price = [
+            { required: true, trigger: ['blur', 'change'], message: '请输入售价' },
+            { validator: (rule, value, callback) => {
+              if (parseFloat(value) > 999999.99) {
+                callback(new Error(`售价最大金额为999999.99`))
+              } else if (parseFloat(value) < 0.01) {
+                callback(new Error(`最多输入2位小数`))
+              } else {
+                callback()
+              }
+            },
+            trigger: ['blur', 'change'] }
+          ]
+        } else {
+          this.rules.price = []
+        }
+        this.$refs.ruleForm.clearValidate()
+      },
+      deep: true
+    },
+    'content.originalPriceStatus': {
+      handler (newValue, oldValue) {
+        if (newValue === 1) {
+          this.rules.originalPrice = [
+            { required: true, trigger: ['blur', 'change'], message: '请输入原价' },
+            { validator: (rule, value, callback) => {
+              if (parseFloat(value) > 999999.99) {
+                callback(new Error(`售价最大金额为999999.99`))
+              } else if (parseFloat(value) < 0.01) {
+                callback(new Error(`最多输入2位小数`))
+              } else {
+                callback()
+              }
+            },
+            trigger: ['blur', 'change'] }
+          ]
+        } else {
+          this.rules.originalPrice = []
+        }
+        this.$refs.ruleForm.clearValidate()
+      },
+      deep: true
     }
   },
   computed: {
@@ -334,6 +437,77 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    originalPriceStatusChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.originalPriceStatus = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.originalPriceStatus = e
+      }
+    },
+    priceStatusChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.priceStatus = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.priceStatus = e
+      }
+    },
+    originalPriceChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.originalPrice = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.originalPrice = e
+      }
+    },
+    priceChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.price = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.price = e
+      }
+    },
+    titleChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.title = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.title = e
+      }
+    },
+    outerIdChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.outerId = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.outerId = e
+      }
+    },
+    miniPathChange (e) {
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.path = e
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.path = e
+      }
+    },
+    handleCodeStyle (index) {
+      let cacheObj = {}
+      if (index === 0) {
+        cacheObj = this.goodsCache
+      } else if (index === 1) {
+        cacheObj = this.miniCache
+      }
+      this.content.path = cacheObj.path
+      this.content.outerId = cacheObj.outerId
+      this.content.title = cacheObj.title
+      this.content.backgroundImage = cacheObj.backgroundImage
+      this.content.price = cacheObj.price
+      this.content.originalPrice = cacheObj.originalPrice
+      this.content.priceStatus = cacheObj.priceStatus
+      this.content.originalPriceStatus = cacheObj.originalPriceStatus
+    },
+    showImageCode () {
+      this.visible = true
+      if (this.miniList.length > 0) {
+        this.content.appid = this.miniList[0].appid
+      }
+    },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
     },
@@ -355,8 +529,8 @@ export default {
         image: '',
         price: '',
         originalPrice: '',
-        priceStatus: 1,
-        originalPriceStatus: 1,
+        priceStatus: 0,
+        originalPriceStatus: 0,
         outerId: '',
         bankId: '',
         sysItemId: '',
@@ -393,16 +567,25 @@ export default {
             }
             that.miniList.push(obj)
           })
+          if (list.length > 0) {
+            that.content.appid = that.miniList[0].appid
+          }
         })
         .catch(resp => {
         })
     },
-    handleAvatarSuccess (res, file) {
-      this.content.backgroundImage = res.result.url || ''
+    handleAvatarSuccess (url) {
+      // this.content.backgroundImage = url
+      if (this.content.codeStyle === 0) {
+        this.goodsCache.backgroundImage = url
+      } else if (this.content.codeStyle === 1) {
+        this.miniCache.backgroundImage = url
+      }
     },
     handleCanle () {
       this.initData()
-      this.$emit('handleImageCode', false)
+      this.visible = false
+      // this.$emit('handleImageCode', false)
     },
     dataURLtoFile (dataURI, type) {
       let binary = atob(dataURI.split(',')[1])
@@ -412,7 +595,16 @@ export default {
       }
       return new Blob([new Uint8Array(array)], { type: type })
     },
-    handleSure () {
+    async handleSure () {
+      const checkRules = await new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
+      })
       if (!this.content.appid) {
         this.$notify.warning('请选择小程序')
         return
@@ -429,6 +621,10 @@ export default {
       }
       if (this.shopIdChecked && !this.shopIdVal) {
         this.$notify.warning('请输入店铺编码')
+        return
+      }
+      if (this.shopIdChecked && this.shopIdVal.length > 48) {
+        this.$notify.warning('店铺编码最多48字符')
         return
       }
       if (this.internalIdChecked && !this.internalIdVal) {
@@ -456,11 +652,19 @@ export default {
         return
       }
       if (!this.content.title) {
-        this.$notify.warning('请输入标题')
+        this.$notify.warning('请输入名称')
+        return
+      }
+      if (this.content.title.length > 36) {
+        this.$notify.warning('名称最多36字符')
         return
       }
       if (this.content.priceStatus && !this.content.price) {
         this.$notify.warning('请输入售价')
+        return
+      }
+      if (parseFloat(this.content.price, 10) < 0.01) {
+        this.$notify.warning('最多输入2位小数')
         return
       }
       if (parseFloat(this.content.price) > this.maxPrice) {
@@ -469,6 +673,10 @@ export default {
       }
       if (this.content.originalPriceStatus && !this.content.originalPrice) {
         this.$notify.warning('请输入原价')
+        return
+      }
+      if (parseFloat(this.content.originalPrice, 10) < 0.01) {
+        this.$notify.warning('最多输入2位小数')
         return
       }
       if (parseFloat(this.content.originalPrice) > this.maxPrice) {
@@ -531,6 +739,7 @@ export default {
             that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
             that.initData()
             that.$emit('handleImageCode', false)
+            that.visible = false
           })
           .catch(resp => {
             that.saveLoad = false
@@ -544,6 +753,12 @@ export default {
       this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
+      if (parseFloat(item.costPrice, 10) > 0) {
+        this.content.price = item.costPrice
+        this.content.priceStatus = 1
+        this.goodsCache.price = item.costPrice
+        this.goodsCache.priceStatus = 1
+      }
     }
   }
 }
@@ -743,5 +958,30 @@ export default {
   font-weight: 400;
   margin-bottom: 16px;
   margin-top: 8px;
+}
+.img-url__logo {
+  position: relative;
+  height: 110px;
+  overflow: hidden;
+}
+.img-url__logo >>> .upload-demo .el-upload {
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.img-url__logo >>> .poster-content{
+  opacity: 0;
+  padding: 0;
+}
+.img-url__logo >>> .el-upload-list {
+  display: none;
+}
+.img-url__logo >>> .poster-set_content {
+  display: none
+}
+.img-url__logo >>> .padingbottom {
+  display: none;
 }
 </style>

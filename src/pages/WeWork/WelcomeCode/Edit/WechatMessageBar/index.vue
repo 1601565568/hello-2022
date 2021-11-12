@@ -18,7 +18,7 @@
         </div>
       </ImageMessage>
     </div>
-    <div v-if="pitBit" class="add-material-item" @click="visibleImageCodeDialog = true">
+    <div v-if="pitBit" class="add-material-item" @click="showImageCode">
       <i class="iconfont icon-lianjie icon"></i>
       <span class="item-tip">附码图片</span>
     </div>
@@ -78,6 +78,7 @@
       :visible.sync="visibleImageCodeDialog"
       @handleImageCode="handleImageCode"
       @confirm="addMessage"
+      ref='imagecode'
     />
   </div>
 </template>
@@ -137,8 +138,11 @@ export default {
     }
   },
   methods: {
-    handleImageCode (val) {
-      this.visibleImageCodeDialog = val
+    handleImageCode () {
+    },
+    showImageCode (val) {
+      this.$refs.imagecode.showImageCode()
+      // this.visibleImageCodeDialog = val
     },
     uploadImageProgress (message) {
       let msg = {}

@@ -510,7 +510,7 @@ export default {
       this.$refs.detaList.openDeawer(row, this.startTime, this.endTime)
     },
     showMoreToUser (row) {
-      this.$refs.userList.openDeawer(row)
+      this.$refs.userList.openDeawer(row, this.startTime, this.endTime)
     },
     loadDateList () {
       const parms = {
