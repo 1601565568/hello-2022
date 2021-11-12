@@ -177,7 +177,7 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="货号">
+          <el-form-item label="货号" required>
             <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
@@ -584,6 +584,7 @@ export default {
     },
     handleCanle () {
       this.initData()
+      this.$refs.ruleForm.resetFields()
       this.visible = false
       // this.$emit('handleImageCode', false)
     },
@@ -739,6 +740,7 @@ export default {
             that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
             that.initData()
             that.$emit('handleImageCode', false)
+            that.$refs.ruleForm.resetFields()
             that.visible = false
           })
           .catch(resp => {

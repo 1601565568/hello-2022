@@ -87,9 +87,9 @@
             />
           </el-popover>
       </el-form-item>
-      <!-- <el-form-item ref="attach" label="附件：">
-        <AttachView />
-      </el-form-item> -->
+      <el-form-item label="二维码：">
+        <span class="add-tip label-gap">该小程序链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</span>
+      </el-form-item>
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
