@@ -86,7 +86,8 @@ export default {
         subdivisionId: '',
         mType: '',
         codeType: '',
-        time: []
+        time: [],
+        outerId: ''
       },
       // table列表配置
       table: {
