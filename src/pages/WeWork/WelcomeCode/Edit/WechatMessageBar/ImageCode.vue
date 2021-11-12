@@ -33,11 +33,13 @@
               <el-radio :label=1>输入小程序路径</el-radio>
             </el-radio-group>
             <div class="select-shop-view" v-show="content.codeStyle === 0">
-              <el-input
-                placeholder="商品名称"
-                v-model="content.itemName"
-                :disabled="true"
-              />
+              <el-form-item prop="itemName">
+                <el-input
+                  placeholder="商品名称"
+                  v-model="content.itemName"
+                  :disabled="true"
+                />
+              </el-form-item>
               <div class="shop-button" @click="selectShopGoods">选择商品</div>
             </div>
             <div class="parameter-view">
@@ -366,7 +368,10 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
         ],
         price: [],
-        originalPrice: []
+        originalPrice: [],
+        itemName: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择商品' }
+        ]
       }
     }
   },
@@ -377,10 +382,12 @@ export default {
           this.rules.price = [
             { required: true, trigger: ['blur', 'change'], message: '请输入售价' },
             { validator: (rule, value, callback) => {
+              const regex = /^[0-9]+(.[0-9]{2})?$/g
+              if (!regex.test(value)) {
+                callback(new Error(`最多输入2位小数`))
+              }
               if (parseFloat(value) > 999999.99) {
                 callback(new Error(`售价最大金额为999999.99`))
-              } else if (parseFloat(value) < 0.01) {
-                callback(new Error(`最多输入2位小数`))
               } else {
                 callback()
               }
@@ -400,10 +407,12 @@ export default {
           this.rules.originalPrice = [
             { required: true, trigger: ['blur', 'change'], message: '请输入原价' },
             { validator: (rule, value, callback) => {
+              const regex = /^[0-9]+(.[0-9]{2})?$/g
+              if (!regex.test(value)) {
+                callback(new Error(`最多输入2位小数`))
+              }
               if (parseFloat(value) > 999999.99) {
                 callback(new Error(`售价最大金额为999999.99`))
-              } else if (parseFloat(value) < 0.01) {
-                callback(new Error(`最多输入2位小数`))
               } else {
                 callback()
               }
@@ -416,6 +425,32 @@ export default {
         this.$refs.ruleForm.clearValidate()
       },
       deep: true
+    },
+    'content.codeStyle': {
+      handler (newValue, oldValue) {
+        if (newValue === 0) {
+          this.rules.itemName = [{ required: true, trigger: ['blur', 'change'], message: '请选择商品' }]
+        } else {
+          this.rules.itemName = []
+        }
+        this.$refs.ruleForm.clearValidate()
+      },
+      deep: true
+    },
+    shopIdVal (newValue, oldValue) {
+      this.shopIdVal = this.shopIdVal.replace(/\s+/g, '')
+    },
+    internalIdVal (newValue, oldValue) {
+      this.internalIdVal = this.internalIdVal.replace(/\s+/g, '')
+    },
+    externalIdVal (newValue, oldValue) {
+      this.externalIdVal = this.externalIdVal.replace(/\s+/g, '')
+    },
+    memberIdVal (newValue, oldValue) {
+      this.memberIdVal = this.memberIdVal.replace(/\s+/g, '')
+    },
+    memberUserIdVal (newValue, oldValue) {
+      this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
     }
   },
   computed: {
