@@ -178,10 +178,12 @@ export default {
       this.paginationToPerson.page = page
       this.loadDetail()
     },
-    openDeawer (item) {
+    openDeawer (item, startTime, endTime) {
       this.initData()
       this.drawer = true
       this.item = item
+      this.item.startTime = startTime
+      this.item.endTime = endTime
       this.guideIdsStr = item.guide_id || ''
       this.loadDetail()
     },
@@ -217,7 +219,8 @@ export default {
     loadDetail () {
       const parms = {
         searchMap: {
-          startTime: this.item.trackTime,
+          endTime: this.item.endTime + ' 23:59:59',
+          startTime: this.item.startTime + ' 00:00:00',
           eventType: this.selectActionValue,
           guideIdsStr: this.guideIdsStr,
           shopIdsStr: '',

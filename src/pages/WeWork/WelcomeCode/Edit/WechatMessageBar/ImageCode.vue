@@ -319,7 +319,7 @@ export default {
       },
       urlObj: {
         howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
-        toAuth: 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=wx0dffadfa29f69a65&pre_auth_code=preauthcode%40%40%40dlXS1GL3qXostt93qAxraM4uUgSKGkbomUukRYfJmoufiXmybgp1v4MgxO9mihZX44xIAhJhjn5Q872SJnMtwQ&redirect_uri=http%3A%2F%2Fsandbox-appauth.nascent.cn%2FwechatCall%2FappAuth%3FcompanyId%3D80000002%26source%3DECLOUD%26uniqueId%3D4a6536d6e90946739a49572491c3a6c9',
+        toAuth: 'https://sandboxecloudv5.vecrp.com/basic/wxApplets/index',
         howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
       },
       parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
