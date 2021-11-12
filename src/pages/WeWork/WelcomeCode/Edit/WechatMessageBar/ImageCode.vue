@@ -595,11 +595,15 @@ export default {
       }
       return new Blob([new Uint8Array(array)], { type: type })
     },
-    handleSure () {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          resolve()
-        }
+    async handleSure () {
+      const checkRules = await new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
       })
       if (!this.content.appid) {
         this.$notify.warning('请选择小程序')
