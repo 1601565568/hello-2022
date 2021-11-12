@@ -9,8 +9,8 @@
   >
     <div class="container-view">
       <div class="left-view">
-        <el-form label-width="100px" label-position="left" class="form-view">
-          <el-form-item label="小程序" required>
+        <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
+          <el-form-item label="小程序" required prop="appid">
             <el-select v-model="content.appid" placeholder="请选择小程序">
               <el-option
                 v-for="(item, index) in miniList"
@@ -42,16 +42,18 @@
             </div>
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
-              <el-input
-                type="textarea"
-                placeholder="请输入小程序路径，长度在1-255个字"
-                :rows="2"
-                v-model="content.path"
-                maxlength="255"
-                show-word-limit
-                @input="miniPathChange"
-              >
-              </el-input>
+              <el-form-item prop="path">
+                <el-input
+                  type="textarea"
+                  placeholder="请输入小程序路径，长度在1-255个字"
+                  :rows="2"
+                  v-model="content.path"
+                  maxlength="255"
+                  show-word-limit
+                  @input="miniPathChange"
+                >
+                </el-input>
+              </el-form-item>
               <div class="show-path-url-view">
                 <el-popover
                   placement="bottom"
@@ -179,28 +181,30 @@
             <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
-            <div class="upload-view">
-              <div class="img-url__logo">
-                <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                <drap-upload
-                  :scale='1'
-                  scaleTip='1'
-                  v-model='content.backgroundImage'
-                  :isNeedCrop='true'
-                  :showPont='false'
-                  :drag='false'
-                  :maxSize='2'
-                  @input="handleAvatarSuccess"
-                >
-                </drap-upload>
+            <el-form-item prop="backgroundImage">
+              <div class="upload-view">
+                <div class="img-url__logo">
+                  <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <drap-upload
+                    :scale='1'
+                    scaleTip='1'
+                    v-model='content.backgroundImage'
+                    :isNeedCrop='true'
+                    :showPont='false'
+                    :drag='false'
+                    :maxSize='2'
+                    @input="handleAvatarSuccess"
+                  >
+                  </drap-upload>
+                </div>
               </div>
-            </div>
+            </el-form-item>
             <div class="remind-img">
               请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
             </div>
           </el-form-item>
-          <el-form-item label="名称" required>
+          <el-form-item label="名称" required prop="title">
             <el-input
               placeholder="请输入名称，长度在36个字符以内"
               v-model="content.title"
@@ -211,7 +215,9 @@
             <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="priceStatusChange"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
+              <el-form-item prop="price">
+                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
+              </el-form-item>
             </div>
           </el-form-item>
           <el-form-item label="原价" required>
@@ -219,7 +225,9 @@
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
+              <el-form-item prop="originalPrice">
+                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
+              </el-form-item>
             </div>
           </el-form-item>
         </el-form>
@@ -335,7 +343,47 @@ export default {
         originalPrice: '',
         priceStatus: 0,
         originalPriceStatus: 0
+      },
+      rules: {
+        title: [
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' }
+        ],
+        backgroundImage: [
+          { required: true, trigger: ['blur', 'change'], message: '请上传图片' }
+        ],
+        appid: [
+          { required: true, trigger: ['blur', 'change'], message: '请选择小程序' }
+        ],
+        path: [
+          { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
+        ],
+        price: [],
+        originalPrice: []
       }
+    }
+  },
+  watch: {
+    'content.priceStatus': {
+      handler (newValue, oldValue) {
+        if (newValue === 1) {
+          this.rules.price = [{ required: true, trigger: ['blur', 'change'], message: '请输入售价' }]
+        } else {
+          this.rules.price = []
+        }
+        this.$refs.ruleForm.clearValidate()
+      },
+      deep: true
+    },
+    'content.originalPriceStatus': {
+      handler (newValue, oldValue) {
+        if (newValue === 1) {
+          this.rules.originalPrice = [{ required: true, trigger: ['blur', 'change'], message: '请输入原价' }]
+        } else {
+          this.rules.originalPrice = []
+        }
+        this.$refs.ruleForm.clearValidate()
+      },
+      deep: true
     }
   },
   computed: {
@@ -500,7 +548,7 @@ export default {
         })
     },
     handleAvatarSuccess (url) {
-      this.content.backgroundImage = url
+      // this.content.backgroundImage = url
       if (this.content.codeStyle === 0) {
         this.goodsCache.backgroundImage = url
       } else if (this.content.codeStyle === 1) {
@@ -521,6 +569,11 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     handleSure () {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          resolve()
+        }
+      })
       if (!this.content.appid) {
         this.$notify.warning('请选择小程序')
         return
@@ -537,6 +590,10 @@ export default {
       }
       if (this.shopIdChecked && !this.shopIdVal) {
         this.$notify.warning('请输入店铺编码')
+        return
+      }
+      if (this.shopIdChecked && this.shopIdVal.length > 48) {
+        this.$notify.warning('店铺编码最多48字符')
         return
       }
       if (this.internalIdChecked && !this.internalIdVal) {
