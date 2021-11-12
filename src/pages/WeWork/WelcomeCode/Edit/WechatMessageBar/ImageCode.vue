@@ -374,7 +374,19 @@ export default {
     'content.priceStatus': {
       handler (newValue, oldValue) {
         if (newValue === 1) {
-          this.rules.price = [{ required: true, trigger: ['blur', 'change'], message: '请输入售价' }]
+          this.rules.price = [
+            { required: true, trigger: ['blur', 'change'], message: '请输入售价' },
+            { validator: (rule, value, callback) => {
+              if (parseFloat(value) > 999999.99) {
+                callback(new Error(`售价最大金额为999999.99`))
+              } else if (parseFloat(value) < 0.01) {
+                callback(new Error(`最多输入2位小数`))
+              } else {
+                callback()
+              }
+            },
+            trigger: ['blur', 'change'] }
+          ]
         } else {
           this.rules.price = []
         }
@@ -385,7 +397,19 @@ export default {
     'content.originalPriceStatus': {
       handler (newValue, oldValue) {
         if (newValue === 1) {
-          this.rules.originalPrice = [{ required: true, trigger: ['blur', 'change'], message: '请输入原价' }]
+          this.rules.originalPrice = [
+            { required: true, trigger: ['blur', 'change'], message: '请输入原价' },
+            { validator: (rule, value, callback) => {
+              if (parseFloat(value) > 999999.99) {
+                callback(new Error(`售价最大金额为999999.99`))
+              } else if (parseFloat(value) < 0.01) {
+                callback(new Error(`最多输入2位小数`))
+              } else {
+                callback()
+              }
+            },
+            trigger: ['blur', 'change'] }
+          ]
         } else {
           this.rules.originalPrice = []
         }
@@ -463,25 +487,20 @@ export default {
       }
     },
     handleCodeStyle (index) {
+      let cacheObj = {}
       if (index === 0) {
-        this.content.path = this.goodsCache.path
-        this.content.outerId = this.goodsCache.outerId
-        this.content.title = this.goodsCache.title
-        this.content.backgroundImage = this.goodsCache.backgroundImage
-        this.content.price = this.goodsCache.price
-        this.content.originalPrice = this.goodsCache.originalPrice
-        this.content.priceStatus = this.goodsCache.priceStatus
-        this.content.originalPriceStatus = this.goodsCache.originalPriceStatus
+        cacheObj = this.goodsCache
       } else if (index === 1) {
-        this.content.path = this.miniCache.path
-        this.content.outerId = this.miniCache.outerId
-        this.content.title = this.miniCache.title
-        this.content.backgroundImage = this.miniCache.backgroundImage
-        this.content.price = this.miniCache.price
-        this.content.originalPrice = this.miniCache.originalPrice
-        this.content.priceStatus = this.miniCache.priceStatus
-        this.content.originalPriceStatus = this.miniCache.originalPriceStatus
+        cacheObj = this.miniCache
       }
+      this.content.path = cacheObj.path
+      this.content.outerId = cacheObj.outerId
+      this.content.title = cacheObj.title
+      this.content.backgroundImage = cacheObj.backgroundImage
+      this.content.price = cacheObj.price
+      this.content.originalPrice = cacheObj.originalPrice
+      this.content.priceStatus = cacheObj.priceStatus
+      this.content.originalPriceStatus = cacheObj.originalPriceStatus
     },
     showImageCode () {
       this.visible = true
