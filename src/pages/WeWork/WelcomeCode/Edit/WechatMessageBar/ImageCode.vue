@@ -346,7 +346,15 @@ export default {
       },
       rules: {
         title: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' }
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' },
+          { validator: (rule, value, callback) => {
+            if (value.length > 36) {
+              callback(new Error('名称长度在36个字符以内'))
+            } else {
+              callback()
+            }
+          },
+          trigger: ['blur', 'change'] }
         ],
         backgroundImage: [
           { required: true, trigger: ['blur', 'change'], message: '请上传图片' }
