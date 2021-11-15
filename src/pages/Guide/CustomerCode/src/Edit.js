@@ -162,7 +162,8 @@ export default {
           number: '0',
           getColor: '',
           goodsName: '',
-          goodsDes: ''
+          goodsDes: '',
+          isOnlyReceiveByMember: 0
         },
         rules: '',
         regUrl: defRegUrl,

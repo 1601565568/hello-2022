@@ -65,6 +65,19 @@
         />
       </el-form-item>
       <el-form-item
+        label="仅会员可领取奖励"
+        class="larger-item"
+      >
+        <el-switch v-model="pageObj.activeInfo.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
+        <div class="qrcode-bottom-view" v-if='pageObj.activeInfo.isOnlyReceiveByMember === 1'>
+          <span class="remind-view"></span>
+          入会链接在菜单【获客引流】->【会员引流】->【非会员页面配置】设置
+          <ns-button type='text' class='safe-btn' @click='handleGoSet'>
+            去设置
+          </ns-button>
+        </div>
+      </el-form-item>
+      <el-form-item
         label="领取奖励按钮颜色"
         class="larger-item"
       >
@@ -166,6 +179,10 @@ export default {
     },
     input () {
       this.$emit('scrollPhone', 'time-view')
+    },
+    handleGoSet () {
+      const { origin } = window.location
+      window.open(origin + '/Guide/RecruitSet/NotMemberPageConfig')
     }
   }
 }
@@ -209,5 +226,21 @@ export default {
   color: #0392FB;
   line-height: 22px;
   cursor: pointer;
+}
+.qrcode-bottom-view {
+  font-size: 12px;
+  color: #595959;
+}
+.remind-view {
+  width: 8px;
+  height: 8px;
+  background: #f2aa18;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+.safe-btn {
+  margin-left: 8px;
+  font-size: 12px;
 }
 </style>
