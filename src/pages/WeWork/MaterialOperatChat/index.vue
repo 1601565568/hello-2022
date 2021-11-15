@@ -299,7 +299,13 @@ export default {
           bottom: '6%',
           icon: 'roundRect',
           itemWidth: 10,
-          itemHeight: 10
+          itemHeight: 10,
+          selected: {
+            发送次数总计: false,
+            被浏览次数总计: false,
+            转化订单数总计: false,
+            转化金额总计: false
+          }
         },
         color: [
           '#4287FF',
