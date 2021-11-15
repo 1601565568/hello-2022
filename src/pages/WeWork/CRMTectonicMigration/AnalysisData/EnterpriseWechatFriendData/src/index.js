@@ -345,7 +345,7 @@ export default {
       )
       form.appendChild(_this.generateHideElement('fileName', name))
       form.setAttribute('action', url)
-      form.setAttribute('method', 'get')
+      form.setAttribute('method', 'post')
       document.body.appendChild(form)
       form.submit()
       _this.$notify.info('报表导出中，请稍后！')

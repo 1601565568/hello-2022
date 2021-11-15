@@ -901,7 +901,7 @@ export default {
         'areaId': this.areaId,
         'list': this.mapTag
       }).then(resp => {
-        if (resp.success && resp.result != null) {
+        if (resp.success) {
           this.restTag(true)
           this.$notify.success('保存成功！')
         }
@@ -1004,6 +1004,7 @@ export default {
         }
       }
       this.createCustomerTransferTask(params, taskType)
+      this.$refs.remindMsg.showMsg()
     },
     // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
