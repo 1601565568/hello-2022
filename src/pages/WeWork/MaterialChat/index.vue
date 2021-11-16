@@ -145,8 +145,8 @@
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
             <div style="width:200px;padding:16px 0 0 16px">
-              <el-input placeholder="请输入素材名称" size="medium" v-model="searchMetaicalValue">
-                <ns-button slot="append" icon="el-icon-search"></ns-button>
+              <el-input placeholder="请输入素材名称" size="medium" v-model="materialTitle">
+                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForPerson(1)"></ns-button>
               </el-input>
             </div>
             <div v-if="listMaterial.length > 0">
@@ -358,7 +358,7 @@ export default {
       startTime: '',
       endTime: '',
       datePickerValue: [],
-      searchMetaicalValue: ''
+      materialTitle: ''
     }
   },
   methods: {
@@ -541,7 +541,8 @@ export default {
       const parms = {
         searchMap: {
           endTime: this.endTime + ' 23:59:59',
-          startTime: this.startTime + ' 00:00:00'
+          startTime: this.startTime + ' 00:00:00',
+          materialTitle: this.materialTitle
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
