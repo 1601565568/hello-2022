@@ -71,9 +71,9 @@
         <el-switch v-model="pageObj.activeInfo.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
         <div class="qrcode-bottom-view" v-if='pageObj.activeInfo.isOnlyReceiveByMember === 1'>
           <span class="remind-view"></span>
-          入会链接在菜单【获客引流】->【会员引流】->【非会员页面配置】设置
+          非会员注册入会后才可领取奖励
           <ns-button type='text' class='safe-btn' @click='handleGoSet'>
-            去设置
+            去设置入会链接
           </ns-button>
         </div>
       </el-form-item>
