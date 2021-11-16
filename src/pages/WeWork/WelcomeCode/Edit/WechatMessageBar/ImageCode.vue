@@ -179,7 +179,8 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="货号">
+          <el-form-item label="">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>货号</label>
             <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
