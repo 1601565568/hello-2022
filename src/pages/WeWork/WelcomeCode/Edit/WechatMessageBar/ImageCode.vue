@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
             <div class="mini-view">
-              <div @click="loadAppIds">已授权未显示？点此刷新</div>
+              <div @click="refreshAppId">已授权未显示？点此刷新</div>
               <div>
                 <span @click="toBlackPage('howAuth')">如何授权&nbsp;</span>
                 <span @click="toBlackPage('toAuth')">&nbsp;去授权</span>
@@ -372,7 +372,8 @@ export default {
         itemName: [
           { required: true, trigger: ['blur', 'change'], message: '请选择商品' }
         ]
-      }
+      },
+      appIdRefresh: false
     }
   },
   watch: {
@@ -472,6 +473,10 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    refreshAppId () {
+      this.appIdRefresh = true
+      this.loadAppIds()
+    },
     originalPriceStatusChange (e) {
       if (this.content.codeStyle === 0) {
         this.goodsCache.originalPriceStatus = e
@@ -581,6 +586,7 @@ export default {
         codeStyle: 0,
         presetParams: []
       }
+      this.appIdRefresh = false
     },
     beforeUpload (file) {
       if (file.size / 1024 / 1024 > this.maxSize) {
@@ -605,8 +611,13 @@ export default {
           if (list.length > 0) {
             that.content.appid = that.miniList[0].appid
           }
+          if (that.appIdRefresh) {
+            this.$notify.success('刷新成功')
+          }
+          that.appIdRefresh = false
         })
         .catch(resp => {
+          that.appIdRefresh = false
         })
     },
     handleAvatarSuccess (url) {
