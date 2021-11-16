@@ -116,6 +116,11 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
+            <div style="width:280px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入素材名称" size="medium" v-model="materialTitle">
+                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForPerson(1)"></ns-button>
+              </el-input>
+            </div>
             <div v-if="listMaterial.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -189,6 +194,11 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按员工统计" name="third">
+            <div style="width:280px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入员工姓名" size="medium" v-model="guideName">
+                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForUser(1)"></ns-button>
+              </el-input>
+            </div>
             <div v-if="listUser.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -375,7 +385,9 @@ export default {
       showTodaySelect: true,
       startTime: '',
       endTime: '',
-      datePickerValue: []
+      datePickerValue: [],
+      materialTitle: '',
+      guideName: ''
     }
   },
   methods: {
@@ -548,7 +560,8 @@ export default {
       const parms = {
         searchMap: {
           endTime: this.endTime + ' 23:59:59',
-          startTime: this.startTime + ' 00:00:00'
+          startTime: this.startTime + ' 00:00:00',
+          materialTitle: this.materialTitle
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -575,7 +588,8 @@ export default {
       const parms = {
         searchMap: {
           endTime: this.endTime + ' 23:59:59',
-          startTime: this.startTime + ' 00:00:00'
+          startTime: this.startTime + ' 00:00:00',
+          guideName: this.guideName
         },
         start:
           (this.paginationToUser.page - 1) * this.paginationToUser.size,
