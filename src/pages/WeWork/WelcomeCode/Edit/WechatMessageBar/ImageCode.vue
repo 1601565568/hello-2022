@@ -359,9 +359,9 @@ export default {
           },
           trigger: ['blur', 'change'] }
         ],
-        backgroundImage: [
-          { required: true, trigger: ['blur', 'change'], message: '请上传图片' }
-        ],
+        // backgroundImage: [
+        //   { required: true, trigger: ['blur', 'change'], message: '请上传图片' }
+        // ],
         appid: [
           { required: true, trigger: ['blur', 'change'], message: '请选择小程序' }
         ],
@@ -414,7 +414,7 @@ export default {
                 callback(new Error(`最多输入2位小数`))
               }
               if (parseFloat(value) > 999999.99) {
-                callback(new Error(`售价最大金额为999999.99`))
+                callback(new Error(`原价最大金额为999999.99`))
               } else {
                 callback()
               }
@@ -673,148 +673,150 @@ export default {
           }
         })
       })
-      if (!this.content.appid) {
-        this.$notify.warning('请选择小程序')
-        return
-      }
-      if (this.content.codeStyle === 0) {
-        if (!this.content.itemName) {
-          this.$notify.warning('请选择商品名称')
-          return
-        }
-      }
-      if (!this.content.path) {
-        this.$notify.warning('请输入小程序路径')
-        return
-      }
-      if (this.shopIdChecked && !this.shopIdVal) {
-        this.$notify.warning('请输入店铺编码')
-        return
-      }
-      if (this.shopIdChecked && this.shopIdVal.length > 48) {
-        this.$notify.warning('店铺编码最多48字符')
-        return
-      }
-      if (this.internalIdChecked && !this.internalIdVal) {
-        this.$notify.warning('请输入内部门店ID')
-        return
-      }
-      if (this.externalIdChecked && !this.externalIdVal) {
-        this.$notify.warning('请输入外部员工ID')
-        return
-      }
-      if (this.memberIdChecked && !this.memberIdVal) {
-        this.$notify.warning('请输入员工ID')
-        return
-      }
-      if (this.memberUserIdChecked && !this.memberUserIdVal) {
-        this.$notify.warning('请输入员工userID')
-        return
-      }
+      // if (!this.content.appid) {
+      //   this.$notify.warning('请选择小程序')
+      //   return
+      // }
+      // if (this.content.codeStyle === 0) {
+      //   if (!this.content.itemName) {
+      //     this.$notify.warning('请选择商品名称')
+      //     return
+      //   }
+      // }
+      // if (!this.content.path) {
+      //   this.$notify.warning('请输入小程序路径')
+      //   return
+      // }
+      // if (this.shopIdChecked && !this.shopIdVal) {
+      //   this.$notify.warning('请输入店铺编码')
+      //   return
+      // }
+      // if (this.shopIdChecked && this.shopIdVal.length > 48) {
+      //   this.$notify.warning('店铺编码最多48字符')
+      //   return
+      // }
+      // if (this.internalIdChecked && !this.internalIdVal) {
+      //   this.$notify.warning('请输入内部门店ID')
+      //   return
+      // }
+      // if (this.externalIdChecked && !this.externalIdVal) {
+      //   this.$notify.warning('请输入外部员工ID')
+      //   return
+      // }
+      // if (this.memberIdChecked && !this.memberIdVal) {
+      //   this.$notify.warning('请输入员工ID')
+      //   return
+      // }
+      // if (this.memberUserIdChecked && !this.memberUserIdVal) {
+      //   this.$notify.warning('请输入员工userID')
+      //   return
+      // }
       if (this.content.outerId && this.content.outerId.length > 48) {
         this.$notify.warning('货号字符上限为48位')
         return
       }
-      if (!this.content.backgroundImage) {
-        this.$notify.warning('请上传图片')
-        return
+      // if (!this.content.backgroundImage) {
+      //   this.$notify.warning('请上传图片')
+      //   return
+      // }
+      // if (!this.content.title) {
+      //   this.$notify.warning('请输入名称')
+      //   return
+      // }
+      // if (this.content.title.length > 100) {
+      //   this.$notify.warning('名称最多100字符')
+      //   return
+      // }
+      // if (this.content.priceStatus && !this.content.price) {
+      //   this.$notify.warning('请输入售价')
+      //   return
+      // }
+      // if (parseFloat(this.content.price, 10) < 0.01) {
+      //   this.$notify.warning('最多输入2位小数')
+      //   return
+      // }
+      // if (parseFloat(this.content.price) > this.maxPrice) {
+      //   this.$notify.warning(`售价最大金额为${this.maxPrice}`)
+      //   return
+      // }
+      // if (this.content.originalPriceStatus && !this.content.originalPrice) {
+      //   this.$notify.warning('请输入原价')
+      //   return
+      // }
+      // if (parseFloat(this.content.originalPrice, 10) < 0.01) {
+      //   this.$notify.warning('最多输入2位小数')
+      //   return
+      // }
+      // if (parseFloat(this.content.originalPrice) > this.maxPrice) {
+      //   this.$notify.warning(`原价最大金额为${this.maxPrice}`)
+      //   return
+      // }
+      if (checkRules) {
+        this.content.price = Number(this.content.price)
+        this.content.originalPrice = Number(this.content.originalPrice)
+        const view = document.querySelector('.show-info-view')
+        const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
+        const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
+        this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
+        this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
+        this.content.presetParams = []
+        let guideId = {
+          paramCode: 'guideId',
+          paramName: this.memberIdVal,
+          status: this.memberIdChecked ? 1 : 0
+        }
+        let shopId = {
+          paramCode: 'shopId',
+          paramName: this.shopIdVal,
+          status: this.shopIdChecked ? 1 : 0
+        }
+        let workNumber = {
+          paramCode: 'workNumber',
+          paramName: this.internalIdVal,
+          status: this.internalIdChecked ? 1 : 0
+        }
+        let outShopId = {
+          paramCode: 'outShopId',
+          paramName: this.externalIdVal,
+          status: this.externalIdChecked ? 1 : 0
+        }
+        let guideUserId = {
+          paramCode: 'guideUserId',
+          paramName: this.memberUserIdVal,
+          status: this.memberUserIdChecked ? 1 : 0
+        }
+        this.content.presetParams.push(guideId)
+        this.content.presetParams.push(shopId)
+        this.content.presetParams.push(workNumber)
+        this.content.presetParams.push(outShopId)
+        this.content.presetParams.push(guideUserId)
+        let that = this
+        this.saveLoad = true
+        html2canvas(view, {
+          allowTaint: false,
+          useCORS: true
+        }).then(canvas => {
+          const file = canvas.toDataURL('image/jpeg')
+          let blob = this.dataURLtoFile(file, 'image/jpeg')
+          let param = new FormData()
+          let fileOfBlob = new File([blob], Date.now() + '.jpg')
+          param.append('file', fileOfBlob)
+          this.$http
+            .fetch(this.$api.guide.customImage, param)
+            .then(resp => {
+              const json = resp.result
+              that.content.image = json.url || ''
+              that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
+              that.initData()
+              that.$emit('handleImageCode', false)
+              that.$refs.ruleForm.resetFields()
+              that.visible = false
+            })
+            .catch(resp => {
+              that.saveLoad = false
+            })
+        })
       }
-      if (!this.content.title) {
-        this.$notify.warning('请输入名称')
-        return
-      }
-      if (this.content.title.length > 100) {
-        this.$notify.warning('名称最多100字符')
-        return
-      }
-      if (this.content.priceStatus && !this.content.price) {
-        this.$notify.warning('请输入售价')
-        return
-      }
-      if (parseFloat(this.content.price, 10) < 0.01) {
-        this.$notify.warning('最多输入2位小数')
-        return
-      }
-      if (parseFloat(this.content.price) > this.maxPrice) {
-        this.$notify.warning(`售价最大金额为${this.maxPrice}`)
-        return
-      }
-      if (this.content.originalPriceStatus && !this.content.originalPrice) {
-        this.$notify.warning('请输入原价')
-        return
-      }
-      if (parseFloat(this.content.originalPrice, 10) < 0.01) {
-        this.$notify.warning('最多输入2位小数')
-        return
-      }
-      if (parseFloat(this.content.originalPrice) > this.maxPrice) {
-        this.$notify.warning(`原价最大金额为${this.maxPrice}`)
-        return
-      }
-      this.content.price = Number(this.content.price)
-      this.content.originalPrice = Number(this.content.originalPrice)
-      const view = document.querySelector('.show-info-view')
-      const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
-      const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
-      this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
-      this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-      this.content.presetParams = []
-      let guideId = {
-        paramCode: 'guideId',
-        paramName: this.memberIdVal,
-        status: this.memberIdChecked ? 1 : 0
-      }
-      let shopId = {
-        paramCode: 'shopId',
-        paramName: this.shopIdVal,
-        status: this.shopIdChecked ? 1 : 0
-      }
-      let workNumber = {
-        paramCode: 'workNumber',
-        paramName: this.internalIdVal,
-        status: this.internalIdChecked ? 1 : 0
-      }
-      let outShopId = {
-        paramCode: 'outShopId',
-        paramName: this.externalIdVal,
-        status: this.externalIdChecked ? 1 : 0
-      }
-      let guideUserId = {
-        paramCode: 'guideUserId',
-        paramName: this.memberUserIdVal,
-        status: this.memberUserIdChecked ? 1 : 0
-      }
-      this.content.presetParams.push(guideId)
-      this.content.presetParams.push(shopId)
-      this.content.presetParams.push(workNumber)
-      this.content.presetParams.push(outShopId)
-      this.content.presetParams.push(guideUserId)
-      let that = this
-      this.saveLoad = true
-      html2canvas(view, {
-        allowTaint: false,
-        useCORS: true
-      }).then(canvas => {
-        const file = canvas.toDataURL('image/jpeg')
-        let blob = this.dataURLtoFile(file, 'image/jpeg')
-        let param = new FormData()
-        let fileOfBlob = new File([blob], Date.now() + '.jpg')
-        param.append('file', fileOfBlob)
-        this.$http
-          .fetch(this.$api.guide.customImage, param)
-          .then(resp => {
-            const json = resp.result
-            that.content.image = json.url || ''
-            that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
-            that.initData()
-            that.$emit('handleImageCode', false)
-            that.$refs.ruleForm.resetFields()
-            that.visible = false
-          })
-          .catch(resp => {
-            that.saveLoad = false
-          })
-      })
     },
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
