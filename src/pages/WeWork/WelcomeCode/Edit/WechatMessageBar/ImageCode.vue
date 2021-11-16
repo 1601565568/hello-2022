@@ -179,7 +179,7 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="货号" required>
+          <el-form-item label="货号">
             <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
           <el-form-item label="图片" required>
@@ -208,7 +208,7 @@
           </el-form-item>
           <el-form-item label="名称" required prop="title">
             <el-input
-              placeholder="请输入名称，长度在36个字符以内"
+              placeholder="请输入名称，长度在100个字符以内"
               v-model="content.title"
               @input="titleChange"
             />
@@ -236,7 +236,7 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.backgroundImage || defaultUrl" crossOrigin="anonymous"/>
+          <img class="image-view" :src="content.backgroundImage || defaultUrl"/>
           <div class="content-view">
             <div class="left-view">
               <div class="title-view">
@@ -348,10 +348,10 @@ export default {
       },
       rules: {
         title: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在100个字符以内' },
           { validator: (rule, value, callback) => {
-            if (value.length > 36) {
-              callback(new Error('名称长度在36个字符以内'))
+            if (value.length > 100) {
+              callback(new Error('名称长度在100个字符以内'))
             } else {
               callback()
             }
@@ -587,6 +587,26 @@ export default {
         presetParams: []
       }
       this.appIdRefresh = false
+      this.goodsCache = {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      }
+      this.miniCache = {
+        path: '',
+        outerId: '',
+        title: '',
+        backgroundImage: '',
+        price: '',
+        originalPrice: '',
+        priceStatus: 0,
+        originalPriceStatus: 0
+      }
     },
     beforeUpload (file) {
       if (file.size / 1024 / 1024 > this.maxSize) {
@@ -702,8 +722,8 @@ export default {
         this.$notify.warning('请输入名称')
         return
       }
-      if (this.content.title.length > 36) {
-        this.$notify.warning('名称最多36字符')
+      if (this.content.title.length > 100) {
+        this.$notify.warning('名称最多100字符')
         return
       }
       if (this.content.priceStatus && !this.content.price) {
@@ -771,6 +791,7 @@ export default {
       let that = this
       this.saveLoad = true
       html2canvas(view, {
+        allowTaint: false,
         useCORS: true
       }).then(canvas => {
         const file = canvas.toDataURL('image/jpeg')
@@ -801,10 +822,16 @@ export default {
       this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
+      this.content.backgroundImage = item.pictureUrl || ''
+      this.goodsCache.backgroundImage = item.pictureUrl || ''
+      this.content.title = item.title || ''
+      this.goodsCache.title = item.title || ''
+      this.content.outerId = item.outerId || ''
+      this.goodsCache.outerId = item.outerId || ''
       if (parseFloat(item.costPrice, 10) > 0) {
-        this.content.price = item.costPrice
+        this.content.price = item.suggestPrice
         this.content.priceStatus = 1
-        this.goodsCache.price = item.costPrice
+        this.goodsCache.price = item.suggestPrice
         this.goodsCache.priceStatus = 1
       }
     }
