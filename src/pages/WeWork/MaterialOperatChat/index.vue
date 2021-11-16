@@ -655,7 +655,7 @@ export default {
               },
               {
                 name: '转化金额总计',
-                type: 'line',
+                type: 'bar',
                 yAxisIndex: 1,
                 data: money
               },
@@ -679,7 +679,7 @@ export default {
               },
               {
                 name: '日转化金额',
-                type: 'line',
+                type: 'bar',
                 yAxisIndex: 1,
                 data: yMoney
               }
