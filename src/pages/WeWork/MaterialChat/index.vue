@@ -144,6 +144,10 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
+            <div style="width:200px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入素材名称" size="medium" prefix-icon="el-icon-search" v-model="searchMetaicalValue">
+              </el-input>
+            </div>
             <div v-if="listMaterial.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -352,7 +356,8 @@ export default {
       showTodaySelect: true,
       startTime: '',
       endTime: '',
-      datePickerValue: []
+      datePickerValue: [],
+      searchMetaicalValue: ''
     }
   },
   methods: {
