@@ -218,7 +218,10 @@
             <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="priceStatusChange"> </el-switch>
             <div class="price-view">
               <div class="sub-title">售价（元）</div>
-              <el-form-item prop="price">
+              <el-form-item prop="price" :rules="[
+                {required:content.priceStatus === 1 ? true:false, message:'请输入售价', trigger: ['blur', 'change']},
+                {validator:checkPriceRules, trigger: ['blur', 'change'] }
+              ]">
                 <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
               </el-form-item>
             </div>
@@ -228,7 +231,10 @@
             </el-switch>
             <div class="price-view">
               <div class="sub-title">原价（元）</div>
-              <el-form-item prop="originalPrice">
+              <el-form-item prop="originalPrice" :rules="[
+                {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
+                {validator:checkOriginalPricRules, trigger: ['blur', 'change'] }
+              ]">
                 <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
               </el-form-item>
             </div>
@@ -378,56 +384,31 @@ export default {
     }
   },
   watch: {
-    'content.priceStatus': {
-      handler (newValue, oldValue) {
-        if (newValue === 1) {
-          this.rules.price = [
-            { required: true, trigger: ['blur', 'change'], message: '请输入售价' },
-            { validator: (rule, value, callback) => {
-              const regex = /^[0-9]+(.[0-9]{2})?$/g
-              if (!regex.test(value)) {
-                callback(new Error(`最多输入2位小数`))
-              }
-              if (parseFloat(value) > 999999.99) {
-                callback(new Error(`售价最大金额为999999.99`))
-              } else {
-                callback()
-              }
-            },
-            trigger: ['blur', 'change'] }
-          ]
-        } else {
-          this.rules.price = []
-        }
-        this.$refs.ruleForm.clearValidate()
-      },
-      deep: true
-    },
-    'content.originalPriceStatus': {
-      handler (newValue, oldValue) {
-        if (newValue === 1) {
-          this.rules.originalPrice = [
-            { required: true, trigger: ['blur', 'change'], message: '请输入原价' },
-            { validator: (rule, value, callback) => {
-              const regex = /^[0-9]+(.[0-9]{2})?$/g
-              if (!regex.test(value)) {
-                callback(new Error(`最多输入2位小数`))
-              }
-              if (parseFloat(value) > 999999.99) {
-                callback(new Error(`原价最大金额为999999.99`))
-              } else {
-                callback()
-              }
-            },
-            trigger: ['blur', 'change'] }
-          ]
-        } else {
-          this.rules.originalPrice = []
-        }
-        this.$refs.ruleForm.clearValidate()
-      },
-      deep: true
-    },
+    // 'content.originalPriceStatus': {
+    //   handler (newValue, oldValue) {
+    //     if (newValue === 1) {
+    //       this.rules.originalPrice = [
+    //         { required: true, trigger: ['blur', 'change'], message: '请输入原价' },
+    //         { validator: (rule, value, callback) => {
+    //           const regex = /^[0-9]+(.[0-9]{2})?$/g
+    //           if (!regex.test(value)) {
+    //             callback(new Error(`最多输入2位小数`))
+    //           }
+    //           if (parseFloat(value) > 999999.99) {
+    //             callback(new Error(`原价最大金额为999999.99`))
+    //           } else {
+    //             callback()
+    //           }
+    //         },
+    //         trigger: ['blur', 'change'] }
+    //       ]
+    //     } else {
+    //       this.rules.originalPrice = []
+    //     }
+    //     this.$refs.ruleForm.clearValidate()
+    //   },
+    //   deep: true
+    // },
     'content.codeStyle': {
       handler (newValue, oldValue) {
         if (newValue === 0) {
@@ -474,6 +455,32 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    checkOriginalPricRules (rule, value, callback) {
+      if (this.content.originalPriceStatus === 1) {
+        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        if (!regex.test(value)) {
+          callback(new Error(`最多输入2位小数`))
+        }
+        if (parseFloat(value) > 999999.99) {
+          callback(new Error(`原价最大金额为999999.99`))
+        } else {
+          callback()
+        }
+      }
+    },
+    checkPriceRules (rule, value, callback) {
+      if (this.content.priceStatus === 1) {
+        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        if (!regex.test(value)) {
+          callback(new Error(`最多输入2位小数`))
+        }
+        if (parseFloat(value) > 999999.99) {
+          callback(new Error(`售价最大金额为999999.99`))
+        } else {
+          callback()
+        }
+      }
+    },
     refreshAppId () {
       this.appIdRefresh = true
       this.loadAppIds()
