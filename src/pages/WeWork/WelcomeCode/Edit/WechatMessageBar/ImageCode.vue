@@ -218,7 +218,7 @@
           </el-form-item>
           <el-form-item label="售价" required>
             <el-switch v-model="content.priceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="priceStatusChange"> </el-switch>
-            <div class="price-view">
+            <div class="price-view" v-show="content.priceStatus === 1">
               <div class="sub-title">售价（元）</div>
               <el-form-item prop="price" :rules="[
                 {required:content.priceStatus === 1 ? true:false, message:'请输入售价', trigger: ['blur', 'change']},
@@ -231,7 +231,7 @@
           <el-form-item label="原价" required>
             <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="originalPriceStatusChange">
             </el-switch>
-            <div class="price-view">
+            <div class="price-view" v-show="content.originalPriceStatus === 1">
               <div class="sub-title">原价（元）</div>
               <el-form-item prop="originalPrice" :rules="[
                 {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
@@ -273,7 +273,7 @@
       <NsButton @click="handleCanle">取 消</NsButton>
       <NsButton type="primary" @click="handleSure" :loading="saveLoad">保 存</NsButton>
     </span>
-    <SelectGoods ref="selectGoods" :callBack="selectMarketBack" :showMall="false"/>
+    <SelectGoods ref="selectGoods" :callBack="selectMarketBack" :showMall="false" :showShop="true"/>
   </el-dialog>
 </template>
 <script>
@@ -290,7 +290,7 @@ export default {
       visible: false,
       saveLoad: false,
       maxSize: 2,
-      maxPrice: 999999.99,
+      maxPrice: 999999999,
       miniList: [],
       shopIdChecked: false,
       shopIdVal: '',
@@ -427,8 +427,8 @@ export default {
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
-        if (parseFloat(value) > 999999.99) {
-          callback(new Error(`原价最大金额为999999.99`))
+        if (parseFloat(value) > 999999999) {
+          callback(new Error(`原价最大金额为999999999`))
         } else {
           callback()
         }
@@ -440,8 +440,8 @@ export default {
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
-        if (parseFloat(value) > 999999.99) {
-          callback(new Error(`售价最大金额为999999.99`))
+        if (parseFloat(value) > 999999999) {
+          callback(new Error(`售价最大金额为999999999`))
         } else {
           callback()
         }
@@ -623,9 +623,9 @@ export default {
       }
     },
     handleCanle () {
+      this.visible = false
       this.initData()
       this.$refs.ruleForm.resetFields()
-      this.visible = false
       // this.$emit('handleImageCode', false)
     },
     dataURLtoFile (dataURI, type) {
@@ -813,15 +813,15 @@ export default {
           let fileOfBlob = new File([blob], Date.now() + '.jpg')
           param.append('file', fileOfBlob)
           this.$http
-            .fetch(this.$api.guide.customImage, param)
+            .fetch(this.$api.guide.customImage, param, { headers: { 'Content-Type': 'image/jpg' } })
             .then(resp => {
               const json = resp.result
               that.content.image = json.url || ''
               that.$emit('confirm', { type: 'imagecode', content: { ...that.content } })
-              that.initData()
               that.$emit('handleImageCode', false)
-              that.$refs.ruleForm.resetFields()
               that.visible = false
+              that.initData()
+              that.$refs.ruleForm.resetFields()
             })
             .catch(resp => {
               that.saveLoad = false
