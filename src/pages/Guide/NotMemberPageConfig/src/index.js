@@ -37,7 +37,8 @@ export default {
       appid: '', // 小程序appid
       path: '', // 小程序路径
       title: '', // 标题
-      image: '' // 封面
+      image: '', // 封面
+      originId: '' // 小程序原始id
     }
     return {
       loading: false,
@@ -79,6 +80,9 @@ export default {
         ],
         'appModel.title': [
           { required: true, message: '请输入标题', trigger: 'blur' },
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+        ],
+        'appModel.originId': [
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         'appModel.path': [
@@ -179,6 +183,7 @@ export default {
         } else if (result.link_type && result.link_type === 2 && result.content) {
           let content = JSON.parse(result.content)
           _this.model.appModel.appid = content.appid // 小程序appid
+          _this.model.appModel.originId = content.originId // 小程序appid
           _this.model.appModel.path = this.stringTohtml(content.path) // 小程序路径
           _this.model.appModel.title = content.title // 标题
           _this.model.appModel.image = content.image // 封面

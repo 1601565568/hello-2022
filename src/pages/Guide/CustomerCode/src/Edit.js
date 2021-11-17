@@ -164,6 +164,7 @@ export default {
           goodsName: '',
           goodsDes: ''
         },
+        isOnlyReceiveByMember: 0,
         rules: '',
         regUrl: defRegUrl,
         share: {
@@ -378,7 +379,7 @@ export default {
       // 是否可以在未开始活动编辑奖励
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
       // this.fileList = [{ name: result.backgroundPic }]
-      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel), isOnlyReceiveByMember: result.isOnlyReceiveByMember || 0 }
       this.$nextTick(() => {
         this.isLoading = true
         if (this.$refs.colorView) {
