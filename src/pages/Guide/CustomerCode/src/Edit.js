@@ -611,7 +611,6 @@ export default {
         this.model = formatModelSave(this.model, saveIntro, saveRules, guestCodeId, this.eidtList)
         const headPosition = this.headPosition[this.model.headerType]
         const data = { ...this.model, ...headPosition }
-        console.log(data)
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
           this.$notify.success('保存成功')
           this.handleCancel()
