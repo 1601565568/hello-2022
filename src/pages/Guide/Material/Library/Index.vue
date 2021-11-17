@@ -208,8 +208,16 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="生效时间" prop="sourceName" :min-width="130"></el-table-column>
-              <el-table-column label="失效时间" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="生效时间" prop="shelfTime" :min-width="130">
+                <template slot-scope="scope">
+                  {{ scope.row.shelfTime || '-' }}
+                </template>
+              </el-table-column>
+              <el-table-column label="失效时间" prop="endTime" :min-width="130">
+                <template slot-scope="scope">
+                  {{ scope.row.endTime || '-' }}
+                </template>
+              </el-table-column>
               <el-table-column label="当前状态" prop="sourceName" :min-width="130">
                 <template slot-scope="scope">
                   <el-switch
