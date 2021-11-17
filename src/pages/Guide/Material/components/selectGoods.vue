@@ -34,7 +34,7 @@
                 </el-select-load>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="商品库：" prop="bankId">
+            <el-form-item label="商品库：" prop="bankId" v-if="showMall">
               <el-select v-model="searchObj.searchMap.bankId" placeholder="请选择商品库" required @change="selectGoodBank">
                 <el-option v-for="item in bankList"
                 :key="item.value"
@@ -281,8 +281,18 @@ export default {
         return
       }
       this.loading = true
-      this.searchObj.searchMap.shopId = this.param.shopId
-      await this.$http.fetch(this.$api.guide.material.findMallGoodsList, this.searchObj).then(res => {
+      const url = this.showShop ? this.$api.guide.material.findShopGoodsList : this.$api.guide.material.findMallGoodsList
+      const shopObj = {
+        length: this.searchObj.length,
+        start: this.searchObj.start,
+        searchMap: {
+          shopId: this.param.shopId,
+          outerId: this.searchObj.searchMap.outerId,
+          title: this.searchObj.searchMap.title
+        }
+      }
+      const obj = this.showShop ? shopObj : this.searchObj
+      await this.$http.fetch(url, obj).then(res => {
         if (res.result.data && res.result.data.length > 0) {
           that.dataList = res.result.data
           that.pagination.total = Number(res.result.total)
