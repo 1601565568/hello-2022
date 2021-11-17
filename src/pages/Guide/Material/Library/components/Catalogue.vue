@@ -81,8 +81,14 @@
                     item.sourceName || '-'
                   }}</span>
                 </el-tooltip>
-                <el-switch class="tablescope" inactive-text="下架" active-text="上架"></el-switch>
-                <!-- <span>{{ item.createTime }}</span> -->
+                <el-switch
+                  v-model="swicthItem"
+                  class="tablescope"
+                  inactive-text="下架"
+                  active-color="#0091FA"
+                  inactive-color="#8C8C8C"
+                  active-text="上架"
+                ></el-switch>
               </div>
               <div
                 class="catalogue-materials__item--content catalogue-ellipsis2"
@@ -372,7 +378,8 @@ export default {
       selectItem: {},
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      swicthItem: 0
     }
   },
   watch: {
@@ -533,31 +540,6 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-.tablescope {
-  .el-switch__label--left {
-    position: relative;
-    left: 45px;
-    color: #fff;
-    z-index: -1111;
-  }
-  .el-switch__core{
-    width: 50px !important;
-  }
-  .el-switch__label--right {
-    position: relative;
-    right: 46px;
-    color: #fff;
-    z-index: -1111;
-  }
-  .el-switch__label--right.is-active {
-    z-index: 1111;
-    color: #fff !important;
-  }
-  .el-switch__label--left.is-active {
-    z-index: 1111;
-    color: #9c9c9c !important;
-  }
-}
 .u_linkList{
   width: 278px;
   height: auto;
