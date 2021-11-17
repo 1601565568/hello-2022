@@ -375,12 +375,12 @@ export default {
         ],
         path: [
           { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
-        ],
-        price: [],
-        originalPrice: [],
-        itemName: [
-          { required: true, trigger: ['blur', 'change'], message: '请选择商品' }
         ]
+        // price: [],
+        // originalPrice: [],
+        // itemName: [
+        //   { required: true, trigger: ['blur', 'change'], message: '请选择商品' }
+        // ]
       },
       appIdRefresh: false
     }
@@ -637,15 +637,53 @@ export default {
       return new Blob([new Uint8Array(array)], { type: type })
     },
     async handleSure () {
-      const checkRules = await new Promise((resolve, reject) => {
-        this.$refs.ruleForm.validate((valid) => {
-          if (valid) {
+      const title = new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validateField('title', vaild => {
+          if (!vaild) {
             resolve(true)
-          } else {
-            resolve(false)
           }
         })
       })
+      const appid = new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validateField('appid', vaild => {
+          if (!vaild) {
+            resolve(true)
+          }
+        })
+      })
+      const path = new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validateField('path', vaild => {
+          if (!vaild) {
+            resolve(true)
+          }
+        })
+      })
+
+      let arr = [title, appid, path]
+      if (this.content.priceStatus === 1) {
+        const price = new Promise((resolve, reject) => {
+          this.$refs.ruleForm.validateField('price', vaild => {
+            if (!vaild) {
+              resolve(true)
+            }
+          })
+        })
+        arr.push(price)
+      }
+      if (this.content.originalPriceStatus === 1) {
+        const originalPrice = new Promise((resolve, reject) => {
+          this.$refs.ruleForm.validateField('originalPrice', vaild => {
+            if (!vaild) {
+              resolve(true)
+            }
+          })
+        })
+        arr.push(originalPrice)
+      }
+
+      const allRules = await Promise.all(arr)
+      const checkRules = allRules.length === arr.length
+      // console.log(checkRules)
       // if (!this.content.appid) {
       //   this.$notify.warning('请选择小程序')
       //   return
@@ -802,8 +840,8 @@ export default {
       this.goodsCache.backgroundImage = item.pictureUrl || ''
       this.content.title = item.title || ''
       this.goodsCache.title = item.title || ''
-      this.content.outerId = item.outerId || ''
-      this.goodsCache.outerId = item.outerId || ''
+      // this.content.outerId = item.outerId || ''
+      // this.goodsCache.outerId = item.outerId || ''
       if (parseFloat(item.costPrice, 10) > 0) {
         this.content.price = item.suggestPrice
         this.content.priceStatus = 1
