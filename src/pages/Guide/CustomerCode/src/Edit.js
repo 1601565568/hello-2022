@@ -162,9 +162,9 @@ export default {
           number: '0',
           getColor: '',
           goodsName: '',
-          goodsDes: '',
-          isOnlyReceiveByMember: 0
+          goodsDes: ''
         },
+        isOnlyReceiveByMember: 0,
         rules: '',
         regUrl: defRegUrl,
         share: {
@@ -379,7 +379,7 @@ export default {
       // 是否可以在未开始活动编辑奖励
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
       // this.fileList = [{ name: result.backgroundPic }]
-      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel), isOnlyReceiveByMember: result.isOnlyReceiveByMember || 0 }
       this.$nextTick(() => {
         this.isLoading = true
         if (this.$refs.colorView) {
@@ -611,6 +611,7 @@ export default {
         this.model = formatModelSave(this.model, saveIntro, saveRules, guestCodeId, this.eidtList)
         const headPosition = this.headPosition[this.model.headerType]
         const data = { ...this.model, ...headPosition }
+        console.log(data)
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
           this.$notify.success('保存成功')
           this.handleCancel()

@@ -68,8 +68,8 @@
         label="仅会员可领取奖励"
         class="larger-item"
       >
-        <el-switch v-model="pageObj.activeInfo.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
-        <div class="qrcode-bottom-view" v-if='pageObj.activeInfo.isOnlyReceiveByMember === 1'>
+        <el-switch v-model="pageObj.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
+        <div class="qrcode-bottom-view" v-if='pageObj.isOnlyReceiveByMember === 1'>
           <span class="remind-view"></span>
           非会员注册入会后才可领取奖励
           <ns-button type='text' class='safe-btn' @click='handleGoSet'>
