@@ -145,7 +145,7 @@
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
             <div style="width:200px;padding:16px 0 0 16px">
-              <el-input placeholder="请输入素材名称" size="medium" v-model="materialTitle">
+              <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
                 <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForPerson(1)"></ns-button>
               </el-input>
             </div>
