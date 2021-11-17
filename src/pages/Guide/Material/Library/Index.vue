@@ -208,6 +208,10 @@
                   </el-select>
                 </template>
               </el-table-column>
+              <el-table-column label="生效时间" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="失效时间" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="当前状态" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="附码类型" prop="sourceName" :min-width="130"></el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
               <el-table-column label="编辑人" prop="addName" :min-width="130">
                   <template slot-scope="scope">
