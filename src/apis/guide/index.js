@@ -272,7 +272,7 @@ export default {
   },
   customImage: {
     // 素材编辑
-    url: '/core/sgfile/uploadFile/test',
+    url: '/core/sgfile/uploadFile/message',
     method: 'post'
   },
   findWxAppletsList: {

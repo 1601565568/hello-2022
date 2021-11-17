@@ -19,7 +19,7 @@
       </ImageMessage>
     </div>
     <div v-if="pitBit" class="add-material-item" @click="showImageCode">
-      <i class="iconfont icon-lianjie icon"></i>
+      <i class="iconfont icon-fumatupian icon" style="font-size:30px;"></i>
       <span class="item-tip">附码图片</span>
     </div>
     <div class="add-material-item">

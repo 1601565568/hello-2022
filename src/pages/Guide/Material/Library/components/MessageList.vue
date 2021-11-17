@@ -18,7 +18,8 @@
           <img class="bitpit" src="@/assets/kwBig.png" alt="">
         </template>
         <span v-if="type !== 0">
-          <span v-if="type === 1 || type === 5">{{getFileName(content.image || '')}}</span>
+          <span v-if="type === 5">{{content.title}}</span>
+          <span v-if="type === 1">{{getFileName(content.image || '')}}</span>
           <span v-else-if="type === 2">
             <span v-if="content.percent">{{content.video}}</span>
             <span v-else>{{getFileName(content.video || '')}}</span>
