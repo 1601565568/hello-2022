@@ -272,6 +272,8 @@ export default {
     }
   },
   methods: {
+    currentStatusChange (item) {
+    },
     strToRichText (text) {
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')

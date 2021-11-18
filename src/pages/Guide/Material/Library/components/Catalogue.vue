@@ -59,7 +59,7 @@
           <div
             class="catalogue-materials__item"
             :class="{ 'catalogue-materials__item--selected': item.selected }"
-            v-for="item in itemList"
+            v-for="(item, pIndex) in itemList"
             :key="item.id"
           >
             <div class="catalogue-materials__item--info">
@@ -90,6 +90,7 @@
                   active-text="上架"
                   active-value="1"
                   inactive-value="2"
+                  @change="currentStatusChange(item,index,pIndex)"
                 ></el-switch>
               </div>
               <div
@@ -381,7 +382,7 @@ export default {
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
-      swicthItem: 0
+      selectStatus: '1'
     }
   },
   watch: {
@@ -448,6 +449,9 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
+    currentStatusChange (item, index, pIndex) {
+      this.$emit('currentStatusChange', item)
+    },
     strToRichText (text) {
       if (!text) {
         return ''

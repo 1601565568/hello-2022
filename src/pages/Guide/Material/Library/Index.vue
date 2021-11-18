@@ -272,6 +272,7 @@
               @onEnter="onEnter"
               @preview="togglePreview"
               @subdivisionChange="subdivisionChange"
+              @currentStatusChange="currentStatusChange"
             ></catalogue>
           </div>
         </el-scrollbar>
