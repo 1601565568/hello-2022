@@ -144,9 +144,14 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
-            <div style="width:200px;padding:16px 0 0 16px">
+            <div class="no-input-view" style="width:200px;padding:16px 0 0 16px">
               <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
-                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForPerson(1)"></ns-button>
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForPerson(1)"
+                ></Icon>
               </el-input>
             </div>
             <div v-if="listMaterial.length > 0">
