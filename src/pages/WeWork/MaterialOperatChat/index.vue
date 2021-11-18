@@ -116,9 +116,14 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
-            <div style="width:280px;padding:16px 0 0 16px">
+            <div class="no-input-view" style="width:280px;padding:16px 0 0 16px">
               <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
-                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForPerson(1)"></ns-button>
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForPerson(1)"
+                ></Icon>
               </el-input>
             </div>
             <div v-if="listMaterial.length > 0">
@@ -194,9 +199,14 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按员工统计" name="third">
-            <div style="width:280px;padding:16px 0 0 16px">
+            <div class="no-input-view" style="width:280px;padding:16px 0 0 16px">
               <el-input placeholder="请输入员工姓名" size="medium" v-model="guideName">
-                <ns-button slot="append" icon="el-icon-search" @click="handleCurrentChangeForUser(1)"></ns-button>
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForUser(1)"
+                ></Icon>
               </el-input>
             </div>
             <div v-if="listUser.length > 0">
@@ -300,10 +310,10 @@ export default {
             '被浏览次数总计',
             '转化订单数总计',
             '转化金额总计',
-            '日发送次数',
-            '日被浏览次数',
-            '日转化订单数',
-            '日转化金额'
+            '每日发送次数',
+            '每日被浏览次数',
+            '每日转化订单数',
+            '每日转化金额'
           ],
           left: '2%',
           bottom: '6%',
@@ -640,8 +650,8 @@ export default {
               times.push(item.date)
               sendCode.push(item.sendCodePicturesSum)
               imagesView.push(item.imagesViewedSum)
-              order.push(item.nowConversionOrderSum)
-              money.push(item.nowConversionAmountSum)
+              order.push(item.conversionOrderSum)
+              money.push(item.conversionAmountSum)
               ySendCode.push(item.nowSendCodePicturesSum)
               yImagesView.push(item.nowImagesViewedSum)
               yOrder.push(item.nowConversionOrderSum)
@@ -674,25 +684,25 @@ export default {
                 data: money
               },
               {
-                name: '日发送次数',
+                name: '每日发送次数',
                 type: 'line',
                 yAxisIndex: 0,
                 data: ySendCode
               },
               {
-                name: '日被浏览次数',
+                name: '每日被浏览次数',
                 type: 'line',
                 yAxisIndex: 0,
                 data: yImagesView
               },
               {
-                name: '日转化订单数',
+                name: '每日转化订单数',
                 type: 'line',
                 yAxisIndex: 0,
                 data: yOrder
               },
               {
-                name: '日转化金额',
+                name: '每日转化金额',
                 type: 'bar',
                 yAxisIndex: 1,
                 data: yMoney
