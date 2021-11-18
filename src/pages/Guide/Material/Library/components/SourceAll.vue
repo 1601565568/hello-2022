@@ -320,15 +320,15 @@ export default {
     detail (newObj) {
       const parentIds = newObj.parentPath.split('/')
       const parentNames = newObj.parentPathName.split('/')
-      const tempModel = {}
-      Object.keys(this.model).forEach(k => {
-        tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        // if (k === 'mediaList') {
-        //   tempModel[k] = tempModel[k].filter(v =>
-        //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
-        //   )
-        // }
-      })
+      const tempModel = { ...newObj }
+      // Object.keys(this.model).forEach(k => {
+      //   tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
+      //   // if (k === 'mediaList') {
+      //   //   tempModel[k] = tempModel[k].filter(v =>
+      //   //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
+      //   //   )
+      //   // }
+      // })
       this.model = tempModel
       // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)

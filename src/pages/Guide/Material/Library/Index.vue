@@ -224,7 +224,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column label="当前状态" prop="sourceName" :min-width="130">
+              <el-table-column label="当前状态" prop="currentStatus" :min-width="130">
                 <template slot-scope="scope">
                   <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
                   <div v-else>
@@ -235,6 +235,8 @@
                       active-color="#0091FA"
                       inactive-color="#8C8C8C"
                       active-text="上架"
+                      active-value="1"
+                      inactive-value="2"
                     ></el-switch>
                   </div>
                 </template>

@@ -82,12 +82,14 @@
                   }}</span>
                 </el-tooltip>
                 <el-switch
-                  v-model="swicthItem"
+                  v-model="item.currentStatus"
                   class="tablescope"
                   inactive-text="下架"
                   active-color="#0091FA"
                   inactive-color="#8C8C8C"
                   active-text="上架"
+                  active-value="1"
+                  inactive-value="2"
                 ></el-switch>
               </div>
               <div
