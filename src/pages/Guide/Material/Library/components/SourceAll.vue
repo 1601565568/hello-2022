@@ -24,13 +24,13 @@
       </el-form-item>
       <el-form-item label="上架时间：" required>
         <el-radio-group v-model="model.shelfType">
-          <el-radio :label=0>立即上架</el-radio>
-          <el-radio :label=1>自定义</el-radio>
+          <el-radio :label=1>立即上架</el-radio>
+          <el-radio :label=0>自定义</el-radio>
         </el-radio-group>
-        <div class="select-time-view" v-show="model.shelfType === 1">
+        <div class="select-time-view" v-show="model.shelfType === 0">
           <span class="remind-text">上架时间</span>
           <el-form-item prop="shelfTime" :rules="[
-            {required:model.shelfType === 1 ? true : false, message:'请选择上架时间', trigger: ['blur', 'change']},
+            {required:model.shelfType === 0 ? true : false, message:'请选择上架时间', trigger: ['blur', 'change']},
           ]">
             <el-date-picker
               v-model="model.shelfTime"
@@ -45,13 +45,13 @@
       </el-form-item>
       <el-form-item label="下架时间：" required>
         <el-radio-group v-model="model.endType">
-          <el-radio :label=0>永久有效</el-radio>
-          <el-radio :label=1>自定义</el-radio>
+          <el-radio :label=1>永久有效</el-radio>
+          <el-radio :label=0>自定义</el-radio>
         </el-radio-group>
-        <div class="select-time-view" v-show="model.endType === 1">
+        <div class="select-time-view" v-show="model.endType === 0">
           <span class="remind-text">下架时间</span>
           <el-form-item prop="endTime" :rules="[
-            {required:model.endType === 1 ? true : false, message:'请选择下架时间', trigger: ['blur', 'change']},
+            {required:model.endType === 0 ? true : false, message:'请选择下架时间', trigger: ['blur', 'change']},
           ]">
             <el-date-picker
               v-model="model.endTime"
@@ -231,8 +231,8 @@ export default {
         codeTargetName: '',
         mediaList: [],
         materialScriptType: 1,
-        shelfType: 0,
-        endType: 0,
+        shelfType: 1,
+        endType: 1,
         endTime: '',
         shelfTime: ''
       },
@@ -593,6 +593,8 @@ export default {
       })
     },
     doSave () {
+      this.model.shelfTime = this.model.shelfType === 1 ? '' : this.model.shelfTime
+      this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
       params.mediaList = this.mediaList
