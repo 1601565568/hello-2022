@@ -765,6 +765,12 @@ export default {
         this.goodsCache.price = item.suggestPrice
         this.goodsCache.priceStatus = 1
       }
+      if (parseFloat(item.markedPrice, 10) > 0) {
+        this.content.originalPrice = item.markedPrice
+        this.content.originalPriceStatus = 1
+        this.goodsCache.originalPrice = item.markedPrice
+        this.goodsCache.originalPriceStatus = 1
+      }
     }
   }
 }
