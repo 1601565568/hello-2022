@@ -652,6 +652,17 @@ export default {
       })
 
       let arr = [title, appid, path]
+      // itemName
+      if (this.content.codeStyle === 0) {
+        const price = new Promise((resolve, reject) => {
+          this.$refs.ruleForm.validateField('itemName', vaild => {
+            if (!vaild) {
+              resolve(true)
+            }
+          })
+        })
+        arr.push(price)
+      }
       if (this.content.priceStatus === 1) {
         const price = new Promise((resolve, reject) => {
           this.$refs.ruleForm.validateField('price', vaild => {
