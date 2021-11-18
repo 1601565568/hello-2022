@@ -65,7 +65,8 @@
               <el-tooltip  effect='light' popper-class='popperClass' placement="top">
                 <Icon type="question-circle"  class='question-circle'/>
                 <template slot='content'>
-                  显示有效的成功邀请人数与活动内有效成功邀请但因业务扣除好友数
+                  成功邀请数：有效的成功邀请人数（已扣除“扣减好友数”）<br />
+                  扣减好友数：因活动规则解除好友后扣除的好友数
                 </template>
               </el-tooltip>
             </template>
