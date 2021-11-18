@@ -27,7 +27,7 @@
             <el-form-item label="" prop="mallId" v-if="showShop">
               <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
               <el-form-grid >
-                <ns-droptree ref="shopCateTree" :defaultExpandAll='true' :load="loadShopAreaNode" placeholder="请选择区域" :lazy="true" :multiple="false" v-model="param.shopArea" clearable></ns-droptree>
+                <ns-droptree ref="shopCateTree" :defaultExpandAll='true' :load="loadShopAreaNode" placeholder="请选择区域" :lazy="true" :multiple="false" v-model="param.shopArea" :clearable='false'></ns-droptree>
               </el-form-grid>
               <el-form-grid style="margin-left:10px">
                 <el-select-load v-model="param.shopId" :options="shopOptions"  filterable  :page-sizes="20" placeholder="选择门店">
@@ -156,7 +156,8 @@ export default {
         shopArea: {}
       },
       shopOptions: [],
-      allShopOptions: []
+      allShopOptions: [],
+      allShops: []
     }
   },
   watch: {
@@ -242,7 +243,8 @@ export default {
           that.shopAreaTree = resp.result.shopAreaTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
-          that.param.shopId = that.shopOptions[0].value
+          that.allShops = resp.result.shopOptions
+          that.param.shopId = that.allShops[0].value
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -252,7 +254,12 @@ export default {
     },
     showToggle (obj) {
       this.dialogVisible = true
-      this.findMallList()
+      if (this.showMall) {
+        this.findMallList()
+      }
+      if (this.showShop) {
+        this.loadListFun()
+      }
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -267,6 +274,8 @@ export default {
       this.dialogVisible = false
       this.dataList = []
       this.$refs.searchform.resetFields()
+      this.param.shopId = this.allShops.length > 0 ? this.allShops[0].value : null
+      // this.param.shopArea = this.areaId ? { value: this.areaId, text: this.areaName } : 0
     },
     async loadListFun () {
       let that = this
@@ -275,10 +284,10 @@ export default {
           that.$notify.warning('请先选择商城')
           return
         }
-      }
-      if (!that.searchObj.searchMap.bankId) {
-        that.$notify.warning('请先选择商品库')
-        return
+        if (!that.searchObj.searchMap.bankId) {
+          that.$notify.warning('请先选择商品库')
+          return
+        }
       }
       this.loading = true
       const url = this.showShop ? this.$api.guide.material.findShopGoodsList : this.$api.guide.material.findMallGoodsList
@@ -318,12 +327,17 @@ export default {
       return jsonarr
     },
     $resetForm (formName) {
-      this.param.shopId = this.shopOptions.length > 0 ? this.shopOptions[0].value : null
-      this.param.shopArea = this.areaId ? { value: this.areaId, text: this.areaName } : 0
       this.$refs[formName].resetFields()
       this.clearSearch()
       this.searchObj.searchMap.mallId = this.mallList.length > 0 ? this.mallList[0].mall_id : null
-      this.selectMall(this.searchObj.searchMap.mallId)
+      if (this.showMall) {
+        this.selectMall(this.searchObj.searchMap.mallId)
+      }
+      if (this.showShop) {
+        this.loadListFun()
+        this.param.shopId = this.allShops.length > 0 ? this.allShops[0].value : null
+        // this.param.shopArea = this.areaId ? { value: this.areaId, text: this.areaName } : 0
+      }
     },
     submitForm () {
       this.market = {}

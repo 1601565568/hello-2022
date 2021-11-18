@@ -757,8 +757,8 @@ export default {
       this.goodsCache.backgroundImage = item.pictureUrl || ''
       this.content.title = item.title || ''
       this.goodsCache.title = item.title || ''
-      // this.content.outerId = item.outerId || ''
-      // this.goodsCache.outerId = item.outerId || ''
+      this.content.path = item.itemUrl || ''
+      this.goodsCache.path = item.itemUrl || ''
       if (parseFloat(item.costPrice, 10) > 0) {
         this.content.price = item.suggestPrice
         this.content.priceStatus = 1
