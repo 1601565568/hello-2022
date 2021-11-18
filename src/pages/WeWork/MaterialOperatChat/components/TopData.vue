@@ -12,9 +12,9 @@
           <el-col :key="item.name" :span="6">
             <div class="base-cell" :class="item.claseName">
               <div class="text">{{ item.name }}</div>
-              <div class="subTitle">昨日次数</div>
+              <div class="subTitle">{{ item.toptitle }}</div>
               <div class="number">{{ item.yData }}</div>
-              <div class="subTitle">总次数</div>
+              <div class="subTitle">{{ item.bottomTitle }}</div>
               <div class="number">{{ item.data }}</div>
             </div>
           </el-col>
@@ -30,10 +30,10 @@ export default {
   data () {
     return {
       dataList: [
-        { name: '发送次数', data: 0, yData: 0, claseName: 'one' },
-        { name: '被浏览次数', data: 0, yData: 0, claseName: 'two' },
-        { name: '转化订单数', data: 0, yData: 0, claseName: 'three' },
-        { name: '转化金额', data: 0, yData: 0, claseName: 'four' }
+        { name: '发送次数', data: 0, yData: 0, claseName: 'one', toptitle: '昨日次数', bottomTitle: '总次数' },
+        { name: '被浏览次数', data: 0, yData: 0, claseName: 'two', toptitle: '昨日次数', bottomTitle: '总次数' },
+        { name: '转化订单数', data: 0, yData: 0, claseName: 'three', toptitle: '昨日订单数', bottomTitle: '总订单数' },
+        { name: '转化金额', data: 0, yData: 0, claseName: 'four', toptitle: '昨日转化金额', bottomTitle: '总转化金额' }
       ]
     }
   },
