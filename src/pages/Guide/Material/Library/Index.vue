@@ -210,24 +210,33 @@
               </el-table-column>
               <el-table-column label="生效时间" prop="shelfTime" :min-width="130">
                 <template slot-scope="scope">
-                  {{ scope.row.shelfTime || '-' }}
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <span v-else>
+                    {{ scope.row.shelfTime || '-' }}
+                  </span>
                 </template>
               </el-table-column>
               <el-table-column label="失效时间" prop="endTime" :min-width="130">
                 <template slot-scope="scope">
-                  {{ scope.row.endTime || '-' }}
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <span v-else>
+                    {{ scope.row.endTime || '-' }}
+                  </span>
                 </template>
               </el-table-column>
               <el-table-column label="当前状态" prop="sourceName" :min-width="130">
                 <template slot-scope="scope">
-                  <el-switch
-                    v-model="scope.row.currentStatus"
-                    class="tablescope"
-                    inactive-text="下架"
-                    active-color="#0091FA"
-                    inactive-color="#8C8C8C"
-                    active-text="上架"
-                  ></el-switch>
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <div v-else>
+                    <el-switch
+                      v-model="scope.row.currentStatus"
+                      class="tablescope"
+                      inactive-text="下架"
+                      active-color="#0091FA"
+                      inactive-color="#8C8C8C"
+                      active-text="上架"
+                    ></el-switch>
+                  </div>
                 </template>
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
