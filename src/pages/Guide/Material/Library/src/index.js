@@ -273,6 +273,29 @@ export default {
   },
   methods: {
     currentStatusChange (item) {
+      // const nowTime = moment().locale('zh-cn').format('YYYY-MM-DD HH:mm:ss')
+      // if (item.currentStatus === '1') {
+      //   // 上架
+      //   item.shelfType = 0
+      //   item.shelfTime = nowTime
+      // }
+      // if (item.currentStatus === '2') {
+      //   // 下架
+      //   item.endType = 0
+      //   item.endTime = nowTime
+      // }
+      // const params = { ...item }
+      // this.$http
+      //   .fetch(this.$api.guide.materialEdit, params)
+      //   .then(resp => {
+      //     this.$notify.success('保存成功')
+      //     this.loadList()
+      //   })
+      //   .catch(resp => {
+      //     this.$notify.error(getErrorMsg('保存失败', resp))
+      //   })
+      //   .finally(() => {
+      //   })
     },
     strToRichText (text) {
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')

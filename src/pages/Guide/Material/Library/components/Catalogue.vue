@@ -81,17 +81,19 @@
                     item.sourceName || '-'
                   }}</span>
                 </el-tooltip>
-                <el-switch
-                  v-model="item.currentStatus"
-                  class="tablescope"
-                  inactive-text="下架"
-                  active-color="#0091FA"
-                  inactive-color="#8C8C8C"
-                  active-text="上架"
-                  active-value="1"
-                  inactive-value="2"
-                  @change="currentStatusChange(item,index,pIndex)"
-                ></el-switch>
+                <div>
+                  <el-switch
+                    v-model="item.currentStatus"
+                    class="tablescope"
+                    inactive-text="下架"
+                    active-color="#0091FA"
+                    inactive-color="#8C8C8C"
+                    active-text="上架"
+                    active-value="1"
+                    inactive-value="2"
+                    @change="currentStatusChange(item,index,pIndex)"
+                  ></el-switch>
+                </div>
               </div>
               <div
                 class="catalogue-materials__item--content catalogue-ellipsis2"
@@ -450,7 +452,7 @@ export default {
   },
   methods: {
     currentStatusChange (item, index, pIndex) {
-      this.$emit('currentStatusChange', item)
+      // this.$emit('currentStatusChange', item)
     },
     strToRichText (text) {
       if (!text) {
