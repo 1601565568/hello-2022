@@ -59,7 +59,7 @@
           <div
             class="catalogue-materials__item"
             :class="{ 'catalogue-materials__item--selected': item.selected }"
-            v-for="(item, pIndex) in itemList"
+            v-for="item in itemList"
             :key="item.id"
           >
             <div class="catalogue-materials__item--info">
@@ -91,7 +91,7 @@
                     active-text="上架"
                     active-value="1"
                     inactive-value="2"
-                    @change="currentStatusChange(item,index,pIndex)"
+                    @change="currentStatusChange(item)"
                   ></el-switch>
                 </div>
               </div>
@@ -451,8 +451,8 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
-    currentStatusChange (item, index, pIndex) {
-      // this.$emit('currentStatusChange', item)
+    currentStatusChange (item) {
+      this.$emit('currentStatusChange', item)
     },
     strToRichText (text) {
       if (!text) {

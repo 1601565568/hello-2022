@@ -267,6 +267,7 @@
                       active-text="上架"
                       active-value="1"
                       inactive-value="2"
+                      @change="currentStatusChange(scope.row)"
                     ></el-switch>
                   </div>
                 </template>
