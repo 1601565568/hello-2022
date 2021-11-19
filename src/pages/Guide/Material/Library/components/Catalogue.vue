@@ -278,6 +278,7 @@
                   >浏览量: {{ item.pageView || 0 }}</span
                 >
               </div>
+              <div class="material-time">{{item.shelfTimeData || item.createTime}}</div>
             </div>
             <div
               class="catalogue-materials__item--btns"
@@ -663,6 +664,11 @@ export default {
       margin-right: 4px;
     }
   }
+}
+.material-time {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 </style>
 <style scoped>
