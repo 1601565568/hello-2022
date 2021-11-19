@@ -8,6 +8,7 @@ export enum WelcomeMessageType {
   Link,
   MiniProgram
 }
+
 /**
  * 欢迎语附件类型对应Icon和标题
  */
