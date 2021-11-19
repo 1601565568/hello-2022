@@ -99,6 +99,24 @@
               :insertList='insertList'
             />
           </el-form-item>
+          <el-form-item label="上架时间：">
+            <el-date-picker
+              v-model="model.shelfTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="请输入开始日期"
+              end-placeholder="请输入结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="下架时间：">
+            <el-date-picker
+              v-model="model.endTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="请输入开始日期"
+              end-placeholder="请输入结束日期">
+            </el-date-picker>
+          </el-form-item>
           <!-- <el-form-item label="素材类型：" prop="mType">
             <el-select
               v-model="model.mType"

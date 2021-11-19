@@ -87,7 +87,9 @@ export default {
         mType: '',
         codeType: '',
         time: [],
-        outerId: ''
+        outerId: '',
+        shelfTime: '',
+        endTime: ''
       },
       // table列表配置
       table: {
@@ -498,6 +500,18 @@ export default {
         params.timeEnd = moment(params.time[1]).format('YYYY-MM-DD HH:mm:ss')
       }
       delete params.time
+      if (params.shelfTime && params.shelfTime.length === 2) {
+        params.shelfTimeStart = moment(params.shelfTime[0]).format('YYYY-MM-DD HH:mm:ss')
+        params.shelfTimeEnd = moment(params.shelfTime[1]).format('YYYY-MM-DD HH:mm:ss')
+      }
+      delete params.shelfTime
+
+      if (params.endTime && params.endTime.length === 2) {
+        params.endTimeStart = moment(params.endTime[0]).format('YYYY-MM-DD HH:mm:ss')
+        params.endTimeEnd = moment(params.endTime[1]).format('YYYY-MM-DD HH:mm:ss')
+      }
+      delete params.endTime
+
       this.searchObj.searchMap = params
       this.pagination.page = 1
       this.reloadList()
