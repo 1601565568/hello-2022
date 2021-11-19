@@ -81,9 +81,6 @@
                     :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
                     <span class="scope-name_tip" slot="reference">共{{scope.row.guideCount}}个</span>
                   </el-popover>
-                  <!-- <div class="scope-name_num">
-                    共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
-                  </div> -->
                 </div>
               </template>
             </el-table-column>
@@ -99,6 +96,18 @@
                   至
                   <span>{{scope.row.validTimeEnd}}</span>
                 </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="tags"
+              width='90px'
+              label="自动打标">
+              <template slot-scope="scope">
+                <div class="scope-name_num">
+                  <span v-if="scope.row.tagCount" class="scope-name_tip" @click="() => openTagDrawer(scope.row.tags)">{{scope.row.tagCount}}</span>
+                  <span v-else>0</span>
+                  个
+                </div>
               </template>
             </el-table-column>
             <el-table-column
@@ -155,6 +164,7 @@
       :with-header="false">
       <ItemDrawer :data='itemDate' @onClose='handleClose' @onPreview="handleAnalysis" @onDelect="handleEnd" @onEdit="handleDetail" @onNext='getOhterGuide("next",handleShowDetail)' @onPrev='getOhterGuide("prev",handleShowDetail)'/>
     </el-drawer>
+    <CheckTagDrawer :visible.sync="CheckTagDrawerVisible" :checkList="CheckTagList"/>
   </div>
 </template>
 <script>
@@ -163,14 +173,16 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/List/ItemDrawer'
+import CheckTagDrawer from './components/CheckTagDrawer'
 List.components = {
-  PageTable, NsGuideDialog, ElDrawer, ItemDrawer
+  PageTable, NsGuideDialog, ElDrawer, ItemDrawer, CheckTagDrawer
 }
 export default List
 </script>
 <style lang="scss" scoped>
   @import "./styles/reset.css";
   .scope-name_tip {
+    cursor: pointer;
     color: #0091FA
   }
   .scope-title {
