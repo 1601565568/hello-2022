@@ -178,6 +178,15 @@
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
               </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <div>
+                    <el-checkbox v-model="materialIdChecked">素材ID</el-checkbox>
+                  </div>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
+              </div>
             </div>
           </el-form-item>
           <el-form-item label="">
@@ -301,6 +310,8 @@ export default {
       memberIdVal: '',
       memberUserIdChecked: false,
       memberUserIdVal: '',
+      materialIdChecked: false,
+      materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultCodeUrl.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
@@ -390,6 +401,9 @@ export default {
     },
     memberUserIdVal (newValue, oldValue) {
       this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
+    },
+    materialIdVal (newValue, oldValue) {
+      this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
     }
   },
   computed: {
@@ -399,8 +413,9 @@ export default {
       const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
       const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
       const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
-      let arr = [shopId, internalId, outShopId, guideId, guideUserId]
-      arr = arr.filter(item => item.length > 6)
+      const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
+      let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
+      arr = arr.filter(item => item.length > 0)
       if (arr.length > 0) {
         return this.content.path + '?' + arr.join('&')
       }
@@ -722,11 +737,17 @@ export default {
           paramName: this.memberUserIdVal,
           status: this.memberUserIdChecked ? 1 : 0
         }
+        let materialId = {
+          paramCode: 'materialId',
+          paramName: this.materialIdVal,
+          status: this.materialIdChecked ? 1 : 0
+        }
         this.content.presetParams.push(guideId)
         this.content.presetParams.push(shopId)
         this.content.presetParams.push(workNumber)
         this.content.presetParams.push(outShopId)
         this.content.presetParams.push(guideUserId)
+        this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         html2canvas(view, {
