@@ -770,7 +770,7 @@ export default {
       this.goodsCache.title = item.title || ''
       this.content.path = item.itemUrl || ''
       this.goodsCache.path = item.itemUrl || ''
-      if (parseFloat(item.costPrice, 10) > 0) {
+      if (parseFloat(item.suggestPrice, 10) > 0) {
         this.content.price = item.suggestPrice
         this.content.priceStatus = 1
         this.goodsCache.price = item.suggestPrice
