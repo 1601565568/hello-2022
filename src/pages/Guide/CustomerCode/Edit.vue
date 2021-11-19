@@ -204,6 +204,7 @@
                           </div>
                           <component :is="formatSettingType(item.itemCode)"
                           @updateActiveModel="updateActiveModel"
+                          @updateStair="updateStair"
                           v-model="pageObj"
                           :prizeModel="prizeModel"
                           :isStating="isStating"

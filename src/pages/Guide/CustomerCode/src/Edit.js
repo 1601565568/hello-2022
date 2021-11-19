@@ -71,9 +71,9 @@ export default {
           count: 10,
           addValidFriendTags: [ { level: 1, tag: '', tagGroupId: '' } ],
           beGuestCodeTags: [ { level: 1, tag: '', tagGroupId: '' } ],
-          noStandardTags: [ { level: 1, tag: '', tagGroupId: '' }, { level: 2, tag: '', tagGroupId: '' } ],
-          standardTags: [ { level: 1, tag: '', tagGroupId: '' }, { level: 2, tag: '', tagGroupId: '' } ],
-          noReceiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' }, { level: 2, tag: '', tagGroupId: '' } ],
+          noStandardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          standardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          noReceiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ],
           receiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ]
         }
       },
@@ -275,6 +275,19 @@ export default {
     }
   },
   methods: {
+    updateStair (type) {
+      if (type === 'add') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.push({ level: noStandardTags.length + 1, tag: '', tagGroupId: '' })
+        standardTags.push({ level: standardTags.length + 1, tag: '', tagGroupId: '' })
+        noReceiveRewardsTags.push({ level: noReceiveRewardsTags.length + 1, tag: '', tagGroupId: '' })
+      } else if (type === 'del') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.pop()
+        standardTags.pop()
+        noReceiveRewardsTags.pop()
+      }
+    },
     openAddTagDialog (tag) {
       this.NsAddTagDialogVisible = true
       this.NsAddTagDialogColumn = tag
