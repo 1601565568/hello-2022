@@ -255,7 +255,7 @@
         <div class="show-info-view" id="show-info-view">
           <img class="image-view" :src="content.backgroundImage || defaultUrl"/>
           <div class="content-view">
-            <div class="left-view">
+            <div class="conent-left-view">
               <div class="title-view">
                 {{content.title || '这是名称'}}
               </div>
@@ -814,7 +814,7 @@ export default {
 }
 .line-view {
   position: absolute;
-  left: 54%;
+  left: 55%;
   width: 1px;
   height: 100%;
   top: 0;
@@ -822,13 +822,27 @@ export default {
 }
 .left-view {
   width: 55%;
+  height: 700px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #9093994d;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 }
 .right-view {
   width: 45%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   .show-info-view {
+    position: absolute;
+    top: 100px;
+    left: 20px;
     background: #ffffff;
     border-radius: 6px;
     width: 380px;
@@ -845,7 +859,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      .left-view {
+      .conent-left-view {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -873,7 +887,9 @@ export default {
           color: #8c8c8c;
           line-height: 20px;
           font-weight: 400;
-          text-decoration: line-through;
+          text-decoration-color: '#8c8c8c';
+          text-decoration-line: line-through;
+          text-decoration-style: 'solid';
         }
       }
       .code-img-view {
