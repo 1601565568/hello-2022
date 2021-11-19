@@ -428,7 +428,7 @@ export default {
   methods: {
     checkOriginalPricRules (rule, value, callback) {
       if (this.content.originalPriceStatus === 1) {
-        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        const regex = /^(\d+)(.\d{0,2})?$/g
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
@@ -441,7 +441,7 @@ export default {
     },
     checkPriceRules (rule, value, callback) {
       if (this.content.priceStatus === 1) {
-        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        const regex = /^(\d+)(.\d{0,2})?$/g
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
