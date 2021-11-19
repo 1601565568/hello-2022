@@ -89,7 +89,8 @@ export default {
         time: [],
         outerId: '',
         shelfTime: '',
-        endTime: ''
+        endTime: '',
+        currentStatus: ''
       },
       // table列表配置
       table: {

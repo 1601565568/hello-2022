@@ -99,6 +99,18 @@
               :insertList='insertList'
             />
           </el-form-item>
+          <el-form-item label="当前状态：">
+            <el-select
+              v-model="model.currentStatus"
+              placeholder="请选择"
+              filterable
+              clearable
+            >
+              <el-option label="全部" value="0"></el-option>
+              <el-option label="生效" value="1"></el-option>
+              <el-option label="失效" value="2"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="上架时间：">
             <el-date-picker
               v-model="model.shelfTime"
