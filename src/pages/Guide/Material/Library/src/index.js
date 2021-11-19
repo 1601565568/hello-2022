@@ -290,6 +290,7 @@ export default {
           this.$notify.error(getErrorMsg('素材状态设置失败', resp))
         })
         .finally(() => {
+          //
         })
     },
     strToRichText (text) {
