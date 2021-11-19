@@ -65,7 +65,6 @@
                   width="200"
                 >
                   <div style="padding: 5px 8px;line-height: 24px;font-size: 14px;">
-                    <div>{{parmaStrTop}}</div>
                     <div>{{parmaStrBottom}}</div>
                   </div>
                   <span slot="reference" class="item-view">带参配置说明</span>
@@ -333,8 +332,7 @@ export default {
         toAuth: 'https://sandboxecloudv5.vecrp.com/basic/wxApplets/index',
         howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
       },
-      parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
-      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}',
+      parmaStrBottom: '1.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test?id={userID}&number={workNumber}',
       goodsCache: {
         path: '',
         outerId: '',
