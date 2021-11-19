@@ -212,7 +212,7 @@ export default {
       filterValue: '',
       queryNum: 0,
       // 搜索时，排除文件夹的字段
-      excludeQuery: ['content', 'subdivisionId', 'mType', 'outerId'],
+      excludeQuery: ['content', 'subdivisionId', 'mType', 'outerId', 'currentStatus'],
       queryLoading: null,
       selectItem: {},
       materialScriptId: 0,
