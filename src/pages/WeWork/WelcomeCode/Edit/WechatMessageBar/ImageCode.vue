@@ -270,7 +270,7 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" :src="defaultCodeUrl"/>
+                <img class="code-img" src="@/assets/defaultCodeUrl.jpg" style="width:112px;height:108px;"/>
               </div>
               <div class="code-title">长按查看详情</div>
             </div>
