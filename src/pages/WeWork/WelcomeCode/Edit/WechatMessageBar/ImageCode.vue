@@ -610,6 +610,7 @@ export default {
     },
     loadAppIds () {
       this.miniList = []
+      this.content.appid = ''
       let that = this
       this.$http
         .fetch(this.$api.guide.findWxAppletsList, {})
