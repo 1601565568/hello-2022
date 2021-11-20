@@ -255,8 +255,8 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0" style="width:380px;height:380px;"/>
-          <img class="image-view" src="@/assets/image-code-def.jpg" v-else style="width:380px;height:380px;">
+          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0"/>
+          <img class="image-view" src="@/assets/image-code-def.jpg" v-else>
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view">
@@ -723,7 +723,7 @@ export default {
       if (checkRules) {
         this.content.price = Number(this.content.price)
         this.content.originalPrice = Number(this.content.originalPrice)
-        const view = document.querySelector('.show-info-view')
+        const view = document.getElementById('show-info-view')
         const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
@@ -767,19 +767,18 @@ export default {
         this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
-        let canvas = document.createElement('canvas')
-        let targetWidth = view.offsetWidth
-        let targetHeight = view.offsetHeight
-        let scale = window.devicePixelRatio
-        canvas.width = targetWidth * scale
-        canvas.height = targetHeight * scale
-        canvas.style.width = targetWidth * scale + 'px'
-        canvas.style.height = targetHeight * scale + 'px'
-        canvas.getContext('2d').scale(scale, scale)
+        // let canvas = document.createElement('canvas')
+        // let targetWidth = view.offsetWidth
+        // let targetHeight = view.offsetHeight
+        // let scale = window.devicePixelRatio
+        // canvas.width = targetWidth * scale
+        // canvas.height = targetHeight * scale
+        // canvas.style.width = targetWidth * scale + 'px'
+        // canvas.style.height = targetHeight * scale + 'px'
+        // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
           allowTaint: false,
-          useCORS: true,
-          canvas
+          useCORS: true
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
