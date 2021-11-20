@@ -919,7 +919,9 @@ export default {
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
+          /*! autoprefixer: off */
           overflow: hidden;
+          /*! autoprefixer: on */
         }
         .left-price-view {
           font-size: 20px;
