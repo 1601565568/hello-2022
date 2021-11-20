@@ -697,7 +697,6 @@ export default {
         })
         arr.push(originalPrice)
       }
-
       const allRules = await Promise.all(arr)
       const checkRules = allRules.length === arr.length
       if (this.content.outerId && this.content.outerId.length > 48) {
