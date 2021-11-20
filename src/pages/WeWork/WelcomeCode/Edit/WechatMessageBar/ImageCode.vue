@@ -259,9 +259,8 @@
           <img class="image-view" src="@/assets/image-code-def.jpg" v-else>
           <div class="content-view">
             <div class="conent-left-view">
-              <div class="title-view">
-                {{content.title || '这是名称'}}
-              </div>
+              <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
+              <div class="title-view" v-else>这是名称</div>
               <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
