@@ -463,8 +463,10 @@ export default {
       } else if (this.content.codeStyle === 1) {
         this.miniCache.originalPriceStatus = e
       }
-      let target = document.getElementById('right-originalPrice-view')
-      target.scrollTop = target.scrollHeight
+      setTimeout(() => {
+        let target = document.getElementById('right-originalPrice-view')
+        target.scrollTop = target.scrollHeight
+      }, 0)
     },
     priceStatusChange (e) {
       if (this.content.codeStyle === 0) {
@@ -472,6 +474,10 @@ export default {
       } else if (this.content.codeStyle === 1) {
         this.miniCache.priceStatus = e
       }
+      setTimeout(() => {
+        let target = document.getElementById('right-originalPrice-view')
+        target.scrollTop = target.scrollHeight
+      }, 0)
     },
     originalPriceChange (e) {
       if (this.content.codeStyle === 0) {
