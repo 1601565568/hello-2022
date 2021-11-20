@@ -538,9 +538,10 @@ export default {
     },
     showImageCode () {
       this.visible = true
-      if (this.miniList.length > 0) {
-        this.content.appid = this.miniList[0].appid
-      }
+      this.loadAppIds()
+      // if (this.miniList.length > 0) {
+      //   this.content.appid = this.miniList[0].appid
+      // }
     },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
