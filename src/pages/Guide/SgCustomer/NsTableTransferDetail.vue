@@ -1,23 +1,117 @@
 <template>
   <div>
-    <!-- 导航区域 -->
-    <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item>用户中心</el-breadcrumb-item>
-            <el-breadcrumb-item>会员管理</el-breadcrumb-item>
-            <el-breadcrumb-item>会员列表</el-breadcrumb-item>
-            <el-breadcrumb-item>转移明细</el-breadcrumb-item>
-        </el-breadcrumb> -->
-    <!-- 卡片视图 -->
-    <h3>转移明细</h3>
-    <div class="box-card">
-      <div class="nav">
-        <el-input placeholder="请输入手机号"  suffix-icon="el-icon-search" class="name iconfont"  v-model="input"></el-input>
-        <el-input placeholder="请输入会员姓名" suffix-icon="el-icon-search"  class="name  iconfont"  v-model="input"></el-input>
-        <el-input placeholder="请输入好友昵称" suffix-icon="el-icon-search" class="name  iconfont" v-model="input"></el-input>
-        <div class="drop">
+    <div class="top-title-view">转移明细</div>
+    <div class="top-search-view">
+      <div class="seach-left-view">
+        <div class="no-input-view base-view">
+          <el-input
+            v-model="input"
+            placeholder="请输入素材标题"
+            @change="inputClick"
+          >
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="no-input-view base-view">
+          <el-input
+            v-model="input"
+            placeholder="请输入会员姓名"
+            @change="inputClick"
+          >
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="no-input-view base-view">
+          <el-input
+            v-model="input"
+            placeholder="请输入好友昵称"
+            @change="inputClick"
+          >
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="operation-view base-view">
+          <div class="name">操作人：</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option="true">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
+          </div>
+        </div>
+        <div class="operation-view  base-view">
+          <div class="name">会员转移状态：</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option="true">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
+          </div>
+        </div>
+        <div class="operation-view base-view">
+          <div class="name">好友转移状态：</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option="true">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
+          </div>
+        </div>
+        <!-- <div class="drop">
           <el-dropdown>
             <el-button type="primary">
-                操作人：全部<i class="el-icon-arrow-down el-icon--right"></i>
+              操作人：全部<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>1</el-dropdown-item>
@@ -25,11 +119,11 @@
               <el-dropdown-item>3</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>
-        <button class="btn">导出文件</button>
-        <div class="picker">
+        </div> -->
+        <!-- <div class="picker">
           <span>转移时间：</span>
-          <el-date-picker class="date"
+          <el-date-picker
+            class="date"
             v-model="value2"
             type="datetimerange"
             align="right"
@@ -42,7 +136,9 @@
         <div class="drop1">
           <el-dropdown>
             <el-button type="primary">
-                会员转移状态：选择状态<i class="el-icon-arrow-down el-icon--right"></i>
+              会员转移状态：选择状态<i
+                class="el-icon-arrow-down el-icon--right"
+              ></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>1</el-dropdown-item>
@@ -54,7 +150,9 @@
         <div class="drop1">
           <el-dropdown>
             <el-button type="primary">
-                好友转移状态：选择状态<i class="el-icon-arrow-down el-icon--right"></i>
+              好友转移状态：选择状态<i
+                class="el-icon-arrow-down el-icon--right"
+              ></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>1</el-dropdown-item>
@@ -62,63 +160,76 @@
               <el-dropdown-item>3</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>
+        </div> -->
       </div>
+      <div class="output-file">导出文件</div>
     </div>
-
-    <!-- 会员列表 -->
-    <div class="box">
-      <span class="b-trandfer">会员信息</span>
-      <span class="f-trandfer">好友信息</span>
-    </div>
-    <el-table :data="tableData" style="width: 100%" border>
+    <div class="trans-table-view">
+      <el-table :data="tableData" style="width: 100%" border>
         <el-table-column label="会员" width="188x">
-            <template slot-scope="scope">
+          <template slot-scope="scope">
             <div class="img">
               <el-row :gutter="20">
                 <div class="gutter">
-                  <img :src="scope.row.date" width="50px" height="50px" class="img">
-                  <span class="namer">{{scope.row.name}}</span>
+                  <img
+                    :src="scope.row.date"
+                    width="50px"
+                    height="50px"
+                    class="img"
+                  />
+                  <span class="namer">{{ scope.row.name }}</span>
                 </div>
               </el-row>
             </div>
-            </template>
+          </template>
         </el-table-column>
-        <el-table-column label="性别" prop="gender" ></el-table-column>
-        <el-table-column label="手机号" prop="phone" width="120px"> </el-table-column>
+        <el-table-column label="性别" prop="gender"></el-table-column>
+        <el-table-column label="手机号" prop="phone" width="120px">
+        </el-table-column>
         <el-table-column label="会员卡号" prop="card"> </el-table-column>
-        <el-table-column label="原专属导购" prop="original" width="100px"> </el-table-column>
-        <el-table-column label="新专属导购" prop="newShopping"  width="100px"> </el-table-column>
-        <el-table-column label="会员转移状态" prop="transfer"  width="100px"> </el-table-column>
-        <el-table-column label="好友" width="198px">
-            <template slot-scope="scope">
-              <el-row :gutter="20">
-                <div class="gutter">
-                  <img :src="scope.row.date1" width="50px" height="50px" >
-                  <span class="namer">{{scope.row.namer}}</span>
-                </div>
-              </el-row>
-            </template>
+        <el-table-column label="原专属导购" prop="original" width="100px">
         </el-table-column>
-        <el-table-column label="手机号" prop="fPhone" width="120px"> </el-table-column>
-        <el-table-column label="原添加人" prop="addPerson" width="100px"> </el-table-column>
-        <el-table-column label="新添加人" prop="newPerson" width="100px"> </el-table-column>
-        <el-table-column label="好友转移状态" prop="fTransfer" width="100px"> </el-table-column>
-        <el-table-column label="备注" prop="remark" width="100px"> </el-table-column>
-        <el-table-column label="操作人" prop="operationPerson"> </el-table-column>
-        <el-table-column label="转移时间" prop="add_time" width="100px"></el-table-column>
-    </el-table>
-    <div class="block">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
-    </el-pagination>
-  </div>
+        <el-table-column label="新专属导购" prop="newShopping" width="100px">
+        </el-table-column>
+        <el-table-column label="会员转移状态" prop="transfer" width="100px">
+        </el-table-column>
+        <el-table-column label="好友" width="198px">
+          <template slot-scope="scope">
+            <el-row :gutter="20">
+              <div class="gutter">
+                <img :src="scope.row.date1" width="50px" height="50px" />
+                <span class="namer">{{ scope.row.namer }}</span>
+              </div>
+            </el-row>
+          </template>
+        </el-table-column>
+        <el-table-column label="手机号" prop="fPhone" width="120px">
+        </el-table-column>
+        <el-table-column label="原添加人" prop="addPerson" width="100px">
+        </el-table-column>
+        <el-table-column label="新添加人" prop="newPerson" width="100px">
+        </el-table-column>
+        <el-table-column label="好友转移状态" prop="fTransfer" width="100px">
+        </el-table-column>
+        <el-table-column label="备注" prop="remark" width="100px">
+        </el-table-column>
+        <el-table-column label="操作人" prop="operationPerson">
+        </el-table-column>
+        <el-table-column
+          label="转移时间"
+          prop="add_time"
+          width="100px"
+        ></el-table-column>
+      </el-table>
+      <div class="block">
+        <el-pagination
+          :page-sizes="[5, 10, 15]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+        >
+        </el-pagination>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -127,88 +238,165 @@ export default {
   data () {
     return {
       input: '',
-      tableData: [{
-        date: require('@/assets/baguser.png'),
-        name: '小樱',
-        gender: '女',
-        phone: '18566677789',
-        card: '会员卡号',
-        original: '原专属门店',
-        newShopping: '新专属门店',
-        transfer: '转移状态',
-        date1: require('@/assets/baguser.png'),
-        namer: '好友昵称',
-        fPhone: '18566677789',
-        addPerson: '原员工姓名',
-        newPerson: '新员工姓名',
-        fTransfer: '接替状态',
-        remark: '可显示接替失败原因',
-        operationPerson: 'admin',
-        add_time: '2021-05-23 12:23:44'
-      },
-      {
-        date: require('@/assets/baguser.png'),
-        name: '小樱',
-        gender: '女',
-        phone: '18566677789',
-        card: '会员卡号',
-        original: '原专属门店',
-        newShopping: '新专属门店',
-        transfer: '转移状态',
-        date1: require('@/assets/baguser.png'),
-        namer: '好友昵称',
-        fPhone: '18566677789',
-        addPerson: '原员工姓名',
-        newPerson: '新员工姓名',
-        fTransfer: '接替状态',
-        remark: '可显示接替失败原因',
-        operationPerson: 'admin',
-        add_time: '2021-05-23 12:23:44'
-      },
-      {
-        date: require('@/assets/baguser.png'),
-        name: '小樱',
-        gender: '女',
-        phone: '18566677789',
-        card: '会员卡号',
-        original: '原专属门店',
-        newShopping: '新专属门店',
-        transfer: '转移状态',
-        date1: require('@/assets/baguser.png'),
-        namer: '好友昵称',
-        fPhone: '18566677789',
-        addPerson: '原员工姓名',
-        newPerson: '新员工姓名',
-        fTransfer: '接替状态',
-        remark: '可显示接替失败原因',
-        operationPerson: 'admin',
-        add_time: '2021-05-23 12:23:44'
-      }
-      ]
+      tableData: [
+        {
+          date: require('@/assets/baguser.png'),
+          name: '小樱',
+          gender: '女',
+          phone: '18566677789',
+          card: '会员卡号',
+          original: '原专属门店',
+          newShopping: '新专属门店',
+          transfer: '转移状态',
+          date1: require('@/assets/baguser.png'),
+          namer: '好友昵称',
+          fPhone: '18566677789',
+          addPerson: '原员工姓名',
+          newPerson: '新员工姓名',
+          fTransfer: '接替状态',
+          remark: '可显示接替失败原因',
+          operationPerson: 'admin',
+          add_time: '2021-05-23 12:23:44'
+        },
+        {
+          date: require('@/assets/baguser.png'),
+          name: '小樱',
+          gender: '女',
+          phone: '18566677789',
+          card: '会员卡号',
+          original: '原专属门店',
+          newShopping: '新专属门店',
+          transfer: '转移状态',
+          date1: require('@/assets/baguser.png'),
+          namer: '好友昵称',
+          fPhone: '18566677789',
+          addPerson: '原员工姓名',
+          newPerson: '新员工姓名',
+          fTransfer: '接替状态',
+          remark: '可显示接替失败原因',
+          operationPerson: 'admin',
+          add_time: '2021-05-23 12:23:44'
+        },
+        {
+          date: require('@/assets/baguser.png'),
+          name: '小樱',
+          gender: '女',
+          phone: '18566677789',
+          card: '会员卡号',
+          original: '原专属门店',
+          newShopping: '新专属门店',
+          transfer: '转移状态',
+          date1: require('@/assets/baguser.png'),
+          namer: '好友昵称',
+          fPhone: '18566677789',
+          addPerson: '原员工姓名',
+          newPerson: '新员工姓名',
+          fTransfer: '接替状态',
+          remark: '可显示接替失败原因',
+          operationPerson: 'admin',
+          add_time: '2021-05-23 12:23:44'
+        }
+      ],
+      options: [
+        {
+          value: 0,
+          label: '全部'
+        },
+        {
+          value: 14,
+          label: '下载'
+        },
+        {
+          value: 16,
+          label: '发送'
+        },
+        {
+          value: 18,
+          label: '补全'
+        }
+      ],
+      actionValue: 0
     }
+  },
+  methods: {
+    inputClick () {}
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
-.nav {
-  margin-left: 16px;
-}
-.box-card {
+@import './styles/index.css';
+.top-title-view {
+  background-color: white;
   width: 100%;
-  height: 113px;
-  background: #ffffff;
-  border-radius: 4px;
-}
-
-.box-card .name {
-  width: 200px;
-  margin-right: 16px;
-  margin-top: 17px;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: 500;
+  padding: 8px 16px;
   margin-bottom: 16px;
 }
-.el-icon-search{
+.top-search-view {
+  width: 100%;
+  background: white;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .seach-left-view {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+  }
+  .output-file {
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    text-align: center;
+    font-size: 14px;
+    color: #595959;
+    cursor: pointer;
+    width: 116px;
+    height: 32px;
+    line-height: 30px;
+  }
+  .base-view {
+    margin-right: 16px;
+  }
+  .operation-view{
+    width: 163px;
+    height: 32px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    .name {
+      width: 70px;
+      margin-left: 8px;
+    }
+  }
+  .trans-menmber {
+    width: 200px;
+  }
+}
+.icon-view {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+// .top-search-view .name {
+//   width: 200px;
+//   margin-right: 16px;
+//   margin-bottom: 16px;
+// }
+.el-icon-search {
   border: none;
 }
 .picker {
@@ -216,18 +404,18 @@ export default {
   height: 32px;
   display: inline-block;
   margin-right: 17px;
-  border:1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
 }
-.picker span{
-   width: 70x;
-   height: 22px;
-   display: inline-block;
-   margin-left: 12px;
-   font-size: 14px;
-   color: #595959 ;
-   margin-top: 4px;
+.picker span {
+  width: 70x;
+  height: 22px;
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 14px;
+  color: #595959;
+  margin-top: 4px;
 }
-.picker .date{
+.picker .date {
   width: 370px;
   border: none;
 }
@@ -238,13 +426,18 @@ export default {
   width: 86px;
   height: 28px;
   font-size: 14px;
-  border:1px solid #D9D9D9  ;
-  color: #595959 ;
+  border: 1px solid #d9d9d9;
+  color: #595959;
   background-color: white;
   border-radius: 3px;
   margin-left: 150px;
 }
-.box .b-trandfer{
+.trans-table-view {
+  margin-top: 16px;
+  background-color: white;
+  padding: 16px;
+}
+.trans-table-view .b-trandfer {
   display: inline-block;
   width: 73.7%;
   height: 40px;
@@ -252,42 +445,42 @@ export default {
   text-align: center;
   font-size: 14px;
   font-weight: 800;
-  border-right: 1px solid #D9D9D9;
-
+  border-right: 1px solid #d9d9d9;
 }
-.box .f-trandfer{
+.trans-table-view .f-trandfer {
   display: inline-block;
   height: 40px;
   line-height: 40px;
   font-size: 14px;
   font-weight: 800;
-  margin-left: 10px;;
+  margin-left: 10px;
 }
-.el-row{
+.el-row {
   padding: 10px;
 }
-.el-row  .gutter{
-    padding: 13px 2px 13px 16px;
-  }
-.gutter span{
+.el-row .gutter {
+  padding: 13px 2px 13px 16px;
+}
+.gutter span {
   display: inline-block;
   width: 88px;
   height: 22px;
   margin-left: 10px;
-  }
-.drop{
+}
+.drop {
   width: 129px;
   height: 32px;
-  border: 1px solid #D9D9D9 ;
+  border: 1px solid #d9d9d9;
   text-align: center;
   line-height: 32px;
   border-radius: 3px;
   display: inline-block;
+  margin-right: 16px;
 }
-.drop1{
+.drop1 {
   width: 199px;
   height: 32px;
-  border: 1px solid #D9D9D9 ;
+  border: 1px solid #d9d9d9;
   text-align: center;
   line-height: 32px;
   border-radius: 3px;
