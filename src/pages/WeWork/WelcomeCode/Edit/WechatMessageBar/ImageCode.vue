@@ -259,8 +259,8 @@
           <img class="image-view" src="@/assets/image-code-def.jpg" v-else>
           <div class="content-view">
             <div class="conent-left-view">
-              <div class="title-view" v-if="content.title.length > 0" style="text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;">{{content.title}}</div>
-              <div class="title-view" v-else style="text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;">这是名称</div>
+              <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
+              <div class="title-view" v-else>这是名称</div>
               <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
@@ -912,14 +912,31 @@ export default {
           font-size: 16px;
           color: rgba(0, 0, 0, 0.85);
           line-height: 24px;
+          max-height: 72px;
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
+          position: relative;
+          // text-align: justify;
           // text-overflow: ellipsis;
           // display: -webkit-box;
           // -webkit-line-clamp: 3;
           // -webkit-box-orient: vertical;
-          // overflow: hidden;
+          overflow: hidden;
+           &::before{
+            content: '…';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+          &::after{
+            content: "";
+            position: absolute;
+            right: 0;
+            width: 35px;
+            height: 35px;
+            background: white;
+          }
         }
         .left-price-view {
           font-size: 20px;
