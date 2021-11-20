@@ -8,7 +8,7 @@
     append-to-body
   >
     <div class="container-view">
-      <div class="left-view">
+      <div class="left-view" id="right-originalPrice-view">
         <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
           <el-form-item label="小程序" required prop="appid">
             <el-select v-model="content.appid" placeholder="请选择小程序">
@@ -59,7 +59,7 @@
                 </el-input>
               </el-form-item>
               <div class="show-path-url-view">
-                <el-popover
+                <!-- <el-popover
                   placement="bottom"
                   trigger="hover"
                   width="200"
@@ -68,7 +68,7 @@
                     <div>{{parmaStrBottom}}</div>
                   </div>
                   <span slot="reference" class="item-view">带参配置说明</span>
-                </el-popover>
+                </el-popover> -->
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
@@ -77,7 +77,7 @@
                   :title="compPath"
                   :disabled="compPath.length === 0"
                 >
-                  <span slot="reference" class="item-view">预览</span>
+                  <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
               <div>路径带参</div>
@@ -214,7 +214,7 @@
               </div>
             </el-form-item>
             <div class="remind-img">
-              请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
+              请上传格式为JPG、JPEG、PNG格式的图片，<br/>大小不超过2M
             </div>
           </el-form-item>
           <el-form-item label="名称" required prop="title">
@@ -463,6 +463,8 @@ export default {
       } else if (this.content.codeStyle === 1) {
         this.miniCache.originalPriceStatus = e
       }
+      let target = document.getElementById('right-originalPrice-view')
+      target.scrollTop = target.scrollHeight
     },
     priceStatusChange (e) {
       if (this.content.codeStyle === 0) {
@@ -751,9 +753,19 @@ export default {
         this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
+        let canvas = document.createElement('canvas')
+        let targetWidth = view.offsetWidth
+        let targetHeight = view.offsetHeight
+        let scale = window.devicePixelRatio
+        canvas.width = targetWidth * scale
+        canvas.height = targetHeight * scale
+        canvas.style.width = targetWidth * scale + 'px'
+        canvas.style.height = targetHeight * scale + 'px'
+        canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
           allowTaint: false,
-          useCORS: true
+          useCORS: true,
+          canvas
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
@@ -780,7 +792,27 @@ export default {
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
     },
+    selectShopInit () {
+      this.content.bankId = ''
+      this.content.sysItemId = ''
+      this.content.itemName = ''
+      this.content.backgroundImage = ''
+      this.goodsCache.backgroundImage = ''
+      this.content.title = ''
+      this.goodsCache.title = ''
+      this.content.path = ''
+      this.goodsCache.path = ''
+      this.content.price = ''
+      this.content.priceStatus = 0
+      this.goodsCache.price = ''
+      this.goodsCache.priceStatus = 0
+      this.content.originalPrice = ''
+      this.content.originalPriceStatus = 0
+      this.goodsCache.originalPrice = ''
+      this.goodsCache.originalPriceStatus = 0
+    },
     selectMarketBack (item) {
+      this.selectShopInit()
       this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
@@ -917,7 +949,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   margin-top: 5px;
   cursor: pointer;
 }
