@@ -918,10 +918,10 @@ export default {
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
           /*! autoprefixer: off */
+          -webkit-box-orient: vertical;
+           /*! autoprefixer: on */
           overflow: hidden;
-          /*! autoprefixer: on */
         }
         .left-price-view {
           font-size: 20px;
