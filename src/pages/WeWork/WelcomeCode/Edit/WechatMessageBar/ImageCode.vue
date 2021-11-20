@@ -255,8 +255,8 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0"/>
-          <img class="image-view" src="@/assets/image-code-def.jpg" v-else>
+          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0" style="width:380px;height:380px;"/>
+          <img class="image-view" src="@/assets/image-code-def.jpg" v-else style="width:380px;height:380px;">
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view">
