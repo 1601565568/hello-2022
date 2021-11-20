@@ -106,8 +106,8 @@
       <div slot="footer" class="dialog-footer">
         <span class="recordChooseList">已选导购{{recordChooseList.length}}人</span>
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button @click="onSave(1)">仅转移会员</ns-button>
-        <ns-button type="primary" @click="onSave(1)">转移会员并转移好友</ns-button>
+        <ns-button @click="onlyTransMember(1)">仅转移会员</ns-button>
+        <ns-button type="primary" @click="transAllMember(1)">转移会员并转移好友</ns-button>
       </div>
     </el-dialog>
     <!-- 新客户详情弹窗-->
@@ -866,6 +866,7 @@
         @close="replaceStoreShow = false"
         ></replaceStore>
     <RemindMsg ref="remindMsg"/>
+    <SendMsg ref="sendMsg"/>
   </div>
 </template>
 <script>
@@ -875,12 +876,14 @@ import ElImage from '@nascent/nui/lib/image'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import replaceStore from './component/replaceStore'
 import RemindMsg from './component/RemindMsg'
+import SendMsg from './component/SendMsg'
 CustomerManage.components = {
   NsTableGuide,
   ElImage,
   ShopSelectLoad,
   replaceStore,
-  RemindMsg
+  RemindMsg,
+  SendMsg
 }
 export default CustomerManage
 </script>

@@ -968,6 +968,18 @@ export default {
      * @param {*} taskType
      * taskType 1更换导购 2更换门店
      */
+    onlyTransMember () {
+      this.$confirm('确定仅转移会员？仅转移会员时，不会同步转移好友关系', '提示信息', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+      }).catch(() => {
+      })
+    },
+    transAllMember () {
+      this.$refs.sendMsg.showDialog()
+    },
     onSave (taskType) {
       var params
       if (taskType === 1 && this.recordChooseList.length === 0) {
