@@ -77,7 +77,17 @@
                 </el-table-column>
                 <el-table-column prop="conversionAmountSum" label="转化金额">
                 </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
+                <el-table-column prop="shopName">
+                  <template slot="header">
+                    <el-popover
+                      placement="top-start"
+                      title="用户浏览或下单时，浏览记录或订单保存时统计的门店"
+                      width="200"
+                      trigger="hover"
+                      content="">
+                      <span slot="reference">所属门店<span class="iconfont icon-ns-help"></span></span>
+                    </el-popover>
+                  </template>
                   <template slot-scope="scope">
                     <el-popover
                       placement="top-start"

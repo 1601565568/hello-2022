@@ -65,7 +65,6 @@
                   width="200"
                 >
                   <div style="padding: 5px 8px;line-height: 24px;font-size: 14px;">
-                    <div>{{parmaStrTop}}</div>
                     <div>{{parmaStrBottom}}</div>
                   </div>
                   <span slot="reference" class="item-view">带参配置说明</span>
@@ -179,6 +178,15 @@
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
               </div>
+              <div class="path-para-view">
+                <div class="path-left-view">
+                  <div>
+                    <el-checkbox v-model="materialIdChecked">素材ID</el-checkbox>
+                  </div>
+                  <div>=</div>
+                </div>
+                <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
+              </div>
             </div>
           </el-form-item>
           <el-form-item label="">
@@ -247,7 +255,7 @@
         <div class="show-info-view" id="show-info-view">
           <img class="image-view" :src="content.backgroundImage || defaultUrl"/>
           <div class="content-view">
-            <div class="left-view">
+            <div class="conent-left-view">
               <div class="title-view">
                 {{content.title || '这是名称'}}
               </div>
@@ -302,6 +310,8 @@ export default {
       memberIdVal: '',
       memberUserIdChecked: false,
       memberUserIdVal: '',
+      materialIdChecked: false,
+      materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultCodeUrl.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
@@ -333,8 +343,7 @@ export default {
         toAuth: 'https://sandboxecloudv5.vecrp.com/basic/wxApplets/index',
         howGetPage: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,783,922,&id=3955&title='
       },
-      parmaStrTop: '1.小程序路径后需要带上.html,如pages/member/test.html',
-      parmaStrBottom: '2.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test.html?id={userID}&number={workNumber}',
+      parmaStrBottom: '1.需要添加参数时,需在路径后添加“?”,多个参数时用“&”隔开，如pages/member/test?id={userID}&number={workNumber}',
       goodsCache: {
         path: '',
         outerId: '',
@@ -392,6 +401,9 @@ export default {
     },
     memberUserIdVal (newValue, oldValue) {
       this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
+    },
+    materialIdVal (newValue, oldValue) {
+      this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
     }
   },
   computed: {
@@ -401,8 +413,9 @@ export default {
       const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
       const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
       const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
-      let arr = [shopId, internalId, outShopId, guideId, guideUserId]
-      arr = arr.filter(item => item.length > 6)
+      const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
+      let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
+      arr = arr.filter(item => item.length > 0)
       if (arr.length > 0) {
         return this.content.path + '?' + arr.join('&')
       }
@@ -415,7 +428,7 @@ export default {
   methods: {
     checkOriginalPricRules (rule, value, callback) {
       if (this.content.originalPriceStatus === 1) {
-        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        const regex = /^(\d+)(.\d{0,2})?$/g
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
@@ -428,7 +441,7 @@ export default {
     },
     checkPriceRules (rule, value, callback) {
       if (this.content.priceStatus === 1) {
-        const regex = /^[0-9]+(.[0-9]{2})?$/g
+        const regex = /^(\d+)(.\d{0,2})?$/g
         if (!regex.test(value)) {
           callback(new Error(`最多输入2位小数`))
         }
@@ -724,11 +737,17 @@ export default {
           paramName: this.memberUserIdVal,
           status: this.memberUserIdChecked ? 1 : 0
         }
+        let materialId = {
+          paramCode: 'materialId',
+          paramName: this.materialIdVal,
+          status: this.materialIdChecked ? 1 : 0
+        }
         this.content.presetParams.push(guideId)
         this.content.presetParams.push(shopId)
         this.content.presetParams.push(workNumber)
         this.content.presetParams.push(outShopId)
         this.content.presetParams.push(guideUserId)
+        this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         html2canvas(view, {
@@ -795,7 +814,7 @@ export default {
 }
 .line-view {
   position: absolute;
-  left: 54%;
+  left: 55%;
   width: 1px;
   height: 100%;
   top: 0;
@@ -803,13 +822,27 @@ export default {
 }
 .left-view {
   width: 55%;
+  height: 700px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #9093994d;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 }
 .right-view {
   width: 45%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   .show-info-view {
+    position: absolute;
+    top: 100px;
+    left: 20px;
     background: #ffffff;
     border-radius: 6px;
     width: 380px;
@@ -826,7 +859,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      .left-view {
+      .conent-left-view {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -854,7 +887,9 @@ export default {
           color: #8c8c8c;
           line-height: 20px;
           font-weight: 400;
-          text-decoration: line-through;
+          text-decoration-color: '#8c8c8c';
+          text-decoration-line: line-through;
+          text-decoration-style: 'solid';
         }
       }
       .code-img-view {

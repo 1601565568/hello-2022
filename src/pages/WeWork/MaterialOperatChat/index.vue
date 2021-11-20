@@ -457,7 +457,7 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '附码图片累计数据' + csvStartTime + '至' + csvEndTime + '.xlsx'
+              '附码素材运营统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
