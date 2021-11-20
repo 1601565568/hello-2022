@@ -10,15 +10,17 @@
     <div class="container-view">
       <div class="left-view" id="right-originalPrice-view">
         <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
-          <el-form-item label="小程序" required prop="appid">
-            <el-select v-model="content.appid" placeholder="请选择小程序">
-              <el-option
-                v-for="(item, index) in miniList"
-                :key="index"
-                :label="item.name"
-                :value="item.appid">
-              </el-option>
-            </el-select>
+          <el-form-item label="小程序">
+            <el-form-item required prop="appid">
+              <el-select v-model="content.appid" placeholder="请选择小程序">
+                <el-option
+                  v-for="(item, index) in miniList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.appid">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <div class="mini-view">
               <div @click="refreshAppId">已授权未显示？点此刷新</div>
               <div>
@@ -418,7 +420,11 @@ export default {
       let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
       arr = arr.filter(item => item.length > 0)
       if (arr.length > 0) {
-        return this.content.path + '?' + arr.join('&')
+        if (this.content.path.includes('?')) {
+          return this.content.path + '&' + arr.join('&')
+        } else {
+          return this.content.path + '?' + arr.join('&')
+        }
       }
       return this.content.path
     }

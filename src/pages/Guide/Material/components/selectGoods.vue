@@ -307,6 +307,7 @@ export default {
           that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null
+          that.pagination.total = 0
         }
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('查询失败', resp))
