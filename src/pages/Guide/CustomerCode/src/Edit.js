@@ -15,6 +15,9 @@ export default {
     }
     return {
       normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
+      NsAddTagDialogVisible: false, // 打标模态框
+      NsAddTagDialogColumn: '', // 正在打标的字段
+      tagList: [],
       collapseList: [1, 2, 3, 4],
       customerLoading: false,
       guestCodeId: null,
@@ -62,7 +65,27 @@ export default {
         // unfriendDeduction: 0, // 解除好友关系是否扣减好友数：0=不扣减；1扣减
         // validIntervalTimeOfStatistical: 0, // 统计的有效间隔时间(统计时效)：0=立即生效；>0 =间隔该时间后生效
         // repeatParticipation: 0 // 是否允许重复参与：0=允许；1=不允许
-        ...DEFAULT_DATA
+        ...DEFAULT_DATA,
+        // 自动打标
+        tags: {
+          count: 10,
+          addValidFriendTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          beGuestCodeTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          noStandardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          standardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          noReceiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          receiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ]
+        }
+      },
+      staircase: [ '一', '二', '三', '四', '五' ],
+      allTagGroupIds: [], // 所有的tagGroupId，用于计算tags.count
+      tagConf: {
+        addValidFriendTags: { label: '自动打标', tip: '通过裂变大师活动成为好友打标', stairPrefix: '自动打标梯度' },
+        beGuestCodeTags: { tip: '成为推广大师后自动打标', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
+        noStandardTags: { tip: '活动结束后，裂变未达标', stairPrefix: '未达阶梯' },
+        standardTags: { tip: '活动结束后，裂变打标', stairPrefix: '阶梯' },
+        noReceiveRewardsTags: { tip: '活动结束后，裂变打标但未领取奖励', stairPrefix: '未领阶梯' },
+        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标', stairPrefix: '领取奖励' }
       },
       // 校验规则
       rules: {
@@ -227,6 +250,12 @@ export default {
     // 数据安全去重方式提示
     dedupWay () {
       return EDIT_DATA.DEDUP_WAY[this.model.distinctType] || {}
+    },
+    // 打开选择tag的模块框时，要回显选中的标签
+    activeSelectedTags () {
+      if (!this.NsAddTagDialogColumn) return ''
+      const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
+      return this.model[tags][tagKey][index].tag
     }
   },
   mounted () {
@@ -247,6 +276,45 @@ export default {
     }
   },
   methods: {
+    updateStair (type) {
+      if (type === 'add') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.push({ level: noStandardTags.length + 1, tag: '', tagGroupId: '' })
+        standardTags.push({ level: standardTags.length + 1, tag: '', tagGroupId: '' })
+        noReceiveRewardsTags.push({ level: noReceiveRewardsTags.length + 1, tag: '', tagGroupId: '' })
+      } else if (type === 'del') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.pop()
+        standardTags.pop()
+        noReceiveRewardsTags.pop()
+      }
+    },
+    openAddTagDialog (tag) {
+      this.NsAddTagDialogVisible = true
+      this.NsAddTagDialogColumn = tag
+    },
+    // 确认选择的tag
+    confirmSelectedTag (info) {
+      const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
+      const tagItem = this.model[tags][tagKey][index]
+      tagItem.tag = info.tagIds.join(',')
+      tagItem.tagGroupId = info.tagGroupIds.join(',')
+
+      this.NsAddTagDialogColumn = ''
+    },
+    totalTagCount () {
+      let tagGroupId = ''
+      for (const key in this.model.tags) {
+        if (key !== 'count') {
+          const tag = this.model.tags[key]
+          tag.forEach(item => {
+            if (item.tagGroupId) tagGroupId += `,${item.tagGroupId}`
+          })
+        }
+      }
+      tagGroupId = tagGroupId.slice(1)
+      return tagGroupId ? Array.from(new Set(tagGroupId.split(','))).length : 0
+    },
     showDefPosters () {
       this.model.backgroundPic = defPosters
     },
@@ -610,7 +678,7 @@ export default {
         const saveRules = this.$refs.tagAreaText.htmlToString(this.pageObj.rules)
         this.model = formatModelSave(this.model, saveIntro, saveRules, guestCodeId, this.eidtList)
         const headPosition = this.headPosition[this.model.headerType]
-        const data = { ...this.model, ...headPosition }
+        const data = { ...this.model, ...headPosition, tags: { ...this.model.tags, count: this.totalTagCount() } }
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
           this.$notify.success('保存成功')
           this.handleCancel()

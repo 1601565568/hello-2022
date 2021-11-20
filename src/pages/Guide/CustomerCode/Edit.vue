@@ -204,6 +204,7 @@
                           </div>
                           <component :is="formatSettingType(item.itemCode)"
                           @updateActiveModel="updateActiveModel"
+                          @updateStair="updateStair"
                           v-model="pageObj"
                           :prizeModel="prizeModel"
                           :isStating="isStating"
@@ -584,6 +585,58 @@
       </SimpleCollapse>
     </div>
     <!-- 数据与安全 end -->
+    <!-- 自动打标 start -->
+    <div class="customer-box">
+      <SimpleCollapse title='自动打标'>
+        <Box :noborder='true'>
+          <template slot='collapse-left'>
+            <el-form
+              label-width="110px"
+              label-position="left"
+              :model="model"
+              class="normal-from"
+              :rules="rules"
+              ref="AddTagForm"
+            >
+              <!-- {{totalTagCount()}} -->
+              <template v-for="(tagItem, tagkey) in tagConf">
+                <el-form-item
+                  v-for="(item, index) in model.tags[tagkey]"
+                  :key="`${tagkey}_${index}`"
+                  :label="tagItem.label"
+                  :prop="`tags.${tagkey}.${index}`"
+                  class="larger-item"
+                >
+                  <div v-if="!index" class='sub-title sub-title-color'>
+                    {{tagItem.tip}}
+                    <el-tooltip v-if="tagItem.help" class="help" :content="tagItem.help">
+                      <Icon type="ns-help"/>
+                    </el-tooltip>
+                  </div>
+                  <div class="select-area">
+                    <span v-if="model.tags[tagkey].length > 1" class="select-title">
+                      {{tagItem.stairPrefix}}{{staircase[index]}}
+                    </span>
+                    <div class="select-tips" @click="openAddTagDialog(`tags.${tagkey}.${index}`)">
+                      <span v-if="!model.tags[tagkey][index].tagGroupId" class="un-selected">请选择标签</span>
+                      <span v-else class="selected">已选择{{model.tags[tagkey][index].tagGroupId.split(',').length}}个标签</span>
+                      <Icon type="channel" class="icon"/>
+                    </div>
+                  </div>
+                </el-form-item>
+              </template>
+            </el-form>
+          </template>
+        </Box>
+      </SimpleCollapse>
+      <NsAddTagDialog
+        :visible.sync="NsAddTagDialogVisible"
+        :tagList="tagList"
+        :selectedTags="activeSelectedTags"
+        @confirm="confirmSelectedTag"
+      />
+    </div>
+    <!-- 自动打标 end -->
   </div>
 </template>
 <script>
@@ -595,6 +648,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
 import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsAddTagDialog from '@/components/NsAddTagDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import SetPrize from './components/SetPrize'
 import DrapUpload from '@/components/NewUi/DrapUpload'
@@ -617,6 +671,7 @@ Edit.components = {
   ElColorPicker,
   VueDragResize,
   NsGuideDialog,
+  NsAddTagDialog,
   ElInputNumber,
   SetPrize,
   DrapUpload,
@@ -1009,6 +1064,46 @@ export default Edit
   }
   &:hover .noEdit {
     opacity: 0.85;
+  }
+}
+
+.sub-title-color {
+  color: #595959;
+}
+.select-area {
+  display: flex;
+  font-size: 14px;
+  .select-title {
+    margin-right: 15px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .select-tips {
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    width: 626px;
+    height: 32px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span {
+      font-size: 14px;
+      padding: 0 25px 0 9px;
+      line-height: 32px;
+    }
+    .un-selected {
+      color: #BFBFBF;
+    }
+    .selected {
+      color: #606266;
+    }
+    .icon {
+      color: #BFBFBF;
+      font-size: 14px;
+      margin-right: 9px;
+    }
   }
 }
 </style>
