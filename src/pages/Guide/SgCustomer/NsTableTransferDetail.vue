@@ -66,101 +66,62 @@
             />
           </div>
         </div>
-        <div class="operation-view  base-view">
-          <div class="name">会员转移状态：</div>
-          <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="icon-view">
-            <Icon
-              type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-              style="color: #8C8C8C;"
-            />
-          </div>
-        </div>
-        <div class="operation-view base-view">
-          <div class="name">好友转移状态：</div>
-          <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="icon-view">
-            <Icon
-              type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-              style="color: #8C8C8C;"
-            />
-          </div>
-        </div>
-        <!-- <div class="drop">
-          <el-dropdown>
-            <el-button type="primary">
-              操作人：全部<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>1</el-dropdown-item>
-              <el-dropdown-item>2</el-dropdown-item>
-              <el-dropdown-item>3</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div> -->
-        <!-- <div class="picker">
-          <span>转移时间：</span>
+        <div class="date-view base-view">
+          <span style="font-size:13px">转移时间：</span>
           <el-date-picker
-            class="date"
-            v-model="value2"
-            type="datetimerange"
-            align="right"
-            aria-placeholder="转移时间："
+            v-model="datePickerValue"
+            type="daterange"
+            range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
+            align="center"
+            value-format="yyyy-MM-dd"
+            prefix-icon=""
           >
           </el-date-picker>
         </div>
-        <div class="drop1">
-          <el-dropdown>
-            <el-button type="primary">
-              会员转移状态：选择状态<i
-                class="el-icon-arrow-down el-icon--right"
-              ></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>1</el-dropdown-item>
-              <el-dropdown-item>2</el-dropdown-item>
-              <el-dropdown-item>3</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+        <div class="operation-view  base-view" style="width:220px">
+          <div class="name" style="width:100px">会员转移状态：</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option="true">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
+          </div>
         </div>
-        <div class="drop1">
-          <el-dropdown>
-            <el-button type="primary">
-              好友转移状态：选择状态<i
-                class="el-icon-arrow-down el-icon--right"
-              ></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>1</el-dropdown-item>
-              <el-dropdown-item>2</el-dropdown-item>
-              <el-dropdown-item>3</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div> -->
+        <div class="operation-view base-view" style="width:220px">
+          <div class="name" style="width:100px">好友转移状态：</div>
+          <div class="item-select">
+            <el-select v-model="actionValue" :default-first-option="true">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="icon-view">
+            <Icon
+              type="ns-arrow-drowdown"
+              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
+              style="color: #8C8C8C;"
+            />
+          </div>
+        </div>
       </div>
       <div class="output-file">导出文件</div>
     </div>
@@ -315,6 +276,7 @@ export default {
           label: '补全'
         }
       ],
+      datePickerValue: '',
       actionValue: 0
     }
   },
@@ -341,15 +303,16 @@ export default {
   width: 100%;
   background: white;
   border-radius: 4px;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
   .seach-left-view {
-    width: 70%;
+    width: 80%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   .output-file {
     background: #ffffff;
@@ -365,6 +328,7 @@ export default {
   }
   .base-view {
     margin-right: 16px;
+    margin-bottom: 16px;
   }
   .operation-view{
     width: 163px;
@@ -389,6 +353,13 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+
+.date-view {
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  padding: 0px 12px;
+  // margin-left: 16px;
 }
 
 // .top-search-view .name {

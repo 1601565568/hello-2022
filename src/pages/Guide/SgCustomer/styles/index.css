@@ -23,3 +23,21 @@
 .item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
   display: none;
 }
+
+.date-view >>> .el-input__inner {
+  width: 256px;
+  height: 30px;
+  border: none;
+}
+.data-view >>> .el-range-input {
+  font-size: 14px;
+  text-align: center;
+}
+.data-view >>> .el-date-editor .el-range__icon {
+  display: none;
+}
+
+.date-view >>> .el-range-input {
+  font-size: 14px;
+  /* height: 32px; */
+}
