@@ -35,6 +35,6 @@ export const WelcomeMessageTypeTip = {
   },
   [WelcomeMessageType.ImageCode]: {
     tip: '附码图片',
-    icon: 'fumatupian-01'
+    icon: 'fumatupian-02'
   }
 }
