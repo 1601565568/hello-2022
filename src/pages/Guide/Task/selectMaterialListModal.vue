@@ -296,12 +296,12 @@ export default {
       this.catalogue = catalogue
       this.model.parentId = catalogue[catalogue.length - 1].id
     },
-    showToggle (obj) {
+    showToggle (obj, taskStart, taskEnd) {
       if (obj && obj.id) {
         this.selectObj = obj
       }
       this.dialogVisible = true
-      this.model = { ...this.originModel }
+      this.model = { ...this.originModel, taskStart, taskEnd }
       this.catalogue = []
       this.getAllLabel()
       this.searchAction(false)

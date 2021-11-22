@@ -210,8 +210,15 @@ export default {
     },
     // 选择素材
     selectMaterialShowFun () {
+      const times = this.model.activityTime
+      let taskStart = ''
+      let taskEnd = ''
+      if (times.length >= 2) {
+        taskStart = this.model.activityTime[0]
+        taskEnd = this.model.activityTime[1]
+      }
       this.$nextTick(() => {
-        this.$refs.selectDialogDom.showToggle(this.selectMaterial)
+        this.$refs.selectDialogDom.showToggle(this.selectMaterial, taskStart, taskEnd)
       })
     },
     // 删除素材
