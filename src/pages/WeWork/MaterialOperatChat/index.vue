@@ -767,7 +767,10 @@ export default {
                 axisLabel: {
                   fontsize: 12,
                   color: '#BFBFBF',
-                  lineHeight: 20
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
                 },
                 nameTextStyle: {
                   color: '#BFBFBF'
@@ -790,7 +793,10 @@ export default {
                 axisLabel: {
                   fontsize: 12,
                   color: '#BFBFBF',
-                  lineHeight: 20
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
                 },
                 nameTextStyle: {
                   color: '#BFBFBF'
