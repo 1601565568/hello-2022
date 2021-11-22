@@ -87,7 +87,15 @@ export default {
       try {
         const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
         if (res.success) {
-          this.tagList = res.result
+          // this.tagList = res.result
+          const showList = res.result.filter(tagGroupItem => {
+            for (const tagValueItem of tagGroupItem.tagValueList) {
+              if (this.checkList.indexOf(tagValueItem.tagId) >= 0) {
+                return true
+              }
+            }
+          })
+          this.tagList = showList
         } else {
           this.$notify.error('获取标签失败')
         }
