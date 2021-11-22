@@ -256,12 +256,11 @@
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
           <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0"/>
-          <img class="image-view" :src="defaultUrl" v-else>
+          <img class="image-view" src="@/assets/image-code-def.jpg" v-else>
           <div class="content-view">
             <div class="conent-left-view">
-              <div class="title-view">
-                {{content.title || '这是名称'}}
-              </div>
+              <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
+              <div class="title-view" v-else>这是名称</div>
               <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
@@ -271,7 +270,7 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" :src="defaultCodeUrl"/>
+                <img class="code-img" src="@/assets/defaultCodeUrl.jpg" style="width:112px;height:108px;"/>
               </div>
               <div class="code-title">长按查看详情</div>
             </div>
@@ -722,7 +721,7 @@ export default {
       if (checkRules) {
         this.content.price = Number(this.content.price)
         this.content.originalPrice = Number(this.content.originalPrice)
-        const view = document.querySelector('.show-info-view')
+        const view = document.getElementById('show-info-view')
         const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
@@ -766,19 +765,18 @@ export default {
         this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
-        let canvas = document.createElement('canvas')
-        let targetWidth = view.offsetWidth
-        let targetHeight = view.offsetHeight
-        let scale = window.devicePixelRatio
-        canvas.width = targetWidth * scale
-        canvas.height = targetHeight * scale
-        canvas.style.width = targetWidth * scale + 'px'
-        canvas.style.height = targetHeight * scale + 'px'
-        canvas.getContext('2d').scale(scale, scale)
+        // let canvas = document.createElement('canvas')
+        // let targetWidth = view.offsetWidth
+        // let targetHeight = view.offsetHeight
+        // let scale = window.devicePixelRatio
+        // canvas.width = targetWidth * scale
+        // canvas.height = targetHeight * scale
+        // canvas.style.width = targetWidth * scale + 'px'
+        // canvas.style.height = targetHeight * scale + 'px'
+        // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
           allowTaint: false,
-          useCORS: true,
-          canvas
+          useCORS: true
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
@@ -913,14 +911,31 @@ export default {
           font-size: 16px;
           color: rgba(0, 0, 0, 0.85);
           line-height: 24px;
+          max-height: 72px;
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
+          // position: relative;
+          overflow: hidden;
+          text-align: justify;
           text-overflow: ellipsis;
-          display: -webkit-box;
+          // display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          overflow: hidden;
+          // &::before{
+          //   content: '...';
+          //   position: absolute;
+          //   right: 0;
+          //   bottom: 0;
+          // }
+          // &::after{
+          //   content: "";
+          //   position: absolute;
+          //   right: 0;
+          //   width: 35px;
+          //   height: 35px;
+          //   background-color: white;
+          // }
         }
         .left-price-view {
           font-size: 20px;
