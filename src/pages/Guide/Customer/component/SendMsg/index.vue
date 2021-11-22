@@ -23,6 +23,7 @@
               :showTextEmoji="false"
               :isShowDefault="false"
             />
+            <div class="triangle-view"></div>
           </div>
           <div class="remind-text">由于工作变更，
             <span class="color-text">企业微信员工姓名@企微简称</span>
@@ -105,6 +106,7 @@ export default {
   .left-img {
     width: 35px;
     height: 35px;
+    border: 1px solid #FFFFFF;
   }
   .right-view {
     display: flex;
@@ -115,11 +117,22 @@ export default {
     font-size: 14px;
     color: rgba(0,0,0,0.45);
     line-height: 22px;
+    position: relative;
     .remind-text {
       width: 320px;
     }
     .color-text {
       color: #0094FC;
+    }
+    .triangle-view {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      border-right:  5px solid white;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      left: -5px;
+      top: 12px;
     }
   }
   .send-info-view {
