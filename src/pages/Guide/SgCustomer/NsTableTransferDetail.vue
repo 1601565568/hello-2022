@@ -61,7 +61,6 @@
           <div class="icon-view">
             <Icon
               type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
               style="color: #8C8C8C;"
             />
           </div>
@@ -96,7 +95,6 @@
           <div class="icon-view">
             <Icon
               type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
               style="color: #8C8C8C;"
             />
           </div>
@@ -117,7 +115,6 @@
           <div class="icon-view">
             <Icon
               type="ns-arrow-drowdown"
-              :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
               style="color: #8C8C8C;"
             />
           </div>
@@ -126,76 +123,70 @@
       <div class="output-file">导出文件</div>
     </div>
     <div class="trans-table-view">
-      <el-table :data="tableData" style="width: 100%" border>
-        <el-table-column label="会员" width="188x">
-          <template slot-scope="scope">
-            <div class="img">
-              <el-row :gutter="20">
-                <div class="gutter">
-                  <img
-                    :src="scope.row.date"
-                    width="50px"
-                    height="50px"
-                    class="img"
-                  />
-                  <span class="namer">{{ scope.row.name }}</span>
-                </div>
-              </el-row>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="性别" prop="gender"></el-table-column>
-        <el-table-column label="手机号" prop="phone" width="120px">
-        </el-table-column>
-        <el-table-column label="会员卡号" prop="card"> </el-table-column>
-        <el-table-column label="原专属导购" prop="original" width="100px">
-        </el-table-column>
-        <el-table-column label="新专属导购" prop="newShopping" width="100px">
-        </el-table-column>
-        <el-table-column label="会员转移状态" prop="transfer" width="100px">
-        </el-table-column>
-        <el-table-column label="好友" width="198px">
-          <template slot-scope="scope">
-            <el-row :gutter="20">
-              <div class="gutter">
-                <img :src="scope.row.date1" width="50px" height="50px" />
-                <span class="namer">{{ scope.row.namer }}</span>
-              </div>
-            </el-row>
-          </template>
-        </el-table-column>
-        <el-table-column label="手机号" prop="fPhone" width="120px">
-        </el-table-column>
-        <el-table-column label="原添加人" prop="addPerson" width="100px">
-        </el-table-column>
-        <el-table-column label="新添加人" prop="newPerson" width="100px">
-        </el-table-column>
-        <el-table-column label="好友转移状态" prop="fTransfer" width="100px">
-        </el-table-column>
-        <el-table-column label="备注" prop="remark" width="100px">
-        </el-table-column>
-        <el-table-column label="操作人" prop="operationPerson">
-        </el-table-column>
-        <el-table-column
-          label="转移时间"
-          prop="add_time"
-          width="100px"
-        ></el-table-column>
-      </el-table>
-      <div class="block">
-        <el-pagination
-          :page-sizes="[5, 10, 15]"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-        >
-        </el-pagination>
-      </div>
+      <page-table style="padding-top:0">
+        <template slot="table">
+          <el-table
+            :data="tableData"
+            class="new-table_border drawer-table"
+            :row-style="{ height: '96px' }"
+            :border="false"
+            :cell-style="{ borderRight: 'none'}"
+          >
+            <el-table-column label="会员信息">
+              <el-table-column prop="name" label="会员">
+              </el-table-column>
+              <el-table-column prop="gender" label="性别"> </el-table-column>
+              <el-table-column prop="phone" label="手机号">
+              </el-table-column>
+              <el-table-column prop="card" label="会员卡号">
+              </el-table-column>
+              <el-table-column prop="original" label="原专属导购">
+              </el-table-column>
+              <el-table-column prop="newShopping" label="新专属导购">
+              </el-table-column>
+              <el-table-column prop="transfer" label="会员转移状态">
+              </el-table-column>
+            </el-table-column>
+            <el-table-column label="好友信息">
+              <el-table-column prop="namer" label="好友">
+              </el-table-column>
+              <el-table-column prop="fPhone" label="手机号">
+              </el-table-column>
+              <el-table-column prop="addPerson" label="原添加人">
+              </el-table-column>
+              <el-table-column prop="newPerson" label="好友转移状态">
+              </el-table-column>
+              <el-table-column prop="remark" label="备注">
+              </el-table-column>
+              <el-table-column prop="operationPerson" label="操作人">
+              </el-table-column>
+              <el-table-column prop="add_time" label="转移时间">
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </template>
+        <template slot="pagination">
+          <el-pagination
+            background
+            class="label-dialog__pagination"
+            :page-sizes="paginationToPerson.sizeOpts"
+            :total="paginationToPerson.total"
+            :current-page.sync="paginationToPerson.page"
+            :page-size="paginationToPerson.size"
+            layout="total, sizes, prev, pager, next, jumper"
+          >
+          </el-pagination>
+        </template>
+      </page-table>
     </div>
   </div>
 </template>
 <script>
-import { fill } from 'lodash'
+import PageTable from '@/components/NewUi/PageTable'
 export default {
+  components: {
+    PageTable
+  },
   data () {
     return {
       input: '',
@@ -277,7 +268,13 @@ export default {
         }
       ],
       datePickerValue: '',
-      actionValue: 0
+      actionValue: 0,
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
@@ -289,6 +286,12 @@ export default {
 <style scoped lang="scss">
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
+.drawer-table {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+}
 .top-title-view {
   background-color: white;
   width: 100%;
@@ -330,7 +333,7 @@ export default {
     margin-right: 16px;
     margin-bottom: 16px;
   }
-  .operation-view{
+  .operation-view {
     width: 163px;
     height: 32px;
     background: #ffffff;
@@ -356,7 +359,7 @@ export default {
 }
 
 .date-view {
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
   padding: 0px 12px;
   // margin-left: 16px;
@@ -406,56 +409,5 @@ export default {
 .trans-table-view {
   margin-top: 16px;
   background-color: white;
-  padding: 16px;
-}
-.trans-table-view .b-trandfer {
-  display: inline-block;
-  width: 73.7%;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  border-right: 1px solid #d9d9d9;
-}
-.trans-table-view .f-trandfer {
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  font-size: 14px;
-  font-weight: 800;
-  margin-left: 10px;
-}
-.el-row {
-  padding: 10px;
-}
-.el-row .gutter {
-  padding: 13px 2px 13px 16px;
-}
-.gutter span {
-  display: inline-block;
-  width: 88px;
-  height: 22px;
-  margin-left: 10px;
-}
-.drop {
-  width: 129px;
-  height: 32px;
-  border: 1px solid #d9d9d9;
-  text-align: center;
-  line-height: 32px;
-  border-radius: 3px;
-  display: inline-block;
-  margin-right: 16px;
-}
-.drop1 {
-  width: 199px;
-  height: 32px;
-  border: 1px solid #d9d9d9;
-  text-align: center;
-  line-height: 32px;
-  border-radius: 3px;
-  display: inline-block;
-  margin-right: 17px;
 }
 </style>
