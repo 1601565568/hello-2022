@@ -82,7 +82,7 @@ export default {
       tagConf: {
         addValidFriendTags: { label: '自动打标', tip: '通过裂变大师活动成为好友打标', stairPrefix: '自动打标梯度' },
         beGuestCodeTags: { tip: '成为推广大师后自动打标', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
-        noStandardTags: { tip: '活动结束后，裂变未达标', stairPrefix: '未达阶梯' },
+        noStandardTags: { tip: '活动结束后，裂变未打标', stairPrefix: '未达标阶梯' },
         standardTags: { tip: '活动结束后，裂变打标', stairPrefix: '阶梯' },
         noReceiveRewardsTags: { tip: '活动结束后，裂变打标但未领取奖励', stairPrefix: '未领阶梯' },
         receiveRewardsTags: { tip: '通过裂变活动领取奖励打标', stairPrefix: '领取奖励' }
