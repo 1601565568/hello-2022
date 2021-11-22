@@ -59,6 +59,9 @@
           <el-form-item label="素材内容：">
             <el-input type="text" v-model="model.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
+          <el-form-item label="货号：">
+            <el-input type="text" v-model="model.outerId" placeholder="请输入货号" clearable></el-input>
+          </el-form-item>
           <el-form-item label="发布时间：">
             <el-date-picker
               v-model="model.time"

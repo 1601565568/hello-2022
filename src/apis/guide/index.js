@@ -140,6 +140,24 @@ export default {
   },
 
   /**
+   * 获取日期完成明细
+   */
+  getOperateStatisticsDetailByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailByDate',
+    method: 'post'
+  },
+
+  /**
+   * 获取员工完成明细
+   */
+  getOperateStatisticsDetailsByGuideId: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailsByGuideId',
+    method: 'post'
+  },
+
+  /**
    * 素材纬度:获取完成明细
    */
   getStatisticsDetailByMaterial: {
@@ -149,11 +167,31 @@ export default {
   },
 
   /**
+   * 素材纬度:获取完成明细
+   */
+  getOperateStatisticsDetailByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsDetailByMaterial',
+    method: 'post'
+  },
+
+  /**
    * 完成统计:EXCEL导出
    */
   exportExcelByComplete: {
     // 素材列表
     url: '/guide/material/statistics/exportExcelByComplete',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+
+  /**
+   * 完成统计:EXCEL导出
+   */
+  exportOperateExcelByComplete: {
+    // 素材列表
+    url: '/guide/material/statistics/exportOperateExcelByComplete',
     method: 'post',
     responseType: 'blob',
     timeout: 600000
@@ -176,6 +214,22 @@ export default {
     url: '/guide/material/statistics/getStatisticsListByMaterial',
     method: 'post'
   },
+  /**
+   * 以员工为纬度,获取统计报表
+   */
+  getOperateStatisticsListByGuideId: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByGuideId',
+    method: 'post'
+  },
+  /**
+   * 以素材为纬度,获取统计报表
+   */
+  getOperateStatisticsListByMaterial: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByMaterial',
+    method: 'post'
+  },
 
   /**
    * 以日期为纬度,获取统计报表
@@ -183,6 +237,15 @@ export default {
   getStatisticsListByDate: {
     // 素材列表
     url: '/guide/material/statistics/getStatisticsListByDate',
+    method: 'post'
+  },
+
+  /**
+   * 以日期为纬度,获取统计报表
+   */
+  getOperateStatisticsListByDate: {
+    // 素材列表
+    url: '/guide/material/statistics/getOperateStatisticsListByDate',
     method: 'post'
   },
 
@@ -206,6 +269,16 @@ export default {
     // 素材列表
     url: '/guide/material/findMaterialList',
     method: 'post'
+  },
+  customImage: {
+    // 素材编辑
+    url: '/core/sgfile/uploadFile/message',
+    method: 'post'
+  },
+  findWxAppletsList: {
+    // 素材编辑
+    url: '/setting/sys/findWxAppletsList',
+    method: 'get'
   },
   materialEdit: {
     // 素材编辑

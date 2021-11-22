@@ -2,7 +2,7 @@
   <el-drawer
     :visible.sync="drawer"
     :direction="direction"
-    size="940px"
+    size="720px"
     :with-header="false"
     destroy-on-close
     :modal="false"
@@ -20,32 +20,6 @@
       </div>
       <div class="content-view">
         <div class="menu-view">
-          <div class="item-down">
-            <div class="name">动作:</div>
-            <div class="item-select">
-              <el-select
-                v-model="actionValue"
-                :default-first-option="true"
-                @change="selectAction"
-                @visible-change="selectOptionClick"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="icon-view">
-              <Icon
-                type="ns-arrow-drowdown"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-                style="color: #8C8C8C;"
-              />
-            </div>
-          </div>
           <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
               <el-form-item label="门店/员工：">
@@ -75,6 +49,18 @@
               </el-form-item>
             </el-form>
           </div>
+          <ns-button size='large' type='primary' style='margin-right:16px;' @click='handleExport'>导出CSV文件</ns-button>
+        </div>
+        <div class="select-data-view">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="未发送" name="first"></el-tab-pane>
+            <el-tab-pane label="未下载" name="second"></el-tab-pane>
+            <el-tab-pane
+              label="未补全"
+              name="third"
+              v-if="item.materialScriptType === 2"
+            ></el-tab-pane>
+          </el-tabs>
         </div>
         <div v-if="listData.length > 0">
           <page-table style="padding-top:0">
@@ -84,14 +70,8 @@
                 :data="listData"
                 class="new-table_border drawer-table"
                 :row-style="{ height: '48px' }"
+                :row-key="getRowKey"
               >
-                <el-table-column prop="trackTime" label="日期">
-                </el-table-column>
-                <el-table-column prop="eventType" label="动作" :width="80">
-                  <template slot-scope="scope">{{
-                    transText(scope.row.eventType)
-                  }}</template>
-                </el-table-column>
                 <el-table-column
                   prop="employeeNumber"
                   label="工号"
@@ -101,8 +81,7 @@
                     scope.row.employeeNumber || '-'
                   }}</template>
                 </el-table-column>
-                <el-table-column prop="guideName" label="员工">
-                </el-table-column>
+                <el-table-column prop="name" label="员工"> </el-table-column>
                 <el-table-column prop="phone" label="电话">
                   <template slot-scope="scope">{{
                     scope.row.phone || '-'
@@ -113,24 +92,26 @@
                     transPost(scope.row.post)
                   }}</template>
                 </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
+                <el-table-column prop="shopNamesStr" label="所属门店">
                   <template slot-scope="scope">
                     <el-popover
                       placement="top-start"
                       width="300"
                       trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
+                      :disabled="scope.row.shopNamesStr.length <= 15"
                     >
-                      <div>{{ scope.row.shopName }}</div>
+                      <div>{{ scope.row.shopNamesStr }}</div>
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
+                        v-if="scope.row.shopNamesStr.length <= 15"
+                        >{{ scope.row.shopNamesStr }}</span
                       >
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length > 10"
-                        >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                        v-if="scope.row.shopNamesStr.length > 15"
+                        >{{
+                          scope.row.shopNamesStr.substr(0, 15) + '...'
+                        }}</span
                       >
                     </el-popover>
                   </template>
@@ -167,47 +148,25 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NoData from './NoData'
 export default {
-  name: 'dataList',
+  name: 'undone',
   components: { ElDrawer, PageTable, NsGuideDialog, NoData },
   data () {
     return {
       direction: 'rtl',
       drawer: false,
       listData: [],
-      options: [
-        {
-          value: 0,
-          label: '全部'
-        },
-        {
-          value: 14,
-          label: '下载'
-        },
-        {
-          value: 16,
-          label: '发送'
-        },
-        {
-          value: 18,
-          label: '补全'
-        },
-        {
-          value: 19,
-          label: '发朋友圈'
-        }
-      ],
-      actionValue: 0,
-      guideIds: [],
+      inputValue: '',
+      activeName: 'first',
       item: {},
+      guideIdsStr: '',
       paginationToPerson: {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       },
-      selectActionValue: 0,
-      guideIdsStr: '',
-      flag: false
+      eventType: 16,
+      guideIds: []
     }
   },
   methods: {
@@ -221,30 +180,17 @@ export default {
       }
       return '-'
     },
-    selectOptionClick (val) {
-      this.flag = val
+    getRowKey (row) {
+      return row.id
     },
-    selectAction (val) {
-      this.selectActionValue = val
+    handleChangeGuide (val) {
+      this.guideIdsStr = val.join(',')
       this.paginationToPerson = {
+        ...this.paginationToPerson,
         size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
+        page: 1
       }
       this.loadDetail()
-    },
-    transText (val) {
-      if (val === 14) {
-        return '下载'
-      } else if (val === 16) {
-        return '发送'
-      } else if (val === 18) {
-        return '补全'
-      } else if (val === 19) {
-        return '发朋友圈'
-      }
-      return '-'
     },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
@@ -258,51 +204,76 @@ export default {
       this.paginationToPerson.page = page
       this.loadDetail()
     },
-    closeDeawer () {
-      this.drawer = !this.drawer
-      this.item = {}
+    handleClick (val) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size: 10,
+        page: 1
+      }
+      if (val.name === 'first') {
+        this.eventType = 16
+      } else if (val.name === 'second') {
+        this.eventType = 14
+      } else if (val.name === 'third') {
+        this.eventType = 18
+      }
+      this.loadDetail()
     },
-    openDeawer (item, startTime, endTime) {
+    closeDeawer () {
+      this.drawer = false
+    },
+    initData () {
+      this.eventType = 16
+      this.item = {}
+      this.guideIdsStr = ''
+      this.guideIds = []
+      this.activeName = 'first'
+      this.paginationToPerson = {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      }
+    },
+    openDeawer (item) {
+      // materialScriptType
       this.initData()
       this.item = item
-      this.item.startTime = startTime
-      this.item.endTime = endTime
       this.drawer = true
       this.loadDetail()
     },
-    initData () {
-      this.item = {}
-      this.selectActionValue = 0
-      this.guideIdsStr = ''
-      this.guideIds = []
-      this.actionValue = 0
-      this.paginationToPerson = {
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      }
-    },
     handleClose () {},
-    handleClick (tab, event) {},
-    handleChangeGuide (val) {
-      this.paginationToPerson = {
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
+    // 导出
+    handleExport () {
+      const param = {
+        eventType: this.eventType,
+        guideIdsStr: this.guideIdsStr,
+        materialId: this.item.materialId
       }
-      this.guideIdsStr = val.join(',')
-      this.loadDetail()
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.exportExcelByNoCompleteByMaterial, param)
+        .then((resp) => {
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          if (!resp.size === 0) {
+            this.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            const fileName = `${this.item.materialTitle}统计.CSV`
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
     },
-    loadDetail (startTime, endTime) {
+    loadDetail () {
       const parms = {
         searchMap: {
-          endTime: this.item.endTime + ' 23:59:59',
-          startTime: this.item.startTime + ' 00:00:00',
-          eventType: this.selectActionValue,
+          eventType: this.eventType,
           guideIdsStr: this.guideIdsStr,
-          shopIdsStr: '',
           materialId: this.item.materialId
         },
         start:
@@ -314,7 +285,7 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsDetailByMaterial, parms)
+        .fetch(this.$api.guide.getNoCompleteStatisticsDetailByMaterial, parms)
         .then(resp => {
           const json = resp.result
           const arr = json.data || []
@@ -447,7 +418,7 @@ export default {
   height: 65px;
   display: flex;
   flex-direction: row;
-  padding-left: 16px;
+  justify-content: space-between;
   align-items: center;
   /* background-color: red; */
 }
@@ -467,23 +438,6 @@ export default {
     margin-left: 8px;
   }
 }
-
-.arrowTransform {
-  transition: 0.2s;
-  transform-origin: center;
-  transform: rotateZ(0deg);
-}
-.arrowTransformReturn {
-  transition: 0.2s;
-  transform-origin: center;
-  transform: rotateZ(180deg);
-}
-.icon-view {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
 .content-view {
   overflow: scroll;
   height: 85vh;

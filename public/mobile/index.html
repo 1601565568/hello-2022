@@ -50,7 +50,8 @@
                 userId: getPar('userId'),
                 guideWechatNo: getPar('guideWechatNo'),
                 scanSource: result.result.scanSource,
-                source: result.result.source
+                source: result.result.source,
+                callBackUrl: getPar('callBackUrl')
               }
               localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
               // 跳转授权页进行授权,获取南讯指纹
