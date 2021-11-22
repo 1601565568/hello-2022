@@ -858,6 +858,7 @@
         @onSave="replaceStoreonSave()"
         @close="replaceStoreShow = false"
         ></replaceStore>
+    <RemindMsg ref="remindMsg"/>
   </div>
 </template>
 <script>
@@ -866,11 +867,13 @@ import NsTableGuide from './NsTableGuide'
 import ElImage from '@nascent/nui/lib/image'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import replaceStore from './component/replaceStore'
+import RemindMsg from './component/RemindMsg'
 CustomerManage.components = {
   NsTableGuide,
   ElImage,
   ShopSelectLoad,
-  replaceStore
+  replaceStore,
+  RemindMsg
 }
 export default CustomerManage
 </script>
