@@ -32,7 +32,7 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
-            <el-table-column type="default" label="邀请人数" min-width="120"  :sortable="false">
+            <el-table-column type="default" label="达标门槛（人）" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
