@@ -314,9 +314,9 @@ export default {
       memberUserIdVal: '',
       materialIdChecked: false,
       materialIdVal: '',
-      defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultCodeUrl.jpg',
+      defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
       content: {
         path: '',
         title: '',
