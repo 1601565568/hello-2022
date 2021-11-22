@@ -50,7 +50,7 @@
           </ElFormItem>
           <ElFormItem label-width="83px">
             <span style="color: #8C8C8C;">
-              请先在企业微信后台将小程序配置到工作台，否则无法触发欢迎语
+              请先在企业微信后台将小程序配置到工作台
               <MiniConfigHelp />
             </span>
           </ElFormItem>
