@@ -255,8 +255,8 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0"/>
-          <img class="image-view" :src="defaultUrl" v-else>
+          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0" crossorigin="*"/>
+          <img class="image-view" :src="defaultUrl" v-else crossorigin="*"/>
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
@@ -270,7 +270,7 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" :src="defaultCodeUrl" style="width:112px;height:108px;"/>
+                <img class="code-img" :src="defaultCodeUrl" style="width:112px;height:108px;" crossorigin="*"/>
               </div>
               <div class="code-title">长按查看详情</div>
             </div>
