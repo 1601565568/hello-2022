@@ -94,7 +94,17 @@
                     </el-popover>
                   </template>
                 </el-table-column>
-                <el-table-column prop="sendCodePicturesSum" label="发送次数">
+                <el-table-column prop="sendCodePicturesSum">
+                  <template slot="header">
+                    <el-popover
+                      placement="top-start"
+                      title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                      width="200"
+                      trigger="hover"
+                      content="">
+                      <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                    </el-popover>
+                  </template>
                 </el-table-column>
                 <el-table-column prop="imagesViewedSum" label="被浏览次数">
                 </el-table-column>

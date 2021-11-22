@@ -916,27 +916,27 @@ export default {
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
-          position: relative;
-          // text-align: justify;
-          // text-overflow: ellipsis;
-          // display: -webkit-box;
-          // -webkit-line-clamp: 3;
-          // -webkit-box-orient: vertical;
+          // position: relative;
           overflow: hidden;
-           &::before{
-            content: '…';
-            position: absolute;
-            right: 0;
-            bottom: 0;
-          }
-          &::after{
-            content: "";
-            position: absolute;
-            right: 0;
-            width: 35px;
-            height: 35px;
-            background: white;
-          }
+          text-align: justify;
+          text-overflow: ellipsis;
+          // display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          // &::before{
+          //   content: '...';
+          //   position: absolute;
+          //   right: 0;
+          //   bottom: 0;
+          // }
+          // &::after{
+          //   content: "";
+          //   position: absolute;
+          //   right: 0;
+          //   width: 35px;
+          //   height: 35px;
+          //   background-color: white;
+          // }
         }
         .left-price-view {
           font-size: 20px;
