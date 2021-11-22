@@ -75,7 +75,17 @@
                   >
                     <el-table-column prop="trackTime" label="日期">
                     </el-table-column>
-                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
                     </el-table-column>
                     <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
@@ -158,7 +168,17 @@
                         </el-popover>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
                     </el-table-column>
                     <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
@@ -226,7 +246,17 @@
                     </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
                     </el-table-column>
-                    <el-table-column prop="sendCodePicturesSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
                     </el-table-column>
                     <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
@@ -680,6 +710,7 @@ export default {
               {
                 name: '转化金额总计',
                 type: 'bar',
+                barWidth: 23,
                 yAxisIndex: 1,
                 data: money
               },
@@ -704,6 +735,7 @@ export default {
               {
                 name: '每日转化金额',
                 type: 'bar',
+                barWidth: 23,
                 yAxisIndex: 1,
                 data: yMoney
               }
@@ -735,7 +767,10 @@ export default {
                 axisLabel: {
                   fontsize: 12,
                   color: '#BFBFBF',
-                  lineHeight: 20
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
                 },
                 nameTextStyle: {
                   color: '#BFBFBF'
@@ -758,7 +793,10 @@ export default {
                 axisLabel: {
                   fontsize: 12,
                   color: '#BFBFBF',
-                  lineHeight: 20
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
                 },
                 nameTextStyle: {
                   color: '#BFBFBF'

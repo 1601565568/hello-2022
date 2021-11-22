@@ -128,18 +128,23 @@
                       placement="top-start"
                       width="300"
                       trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
+                      :disabled="scope.row.shopName && scope.row.shopName.length <= 10"
                     >
-                      <div>{{ scope.row.shopName }}</div>
+                      <div>{{ scope.row.shopName || '-' }}</div>
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
+                        v-if="scope.row.shopName && scope.row.shopName.length <= 10"
+                        >{{ scope.row.shopName || '-'}}</span
                       >
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length > 10"
+                        v-else-if="scope.row.shopName && scope.row.shopName.length > 10"
                         >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-else
+                        >{{ '-' }}</span
                       >
                     </el-popover>
                   </template>

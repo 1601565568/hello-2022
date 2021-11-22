@@ -8,17 +8,19 @@
     append-to-body
   >
     <div class="container-view">
-      <div class="left-view">
+      <div class="left-view" id="right-originalPrice-view">
         <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
-          <el-form-item label="小程序" required prop="appid">
-            <el-select v-model="content.appid" placeholder="请选择小程序">
-              <el-option
-                v-for="(item, index) in miniList"
-                :key="index"
-                :label="item.name"
-                :value="item.appid">
-              </el-option>
-            </el-select>
+          <el-form-item label="小程序">
+            <el-form-item required prop="appid">
+              <el-select v-model="content.appid" placeholder="请选择小程序">
+                <el-option
+                  v-for="(item, index) in miniList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.appid">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <div class="mini-view">
               <div @click="refreshAppId">已授权未显示？点此刷新</div>
               <div>
@@ -59,7 +61,7 @@
                 </el-input>
               </el-form-item>
               <div class="show-path-url-view">
-                <el-popover
+                <!-- <el-popover
                   placement="bottom"
                   trigger="hover"
                   width="200"
@@ -68,7 +70,7 @@
                     <div>{{parmaStrBottom}}</div>
                   </div>
                   <span slot="reference" class="item-view">带参配置说明</span>
-                </el-popover>
+                </el-popover> -->
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
@@ -77,7 +79,7 @@
                   :title="compPath"
                   :disabled="compPath.length === 0"
                 >
-                  <span slot="reference" class="item-view">预览</span>
+                  <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
               <div>路径带参</div>
@@ -214,7 +216,7 @@
               </div>
             </el-form-item>
             <div class="remind-img">
-              请上传格式为JPG、JPEG、PNG格式的图片，大小不超过2M
+              请上传格式为JPG、JPEG、PNG格式的图片，<br/>大小不超过2M
             </div>
           </el-form-item>
           <el-form-item label="名称" required prop="title">
@@ -253,12 +255,12 @@
       </div>
       <div class="right-view">
         <div class="show-info-view" id="show-info-view">
-          <img class="image-view" :src="content.backgroundImage || defaultUrl"/>
+          <img class="image-view" :src="content.backgroundImage" v-if="content.backgroundImage.length > 0"/>
+          <img class="image-view" :src="defaultUrl" v-else/>
           <div class="content-view">
             <div class="conent-left-view">
-              <div class="title-view">
-                {{content.title || '这是名称'}}
-              </div>
+              <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
+              <div class="title-view" v-else>这是名称</div>
               <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
                 <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
               </div>
@@ -268,7 +270,7 @@
             </div>
             <div class="code-img-view">
               <div class="code-img" id="code-img-view">
-                <img class="code-img" :src="defaultCodeUrl"/>
+                <img class="code-img" :src="defaultCodeUrl" style="width:112px;height:108px;"/>
               </div>
               <div class="code-title">长按查看详情</div>
             </div>
@@ -312,9 +314,9 @@ export default {
       memberUserIdVal: '',
       materialIdChecked: false,
       materialIdVal: '',
-      defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defaultCodeUrl.jpg',
+      defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/image-code-def.jpg',
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
       content: {
         path: '',
         title: '',
@@ -417,7 +419,11 @@ export default {
       let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
       arr = arr.filter(item => item.length > 0)
       if (arr.length > 0) {
-        return this.content.path + '?' + arr.join('&')
+        if (this.content.path.includes('?')) {
+          return this.content.path + '&' + arr.join('&')
+        } else {
+          return this.content.path + '?' + arr.join('&')
+        }
       }
       return this.content.path
     }
@@ -462,6 +468,10 @@ export default {
       } else if (this.content.codeStyle === 1) {
         this.miniCache.originalPriceStatus = e
       }
+      setTimeout(() => {
+        let target = document.getElementById('right-originalPrice-view')
+        target.scrollTop = target.scrollHeight
+      }, 0)
     },
     priceStatusChange (e) {
       if (this.content.codeStyle === 0) {
@@ -469,6 +479,10 @@ export default {
       } else if (this.content.codeStyle === 1) {
         this.miniCache.priceStatus = e
       }
+      setTimeout(() => {
+        let target = document.getElementById('right-originalPrice-view')
+        target.scrollTop = target.scrollHeight
+      }, 0)
     },
     originalPriceChange (e) {
       if (this.content.codeStyle === 0) {
@@ -523,9 +537,10 @@ export default {
     },
     showImageCode () {
       this.visible = true
-      if (this.miniList.length > 0) {
-        this.content.appid = this.miniList[0].appid
-      }
+      this.loadAppIds()
+      // if (this.miniList.length > 0) {
+      //   this.content.appid = this.miniList[0].appid
+      // }
     },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
@@ -595,6 +610,7 @@ export default {
     },
     loadAppIds () {
       this.miniList = []
+      this.content.appid = ''
       let that = this
       this.$http
         .fetch(this.$api.guide.findWxAppletsList, {})
@@ -706,7 +722,7 @@ export default {
       if (checkRules) {
         this.content.price = Number(this.content.price)
         this.content.originalPrice = Number(this.content.originalPrice)
-        const view = document.querySelector('.show-info-view')
+        const view = document.getElementById('show-info-view')
         const codeImg = document.querySelector('#code-img-view').getBoundingClientRect()
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
@@ -750,8 +766,16 @@ export default {
         this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
+        // let canvas = document.createElement('canvas')
+        // let targetWidth = view.offsetWidth
+        // let targetHeight = view.offsetHeight
+        // let scale = window.devicePixelRatio
+        // canvas.width = targetWidth * scale
+        // canvas.height = targetHeight * scale
+        // canvas.style.width = targetWidth * scale + 'px'
+        // canvas.style.height = targetHeight * scale + 'px'
+        // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
-          allowTaint: false,
           useCORS: true
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
@@ -779,7 +803,27 @@ export default {
     selectShopGoods () {
       this.$refs.selectGoods.showToggle()
     },
+    selectShopInit () {
+      this.content.bankId = ''
+      this.content.sysItemId = ''
+      this.content.itemName = ''
+      this.content.backgroundImage = ''
+      this.goodsCache.backgroundImage = ''
+      this.content.title = ''
+      this.goodsCache.title = ''
+      this.content.path = ''
+      this.goodsCache.path = ''
+      this.content.price = ''
+      this.content.priceStatus = 0
+      this.goodsCache.price = ''
+      this.goodsCache.priceStatus = 0
+      this.content.originalPrice = ''
+      this.content.originalPriceStatus = 0
+      this.goodsCache.originalPrice = ''
+      this.goodsCache.originalPriceStatus = 0
+    },
     selectMarketBack (item) {
+      this.selectShopInit()
       this.content.bankId = Number(item.bankId)
       this.content.sysItemId = item.sysItemId
       this.content.itemName = item.title
@@ -867,14 +911,31 @@ export default {
           font-size: 16px;
           color: rgba(0, 0, 0, 0.85);
           line-height: 24px;
+          max-height: 72px;
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
+          // position: relative;
+          overflow: hidden;
+          text-align: justify;
           text-overflow: ellipsis;
-          display: -webkit-box;
+          // display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          overflow: hidden;
+          // &::before{
+          //   content: '...';
+          //   position: absolute;
+          //   right: 0;
+          //   bottom: 0;
+          // }
+          // &::after{
+          //   content: "";
+          //   position: absolute;
+          //   right: 0;
+          //   width: 35px;
+          //   height: 35px;
+          //   background-color: white;
+          // }
         }
         .left-price-view {
           font-size: 20px;
@@ -916,7 +977,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   margin-top: 5px;
   cursor: pointer;
 }
