@@ -138,8 +138,13 @@
                       >
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName && scope.row.shopName.length > 10"
+                        v-else-if="scope.row.shopName && scope.row.shopName.length > 10"
                         >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                      >
+                      <span
+                        slot="reference"
+                        v-else
+                        >{{ '-' }}</span
                       >
                     </el-popover>
                   </template>
