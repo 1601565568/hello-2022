@@ -8,7 +8,7 @@
     </div>
     <div class="u_main">
       <div class="u_box" v-for="(item, index) in list" :key="index">
-        <div class="u_imgList" :style="{ border: item.type === 0 ? '1px dashed #e8e8e8' : 'none' }" v-if="item.type === 0 || item.type === 1">
+        <div class="u_imgList" :style="{ border: item.type === 0 ? '1px dashed #e8e8e8' : 'none' }" v-if="item.type === 0 || item.type === 1 || item.type === 5">
           <img :src='item.content.image || defaultImgUrl' alt="">
         </div>
         <div v-if="item.type === 2" class="u_videoList">

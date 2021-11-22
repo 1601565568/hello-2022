@@ -1,29 +1,7 @@
 <template>
   <div>
-    <div class="material-data">
-      <div class="top-view">
-        <div class="title">
-          素材库累计数据
-          <span class="sub-title">（数据统计至昨日）</span>
-        </div>
-        <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
-      </div>
-      <div class="data-view">
-        <el-row :gutter="15">
-          <template v-for="item in dataList">
-            <el-col :key="item.name" :span="6">
-              <div class="base-cell" :class="item.claseName">
-                <div class="text">{{ item.name }}</div>
-                <div class="subTitle">昨日次数</div>
-                <div class="number">{{ item.yesterdayNum }}</div>
-                <div class="subTitle">总次数</div>
-                <div class="number">{{ item.totalNum }}</div>
-              </div>
-            </el-col>
-          </template>
-        </el-row>
-      </div>
-    </div>
+    <TipsView/>
+    <TopData/>
     <div class="material-show">
       <div class="material-chat">
         <div class="chat-select">
@@ -75,7 +53,7 @@
         </div>
         <div class="title">数据分析</div>
         <div v-if="echartList.length" class="charts-view">
-          <NsEcharts :options="option" />
+          <NsEcharts :options.sync="option" />
         </div>
         <div v-else class="no-echart-list-view">
           <img src="@/assets/no-data.png" alt="暂无数据" />
@@ -86,12 +64,6 @@
       <div class="title">数据报表</div>
       <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <div class="remind-data-view">
-            <div v-if="activeName === 'second'">
-              统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
-            </div>
-            <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
-          </div>
           <el-tab-pane label="按日期统计" name="first">
             <div v-if="listDate.length > 0">
               <page-table style="padding-top:0">
@@ -103,13 +75,23 @@
                   >
                     <el-table-column prop="trackTime" label="日期">
                     </el-table-column>
-                    <el-table-column prop="nowSendSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
                     </el-table-column>
-                    <el-table-column prop="nowDownloadSum" label="下载次数">
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="nowCompletionSum" label="补全次数">
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
                     </el-table-column>
-                    <el-table-column prop="nowFriendsCircleSum" label="朋友圈发送次数">
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -144,7 +126,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
-            <div class="no-input-view" style="width:200px;padding:16px 0 0 16px">
+            <div class="no-input-view" style="width:280px;padding:16px 0 0 16px">
               <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
                 <Icon
                   type="ns-search"
@@ -186,13 +168,23 @@
                         </el-popover>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="sendSum" label="发送次数">
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="下载次数">
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="补全次数">
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
                     </el-table-column>
-                    <el-table-column prop="friendsCircleSum" label="朋友圈发送次数">
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -226,11 +218,125 @@
               <NoData />
             </div>
           </el-tab-pane>
+          <el-tab-pane label="按员工统计" name="third">
+            <div class="no-input-view" style="width:280px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入员工姓名" size="medium" v-model="guideName">
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForUser(1)"
+                ></Icon>
+              </el-input>
+            </div>
+            <div v-if="listUser.length > 0">
+              <page-table style="padding-top:0">
+                <template slot="table">
+                  <el-table
+                    :data="listUser"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="guideName" label="员工姓名">
+                    </el-table-column>
+                    <el-table-column prop="employeeNumber" label="工号">
+                      <template slot-scope="scope">{{
+                        scope.row.employeeNumber || '-'
+                      }}</template>
+                    </el-table-column>
+                    <el-table-column prop="shopName" label="所属门店">
+                      <!-- <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="用户浏览或下单时，浏览记录或订单保存时统计的门店"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">所属门店<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template> -->
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.shopName && scope.row.shopName.length <= 10"
+                        >
+                          <div>{{ scope.row.shopName || '-' }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopName && scope.row.shopName.length <= 10"
+                            >{{ scope.row.shopName || '-'}}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-else-if="scope.row.shopName && scope.row.shopName.length > 10"
+                            >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-else
+                            >{{ '-' }}</span
+                          >
+                        </el-popover>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="sendCodePicturesSum">
+                      <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="imagesViewedSum" label="被浏览次数">
+                    </el-table-column>
+                    <el-table-column prop="conversionOrderSum" label="转化订单数">
+                    </el-table-column>
+                    <el-table-column prop="conversionAmountSum" label="转化金额">
+                    </el-table-column>
+                    <el-table-column prop="title" width="125px" label="操作">
+                      <template slot-scope="scope">
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToUser(scope.row)"
+                          >查看明细</ns-button
+                        >
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+                <template slot="pagination">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToUser.sizeOpts"
+                    :total="paginationToUser.total"
+                    :current-page.sync="paginationToUser.page"
+                    :page-size="paginationToUser.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForUser"
+                    @current-change="handleCurrentChangeForUser"
+                  >
+                  </el-pagination>
+                </template>
+              </page-table>
+            </div>
+            <div v-else>
+              <NoData />
+            </div>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
     <DataList ref="detaList" />
     <TimeList ref="timeList" />
+    <UserList ref="userList" />
   </div>
 </template>
 
@@ -241,9 +347,12 @@ import DataList from './components/DataList'
 import TimeList from './components/TimeList'
 import NoData from './components/NoData'
 import moment from 'moment'
+import TopData from './components/TopData'
+import TipsView from './components/TipsView'
+import UserList from './components/UserList'
 export default {
-  name: 'MaterialCahat',
-  components: { PageTable, NsEcharts, DataList, TimeList, NoData },
+  name: 'MaterialOpearatChat',
+  components: { PageTable, NsEcharts, DataList, TimeList, NoData, TopData, TipsView, UserList },
   data () {
     return {
       pickerOptions: {
@@ -251,12 +360,7 @@ export default {
           return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
         }
       },
-      dataList: [
-        { name: '素材发送次数', totalNum: 0, yesterdayNum: 0, claseName: 'one' },
-        { name: '素材下载次数', totalNum: 0, yesterdayNum: 0, claseName: 'two' },
-        { name: '素材补全次数', totalNum: 0, yesterdayNum: 0, claseName: 'three' },
-        { name: '素材发朋友圈次数', totalNum: 0, yesterdayNum: 0, claseName: 'four' }
-      ],
+      dataList: [],
       listData: [],
       option: {
         title: {
@@ -267,25 +371,25 @@ export default {
         },
         legend: {
           data: [
-            '素材发送总次数',
-            '素材下载总次数',
-            '素材补全总次数',
-            '素材发朋友圈总次数',
-            '每日素材发送次数',
-            '每日素材下载次数',
-            '每日素材补全次数',
-            '每日素材发朋友圈次数'
+            '发送次数总计',
+            '被浏览次数总计',
+            '转化订单数总计',
+            '转化金额总计',
+            '每日发送次数',
+            '每日被浏览次数',
+            '每日转化订单数',
+            '每日转化金额'
           ],
           left: '2%',
-          bottom: '9%',
+          bottom: '6%',
           icon: 'roundRect',
           itemWidth: 10,
           itemHeight: 10,
           selected: {
-            素材发送总次数: false,
-            素材下载总次数: false,
-            素材补全总次数: false,
-            素材发朋友圈总次数: false
+            发送次数总计: false,
+            被浏览次数总计: false,
+            转化订单数总计: false,
+            转化金额总计: false
           }
         },
         color: [
@@ -303,7 +407,7 @@ export default {
           right: '3%',
           bottom: 0,
           containLabel: true,
-          top: '4%',
+          top: '12%',
           height: 291
         },
         xAxis: {
@@ -322,20 +426,7 @@ export default {
             lineHeight: 20
           }
         },
-        yAxis: {
-          type: 'value',
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            fontsize: 12,
-            color: '#BFBFBF',
-            lineHeight: 20
-          }
-        },
+        yAxis: [],
         series: []
       },
       activeName: 'first',
@@ -355,7 +446,14 @@ export default {
         page: 1,
         total: 0
       },
+      paginationToUser: {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      },
       listMaterial: [],
+      listUser: [],
       selectToday: true,
       datePickerArr: [],
       echartList: [],
@@ -363,7 +461,8 @@ export default {
       startTime: '',
       endTime: '',
       datePickerValue: [],
-      materialTitle: ''
+      materialTitle: '',
+      guideName: ''
     }
   },
   methods: {
@@ -396,6 +495,7 @@ export default {
       this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
+      this.loadUserList()
       this.loadChartData()
     },
     outputClick () {
@@ -408,7 +508,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.exportExcelByComplete, parms)
+        .fetch(this.$api.guide.exportOperateExcelByComplete, parms)
         .then(resp => {
           that.$notify.success('下载完成')
         })
@@ -422,7 +522,7 @@ export default {
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
             let fileName =
-              '素材行为数据统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
+              '附码素材运营统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -442,6 +542,7 @@ export default {
       this.initPageData()
       this.loadDateList()
       this.loadMaterialList()
+      this.loadUserList()
       this.loadChartData()
     },
     handleSizeChangeForDate (size) {
@@ -468,6 +569,18 @@ export default {
       this.paginationToPerson.page = page
       this.loadMaterialList()
     },
+    handleSizeChangeForUser (size) {
+      this.paginationToUser = {
+        ...this.paginationToUser,
+        size,
+        page: 1
+      }
+      this.loadUserList()
+    },
+    handleCurrentChangeForUser (page) {
+      this.paginationToUser.page = page
+      this.loadUserList()
+    },
     dealTime () {
       this.today = moment()
         .subtract('days', 1)
@@ -482,11 +595,6 @@ export default {
       this.endTime = this.today
       this.datePickerValue = [this.startTime, this.endTime]
     },
-    lookNoStatistical () {
-      this.$router.push({
-        path: '/Social/OperationData/NoStatistical'
-      })
-    },
     handleClick () {},
     showMoreToDate (row) {
       this.$refs.timeList.openDeawer(row)
@@ -494,27 +602,8 @@ export default {
     showMoreToPerson (row) {
       this.$refs.detaList.openDeawer(row, this.startTime, this.endTime)
     },
-    loadTopData () {
-      this.$http
-        .fetch(this.$api.guide.getSumData, {})
-        .then(resp => {
-          if (resp.success) {
-            const json = resp.result || {}
-            this.dataList[0].totalNum = json.sendSum || 0
-            this.dataList[0].yesterdayNum = json.nowSendSum || 0
-
-            this.dataList[1].totalNum = json.downloadSum || 0
-            this.dataList[1].yesterdayNum = json.nowDownloadSum || 0
-
-            this.dataList[2].totalNum = json.completionSum || 0
-            this.dataList[2].yesterdayNum = json.nowCompletionSum || 0
-
-            this.dataList[3].totalNum = json.friendsCircleSum || 0
-            this.dataList[3].yesterdayNum = json.nowFriendsCircleSum || 0
-          }
-        })
-        .catch(resp => {})
-        .finally(() => {})
+    showMoreToUser (row) {
+      this.$refs.userList.openDeawer(row, this.startTime, this.endTime)
     },
     loadDateList () {
       const parms = {
@@ -530,7 +619,7 @@ export default {
         this.paginationToDate.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsListByDate, parms)
+        .fetch(this.$api.guide.getOperateStatisticsListByDate, parms)
         .then(resp => {
           if (resp.success) {
             const json = resp.result
@@ -558,13 +647,41 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsListByMaterial, parms)
+        .fetch(this.$api.guide.getOperateStatisticsListByMaterial, parms)
         .then(resp => {
           if (resp.success) {
             const json = resp.result
             const arr = json.data || []
             this.listMaterial = arr
             this.paginationToPerson.total = parseInt(json.recordsTotal)
+          }
+        })
+        .catch(resp => {})
+        .finally(() => {})
+    },
+    loadUserList () {
+      const parms = {
+        searchMap: {
+          endTime: this.endTime + ' 23:59:59',
+          startTime: this.startTime + ' 00:00:00',
+          guideName: this.guideName
+        },
+        start:
+          (this.paginationToUser.page - 1) * this.paginationToUser.size,
+        length: this.paginationToUser.size
+      }
+      if (this.paginationToUser.page === 1) {
+        this.listUser = []
+        this.paginationToUser.total = 0
+      }
+      this.$http
+        .fetch(this.$api.guide.getOperateStatisticsListByGuideId, parms)
+        .then(resp => {
+          if (resp.success) {
+            const json = resp.result
+            const arr = json.data || []
+            this.listUser = arr
+            this.paginationToUser.total = parseInt(json.recordsTotal)
           }
         })
         .catch(resp => {})
@@ -586,66 +703,142 @@ export default {
             const arr = json.reverse()
             this.echartList = arr
             const times = []
-            const sendTotal = []
-            const downTotal = []
-            const addTotal = []
-            const friendsCircleSum = []
-            const ySendTotal = []
-            const yDownTotal = []
-            const yAddTotal = []
-            const yFriendsCircleSum = []
+            const sendCode = []
+            const imagesView = []
+            const order = []
+            const money = []
+            const ySendCode = []
+            const yImagesView = []
+            const yOrder = []
+            const yMoney = []
             for (const item of arr) {
               times.push(item.date)
-              sendTotal.push(item.sendSum)
-              downTotal.push(item.downloadSum)
-              addTotal.push(item.completionSum)
-              friendsCircleSum.push(item.friendsCircleSum)
-              ySendTotal.push(item.nowSendSum)
-              yDownTotal.push(item.nowDownloadSum)
-              yAddTotal.push(item.nowCompletionSum)
-              yFriendsCircleSum.push(item.nowFriendsCircleSum)
+              sendCode.push(item.sendCodePicturesSum)
+              imagesView.push(item.imagesViewedSum)
+              order.push(item.conversionOrderSum)
+              money.push(item.conversionAmountSum)
+              ySendCode.push(item.nowSendCodePicturesSum)
+              yImagesView.push(item.nowImagesViewedSum)
+              yOrder.push(item.nowConversionOrderSum)
+              yMoney.push(item.nowConversionAmountSum)
             }
             this.option.xAxis.data = times
             this.option.series = [
               {
-                name: '素材发送总次数',
+                name: '发送次数总计',
                 type: 'line',
-                data: sendTotal
+                yAxisIndex: 0,
+                data: sendCode
               },
               {
-                name: '素材下载总次数',
+                name: '被浏览次数总计',
                 type: 'line',
-                data: downTotal
+                yAxisIndex: 0,
+                data: imagesView
               },
               {
-                name: '素材补全总次数',
+                name: '转化订单数总计',
                 type: 'line',
-                data: addTotal
+                yAxisIndex: 0,
+                data: order
               },
               {
-                name: '素材发朋友圈总次数',
-                type: 'line',
-                data: friendsCircleSum
+                name: '转化金额总计',
+                type: 'bar',
+                barWidth: 23,
+                yAxisIndex: 1,
+                data: money
               },
               {
-                name: '每日素材发送次数',
+                name: '每日发送次数',
                 type: 'line',
-                data: ySendTotal
+                yAxisIndex: 0,
+                data: ySendCode
               },
               {
-                name: '每日素材下载次数',
+                name: '每日被浏览次数',
                 type: 'line',
-                data: yDownTotal
+                yAxisIndex: 0,
+                data: yImagesView
               },
               {
-                name: '每日素材补全次数',
+                name: '每日转化订单数',
                 type: 'line',
-                data: yAddTotal
+                yAxisIndex: 0,
+                data: yOrder
               },
               {
-                name: '每日素材发朋友圈次数',
-                type: 'line',
-                data: yFriendsCircleSum
+                name: '每日转化金额',
+                type: 'bar',
+                barWidth: 23,
+                yAxisIndex: 1,
+                data: yMoney
+              }
+            ]
+            const leftArr = [...sendCode, ...imagesView, ...order, ...ySendCode, ...yImagesView, ...yOrder]
+            const rightArr = [...money, ...yMoney]
+            let leftMin = Math.min(...leftArr)
+            let leftMax = Math.max(...leftArr)
+            let rightMin = Math.min(...rightArr)
+            let rightMax = Math.max(...rightArr)
+            leftMax = leftMax < 5 ? 5 : leftMax
+            rightMax = rightMax < 5 ? 5 : rightMax
+            const num = leftMax > 5 && rightMax > 5 ? 5 : leftMax > rightMax ? rightMax : leftMax
+            const leftInterval = (leftMax - leftMin) / 5
+            const rightInterval = (rightMax - rightMin) / 5
+            const interval = leftInterval > rightInterval ? rightInterval : leftInterval
+            this.option.yAxis = [
+              {
+                name: '次数',
+                nameGap: 30,
+                nameLocation: 'end',
+                type: 'value',
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  fontsize: 12,
+                  color: '#BFBFBF',
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
+                },
+                nameTextStyle: {
+                  color: '#BFBFBF'
+                },
+                min: leftMin,
+                max: leftMax,
+                interval: leftInterval
+              },
+              {
+                name: '金额',
+                type: 'value',
+                nameGap: 30,
+                nameLocation: 'end',
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  fontsize: 12,
+                  color: '#BFBFBF',
+                  lineHeight: 20,
+                  formatter: function (value, index) {
+                    return value.toFixed(2)
+                  }
+                },
+                nameTextStyle: {
+                  color: '#BFBFBF'
+                },
+                min: rightMin,
+                max: rightMax,
+                interval: rightInterval
               }
             ]
           }
@@ -656,9 +849,9 @@ export default {
   },
   mounted () {
     this.dealTime()
-    this.loadTopData()
     this.loadDateList()
     this.loadMaterialList()
+    this.loadUserList()
     this.loadChartData()
   }
 }
@@ -667,81 +860,6 @@ export default {
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import './styles/index.css';
-.material-data {
-  background-color: white;
-  /* width: 1206px; */
-  padding-bottom: 24px;
-  .top-view {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    height: 56px;
-  }
-  .title {
-    font-size: 16px;
-    color: #262626;
-    line-height: 56px;
-    font-weight: 500;
-    padding-left: 16px;
-  }
-  .data-view {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-  .unDoneData {
-    width: 116px;
-    height: 32px;
-    background: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    font-size: 14px;
-    color: #595959;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 400;
-    line-height: 32px;
-    margin-right: 16px;
-    cursor: pointer;
-  }
-  .base-cell {
-    color: #ffffff;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    .number {
-      font-size: 20px;
-      color: #ffffff;
-      line-height: 32px;
-      font-weight: 500;
-    }
-    .subTitle {
-      font-size: 12px;
-      color: #FFFFFF;
-    }
-    .text {
-      font-size: 16px;
-      color: #ffffff;
-      line-height: 24px;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-  }
-  .one {
-    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
-  }
-  .two {
-    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
-  }
-  .three {
-    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
-  }
-  .four {
-    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
-  }
-}
 .material-show {
   margin-top: 16px;
   background-color: white;
@@ -827,32 +945,11 @@ export default {
   line-height: 32px;
   text-align: center;
   font-size: 14px;
+  cursor: pointer;
 }
 .date-view {
   margin-left: 16px;
 }
-.sub-title {
-  font-size: 16px;
-  color: #8c8c8c;
-  line-height: 24px;
-  font-weight: 400;
-}
-.remind-data-view {
-  height: 60px;
-  background: #f3f9ff;
-  border-radius: 4px;
-  margin: 16px 16px 0 16px;
-  font-size: 14px;
-  color: #979797;
-  letter-spacing: 0;
-  font-weight: 400;
-  padding-left: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 23px;
-}
-
 .no-echart-list-view {
   margin: 0 auto;
   width: 320px;

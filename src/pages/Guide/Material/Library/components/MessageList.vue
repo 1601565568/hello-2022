@@ -18,6 +18,7 @@
           <img class="bitpit" src="@/assets/kwBig.png" alt="">
         </template>
         <span v-if="type !== 0">
+          <span v-if="type === 5">{{content.title}}</span>
           <span v-if="type === 1">{{getFileName(content.image || '')}}</span>
           <span v-else-if="type === 2">
             <span v-if="content.percent">{{content.video}}</span>
@@ -73,7 +74,7 @@ export default {
   filters: {
     msgText (content, type) {
       switch (type) {
-        case WelcomeMessageType.Image:
+        case WelcomeMessageType.Image || WelcomeMessageType.ImageCode:
           return content.image.slice(content.image.lastIndexOf('/') + 1)
         case WelcomeMessageType.Video:
           return content.video.slice(content.video.lastIndexOf('/') + 1)
@@ -173,6 +174,7 @@ export default {
       .icon {
         font-size: 20px;
         margin-left: 9px;
+        margin-right: 5px;
       }
       span {
         margin-left: 5px;

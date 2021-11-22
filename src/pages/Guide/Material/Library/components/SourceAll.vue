@@ -53,7 +53,9 @@
         </div>
       </el-form-item>
       <el-form-item ref="imageForm" label="附件：">
-        <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件（加小程序码的最多8个）</span>
+        <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；</span><br/>
+        <span class="add-tip label-gap">最多可添加9个附件（加小程序码的最多8个）</span><br/>
+        <span class="add-tip label-gap">若希望在移动端一键发送至朋友圈，附件仅支持图片、视频、链接，且只能存在一种类型</span>
           <MessageList
             :list.sync="mediaList"
             @edit="editAnnexMessage"
@@ -61,7 +63,7 @@
           />
           <el-popover
             placement="top-start"
-            width="400"
+            width="480"
             trigger="hover"
             :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
           >
@@ -85,9 +87,6 @@
             />
           </el-popover>
       </el-form-item>
-      <!-- <el-form-item ref="attach" label="附件：">
-        <AttachView />
-      </el-form-item> -->
       <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
@@ -103,6 +102,7 @@
         <el-form-grid v-if="model.codeModule == 4">
           <ns-button @click="selectMarket" type="primary">选择营销活动</ns-button>
         </el-form-grid>
+        <div class="add-tip label-gap">该小程序链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div>
       </el-form-item>
       <el-form-item
         v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != ''"

@@ -17,7 +17,7 @@
       <div class="tableItem-content___box">
         <template v-if="isBoolean || isFlag">
           <div v-for="(c_item, c_index) in data.mediaList && data.mediaList.slice(0, 3)" :key="c_index" class="tableItem-content__image">
-            <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
+            <div v-if="c_item.type === 1 || c_item.type === 0 || c_item.type === 5" class="v_image">
               <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, c_item)">
               <img
                 v-else
@@ -141,7 +141,7 @@ export default {
   },
   computed: {
     isBoolean () {
-      return this.data.mediaList && this.data.mediaList.slice(0, 3).every(item => item.type === 0 || item.type === 1)
+      return this.data.mediaList && this.data.mediaList.slice(0, 3).every(item => item.type === 0 || item.type === 1 || item.type === 5)
     },
     isFlag () {
       return this.data.mediaList && this.data.mediaList.slice(0, 2).some(item => item.type === 0 || item.type === 1) && (this.data.mediaList[0].type === 1 || this.data.mediaList[0].type === 0)
