@@ -216,10 +216,12 @@ export default {
       if (times.length >= 2) {
         taskStart = this.model.activityTime[0]
         taskEnd = this.model.activityTime[1]
+        this.$nextTick(() => {
+          this.$refs.selectDialogDom.showToggle(this.selectMaterial, taskStart, taskEnd)
+        })
+      } else {
+        this.$notify.error('请先选择任务执行时间')
       }
-      this.$nextTick(() => {
-        this.$refs.selectDialogDom.showToggle(this.selectMaterial, taskStart, taskEnd)
-      })
     },
     // 删除素材
     deleteMaterialShowFun () {
