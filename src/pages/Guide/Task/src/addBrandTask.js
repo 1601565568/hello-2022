@@ -220,7 +220,7 @@ export default {
           this.$refs.selectDialogDom.showToggle(this.selectMaterial, taskStart, taskEnd)
         })
       } else {
-        this.$notify.error('请先选择任务执行时间')
+        this.$notify.error('请先输入任务开始时间、结束时间')
       }
     },
     // 删除素材
