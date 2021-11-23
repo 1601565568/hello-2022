@@ -226,6 +226,10 @@ export default {
         {
           value: 18,
           label: '补全'
+        },
+        {
+          value: 19,
+          label: '发朋友圈'
         }
       ],
       actionValue: 0,
@@ -283,6 +287,8 @@ export default {
         return '发送'
       } else if (val === 18) {
         return '补全'
+      } else if (val === 19) {
+        return '发朋友圈'
       }
       return '-'
     },

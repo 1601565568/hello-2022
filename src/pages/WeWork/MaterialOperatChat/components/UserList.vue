@@ -11,42 +11,26 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">
-        {{
-          item.materialTitle && item.materialTitle.length > 25
-            ? item.materialTitle.substr(0, 25) + '...'
-            : item.materialTitle
-        }}
-      </div>
+      <div class="drawer-title">{{item.guideName}}{{'&nbsp;&nbsp;'}}{{ item.employeeNumber}}{{'&nbsp;&nbsp;'}}{{item.shopName}}</div>
       <div class="content-view">
         <div class="menu-view">
-          <div class="item-down">
-            <div class="name">动作:</div>
-            <div class="item-select">
-              <el-select
-                v-model="actionValue"
-                :default-first-option="true"
-                @change="selectAction"
-                @visible-change="selectOptionClick"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="icon-view">
+          <div class="input-view">
+            <el-input
+              placeholder="请输入素材标题"
+              autofocus="false"
+              type="text"
+              v-model="inputTitle"
+              @change="inputChange"
+            >
               <Icon
-                type="ns-arrow-drowdown"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
-                style="color: #8C8C8C;"
-              />
-            </div>
+                type="ns-search"
+                slot="suffix"
+                style="font-size: 30px;"
+                @click="inputChange"
+              ></Icon>
+            </el-input>
           </div>
-          <div class="user-view">
+          <!-- <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
               <el-form-item label="门店/员工：">
                 <NsGuideDialog
@@ -74,12 +58,11 @@
                 </NsGuideDialog>
               </el-form-item>
             </el-form>
-          </div>
+          </div> -->
         </div>
         <div v-if="listData.length > 0">
           <page-table style="padding-top:0">
             <template slot="table">
-              <!-- <div class="content-view"> -->
               <el-table
                 :data="listData"
                 class="new-table_border drawer-table"
@@ -87,56 +70,49 @@
               >
                 <el-table-column prop="trackTime" label="日期">
                 </el-table-column>
-                <el-table-column prop="eventType" label="动作" :width="80">
-                  <template slot-scope="scope">{{
-                    transText(scope.row.eventType)
-                  }}</template>
-                </el-table-column>
-                <el-table-column
-                  prop="employeeNumber"
-                  label="工号"
-                  :width="114"
-                >
-                  <template slot-scope="scope">{{
-                    scope.row.employeeNumber || '-'
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="guideName" label="员工">
-                </el-table-column>
-                <el-table-column prop="phone" label="电话">
-                  <template slot-scope="scope">{{
-                    scope.row.phone || '-'
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="post" label="岗位">
-                  <template slot-scope="scope">{{
-                    transPost(scope.row.post)
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
+                <el-table-column prop="materialTitle" label="素材">
                   <template slot-scope="scope">
                     <el-popover
                       placement="top-start"
                       width="300"
                       trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
+                      :disabled="scope.row.materialTitle.length <= 10"
                     >
-                      <div>{{ scope.row.shopName }}</div>
+                      <div>{{ scope.row.materialTitle }}</div>
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
+                        v-if="scope.row.materialTitle.length <= 10"
+                        >{{ scope.row.materialTitle }}</span
                       >
                       <span
                         slot="reference"
-                        v-if="scope.row.shopName.length > 10"
-                        >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                        v-if="scope.row.materialTitle.length > 10"
+                        >{{
+                          scope.row.materialTitle.substr(0, 10) + '...'
+                        }}</span
                       >
                     </el-popover>
                   </template>
                 </el-table-column>
+                <el-table-column prop="sendCodePicturesSum">
+                  <template slot="header">
+                    <el-popover
+                      placement="top-start"
+                      title="仅统计附码图片的发送次数，非附码图片的发送行为不在此统计，可在“素材库行为统计”中查看完整行为数据"
+                      width="200"
+                      trigger="hover"
+                      content="">
+                      <span slot="reference">发送次数<span class="iconfont icon-ns-help"></span></span>
+                    </el-popover>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="imagesViewedSum" label="被浏览次数">
+                </el-table-column>
+                <el-table-column prop="conversionOrderSum" label="转化订单数">
+                </el-table-column>
+                <el-table-column prop="conversionAmountSum" label="转化金额">
+                </el-table-column>
               </el-table>
-              <!-- </div> -->
             </template>
             <template slot="pagination">
               <el-pagination
@@ -164,39 +140,19 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
+// import NsGuideDialog from '@/components/NsGuideDialog'
 import NoData from './NoData'
 export default {
-  name: 'dataList',
-  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
+  name: 'userList',
+  components: { ElDrawer, PageTable, NoData },
   data () {
     return {
       direction: 'rtl',
       drawer: false,
       listData: [],
-      options: [
-        {
-          value: 0,
-          label: '全部'
-        },
-        {
-          value: 14,
-          label: '下载'
-        },
-        {
-          value: 16,
-          label: '发送'
-        },
-        {
-          value: 18,
-          label: '补全'
-        },
-        {
-          value: 19,
-          label: '发朋友圈'
-        }
-      ],
+      inputValue: '',
       actionValue: 0,
+      inputTitle: '',
       guideIds: [],
       item: {},
       paginationToPerson: {
@@ -211,21 +167,7 @@ export default {
     }
   },
   methods: {
-    transPost (val) {
-      if (val === 1) {
-        return '店长'
-      } else if (val === 2) {
-        return '客服'
-      } else if (val === 0) {
-        return '导购'
-      }
-      return '-'
-    },
-    selectOptionClick (val) {
-      this.flag = val
-    },
-    selectAction (val) {
-      this.selectActionValue = val
+    inputChange () {
       this.paginationToPerson = {
         size: 10,
         sizeOpts: [5, 10, 15],
@@ -233,18 +175,6 @@ export default {
         total: 0
       }
       this.loadDetail()
-    },
-    transText (val) {
-      if (val === 14) {
-        return '下载'
-      } else if (val === 16) {
-        return '发送'
-      } else if (val === 18) {
-        return '补全'
-      } else if (val === 19) {
-        return '发朋友圈'
-      }
-      return '-'
     },
     handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
@@ -258,30 +188,31 @@ export default {
       this.paginationToPerson.page = page
       this.loadDetail()
     },
-    closeDeawer () {
-      this.drawer = !this.drawer
-      this.item = {}
-    },
     openDeawer (item, startTime, endTime) {
       this.initData()
+      this.drawer = true
       this.item = item
       this.item.startTime = startTime
       this.item.endTime = endTime
-      this.drawer = true
+      this.guideIdsStr = item.guide_id || ''
       this.loadDetail()
     },
     initData () {
       this.item = {}
+      this.actionValue = 0
+      this.guideIds = []
       this.selectActionValue = 0
       this.guideIdsStr = ''
-      this.guideIds = []
-      this.actionValue = 0
+      this.inputTitle = ''
       this.paginationToPerson = {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
       }
+    },
+    closeDeawer () {
+      this.drawer = !this.drawer
     },
     handleClose () {},
     handleClick (tab, event) {},
@@ -295,7 +226,7 @@ export default {
       this.guideIdsStr = val.join(',')
       this.loadDetail()
     },
-    loadDetail (startTime, endTime) {
+    loadDetail () {
       const parms = {
         searchMap: {
           endTime: this.item.endTime + ' 23:59:59',
@@ -303,7 +234,7 @@ export default {
           eventType: this.selectActionValue,
           guideIdsStr: this.guideIdsStr,
           shopIdsStr: '',
-          materialId: this.item.materialId
+          materialTitle: this.inputTitle
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -314,7 +245,7 @@ export default {
         this.paginationToPerson.total = 0
       }
       this.$http
-        .fetch(this.$api.guide.getStatisticsDetailByMaterial, parms)
+        .fetch(this.$api.guide.getOperateStatisticsDetailsByGuideId, parms)
         .then(resp => {
           const json = resp.result
           const arr = json.data || []
@@ -329,6 +260,9 @@ export default {
 <style scoped>
 @import '@components/NewUi/styles/reset.css';
 @import '../styles/index.css';
+.input-view {
+  margin-right: 0px;
+}
 .user-view {
   margin-left: 0;
 }
@@ -449,23 +383,6 @@ export default {
   flex-direction: row;
   padding-left: 16px;
   align-items: center;
-  /* background-color: red; */
-}
-
-.item-down {
-  width: 143px;
-  height: 32px;
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  align-items: center;
-  .name {
-    width: 42px;
-    margin-left: 8px;
-  }
 }
 
 .arrowTransform {
