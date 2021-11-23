@@ -7,7 +7,7 @@
     @open="open"
   >
     <div>
-      <el-input style="width:180px" v-model="searchTagGroupName" placeholder="请输入标签名" clearable></el-input>
+      <el-input style="width:180px;margin-left: 7px" v-model="searchTagGroupName" placeholder="请输入标签名" clearable></el-input>
       <el-form class="add-tags" label-position="left">
         <el-form-item>
           <div
@@ -138,6 +138,7 @@ export default {
       this.close()
     },
     close () {
+      this.searchTagGroupName = ''
       this.showList = []
       this.searchList = []
       this.checkList = []
@@ -170,6 +171,7 @@ export default {
   .checkboxs-tags {
     overflow: auto;
     max-height: 500px;
+    /* min-height: 300px; */
     border: 1px solid #D9D9D9;
     padding: 16px;
     width: 99%;
