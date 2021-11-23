@@ -182,7 +182,7 @@ export default {
       let type = +row.type === 2 ? 'video' : 'img'
       let imgs = []
       data.mediaList.forEach(item => {
-        imgs.push(item.type === 1 ? item.content.image : item.content.video)
+        imgs.push(item.type === 1 || item.type === 5 ? item.content.image : item.content.video)
       })
       this.$emit('preview', current, imgs, type)
     }
