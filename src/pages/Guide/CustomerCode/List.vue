@@ -101,7 +101,7 @@
             <el-table-column
               prop="tags"
               width='90px'
-              label="自动打标">
+              label="自动打标签">
               <template slot-scope="scope">
                 <div class="scope-name_num">
                   <span v-if="scope.row.tagCount" class="scope-name_tip" @click="() => openTagDrawer(scope.row.tags)">{{scope.row.tagCount}}</span>

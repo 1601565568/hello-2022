@@ -585,9 +585,9 @@
       </SimpleCollapse>
     </div>
     <!-- 数据与安全 end -->
-    <!-- 自动打标 start -->
+    <!-- 自动打标签 start -->
     <div class="customer-box">
-      <SimpleCollapse title='自动打标'>
+      <SimpleCollapse title='自动打标签'>
         <Box :noborder='true'>
           <template slot='collapse-left'>
             <el-form
@@ -620,7 +620,7 @@
                     <div class="select-tips" @click="openAddTagDialog(`tags.${tagkey}.${index}`)">
                       <span v-if="!model.tags[tagkey][index].tagGroupId" class="un-selected">请选择标签</span>
                       <span v-else class="selected">已选择{{model.tags[tagkey][index].tagGroupId.split(',').length}}个标签</span>
-                      <Icon type="channel" class="icon"/>
+                      <Icon type="tag-xia" class="icon"/>
                     </div>
                   </div>
                 </el-form-item>
@@ -636,7 +636,7 @@
         @confirm="confirmSelectedTag"
       />
     </div>
-    <!-- 自动打标 end -->
+    <!-- 自动打标签 end -->
   </div>
 </template>
 <script>
