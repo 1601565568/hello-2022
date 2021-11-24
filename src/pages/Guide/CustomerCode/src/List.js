@@ -65,6 +65,8 @@ export default {
         }
       },
       drawer: false,
+      CheckTagDrawerVisible: false,
+      CheckTagList: [],
       // 侧边栏信息
       itemDate: {},
       activeIndex: -1
@@ -72,6 +74,10 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
+    openTagDrawer (tagsStr) {
+      this.CheckTagDrawerVisible = true
+      this.CheckTagList = tagsStr.split(',')
+    },
     handleDetail (query = {}) {
       this.$router.push({
         path: '/Social/SocialOperation/CustomerCode/Edit',
