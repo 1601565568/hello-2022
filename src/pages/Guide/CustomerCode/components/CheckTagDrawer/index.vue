@@ -83,9 +83,11 @@ export default {
         if (res.success) {
           // this.tagList = res.result
           const showList = res.result.filter(tagGroupItem => {
-            for (const tagValueItem of tagGroupItem.tagValueList) {
-              if (this.checkList.indexOf(tagValueItem.tagId) >= 0) {
-                return true
+            if (Array.isArray(tagGroupItem.tagValueList)) {
+              for (const tagValueItem of tagGroupItem.tagValueList) {
+                if (this.checkList.indexOf(tagValueItem.tagId) >= 0) {
+                  return true
+                }
               }
             }
           })
