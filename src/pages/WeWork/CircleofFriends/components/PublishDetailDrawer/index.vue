@@ -117,7 +117,7 @@ export default {
       },
       messageTypeOptions: [
         {
-          value: null,
+          value: null, // 代码推不上去 呵呵黑
           label: '全部'
         },
         {
