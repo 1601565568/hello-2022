@@ -16,6 +16,10 @@
       <div class="group-container" v-loading="_data._table.loadingtable" element-loading-text="加载中，请稍等…">
         <div class="group-header1">
           <div class="group-header-tip">
+            <span>总计：</span>
+            <span>{{_data._pagination.total}}人</span>
+          </div>
+          <div class="group-header-tip">
             <span>已发表人数：</span>
             <span>{{_data._ext && _data._ext.published}}人</span>
           </div>
@@ -58,7 +62,7 @@
             <el-table-column prop="guideName" label="员工" width="150px"></el-table-column>
             <el-table-column prop="workNumber" label="工号">
               <template v-slot="scope">
-                {{scope.row.workNumber || '--'}}
+                {{scope.row.workNumber || '-'}}
               </template>
             </el-table-column>
             <el-table-column prop="publishStatus" label="发表状态" width="90px">
