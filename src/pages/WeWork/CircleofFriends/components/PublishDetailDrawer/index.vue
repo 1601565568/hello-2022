@@ -30,7 +30,7 @@
         </div>
         <div class="group-header2">
           <el-form :inline="true" class='form-inline_top' style="display: flex">
-            <el-form-item label="消息类型：" class='el-form__change'>
+            <el-form-item label="发表状态：" class='el-form__change'>
               <el-select v-model="model.publishStatus"  @change="changeStatus" placeholder="请选择">
                 <el-option
                   v-for="item in messageTypeOptions"
