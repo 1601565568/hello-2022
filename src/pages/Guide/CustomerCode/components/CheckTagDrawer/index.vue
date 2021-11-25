@@ -50,12 +50,6 @@ export default {
     visible: {
       type: Boolean,
       default: false
-    },
-    checkList: {
-      type: Array,
-      default: function () {
-        return []
-      }
     }
   },
   data () {
