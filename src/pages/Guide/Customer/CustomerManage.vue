@@ -106,8 +106,8 @@
       <div slot="footer" class="dialog-footer">
         <span class="recordChooseList">已选导购{{recordChooseList.length}}人</span>
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button @click="onlyTransMember(1)">仅转移会员</ns-button>
-        <ns-button type="primary" @click="transAllMember(1)">转移会员并转移好友</ns-button>
+        <ns-button @click="onlyTransMember()">仅转移会员</ns-button>
+        <ns-button type="primary" @click="transAllMember()">转移会员并转移好友</ns-button>
       </div>
     </el-dialog>
     <!-- 新客户详情弹窗-->

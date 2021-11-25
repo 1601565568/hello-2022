@@ -974,6 +974,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.onSave(1)
       }).catch(() => {
       })
     },

@@ -69,7 +69,7 @@ export default {
       this.defaultText()
     },
     handleClose () {
-      this.dialogVisible = true
+      this.dialogVisible = false
     },
     showDialog () {
       this.dialogVisible = true
@@ -80,6 +80,7 @@ export default {
         if (this.$refs.tagAreaText) {
           const text = this.$refs.tagAreaText.stringTohtml(this.defaultWelcome)
           this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
+          this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
         }
       })
     }
