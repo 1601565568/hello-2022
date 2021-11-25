@@ -62,7 +62,7 @@
             <el-table-column prop="guideName" label="员工" width="150px"></el-table-column>
             <el-table-column prop="workNumber" label="工号">
               <template v-slot="scope">
-                {{scope.row.workNumber || '--'}}
+                {{scope.row.workNumber || '-'}}
               </template>
             </el-table-column>
             <el-table-column prop="publishStatus" label="发表状态" width="90px">
