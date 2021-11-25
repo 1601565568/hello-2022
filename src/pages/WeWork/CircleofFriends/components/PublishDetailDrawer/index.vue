@@ -113,7 +113,7 @@ export default {
       model: {
         guideIds: [],
         momentId: '',
-        publishStatus: 0
+        publishStatus: null
       },
       messageTypeOptions: [
         {
@@ -142,7 +142,7 @@ export default {
       this.searchForm()
     },
     open () {
-      this.model = { momentId: this.momentId }
+      this.model = { momentId: this.momentId, publishStatus: null }
       this.searchForm()
     },
     resetScroll () {
