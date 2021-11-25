@@ -17,7 +17,7 @@
         <div class="group-header1">
           <div class="group-header-tip">
             <span>总计：</span>
-            <span>{{_data._pagination.total}}人</span>
+            <span> {{_data._ext ? (Number(_data._ext.published) + Number(_data._ext.unpublished)) : '' }}人</span>
           </div>
           <div class="group-header-tip">
             <span>已发表人数：</span>
