@@ -12,6 +12,7 @@
         <el-form-item v-loading="loading">
           <div
             class="checkboxs-tags"
+            :class="{ center: !loading && !showList.length }"
             v-infinite-scroll="loadMore"
           >
             <el-form-item
@@ -189,6 +190,11 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .no-data {
