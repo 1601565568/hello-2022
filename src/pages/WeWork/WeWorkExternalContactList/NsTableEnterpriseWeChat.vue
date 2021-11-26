@@ -143,11 +143,8 @@
                     <span class="tool-tip">{{tag}}</span>
                   </el-tooltip>
                 </el-tag>
-                <!-- <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 3">
+                <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 3">
                   等{{scope.row.group_tags.split('|').filter(i => i).length}}个标签
-                </span> -->
-                <span>
-                  等555个标签
                 </span>
               </div>
               <template v-else>
