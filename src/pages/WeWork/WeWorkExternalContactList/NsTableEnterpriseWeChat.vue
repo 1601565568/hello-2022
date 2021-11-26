@@ -10,8 +10,6 @@
       <!-- 按钮-结束 -->
 
       <!-- 简单搜索 -->
-      <!-- el-form 需添加 @submit.native.prevent 配置 -->
-      <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
@@ -30,8 +28,6 @@
       <!-- 简单搜索-结束 -->
 
       <!-- 高级搜索 -->
-      <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
-      <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" label-width="80px" class="surround-btn"
                  :model="model" :rules="rules" :inline="true">
@@ -58,12 +54,6 @@
               </div>
             </div>
           </el-form-item>
-          <!--中台员工组件-->
-          <!--        <el-form-item label="所属员工：">-->
-          <!--          <el-form-grid>-->
-          <!--            <ns-employee-select v-model="employees"></ns-employee-select>-->
-          <!--          </el-form-grid>-->
-          <!--        </el-form-item>-->
           <el-form-item label="昵称：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model.trim="model.externalName">
@@ -135,15 +125,17 @@
           <el-table-column type="default" prop="group_tags" width="400"
                            label="企业标签" dbcolumn="group_tags" column="group_tags" align="left">
             <template slot-scope="scope">
-              <div v-if="scope.row.group_tags" style="display: flex;align-items: center">
-                <el-tag style="margin-right: 5px;cursor: default;flex-shrink: 0"
-                      v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i).slice(0, 3)"
+              <div v-if="scope.row.group_tags" class="group-tags-container">
+                <div class="group-tags">
+                  <el-tag class="tag-item"
+                      v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i)"
                       :key="index">
-                  <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
-                    <span class="tool-tip">{{tag}}</span>
-                  </el-tooltip>
-                </el-tag>
-                <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 2">
+                    <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
+                      <span class="tool-tip">{{tag}}</span>
+                    </el-tooltip>
+                  </el-tag>
+                </div>
+                <span class="etc" v-if="scope.row.group_tags.length > 30">
                   等{{scope.row.group_tags.split('|').filter(i => i).length}}个标签
                 </span>
               </div>
@@ -215,7 +207,7 @@ NsTableEnterpriseWeChat.components = {
 export default NsTableEnterpriseWeChat
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .template-search__box {
   width: 182px;
   height: 28px;
@@ -237,11 +229,30 @@ export default NsTableEnterpriseWeChat
 .dialog-tag__title {
   background-color: #f3f4f4;
 }
-.tool-tip {
-  display: inline-block;
-  /* max-width: 70px; */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+.group-tags-container {
+  display: flex;
+  align-items: center;
+  .group-tags {
+    max-width: 400px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    /* text-overflow: ellipsis; */
+    .tag-item {
+      margin-right: 5px;
+      cursor: default;
+    }
+    .tool-tip {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+    }
+  }
+  .etc {
+    flex-shrink: 0;
+  }
 }
 </style>
