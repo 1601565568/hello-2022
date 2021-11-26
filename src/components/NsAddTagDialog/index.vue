@@ -22,13 +22,14 @@
               :key="tagGroupItem.tagGroupId"
               :label="tagGroupItem.tagGroupName"
             >
-              <el-checkbox-group v-model="checkList">
+              <el-checkbox-group :value="checkList">
                 <el-checkbox
                   v-for="tagValueItem in tagGroupItem.tagValueList"
                   :key="tagValueItem.tagId"
                   :label="tagValueItem.tagId"
-                  @change="chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId)"
+                  @change="(flag) => chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId, flag)"
                 >
+                  <!-- :disabled="tagGroupIds.length >= max && tagGroupIds.indexOf(tagGroupItem.tagGroupId) < 0" -->
                   {{tagValueItem.tagName}}
                 </el-checkbox>
               </el-checkbox-group>
@@ -80,6 +81,15 @@ export default {
       default: function () {
         return []
       }
+    },
+    max: { // 最多选择多少个标签组
+      type: Number,
+      default: 50
+    }
+  },
+  computed: {
+    tagGroupIds () {
+      return Array.from(new Set(Object.values(this.tagId2TagGroupId)))
     }
   },
   watch: {
@@ -108,11 +118,20 @@ export default {
       const slice = this.searchList.slice(len, len + 10)
       if (slice.length) this.showList.push(...slice)
     },
-    chooseTag (tagGroupId, tagId) {
-      if (this.checkList.indexOf(tagId) > -1) {
-        this.tagId2TagGroupId[tagId] = tagGroupId
-      } else {
-        delete this.tagId2TagGroupId[tagId]
+    chooseTag (tagGroupId, tagId, flag) {
+      const index = this.checkList.indexOf(tagId)
+      if (flag || (!flag && index < 0)) {
+        // 选中
+        if (this.tagGroupIds.length < this.max || this.tagGroupIds.indexOf(tagGroupId) > -1) {
+          this.checkList.push(tagId)
+          this.$set(this.tagId2TagGroupId, tagId, tagGroupId)
+        } else {
+          this.$notify.error(`最多选择${this.max}个标签`)
+        }
+      } else if (index > -1) {
+        // 取消选中
+        this.checkList.splice(index, 1)
+        this.$delete(this.tagId2TagGroupId, tagId)
       }
     },
     async open () {
