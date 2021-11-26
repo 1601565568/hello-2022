@@ -50,6 +50,12 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    checkList: { // 已经选择的标签
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   data () {
