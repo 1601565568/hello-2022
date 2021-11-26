@@ -128,7 +128,15 @@
             </el-table-column>
             <el-table-column prop="guideName" label="员工">
             </el-table-column>
-            <el-table-column prop="shopName" label="门店" show-overflow-tooltip>
+            <el-table-column prop="shopName" label="所属门店" show-overflow-tooltip>
+              <template v-slot="scope">
+                <div class="shops">
+                  <div class="shopname">
+                    {{scope.row.shopName}}
+                  </div>
+                  <span v-if="scope.row.shopName.length > 20">共{{scope.row.shopName.split(',').length}}家门店</span>
+                </div>
+              </template>
             </el-table-column>
             <el-table-column prop="createTime" label="时间"> </el-table-column>
             <el-table-column prop="address" label="操作"  width="140px">
@@ -375,4 +383,19 @@ export default List
       color: #c0c4cc;
     }
   }
+
+.shops {
+  display: flex;
+  width: 220px;
+  .shopname {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  span {
+    padding-right: 15px;
+    flex-shrink: 0;
+  }
+}
 </style>

@@ -224,7 +224,7 @@ export default {
         }
       }
       .group-header2 {
-        margin-top: 33px;
+        margin-top: 16px;
         width: 100%;
         height: 65px;
         display: flex;
