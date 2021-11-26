@@ -81,7 +81,6 @@ export default {
       try {
         const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
         if (res.success) {
-          // this.tagList = res.result
           const showList = res.result.filter(tagGroupItem => {
             if (Array.isArray(tagGroupItem.tagValueList)) {
               for (const tagValueItem of tagGroupItem.tagValueList) {
