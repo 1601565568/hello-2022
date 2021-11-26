@@ -633,6 +633,7 @@
         :visible.sync="NsAddTagDialogVisible"
         :tagList="tagList"
         :selectedTags="activeSelectedTags"
+        :max="50"
         @confirm="confirmSelectedTag"
       />
     </div>

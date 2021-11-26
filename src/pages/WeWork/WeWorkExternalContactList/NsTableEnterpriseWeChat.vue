@@ -135,15 +135,15 @@
           <el-table-column type="default" prop="group_tags" width="400"
                            label="企业标签" dbcolumn="group_tags" column="group_tags" align="left">
             <template slot-scope="scope">
-              <div v-if="scope.row.group_tags">
-                <el-tag style="margin-right: 5px;cursor: default"
+              <div v-if="scope.row.group_tags" style="display: flex;align-items: center">
+                <el-tag style="margin-right: 5px;cursor: default;flex-shrink: 0"
                       v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i).slice(0, 3)"
                       :key="index">
                   <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
                     <span class="tool-tip">{{tag}}</span>
                   </el-tooltip>
                 </el-tag>
-                <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 3">
+                <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 2">
                   等{{scope.row.group_tags.split('|').filter(i => i).length}}个标签
                 </span>
               </div>
