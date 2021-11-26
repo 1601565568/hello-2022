@@ -70,7 +70,16 @@
                 {{scope.row.publishStatus === 0 ? '未发表' : '已发表'}}
               </template>
             </el-table-column>
-            <el-table-column prop="shopName" label="所属门店" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="shopName" label="所属门店" show-overflow-tooltip>
+              <template v-slot="scope">
+                <div class="shops">
+                  <div class="shopname">
+                    {{scope.row.shopName}}
+                  </div>
+                  <span v-if="scope.row.shopName.length > 20">共{{scope.row.shopName.split(',').length}}家门店</span>
+                </div>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <el-pagination
@@ -201,11 +210,11 @@ export default {
   }
 
   .drawer_content {
-    padding: 0 16px 63px;
     .group-container {
       width: 100%;
       .group-header1 {
         display: flex;
+        margin-top: 14px;
         .group-header-tip {
           margin-left: 16px;
           font-size: 14px;
@@ -215,7 +224,7 @@ export default {
         }
       }
       .group-header2 {
-        margin-top: 16px;
+        margin-top: 33px;
         width: 100%;
         height: 65px;
         display: flex;
@@ -251,6 +260,20 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+        .shops {
+          display: flex;
+          width: 220px;
+          .shopname {
+            display: inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          span {
+            padding-right: 15px;
+            flex-shrink: 0;
+          }
         }
       }
     }
