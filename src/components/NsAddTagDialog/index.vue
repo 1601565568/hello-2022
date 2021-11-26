@@ -34,7 +34,7 @@
                 </el-checkbox>
               </el-checkbox-group>
             </el-form-item>
-            <div class="no-data" v-show="!loading && !showList.length">
+            <div class="no-data" v-show="!loading && !showList.length && !closing">
               <img v-show="tagList.length && !showList.length" :src="searchPng" />
               <span v-show="tagList.length && !showList.length" class="no-tag">没有搜索到数据哦~</span>
               <img v-show="!tagList.length" :src="noDataPng" />
@@ -103,6 +103,7 @@ export default {
       searchPng: searchPng,
       noDataPng: noDataPng,
       loading: false,
+      closing: false,
       searchTagGroupName: '',
       tagList: [],
       showList: [],
@@ -136,6 +137,7 @@ export default {
     },
     async open () {
       this.loading = true
+      this.closing = false
       await this.getTagList()
       if (this.selectedTags) {
         // 初始化已选中标签
@@ -170,6 +172,7 @@ export default {
       this.close()
     },
     close () {
+      this.closing = true
       this.searchTagGroupName = ''
       this.showList = []
       this.searchList = []
