@@ -75,12 +75,6 @@
               <ns-datetime  v-model="model.addTime"></ns-datetime>
             </el-form-grid>
           </el-form-item>
-          <!--        <el-form-item label="添加好友：">-->
-          <!--          <el-form-grid>-->
-          <!--            <ns-datetime type="datetime" width="160" v-model="model.addTime" format='yyyy-MM-dd' value-format='yyyyMMdd'>-->
-          <!--            </ns-datetime>-->
-          <!--          </el-form-grid>-->
-          <!--        </el-form-item>-->
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="searchAction()">{{$t('operating.search')}}</ns-button>
@@ -91,23 +85,14 @@
 
       <!-- 表格 -->
       <template slot="table">
-        <!-- 表格配置 不能添加 border 配置 -->
-        <!-- 表格配置 需添加 stripe （实现斑马线效果） -->
-
-        <!-- 表格单元格宽度配置规范 -->
-        <!-- 复选框/单选框 :width="50" -->
-        <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
-        <!-- 手机号 :width="120" -->
-        <!-- 操作栏 单个按钮 :width="80"  多个按钮 :width="120" -->
-
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column type="selection" align="center" :width="50">
+          <el-table-column type="selection" align="center">
           </el-table-column>
           <el-table-column type="default" prop="head_img"
-                           label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false" width="100">
+                           label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false">
             <template slot-scope="scope">
               <div v-if="!scope.row.head_img">
                 <img src="./images/head_demo.svg" width="60" height="60"/>
@@ -118,22 +103,22 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="external_name"
-                           label="昵称" dbcolumn="external_name" column="external_name" width="120" align="left" :sortable="false" >
+                           label="昵称" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
             <template slot-scope="scope">
               <ns-wechat-emoji :data="scope.row.external_name ? scope.row.external_name : '-'"></ns-wechat-emoji>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="sex"
-                           label="性别" :sortable="false" align="center" width="100">
+                           label="性别" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.sex === 2 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
-                           label="所属员工"  align="center" width="150">
+                           label="所属员工"  align="center">
           </el-table-column>
           <el-table-column type="default" prop="add_time"
-                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" width="200" align="left">
+                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" align="left">
             <template slot-scope="scope">
               <div v-if="scope.row.add_time">
                 {{scope.row.add_time.substring(0,10)}}<br/>
@@ -142,29 +127,29 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="addWay"
-                           label="来源" :sortable="false" align="center" width="100">
+                           label="来源" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.addWay ? addWay[scope.row.addWay] ? addWay[scope.row.addWay] : '未知' : '未知'}}
             </template>
           </el-table-column>
-          <!--        <el-table-column :show-overflow-tooltip="true" type="default" prop="add_friend_channel"-->
-          <!--                         label="添加好友渠道" dbcolumn="add_friend_channel" column="add_friend_channel" width="120" align="left">-->
-          <!--        </el-table-column>-->
-          <el-table-column type="default" prop="group_tags"
+          <el-table-column type="default" prop="group_tags" width="400"
                            label="企业标签" dbcolumn="group_tags" column="group_tags" align="left">
             <template slot-scope="scope">
-              <template v-if="scope.row.group_tags">
+              <div v-if="scope.row.group_tags">
                 <el-tag style="margin-right: 5px;cursor: default"
-                        v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i)"
-                        :key="index">
-                  <template v-if="tag.length > 10">
-                    <el-tooltip :content="tag" effect="light"><span>{{tag.substring(0,10)+ '...'}}</span></el-tooltip>
-                  </template>
-                  <template v-else>
-                    {{tag}}
-                  </template>
+                      v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i).slice(0, 3)"
+                      :key="index">
+                  <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
+                    <span class="tool-tip">{{tag}}</span>
+                  </el-tooltip>
                 </el-tag>
-              </template>
+                <!-- <span v-if="scope.row.group_tags.split('|').filter(i => i).length > 3">
+                  等{{scope.row.group_tags.split('|').filter(i => i).length}}个标签
+                </span> -->
+                <span>
+                  等555个标签
+                </span>
+              </div>
               <template v-else>
                 -
               </template>
@@ -254,5 +239,12 @@ export default NsTableEnterpriseWeChat
 }
 .dialog-tag__title {
   background-color: #f3f4f4;
+}
+.tool-tip {
+  display: inline-block;
+  /* max-width: 70px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
