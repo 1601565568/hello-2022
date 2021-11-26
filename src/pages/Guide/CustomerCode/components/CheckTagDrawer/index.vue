@@ -51,7 +51,7 @@ export default {
       type: Boolean,
       default: false
     },
-    checkList: {
+    checkList: { // 已经选择的标签
       type: Array,
       default: function () {
         return []
