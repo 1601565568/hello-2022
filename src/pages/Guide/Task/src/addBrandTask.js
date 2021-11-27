@@ -210,12 +210,14 @@ export default {
     },
     // 选择素材
     selectMaterialShowFun () {
+      if (this.canNotEdit) return
       this.$nextTick(() => {
         this.$refs.selectDialogDom.showToggle(this.selectMaterial)
       })
     },
     // 删除素材
     deleteMaterialShowFun () {
+      if (this.canNotEdit) return
       this.disabled = false
       this.selectMaterial = {}
       this.$nextTick(() => {
