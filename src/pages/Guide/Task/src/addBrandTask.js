@@ -225,6 +225,7 @@ export default {
     },
     // 删除素材
     deleteMaterialShowFun () {
+      if (this.canNotEdit) return
       this.disabled = false
       this.selectMaterial = {}
       this.$nextTick(() => {
