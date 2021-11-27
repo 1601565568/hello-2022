@@ -151,6 +151,9 @@
               <el-table-column prop="newShopping" label="新专属导购" width="290px">
               </el-table-column>
               <el-table-column prop="transfer" label="会员转移状态" width="125px">
+                <template slot-scope="scope">
+                  <span class="trans-status-view">{{scope.row.transfer}}</span>
+                </template>
               </el-table-column>
             </el-table-column>
             <el-table-column label="好友信息">
@@ -167,6 +170,9 @@
               <el-table-column prop="addPerson" label="原添加人" width="120px">
               </el-table-column>
               <el-table-column prop="newPerson" label="好友转移状态" width="150px">
+                <template slot-scope="scope">
+                  <span class="trans-status-view">{{scope.row.newPerson}}</span>
+                </template>
               </el-table-column>
               <el-table-column prop="remark" label="备注" width="120px">
               </el-table-column>
@@ -312,6 +318,14 @@ export default {
       height: 50px;
       margin-right: 20px;
     }
+  }
+  .trans-status-view {
+    background: #EDFAE1;
+    border: 1px solid #C2F099;
+    border-radius: 2px;
+    padding: 2px 8px;
+    display: inline-block;
+    font-size: 12px;
   }
 }
 .top-title-view {
