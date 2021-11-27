@@ -134,33 +134,39 @@
           >
             <el-table-column label="会员信息">
               <el-table-column prop="name" label="会员">
+                <template slot-scope="scope">
+                  <div class="user-info">
+                    <img :src="scope.row.date" class="header-img">
+                    <span>{{scope.row.name}}</span>
+                  </div>
+                </template>
               </el-table-column>
-              <el-table-column prop="gender" label="性别"> </el-table-column>
-              <el-table-column prop="phone" label="手机号">
+              <el-table-column prop="gender" label="性别" width="72px"> </el-table-column>
+              <el-table-column prop="phone" label="手机号" width="120px">
               </el-table-column>
-              <el-table-column prop="card" label="会员卡号">
+              <el-table-column prop="card" label="会员卡号"  width="120px">
               </el-table-column>
-              <el-table-column prop="original" label="原专属导购">
+              <el-table-column prop="original" label="原专属导购" width="290px">
               </el-table-column>
-              <el-table-column prop="newShopping" label="新专属导购">
+              <el-table-column prop="newShopping" label="新专属导购" width="290px">
               </el-table-column>
-              <el-table-column prop="transfer" label="会员转移状态">
+              <el-table-column prop="transfer" label="会员转移状态" width="125px">
               </el-table-column>
             </el-table-column>
             <el-table-column label="好友信息">
               <el-table-column prop="namer" label="好友">
               </el-table-column>
-              <el-table-column prop="fPhone" label="手机号">
+              <el-table-column prop="fPhone" label="手机号" width="120px">
               </el-table-column>
-              <el-table-column prop="addPerson" label="原添加人">
+              <el-table-column prop="addPerson" label="原添加人" width="120px">
               </el-table-column>
-              <el-table-column prop="newPerson" label="好友转移状态">
+              <el-table-column prop="newPerson" label="好友转移状态" width="150px">
               </el-table-column>
-              <el-table-column prop="remark" label="备注">
+              <el-table-column prop="remark" label="备注" width="120px">
               </el-table-column>
-              <el-table-column prop="operationPerson" label="操作人">
+              <el-table-column prop="operationPerson" label="操作人" width="120px">
               </el-table-column>
-              <el-table-column prop="add_time" label="转移时间">
+              <el-table-column prop="add_time" label="转移时间" width="160px">
               </el-table-column>
             </el-table-column>
           </el-table>
@@ -291,6 +297,14 @@ export default {
   font-size: 14px;
   font-weight: 400;
   border: none;
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    .header-img {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }
 .top-title-view {
   background-color: white;
@@ -362,49 +376,10 @@ export default {
   border: 1px solid #d9d9d9;
   border-radius: 2px;
   padding: 0px 12px;
-  // margin-left: 16px;
 }
 
-// .top-search-view .name {
-//   width: 200px;
-//   margin-right: 16px;
-//   margin-bottom: 16px;
-// }
 .el-icon-search {
   border: none;
-}
-.picker {
-  width: 458px;
-  height: 32px;
-  display: inline-block;
-  margin-right: 17px;
-  border: 1px solid #d9d9d9;
-}
-.picker span {
-  width: 70x;
-  height: 22px;
-  display: inline-block;
-  margin-left: 12px;
-  font-size: 14px;
-  color: #595959;
-  margin-top: 4px;
-}
-.picker .date {
-  width: 370px;
-  border: none;
-}
-.selete {
-  margin-right: 17px;
-}
-.btn {
-  width: 86px;
-  height: 28px;
-  font-size: 14px;
-  border: 1px solid #d9d9d9;
-  color: #595959;
-  background-color: white;
-  border-radius: 3px;
-  margin-left: 150px;
 }
 .trans-table-view {
   margin-top: 16px;
