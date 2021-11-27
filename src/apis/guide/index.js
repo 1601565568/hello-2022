@@ -309,6 +309,11 @@ export default {
     url: '/guide/material/setSubdivision',
     method: 'post'
   },
+  updateCurrentStatus: {
+    // 素材设置状态
+    url: '/guide/material/updateCurrentStatus',
+    method: 'post'
+  },
   findDirectoryList: {
     // 查询文件夹列表
     url: '/guide/material/findDirectoryList',
