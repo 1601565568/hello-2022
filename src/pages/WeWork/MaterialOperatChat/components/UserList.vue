@@ -11,7 +11,31 @@
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
-      <div class="drawer-title">{{item.guideName}}{{'&nbsp;&nbsp;'}}{{ item.employeeNumber}}{{'&nbsp;&nbsp;'}}{{item.shopName}}</div>
+      <div class="drawer-title">{{item.guideName}}{{'&nbsp;&nbsp;'}}{{ item.employeeNumber}}{{'&nbsp;&nbsp;'}}
+        <el-popover
+          placement="top-start"
+          width="300"
+          trigger="hover"
+          :disabled="item.shopName && item.shopName.length <= 10"
+        >
+          <span>{{ item.shopName || '-' }}</span>
+          <span
+            slot="reference"
+            v-if="item.shopName && item.shopName.length <= 10"
+            >{{ item.shopName || '-'}}</span
+          >
+          <span
+            slot="reference"
+            v-else-if="item.shopName && item.shopName.length > 10"
+            >{{ item.shopName.substr(0, 10) + '...' }}</span
+          >
+          <span
+            slot="reference"
+            v-else
+            >{{ '-' }}</span
+          >
+        </el-popover>
+      </div>
       <div class="content-view">
         <div class="menu-view">
           <div class="input-view">

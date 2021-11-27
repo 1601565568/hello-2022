@@ -245,6 +245,41 @@
                       }}</template>
                     </el-table-column>
                     <el-table-column prop="shopName" label="所属门店">
+                      <!-- <template slot="header">
+                        <el-popover
+                          placement="top-start"
+                          title="用户浏览或下单时，浏览记录或订单保存时统计的门店"
+                          width="200"
+                          trigger="hover"
+                          content="">
+                          <span slot="reference">所属门店<span class="iconfont icon-ns-help"></span></span>
+                        </el-popover>
+                      </template> -->
+                      <template slot-scope="scope">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.shopName && scope.row.shopName.length <= 10"
+                        >
+                          <div>{{ scope.row.shopName || '-' }}</div>
+                          <span
+                            slot="reference"
+                            v-if="scope.row.shopName && scope.row.shopName.length <= 10"
+                            >{{ scope.row.shopName || '-'}}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-else-if="scope.row.shopName && scope.row.shopName.length > 10"
+                            >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-else
+                            >{{ '-' }}</span
+                          >
+                        </el-popover>
+                      </template>
                     </el-table-column>
                     <el-table-column prop="sendCodePicturesSum">
                       <template slot="header">

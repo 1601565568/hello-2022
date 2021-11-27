@@ -106,6 +106,7 @@
                         <el-form-item
                           label="网页地址"
                           required
+                          :key='0'
                           prop="linkModel.link"
                           :rules="[
                             {
@@ -234,13 +235,24 @@
 
                       <!-- 小程序链接配置开始 -->
                       <template v-if="model.linkType === 2">
+                        <el-form-item label="小程序原始ID" prop="appModel.originId">
+                          <el-input
+                            type="text"
+                            maxlength="20"
+                            minlength="1"
+                            clearable
+                            placeholder="请输入小程序原始ID"
+                            v-model="model.appModel.originId"
+                            show-word-limit
+                          />
+                        </el-form-item>
                         <el-form-item label="小程序appID" prop="appModel.appid">
                           <el-input
                             type="text"
                             maxlength="30"
                             minlength="1"
                             clearable
-                            placeholder="请输入文案"
+                            placeholder="请输入小程序appID"
                             v-model="model.appModel.appid"
                             show-word-limit
                           />
