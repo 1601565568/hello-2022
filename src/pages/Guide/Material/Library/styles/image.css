@@ -60,3 +60,6 @@
 .top-input-view >>> .el-textarea__inner::-webkit-input-placeholder {
   color:#BFBFBF;
 }
+.input_textarea >>>.el-textarea__inner{
+  width: 540px;
+}

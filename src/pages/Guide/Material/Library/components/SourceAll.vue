@@ -2,19 +2,6 @@
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
-        <!-- <tag-area
-          class="tag-area"
-          v-model='model.name'
-          tag="wise"
-          ref="TagAreaText"
-          :maxlength="150"
-          :showEmoji='false'
-          :disabledEnter='true'
-          :showTextEmoji='false'
-          :tools='tools'
-          placeholder="请输入标题，长度在150个字符以内"
-          emojiClass=''
-        /> -->
         <el-input
           type="textarea"
           placeholder="请输入标题，长度在150个字符以内"
@@ -30,10 +17,10 @@
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
-        <span class="library-icon__extra" @click="toggleLabel">
+        <div class="library-icon__extra" @click="toggleLabel">
           <Icon type="plus" />
           <span>添加标签</span>
-        </span>
+        </div>
       </el-form-item>
       <el-form-item label="推广文案：">
         <div class="top-title-view">
@@ -748,6 +735,7 @@ export default {
 }
 .input_textarea{
   height: 144px;
+  width: 540px;
   >>> .el-textarea__inner {
     height: 100%;
     resize:none;
