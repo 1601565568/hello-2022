@@ -210,6 +210,7 @@ export default {
     },
     // 选择素材
     selectMaterialShowFun () {
+      if (this.canNotEdit) return
       const times = this.model.activityTime
       let taskStart = ''
       let taskEnd = ''
