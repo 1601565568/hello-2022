@@ -133,7 +133,7 @@
             :cell-style="{ borderRight: 'none'}"
           >
             <el-table-column label="会员信息">
-              <el-table-column prop="name" label="会员">
+              <el-table-column prop="name" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
                     <img :src="scope.row.date" class="header-img">
@@ -154,7 +154,13 @@
               </el-table-column>
             </el-table-column>
             <el-table-column label="好友信息">
-              <el-table-column prop="namer" label="好友">
+              <el-table-column prop="namer" label="好友" width="170px">
+                <template slot-scope="scope">
+                  <div class="user-info">
+                    <img :src="scope.row.date" class="header-img">
+                    <span>{{scope.row.name}}</span>
+                  </div>
+                </template>
               </el-table-column>
               <el-table-column prop="fPhone" label="手机号" width="120px">
               </el-table-column>
@@ -300,9 +306,11 @@ export default {
   .user-info {
     display: flex;
     flex-direction: row;
+    align-items: center;
     .header-img {
       width: 50px;
       height: 50px;
+      margin-right: 20px;
     }
   }
 }
