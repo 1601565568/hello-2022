@@ -276,11 +276,12 @@ export default {
   },
   methods: {
     currentStatusChange (item) {
-      const currentStatus = item.currentStatus === '1' ? '2' : '1'
+      item.currentStatus = item.currentStatus === '1' ? '2' : '1'
+      // const currentStatus = item.currentStatus === '1' ? '2' : '1'
       this.$http
         .fetch(this.$api.guide.updateCurrentStatus, {
           id: item.id,
-          currentStatus: currentStatus
+          currentStatus: item.currentStatus
         })
         .then(resp => {
           this.$notify.success('素材状态设置成功')
@@ -669,7 +670,12 @@ export default {
       this.$http
         .fetch(this.$api.guide.batchDeleteMaterial, { itemList })
         .then(resp => {
-          this.$notify.success('删除成功')
+          // 特殊场景 一半成功 一半失败
+          if (resp && resp.code === '202') {
+            this.$notify.error(getErrorMsg('删除失败', resp))
+          } else {
+            this.$notify.success(resp.msg || '删除成功')
+          }
           this.selectRows = []
           this.loadList()
         })
