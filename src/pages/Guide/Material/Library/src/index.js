@@ -670,7 +670,7 @@ export default {
         .fetch(this.$api.guide.batchDeleteMaterial, { itemList })
         .then(resp => {
           // 特殊场景 一半成功 一半失败
-          if (resp && resp.code === 202) {
+          if (resp && resp.code === '202') {
             this.$notify.error(getErrorMsg('删除失败', resp))
           } else {
             this.$notify.success(resp.msg || '删除成功')
