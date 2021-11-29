@@ -410,7 +410,7 @@ export default {
     swtichRewardStatus (status, code) {
       if (code === 'reward') {
         // 关闭活动奖励模块，清除打标组数据
-        if (status === 0) { // 关闭
+        if (status === 0) {
           this.tagConf.slice(2).forEach(item => {
             this.model.tags[item.key].forEach(iten => {
               iten.tag = ''
