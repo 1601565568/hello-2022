@@ -79,14 +79,14 @@ export default {
       },
       staircase: [ '一', '二', '三', '四', '五' ],
       allTagGroupIds: [], // 所有的tagGroupId，用于计算tags.count
-      tagConf: {
-        addValidFriendTags: { label: '自动打标签', tip: '在裂变活动中，通过去重规则后新增的好友', stairPrefix: '自动打标梯度' },
-        beGuestCodeTags: { tip: '成为裂变大师后自动打标签', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
-        noStandardTags: { tip: '活动结束后，裂变未达标', stairPrefix: '未达标阶梯' },
-        standardTags: { tip: '活动结束后，裂变达标', stairPrefix: '阶梯' },
-        noReceiveRewardsTags: { tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯' },
-        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
-      },
+      tagConf: [
+        { key: 'addValidFriendTags', label: '自动打标签', tip: '在裂变活动中，通过去重规则后新增的好友', stairPrefix: '自动打标梯度' },
+        { key: 'beGuestCodeTags', tip: '成为裂变大师后自动打标签', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
+        { key: 'noStandardTags', tip: '活动结束后，裂变未达标', stairPrefix: '未达标阶梯' },
+        { key: 'standardTags', tip: '活动结束后，裂变达标', stairPrefix: '阶梯' },
+        { key: 'noReceiveRewardsTags', tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯' },
+        { key: 'receiveRewardsTags', tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
+      ],
       // 校验规则
       rules: {
         name: [
@@ -255,6 +255,12 @@ export default {
       if (!this.NsAddTagDialogColumn) return ''
       const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
       return this.model[tags][tagKey][index].tag
+    },
+    tagConfShowList () {
+      if (this.eidtList[3].status) {
+        return this.tagConf.slice(0)
+      }
+      return this.tagConf.slice(0, 2)
     }
   },
   mounted () {
@@ -401,9 +407,19 @@ export default {
     formatSettingType (code) {
       return formatCustomComponent(code)
     },
-    // handleChangePopoverShow (popoverShow = !this.popoverShow) {
-    //   this.popoverShow = popoverShow
-    // },
+    swtichRewardStatus (status, code) {
+      if (code === 'reward') {
+        // 关闭活动奖励模块，清除打标组数据
+        if (status === 0) { // 关闭
+          this.tagConf.slice(2).forEach(item => {
+            this.model.tags[item.key].forEach(iten => {
+              iten.tag = ''
+              iten.tagGroupId = ''
+            })
+          })
+        }
+      }
+    },
     /**
      * 打开选择品牌模态框
      */
