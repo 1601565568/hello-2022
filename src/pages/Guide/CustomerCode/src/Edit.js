@@ -1,6 +1,6 @@
 import validates from './validates'
 import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl, defPosters, defCardImg } from '../util/Edit'
-import { EDIT_DATA, DEFAULT_DATA } from './const'
+import { EDIT_DATA, DEFAULT_DATA, MODULE_TO_INDEX_MAP } from './const'
 import moment from 'moment'
 export default {
   data () {
@@ -230,7 +230,7 @@ export default {
     model: {
       handler (newValue, oldValue) {
         if (this.isEdit) return
-        const item = this.eidtList[2]
+        const item = this.eidtList[MODULE_TO_INDEX_MAP.countdown]
         item.status = newValue.validTimeType === 1 ? 1 : 0
       },
       deep: true
@@ -372,7 +372,7 @@ export default {
       event.stopPropagation()
       this.onShowEdit(itemCode, status)
       if (itemCode === 'countdown' && this.model.validTimeType === 0) {
-        this.eidtList[2].status = 0
+        this.eidtList[MODULE_TO_INDEX_MAP.countdown].status = 0
         this.$notify.warning('活动永久有效，无需显示倒计时')
       }
     },
@@ -454,7 +454,7 @@ export default {
           this.$refs.colorView.selctColor(this.showColor)
         }
         if (this.$refs.tagAreaText) {
-          this.pageObj.rules = this.$refs.tagAreaText.stringTohtml(this.eidtList[5].value.content || '')
+          this.pageObj.rules = this.$refs.tagAreaText.stringTohtml(this.eidtList[MODULE_TO_INDEX_MAP.activityRule].value.content || '')
           this.showDefaultText(result.activityIntroduction || '')
         }
       })
@@ -595,7 +595,7 @@ export default {
         this.$notify.error('请选择活动消息卡片封面图片')
         return
       }
-      const activeItem = this.eidtList[3]
+      const activeItem = this.eidtList[MODULE_TO_INDEX_MAP.reward]
       let ruleForm4
       if (activeItem.status === 1 && (!this.isEdit || this.copyGuestCodeId > 0)) {
         ruleForm4 = this.$refs.componentList[2].validateRules()
@@ -637,7 +637,7 @@ export default {
           return
         }
       }
-      const rulesItem = this.eidtList[5]
+      const rulesItem = this.eidtList[MODULE_TO_INDEX_MAP.activityRule]
       if (rulesItem.status === 1) {
         if (!this.pageObj.rules) {
           this.$notify.error('请输入活动规则')
@@ -648,7 +648,7 @@ export default {
           return
         }
       }
-      const shareItem = this.eidtList[7]
+      const shareItem = this.eidtList[MODULE_TO_INDEX_MAP.shareButton]
       if (shareItem.status === 1) {
         if (!this.pageObj.share.name) {
           this.$notify.error('请输入分享按钮名称')

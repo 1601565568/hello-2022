@@ -2,12 +2,11 @@
 .common-collapse{
   >>> .el-collapse-item__header {
     
-    background-color: #FBFBFB;
+    background-color: #F5F5F5;
     font-size: 14px;
     color: #303133;
     position: relative;
-    padding-left: 0px;
-    padding-right: 16px;
+    padding:0 16px;
     height: 48px;
     font-weight: bold;
     line-height: 48px;
@@ -32,6 +31,7 @@
   }
   >>> .el-collapse-item__wrap {
     padding-left: 0px;
+    margin-bottom: 16px;
   }
   >>> .el-collapse-item__content {
     padding-bottom: 0px !important;
@@ -44,12 +44,11 @@
 .hidden-common-collapse{
   >>> .el-collapse-item__header {
     
-    background-color: #FBFBFB;
+    background-color: #F5F5F5;
     font-size: 14px;
     color: #303133;
     position: relative;
-    padding-left: 0px;
-    padding-right: 16px;
+    padding:0 16px;
     height: 48px;
     font-weight: bold;
     line-height: 48px;
@@ -75,6 +74,7 @@
   }
   >>> .el-collapse-item__wrap {
     padding-left: 0px;
+    margin-bottom: 16px;
   }
   >>> .el-collapse-item__content {
     padding-bottom: 0px !important;

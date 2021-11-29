@@ -70,11 +70,19 @@ export default {
       timeTypeForever
     }
   },
-  props: ['chooseItem'],
+  props: {
+    chooseItem: {},
+    extModel: {
+      default () {
+        return {}
+      }
+    }
+  },
   components: { RedPacket },
   mixins: [tableMixin],
   mounted () {
-    this.checkItem = this.chooseItem
+    this.checkItem = { ...this.chooseItem }
+    this.model = { ...this.model, ...this.extModel }
     this.$reload()
   },
   methods: {

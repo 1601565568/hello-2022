@@ -32,15 +32,21 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
-            <!-- <el-table-column type="default" label="阶梯">
+            <el-table-column type="default" label="阶梯">
               <template slot-scope="scope">
                 阶梯{{[ '一', '二', '三', '四', '五' ][scope.$index]}}
               </template>
-            </el-table-column> -->
+            </el-table-column>
             <el-table-column type="default" label="达标门槛（人）" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
                   :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
+                  :rules="[
+                    {
+                      validator: ValidateUtil.checkRankNumber.bind(this, scope.$index),
+                      trigger: ['blur', 'change']
+                    }
+                  ]"
                 >
                   <el-input-number
                     :disabled="isStating || isEditSetPrize"
@@ -72,13 +78,14 @@
                       required: true,
                       message: '请选择奖励类型',
                       trigger: ['blur', 'change']
-                    }
+                    },
                   ]"
                 >
                   <el-select
                     :disabled="isStating || isEditSetPrize"
                     v-model="scope.row.prizeType"
                     placeholder="请选择奖励"
+                    @change='(value)=>{handleChangePrizeType(scope,value)}'
                   >
                     <el-option
                       v-for="item in prizeList"
@@ -101,7 +108,7 @@
                       trigger: ['blur', 'change']
                     }]"
                 >
-                  <div class="coupon" @click="getCoupon">
+                  <div class="coupon" @click="handleSetPrize(scope)">
                     <p v-if="!scope.row.prizeId" class="getCoupon">
                       请选择
                     </p>
@@ -214,10 +221,12 @@
                 <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
-            <!-- <el-table-column type="default" label="操作">
-              <ns-button type="text" @click="updateStair('add')">新增</ns-button>
-              <ns-button type="text" @click="updateStair('del')">删除</ns-button>
-            </el-table-column> -->
+            <el-table-column type="default" label="操作">
+              <template slot-scope="scope">
+                <ns-button type="text" v-if='scope.$index === 0 && model.prizeRuleList.length < maxLength' @click="handleAddPrizeItem">新增</ns-button>
+                <ns-button type="text" v-if='scope.$index && scope.$index === model.prizeRuleList.length - 1' @click="handleDelPrizeItem(scope.$index)">删除</ns-button>
+              </template>
+            </el-table-column>
           </el-table>
           <div class="remind-view">
             <span class="remind-color"></span>
@@ -227,6 +236,18 @@
       </template>
     </el-form>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
+    <el-dialog title="选择红包"
+      custom-class='full-dialog'
+      class='full-dialog'
+      width='1000px'
+      :modal-append-to-body='true' :append-to-body='true'
+      :visible.sync="redpackVisible">
+      <StrategiesList v-if='redpackVisible' :chooseItem='chooseItem' ref='strategiesList' :extModel="{remainder:0}"/>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="redpackVisible = false">取 消</ns-button>
+        <ns-button type="primary" @click="handleSureRedPack">确 定</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -234,9 +255,19 @@ import ElInputNumber from '@nascent/nui/lib/input-number'
 import Coupon from './coupon'
 import ValidateUtil from '@/utils/validateUtil'
 import activityUtil from '@/utils/activityUtil'
+import StrategiesList from '@/pages/Guide/RedPacket/components/StrategiesList'
 import { clone } from 'lodash'
+const defaultPrize = {
+  prizeGrade: 1,
+  addPrizeNumber: 0, // 新增活动奖励总数
+  prizeId: null,
+  recruitment: 1, // 邀请人数
+  prizeName: '', // 优惠券名称
+  prizeNumber: '', // 设置活动奖励总数
+  validNumber: 0 // 优惠券剩余数量
+}
 export default {
-  components: { ElInputNumber, Coupon },
+  components: { ElInputNumber, Coupon, StrategiesList },
   props: {
     prizeModel: {
       type: Object
@@ -252,10 +283,9 @@ export default {
     }
   },
   watch: {
-    model: {
+    'model.prizeRuleList': {
       handler (newValue, oldValue) {
-        const item = this.formartSave(newValue)
-        this.$emit('updatePrize', item)
+        this.$emit('updatePrize', newValue)
       },
       deep: true
     },
@@ -285,24 +315,31 @@ export default {
         callback()
       }
     }
+    // 校验阶梯数字是否递增
+    const checkRankNumber = (index, rule, value, callback) => {
+      const { prizeRuleList } = this.model
+      if (!value) {
+        callback(new Error('请输入达标门槛'))
+      } else {
+        const pre = prizeRuleList[index - 1] ? prizeRuleList[index - 1].recruitment : 0
+        const next = prizeRuleList[index + 1] ? prizeRuleList[index + 1].recruitment : Infinity
+        if (value > pre && value < next) {
+          callback()
+        } else {
+          callback(new Error('达标人数不符合按阶梯递增的规则，请核对'))
+        }
+      }
+    }
     return {
       model: {
         prizeStatus: 1, // 奖励机制 0 关闭 1 开启
         prizeSendPlan: 1, // 发放奖励
         prizeRuleList: [
-          {
-            prizeGrade: 1,
-            addPrizeNumber: 0, // 新增活动奖励总数
-            prizeId: null,
-            recruitment: 1, // 邀请人数
-            prizeName: '', // 优惠券名称
-            prizeNumber: '', // 设置活动奖励总数
-            validNumber: 0 // 优惠券剩余数量
-          }
+          { ...defaultPrize }
         ]
       },
       isEditSetPrize: false, // 未开始活动未开启奖励设置可编辑，已开启禁止编辑
-      ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber },
+      ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber, checkRankNumber },
       rules: {
         prizeType: [
           {
@@ -316,9 +353,17 @@ export default {
         {
           label: '优惠券',
           value: 1
+        },
+        {
+          label: '红包',
+          value: 2
         }
       ],
-      isCopy: false
+      isCopy: false,
+      redpackVisible: false,
+      chooseItem: {}, // 如果红包记录选择的那项
+      chooseIndex: -1, // 选择的下标
+      maxLength: 5 // 阶梯奖励最大数
     }
   },
   mounted () {
@@ -328,8 +373,14 @@ export default {
     this.setModel()
   },
   methods: {
-    updateStair (type) {
-      this.$emit('updateStair', type)
+    // 新增阶梯奖项
+    handleAddPrizeItem () {
+      this.model.prizeRuleList.push({ ...defaultPrize })
+    },
+    // 删除阶梯奖项
+    handleDelPrizeItem (index) {
+      this.model.prizeRuleList.splice(index, 1)
+      console.log(this.judgeDuplicatePrizes())
     },
     remainNumber (item) {
       const prizeNumber = parseInt(item.prizeNumber) || 0
@@ -369,6 +420,49 @@ export default {
         }
       }
     },
+    /**
+     * 切换奖励类型后清空奖励
+     */
+    handleChangePrizeType (scope, value) {
+      const { $index, row } = scope
+      this.$set(this.model.prizeRuleList, $index, { ...defaultPrize, prizeType: value })
+    },
+    /**
+     * 判断奖励类型
+     */
+    handleSetPrize (scope) {
+      if (this.isStating || this.isEditSetPrize) {
+        return false
+      }
+      const { $index, row } = scope
+      this.$refs.setPrizeruleForm.validateField('prizeRuleList.' + $index + '.prizeType', (result) => {
+        if (!result) {
+          const { prizeType } = scope.row
+          if (prizeType === 1) {
+            this.getCoupon()
+          } else if (prizeType === 2) {
+            this.chooseItem = row
+            this.redpackVisible = true
+          }
+        }
+      })
+      this.chooseIndex = $index
+    },
+    /**
+     * 设置红包奖励
+     */
+    handleSureRedPack () {
+      const checkedItem = this.$refs.strategiesList.checkItem
+      const item = this.model.prizeRuleList[this.chooseIndex]
+      // 由于要回显，这里暂时不删除弹框返回的数据,等待保存的时候重新格式化
+      const minxinItem = Object.assign(item, checkedItem, {
+        prizeId: checkedItem.id,
+        prizeName: checkedItem.name,
+        validNumber: checkedItem.remainder
+      })
+      this.$set(this.model.prizeRuleList, this.chooseIndex, minxinItem)
+      this.redpackVisible = false
+    },
     getCoupon () {
       if (this.isStating || this.isEditSetPrize) {
         return false
@@ -376,14 +470,40 @@ export default {
       this.$refs.Coupon.init()
     },
     getCouponMessage (data) {
-      const obj = this.model.prizeRuleList[0]
+      const obj = this.model.prizeRuleList[this.chooseIndex]
       let params = {
         ...obj,
         prizeId: data.activityCouponConfigId,
         prizeName: data.couponTitle,
         validNumber: data.validNumber
       }
-      this.$set(this.model.prizeRuleList, 0, params)
+      this.$set(this.model.prizeRuleList, this.chooseIndex, params)
+    },
+    /**
+     * 判断是否有重复奖品，重新计算库存是否超出
+     */
+    judgeDuplicatePrizes () {
+      const obj = {}
+      this.model.prizeRuleList.map(item => {
+        const { prizeId, prizeType, validNumber, prizeNumber } = item
+        const key = '' + prizeId + prizeType
+        if (obj[key]) {
+          obj[key].value = parseInt(obj[key].value) + parseInt(prizeNumber)
+        } else {
+          obj[key] = { max: validNumber, value: prizeNumber }
+        }
+      })
+      const objList = Object.values(obj)
+      if (objList.length >= this.model.prizeRuleList.length) {
+        return true
+      }
+      for (let i = 0; i < objList.length; i++) {
+        const item = objList[i]
+        if (item.value > item.max) {
+          return false
+        }
+      }
+      return true
     },
     onSave () {
       return new Promise((resolve, reject) => {
@@ -450,9 +570,8 @@ export default {
     white-space: nowrap;
 }
 .remind-view {
-  position: absolute;
-  top: 100px;
-  left: 0;
+  position: relative;
+  top:-10px;
   font-size: 12px;
   color: #595959;
   line-height: 20px;
