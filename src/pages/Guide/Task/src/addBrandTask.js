@@ -210,12 +210,23 @@ export default {
     },
     // 选择素材
     selectMaterialShowFun () {
-      this.$nextTick(() => {
-        this.$refs.selectDialogDom.showToggle(this.selectMaterial)
-      })
+      if (this.canNotEdit) return
+      const times = this.model.activityTime
+      let taskStart = ''
+      let taskEnd = ''
+      if (times.length >= 2) {
+        taskStart = this.model.activityTime[0]
+        taskEnd = this.model.activityTime[1]
+        this.$nextTick(() => {
+          this.$refs.selectDialogDom.showToggle(this.selectMaterial, taskStart, taskEnd)
+        })
+      } else {
+        this.$notify.error('请先输入任务开始时间、结束时间')
+      }
     },
     // 删除素材
     deleteMaterialShowFun () {
+      if (this.canNotEdit) return
       this.disabled = false
       this.selectMaterial = {}
       this.$nextTick(() => {

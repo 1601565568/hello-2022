@@ -63,3 +63,24 @@
 .input_textarea >>>.el-textarea__inner{
   width: 540px;
 }
+
+.select-time-view >>> .el-date-editor.el-input {
+  width: 416px;
+  height: 32px;
+}
+.select-time-view >>> .el-input__suffix {
+  height: 32px;
+}
+
+>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+
+>>> .el-radio__input.is-checked + .el-radio__label{
+  color:#606266;
+}
+
+>>> .el-radio__label, .el-checkbox__label{
+  color:#606266;
+}

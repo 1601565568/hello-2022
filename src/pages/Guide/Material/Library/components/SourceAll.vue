@@ -22,6 +22,48 @@
           <span>添加标签</span>
         </div>
       </el-form-item>
+      <el-form-item label="上架时间：" required>
+        <el-radio-group v-model="model.shelfType">
+          <el-radio :label=1>立即上架</el-radio>
+          <el-radio :label=0>自定义</el-radio>
+        </el-radio-group>
+        <div class="select-time-view" v-show="model.shelfType === 0">
+          <span class="remind-text">上架时间</span>
+          <el-form-item prop="shelfTime" :rules="[
+            {required:model.shelfType === 0 ? true : false, message:'请选择上架时间', trigger: ['blur', 'change']},
+          ]">
+            <el-date-picker
+              v-model="model.shelfTime"
+              type="datetime"
+              size="large"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              placeholder="请选择上架时间">
+            </el-date-picker>
+          </el-form-item>
+        </div>
+      </el-form-item>
+      <el-form-item label="下架时间：" required>
+        <el-radio-group v-model="model.endType">
+          <el-radio :label=1>永久有效</el-radio>
+          <el-radio :label=0>自定义</el-radio>
+        </el-radio-group>
+        <div class="select-time-view" v-show="model.endType === 0">
+          <span class="remind-text">下架时间</span>
+          <el-form-item prop="endTime" :rules="[
+            {required:model.endType === 0 ? true : false, message:'请选择下架时间', trigger: ['blur', 'change']},
+          ]">
+            <el-date-picker
+              v-model="model.endTime"
+              type="datetime"
+              size="large"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              placeholder="请选择下架时间">
+            </el-date-picker>
+          </el-form-item>
+        </div>
+      </el-form-item>
       <el-form-item label="推广文案：">
         <div class="top-title-view">
           <tag-area
@@ -113,53 +155,10 @@
         <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
-    <!-- <div class="library-footer">
-      <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
-      <ns-button @click="onBack()">取消</ns-button>
-    </div> -->
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
     <div class="cus-diglog-view">
-      <!-- <el-dialog :visible="showEdit" title="指南" width="658px" @close="handleCloseDia">
-        <div>
-          <div class="guide-text">指南说明</div>
-          <tag-area :maxlength="1500" placeholder="请输入" :showEmoji="false" v-model="guideText" :tools="tools" v-if="showEdit" ref="tagArea" className="tagArea"></tag-area>
-        </div>
-        <div>
-          <div class="guide-text">示意图</div>
-          <div class="upload-view">
-            <div v-if="showEidtImg" style="width:114px;height:114x;position:relative;">
-              <div class="guide-mask">
-                <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
-              </div>
-              <img :src="showEidtImg" style="width:114px;height:114px;border-radius: 4px; object-fit: cover;" />
-            </div>
-            <div v-else class="show-uploader-view">
-              <el-upload
-                class="library-guide"
-                :action="this.$api.core.sgUploadFile('image')"
-                :on-success="handleGuideSuccess"
-                :before-upload="beforeAvatarUpload"
-                :on-remove="removeGuideImg"
-                :show-file-list="false"
-              >
-                <div style="width:114px;height:114x;position:relative;">
-                  <div class="library-select-guide-uploader" slot="reference">
-                    <div class="el-upload--picture-card">
-                      <Icon type="plus" />
-                    </div>
-                  </div>
-                </div>
-              </el-upload>
-            </div>
-          </div>
-        </div>
-        <div slot="footer" class="dialog-footer">
-          <ns-button @click="handleCloseDia" class="diag-view">取消</ns-button>
-          <ns-button type="primary" @click="handleSure" class="diag-view">确定</ns-button>
-        </div>
-      </el-dialog> -->
     </div>
     <GuideInfo ref="guideInfo" />
   </div>
@@ -231,7 +230,11 @@ export default {
         codeTarget: '',
         codeTargetName: '',
         mediaList: [],
-        materialScriptType: 1
+        materialScriptType: 1,
+        shelfType: 1,
+        endType: 1,
+        endTime: '',
+        shelfTime: ''
       },
       rules: {
         name: [
@@ -317,15 +320,15 @@ export default {
     detail (newObj) {
       const parentIds = newObj.parentPath.split('/')
       const parentNames = newObj.parentPathName.split('/')
-      const tempModel = {}
-      Object.keys(this.model).forEach(k => {
-        tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        // if (k === 'mediaList') {
-        //   tempModel[k] = tempModel[k].filter(v =>
-        //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
-        //   )
-        // }
-      })
+      const tempModel = { ...newObj }
+      // Object.keys(this.model).forEach(k => {
+      //   tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
+      //   // if (k === 'mediaList') {
+      //   //   tempModel[k] = tempModel[k].filter(v =>
+      //   //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
+      //   //   )
+      //   // }
+      // })
       this.model = tempModel
       // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
       this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
@@ -590,6 +593,8 @@ export default {
       })
     },
     doSave () {
+      this.model.shelfTime = this.model.shelfType === 1 ? '' : this.model.shelfTime
+      this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
       params.mediaList = this.mediaList
@@ -969,5 +974,17 @@ export default {
   border-radius: 50%;
   margin-right: 8px;
   margin-bottom: 1px;
+}
+.select-time-view {
+  background: #F5F5F5;
+  border-radius: 2px;
+  padding: 16px;
+  margin-top: 16px;
+  .remind-text {
+    font-size: 14px;
+    color: #595959;
+    display: inline-block;
+    margin-right: 26px;
+  }
 }
 </style>

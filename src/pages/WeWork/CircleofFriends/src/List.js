@@ -35,6 +35,8 @@ export default {
           value: 1
         }
       ],
+      PublishDetailDrawerVisible: false,
+      activeMomentId: '',
       drawer: false,
       // 侧边栏信息
       itemDate: {},
@@ -65,8 +67,11 @@ export default {
       }
     }
   },
-  // mixins: [tableMixin],
   methods: {
+    checkPublishDetail (row) {
+      this.activeMomentId = row.momentId
+      this.PublishDetailDrawerVisible = true
+    },
     exportFile () {
       if (!this.getList.length) {
         this.$notify.error('当前没有匹配的数据项')
