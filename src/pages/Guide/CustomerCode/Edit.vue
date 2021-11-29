@@ -586,56 +586,56 @@
     </div>
     <!-- 数据与安全 end -->
     <!-- 自动打标签 start -->
-    <div class="customer-box">
-      <SimpleCollapse title='自动打标签'>
-        <Box :noborder='true'>
-          <template slot='collapse-left'>
-            <el-form
-              label-width="110px"
-              label-position="left"
-              :model="model"
-              class="normal-from"
-              :rules="rules"
-              ref="AddTagForm"
-            >
-              <!-- {{totalTagCount()}} -->
-              <template v-for="(tagItem, tagkey) in tagConf">
-                <el-form-item
-                  v-for="(item, index) in model.tags[tagkey]"
-                  :key="`${tagkey}_${index}`"
-                  :label="tagItem.label"
-                  :prop="`tags.${tagkey}.${index}`"
-                  class="larger-item"
-                >
-                  <div v-if="!index" class='sub-title sub-title-color'>
-                    {{tagItem.tip}}
-                    <el-tooltip v-if="tagItem.help" class="help" :content="tagItem.help">
-                      <Icon type="ns-help"/>
-                    </el-tooltip>
-                  </div>
-                  <div class="select-area">
-                    <span v-if="model.tags[tagkey].length > 1" class="select-title">
-                      {{tagItem.stairPrefix}}{{staircase[index]}}
-                    </span>
-                    <div class="select-tips" @click="openAddTagDialog(`tags.${tagkey}.${index}`)">
-                      <span v-if="!model.tags[tagkey][index].tagGroupId" class="un-selected">请选择标签</span>
-                      <span v-else class="selected">已选择{{model.tags[tagkey][index].tagGroupId.split(',').length}}个标签</span>
-                      <Icon type="tag-xia" class="icon"/>
-                    </div>
-                  </div>
-                </el-form-item>
-              </template>
-            </el-form>
-          </template>
-        </Box>
-      </SimpleCollapse>
-      <NsAddTagDialog
-        :visible.sync="NsAddTagDialogVisible"
-        :tagList="tagList"
-        :selectedTags="activeSelectedTags"
-        @confirm="confirmSelectedTag"
-      />
-    </div>
+<!--    <div class="customer-box">-->
+<!--      <SimpleCollapse title='自动打标签'>-->
+<!--        <Box :noborder='true'>-->
+<!--          <template slot='collapse-left'>-->
+<!--            <el-form-->
+<!--              label-width="110px"-->
+<!--              label-position="left"-->
+<!--              :model="model"-->
+<!--              class="normal-from"-->
+<!--              :rules="rules"-->
+<!--              ref="AddTagForm"-->
+<!--            >-->
+<!--              &lt;!&ndash; {{totalTagCount()}} &ndash;&gt;-->
+<!--              <template v-for="(tagItem, tagkey) in tagConf">-->
+<!--                <el-form-item-->
+<!--                  v-for="(item, index) in model.tags[tagkey]"-->
+<!--                  :key="`${tagkey}_${index}`"-->
+<!--                  :label="tagItem.label"-->
+<!--                  :prop="`tags.${tagkey}.${index}`"-->
+<!--                  class="larger-item"-->
+<!--                >-->
+<!--                  <div v-if="!index" class='sub-title sub-title-color'>-->
+<!--                    {{tagItem.tip}}-->
+<!--                    <el-tooltip v-if="tagItem.help" class="help" :content="tagItem.help">-->
+<!--                      <Icon type="ns-help"/>-->
+<!--                    </el-tooltip>-->
+<!--                  </div>-->
+<!--                  <div class="select-area">-->
+<!--                    <span v-if="model.tags[tagkey].length > 1" class="select-title">-->
+<!--                      {{tagItem.stairPrefix}}{{staircase[index]}}-->
+<!--                    </span>-->
+<!--                    <div class="select-tips" @click="openAddTagDialog(`tags.${tagkey}.${index}`)">-->
+<!--                      <span v-if="!model.tags[tagkey][index].tagGroupId" class="un-selected">请选择标签</span>-->
+<!--                      <span v-else class="selected">已选择{{model.tags[tagkey][index].tagGroupId.split(',').length}}个标签</span>-->
+<!--                      <Icon type="tag-xia" class="icon"/>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </el-form-item>-->
+<!--              </template>-->
+<!--            </el-form>-->
+<!--          </template>-->
+<!--        </Box>-->
+<!--      </SimpleCollapse>-->
+<!--      <NsAddTagDialog-->
+<!--        :visible.sync="NsAddTagDialogVisible"-->
+<!--        :tagList="tagList"-->
+<!--        :selectedTags="activeSelectedTags"-->
+<!--        @confirm="confirmSelectedTag"-->
+<!--      />-->
+<!--    </div>-->
     <!-- 自动打标签 end -->
   </div>
 </template>
