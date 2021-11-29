@@ -194,7 +194,9 @@
                               {{ item.itemName }}
                             </div>
                             <div :class="item.itemCode === 'shareButton' || item.itemCode === 'activityRule' || item.itemCode === 'masterInfo' ? 'hide-edit-switch' : ''" @click="onclick(item.itemCode,item.status)">
-                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward')"></el-switch>
+                              <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward')"
+                              @change="status => swtichRewardStatus(status, item.itemCode)"
+                              ></el-switch>
                             </div>
                           </div>
                         </template>
@@ -598,13 +600,12 @@
               :rules="rules"
               ref="AddTagForm"
             >
-              <!-- {{totalTagCount()}} -->
-              <template v-for="(tagItem, tagkey) in tagConf">
+              <template v-for="tagItem in tagConfShowList">
                 <el-form-item
-                  v-for="(item, index) in model.tags[tagkey]"
-                  :key="`${tagkey}_${index}`"
+                  v-for="(item, index) in model.tags[tagItem.key]"
+                  :key="`${tagItem.key}_${index}`"
                   :label="tagItem.label"
-                  :prop="`tags.${tagkey}.${index}`"
+                  :prop="`tags.${tagItem.key}.${index}`"
                   class="larger-item"
                 >
                   <div v-if="!index" class='sub-title sub-title-color'>
@@ -614,12 +615,12 @@
                     </el-tooltip>
                   </div>
                   <div class="select-area">
-                    <span v-if="model.tags[tagkey].length > 1" class="select-title">
+                    <span v-if="model.tags[tagItem.key].length > 1" class="select-title">
                       {{tagItem.stairPrefix}}{{staircase[index]}}
                     </span>
-                    <div class="select-tips" @click="openAddTagDialog(`tags.${tagkey}.${index}`)">
-                      <span v-if="!model.tags[tagkey][index].tagGroupId" class="un-selected">请选择标签</span>
-                      <span v-else class="selected">已选择{{model.tags[tagkey][index].tagGroupId.split(',').length}}个标签</span>
+                    <div class="select-tips" @click="openAddTagDialog(`tags.${tagItem.key}.${index}`)">
+                      <span v-if="!model.tags[tagItem.key][index].tagGroupId" class="un-selected">请选择标签</span>
+                      <span v-else class="selected">已选择{{model.tags[tagItem.key][index].tagGroupId.split(',').length}}个标签</span>
                       <Icon type="tag-xia" class="icon"/>
                     </div>
                   </div>
