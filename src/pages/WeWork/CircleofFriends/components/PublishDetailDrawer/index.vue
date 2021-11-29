@@ -41,7 +41,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="选择员工：">
-              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="confirmGuideIds">
+              <NsGuideDialog ref="NsGuideDialog" :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="confirmGuideIds">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -100,10 +100,9 @@
 </template>
 
 <script>
-// import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import tableMixin from '@/mixins/table'
 import ElDrawer from '@nascent/nui/lib/drawer'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideDialog from '../NsGuideDialog'
 
 export default {
   mixins: [tableMixin],
@@ -117,6 +116,13 @@ export default {
       default: false
     },
     momentId: String
+  },
+  watch: {
+    visible (val) {
+      if (!val && this.model.publishStatus === null) {
+        this.$refs.NsGuideDialog && this.$refs.NsGuideDialog.clearSelection()
+      }
+    }
   },
   data () {
     return {
