@@ -11,5 +11,15 @@ export default {
   getVisibleUser: {
     url: '/guide/momentList/getVisibleUser',
     method: 'get'
+  },
+  getMomentTask: {
+    url: '/guide/momentList/getMomentTask',
+    method: 'post'
+  },
+  exportMomentTask: {
+    url: '/guide/momentList/exportMomentTask',
+    method: 'post',
+    responseType: 'blob',
+    callback: false
   }
 }
