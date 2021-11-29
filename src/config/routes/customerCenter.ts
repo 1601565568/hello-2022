@@ -26,7 +26,7 @@ export default {
           'component': () => import('@/pages/Guide/SgCustomer/NsTableSgCustomer.vue')
         },
         {
-          'path': '/Guide/transferDetails',
+          'path': '/Guide/TransferDetails',
           'name': 'TRANS_CUSTOMER_DETAIL',
           'title': '客户转移明细',
           'component': () => import('@/pages/Guide/SgCustomer/NsTableTransferDetail.vue')
