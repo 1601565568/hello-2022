@@ -557,6 +557,8 @@ export default {
       this.memberIdVal = ''
       this.memberUserIdChecked = false
       this.memberUserIdVal = ''
+      this.materialIdChecked = false
+      this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
