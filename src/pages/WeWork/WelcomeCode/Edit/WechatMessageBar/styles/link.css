@@ -1,0 +1,48 @@
+
+.link-container-view {
+  >>> .el-form-item--small.el-form-item  {
+    margin-bottom: 24px;
+  }
+  >>> .w-textarea{
+    margin-bottom: 0;
+  }
+  >>> .el-form-item--small .el-form-item__label {
+    padding-right: 36px;
+    font-size: 14px;
+    text-align: left;
+  }
+  >>> .el-radio__input.is-checked + .el-radio__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  >>> .el-radio__label, .el-checkbox__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .input_textarea{
+    height: 112px;
+    width: 368px;
+    >>> .el-textarea__inner {
+      height: 100%;
+      resize:none;
+      overflow: hidden;
+    }
+    >>> .el-textarea__inner:focus{
+      border-color: #d9d9d9
+    }
+  }
+  .input_title_textarea {
+    width: 368px;
+    height: 32px;
+  }
+  >>> .el-input.el-input--small .el-input__inner{
+    font-size: 14px;
+  }
+  >>> .el-textarea.el-input--small .el-textarea__inner {
+    font-size: 14px;
+  }
+}
+>>> .el-dialog__header {
+  height: 65px;
+  font-weight: 500;
+}
