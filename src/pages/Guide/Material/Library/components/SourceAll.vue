@@ -152,7 +152,7 @@
       </el-form-item>
       <el-form-item label="归属文件夹：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
-        <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
+        <ns-button :style='catalogueStr ? "margin-left: 12px" : ""' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
@@ -271,7 +271,7 @@ export default {
   },
   computed: {
     catalogueStr () {
-      return this.catalogue.map(o => o.name).join(' > ')
+      return this.catalogue.map(o => o.name).join('')
     },
     mediaList: {
       get () {
@@ -660,7 +660,7 @@ export default {
   },
   mounted () {
     this.loadCompanyPlan()
-    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
+    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '' }]
   }
 }
 </script>
