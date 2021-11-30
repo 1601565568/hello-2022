@@ -496,6 +496,13 @@ export default {
   font-size: 12px;
   color: #8C8C8C;
   line-height: 20px;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  width: 147px;
 }
 .show-img {
   width: 60px;
