@@ -10,7 +10,8 @@
     <div class="container-view">
       <div class="left-view" id="right-originalPrice-view">
         <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
-          <el-form-item label="小程序">
+          <el-form-item label="">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>选择小程序</label>
             <el-form-item required prop="appid">
               <el-select v-model="content.appid" placeholder="请选择小程序">
                 <el-option
@@ -22,10 +23,11 @@
               </el-select>
             </el-form-item>
             <div class="mini-view">
-              <div @click="refreshAppId">已授权未显示？点此刷新</div>
+              <div style="color:#8C8C8C;">请先授权要选择的小程序，授权成功点击“刷新”获取</div>
               <div>
                 <span @click="toBlackPage('howAuth')">如何授权&nbsp;</span>
                 <span @click="toBlackPage('toAuth')">&nbsp;去授权</span>
+                <span @click="refreshAppId">&nbsp;刷新</span>
               </div>
             </div>
           </el-form-item>
@@ -60,17 +62,8 @@
                 >
                 </el-input>
               </el-form-item>
+              <div style="font-size:12px;color:#8C8C8C;">移入“预览”查看映射关系的完整编译路径</div>
               <div class="show-path-url-view">
-                <!-- <el-popover
-                  placement="bottom"
-                  trigger="hover"
-                  width="200"
-                >
-                  <div style="padding: 5px 8px;line-height: 24px;font-size: 14px;">
-                    <div>{{parmaStrBottom}}</div>
-                  </div>
-                  <span slot="reference" class="item-view">带参配置说明</span>
-                </el-popover> -->
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
@@ -972,13 +965,12 @@ export default {
   }
 }
 .mini-view {
-  font-size: 14px;
+  font-size: 12px;
   color: #0094fc;
   line-height: 22px;
   font-weight: 400;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 15px;
   margin-top: 5px;
   cursor: pointer;
@@ -1030,11 +1022,12 @@ export default {
     color: #0094fc;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    font-size: 12px;
     cursor: pointer;
+    margin-bottom: 16px;
     .item-view {
       display: inline-block;
-      margin-left: 8px;
+      margin-right: 8px;
     }
   }
   .path-para-view {
