@@ -62,6 +62,7 @@
 }
 .input_textarea >>>.el-textarea__inner{
   width: 540px;
+  font-size: 14px;
 }
 
 .select-time-view >>> .el-date-editor.el-input {

@@ -13,7 +13,7 @@
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="选择标签：" prop="subdivisionId">
+      <el-form-item label="所属标签：" prop="subdivisionId">
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
@@ -116,7 +116,7 @@
             />
           </el-popover>
       </el-form-item>
-      <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
+      <el-form-item label="跳转链接：" prop="codeModule" v-if="showMiniCode">
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
         </el-select>
@@ -131,7 +131,7 @@
         <el-form-grid v-if="model.codeModule == 4">
           <ns-button @click="selectMarket" type="primary">选择营销活动</ns-button>
         </el-form-grid>
-        <div class="add-tip label-gap">该小程序链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div>
+        <div class="add-tip label-gap">该跳转链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div>
       </el-form-item>
       <el-form-item
         v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != ''"
@@ -150,7 +150,7 @@
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
         </div>
       </el-form-item>
-      <el-form-item label="保存到：">
+      <el-form-item label="归属文件夹：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
