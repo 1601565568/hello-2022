@@ -2,9 +2,12 @@
   <div class="preview_body">
     <img :src='defaultIcon' class="scope-title_img">
     <div class="u_tag">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
-    <div v-if="title" class="u_title">{{title}}</div>
+    <div class="u_title">{{title || '素材标题'}}</div>
     <div v-if="pitContent" class="u_pitContent">
       <EmojiText :text='htmlContent' />
+    </div>
+    <div v-else class="u_pitContent">
+      <EmojiText text='推广内容' />
     </div>
     <div class="u_main">
       <div class="u_box" v-for="(item, index) in list" :key="index">
