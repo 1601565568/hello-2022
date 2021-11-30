@@ -59,6 +59,9 @@
           <el-form-item label="素材内容：">
             <el-input type="text" v-model="model.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
+          <el-form-item label="货号：">
+            <el-input type="text" v-model="model.outerId" placeholder="请输入货号" clearable></el-input>
+          </el-form-item>
           <el-form-item label="发布时间：">
             <el-date-picker
               v-model="model.time"
@@ -95,6 +98,36 @@
               clearable
               :insertList='insertList'
             />
+          </el-form-item>
+          <el-form-item label="当前状态：">
+            <el-select
+              v-model="model.currentStatus"
+              placeholder="请选择"
+              filterable
+              clearable
+            >
+              <el-option label="全部" value="0"></el-option>
+              <el-option label="上架" value="1"></el-option>
+              <el-option label="下架" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="上架时间：">
+            <el-date-picker
+              v-model="model.shelfTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="请输入开始日期"
+              end-placeholder="请输入结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="下架时间：">
+            <el-date-picker
+              v-model="model.endTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="请输入开始日期"
+              end-placeholder="请输入结束日期">
+            </el-date-picker>
           </el-form-item>
           <!-- <el-form-item label="素材类型：" prop="mType">
             <el-select
@@ -205,6 +238,40 @@
                   </el-select>
                 </template>
               </el-table-column>
+              <el-table-column label="生效时间" prop="shelfTime" :min-width="130">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <span v-else>
+                    {{ scope.row.shelfTime || '-' }}
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column label="失效时间" prop="endTime" :min-width="130">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <span v-else>
+                    {{ scope.row.endTime || '-' }}
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column label="当前状态" prop="currentStatus" :min-width="130">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isDirectory === 1">{{'-'}}</span>
+                  <div v-else>
+                    <el-switch
+                      v-model="scope.row.currentStatus"
+                      class="tablescope"
+                      inactive-text="下架"
+                      active-color="#0091FA"
+                      inactive-color="#8C8C8C"
+                      active-text="上架"
+                      active-value="1"
+                      inactive-value="2"
+                      @change="currentStatusChange(scope.row)"
+                    ></el-switch>
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
               <el-table-column label="编辑人" prop="addName" :min-width="130">
                   <template slot-scope="scope">
@@ -236,6 +303,7 @@
               @onEnter="onEnter"
               @preview="togglePreview"
               @subdivisionChange="subdivisionChange"
+              @currentStatusChange="currentStatusChange"
             ></catalogue>
           </div>
         </el-scrollbar>
@@ -267,6 +335,9 @@
 import Index from './src/index'
 export default Index
 </script>
+<style>
+@import "./styles/catalogue.css";
+</style>
 <style scoped>
   @import "@theme/variables.pcss";
   @import './styles/image.css';

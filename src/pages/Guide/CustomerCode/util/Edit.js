@@ -73,6 +73,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
   model.pageColor = showColor.mainColor + ',' + showColor.bgColor + ',' + showColor.strColor
   model.nick = model.headPortrait
   model.nickColour = model.nickColour.replace(/#/g, '')
+  model.isOnlyReceiveByMember = pageObj.isOnlyReceiveByMember
   return model
 }
 

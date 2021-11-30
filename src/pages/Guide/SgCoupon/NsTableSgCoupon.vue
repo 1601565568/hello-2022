@@ -165,10 +165,16 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
-                         label="发放情况" :sortable="false" width="160">
+                          :sortable="false" width="160">
+          <template slot="header">
+            发放情况
+            <el-tooltip class="help" content="仅统计“导购分发”分配渠道的发放情况">
+              <Icon type="ns-help"/>
+            </el-tooltip>
+          </template>
           <template slot-scope="scope">
-            已领取：{{scope.row.noUseTotal?scope.row.noUseTotal:'0'}}&nbsp;张<br>
-            已使用：{{scope.row.useTotal?scope.row.useTotal:'0'}}&nbsp;张
+            已领取：{{scope.row.apportionChannel === 0 ? scope.row.noUseTotal?scope.row.noUseTotal:'0' : '-'}}&nbsp;张<br>
+            已使用：{{scope.row.apportionChannel === 0 ? scope.row.useTotal?scope.row.useTotal:'0' : '-'}}&nbsp;张
           </template>
         </el-table-column>
       </el-table>

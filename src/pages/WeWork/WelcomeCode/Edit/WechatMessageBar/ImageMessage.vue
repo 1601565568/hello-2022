@@ -70,10 +70,10 @@ export default {
     },
     onProgress (event, file, fileList) {
       // this.$emit('uploadProgress', { type: 'image', content: { percent: event.percent.toFixed(2), image: file.name } })
+    },
+    onExceed (files, fileList) {
+      // console.log(files, fileList)
     }
-    // onExceed (files, fileList) {
-    //   console.log(files, fileList)
-    // }
   }
 }
 </script>
