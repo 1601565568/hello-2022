@@ -88,10 +88,36 @@
           </el-form-item> -->
           <el-form-item
             v-if="defaultModel.custom === 2 && viewRange === 1"
-            label="选择品牌"
+            label=""
             prop="settingId"
           >
-            <el-select
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>选择品牌</label>
+            <div class="run-link-view">
+              <div class="run-item-select">
+                <el-select
+                  v-model="defaultModel.brandId"
+                  placeholder="请选择"
+                  filterable
+                  :default-first-option="true"
+                  style="width: 120px;"
+                >
+                  <el-option
+                    v-for="item in brandList"
+                    :key="item.brandId"
+                    :label="item.brandName"
+                    :value="item.brandId"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="run-icon-view">
+                <Icon
+                  type="ns-arrow-drowdown"
+                  style="color: #8C8C8C;"
+                />
+              </div>
+            </div>
+            <!-- <el-select
               v-model="defaultModel.brandId"
               placeholder="请选择"
               filterable
@@ -102,7 +128,7 @@
                 :label="item.brandName"
                 :value="item.brandId"
               />
-            </el-select>
+            </el-select> -->
           </el-form-item>
           <el-form-item
             label="网页地址"
@@ -184,7 +210,8 @@
               />
             </div>
           </el-form-item>
-          <el-form-item label="封面图" prop="image" label-width="110px" class="el-form-validate__box">
+          <el-form-item label="" prop="image" label-width="110px" class="el-form-validate__box">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>封面图</label>
             <el-upload
               :disabled="disabled"
               :action="uploadUrl"
