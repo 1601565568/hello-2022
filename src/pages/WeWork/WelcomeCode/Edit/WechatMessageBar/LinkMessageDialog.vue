@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    width="800px"
+    width="812px"
     title="新增链接"
     :visible="visible"
     :before-close="close"
@@ -208,7 +208,17 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="link-right-view"></div>
+      <div class="link-line-view"></div>
+      <div class="link-right-view">
+        <div class="show-phone-view">
+          <div class="show-title">{{defaultModel.title || '链接标题'}}</div>
+          <div class="show-content-view">
+            <div class="show-content">{{defaultModel.desc || '文案描述'}}</div>
+            <img class="show-img" :src="defaultModel.image " v-if="defaultModel.image"/>
+            <img class="show-img" :src="defaultUrl" v-else/>
+          </div>
+        </div>
+      </div>
     </div>
     <span slot="footer">
       <NsButton @click="close">取消</NsButton>
@@ -335,7 +345,8 @@ export default {
           label: '时间戳',
           value: '{timestamp}'
         }
-      ]
+      ],
+      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
   mounted () {
@@ -465,6 +476,37 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.show-content-view {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  justify-content: space-between;
+}
+.show-content {
+  font-size: 12px;
+  color: #8C8C8C;
+  line-height: 20px;
+}
+.show-img {
+  width: 60px;
+  height: 60px;
+  background-color: gainsboro;
+  flex-shrink: 0;
+}
+
+.show-phone-view {
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  padding: 16px;
+  width: 247px;
+}
+.show-title {
+  font-size: 14px;
+  color: #262626;
+  line-height: 18px;
+  font-weight: 500;
+}
 .text-secondary {
   font-size: 14px;
   color: #8C8C8C;
@@ -497,12 +539,25 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: space-between;
+  position: relative;
 }
 .link-left-view {
   width: 60%;
 }
+.link-line-view {
+  height: 100%;
+  width: 1px;
+  background: #E8E8E8;
+  position: absolute;
+  left: 65%;
+}
 .link-right-view {
   width: 40%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
 }
 
   .title {
