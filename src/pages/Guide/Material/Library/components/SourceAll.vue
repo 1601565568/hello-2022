@@ -1,6 +1,6 @@
 <template>
-  <div class="library-image">
-    <el-form ref="form" :model="model" :rules="rules" label-width="100px">
+  <div class="library-image-form">
+    <el-form ref="form" :model="model" :rules="rules" label-width="140px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
           type="textarea"
@@ -17,10 +17,10 @@
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
-        <div class="library-icon__extra" @click="toggleLabel">
+        <span class="library-icon__extra icon-plus" @click="toggleLabel">
           <Icon type="plus" />
           <span>添加标签</span>
-        </div>
+        </span>
       </el-form-item>
       <el-form-item label="上架时间：" required>
         <el-radio-group v-model="model.shelfType">
@@ -671,17 +671,6 @@ export default {
   width: 540px;
   height: 144px;
 }
-.library-image {
-  >>> .el-form-item--small.el-form-item  {
-    margin-bottom: 24px;
-  }
-  >>> .w-textarea{
-    margin-bottom: 0;
-  }
-}
-.library-image{
-  /* padding-top: 12px; */
-}
 .guide-text {
   height: 22px;
   font-size: 14px;
@@ -931,6 +920,11 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+.icon-plus {
+  color: #0094FC;
+  font-size: 14px;
+  margin-left: 8px;
+}
 .add-material {
   margin-top: 16px;
   font-size: 14px;
