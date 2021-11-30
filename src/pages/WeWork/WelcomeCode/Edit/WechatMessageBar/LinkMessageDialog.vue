@@ -36,11 +36,38 @@
           <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
           <el-form-item label="跳转链接" prop="custom" label-width="110px" required>
             <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange">
-              <el-radio :label="1" size="xxs">自定义链接</el-radio>
-              <el-radio :label="2" size="xxs">系统预置链接</el-radio>
+              <el-radio :label="1">自定义链接</el-radio>
+              <el-radio :label="2">系统预置链接</el-radio>
             </el-radio-group>
+            <div v-if="defaultModel.custom === 2" style="display:inline-block;">
+              <div class="run-link-view">
+                <div class="run-item-select">
+                  <el-select
+                    v-model="defaultModel.settingId"
+                    placeholder="请选择"
+                    :default-first-option="true"
+                    @change="systemPresetChange"
+                    style="width: 120px;"
+                  >
+                    <el-option
+                      v-for="item in presetLink"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    >
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="run-icon-view">
+                  <Icon
+                    type="ns-arrow-drowdown"
+                    style="color: #8C8C8C;"
+                  />
+                </div>
+              </div>
+            </div>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             v-if="defaultModel.custom === 2"
             label="选择链接"
             prop="settingId"
@@ -58,8 +85,8 @@
               >
               </el-option>
             </el-select>
-          </el-form-item>
-            <el-form-item
+          </el-form-item> -->
+          <el-form-item
             v-if="defaultModel.custom === 2 && viewRange === 1"
             label="选择品牌"
             prop="settingId"
@@ -83,12 +110,14 @@
             clearable
             show-word-limit
           >
-            <el-input
-              ref="linkModelLink"
-              type="textarea"
-              :disabled="defaultModel.custom === 2"
-              v-model="defaultModel.link"
-            />
+            <div>
+              <el-input
+                ref="linkModelLink"
+                type="textarea"
+                :disabled="defaultModel.custom === 2"
+                v-model="defaultModel.link"
+              />
+            </div>
           </el-form-item>
           <el-form-item
           >

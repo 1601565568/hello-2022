@@ -46,3 +46,35 @@
   height: 65px;
   font-weight: 500;
 }
+
+.run-link-view {
+  width: 141px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+.run-link-true-name {
+  color: #595959;
+}
+.run-icon-view {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+.run-item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+}
+
+.run-item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
+}
