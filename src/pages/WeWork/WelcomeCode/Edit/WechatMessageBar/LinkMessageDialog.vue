@@ -129,6 +129,11 @@
                 placeholder="输入链接地址"
               />
             </div>
+            <div v-if="defaultModel.custom === 2" class="remind-text-view">
+              以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
+              <span style="color:#0094FC;">编辑招募信息&nbsp;&nbsp;</span>
+              <span style="color:#0094FC;">刷新</span>
+            </div>
           </el-form-item>
           <!-- <el-form-item
           >
@@ -198,14 +203,14 @@
           <!-- <el-form-item v-show="defaultModel.custom === 1">
             <div class="text-secondary">请上传格式为JPG、JPEG、PNG的图片，建议长宽比例为5:4，大小不超过10M</div>
           </el-form-item> -->
-          <el-form-item v-show="defaultModel.custom === 2">
+          <!-- <el-form-item v-show="defaultModel.custom === 2">
             <el-form-grid>
               <span class="tmp-tips text-info">
                 <Icon type="info-circle" theme="filled" />
               </span>
               招募链接编辑位置为获客引流-会员引流-招募页面配置
             </el-form-grid>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </div>
       <div class="link-line-view"></div>
@@ -476,6 +481,11 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.remind-text-view {
+  font-size: 12px;
+  color: rgba(0,0,0,0.45);
+  line-height: 20px;
+}
 .show-content-view {
   display: flex;
   flex-direction: row;
@@ -511,6 +521,7 @@ export default {
   font-size: 14px;
   color: #8C8C8C;
   line-height: 22px;
+  margin-top: 8px;
 }
 .link-url-view {
   background: #FFFFFF;
