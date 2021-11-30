@@ -110,16 +110,27 @@
             clearable
             show-word-limit
           >
-            <div>
+            <div class="link-url-view">
+              <div class="link-top-parma" v-if="defaultModel.custom === 1">
+                <span>点击插入</span>
+                <span v-for="(item, index) in placeholderLink" :key="index">
+                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">{{item.label}}</span>
+                </span>
+                <span v-if="viewRange === 1">
+                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">品牌id</span>
+                </span>
+              </div>
               <el-input
                 ref="linkModelLink"
                 type="textarea"
                 :disabled="defaultModel.custom === 2"
                 v-model="defaultModel.link"
+                class="link-url-textarea"
+                placeholder="输入链接地址"
               />
             </div>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
           >
             <el-form-grid>
               <span v-for="(item, index) in placeholderLink" :key="index">
@@ -129,7 +140,7 @@
                   <ns-button v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">&lt;品牌id&gt;</ns-button>
               </span>
             </el-form-grid>
-          </el-form-item>
+          </el-form-item> -->
           <!-- <el-form-item label="消息展示内容：" class="message-headling"> </el-form-item> -->
           <el-form-item
             label="链接标题"
@@ -454,6 +465,34 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.text-secondary {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
+}
+.link-url-view {
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  width: 368px;
+}
+.link-top-parma {
+  background: #F5F5F5;
+  padding: 8px;
+}
+.base-parma {
+  background: #FFFFFF;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 14px;
+  color: #595959;
+  margin-left: 4px;
+  margin-bottom: 6px;
+  padding: 0px 6px;
+  min-width: 50px;
+  text-align: center;
+  cursor: pointer;
+}
 .link-container-view {
   display: flex;
   flex-direction: row;
