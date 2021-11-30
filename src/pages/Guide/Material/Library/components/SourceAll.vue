@@ -125,7 +125,6 @@
                 placeholder="请选择"
                 :default-first-option="true"
                 @change="codeModuleChange"
-                @visible-change="selectOptionClick"
                 style="width: 170px;"
               >
                 <el-option
@@ -140,7 +139,6 @@
             <div class="run-icon-view">
               <Icon
                 type="ns-arrow-drowdown"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
                 style="color: #8C8C8C;"
               />
             </div>
@@ -171,7 +169,6 @@
             <div class="run-icon-view">
               <Icon
                 type="ns-arrow-drowdown"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
                 style="color: #8C8C8C;"
               />
             </div>
@@ -186,7 +183,6 @@
             <div class="run-icon-view">
               <Icon
                 type="icon-xin"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
                 style="color: #8C8C8C;"
               />
             </div>
@@ -199,7 +195,6 @@
             <div class="run-icon-view">
               <Icon
                 type="icon-xin"
-                :class="{ arrowTransform: !flag, arrowTransformReturn: flag }"
                 style="color: #8C8C8C;"
               />
             </div>
@@ -625,6 +620,11 @@ export default {
     codeModuleChange (e) {
       this.$set(this.model, 'codeTarget', '')
       this.$set(this.model, 'codeTargetName', '')
+      if (e === 2) {
+        this.selectGoods()
+      } else if (e === 4) {
+        this.selectMarket()
+      }
     },
     codeTargetChange (e) {
       let codeTargetObj = e ? this.wechatPageUrlList[Number(e) - 1] : {}
