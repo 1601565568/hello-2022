@@ -120,18 +120,18 @@
         <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 200px; margin-right: 16px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
         </el-select>
-        <el-form-grid v-if="model.codeModule == 1">
+        <el-form-grid v-if="model.codeModule == 1" style="width: 325px;">
           <el-select v-model="model.codeTarget" placeholder="请选择" clearable @change="codeTargetChange">
             <el-option v-for="item in wechatPageUrlList" :key="item.codeTarget" :value="item.codeTarget" :label="item.codeTargetName"> </el-option>
           </el-select>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 2">
-          <ns-button @click="selectGoods" type="primary">选择商品</ns-button>
+          <ns-button @click="selectGoods" type="primary" style="width: 325px;">选择商品</ns-button>
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 4">
-          <ns-button @click="selectMarket" type="primary">选择营销活动</ns-button>
+          <ns-button @click="selectMarket" type="primary" style="width: 325px;">选择营销活动</ns-button>
         </el-form-grid>
-        <div class="add-tip label-gap">该跳转链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div>
+        <!-- <div class="add-tip label-gap">该跳转链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div> -->
       </el-form-item>
       <el-form-item
         v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != ''"
@@ -145,10 +145,10 @@
           <el-radio :label="1">图片上植入小程序码 </el-radio>
           <el-radio :label="2">单独增加一张小程序码图 </el-radio>
         </el-radio-group>
-        <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
+        <!-- <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
           <Icon type="info-circle" />
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
-        </div>
+        </div> -->
       </el-form-item>
       <el-form-item label="归属文件夹：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
