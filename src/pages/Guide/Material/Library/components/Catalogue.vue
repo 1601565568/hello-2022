@@ -16,13 +16,13 @@
                   type="wenjianjia-new"
                   class="catalogue-folders__item--icon"
                 />
-                <div
+                <!-- <div
                   type="jiaobiao-new"
                   class="catalogue-folders__item--angle"
                   style=""
                 >
                   99+
-                </div>
+                </div> -->
               </div>
               <div class="catalogue-folders__item--name" :title="item.name">
                 {{ item.name }}
@@ -714,15 +714,16 @@ export default {
       border-radius: 3px;
     }
     @e content {
-      margin: 0 -44px;
+      /* margin: 0 -44px; */
       padding: 0 5px;
     }
     @e item {
       position: relative;
       display: inline-block;
-      margin: 5px 44px;
-      padding-bottom: 8px;
+      margin: 5px 10px;
+      /* padding-bottom: 8px; */
       width: 128px;
+      height: 132px;
       /* height: 128px; */
       text-align: center;
       border: solid 1px transparent;
@@ -769,7 +770,7 @@ export default {
         color: #0392fb;
       }
       @m name {
-        margin-top: 5px;
+        /* margin-top: 5px; */
         font-size: 12px;
         color: #606266;
         line-height: 20px;
@@ -779,9 +780,10 @@ export default {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        min-height: 40px;
       }
       @m btns {
-        margin-top: 10px;
+        /* margin-top: 10px; */
         font-size: 16px;
         color: #303133;
         opacity: 0;
