@@ -117,7 +117,7 @@
           </el-popover>
       </el-form-item>
       <el-form-item label="跳转链接：" prop="codeModule" v-if="showMiniCode">
-        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
+        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 200px; margin-right: 16px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
         </el-select>
         <el-form-grid v-if="model.codeModule == 1">
@@ -972,13 +972,18 @@ export default {
 .select-time-view {
   background: #F5F5F5;
   border-radius: 2px;
-  padding: 16px;
   margin-top: 16px;
+  display: flex;
+  padding: 24px 16px 0 16px;
+  flex-direction: row;
+  width: 626px;
   .remind-text {
     font-size: 14px;
     color: #595959;
     display: inline-block;
-    margin-right: 26px;
+    margin-right: 16px;
+    line-height: 32px;
+    height: 32px;
   }
 }
 </style>
