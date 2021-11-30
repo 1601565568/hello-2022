@@ -97,6 +97,14 @@
     padding-right: 36px;
     font-size: 14px;
   }
+  >>> .el-radio__input.is-checked + .el-radio__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  >>> .el-radio__label, .el-checkbox__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 
 
