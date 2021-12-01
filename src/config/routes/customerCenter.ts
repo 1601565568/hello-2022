@@ -43,6 +43,12 @@ export default {
           'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
         },
         {
+          'path': '/Social/WeComCustomerOperation/LosOfFriends',
+          'name': 'WeComFriendsAnalysis',
+          'title': '好友流失提醒',
+          'component': () => import('@/pages/WeWork/LosOfFriends/index.vue')
+        },
+        {
           'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
           'name': 'WeComFriendsAnalysis',
           'title': '好友分析',
