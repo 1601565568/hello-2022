@@ -115,3 +115,8 @@
     background: red;
   }
 }
+
+>>> .el-dialog__header {
+  height: 65px;
+  font-weight: 500;
+}

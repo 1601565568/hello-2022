@@ -24,7 +24,8 @@
               @subdivision='proviewSubdivision'
               @pitContent='proviewPitContent'
               @togglePreview="togglePreview"
-              @back="gotoList"/>
+              @back="gotoList"
+            />
           </template>
           <template slot="collapse-right">
             <MessagePreviewPanel
@@ -38,17 +39,6 @@
         <label-add ref="labelAdd" @submit="getLabelList"></label-add>
       </SimpleCollapse>
     </template>
-        <!-- <Component
-          ref="component"
-          :is="item.type"
-          :detail="detail"
-          :labelList="labelList"
-          :breadcrumb="breadcrumb"
-          @toggleLabel="toggleLabel"
-          @togglePreview="togglePreview"
-          @back="gotoList"
-        /> -->
-    <!-- <preview ref="preview"></preview> -->
   </PageEdit>
 </template>
 <script>

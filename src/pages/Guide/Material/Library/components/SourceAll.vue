@@ -1,6 +1,6 @@
 <template>
-  <div class="library-image">
-    <el-form ref="form" :model="model" :rules="rules" label-width="100px">
+  <div class="library-image-form">
+    <el-form ref="form" :model="model" :rules="rules" label-width="140px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
           type="textarea"
@@ -13,11 +13,11 @@
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="选择标签：" prop="subdivisionId">
+      <el-form-item label="所属标签：" prop="subdivisionId">
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
-        <span class="library-icon__extra" @click="toggleLabel">
+        <span class="library-icon__extra icon-plus" @click="toggleLabel">
           <Icon type="plus" />
           <span>添加标签</span>
         </span>
@@ -116,43 +116,113 @@
             />
           </el-popover>
       </el-form-item>
-      <el-form-item label="小程序链接：" prop="codeModule" v-if="showMiniCode">
-        <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 540px">
+      <el-form-item label="跳转链接：" prop="codeModule" v-if="showMiniCode">
+        <div style="display:inline-block;margin-right:16px;">
+          <div class="run-link-view">
+            <div class="run-item-select">
+              <el-select
+                v-model="model.codeModule"
+                placeholder="请选择"
+                :default-first-option="true"
+                @change="codeModuleChange"
+                style="width: 170px;"
+              >
+                <el-option
+                  v-for="item in wechatPageTypeList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </div>
+            <div class="run-icon-view">
+              <Icon
+                type="ns-arrow-drowdown"
+                style="color: #8C8C8C;"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- <el-select v-model="model.codeModule" placeholder="请选择" clearable @change="codeModuleChange" style="width: 200px; margin-right: 16px">
           <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-        </el-select>
+        </el-select> -->
         <el-form-grid v-if="model.codeModule == 1">
-          <el-select v-model="model.codeTarget" placeholder="请选择" clearable @change="codeTargetChange">
+          <div class="run-link-view" style="width:325px;">
+            <div class="run-item-select">
+              <el-select
+                v-model="model.codeTarget"
+                placeholder="请选择页面"
+                :default-first-option="true"
+                @change="codeTargetChange"
+                style="width: 300px;"
+              >
+                <el-option
+                  v-for="item in wechatPageUrlList"
+                  :key="item.codeTarget"
+                  :label="item.codeTargetName"
+                  :value="item.codeTarget"
+                >
+                </el-option>
+              </el-select>
+            </div>
+            <div class="run-icon-view">
+              <Icon
+                type="ns-arrow-drowdown"
+                style="color: #8C8C8C;"
+              />
+            </div>
+          </div>
+          <!-- <el-select v-model="model.codeTarget" placeholder="请选择" clearable @change="codeTargetChange">
             <el-option v-for="item in wechatPageUrlList" :key="item.codeTarget" :value="item.codeTarget" :label="item.codeTargetName"> </el-option>
-          </el-select>
+          </el-select> -->
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 2">
-          <ns-button @click="selectGoods" type="primary">选择商品</ns-button>
+          <div class="run-link-view" style="width:325px;" @click="selectGoods">
+            <div :class="model.codeTargetName ? 'run-link-name run-link-true-name' : 'run-link-name'">{{model.codeTargetName || '请选择商品'}}</div>
+            <div class="run-icon-view">
+              <Icon
+                type="icon-xin"
+                style="color: #8C8C8C;"
+              />
+            </div>
+          </div>
+          <!-- <ns-button @click="selectGoods" type="primary" style="width: 325px;">选择商品</ns-button> -->
         </el-form-grid>
         <el-form-grid v-if="model.codeModule == 4">
-          <ns-button @click="selectMarket" type="primary">选择营销活动</ns-button>
+          <div class="run-link-view" style="width:325px;" @click="selectMarket">
+            <div :class="model.codeTargetName ? 'run-link-name run-link-true-name' : 'run-link-name'">{{model.codeTargetName || '请选择营销活动'}}</div>
+            <div class="run-icon-view">
+              <Icon
+                type="icon-xin"
+                style="color: #8C8C8C;"
+              />
+            </div>
+          </div>
+          <!-- <ns-button @click="selectMarket" type="primary" style="width: 325px;">选择营销活动</ns-button> -->
         </el-form-grid>
-        <div class="add-tip label-gap">该小程序链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div>
+        <!-- <div class="add-tip label-gap">该跳转链接生成的二维码仅会产生在自建坑位和普通图片上，不影响附码图片</div> -->
       </el-form-item>
-      <el-form-item
+      <!-- <el-form-item
         v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != ''"
         :label="model.codeModule == 2 ? '商品名称：' : model.codeModule == 4 ? '活动名称：' : ''"
         prop="codeTargetName"
       >
         <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
         <el-radio-group v-model="model.codeType">
           <el-radio :label="1">图片上植入小程序码 </el-radio>
           <el-radio :label="2">单独增加一张小程序码图 </el-radio>
         </el-radio-group>
-        <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
+        <!-- <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
           <Icon type="info-circle" />
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
-        </div>
+        </div> -->
       </el-form-item>
-      <el-form-item label="保存到：">
+      <el-form-item label="归属文件夹：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
-        <ns-button style='margin-left: 12px' type="primary" @click="toggleFolder">选择文件夹</ns-button>
+        <ns-button :style='catalogueStr ? "margin-left: 12px" : ""' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
     </el-form>
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
@@ -271,7 +341,7 @@ export default {
   },
   computed: {
     catalogueStr () {
-      return this.catalogue.map(o => o.name).join(' > ')
+      return this.catalogue.map(o => o.name).join('')
     },
     mediaList: {
       get () {
@@ -550,6 +620,11 @@ export default {
     codeModuleChange (e) {
       this.$set(this.model, 'codeTarget', '')
       this.$set(this.model, 'codeTargetName', '')
+      if (e === 2) {
+        this.selectGoods()
+      } else if (e === 4) {
+        this.selectMarket()
+      }
     },
     codeTargetChange (e) {
       let codeTargetObj = e ? this.wechatPageUrlList[Number(e) - 1] : {}
@@ -660,27 +735,49 @@ export default {
   },
   mounted () {
     this.loadCompanyPlan()
-    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
+    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '' }]
   }
 }
 </script>
 <style scoped>
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
+.run-link-view {
+  width: 200px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+.run-link-name {
+  width: 280px;
+  font-size: 14px;
+  color: #BFBFBF;
+  margin-left: 5px;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.run-link-true-name {
+  color: #595959;
+}
+.run-icon-view {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: -5px;
+}
 .top-title-view {
   width: 540px;
   height: 144px;
-}
-.library-image {
-  >>> .el-form-item--small.el-form-item  {
-    margin-bottom: 24px;
-  }
-  >>> .w-textarea{
-    margin-bottom: 0;
-  }
-}
-.library-image{
-  /* padding-top: 12px; */
 }
 .guide-text {
   height: 22px;
@@ -740,6 +837,7 @@ export default {
 }
 .input_textarea{
   height: 144px;
+  width: 540px;
   >>> .el-textarea__inner {
     height: 100%;
     resize:none;
@@ -749,7 +847,7 @@ export default {
     border-color: #d9d9d9
   }
 }
-@component-namespace library {
+/* @component-namespace library {
   @b image {
     @e list {
       width: 300px;
@@ -807,8 +905,6 @@ export default {
       line-height: 80px;
       border-radius: var(--default-radius-mini);
       &:hover {
-        /* border-color: var(--theme-color-primary); */
-        /* color: var(--theme-color-primary); */
       }
     }
   }
@@ -823,8 +919,6 @@ export default {
       border-radius: var(--default-radius-mini);
       border-radius: 2px;
       &:hover {
-        /* border-color: var(--theme-color-primary); */
-        /* color: var(--theme-color-primary); */
       }
     }
   }
@@ -834,7 +928,6 @@ export default {
     >>> .el-upload--picture-card {
       width: 90px;
       height: 90px;
-      /* border: dashed 1px #dcdfe6; */
       background-color: transparent;
       font-size: 18px;
       color: #8c8c8c;
@@ -927,9 +1020,15 @@ export default {
       font-weight: 400;
     }
   }
-}
+} */
+
 </style>
 <style lang="scss" scoped>
+.icon-plus {
+  color: #0094FC;
+  font-size: 14px;
+  margin-left: 8px;
+}
 .add-material {
   margin-top: 16px;
   font-size: 14px;
@@ -977,13 +1076,18 @@ export default {
 .select-time-view {
   background: #F5F5F5;
   border-radius: 2px;
-  padding: 16px;
   margin-top: 16px;
+  display: flex;
+  padding: 24px 16px 0 16px;
+  flex-direction: row;
+  width: 626px;
   .remind-text {
     font-size: 14px;
     color: #595959;
     display: inline-block;
-    margin-right: 26px;
+    margin-right: 16px;
+    line-height: 32px;
+    height: 32px;
   }
 }
 </style>

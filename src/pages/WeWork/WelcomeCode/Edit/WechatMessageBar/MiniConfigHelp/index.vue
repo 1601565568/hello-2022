@@ -1,8 +1,8 @@
 <template>
   <div class="tips">
     <!-- <div > -->
-    <span class="text" @click="goQw()">去配置</span>
     <span class="text desc" @click="show = true">配置说明</span>
+    <span class="text desc" @click="goQw()">去配置</span>
     <!-- </div> -->
     <el-dialog title="配置说明" :visible.sync="show" width="960px" :append-to-body="true">
       <div class="dialog-head">

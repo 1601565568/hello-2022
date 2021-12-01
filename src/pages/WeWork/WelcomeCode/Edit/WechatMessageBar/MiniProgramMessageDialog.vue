@@ -1,110 +1,170 @@
 <template>
   <div>
-    <ElDialog width="600px" title="小程序" :visible="visible" :before-close="close" @open="open" :show-scroll-x="false" modal-append-to-body append-to-body>
+    <ElDialog width="812px" title="小程序" :visible="visible" :before-close="close" @open="open" :show-scroll-x="false" modal-append-to-body append-to-body>
       <template slot="title">
         <div class="title">
-          小程序
-          <el-popover placement="bottom-start" width="360" trigger="hover">
+          新增小程序
+          <!-- <el-popover placement="bottom-start" width="360" trigger="hover">
             <template slot="reference">
               <Icon type="ns-help" class="icon" />
             </template>
             <div class="ns-help-box">
               <img src="./images/miniprogram.png" alt="" />
             </div>
-          </el-popover>
+          </el-popover> -->
         </div>
       </template>
-      <div class="margin-lr-small">
-        <ElForm :rules="rules" ref="searchform" :model="defaultModel">
-          <ElFormItem>
-            <div class="message-headling">跳转小程序：</div>
-          </ElFormItem>
-          <ElFormItem label="小程序appId：" prop="appid" label-width="100px">
-            <ElInput
-              type="text"
-              maxlength="30"
-              minlength="5"
-              clearable
-              :input="(defaultModel.appid = defaultModel.appid.replace(/(^\s*)|(\s*$)/g, ''))"
-              placeholder="请输入小程序appId,长度在5-30个字符以内"
-              v-model="defaultModel.appid"
-              show-word-limit
-            />
-          </ElFormItem>
-          <ElFormItem label="小程序路径：" prop="path" label-width="100px">
-            <ElInput
-              ref="appModelPath"
-              type="text"
-              maxlength="255"
-              minlength="1"
-              clearable
-              :input="(defaultModel.path = defaultModel.path.replace(/(^\s*)|(\s*$)/g, ''))"
-              placeholder="请输入小程序路径,长度在1-255个字符以内"
-              v-model="defaultModel.path"
-              show-word-limit
-            />
-          </ElFormItem>
-          <ElFormItem label="" label-width="100px">
-            <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertPlaceHolderToWeb(item.value)">&lt;{{ item.label }}&gt;</ns-button>
-            <ns-button v-if="viewRange === 1" type="text" @click="brandDialogVisible = true">&lt;品牌id&gt;</ns-button>
-          </ElFormItem>
-          <ElFormItem label-width="83px">
-            <span style="color: #8C8C8C;">
-              请先在企业微信后台将小程序配置到工作台
-              <MiniConfigHelp />
-            </span>
-          </ElFormItem>
-          <ElFormItem label-width="83px">
-            <span style="color: #8C8C8C;">
-              注:小程序路径后需要带上.html
-              <el-popover placement="top-start" title="" width="300" trigger="hover" content="">
-                <slot>
-                  <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
-                  <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
-                </slot>
-                <el-button slot="reference" style="color:#1890ff">示例说明</el-button>
-              </el-popover>
-            </span>
-          </ElFormItem>
-          <ElFormItem>
-            <div class="message-headling">小程序卡片展示：</div>
-          </ElFormItem>
-          <ElFormItem label="标题：" prop="title" label-width="100px">
-            <ElInput
-              type="text"
-              maxlength="20"
-              minlength="1"
-              clearable
-              :input="(defaultModel.title = defaultModel.title.replace(/(^\s*)|(\s*$)/g, ''))"
-              placeholder="请输入标题,长度在1-20个字符以内"
-              v-model="defaultModel.title"
-              show-word-limit
-            />
-          </ElFormItem>
-          <ElFormItem label="封面图：" prop="image" label-width="100px" class="el-form-validate__box">
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('message')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-              accept=".jpg,.jpeg,.png"
-              clearable
-              class="message-upload"
-            >
-              <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar" />
-              <Icon type="plus" className="message-upload__tip" v-else />
-            </ElUpload>
-          </ElFormItem>
-          <ElFormItem label-width="83px">
-            <span style="color: #8C8C8C;">
-              请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
-            </span>
-          </ElFormItem>
-        </ElForm>
+      <div class="link-container-view">
+        <div class="link-left-view">
+          <ElForm :rules="rules" ref="searchform" :model="defaultModel">
+            <!-- <ElFormItem>
+              <div class="message-headling">跳转小程序：</div>
+            </ElFormItem> -->
+            <ElFormItem label="小程序APPID" prop="appid" label-width="110px">
+              <ElInput
+                type="text"
+                maxlength="30"
+                minlength="5"
+                :input="(defaultModel.appid = defaultModel.appid.replace(/(^\s*)|(\s*$)/g, ''))"
+                placeholder="最长30个字符"
+                v-model="defaultModel.appid"
+                show-word-limit
+                class="input_title_textarea"
+              />
+            </ElFormItem>
+            <ElFormItem label="小程序路径" prop="path" label-width="110px">
+              <div class="link-url-view">
+                <div class="link-top-parma">
+                  <span>点击插入</span>
+                  <span v-for="(item, index) in placeholderLink" :key="index">
+                    <span class="base-parma" type="text"  @click="insertPlaceHolderToWeb(item.value)">{{item.label}}</span>
+                  </span>
+                  <span v-if="viewRange === 1">
+                    <span class="base-parma" type="text" @click="brandDialogVisible = true">品牌id</span>
+                  </span>
+                </div>
+                <ElInput
+                  ref="appModelPath"
+                  type="textarea"
+                  maxlength="255"
+                  minlength="1"
+                  clearable
+                  :input="(defaultModel.path = defaultModel.path.replace(/(^\s*)|(\s*$)/g, ''))"
+                  placeholder="输入链接地址"
+                  v-model="defaultModel.path"
+                  class="link-url-textarea"
+                  show-word-limit
+                />
+              </div>
+            </ElFormItem>
+            <ElFormItem label-width="110px" style="margin-top:-20px">
+              <div class="remind-text-view">
+                <div>
+                  <span>请先在企业微信后台将小程序配置到工作台</span>
+                  <!-- <span style="color:#0094FC;">&nbsp;&nbsp;配置说明&nbsp;&nbsp;</span> -->
+                  <!-- <span style="color:#0094FC;">去配置</span> -->
+                  <MiniConfigHelp/>
+                </div>
+                <div>
+                  <span>小程序链接后面需要带上html</span>
+                  <el-popover placement="top-start" title="" width="300" trigger="hover" content="">
+                    <slot>
+                      <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
+                      <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
+                    </slot>
+                    <span style="color:#0094FC;" slot="reference">&nbsp;&nbsp;输入说明</span>
+                  </el-popover>
+                </div>
+              </div>
+            </ElFormItem>
+            <!-- <ElFormItem label="" label-width="110px">
+              <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertPlaceHolderToWeb(item.value)">&lt;{{ item.label }}&gt;</ns-button>
+              <ns-button v-if="viewRange === 1" type="text" @click="brandDialogVisible = true">&lt;品牌id&gt;</ns-button>
+            </ElFormItem> -->
+            <!-- <ElFormItem label-width="83px">
+              <span style="color: #8C8C8C;">
+                请先在企业微信后台将小程序配置到工作台
+                <MiniConfigHelp />
+              </span>
+            </ElFormItem>
+            <ElFormItem label-width="83px">
+              <span style="color: #8C8C8C;">
+                注:小程序路径后需要带上.html
+                <el-popover placement="top-start" title="" width="300" trigger="hover" content="">
+                  <slot>
+                    <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
+                    <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
+                  </slot>
+                  <el-button slot="reference" style="color:#1890ff">示例说明</el-button>
+                </el-popover>
+              </span>
+            </ElFormItem> -->
+            <!-- <ElFormItem>
+              <div class="message-headling">小程序卡片展示：</div>
+            </ElFormItem> -->
+            <ElFormItem label="小程序标题" prop="title" label-width="110px">
+              <ElInput
+                type="text"
+                maxlength="20"
+                minlength="1"
+                clearable
+                :input="(defaultModel.title = defaultModel.title.replace(/(^\s*)|(\s*$)/g, ''))"
+                placeholder="最长20个中文字符"
+                v-model="defaultModel.title"
+                show-word-limit
+                class="input_title_textarea"
+              />
+            </ElFormItem>
+            <ElFormItem label="封面图：" prop="image" label-width="110px" class="el-form-validate__box">
+              <ElUpload
+                :action="this.$api.core.sgUploadFile('message')"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+                accept=".jpg,.jpeg,.png"
+                clearable
+                class="message-upload"
+              >
+                <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar" />
+                <Icon type="plus" className="message-upload__tip" v-else />
+              </ElUpload>
+              <!-- <div>
+                请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
+              </div> -->
+            </ElFormItem>
+            <ElFormItem label-width="110px" style="margin-top:-25px">
+              <div class="text-secondary">上传限制：建议比例5:4，小于2M，jpg、png、jpeg格式</div>
+            </ElFormItem>
+            <!-- <ElFormItem label-width="83px">
+              <span style="color: #8C8C8C;">
+                请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
+              </span>
+            </ElFormItem> -->
+          </ElForm>
+        </div>
+        <div class="link-line-view"></div>
+        <div class="link-right-view" style="min-height:550px">
+          <div class="show-phone-view" style="padding: 16px 16px 8px 16px">
+            <div class="show-mini-info">
+              <img class="show-mini-head-img">
+              <div class="show-mini-head-name">Judydoll橘朵</div>
+            </div>
+            <div class="show-mini-title">{{defaultModel.title || '小程序标题'}}</div>
+            <div class="show-mini-img">
+              <img class="show-min-image" v-if="defaultModel.image" :src="defaultModel.image"/>
+              <img class="show-min-image" v-else :src="defaultUrl"/>
+            </div>
+            <div class="show-min-line"></div>
+            <div class="show-mini-info">
+              <span class="iconfont icon-xiaochengxushezhibeifen4" style="color:#7586DB;"></span>
+              <div class="show-mini-head-name">小程序</div>
+            </div>
+          </div>
+        </div>
       </div>
       <span slot="footer">
         <NsButton @click="close">取消</NsButton>
-        <NsButton @click="confirm" type="primary">确定</NsButton>
+        <NsButton @click="confirm" type="primary">保存</NsButton>
       </span>
     </ElDialog>
     <!-- 选择品牌弹窗 -->
@@ -218,7 +278,8 @@ export default {
           label: '时间戳',
           value: '{timestamp}'
         }
-      ]
+      ],
+      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg'
     }
   },
   mounted () {},
@@ -283,6 +344,45 @@ export default {
 </script>
 <style scoped>
 @import '@theme/variables.pcss';
+@import "./styles/link.css";
+.show-min-line {
+  height: 1px;
+  width: 100%;
+  background-color: #EBEBEB;
+  margin-bottom: 8px;
+}
+.show-mini-img {
+  margin-top: 8px;
+  width: 215px;
+  height: 161px;
+  margin-bottom: 8px;
+}
+.show-min-image {
+  width: 215px;
+  height: 161px;
+}
+.show-mini-title {
+  font-size: 14px;
+  color: #383838;
+  letter-spacing: 0;
+  line-height: 22px;
+  margin-top: 8px;
+}
+.show-mini-info {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  color: #909399;
+}
+.show-mini-head-img {
+  width: 20px;
+  height: 20px;
+  background-color: gainsboro;
+  border-radius: 10px;
+}
+.show-mini-head-name {
+  margin-left: 8px;
+}
 .title {
   line-height: 24px;
   font-size: 16px;
@@ -421,8 +521,8 @@ export default {
   }
   @b upload {
     >>> .el-upload {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       position: relative;
       border: 1px solid var(--theme-base-border-color-primary);
       border-radius: var(--default-radius-mini);
@@ -439,8 +539,8 @@ export default {
       transform: translate(-50%, -50%);
     }
     @e avatar {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       position: relative;
       top: -1px;
       left: -1px;

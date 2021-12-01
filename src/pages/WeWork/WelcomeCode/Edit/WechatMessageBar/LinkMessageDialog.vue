@@ -1,14 +1,14 @@
 <template>
   <el-dialog
-    width="600px"
-    title="链接"
+    width="812px"
+    title="新增链接"
     :visible="visible"
     :before-close="close"
     @open="open"
     modal-append-to-body
     append-to-body
   >
-    <template slot="title">
+    <!-- <template slot="title">
       <div class="title">
         链接
         <el-popover
@@ -24,147 +24,234 @@
           </div>
         </el-popover>
       </div>
-    </template>
-    <el-form
-      ref="searchform"
-      label-width="100px"
-      placement="right"
-      :model="defaultModel"
-      :rules="rules"
-    >
-      <el-form-item label="跳转链接：" class="message-headling"> </el-form-item>
-      <el-form-item label="链接：" prop="custom" label-width="100px">
-        <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange">
-          <el-radio :label="1" size="xxs">自定义链接</el-radio>
-          <el-radio :label="2" size="xxs">系统预置链接</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item
-        v-if="defaultModel.custom === 2"
-        label="选择链接："
-        prop="settingId"
-      >
-        <el-select
-          v-model="defaultModel.settingId"
-          @change="systemPresetChange"
-          placeholder="请选择"
+    </template> -->
+    <div class="link-container-view">
+      <div class="link-left-view">
+        <el-form
+          ref="searchform"
+          label-width="110px"
+          :model="defaultModel"
+          :rules="rules"
         >
-          <el-option
-            v-for="item in presetLink"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
+          <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
+          <el-form-item label="跳转链接" prop="custom" label-width="110px" required>
+            <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange">
+              <el-radio :label="1">自定义链接</el-radio>
+              <el-radio :label="2">系统预置链接</el-radio>
+            </el-radio-group>
+            <div v-if="defaultModel.custom === 2" style="display:inline-block;">
+              <div class="run-link-view">
+                <div class="run-item-select">
+                  <el-select
+                    v-model="defaultModel.settingId"
+                    placeholder="请选择"
+                    :default-first-option="true"
+                    @change="systemPresetChange"
+                    style="width: 120px;"
+                  >
+                    <el-option
+                      v-for="item in presetLink"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    >
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="run-icon-view">
+                  <Icon
+                    type="ns-arrow-drowdown"
+                    style="color: #8C8C8C;"
+                  />
+                </div>
+              </div>
+            </div>
+          </el-form-item>
+          <!-- <el-form-item
+            v-if="defaultModel.custom === 2"
+            label="选择链接"
+            prop="settingId"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
-        <el-form-item
-        v-if="defaultModel.custom === 2 && viewRange === 1"
-        label="选择品牌："
-        prop="settingId"
-      >
-        <el-select
-          v-model="defaultModel.brandId"
-          placeholder="请选择"
-          filterable
-        >
-          <el-option
-            v-for="item in brandList"
-            :key="item.brandId"
-            :label="item.brandName"
-            :value="item.brandId"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        label="网页地址："
-        prop="link"
-        clearable
-        show-word-limit
-      >
-        <el-input
-          ref="linkModelLink"
-          type="textarea"
-          :disabled="defaultModel.custom === 2"
-          v-model="defaultModel.link"
-        />
-      </el-form-item>
-       <el-form-item
-      >
-        <el-form-grid>
-          <span v-for="(item, index) in placeholderLink" :key="index">
-            <ns-button v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
-          </span>
-          <span v-if="viewRange === 1">
-              <ns-button v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">&lt;品牌id&gt;</ns-button>
-          </span>
-        </el-form-grid>
-      </el-form-item>
-      <el-form-item label="消息展示内容：" class="message-headling"> </el-form-item>
-      <el-form-item
-        label="标题："
-        prop="title"
-        label-width="100px"
-      >
-        <el-form-grid size="xxmd">
-          <el-input
-            :disabled="disabled"
-            type="text"
-            maxlength="20"
-            minlength="1"
+            <el-select
+              v-model="defaultModel.settingId"
+              @change="systemPresetChange"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in presetLink"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item> -->
+          <el-form-item
+            v-if="defaultModel.custom === 2 && viewRange === 1"
+            label=""
+            prop="settingId"
+          >
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>选择品牌</label>
+            <div class="run-link-view">
+              <div class="run-item-select">
+                <el-select
+                  v-model="defaultModel.brandId"
+                  placeholder="请选择"
+                  filterable
+                  :default-first-option="true"
+                  style="width: 120px;"
+                >
+                  <el-option
+                    v-for="item in brandList"
+                    :key="item.brandId"
+                    :label="item.brandName"
+                    :value="item.brandId"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="run-icon-view">
+                <Icon
+                  type="ns-arrow-drowdown"
+                  style="color: #8C8C8C;"
+                />
+              </div>
+            </div>
+            <!-- <el-select
+              v-model="defaultModel.brandId"
+              placeholder="请选择"
+              filterable
+            >
+              <el-option
+                v-for="item in brandList"
+                :key="item.brandId"
+                :label="item.brandName"
+                :value="item.brandId"
+              />
+            </el-select> -->
+          </el-form-item>
+          <el-form-item
+            label="网页地址"
+            prop="link"
             clearable
             show-word-limit
-            placeholder="请输入标题,长度在1-20个字符以内"
-            v-model.trim="defaultModel.title"
-          />
-        </el-form-grid>
-      </el-form-item>
-      <el-form-item
-        label="文案："
-        prop="desc"
-        label-width="100px"
-      >
-        <el-form-grid size="xxmd">
-          <el-input
-            :disabled="disabled"
-            type="text"
-            maxlength="50"
-            minlength="1"
-            clearable
-            show-word-limit
-            placeholder="请输入文案,长度在1-50个字符以内"
-            v-model.trim="defaultModel.desc"
-          />
-        </el-form-grid>
-      </el-form-item>
-      <el-form-item label="封面图：" prop="image" label-width="100px" class="el-form-validate__box">
-        <el-upload
-          :disabled="disabled"
-          :action="uploadUrl"
-          accept="image/jpeg,image/gif,image/png"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-          clearable
-          class="message-upload"
-        >
-          <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar">
-          <Icon v-else type="plus" className="message-upload__tip"/>
-        </el-upload>
-      </el-form-item>
-      <el-form-item v-show="defaultModel.custom === 1">
-        <div class="text-secondary">请上传格式为JPG、JPEG、PNG的图片，建议长宽比例为5:4，大小不超过10M</div>
-        <!-- 长宽比例为5:4, -->
-      </el-form-item>
-      <el-form-item v-show="defaultModel.custom === 2">
-        <el-form-grid>
-          <span class="tmp-tips text-info">
-            <Icon type="info-circle" theme="filled" />
-          </span>
-          招募链接编辑位置为获客引流-会员引流-招募页面配置
-        </el-form-grid>
-      </el-form-item>
-    </el-form>
+          >
+            <div class="link-url-view">
+              <div class="link-top-parma" v-if="defaultModel.custom === 1">
+                <span>点击插入</span>
+                <span v-for="(item, index) in placeholderLink" :key="index">
+                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">{{item.label}}</span>
+                </span>
+                <span v-if="viewRange === 1">
+                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">品牌id</span>
+                </span>
+              </div>
+              <el-input
+                ref="linkModelLink"
+                type="textarea"
+                :disabled="defaultModel.custom === 2"
+                v-model="defaultModel.link"
+                class="link-url-textarea"
+                placeholder="输入链接地址"
+              />
+            </div>
+            <div v-if="defaultModel.custom === 2" class="remind-text-view">
+              以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
+              <span style="color:#0094FC;">编辑招募信息&nbsp;&nbsp;</span>
+              <span style="color:#0094FC;">刷新</span>
+            </div>
+          </el-form-item>
+          <!-- <el-form-item
+          >
+            <el-form-grid>
+              <span v-for="(item, index) in placeholderLink" :key="index">
+                <ns-button v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
+              </span>
+              <span v-if="viewRange === 1">
+                  <ns-button v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">&lt;品牌id&gt;</ns-button>
+              </span>
+            </el-form-grid>
+          </el-form-item> -->
+          <!-- <el-form-item label="消息展示内容：" class="message-headling"> </el-form-item> -->
+          <el-form-item
+            label="链接标题"
+            prop="title"
+            label-width="110px"
+          >
+            <el-form-grid size="xxmd">
+              <el-input
+                :disabled="disabled"
+                type="text"
+                maxlength="20"
+                minlength="1"
+                show-word-limit
+                placeholder="最长20个中文字符"
+                v-model.trim="defaultModel.title"
+                class="input_title_textarea"
+              />
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item
+            label="文案描述"
+            prop="desc"
+            label-width="110px"
+          >
+            <div>
+              <el-input
+                :disabled="disabled"
+                type="textarea"
+                maxlength="50"
+                minlength="1"
+                clearable
+                show-word-limit
+                placeholder="最长50个中文字符"
+                v-model.trim="defaultModel.desc"
+                class="input_textarea"
+              />
+            </div>
+          </el-form-item>
+          <el-form-item label="" prop="image" label-width="110px" class="el-form-validate__box">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>封面图</label>
+            <el-upload
+              :disabled="disabled"
+              :action="uploadUrl"
+              accept="image/jpeg,image/gif,image/png"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+              clearable
+              class="message-upload"
+            >
+              <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar">
+              <Icon v-else type="plus" className="message-upload__tip"/>
+            </el-upload>
+            <div class="text-secondary">上传限制：建议比例1:1，小于2M，jpg、png、jpeg格式</div>
+          </el-form-item>
+          <!-- <el-form-item v-show="defaultModel.custom === 1">
+            <div class="text-secondary">请上传格式为JPG、JPEG、PNG的图片，建议长宽比例为5:4，大小不超过10M</div>
+          </el-form-item> -->
+          <!-- <el-form-item v-show="defaultModel.custom === 2">
+            <el-form-grid>
+              <span class="tmp-tips text-info">
+                <Icon type="info-circle" theme="filled" />
+              </span>
+              招募链接编辑位置为获客引流-会员引流-招募页面配置
+            </el-form-grid>
+          </el-form-item> -->
+        </el-form>
+      </div>
+      <div class="link-line-view"></div>
+      <div class="link-right-view">
+        <div class="show-phone-view">
+          <div class="show-title">{{defaultModel.title || '链接标题'}}</div>
+          <div class="show-content-view">
+            <div class="show-content">{{defaultModel.desc || '文案描述'}}</div>
+            <img class="show-img" :src="defaultModel.image " v-if="defaultModel.image"/>
+            <img class="show-img" :src="defaultUrl" v-else/>
+          </div>
+        </div>
+      </div>
+    </div>
     <span slot="footer">
       <NsButton @click="close">取消</NsButton>
       <NsButton @click="confirm" type="primary">确定</NsButton>
@@ -290,7 +377,8 @@ export default {
           label: '时间戳',
           value: '{timestamp}'
         }
-      ]
+      ],
+      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
   mounted () {
@@ -303,12 +391,12 @@ export default {
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpg' || 'image/jpeg' || file.type === 'image/png'
-      const isLt10M = file.size / 1024 / 1024 < 10
+      const isLt10M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG、JEPG、PNG 格式!')
       }
       if (!isLt10M) {
-        this.$message.error('上传图片大小不能超过 10MB!')
+        this.$message.error('上传图片大小不能超过 2MB!')
       }
       return isJPG && isLt10M
     },
@@ -419,6 +507,104 @@ export default {
 </script>
 <style scoped>
 @import "@theme/variables.pcss";
+@import "./styles/link.css";
+/* .remind-text-view {
+  font-size: 12px;
+  color: rgba(0,0,0,0.45);
+  line-height: 20px;
+}
+.show-content-view {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  justify-content: space-between;
+}
+.show-content {
+  font-size: 12px;
+  color: #8C8C8C;
+  line-height: 20px;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  width: 147px;
+}
+.show-img {
+  width: 60px;
+  height: 60px;
+  background-color: gainsboro;
+  flex-shrink: 0;
+}
+
+.show-phone-view {
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  padding: 16px;
+  width: 247px;
+}
+.show-title {
+  font-size: 14px;
+  color: #262626;
+  line-height: 18px;
+  font-weight: 500;
+}
+.text-secondary {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
+  margin-top: 8px;
+}
+.link-url-view {
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  width: 368px;
+}
+.link-top-parma {
+  background: #F5F5F5;
+  padding: 8px;
+}
+.base-parma {
+  background: #FFFFFF;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 14px;
+  color: #595959;
+  margin-left: 4px;
+  margin-bottom: 6px;
+  padding: 0px 6px;
+  min-width: 50px;
+  text-align: center;
+  cursor: pointer;
+} */
+/* .link-container-view {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.link-left-view {
+  width: 60%;
+}
+.link-line-view {
+  height: 100%;
+  width: 1px;
+  background: #E8E8E8;
+  position: absolute;
+  left: 65%;
+}
+.link-right-view {
+  width: 40%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+} */
+
   .title {
     line-height: 24px;
     font-size: 16px;
@@ -557,8 +743,8 @@ export default {
   }
   @b upload {
     >>> .el-upload {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       position: relative;
       border: 1px solid var(--theme-base-border-color-primary);
       border-radius: var(--default-radius-mini);
@@ -575,8 +761,8 @@ export default {
     transform: translate(-50%,-50%);
   }
   @e avatar {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     position: relative;
     top: -1px;
     left: -1px;
