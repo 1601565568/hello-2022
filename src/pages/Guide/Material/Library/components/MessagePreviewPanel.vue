@@ -8,6 +8,19 @@
         <div class="u_title">{{title || '素材标题'}}</div>
         <div class="u_time">2019年10月11日 11:30:51</div>
       </div>
+      <div class="u_types_view">
+        <div class="types_number_view">
+          共{{typesNum}}条消息
+          <span class="iconfont icon-wenbenbeifen4" v-if="showTextIcon === 1"></span>
+          <span class="iconfont icon-tupianbeifen5" v-if="showImageIcon"></span>
+          <span class="iconfont icon-shipinbeifen4" v-if="showVideoIcon"></span>
+          <span class="iconfont icon-lianjie" v-if="showLinkIcon"></span>
+          <span class="iconfont icon-xiaochengxushezhibeifen4" v-if="showMiniIcon"></span>
+          <span class="iconfont icon-zidingyibeifen" v-if="showPitIcon"></span>
+          <span class="iconfont icon-fumatupian-copy" v-if="showImageCode"></span>
+        </div>
+        <div class="send-button">发送至朋友圈</div>
+      </div>
       <div class="u_content_view">
         <div v-if="pitContent" class="u_pitContent">
           <EmojiText :text='htmlContent' />
@@ -124,6 +137,37 @@ export default {
     }
   },
   computed: {
+    typesNum () {
+      const textNum = this.pitContent ? 1 : 0
+      return this.list.length + textNum
+    },
+    showTextIcon () {
+      return this.pitContent ? 1 : 0
+    },
+    showImageIcon () {
+      const isImage = item => item.type === 1
+      return this.list.findIndex(isImage) !== -1
+    },
+    showVideoIcon () {
+      const isVideo = item => item.type === 2
+      return this.list.findIndex(isVideo) !== -1
+    },
+    showLinkIcon () {
+      const isLink = item => item.type === 3
+      return this.list.findIndex(isLink) !== -1
+    },
+    showMiniIcon () {
+      const isMini = item => item.type === 4
+      return this.list.findIndex(isMini) !== -1
+    },
+    showPitIcon () {
+      const isPit = item => item.type === 0
+      return this.list.findIndex(isPit) !== -1
+    },
+    showImageCode () {
+      const isImageCode = item => item.type === 5
+      return this.list.findIndex(isImageCode) !== -1
+    }
   },
   methods: {
     text2Emoji () {
@@ -169,6 +213,30 @@ export default {
       font-size: 16px;
       margin-left: 4px;
       vertical-align: middle;
+    }
+  }
+  .u_types_view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 40px;
+    align-items: center;
+    .send-button {
+      width: 98px;
+      height: 27px;
+      background: #1965FF;
+      border-radius: 2px;
+      font-size: 12px;
+      color: #FFFFFF;
+      line-height: 27px;
+      text-align: center;
+    }
+    .types_number_view {
+      font-size: 12px;
+      color: #383838;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
   }
   .u_container_view{
@@ -217,7 +285,7 @@ export default {
       font-size: 12px;
       margin-top: 0;
       color: #383838;
-      line-height: 18px;
+      line-height: 22px;
       width: 230px;
     }
     .u_content-img {
