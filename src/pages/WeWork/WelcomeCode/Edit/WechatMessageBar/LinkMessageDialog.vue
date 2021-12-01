@@ -508,7 +508,7 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
-.remind-text-view {
+/* .remind-text-view {
   font-size: 12px;
   color: rgba(0,0,0,0.45);
   line-height: 20px;
@@ -579,8 +579,8 @@ export default {
   min-width: 50px;
   text-align: center;
   cursor: pointer;
-}
-.link-container-view {
+} */
+/* .link-container-view {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -603,7 +603,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-}
+} */
 
   .title {
     line-height: 24px;
