@@ -43,7 +43,8 @@ export const submitFormat = (model) => {
     validTimeStart: baseInfoData.validTimeStart,
     validTimeType: baseInfoData.validTimeType,
     pageDecoration: JSON.stringify(submitPageDecorationDataFormat(pageDecorationData)),
-    prizeRuleList: submitPrizeRuleListFormat(pageDecorationData.activeInfoList)
+    prizeRuleList: submitPrizeRuleListFormat(pageDecorationData.activeInfoList),
+    prizeSendPlan: 1
   }
   return data
 }
@@ -79,7 +80,7 @@ export const submitPrizeRuleListFormat = prizeRuleList => prizeRuleList.map(item
   prizeNumber: item.prizeNumber,
   prizePic: item.image,
   prizeType: item.prizeType,
-  recruitment: 1,
+  recruitment: item.recruitment,
   validNumber: item.validNumber
 }))
 // 加载时格式化
