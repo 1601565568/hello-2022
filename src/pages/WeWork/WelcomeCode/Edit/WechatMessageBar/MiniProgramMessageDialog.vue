@@ -146,8 +146,8 @@
         <div class="link-right-view" style="min-height:550px">
           <div class="show-phone-view" style="padding: 16px 16px 8px 16px">
             <div class="show-mini-info">
-              <img class="show-mini-head-img">
-              <div class="show-mini-head-name">Judydoll橘朵</div>
+              <div class="show-mini-head-img"></div>
+              <div class="show-mini-head-name">小程序名称</div>
             </div>
             <div class="show-mini-title">{{defaultModel.title || '小程序标题'}}</div>
             <div class="show-mini-img">
