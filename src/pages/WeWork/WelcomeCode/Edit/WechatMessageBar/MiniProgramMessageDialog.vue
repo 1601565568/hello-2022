@@ -61,12 +61,19 @@
               <div class="remind-text-view">
                 <div>
                   <span>请先在企业微信后台将小程序配置到工作台</span>
-                  <span style="color:#0094FC;">&nbsp;&nbsp;配置说明&nbsp;&nbsp;</span>
-                  <span style="color:#0094FC;">去配置</span>
+                  <!-- <span style="color:#0094FC;">&nbsp;&nbsp;配置说明&nbsp;&nbsp;</span> -->
+                  <!-- <span style="color:#0094FC;">去配置</span> -->
+                  <MiniConfigHelp/>
                 </div>
                 <div>
                   <span>小程序链接后面需要带上html</span>
-                  <span style="color:#0094FC;">&nbsp;&nbsp;输入说明</span>
+                  <el-popover placement="top-start" title="" width="300" trigger="hover" content="">
+                    <slot>
+                      <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
+                      <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
+                    </slot>
+                    <span style="color:#0094FC;" slot="reference">&nbsp;&nbsp;输入说明</span>
+                  </el-popover>
                 </div>
               </div>
             </ElFormItem>
@@ -136,7 +143,7 @@
           </ElForm>
         </div>
         <div class="link-line-view"></div>
-        <div class="link-right-view">
+        <div class="link-right-view" style="min-height:550px">
           <div class="show-phone-view" style="padding: 16px 16px 8px 16px">
             <div class="show-mini-info">
               <img class="show-mini-head-img">
@@ -157,7 +164,7 @@
       </div>
       <span slot="footer">
         <NsButton @click="close">取消</NsButton>
-        <NsButton @click="confirm" type="primary">确定</NsButton>
+        <NsButton @click="confirm" type="primary">保存</NsButton>
       </span>
     </ElDialog>
     <!-- 选择品牌弹窗 -->
@@ -166,12 +173,13 @@
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
-// import MiniConfigHelp from './MiniConfigHelp/index.vue'
+import MiniConfigHelp from './MiniConfigHelp/index.vue'
 import NsBrandDialog from '@/components/NsBrandDialog'
 
 export default {
   components: {
     ElUpload,
+    MiniConfigHelp,
     NsBrandDialog
   },
   props: {
@@ -271,7 +279,7 @@ export default {
           value: '{timestamp}'
         }
       ],
-      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
+      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg'
     }
   },
   mounted () {},
