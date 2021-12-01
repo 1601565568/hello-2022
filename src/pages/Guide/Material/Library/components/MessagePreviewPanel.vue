@@ -1,52 +1,65 @@
 <template>
   <div class="preview_body">
+    <div class="u_tag u_tag-color">湖滨银泰一号门店<Icon class="icon" type="ns-arrow-drowdown" /></div>
     <img :src='defaultIcon' class="scope-title_img">
     <div class="u_tag">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
-    <div class="u_title">{{title || '素材标题'}}</div>
-    <div v-if="pitContent" class="u_pitContent">
-      <EmojiText :text='htmlContent' />
-    </div>
-    <div v-else class="u_pitContent">
-      <EmojiText text='推广内容' />
-    </div>
-    <div class="u_main">
-      <div class="u_box" v-for="(item, index) in list" :key="index">
-        <div class="u_imgList" :style="{ border: item.type === 0 ? '1px dashed #e8e8e8' : 'none' }" v-if="item.type === 0 || item.type === 1 || item.type === 5">
-          <img :src='item.content.image || defaultImgUrl' alt="">
+    <div class="u_container_view">
+      <div class="u_top_info">
+        <div class="u_title">{{title || '素材标题'}}</div>
+        <div class="u_time">2019年10月11日 11:30:51</div>
+      </div>
+      <div class="u_content_view">
+        <div v-if="pitContent" class="u_pitContent">
+          <EmojiText :text='htmlContent' />
         </div>
-        <div v-if="item.type === 2" class="u_videoList">
-          <div>
-            <video :src="item.content.video"></video>
-          </div>
-          <div
-            class="video-mask"
-          >
-            <div class="video-wrapper">
-              <Icon type="begin" />
+        <div v-else class="u_pitContent">
+          <EmojiText text='推广内容' />
+        </div>
+        <img class="u_content-img" src="@/assets/pit-send-img.png"/>
+      </div>
+      <div class="u_pic_view">
+        <div class="u_main">
+          <div class="u_box" v-for="(item, index) in list" :key="index">
+            <div class="u_imgList" :style="{ border: item.type === 0 ? '1px dashed #e8e8e8' : 'none' }" v-if="item.type === 0 || item.type === 1 || item.type === 5">
+              <img :src='item.content.image || defaultImgUrl' alt="">
+              <img class="u_main-img" src="@/assets/pit-send-img.png"/>
             </div>
-          </div>
+            <div v-if="item.type === 2" class="u_videoList">
+              <img class="u_main-img" src="@/assets/pit-send-img.png"/>
+              <div>
+                <video :src="item.content.video"></video>
+              </div>
+              <div
+                class="video-mask"
+              >
+                <div class="video-wrapper">
+                  <Icon type="begin" />
+                </div>
+              </div>
+            </div>
+            <div v-if="item.type === 3" class="u_linkList">
+              <div class="u_t">{{item.content.title}}</div>
+              <div class="u_desc">{{item.content.desc}}</div>
+              <img class="u_link_img" :src='item.content.image || linkImage' alt="">
+              <div class="u_line"></div>
+            </div>
+            <div v-if="item.type === 4" class="u_appList">
+              <!-- <div class="u_t">{{item.content.title}}</div>
+              <Icon type="xiaochengxushouquan" className="icon"/>
+              <div class="u_desc">{{item.content.desc}}</div>
+              <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
+              <div class="u_line"></div> -->
+              <div class="u_app_title">
+                <span class="v1"></span>
+                <span class="v2">小程序名称</span>
+              </div>
+              <div class="u_content">{{item.content.title}}</div>
+              <img class="u_app_img" :src='item.content.image' alt="">
+              <div class="u_line"></div>
+              <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
+            </div>
         </div>
-        <div v-if="item.type === 3" class="u_linkList">
-          <div class="u_t">{{item.content.title}}</div>
-          <div class="u_desc">{{item.content.desc}}</div>
-          <img class="u_link_img" :src='item.content.image || linkImage' alt="">
-          <div class="u_line"></div>
-        </div>
-        <div v-if="item.type === 4" class="u_appList">
-          <!-- <div class="u_t">{{item.content.title}}</div>
-          <Icon type="xiaochengxushouquan" className="icon"/>
-          <div class="u_desc">{{item.content.desc}}</div>
-          <img class="u_link_img" :src='item.content.image || defaultImgUrl' alt="">
-          <div class="u_line"></div> -->
-          <div class="u_app_title">
-            <span class="v1"></span>
-            <span class="v2">小程序名称</span>
-          </div>
-          <div class="u_content">{{item.content.title}}</div>
-          <img class="u_app_img" :src='item.content.image' alt="">
-          <div class="u_line"></div>
-          <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
-        </div>
+      </div>
     </div>
     </div>
   </div>
@@ -134,7 +147,7 @@ export default {
 </script>
 <style scoped lang='scss'>
 .preview_body{
-  background: #fff;
+  background: #F5F5F5;
   height: 513px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -145,72 +158,124 @@ export default {
     height: 58px;
   }
   .u_tag{
-    height: 54px;
+    height: 46px;
     background: #F5F5F5;
     font-size: 14px;
     color: #262626;
-    line-height: 54px;
+    line-height: 46px;
     padding-left: 12px;
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
     .icon{
       font-size: 16px;
       margin-left: 4px;
       vertical-align: middle;
     }
   }
-  .u_title{
-    font-size: 14px;
-    color: #262626;
-    line-height: 22px;
-    margin: 16px;
-    margin-bottom: 12px;
-    margin-top: 0;
-    font-weight: bold;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #E8E8E8;
-
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
+  .u_container_view{
+    background-color: white;
+    margin: 0 11px;
+    padding: 10px 13px;
   }
-  .u_pitContent{
-    margin: 12px 16px;
-    word-break: break-all;
-    font-size: 14px;
-    margin-top: 0;
-    color: #383838;
-    line-height: 24px;
+  .u_tag-color {
+    background-color: white;
+  }
+  .u_top_info {
+    border-bottom: 1px solid #E8E8E8;
+    padding-bottom: 8px;
+    position: relative;
+    .u_title{
+      font-size: 14px;
+      color: #262626;
+      line-height: 22px;
+      // margin: 16px;
+      margin-bottom: 17px;
+      // margin-top: 0;
+      font-weight: bold;
+      // padding-bottom: 17px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      background-color: white;
+    }
+    .u_time {
+      font-size: 12px;
+      color: #595959;
+      line-height: 17px;
+    }
+  }
+  .u_content_view {
+    margin-top: 8px;
+    background-color: #F5F5F5;
+    padding: 7px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .u_pitContent{
+      // margin: 12px 16px;
+      word-break: break-all;
+      font-size: 12px;
+      margin-top: 0;
+      color: #383838;
+      line-height: 18px;
+      width: 230px;
+    }
+    .u_content-img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .u_pic_view {
+    margin-top: 8px;
   }
   .u_main{
     .u_box{
       display: inline-block;
       vertical-align: top;
     }
-    margin-left: 16px;
+    // margin-left: 16px;
     .u_imgList, .u_videoList{
+      position: relative;
       display: inline-block;
       border-radius: 4px;
       margin-bottom: 12px;
-      width: 91px;
-      height: 91px;
+      width: 84px;
+      height: 84px;
+      border-radius: 4px;
       margin-right: 6px;
       img{
         width: 100%;
         height: 100%;
+        border-radius: 4px;
       }
       video{
-        width: 91px;
-        height: 91px;
+        width: 84px;
+        height: 84px;
         object-fit: cover;
+        border-radius: 4px;
       }
       &:nth-child(3n){
         margin-right: 0;
       }
+      .u_main-img {
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+      }
     }
     .u_videoList{
-      width: 91px;
-      height: 91px;
+      width: 84px;
+      height: 84px;
       position: relative;
+      .u_main-img {
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+      }
       .video-mask{
         position: absolute;
         top: 0;

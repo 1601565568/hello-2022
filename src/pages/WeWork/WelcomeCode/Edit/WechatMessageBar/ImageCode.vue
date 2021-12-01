@@ -32,11 +32,36 @@
             </div>
           </el-form-item>
           <el-form-item label="附码方式" required>
-            <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
+            <div class="custom-reaio-view">
+              <div class="custom-radio-base" @click="handleCodeStyle(0)">
+                <span class="iconfont icon-ns_arrow-circle-leftfuben6" style="color:#0091FA;font-size:18px" v-if="content.codeStyle === 0"></span>
+                <span class="iconfont icon-ns-succeed" style="color:#D9D9D9;font-size:18px" v-else></span>
+                <span class="custom-radio-base-name">选择商品</span>
+              </div>
+              <el-form-item prop="itemName" :rules="[
+                {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
+              ]">
+                <div class="select-shop-view" @click="selectShopGoods">
+                  <div class="shop-name-text">{{content.itemName || '请选择商品'}}</div>
+                  <div>
+                    <Icon
+                      type="icon-xin"
+                      style="color: #8C8C8C;"
+                    />
+                  </div>
+                </div>
+              </el-form-item>
+              <div class="custom-radio-base" @click="handleCodeStyle(1)">
+                <span class="iconfont icon-ns_arrow-circle-leftfuben6" style="color:#0091FA;font-size:18px" v-if="content.codeStyle === 1"></span>
+                <span class="iconfont icon-ns-succeed" style="color:#D9D9D9;font-size:18px" v-else></span>
+                <span class="custom-radio-base-name">输入小程序路径</span>
+              </div>
+            </div>
+            <!-- <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
               <el-radio :label=0>选择商品</el-radio>
               <el-radio :label=1>输入小程序路径</el-radio>
-            </el-radio-group>
-            <div class="select-shop-view" v-show="content.codeStyle === 0">
+            </el-radio-group> -->
+            <!-- <div class="select-shop-view" v-show="content.codeStyle === 0">
               <el-form-item prop="itemName" :rules="[
                 {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
               ]">
@@ -47,7 +72,7 @@
                 />
               </el-form-item>
               <div class="shop-button" @click="selectShopGoods">选择商品</div>
-            </div>
+            </div> -->
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
               <el-form-item prop="path">
@@ -184,10 +209,6 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="">
-            <label slot="label"><span style="display:inline-block;width:10px;"></span>货号</label>
-            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
-          </el-form-item>
           <el-form-item label="图片" required>
             <el-form-item prop="backgroundImage">
               <div class="upload-view">
@@ -209,7 +230,7 @@
               </div>
             </el-form-item>
             <div class="remind-img">
-              请上传格式为JPG、JPEG、PNG格式的图片，<br/>大小不超过2M
+              上传限制：建议比例1:1，小于2M，jpg、png、jpeg格式
             </div>
           </el-form-item>
           <el-form-item label="名称" required prop="title">
@@ -243,6 +264,10 @@
                 <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
               </el-form-item>
             </div>
+          </el-form-item>
+          <el-form-item label="">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>货号</label>
+            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
         </el-form>
       </div>
@@ -513,11 +538,13 @@ export default {
       }
     },
     handleCodeStyle (index) {
+      this.content.codeStyle = index
       let cacheObj = {}
       if (index === 0) {
         cacheObj = this.goodsCache
       } else if (index === 1) {
         cacheObj = this.miniCache
+        this.content.itemName = ''
       }
       this.content.path = cacheObj.path
       this.content.outerId = cacheObj.outerId
@@ -796,6 +823,7 @@ export default {
       }
     },
     selectShopGoods () {
+      if (this.content.codeStyle === 1) return
       this.$refs.selectGoods.showToggle()
     },
     selectShopInit () {
@@ -846,6 +874,42 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './styles/imageCode.css';
+.custom-reaio-view {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  color: #303133;
+  // margin-bottom: 20px;
+  .custom-radio-base {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    margin-right: 8px;
+    .custom-radio-base-name {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+  .select-shop-view {
+    width: 141px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    margin-right: 8px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 9px;
+    cursor: pointer;
+    .shop-name-text {
+      font-size: 14px;
+      color: #BFBFBF;
+    }
+  }
+}
 .container-view {
   display: flex;
   flex-direction: row;
