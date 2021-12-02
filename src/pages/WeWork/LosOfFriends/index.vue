@@ -9,11 +9,11 @@
   <div>
     <div class="box">
       <div class="template-page__row-left">
-          <AreaTree v-model='areaId' @input='onClickNode' />
+          <AreaTree v-model='areaId' />
       </div>
       <!-- 主列表 -->
       <div class="template-page__row-right">
-        <ns-table-repeat-customer ref='table' @Reminder="Reminder"></ns-table-repeat-customer>
+        <ns-table-repeat-customer :areaIds='areaId' ref='table' @Reminder="Reminder"></ns-table-repeat-customer>
       </div>
     </div>
     <el-dialog custom-class='losOfriend' width="1000px" :modal-append-to-body='true' :append-to-body='true' @close='formCancel' :visible="hotVisible">
@@ -169,6 +169,13 @@ export default {
     },
     // 请求消息提醒数据
     async findDefaultTask () {
+      const fnTime = (time) => {
+        if (time.includes('2099-01-01 ')) {
+          let reg = new RegExp('2099-01-01', 'g')
+          return time.replace(reg, '')
+        }
+        return ''
+      }
       let res = await this.$http.fetch(this.$api.weWork.weWorkCustomer.findDefaultTask)
       if (!res.success) return
       // eslint-disable-next-line camelcase
@@ -181,10 +188,11 @@ export default {
         delFriendNotify: del_friend_run_type !== 999,
         // eslint-disable-next-line camelcase
         delChatRunType: del_chat_run_type !== 999,
-        delGuideSendTime: del_guide_send_time, // 被删好友时间设置
-        delFriendSendTime: del_friend_send_time, // 删除好友时间设置
-        delChatSendTime: del_chat_send_time // 好友退群时间设置
+        delGuideSendTime: fnTime(del_guide_send_time), // 被删好友时间设置
+        delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
+        delChatSendTime: fnTime(del_chat_send_time) // 好友退群时间设置
       })
+
       // 被删好友数据
       Object.assign(this.delGuideNotifyObj, {
         delGuideRunType: String(del_guide_run_type),
@@ -213,19 +221,19 @@ export default {
         id: this.id || null,
         delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : 999, // 删除好友 通知店长
         delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : 999, // 删除好友 提醒时间 0提醒 1固定时间
-        delGuideSendTime: delGuideNotify ? delGuideSendTime : '', // 被删好友时间设置（固定时间）
+        delGuideSendTime: delGuideNotify ? '2099-01-01 ' + delGuideSendTime : '', // 被删好友时间设置（固定时间）
         delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : 999, // 删除好友 通知店长
         delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : 999, // 删除好友 提醒时间
-        delFriendSendTime: delFriendNotify ? delFriendSendTime : '', // 被删好友时间设置（固定时间）
+        delFriendSendTime: delFriendNotify ? '2099-01-01 ' + delFriendSendTime : '', // 被删好友时间设置（固定时间）
         delChatNotify: delChatRunType ? 2 : 999, // 退群写死
         delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : 999,
-        delChatSendTime: delChatRunType ? delChatSendTime : ''
+        delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : ''
       })
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let res = await this.$http.fetch(this.$api.weWork.weWorkCustomer.saveOrUpdateTask, subObj)
           if (res.success) {
-            this.id ? this.$notify.success('设置成功') : this.$notify.success('修改成功')
+            this.$notify.success('设置成功')
             this.hotVisible = false
           } else {
             this.$notify.error(res.msg)
@@ -234,8 +242,6 @@ export default {
           return false
         }
       })
-    },
-    onClickNode () {
     }
   }
 }
