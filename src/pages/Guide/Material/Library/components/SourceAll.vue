@@ -860,7 +860,7 @@ export default {
   border-radius: 2px;
 }
 .input_textarea{
-  height: 144px;
+  height: 115px;
   width: 540px;
   >>> .el-textarea__inner {
     height: 100%;
