@@ -147,6 +147,8 @@ export default {
     const validTimeEndFunc = (rule, value, callback) => {
       const isBefore = moment(this.model.validTimeEnd).isBefore(this.model.validTimeStart)
       const isSame = moment(this.model.validTimeEnd).isSame(this.model.validTimeStart)
+      console.log(this.model.validTimeEnd)
+      console.log(this.model.validTimeStart)
       if (isBefore || isSame) {
         callback(new Error('结束时间不能大于等于开始时间'))
       } else {

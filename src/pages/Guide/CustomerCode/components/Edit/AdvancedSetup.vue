@@ -196,7 +196,7 @@
     </el-form>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，配置欢迎语</div>
-      <div class='btn current' @click="handleSubmit">保存</div>
+      <div class='btn current' @click="handleSubmit" :loading='loading'>保存</div>
     </div>
     <NsAddTagDialog
         :visible.sync="NsAddTagDialogVisible"
@@ -244,7 +244,8 @@ export default {
         noReceiveRewardsTags: { tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
         receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
       },
-      isOpnePrize: true
+      isOpnePrize: true,
+      loading: false
     }
   },
   props: ['data', 'isStating', 'isEdit', 'ladderRewardList'],
@@ -316,6 +317,9 @@ export default {
     handlePrev () {
       this.$emit('changeStepId', 'prev')
     },
+    changeLoading (loading) {
+      this.loading = loading
+    },
     handleSubmit () {
       this.$refs.advancedsetupForm.validate((valid) => {
         if (valid) {
@@ -323,6 +327,7 @@ export default {
             key: STEP_LIST[5].dataName,
             value: this.model
           })
+          this.changeLoading(true)
           // this.$emit('changeStepId', 'next')
         }
       })

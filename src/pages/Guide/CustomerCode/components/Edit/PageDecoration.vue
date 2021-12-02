@@ -51,6 +51,7 @@
                       </el-tooltip>
                     </template>
                      <!-- 时间类型为所有时间，按钮禁用 end-->
+                    <template v-else-if="item.itemCode ==='reward'"></template>
                     <template v-else>
                        <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" ></el-switch>
                     </template>
@@ -224,7 +225,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive'/>
+        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = id}'/>
       </template>
     </Box>
     <div class='costomcode-footer'>

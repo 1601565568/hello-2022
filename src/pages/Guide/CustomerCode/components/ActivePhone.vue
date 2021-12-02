@@ -50,7 +50,7 @@
             <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
-                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}">
+                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
                     <div class='rankname'>{{`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}`}}</div>
                     <div class='ranknum'>邀请{{item.recruitment}}人</div>
                   </div>
@@ -253,6 +253,9 @@ export default {
     }
   },
   methods: {
+    handleChangeActiveId (id) {
+      this.$emit('onChangeActiveId', id)
+    },
     acScrollPhone (name) {
       let target = document.querySelector(`.${name}`)
       target.parentNode.scrollTop = target.offsetTop

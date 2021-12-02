@@ -85,7 +85,13 @@ export default {
   },
   methods: {
     handleCancel () {
-      this.$router.push({ name: 'CustomerCodeList' })
+      this.$confirm('离开后页面内容将不会保存', '确定离开此页面？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$router.push({ name: 'CustomerCodeList' })
+      })
     },
     /**
      * 下一步或者上一步
@@ -148,6 +154,7 @@ export default {
         this.$notify.success('保存成功')
         this.handleCancel()
       }).catch(res => {
+        his.$refs.AdvancedSetup[0].changeLoading(false)
         this.$notify.error(res.msg)
       }).finally(res => {
         // this.btnLoad = false
@@ -186,7 +193,7 @@ export default {
 .container {
   background-color: #fff;
   padding-top: 40px;
-  height: calc(100vh - 183px);
+  height: calc(100vh - 160px);
   box-sizing: border-box;
   padding-bottom: 80px;
   position: relative;
@@ -197,7 +204,7 @@ export default {
 }
 .content-box {
   padding-left: 42px;
-  height: calc( 100% - 107px );
+  height: calc( 100% - 87px );
   min-width: 1000px;
 }
 .content-div {
