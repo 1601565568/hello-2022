@@ -23,7 +23,7 @@
         <div class="send-button">发送至朋友圈</div>
       </div>
       <div class="u_content_view">
-        <div v-if="pitContent" class="u_pitContent">
+        <div v-if="pitContent" class="u_pitContent u_limit_line">
           <EmojiText :text='htmlContent' />
         </div>
         <div v-else class="u_pitContent">
@@ -304,6 +304,13 @@ export default {
       width: 22px;
       height: 22px;
     }
+    .u_limit_line {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .u_pic_view {
     margin-top: 8px;
@@ -341,8 +348,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
     }
@@ -354,8 +361,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
       }
       .video-mask{
         position: absolute;
@@ -441,8 +448,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
     }
@@ -459,8 +466,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
       .u_app_title{
