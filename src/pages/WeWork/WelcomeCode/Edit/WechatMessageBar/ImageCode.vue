@@ -248,7 +248,7 @@
                 {required:content.priceStatus === 1 ? true:false, message:'请输入售价', trigger: ['blur', 'change']},
                 {validator:checkPriceRules, trigger: ['blur', 'change'] }
               ]">
-                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
+                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange" @keydown.native="channelInputLimit"/>
               </el-form-item>
             </div>
           </el-form-item>
@@ -261,7 +261,7 @@
                 {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
                 {validator:checkOriginalPricRules, trigger: ['blur', 'change'] }
               ]">
-                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
+                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange" @keydown.native="channelInputLimit"/>
               </el-form-item>
             </div>
           </el-form-item>
@@ -501,6 +501,14 @@ export default {
         let target = document.getElementById('right-originalPrice-view')
         target.scrollTop = target.scrollHeight
       }, 0)
+    },
+    channelInputLimit (e) {
+      let key = e.key
+      if (key === 'e') {
+        e.returnValue = false
+        return false
+      }
+      return true
     },
     originalPriceChange (e) {
       if (this.content.codeStyle === 0) {
