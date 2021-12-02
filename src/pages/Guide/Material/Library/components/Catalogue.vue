@@ -64,7 +64,7 @@
           >
             <div class="catalogue-materials__item--info">
               <div
-                class="catalogue-materials__item--title catalogue-ellipsis"
+                class="catalogue-materials__item--title catalogue-ellipsis2"
                 :title="item.name"
                 v-html="strToRichText(item.name)"
               >
@@ -102,7 +102,7 @@
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <div slot="content" v-html="strToRichText(item.content)"></div>
+                  <div slot="content" v-html="strToRichText(item.content)" class="content-tooltip-view"></div>
                   <div class="showContent">
                     <EmojiText :text='item.content' />
                   </div>
@@ -692,6 +692,18 @@ export default {
 .showContent {
   word-break: break-all;
 }
+.content-tooltip-view {
+  max-height: 100px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #9093994d;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 6px;
+  }
+}
 @component-namespace catalogue {
   @b wrapper {
     margin-bottom: 10px;
@@ -1017,6 +1029,8 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-height: 200px;
+    overflow: scroll;
   }
   @b ellipsis2 {
     display: -webkit-box;

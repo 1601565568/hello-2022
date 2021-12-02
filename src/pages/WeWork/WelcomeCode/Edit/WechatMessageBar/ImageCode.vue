@@ -100,7 +100,7 @@
                   <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
-              <div>路径带参</div>
+              <!-- <div>路径带参</div>
               <div class="show-path-remind-view">
                 <div>SCRM字段参数名称</div>
                 <div class="remid-right-view">小程序字段参数名称</div>
@@ -206,7 +206,7 @@
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
-              </div>
+              </div> -->
             </div>
           </el-form-item>
           <el-form-item label="图片" required>
@@ -320,18 +320,18 @@ export default {
       maxSize: 2,
       maxPrice: 999999999,
       miniList: [],
-      shopIdChecked: false,
-      shopIdVal: '',
-      internalIdChecked: false,
-      internalIdVal: '',
-      externalIdChecked: false,
-      externalIdVal: '',
-      memberIdChecked: false,
-      memberIdVal: '',
-      memberUserIdChecked: false,
-      memberUserIdVal: '',
-      materialIdChecked: false,
-      materialIdVal: '',
+      // shopIdChecked: false,
+      // shopIdVal: '',
+      // internalIdChecked: false,
+      // internalIdVal: '',
+      // externalIdChecked: false,
+      // externalIdVal: '',
+      // memberIdChecked: false,
+      // memberIdVal: '',
+      // memberUserIdChecked: false,
+      // memberUserIdVal: '',
+      // materialIdChecked: false,
+      // materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
@@ -407,42 +407,42 @@ export default {
     }
   },
   watch: {
-    shopIdVal (newValue, oldValue) {
-      this.shopIdVal = this.shopIdVal.replace(/\s+/g, '')
-    },
-    internalIdVal (newValue, oldValue) {
-      this.internalIdVal = this.internalIdVal.replace(/\s+/g, '')
-    },
-    externalIdVal (newValue, oldValue) {
-      this.externalIdVal = this.externalIdVal.replace(/\s+/g, '')
-    },
-    memberIdVal (newValue, oldValue) {
-      this.memberIdVal = this.memberIdVal.replace(/\s+/g, '')
-    },
-    memberUserIdVal (newValue, oldValue) {
-      this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
-    },
-    materialIdVal (newValue, oldValue) {
-      this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
-    }
+    // shopIdVal (newValue, oldValue) {
+    //   this.shopIdVal = this.shopIdVal.replace(/\s+/g, '')
+    // },
+    // internalIdVal (newValue, oldValue) {
+    //   this.internalIdVal = this.internalIdVal.replace(/\s+/g, '')
+    // },
+    // externalIdVal (newValue, oldValue) {
+    //   this.externalIdVal = this.externalIdVal.replace(/\s+/g, '')
+    // },
+    // memberIdVal (newValue, oldValue) {
+    //   this.memberIdVal = this.memberIdVal.replace(/\s+/g, '')
+    // },
+    // memberUserIdVal (newValue, oldValue) {
+    //   this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
+    // },
+    // materialIdVal (newValue, oldValue) {
+    //   this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
+    // }
   },
   computed: {
     compPath () {
-      const shopId = this.shopIdChecked && this.shopIdVal ? 'shopId=' + this.shopIdVal : ''
-      const internalId = this.internalIdChecked && this.internalIdVal ? 'workNumber=' + this.internalIdVal : ''
-      const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
-      const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
-      const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
-      const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
-      let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
-      arr = arr.filter(item => item.length > 0)
-      if (arr.length > 0) {
-        if (this.content.path.includes('?')) {
-          return this.content.path + '&' + arr.join('&')
-        } else {
-          return this.content.path + '?' + arr.join('&')
-        }
-      }
+      // const shopId = this.shopIdChecked && this.shopIdVal ? 'shopId=' + this.shopIdVal : ''
+      // const internalId = this.internalIdChecked && this.internalIdVal ? 'workNumber=' + this.internalIdVal : ''
+      // const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
+      // const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
+      // const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
+      // const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
+      // let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
+      // arr = arr.filter(item => item.length > 0)
+      // if (arr.length > 0) {
+      //   if (this.content.path.includes('?')) {
+      //     return this.content.path + '&' + arr.join('&')
+      //   } else {
+      //     return this.content.path + '?' + arr.join('&')
+      //   }
+      // }
       return this.content.path
     }
   },
@@ -560,6 +560,11 @@ export default {
       this.loadAppIds()
       if (item) {
         this.content = { ...item.content }
+        if (this.content.codeStyle === 0) {
+          this.goodsCache = { ...this.content }
+        } else if (this.content.codeStyle === 1) {
+          this.miniCache = { ...this.content }
+        }
         // console.log(item.content)
       }
       // if (this.miniList.length > 0) {
@@ -571,18 +576,18 @@ export default {
     },
     initData () {
       this.saveLoad = false
-      this.shopIdChecked = false
-      this.shopIdVal = ''
-      this.internalIdChecked = false
-      this.internalIdVal = ''
-      this.externalIdChecked = false
-      this.externalIdVal = ''
-      this.memberIdChecked = false
-      this.memberIdVal = ''
-      this.memberUserIdChecked = false
-      this.memberUserIdVal = ''
-      this.materialIdChecked = false
-      this.materialIdVal = ''
+      // this.shopIdChecked = false
+      // this.shopIdVal = ''
+      // this.internalIdChecked = false
+      // this.internalIdVal = ''
+      // this.externalIdChecked = false
+      // this.externalIdVal = ''
+      // this.memberIdChecked = false
+      // this.memberIdVal = ''
+      // this.memberUserIdChecked = false
+      // this.memberUserIdVal = ''
+      // this.materialIdChecked = false
+      // this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
@@ -753,43 +758,43 @@ export default {
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
         this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-        this.content.presetParams = []
-        let guideId = {
-          paramCode: 'guideId',
-          paramName: this.memberIdVal,
-          status: this.memberIdChecked ? 1 : 0
-        }
-        let shopId = {
-          paramCode: 'shopId',
-          paramName: this.shopIdVal,
-          status: this.shopIdChecked ? 1 : 0
-        }
-        let workNumber = {
-          paramCode: 'workNumber',
-          paramName: this.internalIdVal,
-          status: this.internalIdChecked ? 1 : 0
-        }
-        let outShopId = {
-          paramCode: 'outShopId',
-          paramName: this.externalIdVal,
-          status: this.externalIdChecked ? 1 : 0
-        }
-        let guideUserId = {
-          paramCode: 'guideUserId',
-          paramName: this.memberUserIdVal,
-          status: this.memberUserIdChecked ? 1 : 0
-        }
-        let materialId = {
-          paramCode: 'materialId',
-          paramName: this.materialIdVal,
-          status: this.materialIdChecked ? 1 : 0
-        }
-        this.content.presetParams.push(guideId)
-        this.content.presetParams.push(shopId)
-        this.content.presetParams.push(workNumber)
-        this.content.presetParams.push(outShopId)
-        this.content.presetParams.push(guideUserId)
-        this.content.presetParams.push(materialId)
+        // this.content.presetParams = []
+        // let guideId = {
+        //   paramCode: 'guideId',
+        //   paramName: this.memberIdVal,
+        //   status: this.memberIdChecked ? 1 : 0
+        // }
+        // let shopId = {
+        //   paramCode: 'shopId',
+        //   paramName: this.shopIdVal,
+        //   status: this.shopIdChecked ? 1 : 0
+        // }
+        // let workNumber = {
+        //   paramCode: 'workNumber',
+        //   paramName: this.internalIdVal,
+        //   status: this.internalIdChecked ? 1 : 0
+        // }
+        // let outShopId = {
+        //   paramCode: 'outShopId',
+        //   paramName: this.externalIdVal,
+        //   status: this.externalIdChecked ? 1 : 0
+        // }
+        // let guideUserId = {
+        //   paramCode: 'guideUserId',
+        //   paramName: this.memberUserIdVal,
+        //   status: this.memberUserIdChecked ? 1 : 0
+        // }
+        // let materialId = {
+        //   paramCode: 'materialId',
+        //   paramName: this.materialIdVal,
+        //   status: this.materialIdChecked ? 1 : 0
+        // }
+        // this.content.presetParams.push(guideId)
+        // this.content.presetParams.push(shopId)
+        // this.content.presetParams.push(workNumber)
+        // this.content.presetParams.push(outShopId)
+        // this.content.presetParams.push(guideUserId)
+        // this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         // let canvas = document.createElement('canvas')
@@ -1098,40 +1103,40 @@ export default {
       margin-right: 8px;
     }
   }
-  .path-para-view {
-    display: flex;
-    flex-direction: row;
-    font-size: 14px;
-    color: #595959;
-    justify-content: space-between;
-    align-content: center;
-    .path-left-view {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 130px;
-      height: 32px;
-      line-height: 32px;
-      .help-icon {
-        color: #8c8c8c;
-        margin-left: 5px;
-      }
-    }
-  }
-  .show-path-remind-view {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: row;
-    font-size: 12px;
-    color: #303133;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    .remid-right-view {
-      width: 60%;
-      text-align: center;
-    }
-  }
+  // .path-para-view {
+  //   display: flex;
+  //   flex-direction: row;
+  //   font-size: 14px;
+  //   color: #595959;
+  //   justify-content: space-between;
+  //   align-content: center;
+  //   .path-left-view {
+  //     display: flex;
+  //     flex-direction: row;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     width: 130px;
+  //     height: 32px;
+  //     line-height: 32px;
+  //     .help-icon {
+  //       color: #8c8c8c;
+  //       margin-left: 5px;
+  //     }
+  //   }
+  // }
+  // .show-path-remind-view {
+  //   margin-top: 8px;
+  //   display: flex;
+  //   flex-direction: row;
+  //   font-size: 12px;
+  //   color: #303133;
+  //   justify-content: space-between;
+  //   margin-bottom: 8px;
+  //   .remid-right-view {
+  //     width: 60%;
+  //     text-align: center;
+  //   }
+  // }
 }
 .remind-img {
   font-size: 14px;

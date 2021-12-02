@@ -7,6 +7,7 @@
       <div class="u_top_info">
         <div class="u_title">{{title || '素材标题'}}</div>
         <div class="u_time">2019年10月11日 11:30:51</div>
+        <div class="u_left_line"></div>
       </div>
       <div class="u_types_view">
         <div class="types_number_view">
@@ -269,6 +270,15 @@ export default {
       font-size: 12px;
       color: #595959;
       line-height: 17px;
+    }
+    .u_left_line {
+      position: absolute;
+      width: 4px;
+      height: 22px;
+      left: -13px;
+      top: 0;
+      background-color: #0D5DFF;
+      border-radius: 4px;
     }
   }
   .u_content_view {
