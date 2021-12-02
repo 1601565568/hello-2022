@@ -172,8 +172,8 @@ export default {
         })
         return false
       }
+      this.model['areaId'] = this.areaIds
       let maps = Object.assign({}, this.model)
-      Object.assign(maps, { areaId: this.areaId })
       const parms = {
         length: this._data._pagination.size,
         searchMap: maps,
