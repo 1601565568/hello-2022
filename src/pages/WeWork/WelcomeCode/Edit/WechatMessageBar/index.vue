@@ -134,6 +134,7 @@ export default {
       miniProgramMsg: null,
       posterMsg: null,
       pitbitMsg: null,
+      imageCodeMsg: null,
       visibleImageCodeDialog: false
     }
   },
@@ -183,6 +184,7 @@ export default {
       if (this.miniProgramMsg) msg = this.miniProgramMsg
       if (this.posterMsg) msg = this.posterMsg
       if (this.pitbitMsg) msg = this.pitbitMsg
+      if (this.imageCodeMsg) msg = this.imageCodeMsg
       // 新增时，添加sop活动类型
       let type
       if (msg.type === undefined && !this.pitBit) {
@@ -243,6 +245,7 @@ export default {
           this.visiblePitbitMessageDialog = true
           break
         case tType.ImageCode:
+          this.imageCodeMsg = context
           this.$refs.imagecode.showImageCode(context)
           break
         default:
