@@ -100,7 +100,7 @@ export default {
      * @param {Object}
      */
     owenerChange (val) {
-      console.log(val, 78455)
+      // console.log(val, 78455)
     },
     /**
      * @msg:  从后台获取数据,重新排序
