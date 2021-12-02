@@ -164,13 +164,34 @@ export default {
     // 打开提醒设置
     Reminder () {
       this.hotVisible = true
+      this.reset()
       // 请求消息提醒数据
       this.findDefaultTask()
+    },
+    reset () {
+      this.form = {
+        delGuideNotify: false,
+        delFriendNotify: false,
+        delChatRunType: false,
+        delGuideSendTime: '',
+        delFriendSendTime: '',
+        delChatSendTime: ''
+      }
+      // 被删好友数据
+      this.delGuideNotifyObj = {
+        delGuideRunType: '0',
+        checkboxGroup: ['0']
+      }
+      // 删除好友
+      this.delFriendNotifyObj = {
+        delFriendRunType: '0',
+        checkboxGroup: ['0']
+      }
     },
     // 请求消息提醒数据
     async findDefaultTask () {
       const fnTime = (time) => {
-        if (time.includes('2099-01-01 ')) {
+        if (time && time.includes('2099-01-01 ')) {
           let reg = new RegExp('2099-01-01', 'g')
           return time.replace(reg, '')
         }
@@ -183,11 +204,11 @@ export default {
       this.id = id
       Object.assign(this.form, {
         // eslint-disable-next-line camelcase
-        delGuideNotify: del_guide_run_type !== 999,
+        delGuideNotify: del_guide_run_type !== undefined,
         // eslint-disable-next-line camelcase
-        delFriendNotify: del_friend_run_type !== 999,
+        delFriendNotify: del_friend_run_type !== undefined,
         // eslint-disable-next-line camelcase
-        delChatRunType: del_chat_run_type !== 999,
+        delChatRunType: del_chat_run_type !== undefined,
         delGuideSendTime: fnTime(del_guide_send_time), // 被删好友时间设置
         delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
         delChatSendTime: fnTime(del_chat_send_time) // 好友退群时间设置
@@ -219,14 +240,14 @@ export default {
       const { delGuideNotify, delFriendNotify, delChatRunType, delGuideSendTime, delFriendSendTime, delChatSendTime } = this.form
       let subObj = Object.assign({}, {
         id: this.id || null,
-        delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : 999, // 删除好友 通知店长
-        delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : 999, // 删除好友 提醒时间 0提醒 1固定时间
+        delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : null, // 删除好友 通知店长
+        delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : null, // 删除好友 提醒时间 0提醒 1固定时间
         delGuideSendTime: delGuideNotify ? '2099-01-01 ' + delGuideSendTime : '', // 被删好友时间设置（固定时间）
-        delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : 999, // 删除好友 通知店长
-        delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : 999, // 删除好友 提醒时间
+        delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : null, // 删除好友 通知店长
+        delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : null, // 删除好友 提醒时间
         delFriendSendTime: delFriendNotify ? '2099-01-01 ' + delFriendSendTime : '', // 被删好友时间设置（固定时间）
-        delChatNotify: delChatRunType ? 2 : 999, // 退群写死
-        delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : 999,
+        delChatNotify: delChatRunType ? 2 : '', // 退群写死
+        delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : null,
         delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : ''
       })
       this.$refs[formName].validate(async (valid) => {
