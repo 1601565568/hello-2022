@@ -156,7 +156,7 @@
             </div>
             <div class="show-min-line"></div>
             <div class="show-mini-info">
-              <span class="iconfont icon-xiaochengxushezhibeifen4" style="color:#7586DB;"></span>
+              <span class="iconfont icon-xiaochengxu2" style="color:#7586DB;"></span>
               <div class="show-mini-head-name">小程序</div>
             </div>
           </div>
