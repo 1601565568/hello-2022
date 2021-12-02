@@ -44,7 +44,7 @@ export default {
         },
         {
           'path': '/Social/WeComCustomerOperation/LosOfFriends',
-          'name': 'WeComFriendsAnalysis',
+          'name': 'LosOfFriends',
           'title': '好友流失提醒',
           'component': () => import('@/pages/WeWork/LosOfFriends/index.vue')
         },

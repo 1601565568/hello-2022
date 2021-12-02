@@ -12,6 +12,24 @@ import moment from 'moment'
 export default {
   name: 'NsTableWelcomeCode',
   mixins: [tableMixin],
+  props: {
+    // 图片类型 需要大写
+    areaIds: {
+      default () {
+        return ''
+      },
+      type: String
+    }
+  },
+  watch: {
+    areaIds: {
+      handler (newVal) {
+        this.areaId = newVal
+        this.init()
+      },
+      deep: true
+    }
+  },
   data: function () {
     let quickSearchModel = {}
     let searchModel = {
@@ -19,6 +37,7 @@ export default {
       searchEventType: '', // 事件
       // 员工组建 员工值
       guideIds: [],
+      areaId: this.areaId,
       // 'timeStart': '',
       // 'timeEnd': '',
       'startTime': moment()
@@ -30,6 +49,7 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
+      areaId: '',
       pickerOptions1: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime()) {
@@ -74,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    // this.init()
   },
   computed: {
   },
@@ -153,9 +173,11 @@ export default {
         })
         return false
       }
+      let maps = Object.assign({}, this.model)
+      Object.assign(maps, { areaId: this.areaId })
       const parms = {
         length: this._data._pagination.size,
-        searchMap: Object.assign({}, this.model),
+        searchMap: maps,
         start: (this._data._pagination.page - 1) * this._data._pagination.size
       }
       let that = this
