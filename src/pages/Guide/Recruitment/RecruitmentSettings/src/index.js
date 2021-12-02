@@ -1,4 +1,7 @@
 import { getErrorMsg } from '@/utils/toast'
+import guidePng from '../images/guide.png'
+import shopPng from '../images/shop.png'
+
 export default {
   data () {
     return {
@@ -32,6 +35,8 @@ export default {
       noHaveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingHave.png',
       haveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingNo.png',
       previewVisin: false,
+      previewNoticeVisin: false,
+      noticeImg: '',
       btnLoad: false,
       model: {
         mpFollowState: 0,
@@ -72,6 +77,11 @@ export default {
   methods: {
     handlePreview () {
       this.previewVisin = true
+    },
+    handlePreviewNotice (key) {
+      this.previewNoticeVisin = true
+      if (key === 'guideMsgCfg') this.noticeImg = guidePng
+      if (key === 'shopManageMsgCfg') this.noticeImg = shopPng
     },
     changeState (key, state) {
       // const reset = (val) => {

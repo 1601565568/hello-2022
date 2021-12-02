@@ -49,7 +49,7 @@
             @change="(state) => changeState(item.key, state)"
           >
           </el-switch>
-          <ns-button type="text" class='preview-btn' @click='handlePreview'>预览</ns-button>
+          <ns-button type="text" class='preview-btn' @click='handlePreviewNotice(item.key)'>预览</ns-button>
         </div>
         <div style="margin-left: 26px">
           <div class='step-content' v-show="model[item.key].state">
@@ -73,6 +73,14 @@
       :visible.sync="previewVisin"
       fullscreen>
       <div class='dialog-content' :style='`background-image:url(${showImg})`'>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="招募通知预览"
+      :visible.sync="previewNoticeVisin"
+      width="500px">
+      <div class='notice-dialog-content'>
+        <img v-if="previewNoticeVisin" :src="noticeImg"/>
       </div>
     </el-dialog>
   </div>
@@ -131,5 +139,16 @@ export default Index
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center
+  }
+  .notice-dialog-content {
+    display: flex;
+    justify-content: center;
+    height: 800px;
+    width: 460px;
+  }
+  .notice-dialog-content > img {
+    height: 750px;
+    width: 400px;
+    object-fit: contain;
   }
 </style>
