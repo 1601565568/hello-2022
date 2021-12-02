@@ -348,8 +348,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
     }
@@ -361,8 +361,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
       }
       .video-mask{
         position: absolute;
@@ -448,8 +448,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
     }
@@ -466,8 +466,8 @@ export default {
         width: 23px;
         height: 23px;
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 3px;
+        bottom: 3px;
         z-index: 100;
       }
       .u_app_title{
