@@ -273,7 +273,7 @@
       width='1000px'
       :modal-append-to-body='true' :append-to-body='true'
       :visible.sync="redpackVisible">
-      <StrategiesList v-if='redpackVisible' :chooseItem='chooseItem' ref='strategiesList' :extModel="{remainder:0}"/>
+      <StrategiesList v-if='redpackVisible' :chooseItem='chooseItem' ref='strategiesList' :extModel="{remainder:0,redpackType:1}" :isFormCustomCode='true'/>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="redpackVisible = false">取 消</ns-button>
         <ns-button type="primary" @click="handleSureRedPack">确 定</ns-button>

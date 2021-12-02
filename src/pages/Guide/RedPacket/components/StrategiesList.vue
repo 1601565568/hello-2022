@@ -1,6 +1,7 @@
 <template>
   <div class='strategies-container'>
-    <div class='blue-tip'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
+    <div class='blue-tip' v-if='isFormCustomCode'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的活动发放红包</div>
+    <div class='blue-tip' v-else>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
     <div class='dialog'>
       <div class='dialog-list'>
         <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch">
@@ -29,7 +30,7 @@
           <div class='packet-detail'>剩余个数：{{checkItem.remainder}}个</div>
           <div class='packet-detail' v-if='checkItem.redpackType === normalRed'>单个金额：{{checkItem.money/100 | moneyStr}}元</div>
           <div class='packet-detail' v-else>红包金额：{{checkItem.moneyMin/100 | moneyStr}}-{{checkItem.moneyMax/100 | moneyStr}}元（员工自定义）</div>
-          <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>
+          <div class='packet-detail' v-if='!isFormCustomCode'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>
         </div>
       </div>
     </div>
@@ -72,6 +73,9 @@ export default {
   },
   props: {
     chooseItem: {},
+    isFormCustomCode: {
+      default: false
+    },
     extModel: {
       default () {
         return {}
