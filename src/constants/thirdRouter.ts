@@ -40,6 +40,7 @@ export const thirdRouter:THIRD_ROUTER = {
   '/Social/WeComCustomerOperation/DeleteCustomers': setPortals(),
   '/Social/WeComCustomerOperation/FriendsAnalysis': setPortals(),
   '/Social/OperationData/CircleOfFriends': setPortals(),
+  '/Social/WeComCustomerOperation/LosOfFriends': setPortals(),
   // 通讯录配置 type:isAddress
   '/Marketing/FriendsCircle/OutList': setAddress(),
   '/Marketing/FriendsCircle/List': setAddress(),
