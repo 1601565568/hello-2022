@@ -74,15 +74,15 @@ export default {
       this.previewVisin = true
     },
     changeState (key, state) {
-      const reset = (val) => {
-        for (const col in this.model.guideMsgCfg) {
-          if (col !== 'state') {
-            this.model[key][col] = val
-          }
-        }
-      }
-      if (state === 1) reset(1)
-      if (state === 0) reset(0)
+      // const reset = (val) => {
+      //   for (const col in this.model.guideMsgCfg) {
+      //     if (col !== 'state') {
+      //       this.model[key][col] = val
+      //     }
+      //   }
+      // }
+      // if (state === 1) reset(1)
+      // if (state === 0) reset(0)
     },
     handleSave () {
       this.btnLoad = true
