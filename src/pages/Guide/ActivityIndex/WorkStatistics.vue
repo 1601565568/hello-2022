@@ -299,7 +299,7 @@
       <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
         <template slot="header">
           提成(元)
-          <el-tooltip content="【成单门店为该门店，成单导购为该导购的成单导购提成】+【专属门店为该门店，专属导购为该导购的专属导购提成】">
+          <el-tooltip content="【成单门店为该门店且成单导购为该导购的成单导购提成-退款金额提成】+【专属门店为该门店且专属导购为该导购的专属导购提成-退款金额提成】">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
