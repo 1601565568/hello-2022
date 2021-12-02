@@ -694,6 +694,7 @@ export default {
       this.model.shelfTime = this.model.shelfType === 1 ? '' : this.model.shelfTime
       this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
       const params = { ...this.detail, ...this.model, mType: this.mType }
+      params.name = params.name.replace(/\s+/g, '')
       // 控制图片数量
       params.mediaList = this.mediaList
       let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
