@@ -197,7 +197,6 @@ export default {
         // eslint-disable-next-line camelcase
         checkboxGroup: del_friend_notify.split(',')
       })
-      console.log(this.delGuideNotifyObj, this.delFriendNotifyObj)
     },
     // 提醒设置取消
     formCancel () {
@@ -237,7 +236,6 @@ export default {
       })
     },
     onClickNode () {
-      console.log(this.areaId, 'areaIdareaIdareaId')
     }
   }
 }
