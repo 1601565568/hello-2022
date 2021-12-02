@@ -56,6 +56,7 @@
               <div class="u_desc">{{item.content.desc}}</div>
               <img class="u_link_img" :src='item.content.image || linkImage' alt="">
               <div class="u_line"></div>
+              <img class="u_main-img" src="@/assets/pit-send-img.png"/>
             </div>
             <div v-if="item.type === 4" class="u_appList">
               <!-- <div class="u_t">{{item.content.title}}</div>
@@ -70,7 +71,8 @@
               <div class="u_content">{{item.content.title}}</div>
               <img class="u_app_img" :src='item.content.image' alt="">
               <div class="u_line"></div>
-              <div class="u_bottom"><Icon class="icon" type="xiaochengxushouquan" className="icon"/>小程序</div>
+              <div class="u_bottom"><span class="iconfont icon-xiaochengxu2" style="color:#7586DB;"></span>小程序</div>
+              <img class="u_main-img" src="@/assets/pit-send-img.png"/>
             </div>
         </div>
       </div>
@@ -341,6 +343,7 @@ export default {
         position: absolute;
         right: 5px;
         bottom: 5px;
+        z-index: 100;
       }
     }
     .u_videoList{
@@ -390,6 +393,7 @@ export default {
       border: 1px solid #EEEEEE;
       overflow: auto;
       border-radius: 4px;
+      position: relative;
       .u_t{
         width: 221.26px;
         font-size: 14px;
@@ -433,6 +437,14 @@ export default {
         margin-bottom: 18px;
         background: #EEEEEE;
       }
+      .u_main-img {
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        z-index: 100;
+      }
     }
     .u_appList{
       width: 242px;
@@ -442,6 +454,15 @@ export default {
       border-radius: 4px;
       padding: 0 16px;
       margin-bottom: 12px;
+      position: relative;
+      .u_main-img {
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        z-index: 100;
+      }
       .u_app_title{
         margin-top: 16px;
         height: 20px;
@@ -491,6 +512,8 @@ export default {
         font-size: 12px;
         color: #909399;
         line-height: 20px;
+        display: inline-flex;
+        align-items: center;
         .icon{
           font-size: 10.57px;
           margin-right: 4px;

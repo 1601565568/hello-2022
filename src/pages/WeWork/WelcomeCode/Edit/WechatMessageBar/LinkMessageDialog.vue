@@ -155,7 +155,7 @@
                 placeholder="输入链接地址"
               />
             </div>
-            <div v-if="defaultModel.custom === 2" class="remind-text-view">
+            <div v-if="defaultModel.custom === 2" class="remind-text-view" style="margin-top:4px;">
               以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
               <span style="color:#0094FC;">编辑招募信息&nbsp;&nbsp;</span>
               <span style="color:#0094FC;">刷新</span>

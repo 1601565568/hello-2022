@@ -87,7 +87,7 @@
                 >
                 </el-input>
               </el-form-item>
-              <div style="font-size:12px;color:#8C8C8C;">移入“预览”查看映射关系的完整编译路径</div>
+              <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div>
               <div class="show-path-url-view">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
@@ -209,7 +209,7 @@
               </div> -->
             </div>
           </el-form-item>
-          <el-form-item label="图片" required>
+          <el-form-item label="封面图" required>
             <el-form-item prop="backgroundImage">
               <div class="upload-view">
                 <div class="img-url__logo">
@@ -233,9 +233,9 @@
               上传限制：建议比例1:1，小于2M，jpg、png、jpeg格式
             </div>
           </el-form-item>
-          <el-form-item label="名称" required prop="title">
+          <el-form-item label="显示名称" required prop="title">
             <el-input
-              placeholder="请输入名称，长度在100个字符以内"
+              placeholder="请输入名称，长度在36个字符以内"
               v-model="content.title"
               @input="titleChange"
             />
@@ -386,10 +386,10 @@ export default {
       },
       rules: {
         title: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在100个字符以内' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' },
           { validator: (rule, value, callback) => {
-            if (value.length > 100) {
-              callback(new Error('名称长度在100个字符以内'))
+            if (value.length > 36) {
+              callback(new Error('名称长度在36个字符以内'))
             } else {
               callback()
             }
@@ -1067,7 +1067,7 @@ export default {
   }
 }
 .price-view {
-  margin-top: 16px;
+  margin-top: 10px;
   background: #f5f5f5;
   border-radius: 2px;
   width: 100%;
@@ -1086,7 +1086,7 @@ export default {
 .parameter-view {
   background: #f5f5f5;
   width: 100%;
-  padding: 16px 16px 8px 16px;
+  padding: 16px 16px 16px 16px;
   margin-bottom: 8px;
   font-size: 14px;
   color: #595959;
@@ -1097,7 +1097,7 @@ export default {
     flex-direction: row;
     font-size: 12px;
     cursor: pointer;
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
     .item-view {
       display: inline-block;
       margin-right: 8px;
