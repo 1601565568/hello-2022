@@ -140,7 +140,7 @@ export const DEFAULT_PAGEDECORATION_DATA = {
 }
 // 设置裂变海报
 export const DEFAULT_SETPOSTER_DATA = {
-  backgroundPic: '', // 海报
+  backgroundPic: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/allgrey.jpg', // 海报
   headPortrait: 1, // 用户头像：0无，1有
   headPortraitShape: 1, // 用户头像形状：0圆 1方
   nickColour: '#000000', // 用户昵称字体颜色：十六进制
@@ -159,21 +159,22 @@ export const DEFAULT_SETWELCOMECODE_DATA = {
 }
 // 高级设置
 export const GET_DEFAULT_TAGS_ITEM = (level = 1) => ({ level, tag: '', tagGroupId: '' })
+export const GET_DEFAULT_TAGS = () => ({
+  count: 10,
+  addValidFriendTags: [ GET_DEFAULT_TAGS_ITEM() ],
+  beGuestCodeTags: [ GET_DEFAULT_TAGS_ITEM() ],
+  noStandardTags: [ GET_DEFAULT_TAGS_ITEM() ],
+  standardTags: [ GET_DEFAULT_TAGS_ITEM() ],
+  noReceiveRewardsTags: [ GET_DEFAULT_TAGS_ITEM() ],
+  receiveRewardsTags: [ GET_DEFAULT_TAGS_ITEM() ]
+})
 export const DEFAULT_ADVANCEDSETUP_DATA = {
   distinctType: 0, // 去重方式：0=不去重；1=全局去重；2=活动内去重；
   unfriendDeduction: 0, // 解除好友关系是否扣减好友数：0=不扣减；1扣减
   validIntervalTimeOfStatistical: 0, // 统计的有效间隔时间(统计时效)：0=立即生效；>0 =间隔该时间后生效
   repeatParticipation: 0, // 是否允许重复参与：0=允许；1=不允许
   effectiveCycle: 1,
-  tags: {
-    count: 10,
-    addValidFriendTags: [ GET_DEFAULT_TAGS_ITEM() ],
-    beGuestCodeTags: [ GET_DEFAULT_TAGS_ITEM() ],
-    noStandardTags: [ GET_DEFAULT_TAGS_ITEM() ],
-    standardTags: [ GET_DEFAULT_TAGS_ITEM() ],
-    noReceiveRewardsTags: [ GET_DEFAULT_TAGS_ITEM() ],
-    receiveRewardsTags: [ GET_DEFAULT_TAGS_ITEM() ]
-  }
+  tags: GET_DEFAULT_TAGS()
 }
 
 // 各个模块对应的数组的下标

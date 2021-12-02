@@ -11,10 +11,13 @@
           label-width="16px"
           :rules="rules"
         >
-          <el-collapse v-model="activeNames">
+          <!-- <el-collapse v-model="activeNames" :disabled='true'> -->
             <div class="common-collapse">
               <!-- 配色方案 start-->
-              <el-collapse-item title="配色方案" :name="0">
+              <div title="配色方案" class='itemCode'>
+                <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
+                  <div>配色方案</div>
+                </div>
                 <div class='flex-box flex-start color-box_custom colle-container'>
                   <el-form-item label-width="110px" label="整体配色方案" prop="guideIds">
                     <ColorView v-model="model.showColor" ref="colorView"/>
@@ -22,28 +25,39 @@
                   <el-form-item label-width="130px" label="领取奖励按钮颜色" prop="guideIds">
                     <el-color-picker
                       v-model="model.getBtnColor"
+                      class='costomCode-color'
                     ></el-color-picker>
                   </el-form-item>
                   <el-form-item label-width="110px" label="分享按钮颜色" prop="guideIds">
                     <el-color-picker
                       v-model="model.shareBtnColor"
+                      class='costomCode-color'
                     ></el-color-picker>
                   </el-form-item>
                 </div>
-              </el-collapse-item>
+              </div>
               <!-- 配色方案 end-->
-              <template v-for='(item,index) in model.eidtList'>
-                <el-collapse-item :title="item.itemName" :name="index+1" :key='item.itemCode'>
-                  <template slot="title">
-                    <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
-                      <div>
-                        {{ item.itemName }}
-                      </div>
-                      <div  @click="onclick(item.itemCode,item.status)">
-                        <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward')"></el-switch>
-                      </div>
-                    </div>
-                  </template>
+              <template v-for='item in model.eidtList'>
+                <div :key='item.itemCode' class='itemCode'>
+                  <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
+                    <div>{{ item.itemName }}</div>
+                    <!-- 时间类型为所有时间，按钮禁用 start-->
+                    <template v-if="item.itemCode ==='countdown' && validTimeType === 0">
+                      <el-tooltip :content="item.id==='friend'?inviteFriendTip:item.tip" placement="top" popper-class='popperClass'>
+                        <el-switch active-color="#0091FA" inactive-color="#8C8C8C" :value='false'></el-switch>
+                        <template slot='content'>
+                          活动永久有效，无需显示倒计时
+                        </template>
+                      </el-tooltip>
+                    </template>
+                     <!-- 时间类型为所有时间，按钮禁用 end-->
+                    <template v-else>
+                       <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" ></el-switch>
+                    </template>
+                    <!-- <div @click="(e)=>{handleClickTime(e,item.itemCode)}">
+                      <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward' || validTimeType === 0)"></el-switch>
+                    </div> -->
+                  </div>
                   <!-- 主图模块 start-->
                   <div v-if='item.itemCode === "banner"' class='colle-container'>
                     <el-form-item prop='bannerUrl'>
@@ -65,17 +79,16 @@
                   </div>
                   <!-- 主图模块 end-->
                   <!-- 活动奖品 start-->
-                  <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container'>
-                    <el-tabs v-model="tabAvtive" type="card" @tab-click="handleChangeTab">
+                  <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container customCode-tab'>
+                    <el-tabs v-model="tabAvtive" type="card" @tab-click="handleChangeTab(item.itemCode,item.status)">
                       <template v-for='(item,index) in model.activeInfoList'>
                         <el-tab-pane :key='item.prizeGrade' :label="`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}·${item.recruitment}人`" :name="`tab${item.prizeGrade}`">
                           <div class="goods-input-view">
                             <el-form-item
-                              label="奖品内容"
                               class="larger-item"
-                              label-width="110px"
+                              label-width="0px"
                             >
-                              {{item.prizeType === 1 ? '优惠券':'红包'}}({{item.prizeName}})
+                              <div class='formin-text'>奖品内容：{{item.prizeType === 1 ? '优惠券':'红包'}}({{item.prizeName}})</div>
                             </el-form-item>
                             <el-form-item
                               :prop="'activeInfoList.' + index + '.goodsName'"
@@ -144,11 +157,11 @@
                     >
                       <div class="qrcode-top-view">
                         <el-input class="middle"  v-model="model.virtualFinishedCount" @input='inputNumber'/>
-                        天内未邀请到新的好友，分享二维码将失效，裂变大师可重新下载
+                        人
                       </div>
                       <div class="qrcode-bottom-view">
                         <span class="remind-view"></span>
-                        因企业微信生成联系我二维码数量限制，请合理设置过期时间
+                        填写已完成活动的虚拟人数，营造火爆的场景，以吸引用户参与，完成人数为空或为0时则不显示
                       </div>
                     </el-form-item>
                   </div>
@@ -204,10 +217,10 @@
                     </el-form-item>
                   </div>
                   <!-- 分享按钮模块 end-->
-                </el-collapse-item>
+                </div>
               </template>
             </div>
-          </el-collapse>
+          <!-- </el-collapse> -->
         </el-form>
       </template>
       <template slot="collapse-right">
@@ -280,15 +293,6 @@ export default {
     showDefCard (key, src) {
       this.model[key] = src
     },
-    onclick (itemCode, status) {
-      let event = window.event
-      event.stopPropagation()
-      this.onShowEdit(itemCode, status)
-      if (itemCode === 'countdown' && this.validTimeType === 0) {
-        this.eidtList[MODULE_TO_INDEX_MAP.countdown].status = 0
-        this.$notify.warning('活动永久有效，无需显示倒计时')
-      }
-    },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
       if (itemCode === 'countdown' || itemCode === 'reward') {
@@ -321,8 +325,8 @@ export default {
     /**
      * 切换tab栏
      */
-    handleChangeTab () {
-
+    handleChangeTab (itemCode, status) {
+      this.onShowEdit(itemCode, status)
     },
     /**
      * 根据阶梯设置奖品
@@ -349,15 +353,25 @@ export default {
       this.$emit('changeStepId', 'prev')
     },
     handleSubmit () {
-      this.$refs.pageDecorationForm.validate((valid) => {
+      this.$refs.pageDecorationForm.validate((valid, error) => {
         if (valid) {
           this.$emit('changeData', {
             key: STEP_LIST[2].dataName,
             value: this.model
           })
           this.$emit('changeStepId', 'next')
+        } else {
+          const items = Object.keys(error).find(item => item.indexOf('activeInfoList') > -1)
+          if (items) {
+            this.tabAvtive = `tab${parseInt(items.split('.')[1]) + 1}`
+          }
         }
       })
+    }
+  },
+  watch: {
+    validTimeType (value) {
+      console.log(value)
     }
   },
   mounted () {
@@ -383,17 +397,32 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
 }
-.edit-view {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: space-between;
-  width: 100%;
-}
 .colle-container {
     background: #FBFBFB;
     border-radius: 2px;
     padding: 16px;
+}
+.formin-text {
+  font-size: 14px;
+  color: #303133;
+  line-height: 22px;
+}
+.itemCode {
+  margin-bottom: 16px;
+  .edit-view {
+    height: 48px;
+    background: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+    color: #303133;
+    line-height: 22px;
+    font-weight: 500;
+    padding: 0 16px;
+    border-bottom: 1px solid #E8E8E8;
+  }
 }
 </style>
 <style scoped>
@@ -421,6 +450,11 @@ export default {
   >>> .el-color-picker--medium .el-color-picker__trigger {
     height: 60px;
     width: 60px;
+    border: 2px solid #EEEEEE;
+    padding:6px;
+    .el-color-picker__color-inner{
+      border: 2px solid #979797;
+    }
   }
 }
 .customCode-content_box__PageDecoration {
@@ -432,6 +466,76 @@ export default {
   }
   >>> .w-textarea {
     background-color: #fff;
+  }
+}
+.customCode-tab {
+  >>> .el-tabs__content {
+    background-color: #fff;
+    border: 1px solid #D9D9D9;
+    border-top: none;
+    border-radius: 0px 0px 2px 2px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  >>> .el-tabs--card > .el-tabs__header {
+    border: none;
+    background: transparent;
+  }
+  >>> .el-tabs__nav {
+    border:none;
+  }
+  >>> .el-tabs__nav-scroll {
+    position: relative;
+    &:after {
+      content: ' ';
+      position: absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      border-bottom:1px solid #D9D9D9;
+    }
+  }
+  >>> .el-tabs--card > .el-tabs__header .el-tabs__item {
+    position: relative;
+    border: 1px solid #D9D9D9;
+    &::before {
+      /* position: absolute;
+      height: 2px;
+      left: 0;
+      right: 0;
+      bottom: 0px;
+      border-bottom:1px solid #D9D9D9; */
+      display: none;
+    }
+    &.is-active {
+      border-bottom: none;
+      &::before {
+        display: block;
+        content: ' ';
+        position: absolute;
+        height: 2px;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        border:none;
+        background: #fff;
+      }
+    }
+  }
+  >>> .el-tabs__item {
+    padding: 6px 20px;
+    background: #fff;
+    font-size: 12px;
+    color: rgba(0,0,0,0.65);
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 8px 8px 0 0;
+    margin-right: 4px;
+    &.is-active {
+      font-weight: 600;
+      color: #0094FC;
+    }
   }
 }
 </style>

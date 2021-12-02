@@ -1,5 +1,5 @@
 <template>
-  <Box :noborder='true'>
+  <Box :noborder='true' :col='17'>
     <template slot='collapse-left'>
       <el-form
         label-width="110px"
@@ -221,7 +221,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.data)
     this.model = { ...this.data }
   }
 }

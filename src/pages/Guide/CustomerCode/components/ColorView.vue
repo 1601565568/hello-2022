@@ -270,7 +270,7 @@ export default {
   height: 60px;
   border: 2px solid #EEEEEE;
   border-radius: 4px;
-  margin-right: 16px;
+  /* margin-right: 16px; */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -10,7 +10,7 @@
     </template>
     <template slot='content'>
       <div class='container'>
-        <div class='customecode-step'>
+        <div class='customecode-step antd-step'>
           <el-steps :active="stepId" finish-status="success">
             <template v-for="item in STEP_LIST">
               <el-step :key="item.id" :title="item.name"></el-step>
@@ -192,14 +192,79 @@ export default {
   position: relative;
 }
 .customecode-step {
-  width: 888px;
+  width: 1000px;
   margin: 0px auto 40px;
 }
 .content-box {
   padding-left: 42px;
   height: calc( 100% - 107px );
+  min-width: 1000px;
 }
 .content-div {
   height: 100%;
+}
+</style>
+<style scoped>
+.antd-step {
+  >>> .el-step {
+    position: relative;
+    margin-right: 8px !important;
+    flex-basis: 18% !important;
+    .el-step__icon {
+      height: 32px;
+      width: 32px;
+      &.is-text {
+        border-width: 1px;
+        .el-step__icon-inner {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 400;
+        }
+      }
+    }
+    .el-step__main {
+      position: absolute;
+      top:50%;
+      transform: translate3d(0,-50%,0);
+      left: 32px;
+      .el-step__title {
+        font-size: 16px;
+        line-height:32px;
+        position: relative;
+        top:-2px;
+        padding: 0 8px;
+        background:#fff;
+      }
+    }
+    .el-step__line {
+      top: 50%;
+      margin-top: -0.5px;
+      height: 1px;
+    }
+    .el-step__title {
+      color:  rgba(0,0,0,0.45);
+    }
+   .el-step__head.is-success {
+     color: #0091FA ;
+     border-color:#0091FA ;
+    }
+    .is-success .el-step__line {
+      background: #0091FA ;
+    }
+    .el-step__title.is-success {
+      color: rgba(0,0,0,0.65);
+    }
+    .el-step__title.is-process {
+      font-weight: 500;
+      color: rgba(0,0,0,0.85);
+    }
+    .el-step__head.is-process {
+      color: #fff;
+      border-color:#0091FA ;
+      .el-step__icon {
+        background-color: #0091FA;
+      }
+    }
+  }
 }
 </style>

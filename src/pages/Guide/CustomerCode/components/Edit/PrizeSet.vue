@@ -34,13 +34,13 @@
                 :rules="[
                   {
                     validator: ValidateUtil.checkRankNumber.bind(this, scope.$index),
-                    trigger: ['blur', 'change']
+                    trigger: ['blur']
                   }
                 ]"
               >
                 <el-input-number
                   :disabled="isStating || isEditSetPrize"
-                  style="width:118px;"
+                  style="width:100%"
                   size="medium"
                   v-model="scope.row.recruitment"
                   controls-position="right"
@@ -113,7 +113,7 @@
               <p>{{ scope.row.validNumber }}</p>
             </template></el-table-column
           >
-          <el-table-column type="default" min-width="150"  label="活动奖励总数" :sortable="false">
+          <el-table-column type="default" min-width="100"  label="活动奖励总数" :sortable="false">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -151,7 +151,7 @@
               ></el-form-item>
             </template>
           </el-table-column>
-          <el-table-column type="default" min-width="150"  label="活动剩余数量" :sortable="false" v-if="isEdit">
+          <el-table-column type="default" min-width="100"  label="活动剩余数量" :sortable="false" v-if="isEdit">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -166,7 +166,7 @@
           </el-table-column>
           <el-table-column
             type="default"
-            min-width="150"
+            min-width="100"
             label="追加数量"
             :sortable="false"
             v-if="isStating || isEditSetPrize"
@@ -287,10 +287,10 @@ export default {
   data () {
     // 效验库存设置
     const checkStock = (item, rule, value, callback) => {
-      // if (this.isStating || this.isSetPrize) {
-      //   callback()
-      //   return
-      // }
+      if (this.isEdit) {
+        callback()
+        return
+      }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
         callback(new Error('发放数量不能大于剩余数量'))
       } else if (parseFloat(item.prizeNumber) === 0) {
@@ -430,12 +430,13 @@ export default {
     judgeDuplicatePrizes () {
       const obj = {}
       this.model.prizeRuleList.map(item => {
-        const { prizeId, prizeType, validNumber, prizeNumber } = item
+        const { prizeId, prizeType, validNumber, prizeNumber, addPrizeNumber = 0 } = item
         const key = '' + prizeId + prizeType
+        const num = this.isEdit ? addPrizeNumber : prizeNumber
         if (obj[key]) {
-          obj[key].value = parseInt(obj[key].value) + parseInt(prizeNumber)
+          obj[key].value = parseInt(obj[key].value) + parseInt(num)
         } else {
-          obj[key] = { max: validNumber, value: prizeNumber }
+          obj[key] = { max: validNumber, value: num }
         }
       })
       const objList = Object.values(obj)
@@ -613,7 +614,8 @@ export default {
   }
 }
 .padding-form {
-  padding-right: 42px;
+  padding-right: 22px;
+  min-width: 1123px;
 }
 .border-round {
   border: 1px solid #D9D9D9;

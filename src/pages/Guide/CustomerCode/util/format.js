@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -123,7 +123,7 @@ export const loadingFormat = (model) => {
     validIntervalTimeOfStatistical: model.validIntervalTimeOfStatistical,
     repeatParticipation: model.repeatParticipation,
     effectiveCycle: model.effectiveCycle,
-    tags: model.tags
+    tags: model.tags || GET_DEFAULT_TAGS()
   }
   return { baseInfoData, prizeSetData, pageDecorationData, setPosterData, setWelcomeCodeData, advancedSetupData }
 }

@@ -70,7 +70,12 @@
                     <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
                   </div>
                   <div class="cus-progress-view">
-                    <div class="progress-view-bar" :style="{background:showColor.mainColor}"></div>
+                    <div class="progress-view-bar" :style="{background:showColor.mainColor}">
+                      <template v-for='(prize,prizeIndex) in model.activeInfoList'>
+                        <img :key='prize.prizeGrade' src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/arrived.svg'
+                          class='invite_icon' :style="{left:(prizeIndex+1)/model.activeInfoList.length * 100 +'%'}" />
+                      </template>
+                    </div>
                     <div>
                       <span :style="{color:showColor.mianColor,fontSize:'13px'}">5</span>
                       <span style="color:#8C8C8C;font-size:13px">/5</span>
@@ -452,7 +457,9 @@ export default {
 .goods-view {
   display: flex;
   flex-direction: row;
-  margin-bottom: 25px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #959595;
+  margin-bottom: 16px;
 }
 .goods-title {
   font-size: 14px;
@@ -625,5 +632,16 @@ export default {
   width: 190px;
   height: 8px;
   border-radius: 4px;
+  position: relative;
+}
+.invite_icon {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  margin-left: -10px;
+  top: 50%;
+  margin-top: -10px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
 }
 </style>
