@@ -6,7 +6,7 @@
     "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
     "start": "vue-cli-service serve",
     "start:mock": "cross-env VUE_APP_MOCK=true vue-cli-service serve",
-    "build": "npm run clean:build && node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build",
+    "build": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build",
     "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
