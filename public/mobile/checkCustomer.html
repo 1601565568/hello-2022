@@ -43,9 +43,9 @@
 
     function getCustomerInfo(encryptNascentId) {
       var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-      var url = backstageURL()+'/guideRecruit/getCustomerInfo?guideId=' + recruitInfo.guideId
-        + '&shopId=' + recruitInfo.shopId
-        + '&groupId=' + recruitInfo.groupId
+      var url = backstageURL()+'/guideRecruit/getCustomerInfo?guideId=' + (recruitInfo.guideId == null ? "" : recruitInfo.guideId)
+        + '&shopId=' + (recruitInfo.shopId == null ? "" : recruitInfo.shopId)
+        + '&groupId=' + (recruitInfo.groupId == null ? "" : recruitInfo.groupId)
         + '&scanSource=' + recruitInfo.scanSource
         + '&source=' + recruitInfo.source
         + '&wechatNo=' + (recruitInfo.wechatId == null ? "" : recruitInfo.wechatId)

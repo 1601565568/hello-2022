@@ -29,7 +29,6 @@
                   :label="tagValueItem.tagId"
                   @change="(flag) => chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId, flag)"
                 >
-                  <!-- :disabled="tagGroupIds.length >= max && tagGroupIds.indexOf(tagGroupItem.tagGroupId) < 0" -->
                   {{tagValueItem.tagName}}
                 </el-checkbox>
               </el-checkbox-group>
@@ -138,6 +137,7 @@ export default {
     async open () {
       this.loading = true
       this.closing = false
+      this.searchTagGroupName = ''
       await this.getTagList()
       if (this.selectedTags) {
         // 初始化已选中标签
@@ -173,7 +173,6 @@ export default {
     },
     close () {
       this.closing = true
-      this.searchTagGroupName = ''
       this.showList = []
       this.searchList = []
       this.checkList = []
