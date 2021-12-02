@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const packageConfig = require('./package.json')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, './', dir)
@@ -12,7 +13,25 @@ require('@nascent/ecrp-ecrm/build/setAppInfo')
 module.exports = {
   publicPath: process.env.PUBLIC_PATH,
   productionSourceMap: false,
-  configureWebpack: { devtool: process.env.NODE_ENV === 'development' ? 'source-map' : false },
+  configureWebpack: config => {
+    const existingForkTsChecker = config.plugins.filter(
+      p => p instanceof ForkTsCheckerWebpackPlugin
+    )[0]
+
+    // remove the existing ForkTsCheckerWebpackPlugin
+    // so that we can replace it with our modified version
+    config.plugins = config.plugins.filter(
+      p => !(p instanceof ForkTsCheckerWebpackPlugin)
+    )
+    config.devtool = process.env.NODE_ENV === 'development' ? 'source-map' : false
+    // copy the options from the original ForkTsCheckerWebpackPlugin
+    // instance and add the memoryLimit property
+    const forkTsCheckerOptions = existingForkTsChecker.options
+
+    forkTsCheckerOptions.memoryLimit = 4096
+
+    config.plugins.push(new ForkTsCheckerWebpackPlugin(forkTsCheckerOptions))
+  },
   transpileDependencies: [resolve('node_modules/@nascent/ecrp-ecrm/src')],
   chainWebpack: config => {
     config.resolve.alias
