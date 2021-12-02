@@ -89,6 +89,7 @@
             :list.sync="mediaList"
             @edit="editAnnexMessage"
             @delete="deleteAnnexMessage"
+            :isUploading.sync="isUploading"
           />
           <el-popover
             placement="top-start"
@@ -336,7 +337,8 @@ export default {
       limitIndex: 0,
       pitTitle: '',
       pitContent: '',
-      showMiniCode: false
+      showMiniCode: false,
+      isUploading: false
     }
   },
   computed: {
@@ -419,11 +421,13 @@ export default {
   methods: {
     uploadProgress (data) {
       if (data) {
-        const deleteData = sessionStorage.getItem(data.content.uid)
-        if (deleteData) {
-          return
-        }
-        // 根据uid判断是否存在
+        const percent = data.content.percent
+        this.isUploading = percent !== '100.00'
+        // const deleteData = sessionStorage.getItem(data.content.uid)
+        // if (deleteData) {
+        //   return
+        // }
+        // // 根据uid判断是否存在
         let isLargeNumber = (item) => item.content.uid === data.content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
         if (findEditIndex === -1) {
@@ -494,45 +498,64 @@ export default {
       this.showEidtImg = ''
     },
     deleteAnnexMessage (context) {
-      if (context.type === 2 && Number(context.content.percent) < 100) {
-        sessionStorage.setItem(context.content.uid, context.content.uid)
-      }
-      // this.model.mediaList.splice(context.index, 1)
+      // if (context.type === 2 && Number(context.content.percent) < 100) {
+      //   sessionStorage.setItem(context.content.uid, context.content.uid)
+      // }
+      this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
-      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
-      let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-      if (findEditIndex > -1) {
-        this.$notify.warning('视频资源上传中， 请稍等')
-      } else {
-        this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
-      }
+      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      // let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      // let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+      // if (findEditIndex > -1) {
+      //   this.$notify.warning('视频资源上传中，请稍等')
+      // } else {
+      //   this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+      // }
+      // this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
       const { index, content, type, isDelete } = context
       const deleteData = sessionStorage.getItem(content.uid)
-      if (deleteData && type === 2) {
-        sessionStorage.removeItem(content.uid)
-        return
-      }
+      // if (deleteData && type === 2) {
+      //   sessionStorage.removeItem(content.uid)
+      //   return
+      // }
+      // if (content.uid) {
+      //   let isLargeNumber = (item) => item.content.uid === content.uid
+      //   let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+      //   if (findEditIndex > -1) {
+      //     this.$set(this.model.mediaList, findEditIndex, context)
+      //   }
+      // } else {
+      //   // if (index > -1) {
+      //   //   // 编辑消息
+      //   //   this.$set(this.model.mediaList, index, context)
+      //   // } else {
+      //   // 新增消息
+      //   if (this.model.mediaList.length < 9) {
+      //     this.model.mediaList.push(context)
+      //   } else {
+      //     this.$notify.error('附件已达上限（9个），不能再添加')
+      //   }
+      //   // }
+      // }
       if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
         if (findEditIndex > -1) {
           this.$set(this.model.mediaList, findEditIndex, context)
         }
+      } else if (index > -1) {
+        // 编辑消息
+        this.$set(this.model.mediaList, index, context)
       } else {
-        // if (index > -1) {
-        //   // 编辑消息
-        //   this.$set(this.model.mediaList, index, context)
-        // } else {
         // 新增消息
         if (this.model.mediaList.length < 9) {
           this.model.mediaList.push(context)
         } else {
           this.$notify.error('附件已达上限（9个），不能再添加')
         }
-        // }
       }
     },
     editImage (index) {

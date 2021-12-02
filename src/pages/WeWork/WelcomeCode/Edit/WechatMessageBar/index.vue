@@ -19,7 +19,7 @@
       </ImageMessage>
     </div>
     <div v-if="pitBit" class="add-material-item" @click="showImageCode">
-      <i class="iconfont icon-fumatupian icon" style="font-size:30px;"></i>
+      <i class="iconfont icon-fumatupian-copy icon" style="font-size:40px;"></i>
       <span class="item-tip">附码图片</span>
     </div>
     <div class="add-material-item">
@@ -241,6 +241,9 @@ export default {
         case tType.Pitbit:
           this.pitbitMsg = context
           this.visiblePitbitMessageDialog = true
+          break
+        case tType.ImageCode:
+          this.$refs.imagecode.showImageCode(context)
           break
         default:
           break
