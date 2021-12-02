@@ -24,7 +24,8 @@ export default {
   watch: {
     areaIds: {
       handler (newVal) {
-        this.areaId = newVal
+        // this.areaId = newVal
+        this.model.areaId = newVal
         this.init()
       },
       deep: true
@@ -37,7 +38,6 @@ export default {
       searchEventType: '', // 事件
       // 员工组建 员工值
       guideIds: [],
-      areaId: this.areaId,
       // 'timeStart': '',
       // 'timeEnd': '',
       'startTime': moment()
@@ -49,7 +49,6 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
-      areaId: '',
       pickerOptions1: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime()) {
