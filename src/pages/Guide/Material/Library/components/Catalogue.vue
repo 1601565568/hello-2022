@@ -64,7 +64,7 @@
           >
             <div class="catalogue-materials__item--info">
               <div
-                class="catalogue-materials__item--title catalogue-ellipsis"
+                class="catalogue-materials__item--title catalogue-ellipsis2"
                 :title="item.name"
                 v-html="strToRichText(item.name)"
               >
