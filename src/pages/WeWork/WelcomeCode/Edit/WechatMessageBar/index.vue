@@ -242,6 +242,9 @@ export default {
           this.pitbitMsg = context
           this.visiblePitbitMessageDialog = true
           break
+        case tType.ImageCode:
+          this.$refs.imagecode.showImageCode(context)
+          break
         default:
           break
       }

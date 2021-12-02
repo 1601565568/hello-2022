@@ -423,8 +423,6 @@ export default {
       if (data) {
         const percent = data.content.percent
         this.isUploading = percent !== '100.00'
-        console.log(data)
-        console.log(this.isUploading)
         // const deleteData = sessionStorage.getItem(data.content.uid)
         // if (deleteData) {
         //   return
@@ -500,10 +498,10 @@ export default {
       this.showEidtImg = ''
     },
     deleteAnnexMessage (context) {
-      if (context.type === 2 && Number(context.content.percent) < 100) {
-        sessionStorage.setItem(context.content.uid, context.content.uid)
-      }
-      // this.model.mediaList.splice(context.index, 1)
+      // if (context.type === 2 && Number(context.content.percent) < 100) {
+      //   sessionStorage.setItem(context.content.uid, context.content.uid)
+      // }
+      this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)

@@ -555,9 +555,13 @@ export default {
       this.content.priceStatus = cacheObj.priceStatus
       this.content.originalPriceStatus = cacheObj.originalPriceStatus
     },
-    showImageCode () {
+    showImageCode (item) {
       this.visible = true
       this.loadAppIds()
+      if (item) {
+        this.content = { ...item.content }
+        // console.log(item.content)
+      }
       // if (this.miniList.length > 0) {
       //   this.content.appid = this.miniList[0].appid
       // }
