@@ -47,8 +47,12 @@
         <!-- </view> -->
       </div>
       <div class="message-operate">
-        <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">编辑</ns-button>
-        <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)" :disabled="isUploading">删除</ns-button>
+        <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">
+          <span class="iconfont icon-zidingyibeifen" style="font-size:20px;"></span>
+        </ns-button>
+        <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)" :disabled="isUploading">
+          <span class="iconfont icon-ns-delete1" style="font-size:24px;"></span>
+        </ns-button>
       </div>
       <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="2" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
     </li>
@@ -178,10 +182,9 @@ export default {
       .icon {
         font-size: 20px;
         margin-left: 9px;
-        margin-right: 5px;
+        margin-right: 0px;
       }
       span {
-        margin-left: 5px;
         line-height: 20px;
         height: 20px;
         display: inline-block;
@@ -189,6 +192,8 @@ export default {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        text-align: left;
+        margin-left: 5px;
       }
     }
 
@@ -209,6 +214,8 @@ export default {
     .message-operate {
       margin-left: 67px;
       width: 128px;
+      display: inline-flex;
+      align-items: center;
     }
     .progress {
       position: absolute;
