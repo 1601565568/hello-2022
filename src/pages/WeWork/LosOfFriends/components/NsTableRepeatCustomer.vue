@@ -8,58 +8,16 @@
 <template>
   <ns-page-table ref="mainTable"
     ><!-- :colButton="10" -->
-      <template slot="buttons">
+      <!-- <template slot="buttons" style="margin-bottom: 0; border-radius: 0; margin-bottom: 12px">
         <ns-button @click="openFile">导出文件</ns-button>
         <ns-button @click="() => {this.$emit('Reminder')}" type="primary">提醒设置</ns-button>
-      </template>
-    <!-- 简单搜索 -->
-    <!-- el-form 需添加 @submit.native.prevent 配置 -->
-    <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
-    <template slot="searchSearch">
+      </template> -->
+    <template slot="advancedSearch">
       <el-form
-        @submit.native.prevent
-        :model="quickSearchModel"
-        class="pull-right"
-        :inline="true"
-      >
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input
-            ref="quickText"
-            v-model="model.searchGName"
-            placeholder="请输入导购/群名"
-            style="width: 180px"
-            clearable
-          />
-          <!--  -->
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn"
-            >搜索</ns-button
-          >
-          <ns-button @click="$resetInputAction$();" class="resetbtn"
-            >重置</ns-button
-          >
-        </el-form-item>
-        <el-form-item>
-          <ns-button type="text" @click.native.prevent="$handleTabClick">
-            {{ collapseText }}
-            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'" />
-          </ns-button>
-        </el-form-item>
-      </el-form>
-    </template>
-
-    <!-- 高级搜索 -->
-    <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
-    <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-    <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form
-        ref="table_filter_form"
         :model="model"
-        label-width="60px"
         :inline="true"
-        @submit.native.prevent
       >
         <el-form-item label="时间：">
-          <el-form-grid size="xlg">
             <!-- <el-date-picker
               v-model="model.timeRange"
               type="datetimerange"
@@ -70,6 +28,7 @@
               @change="changeTime"
               align="right">
             </el-date-picker> -->
+            <div class="date-view">
               <el-date-picker
                   v-model="datePickerValue"
                   value-format="yyyy-MM-dd"
@@ -82,9 +41,9 @@
                   @change='datePickerChange'
                 >
               </el-date-picker>
-          </el-form-grid>
+            </div>
         </el-form-item>
-        <el-form-item label="员工：">
+        <el-form-item label="员工：" style="margin-left: 16px">
           <div class="template-search__box">
             <span v-if="model.guideIds && model.guideIds.length>0">
                 已选择{{model.guideIds.length}}个
@@ -105,8 +64,8 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="事件：">
-          <el-form-grid>
+        <el-form-item label="事件：" style="margin-left: 16px">
+          <div class="item-select">
             <el-select
               clearable
               v-model="model.searchEventType"
@@ -121,44 +80,48 @@
               >
               </el-option>
             </el-select>
-          </el-form-grid>
+          </div>
         </el-form-item>
-        <el-form-item label="">
-          <el-form-grid>
+        <el-form-item  style="margin-left: 16px">
+          <div class="item-input">
             <el-input
               autofocus="true"
               v-model.trim="model.searchGName"
               placeholder="请输入导购/群名"
               clearable
             ></el-input>
-          </el-form-grid>
+          </div>
         </el-form-item>
+        <div class="template-table__more-btn">
+          <ns-button type="primary" @click.native.prevent="searchAction">搜索</ns-button>
+          <ns-button @click.native.prevent="resetInputAction">重置</ns-button>
+        </div>
+        <ns-button @click="() => {this.$emit('Reminder')}" class="dri_t">提醒设置</ns-button>
+        <ns-button @click="openFile" class="dri_t ari">导出文件</ns-button>
       </el-form>
-      <div class="template-table__more-btn">
-        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{
-          $t("operating.search")
-        }}</ns-button>
-        <ns-button @click.native.prevent="$resetInputAction$()">{{
-          $t("operating.reset")
-        }}</ns-button>
-      </div>
     </template>
 
     <template slot="table">
       <el-table
-        ref="table"
-        :data="_data._table.data"
-        stripe
-        v-loading.lock="_data._table.loadingtable"
-        :element-loading-text="$t('prompt.loading')"
-        @sort-change="onSortChange"
+        :data="dataList"
+        :header-cell-style="{background:'#f5f5f5'}"
+        class="table_time"
       >
-        <el-table-column prop="created" label="好友流失时间" align="left" :sortable="false">
+        <el-table-column prop="created" label="好友流失时间" align="left">
         </el-table-column>
-        <el-table-column prop="shopName" label="员工所属门店" align="center">
-          <!-- <template slot-scope="scope">
-            {{ scope.row.name }}
-          </template> -->
+        <el-table-column label="员工所属门店" align="center">
+          <template slot-scope="scope">
+            <el-tooltip
+              placement="top-start"
+              :enterable="true"
+              popper-class="table-body__tooltip"
+            >
+              <div slot="content">{{ scope.row.shopName  || '-' }}</div>
+              <span class="shop_name">{{
+                scope.row.shopName || '-'
+              }}</span>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column label="员工/群名" prop="gName" align="center">
         </el-table-column>
@@ -171,15 +134,14 @@
     <!-- 分页 -->
     <template slot="pagination">
       <el-pagination
-        v-if="_data._pagination.enable"
         class="template-table-pagination"
-        :page-sizes="_data._pagination.sizeOpts"
-        :total="_data._pagination.total"
-        :current-page.sync="_data._pagination.page"
-        :page-size="_data._pagination.size"
+        :page-sizes="pageSizes"
+        :total="total"
+        :current-page.sync="page"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        @size-change="$sizeChange$"
-        @current-change="$pageChange$"
+        @size-change="sizeChange"
+        @current-change="pageChange"
       >
       </el-pagination>
     </template>
@@ -196,11 +158,44 @@ export default NsTableRepeatCustomer
 </script>
 <style scoped>
 @import "@theme/variables.pcss";
+@import './styles/index.css';
 
+>>> .el-form-item__label{
+  line-height: 32px;
+}
+>>> .template-table__bar{
+  box-shadow: none;
+  margin-bottom: 0;
+  border-radius: 0;
+  padding: 16px 16px 8px 16px;
+}
+>>> .table_time{
+  padding: 0 16px;
+  padding-top: 12px;
+}
 .scope_row_count {
   color: blue;
 }
-
+.dri_t{
+  margin-top: 4px;
+  float: right;
+  width: 88px;
+  height: 32px;
+  line-height: 32px;
+  background: #0094FC;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #FFFFFF;
+}
+.ari{
+  margin-right: 16px;
+  width: 88px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  font-size: 14px;
+  color: #595959;
+}
 .tips {
   color: var(--theme-color-danger);
 }
@@ -214,11 +209,29 @@ export default NsTableRepeatCustomer
 >>> .el-dropdown-link {
   margin-left: 5px !important;
 }
+>>> .template-search__chooes{
+  height: 32px;
+  line-height: 32px;
+}
 .searchbtn {
   margin-left: 11px;
 }
 .resetbtn {
   margin-left: var(--default-margin-larger);
+}
+.template-table__more-btn{
+  display: inline-block;
+  vertical-align: middle;
+}
+.shop_name{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
 }
 .day-view {
   display: inline-block;
@@ -269,7 +282,7 @@ export default NsTableRepeatCustomer
 }
 .template-search__box {
   width: 182px;
-  height: 28px;
+  height: 32px;
   background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 3px;
@@ -278,7 +291,7 @@ export default NsTableRepeatCustomer
 }
 .template-search__box span {
   width: 141px;
-  height: 27px;
+  height: 31px;
   margin-left: 10px;
   border-right: 1px solid #dcdfe6;
 }

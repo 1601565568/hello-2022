@@ -60,7 +60,7 @@
                 </el-checkbox-group>
                 <div class="swich_open">
                   <span v-if="delFriendNotifyObj.delFriendRunType == 0" class="txt">提醒时间</span>
-                  <el-form-item v-if="delFriendNotifyObj.delFriendRunType == 2" class="txt" prop="delFriendSendTime">提醒时间</el-form-item>
+                  <el-form-item v-if="delFriendNotifyObj.delFriendRunType == 1" class="txt" prop="delFriendSendTime">提醒时间</el-form-item>
                   <el-radio v-model="delFriendNotifyObj.delFriendRunType" label="0">实时提醒</el-radio>
                   <el-radio v-model="delFriendNotifyObj.delFriendRunType" label="1">固定时间提醒</el-radio>
                 </div>
@@ -95,7 +95,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="formCancel">取消</ns-button>
+        <ns-button @click="formCancel" style="margin-right: 16px">取消</ns-button>
         <ns-button type="primary" @click="formSave('ruleForm')">保存</ns-button>
       </span>
     </el-dialog>
@@ -115,6 +115,16 @@ export default {
     AreaTree
   },
   data () {
+    let validatePass2 = (rule, value, callback) => {
+      console.log(value, '7899')
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       id: '', // 如果是详情就有id
       areaId: '',
@@ -213,7 +223,6 @@ export default {
         delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
         delChatSendTime: fnTime(del_chat_send_time) // 好友退群时间设置
       })
-
       // 被删好友数据
       Object.assign(this.delGuideNotifyObj, {
         delGuideRunType: String(del_guide_run_type),
@@ -242,10 +251,10 @@ export default {
         id: this.id || null,
         delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : null, // 删除好友 通知店长
         delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : null, // 删除好友 提醒时间 0提醒 1固定时间
-        delGuideSendTime: delGuideNotify ? '2099-01-01 ' + delGuideSendTime : '', // 被删好友时间设置（固定时间）
+        delGuideSendTime: delGuideNotify ? (+delGuideRunType === 1 ? '2099-01-01 ' + delGuideSendTime : '') : '', // 被删好友时间设置（固定时间）
         delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : null, // 删除好友 通知店长
         delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : null, // 删除好友 提醒时间
-        delFriendSendTime: delFriendNotify ? '2099-01-01 ' + delFriendSendTime : '', // 被删好友时间设置（固定时间）
+        delFriendSendTime: delFriendNotify ? (+delFriendRunType === 1 ? '2099-01-01 ' + delFriendSendTime : '') : '', // 被删好友时间设置（固定时间）
         delChatNotify: delChatRunType ? 2 : '', // 退群写死
         delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : null,
         delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : ''
@@ -273,6 +282,20 @@ export default {
 .box{
   display: flex;
 }
+.losOfriend{
+  border-radius: 4px;
+}
+>>> .el-switch.is-checked .el-switch__core{
+  border-color: #0091FA;;
+  background-color: #0091FA;;
+}
+>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091fa;
+  background: #0091fa;
+}
+>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #303133;
+}
   .template-page__row-left {
     position: relative;
     height: 100vh;
@@ -286,6 +309,9 @@ export default {
   margin-top: 20px;
   .el-form-item{
     margin-bottom: 18px;
+    &:first-child{
+      margin-bottom:0px;
+    }
   }
 }
 .dialog-title{
@@ -352,7 +378,7 @@ export default {
   }
   .v_t{
     margin-left: 92px;
-    margin-top: 4px;
+    margin-top: 8px;
   }
   .swich_open{
     margin-top: 12px;
