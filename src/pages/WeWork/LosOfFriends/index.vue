@@ -115,16 +115,6 @@ export default {
     AreaTree
   },
   data () {
-    let validatePass2 = (rule, value, callback) => {
-      console.log(value, '7899')
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
     return {
       id: '', // 如果是详情就有id
       areaId: '',
