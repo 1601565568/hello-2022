@@ -1,10 +1,10 @@
 <template>
   <el-row :class='`collapse-content ${showBottom?"border-b":""}`'>
-    <el-col :span='16' class='collapse-left'>
+    <el-col :span='col' class='collapse-left'>
       <h3 class='collapse-title' v-if='title'>{{title}}</h3>
       <slot name='collapse-left'></slot>
     </el-col>
-    <el-col :span='8' :class='`collapse-right ${!phoneTitle?"no-top":""} ${noborder?"noborder":""}`'>
+    <el-col :span='24-col' :class='`collapse-right ${!phoneTitle?"no-top":""} ${noborder?"noborder":""}`'>
       <slot name='collapse-right'></slot>
     </el-col>
   </el-row>
@@ -18,6 +18,10 @@ export default {
     }
   },
   props: {
+    col: {
+      type: Number,
+      default: 16
+    },
     title: {
       type: String
     },

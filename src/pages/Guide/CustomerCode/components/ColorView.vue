@@ -1,28 +1,17 @@
 <template>
-  <div class="item-view">
-    <el-form
-      label-width="110px"
-      label-position="left"
-      size="medium"
-      class="normal-from">
-      <el-form-item
-        label="选择配色方案"
-        class="larger-item"
-      >
-      <div class="color-view">
-        <div class="color-sel">
-          <div class="color-sel-base" @click="getMoreColor">
-            <div class="color-sel-base-cont">
-              <div :style="{background:showColor.mainColor}" class="color-base"></div>
-              <div :style="{background:showColor.bgColor}" class="color-base"></div>
-              <div :style="{background:showColor.strColor}" class="color-base"></div>
-            </div>
-            <span class="iconfont icon-ns-arrow-down select-color-icon"></span>
+  <div>
+    <div class="color-view">
+      <div class="color-sel">
+        <div class="color-sel-base" @click="getMoreColor">
+          <div class="color-sel-base-cont">
+            <div :style="{background:showColor.mainColor}" class="color-base"></div>
+            <div :style="{background:showColor.bgColor}" class="color-base"></div>
+            <div :style="{background:showColor.strColor}" class="color-base"></div>
           </div>
+          <span class="iconfont icon-ns-arrow-down select-color-icon"></span>
         </div>
       </div>
-      </el-form-item>
-    </el-form>
+    </div>
     <el-dialog
       title="选择配色方案"
       :visible.sync="dialogVisible"
@@ -281,7 +270,7 @@ export default {
   height: 60px;
   border: 2px solid #EEEEEE;
   border-radius: 4px;
-  margin-right: 16px;
+  /* margin-right: 16px; */
   display: flex;
   align-items: center;
   justify-content: center;
