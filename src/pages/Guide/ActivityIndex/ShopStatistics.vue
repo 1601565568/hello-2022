@@ -389,7 +389,7 @@
           <div>订单发生退款时，则扣减对应的成单导购提成和专属导购提成</div>
         </div>
         <div class="select-data-view">
-          <el-tabs v-model="activeName">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="订单信息" name="first">
               <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
@@ -458,7 +458,7 @@
                 </el-form-item>
                 <el-form-grid size="xmd" width="240">
                   <el-form-item label="退款编号：">
-                    <el-input  type="text" v-model="tradeNo">
+                    <el-input  type="text" v-model="outRefundId">
                     </el-input>
                   </el-form-item>
                 </el-form-grid>
@@ -477,7 +477,7 @@
                       <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="tradeId" label="退款编号" width="160"></el-table-column>
+                  <el-table-column prop="outRefundId" label="退款编号" width="160"></el-table-column>
                   <el-table-column prop="payment" label="订单实付(含运费)" width="130">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.payment}}
@@ -658,7 +658,8 @@ export default {
       tradeNo: null,
       shopId: null,
       type: null,
-      pagination1: pagination1
+      pagination1: pagination1,
+      outRefundId: null
     }
   },
   created: function () {
@@ -672,6 +673,14 @@ export default {
     this.loadListFun()
   },
   methods: {
+    handleClick (tab, event) {
+      if (tab.name === 'first') {
+        this.outRefundId = null
+      } else {
+        this.tradeNo = null
+      }
+      this.formSearch()
+    },
     handleDateChange () {
       this.searchform.date = ''
     },
@@ -800,6 +809,7 @@ export default {
     formReset () {
       this.customerName = null
       this.tradeNo = null
+      this.outRefundId = null
       this.friendWxnick = null
       this.findDetailData(this.shopId)
     },
@@ -815,6 +825,7 @@ export default {
           'YYYY-MM'
         )
       }
+      const negative = this.activeName === 'first' ? 0 : 1
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
         length: _this.pagination1.size,
@@ -825,7 +836,9 @@ export default {
           friendWxnick: _this.friendWxnick,
           type: this.searchform.type,
           rewardType: _this.type,
-          date: _this.searchObj.searchMap.date
+          date: _this.searchObj.searchMap.date,
+          negative,
+          outRefundId: _this.outRefundId
         }
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {
