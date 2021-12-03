@@ -123,9 +123,12 @@ export default {
       this.getList()
     },
     async getList () {
+      let maps = Object.assign({}, this.model)
+      maps.startTime = maps.startTime + ' 00:00:00'
+      maps.endTime = maps.endTime + ' 23:59:59'
       let params = {
         length: this.pageSize,
-        searchMap: this.model,
+        searchMap: maps,
         start: (this.page - 1) * this.pageSize
       }
       let { result } = await this.$http.fetch(this.$api.weWork.weWorkCustomer.queryLossFriendsList, params)
@@ -237,12 +240,13 @@ export default {
         })
         return false
       }
-      this.model['areaId'] = this.areaIds
       let maps = Object.assign({}, this.model)
+      maps.startTime = maps.startTime + ' 00:00:00'
+      maps.endTime = maps.endTime + ' 23:59:59'
       const parms = {
-        length: this._data._pagination.size,
+        length: this.pageSize,
         searchMap: maps,
-        start: (this._data._pagination.page - 1) * this._data._pagination.size
+        start: (this.page - 1) * this.pageSize
       }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
