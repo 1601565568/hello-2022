@@ -670,7 +670,7 @@ export default {
         xAxis: [
           {
             axisLine: {
-              show: false
+              onZero: true
             },
             axisTick: {
               show: false
@@ -717,8 +717,7 @@ export default {
           },
           {
             itemStyle: {
-              borderWidth: 1,
-              barBorderRadius: [30, 30, 0, 0]
+              borderWidth: 1
             },
             barWidth: 16,
             name: '新加好友奖励',
@@ -947,15 +946,15 @@ export default {
             })
             that.isRewardDate = true
             that.rewardOption.series[0].data = sellRewardArr.map((value, index) => {
-              let barBorderRadius = +recruitRewardArr[index] || +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
+              let barBorderRadius = +recruitRewardArr[index] || +addFriendArr[index] ? [0, 0, 0, 0] : [0, 0, 0, 0]
               return { value, itemStyle: { barBorderRadius } }
             })
             that.rewardOption.series[1].data = recruitRewardArr.map((value, index) => {
-              let barBorderRadius = +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
+              let barBorderRadius = +addFriendArr[index] ? [0, 0, 0, 0] : [0, 0, 0, 0]
               return { value, itemStyle: { barBorderRadius } }
             })
             that.rewardOption.series[2].data = addFriendArr.map(value => {
-              return { value, itemStyle: { barBorderRadius: [30, 30, 0, 0] } }
+              return { value, itemStyle: { barBorderRadius: [0, 0, 0, 0] } }
             })
           }
         })
