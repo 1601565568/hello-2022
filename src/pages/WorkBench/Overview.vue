@@ -36,7 +36,7 @@
             <div class="overview-content__item-left">
               <p class="text-secondary">
                 <span>销售金额 </span>
-                <el-tooltip content="销售额=订单总额-退款总额（订单总额为全渠道订单中成单、提货、发货门店为所选门店，且所有交易成功的订单）">
+                <el-tooltip content="销售额=订单总额-退款总额（订单总额为全渠道交易成功的订单的下单、提货、发货门店为所选门店）">
                   <Icon type="question-circle"></Icon>
                 </el-tooltip>
               </p>
