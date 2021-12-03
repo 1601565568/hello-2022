@@ -227,7 +227,7 @@
         <div class='swicth-item'>
           <span>允许奖品叠加领取</span>
           <template v-if='model.prizeRuleList && model.prizeRuleList.length > 1'>
-            <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
+            <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0' :disabled="isStating"/>
           </template>
           <template v-else>
             <el-switch :value='false' :disabled='true' />
@@ -251,7 +251,7 @@
       <el-form-item v-if='model.isOpnePrize'>
         <div class='swicth-item'>
           <span>仅会员可领取奖励</span>
-          <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0'/>
+          <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
         </div>
         <div class="qrcode-bottom-view">
           <span class="remind-view"></span>
