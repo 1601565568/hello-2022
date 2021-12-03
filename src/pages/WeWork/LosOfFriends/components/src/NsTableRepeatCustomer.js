@@ -11,7 +11,7 @@ import moment from 'moment'
 
 export default {
   name: 'NsTableWelcomeCode',
-  mixins: [tableMixin],
+  // mixins: [tableMixin],
   props: {
     // 图片类型 需要大写
     areaIds: {
@@ -24,15 +24,14 @@ export default {
   watch: {
     areaIds: {
       handler (newVal) {
-        // this.areaId = newVal
-        this.model.areaId = newVal
+        Object.assign(this.model, { areaId: newVal })
         this.init()
       },
       deep: true
     }
   },
   data: function () {
-    let quickSearchModel = {}
+    // let quickSearchModel = {}
     let searchModel = {
       'searchGName': '',
       searchEventType: '', // 事件
@@ -47,8 +46,12 @@ export default {
         .subtract('days', 0)
         .format('YYYY-MM-DD')
     }
-    let model = Object.assign({}, searchModel)
+    // let model = Object.assign({}, searchModel)
     return {
+      pageSizes: [15, 30, 45, 60, 75],
+      pageSize: 15,
+      total: 0,
+      page: 1,
       pickerOptions1: {
         disabledDate (time) {
           if (new Date(time).getTime() > new Date().getTime()) {
@@ -84,12 +87,27 @@ export default {
       lart30: '',
       // 附带内容类型
       annexType: annexType,
-      url: this.$api.weWork.weWorkCustomer.queryLossFriendsList,
-      model: model,
-      quickSearchModel: quickSearchModel,
-      _table: {
-        loadingtable: false
+      dataList: [],
+      // url: this.$api.weWork.weWorkCustomer.queryLossFriendsList,
+      model: {
+        areaId: this.areaIds,
+        'searchGName': '',
+        searchEventType: '', // 事件
+        // 员工组建 员工值
+        guideIds: [],
+        // 'timeStart': '',
+        // 'timeEnd': '',
+        'startTime': moment()
+          .subtract('days', 30)
+          .format('YYYY-MM-DD'),
+        'endTime': moment()
+          .subtract('days', 0)
+          .format('YYYY-MM-DD')
       }
+      // quickSearchModel: quickSearchModel,
+      // _table: {
+      //   loadingtable: false
+      // }
     }
   },
   mounted () {
@@ -101,7 +119,55 @@ export default {
     async init () {
       await this.dealTime()
       await this.dealInitTime()
-      this.$reload()
+      // this.$reload()
+      this.getList()
+    },
+    async getList () {
+      let params = {
+        length: this.pageSize,
+        searchMap: this.model,
+        start: (this.page - 1) * this.pageSize
+      }
+      let { result } = await this.$http.fetch(this.$api.weWork.weWorkCustomer.queryLossFriendsList, params)
+      if (!result) return
+      this.dataList = result.data || []
+      this.total = +result.recordsTotal
+    },
+    // sous
+    searchAction () {
+      this.init()
+    },
+    // 重置
+    resetInputAction () {
+      this.page = 1
+      this.pageSize = 15
+      this.model = {
+        areaId: this.areaIds,
+        'searchGName': '',
+        searchEventType: '', // 事件
+        // 员工组建 员工值
+        guideIds: [],
+        // 'timeStart': '',
+        // 'timeEnd': '',
+        'startTime': moment()
+          .subtract('days', 30)
+          .format('YYYY-MM-DD'),
+        'endTime': moment()
+          .subtract('days', 0)
+          .format('YYYY-MM-DD')
+      }
+      this.init()
+    },
+    // 每页条数
+    sizeChange (val) {
+      this.page = 1
+      this.pageSize = val
+      this.init()
+    },
+    // 翻页
+    pageChange (val) {
+      this.page = val
+      this.init()
     },
     dealTime () {
       this.today = moment()
@@ -125,11 +191,11 @@ export default {
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
      */
-    onSortChange (val) {
-      this.model.orderKey = val.prop
-      this.model.order = val.order
-      this.$searchAction$()
-    },
+    // onSortChange (val) {
+    //   this.model.orderKey = val.prop
+    //   this.model.order = val.order
+    //   this.$searchAction$()
+    // },
 
     // 选择日期
     // selectTodayClick (val) {
