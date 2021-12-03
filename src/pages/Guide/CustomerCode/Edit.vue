@@ -152,7 +152,7 @@ export default {
       const data = submitFormat(this.data)
       this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, { ...data, guestCodeId: this.guestCodeId }).then(res => {
         this.$notify.success('保存成功')
-        this.handleCancel()
+        this.$router.push({ name: 'CustomerCodeList' })
       }).catch(res => {
         his.$refs.AdvancedSetup[0].changeLoading(false)
         this.$notify.error(res.msg)

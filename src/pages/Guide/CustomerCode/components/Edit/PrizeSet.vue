@@ -14,7 +14,7 @@
         prop="name"
         class="larger-item"
       >
-        <el-switch v-model="model.isOpnePrize"/>
+        <el-switch v-model="model.isOpnePrize" :disabled="isStating"/>
       </el-form-item>
       <el-form-item v-if='model.isOpnePrize'>
         <el-table
@@ -27,7 +27,7 @@
               阶梯{{[ '一', '二', '三', '四', '五' ][scope.$index]}}
             </template>
           </el-table-column>
-          <el-table-column type="default" label="达标门槛（人）" min-width="120"  :sortable="false">
+          <el-table-column type="default" label="达标要求人数" min-width="120"  :sortable="false">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
@@ -55,7 +55,7 @@
           </el-table-column>
           <el-table-column
             type="default"
-            label="奖励类型"
+            label="奖品类型"
             :sortable="false"
             min-width="150"
             class="el-form__change"
@@ -66,7 +66,7 @@
                 :rules="[
                   {
                     required: true,
-                    message: '请选择奖励类型',
+                    message: '请选择奖品类型',
                     trigger: ['blur', 'change']
                   },
                 ]"
@@ -74,7 +74,7 @@
                 <el-select
                   :disabled="isStating || isEditSetPrize"
                   v-model="scope.row.prizeType"
-                  placeholder="请选择奖励"
+                  placeholder="请选择"
                   @change='(value)=>{handleChangePrizeType(scope,value)}'
                 >
                   <el-option
@@ -88,7 +88,7 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column type="default" min-width="150" label="奖励内容" :sortable="false">
+          <el-table-column type="default" min-width="150" label="奖品" :sortable="false">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeId'"
@@ -108,12 +108,12 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column type="default" max-width="150"  label="剩余数量" :sortable="false">
+          <el-table-column type="default" max-width="150"  label="库存" :sortable="false">
             <template slot-scope="scope">
               <p>{{ scope.row.validNumber }}</p>
             </template></el-table-column
           >
-          <el-table-column type="default" min-width="100"  label="活动奖励总数" :sortable="false">
+          <el-table-column type="default" min-width="100"  label="当前活动奖励总数" :sortable="false">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -125,7 +125,7 @@
                   },
                   {
                     required: true,
-                    message: '请设置活动奖励总数',
+                    message: '请设置当前活动奖品数量',
                     trigger: ['blur', 'change']
                   },
                   {
@@ -134,6 +134,7 @@
                       null,
                       10
                     ),
+                    message: '内容长度不能大于10位',
                     trigger: ['blur', 'change']
                   },
                   {
@@ -297,7 +298,7 @@ export default {
         return
       }
       if (parseFloat(item.prizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('发放数量不能大于剩余数量'))
+        callback(new Error('当前活动奖品数量不能大于库存'))
       } else if (parseFloat(item.prizeNumber) === 0) {
         callback(new Error('活动奖励总数不能0'))
       } else {
@@ -306,7 +307,7 @@ export default {
     }
     const checkaddPrizeNumber = (item, rule, value, callback) => {
       if (parseFloat(item.addPrizeNumber) > parseFloat(item.validNumber)) {
-        callback(new Error('数量不能大于剩余数量'))
+        callback(new Error('数量不能大于库存'))
       } else {
         callback()
       }
@@ -315,7 +316,7 @@ export default {
     const checkRankNumber = (index, rule, value, callback) => {
       const { prizeRuleList } = this.model
       if (!value) {
-        callback(new Error('请输入达标门槛'))
+        callback(new Error('请输入邀请人数'))
       } else {
         const pre = prizeRuleList[index - 1] ? prizeRuleList[index - 1].recruitment : 0
         const next = prizeRuleList[index + 1] ? prizeRuleList[index + 1].recruitment : Infinity

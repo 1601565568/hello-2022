@@ -119,8 +119,8 @@ export const DEFAULT_PAGEDECORATION_DATA = {
     bgColor: '#F96C39',
     strColor: '#FFFFFF'
   },
-  getBtnColor: '#000',
-  shareBtnColor: '#000',
+  getBtnColor: '#ffa30e',
+  shareBtnColor: '#ffa30e',
   eidtList: [
     { itemName: '主图模块', itemCode: 'banner', status: 1, value: {} },
     { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {} },
