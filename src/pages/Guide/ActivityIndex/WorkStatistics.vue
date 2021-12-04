@@ -285,7 +285,7 @@
       >
         <template slot="header">
           销售额(元)/销售指标(元)/完成率
-          <el-tooltip content="【此员工为成单导购的订单金额减去退款金额（不限制下单门店为该门店）】">
+          <el-tooltip content="此员工为成单导购的订单金额减去退款金额（不限制下单门店为该门店）">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
@@ -299,7 +299,7 @@
       <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
         <template slot="header">
           提成(元)
-          <el-tooltip content="【此员工为成单导购的订单提成+专属导购的订单提成-订单退款成功金额的提成（下单时的提成比例）】">
+          <el-tooltip content="此员工为成单导购的订单提成+专属导购的订单提成-订单退款成功金额的提成（下单时的提成比例）">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
