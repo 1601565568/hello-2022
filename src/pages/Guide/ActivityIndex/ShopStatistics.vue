@@ -484,7 +484,8 @@
                   </el-table-column>
                   <el-table-column prop="payment" label="退款金额(含运费)"  align="right">
                     <template slot-scope="scope">
-                      {{'¥'+scope.row.payment}}
+                      <span v-if="scope.row.payment">{{'¥'+scope.row.payment}}</span>
+                      <span v-else>{{'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
