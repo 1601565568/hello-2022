@@ -446,6 +446,11 @@ export default {
     url: '/guide/task/querySubgroup',
     method: 'post'
   },
+  queryExpectTime: {
+    // 根据视角信息获取分组列表
+    url: '/guide/task/subdivisionCustomer/cost',
+    method: 'get'
+  },
   querySubgroupMsg: {
     // 根据视角信息获取分组列表
     url: '/guide/task/querySubgroupMsg',

@@ -10,6 +10,8 @@ import lookCardList from '../lookCardList'
 import AddMaterial from '../addMaterial'
 import Preview from '@/components/NsPreview'
 import materialDialog from '../materialDialog'
+import imgUrl from '../img/loading.gif'
+import ElImage from '@nascent/nui/lib/image'
 export default {
   props: {
     callBack: Function
@@ -25,7 +27,8 @@ export default {
     ElCollapseItem,
     selectMaterialListModal,
     shopSelect,
-    lookCardList
+    lookCardList,
+    ElImage
   },
   data () {
     var validateMaterial = (rule, value, callback) => {
@@ -71,6 +74,8 @@ export default {
       activeNames: ['1', '2'],
       hasShopArr: [], // 已选择门店
       dialogVisible: false,
+      saveTipsFlag: false,
+      imgUrl,
       model: {
         name: '',
         type: 0,
@@ -81,6 +86,8 @@ export default {
         areaId: '', // 区域id
         areaName: '',
         viewId: '', // 视角id
+        cost: '', // 获取客户名单花费时间
+        isClickBudget: false,
         subgroupId: '',
         subgroupName: null,
         materialTitle: '', // 素材库标题
@@ -153,6 +160,7 @@ export default {
       this.model.areaId = areaId
       this.model.viewId = ''
       this.viewOptions = []
+      this.backinitial()
       // 根据选择区域查询视角列表
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
         .then(res => {
@@ -178,6 +186,7 @@ export default {
       this.subgroups = []
       this.model.subgroupId = null
       this.model.subgroupName = null
+      this.backinitial()
       this.$http
         .fetch(this.$api.guide.querySubgroup, { viewId })
         .then(resp => {
@@ -195,11 +204,49 @@ export default {
           this.$notify.error('查询视角分组信息失败', resp)
         })
     },
-    showSubgroupMsg () {
-      this.dialogVisible = true
+    // 提示
+    openTips (flag) {
+      if (!flag) { this.dialogVisible = true }
+    },
+    // 关闭提示
+    closeTips () {
+      this.dialogVisible = false
+    },
+    // 立即预算
+    goBudget (id) {
+      this.closeTips()
+      this.showSubgroupMsg(id)
+    },
+    // 回到初始状态
+    backinitial () {
+      this.model.isClickBudget = false
+      this.model.cost = ''
+    },
+    // 获取预算时长
+    showSubgroupMsg (id) {
+      this.model.isClickBudget = true
+      this.$http
+        .fetch(this.$api.guide.queryExpectTime, { subdivisionId: id })
+        .then(resp => {
+          if (resp.success) {
+            const needTime = resp.result.cost
+            if (needTime > 60 && needTime < 3600) {
+              this.model.cost = `${Math.ceil(cost / 60)}分钟`
+            } else if (needTime > 3600) {
+              this.model.cost = `${(cost / 3600).toFixed(1)}小时`
+            } else {
+              this.model.cost = `${needTime}秒`
+            }
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('获取预算时间失败', resp)
+        })
+      // this.dialogVisible = true
     },
     // 选择分组
     chooseSubgroup (subgroupId) {
+      this.backinitial()
       for (let index = 0; index < this.subgroups.length; index++) {
         var obj = this.subgroups[index]
         if (obj.id === subgroupId) {
@@ -239,9 +286,8 @@ export default {
       this.selectMaterial = obj
     },
     // 提交保存
-    saveFun () {
+    saveFun (id) {
       var that = this
-
       that.model.startTime = that.model.activityTime[0]
       that.model.endTime = that.model.activityTime[1]
       // 指定门店
@@ -279,10 +325,17 @@ export default {
             this.$notify.error('请选择会员分组')
             return
           }
-
-          that.doSave()
+          that.saveTipsFlag = true
+          // that.showSubgroupMsg(id)
         }
       })
+    },
+    closeSaveTips (flag) {
+      var that = this
+      that.saveTipsFlag = false
+      that.model.startTime = that.model.activityTime[0]
+      that.model.endTime = that.model.activityTime[1]
+      if (flag) { that.doSave() }
     },
     async doSave () {
       var params = {}
@@ -419,5 +472,9 @@ export default {
   mounted: function () {
     this.init()
   },
-  created: function () {}
+  beforeUpdate () {
+    if (this.titleText !== '新建任务') { this.showSubgroupMsg(this.model.subgroupId) }
+  },
+  created: function () {
+  }
 }

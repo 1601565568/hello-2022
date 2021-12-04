@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="tips">
+      单次执行的任务，将于任务开始时间的凌晨获取客户名单（当日开始，则保存任务后获取客户名单）；<br />
+      每日执行的任务，将于每日凌晨获取客户名单（当日开始，则保存任务后获取当日客户名单）。
+    </div>
     <ns-page-table :colButton="14">
       <template slot="table">
         <el-table
@@ -65,3 +69,15 @@
 import lookCardList from './src/lookCardList'
 export default lookCardList
 </script>
+<style scoped>
+  .tips{
+    width: 928px;
+    height: 62px;
+    background: #F2F9FE;
+    border-radius: 2px;
+    padding: 9px 16px;
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+  }
+</style>
