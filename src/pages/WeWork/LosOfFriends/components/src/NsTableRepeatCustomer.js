@@ -138,6 +138,7 @@ export default {
     },
     // sous
     searchAction () {
+      this.page = 1
       this.getList()
     },
     // 重置
