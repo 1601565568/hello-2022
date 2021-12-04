@@ -316,7 +316,7 @@
           </el-tooltip>
         </template>
         <template slot-scope="scope">
-          <span v-if="scope.row.sellPrice == 0">0.00</span>
+          <a href="javascript:" v-if="scope.row.sellPrice == 0" @click="showSellDialog(scope.row.shopId, scope.row.shopName)">0.00</a>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
