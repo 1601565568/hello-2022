@@ -538,6 +538,8 @@ export default {
       }
     },
     outerIdChange (e) {
+      // const str = e.replace(/[\u4e00-\u9fa5]/ig, '')
+      // this.content.outerId = str
       if (this.content.codeStyle === 0) {
         this.goodsCache.outerId = e
       } else if (this.content.codeStyle === 1) {

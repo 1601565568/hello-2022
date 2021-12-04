@@ -1030,7 +1030,7 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-height: 200px;
-    overflow: scroll;
+    overflow: hidden;
   }
   @b ellipsis2 {
     display: -webkit-box;
