@@ -367,7 +367,7 @@
   <!--奖励弹窗结束-->
 
   <!--提成弹窗开始-->
-  <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
+  <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="960px" :before-close="onCancleSellDialog" :vetically=true>
     <div class="shop-remind-view">
       <div>成单导购提成：此员工为成单导购的订单提成（下单时的提成比例）</div>
       <div>专属导购提成：此员工为会员专属导购的订单提成（下单时的提成比例）</div>
