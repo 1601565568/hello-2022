@@ -430,7 +430,7 @@
                   <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
                   <el-table-column prop="reward" label="提成"  width="140">
                     <template slot-scope="scope">
-                      {{'¥'+scope.row.payment}}
+                      {{'¥'+scope.row.reward}}
                     </template>
                   </el-table-column>
                 </el-table>
@@ -487,7 +487,7 @@
                   <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
                   <el-table-column prop="reward" label="提成" width="140">
                     <template slot-scope="scope">
-                      {{'¥'+scope.row.payment}}
+                      {{'¥'+scope.row.reward}}
                     </template>
                   </el-table-column>
                 </el-table>
