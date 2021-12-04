@@ -934,6 +934,7 @@ export default {
   @import '@components/NewUi/styles/reset.css';
   >>>.el-form-item--small .el-form-item__label {
     text-align: left;
+    font-size: 12px;
   }
   .el-input.el-input--small .el-input__inner {
     text-indent: 25rpx !important;
