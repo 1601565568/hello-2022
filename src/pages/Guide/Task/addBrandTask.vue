@@ -170,7 +170,7 @@
                       <NsButton type="primary" @click="goBudget(model.subgroupId)" >立即预算</NsButton>
                     </span>
                   </el-dialog>
-                   <div v-if="model.viewId&&model.subgroupId">
+                   <div v-if="model.viewId&&model.subgroupId" class="succFont">
                     <div class="flex__box">
                       <div class="newTask-content__item-tip">成功获取会员分组名单后才可正常下发任务，获取失败时将通过企业微信通知创建人</div>
                       <div @click="showSubgroupMsg(model.subgroupId)" class="tips" v-if="!model.cost && !model.isClickBudget" >
@@ -593,6 +593,9 @@ export default addBrandTask
   line-height: 40px;
   font-size: 12px;
   margin-bottom: 16px;
+}
+.succFont{
+  font-size: 12px;
 }
 .flex__box{
   display: flex;
