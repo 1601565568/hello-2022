@@ -391,7 +391,7 @@
         <div class="select-data-view">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="订单信息" name="first">
-              <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+              <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
                   <el-form-grid size="xmd" width="230">
                     <el-form-item label="姓名：">
@@ -400,7 +400,7 @@
                     </el-form-item>
                   </el-form-grid>
                 </el-form-item>
-                <el-form-grid size="xmd" width="290">
+                <el-form-grid size="xmd" width="250">
                   <el-form-item label="订单号：">
                     <el-input  type="text" v-model="tradeNo">
                     </el-input>
@@ -415,20 +415,20 @@
               </el-form>
               <div>
                 <el-table :data="detailData" stripe class="new-table_border drawer-table" :row-style="{ height: '48px' }">
-                  <el-table-column prop="guideName" label="导购" width="125px"></el-table-column>
-                  <el-table-column prop="name" label="姓名" width="125px">
+                  <el-table-column prop="guideName" label="导购"></el-table-column>
+                  <el-table-column prop="name" label="姓名">
                     <template slot-scope="scope">
                       <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="tradeId" label="订单编号" width="180"></el-table-column>
-                  <el-table-column prop="payment" label="订单实付(含运费)" width="180" align="right">
+                  <el-table-column prop="tradeId" label="订单编号"></el-table-column>
+                  <el-table-column prop="payment" label="订单实付(含运费)" align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.payment}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
-                  <el-table-column prop="reward" label="提成"  width="140" align="right">
+                  <el-table-column prop="createTime" label="时间"></el-table-column>
+                  <el-table-column prop="reward" label="提成"  align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
@@ -447,7 +447,7 @@
               </el-pagination>
             </el-tab-pane>
             <el-tab-pane label="退款信息" name="second">
-              <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+              <el-form ref="table_filter_form" label-width="60px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
                   <el-form-grid size="xmd" width="230">
                     <el-form-item label="姓名：">
@@ -471,25 +471,25 @@
               </el-form>
               <div>
                 <el-table :data="detailData" stripe class="new-table_border drawer-table" :row-style="{ height: '48px' }">
-                  <el-table-column prop="guideName" label="导购" width="125px"></el-table-column>
-                  <el-table-column prop="name" label="姓名" width="125px">
+                  <el-table-column prop="guideName" label="导购" ></el-table-column>
+                  <el-table-column prop="name" label="姓名">
                     <template slot-scope="scope">
                       <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="outRefundId" label="退款编号" width="160">
+                  <el-table-column prop="outRefundId" label="退款编号">
                     <template slot-scope="scope">
                       {{scope.row.outRefundId || '-'}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="payment" label="退款金额(含运费)" width="130" align="right">
+                  <el-table-column prop="payment" label="退款金额(含运费)"  align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.payment}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="orderCode" label="关联订单号" width="130"></el-table-column>
-                  <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
-                  <el-table-column prop="reward" label="提成" width="90" align="right">
+                  <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
+                  <el-table-column prop="createTime" label="时间" ></el-table-column>
+                  <el-table-column prop="reward" label="提成"  align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
