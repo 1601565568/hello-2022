@@ -399,9 +399,17 @@
                 </template>
               </el-table-column>
               <el-table-column prop="tradeId" label="订单编号" width="180"></el-table-column>
-              <el-table-column prop="payment" label="订单实付(含运费)" width="180"></el-table-column>
+              <el-table-column prop="payment" label="订单实付(含运费)" width="180" align="right">
+                <template slot-scope="scope">
+                  {{'¥'+scope.row.payment}}
+                </template>
+              </el-table-column>
               <el-table-column prop="createTime" label="时间"  width="180"></el-table-column>
-              <el-table-column prop="reward" label="提成"  width="140"></el-table-column>
+              <el-table-column prop="reward" label="提成"  width="140" align="right">
+                <template slot-scope="scope">
+                  {{'¥'+scope.row.reward}}
+                </template>
+              </el-table-column>
             </el-table>
           </div>
           <!--分页开始-->
@@ -439,11 +447,23 @@
                   <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
                 </template>
               </el-table-column>
-              <el-table-column prop="outRefundId" label="退款编号"></el-table-column>
-              <el-table-column prop="payment" label="退款金额"></el-table-column>
+              <el-table-column prop="outRefundId" label="退款编号">
+                <template slot-scope="scope">
+                  {{scope.row.outRefundId || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="payment" label="退款金额" align="right">
+                <template slot-scope="scope">
+                  {{'¥'+scope.row.payment}}
+                </template>
+              </el-table-column>
               <el-table-column prop="tradeId" label="关联订单号"></el-table-column>
               <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
-              <el-table-column prop="reward" label="提成" width="80"></el-table-column>
+              <el-table-column prop="reward" label="提成" width="80" align="right">
+                <template slot-scope="scope">
+                  {{'¥'+scope.row.reward}}
+                </template>
+              </el-table-column>
             </el-table>
           </div>
           <!--分页开始-->
