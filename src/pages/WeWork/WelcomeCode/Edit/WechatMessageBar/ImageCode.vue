@@ -42,7 +42,7 @@
                 {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
               ]">
                 <div class="select-shop-view" @click="selectShopGoods">
-                  <div class="shop-name-text">{{content.itemName || '请选择商品'}}</div>
+                  <div :class="content.itemName ? 'shop-name-text shop-true-name' : 'shop-name-text' ">{{content.itemName || '请选择商品'}}</div>
                   <div>
                     <Icon
                       type="icon-xin"
@@ -87,8 +87,8 @@
                 >
                 </el-input>
               </el-form-item>
-              <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div>
-              <div class="show-path-url-view">
+              <!-- <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div> -->
+              <div class="show-path-url-view" style="margin-top:-10px">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
@@ -278,12 +278,18 @@
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
-              <div class="title-view" v-else>这是名称</div>
-              <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
-                <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
+              <div class="title-view" v-else>显示名称</div>
+              <div class="left-price-view" v-show="content.priceStatus === 1">
+                <span v-if="content.price">
+                  <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price}}
+                </span>
+                <span v-else>
+                  <span>售价</span>
+                </span>
               </div>
-              <div class="left-orgian-view" v-show="content.originalPrice && content.originalPriceStatus === 1">
-                原价：¥{{ content.originalPrice }}
+              <div class="left-orgian-view" v-show="content.originalPriceStatus === 1">
+                <span v-if="content.originalPrice">原价：¥{{ content.originalPrice }}</span>
+                <span v-else>原价</span>
               </div>
             </div>
             <div class="code-img-view">
@@ -532,6 +538,8 @@ export default {
       }
     },
     outerIdChange (e) {
+      // const str = e.replace(/[\u4e00-\u9fa5]/ig, '')
+      // this.content.outerId = str
       if (this.content.codeStyle === 0) {
         this.goodsCache.outerId = e
       } else if (this.content.codeStyle === 1) {
@@ -841,7 +849,8 @@ export default {
     },
     selectShopGoods () {
       if (this.content.codeStyle === 1) return
-      this.$refs.selectGoods.showToggle()
+      let obj = { codeTarget: this.content.sysItemId }
+      this.$refs.selectGoods.showToggle(obj)
     },
     selectShopInit () {
       this.content.bankId = ''
@@ -924,6 +933,15 @@ export default {
     .shop-name-text {
       font-size: 14px;
       color: #BFBFBF;
+      overflow: hidden;
+      word-break: break-all;
+      -webkit-line-clamp: 1;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+    .shop-true-name {
+      color: #595959;
     }
   }
 }
@@ -942,7 +960,7 @@ export default {
 }
 .left-view {
   width: 55%;
-  height: 700px;
+  height: 650px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;

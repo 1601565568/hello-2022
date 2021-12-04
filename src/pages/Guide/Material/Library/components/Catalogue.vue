@@ -693,7 +693,7 @@ export default {
   word-break: break-all;
 }
 .content-tooltip-view {
-  max-height: 100px;
+  max-height: 200px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
@@ -1030,7 +1030,7 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-height: 200px;
-    overflow: scroll;
+    overflow: hidden;
   }
   @b ellipsis2 {
     display: -webkit-box;

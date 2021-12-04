@@ -122,7 +122,10 @@ export default {
     selectCurrentChange (currentRow) {
       this.market = currentRow || {}
     },
-    showToggle (obj) {
+    showToggle (obj = {}) {
+      if (obj.codeTarget && obj.codeTarget.length > 0) {
+        this.market.activityId = obj.codeTarget
+      }
       this.dialogVisible = true
       this.loadListFun()
     },

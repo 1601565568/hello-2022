@@ -655,12 +655,12 @@ export default {
     },
     selectMarket () {
       this.$nextTick(() => {
-        this.$refs.selectMarket.showToggle()
+        this.$refs.selectMarket.showToggle(this.model)
       })
     },
     selectGoods () {
       this.$nextTick(() => {
-        this.$refs.selectGoods.showToggle()
+        this.$refs.selectGoods.showToggle(this.model)
       })
     },
     handleDown (e) {
@@ -695,6 +695,11 @@ export default {
       this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.name = params.name.replace(/\s+/g, '')
+      const obj = this.$refs.tagContent.count
+      if (obj.num < 0) {
+        this.$notify.warning('推广文案' + obj.text)
+        return
+      }
       // 控制图片数量
       params.mediaList = this.mediaList
       let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
@@ -1104,7 +1109,7 @@ export default {
   display: flex;
   padding: 24px 16px 0 16px;
   flex-direction: row;
-  width: 626px;
+  width: 540px;
   .remind-text {
     font-size: 14px;
     color: #595959;
