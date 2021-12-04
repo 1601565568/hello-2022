@@ -293,7 +293,7 @@
       >
         <template slot="header">
           销售额(元)/销售指标(元)/完成率
-          <el-tooltip content="【全渠道订单中下单、提货、发货门店为当前门店的交易成功订单金额-退款成功金额】">
+          <el-tooltip content="全渠道订单中下单、提货、发货门店为当前门店的交易成功订单金额-退款成功金额">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
