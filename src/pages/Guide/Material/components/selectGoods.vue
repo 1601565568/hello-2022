@@ -252,7 +252,7 @@ export default {
     selectCurrentChange (currentRow) {
       this.market = Object.assign({ mallId: this.searchObj.searchMap.mallId, bankId: this.searchObj.searchMap.bankId }, currentRow) || {}
     },
-    showToggle (obj) {
+    showToggle (obj = {}) {
       if (obj.codeTarget && obj.codeTarget.length > 0) {
         this.sysItemId = obj.codeTarget
       }

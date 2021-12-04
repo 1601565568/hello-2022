@@ -42,7 +42,7 @@
                 {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
               ]">
                 <div class="select-shop-view" @click="selectShopGoods">
-                  <div class="shop-name-text">{{content.itemName || '请选择商品'}}</div>
+                  <div :class="content.itemName ? 'shop-name-text shop-true-name' : 'shop-name-text' ">{{content.itemName || '请选择商品'}}</div>
                   <div>
                     <Icon
                       type="icon-xin"
@@ -841,7 +841,8 @@ export default {
     },
     selectShopGoods () {
       if (this.content.codeStyle === 1) return
-      this.$refs.selectGoods.showToggle()
+      let obj = { codeTarget: this.content.sysItemId }
+      this.$refs.selectGoods.showToggle(obj)
     },
     selectShopInit () {
       this.content.bankId = ''
@@ -924,6 +925,15 @@ export default {
     .shop-name-text {
       font-size: 14px;
       color: #BFBFBF;
+      overflow: hidden;
+      word-break: break-all;
+      -webkit-line-clamp: 1;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+    .shop-true-name {
+      color: #595959;
     }
   }
 }
