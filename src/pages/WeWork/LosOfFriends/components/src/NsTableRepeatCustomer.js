@@ -138,7 +138,7 @@ export default {
     },
     // sous
     searchAction () {
-      this.init()
+      this.getList()
     },
     // 重置
     resetInputAction () {
