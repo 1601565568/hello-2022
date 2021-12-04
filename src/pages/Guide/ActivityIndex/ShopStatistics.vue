@@ -385,7 +385,7 @@
       <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="960px" :before-close="onCancleSellDialog" :vetically=true>
         <div class="shop-remind-view">
           <div>成单导购提成：此门店员工为成单导购的订单提成（下单时的提成比例）</div>
-          <div>专属导购提成：此门店员工为会员专属导购的订单提成（下单时的提成比例</div>
+          <div>专属导购提成：此门店员工为会员专属导购的订单提成（下单时的提成比例)</div>
           <div>订单发生退款时，则扣减对应的成单导购提成和专属导购提成</div>
         </div>
         <div class="select-data-view">
@@ -482,14 +482,14 @@
                       {{scope.row.outRefundId || '-'}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="payment" label="退款金额" width="130" align="right">
+                  <el-table-column prop="payment" label="退款金额(含运费)" width="130" align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.payment}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="payment" label="关联订单号" width="130"></el-table-column>
+                  <el-table-column prop="orderCode" label="关联订单号" width="130"></el-table-column>
                   <el-table-column prop="createTime" label="时间" width="180"></el-table-column>
-                  <el-table-column prop="reward" label="提成" width="140" align="right">
+                  <el-table-column prop="reward" label="提成" width="90" align="right">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
