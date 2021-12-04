@@ -428,7 +428,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column prop="createTime" label="时间"></el-table-column>
-                  <el-table-column prop="reward" label="提成"  align="right">
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
@@ -490,7 +490,7 @@
                   </el-table-column>
                   <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
                   <el-table-column prop="createTime" label="时间" ></el-table-column>
-                  <el-table-column prop="reward" label="提成"  align="right">
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
