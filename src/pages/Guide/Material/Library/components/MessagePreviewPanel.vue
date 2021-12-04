@@ -27,7 +27,7 @@
           <EmojiText :text='htmlContent' />
         </div>
         <div v-else class="u_pitContent">
-          <EmojiText text='推广内容' />
+          <EmojiText text='推广文案' />
         </div>
         <img class="u_content-img" src="@/assets/pit-send-img.png"/>
       </div>

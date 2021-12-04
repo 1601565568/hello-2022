@@ -87,8 +87,8 @@
                 >
                 </el-input>
               </el-form-item>
-              <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div>
-              <div class="show-path-url-view">
+              <!-- <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div> -->
+              <div class="show-path-url-view" style="margin-top:-10px">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
