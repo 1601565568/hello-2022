@@ -655,12 +655,12 @@ export default {
     },
     selectMarket () {
       this.$nextTick(() => {
-        this.$refs.selectMarket.showToggle()
+        this.$refs.selectMarket.showToggle(this.model)
       })
     },
     selectGoods () {
       this.$nextTick(() => {
-        this.$refs.selectGoods.showToggle()
+        this.$refs.selectGoods.showToggle(this.model)
       })
     },
     handleDown (e) {

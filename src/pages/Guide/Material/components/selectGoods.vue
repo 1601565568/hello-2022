@@ -253,6 +253,9 @@ export default {
       this.market = Object.assign({ mallId: this.searchObj.searchMap.mallId, bankId: this.searchObj.searchMap.bankId }, currentRow) || {}
     },
     showToggle (obj) {
+      if (obj.codeTarget && obj.codeTarget.length > 0) {
+        this.sysItemId = obj.codeTarget
+      }
       this.dialogVisible = true
       if (this.showMall) {
         this.findMallList()
