@@ -278,12 +278,18 @@
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
-              <div class="title-view" v-else>这是名称</div>
-              <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
-                <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
+              <div class="title-view" v-else>显示名称</div>
+              <div class="left-price-view" v-show="content.priceStatus === 1">
+                <span v-if="content.price">
+                  <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price}}
+                </span>
+                <span v-else>
+                  <span>售价</span>
+                </span>
               </div>
-              <div class="left-orgian-view" v-show="content.originalPrice && content.originalPriceStatus === 1">
-                原价：¥{{ content.originalPrice }}
+              <div class="left-orgian-view" v-show="content.originalPriceStatus === 1">
+                <span v-if="content.originalPrice">原价：¥{{ content.originalPrice }}</span>
+                <span v-else>原价</span>
               </div>
             </div>
             <div class="code-img-view">
@@ -952,7 +958,7 @@ export default {
 }
 .left-view {
   width: 55%;
-  height: 700px;
+  height: 650px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
