@@ -43,7 +43,7 @@
               </el-date-picker>
             </div>
         </el-form-item>
-        <el-form-item label="员工：" style="margin-left: 16px">
+        <!-- <el-form-item label="员工：" style="margin-left: 16px">
           <div class="template-search__box">
             <span v-if="model.guideIds && model.guideIds.length>0">
                 已选择{{model.guideIds.length}}个
@@ -63,6 +63,16 @@
               ></NsGuideDialog>
             </div>
           </div>
+        </el-form-item> -->
+        <el-form-item label="员工：" class="nsGuide" style="margin-left: 11px">
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren" class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
         </el-form-item>
         <el-form-item label="事件：" style="margin-left: 16px">
           <div class="item-select">
@@ -297,5 +307,24 @@ export default NsTableRepeatCustomer
 }
 .template-search__box > div + span {
   margin-left: var(--default-margin-small);
+}
+.self-btn {
+  max-width: 150px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
+  }
+}
+.nsGuide >>> .el-form-item__content {
+  border: 1px solid rgb(217, 217, 217);
+  height: 32px;
+  line-height: 32px;
+  margin-left: 11px;
+  padding: 0 12px;
 }
 </style>
