@@ -11,7 +11,25 @@
         <span class='newTask-head__title-content'> {{ titleText }} </span>
         <div class='float-right'>
           <NsButton @click='handleClose'>取消</NsButton>
-          <NsButton type='primary' :loading="loading" @click="saveFun">保存</NsButton>
+          <NsButton type='primary' :loading="loading" @click="saveFun(model.subgroupId)">保存</NsButton>
+          <el-dialog
+            title="温馨提醒"
+            :visible.sync="saveTipsFlag"
+            height="196px"
+            @before-close="() => closeSaveTips(false)">
+            <div  style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00;margin:5px 9px 0 7px"></i>
+              <div v-if="!model.cost">
+                保存后系统将自动获取会员分组名单，您可在编辑任务页面查看进度，保障任务正常进行。是否继续保存？
+              </div>
+              <div v-else>
+                预估{{model.cost}}成功获取会员分组名单，请核对任务开始时间，保障任务正常进行。是否继续保存？
+              </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+              <NsButton @click="() => closeSaveTips(false)" >取消</NsButton>
+              <NsButton type="primary" @click="closeSaveTips(true)" >确认</NsButton>
+            </span>
+          </el-dialog>
         </div>
       </div>
     </div>
@@ -52,7 +70,6 @@
                 <div class='newTask-content__item'>
                 <el-time-picker
                   value-format='HH:mm:ss'
-                  :disabled='canNotEdit'
                   v-model="model.taskSendTime"
                   placeholder="选择提醒时间">
                 </el-time-picker>
@@ -67,7 +84,7 @@
                   <ElRadio :label='1'>每日执行</ElRadio>
                 </ElRadioGroup>
                 <span class='newTask-content__item-tip'
-                  >设为每日执行时，执行时间内每天都会重新通知店长、已分配指标的导购，同时重新计算统计执行情况</span
+                  >设为每日执行时，执行时间内每天都会重新通知店长、已分配任务的导购，同时重新计算统计执行情况</span
                 >
               </ElFormItem>
             </ElCollapseItem>
@@ -130,6 +147,7 @@
                     :value='model.subgroupId'
                     placeholder='请选择会员分组'
                     @change='chooseSubgroup'
+                    @visible-change='openTips'
                     :disabled='canNotEdit'
                     style="margin-bottom:0px!important;"
                   >
@@ -141,7 +159,34 @@
                     >
                     </el-option>
                   </el-select>
-                  <div v-if="model.viewId&&model.subgroupId">{{model.subgroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
+                  <el-dialog
+                    title="预算完成获取客户名单时间吗？"
+                    :visible.sync="dialogVisible"
+                    height="196px"
+                    :before-close="closeTips">
+                    <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:5px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
+                    <span slot="footer" class="dialog-footer">
+                      <NsButton @click="closeTips" >无需预算</NsButton>
+                      <NsButton type="primary" @click="goBudget(model.subgroupId)" >立即预算</NsButton>
+                    </span>
+                  </el-dialog>
+                   <div v-if="model.viewId&&model.subgroupId">
+                    <div class="flex__box">
+                      <div class="newTask-content__item-tip">成功获取会员分组名单后才可正常下发任务，获取失败时将通过企业微信通知创建人</div>
+                      <div @click="showSubgroupMsg(model.subgroupId)" class="tips" v-if="!model.cost && !model.isClickBudget" >
+                        <span>点击预算获取时长</span>
+                      </div>
+                      <div class="tips"  v-else-if="model.isClickBudget && !model.cost">预算中，可正常保存 <el-image
+                        style="width: 10px; height: 10px; margin-left:5px"
+                        :src="imgUrl"
+                        fit="cover" /></div>
+                      <div class="tips"  v-else-if="model.isClickBudget && model.cost">预估{{model.cost}}完成获取名单</div>
+                    </div>
+                    <div class="disc">
+                      单次执行的任务，将于任务开始时间的凌晨获取客户名单（当日开始，则保存任务后获取客户名单）；<br />
+                      每日执行的任务，将于每日凌晨获取客户名单（当日开始，则保存任务后获取当日客户名单）；
+                    </div>
+                  </div>
                 </div>
                 <span class='newTask-content__item-tip'>
                   选择区域后，可选择零售CRM客户洞察的客户分组
@@ -236,9 +281,9 @@
         </ElForm>
       </ElScrollbar>
     </div>
-    <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
-      <div class='table-top_tip'>任务下发前会实时获取最新的客户名单，任务下发后客户名单将不再变化</div>
-      <lookCardList v-if="dialogVisible" :subgroupId="model.subgroupId"></lookCardList>
+    <!-- <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px"> -->
+      <!-- <div class='table-top_tip'>任务下发前会实时获取最新的客户名单，任务下发后客户名单将不再变化</div> -->
+      <!-- <lookCardList v-if="dialogVisible" :subgroupId="model.subgroupId"></lookCardList> -->
       <!-- <div class="taskList-table__content">
         <el-table ref="table" :data="tableData"
                   style="width: 100%;"
@@ -268,7 +313,7 @@
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="400">
       </el-pagination> -->
-    </ElDialog>
+    <!-- </ElDialog> -->
     <el-dialog
       width="600px"
       title="查看全部"
@@ -548,5 +593,72 @@ export default addBrandTask
   line-height: 40px;
   font-size: 12px;
   margin-bottom: 16px;
+}
+.flex__box{
+  display: flex;
+  height: 20px;
+  line-height: 20px;
+  align-items: center;
+  color: #595959;;
+  .tips{
+    color: #0094FC ;
+    padding:none;
+    cursor: pointer;
+  }
+  .newTask-content__item-tip{
+    height: 20px;
+  }
+}
+.disc{
+  padding-left: 16px;
+   height: 40px;
+  line-height: 20px;
+}
+>>> .el-dialog{
+  width: 480px!important;
+  height: 196px;
+  border-radius: 4px;
+  .el-dialog__wrap {
+    height: 72px!important;
+    overflow: hidden;
+  }
+  .el-dialog__header {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: 16px;
+    font-size: 16px;
+    color: #303133;
+    font-weight: 500;
+  }
+  .el-dialog__body{
+    margin: 16px 16px 0 16px;
+    padding: 0!important;
+    height: 76px;
+  }
+  .el-dialog__content{
+    font-size: 14px;
+    height: 76px;
+  }
+  .el-scrollbar__bar{
+    display: none;
+  }
+  .el-dialog__footer{
+    margin: 0;
+    padding: 0!important;
+    .el-button{
+      width: 88px;
+      height: 32px;
+      border-radius: 2px;
+      font-size: 14px;
+      padding: 0;
+      margin-right: 16px
+    }
+     .el_btn_yes{
+      background: #0094FC;
+      }
+  }
 }
 </style>
