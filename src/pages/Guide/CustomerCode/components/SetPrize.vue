@@ -32,6 +32,11 @@
             class="new-table_border"
             :data="model.prizeRuleList"
           >
+            <!-- <el-table-column type="default" label="阶梯">
+              <template slot-scope="scope">
+                阶梯{{[ '一', '二', '三', '四', '五' ][scope.$index]}}
+              </template>
+            </el-table-column> -->
             <el-table-column type="default" label="达标门槛（人）" min-width="120"  :sortable="false">
               <template slot-scope="scope">
                 <el-form-item
@@ -209,6 +214,10 @@
                 <!-- <p v-else>{{ scope.row.prizeNumber }}</p> -->
               </template>
             </el-table-column>
+            <!-- <el-table-column type="default" label="操作">
+              <ns-button type="text" @click="updateStair('add')">新增</ns-button>
+              <ns-button type="text" @click="updateStair('del')">删除</ns-button>
+            </el-table-column> -->
           </el-table>
           <div class="remind-view">
             <span class="remind-color"></span>
@@ -319,6 +328,9 @@ export default {
     this.setModel()
   },
   methods: {
+    updateStair (type) {
+      this.$emit('updateStair', type)
+    },
     remainNumber (item) {
       const prizeNumber = parseInt(item.prizeNumber) || 0
       const prizePresentsNumber = parseInt(item.prizePresentsNumber) || 0

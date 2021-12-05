@@ -1,0 +1,32 @@
+>>> .el-drawer__header {
+  margin-bottom: 0px;
+}
+>>> .el-drawer__body {
+  overflow: auto;
+}
+
+.checkboxs-tags {
+  >>> .el-checkbox__label {
+    font-size: 14px;
+  }
+  >>> .el-form-item__content {
+    margin-left: 20px !important;
+  }
+  /* >>> .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
+    background-color: #F2F6FC;
+    border-color: rgba(0,0,0,0.15);
+    width: 16px;
+    height: 16px;
+    border: 0;
+    &::after {
+      border-color: #FFF;
+      height: 8px;
+      width: 4px;
+      left: 6px;
+      top: 3px;
+    }
+  }
+  >>> .el-checkbox__input.is-disabled + span.el-checkbox__label {
+    color:#262626;
+  } */
+}

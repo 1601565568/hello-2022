@@ -170,11 +170,11 @@
                   <div style="position: relative" class="modal">
                     <!--替换/删除遮罩层开始-->
                     <div class="material-model">
-                      <div @click='selectMaterialShowFun()'>
+                      <div @click='selectMaterialShowFun()' :style="canNotEdit ? 'cursor:not-allowed' : ''">
                         <Icon type='ns-deal' color="#ffffff" font-size="14px" />
                         <span class="material-model-title">替换</span>
                       </div>
-                      <div @click='deleteMaterialShowFun()'>
+                      <div @click='deleteMaterialShowFun()' :style="canNotEdit ? 'cursor:not-allowed' : ''">
                         <Icon type='ns-delete' color="#ffffff" font-size="14px"/>
                         <span class="material-model-title">删除</span>
                       </div>
