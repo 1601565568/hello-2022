@@ -139,8 +139,10 @@ export const DEFAULT_PAGEDECORATION_DATA = {
   virtualFinishedCount: 0
 }
 // 设置裂变海报
+export const defBgImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/allgrey.jpg'
+export const demoImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/demo.jpg'
 export const DEFAULT_SETPOSTER_DATA = {
-  backgroundPic: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/allgrey.jpg', // 海报
+  backgroundPic: defBgImg, // 海报
   headPortrait: 1, // 用户头像：0无，1有
   headPortraitShape: 1, // 用户头像形状：0圆 1方
   nickColour: '#000000', // 用户昵称字体颜色：十六进制
@@ -151,6 +153,10 @@ export const DEFAULT_SETPOSTER_DATA = {
 }
 // 设置欢迎语
 export const DEFAULT_WELCOMECODE = `你好 , 我是{USER_NICK}<br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：{ACTIVITY_VALIT_TIME}<br/>点击下方链接去分享吧 ↓↓`
+export const Tools = [
+  { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
+  { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
+]
 export const DEFAULT_SETWELCOMECODE_DATA = {
   activityIntroduction: '', // 活动介绍
   cardCopywriting: '', // 活动消息卡片文案

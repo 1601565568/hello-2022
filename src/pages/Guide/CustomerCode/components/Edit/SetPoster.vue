@@ -24,12 +24,18 @@
                   <drap-upload  :maxWidth="750" :maxHeight="1334" :maxSize="2" scaleTip='1' v-model='model.backgroundPic' :isNeedCrop='true'  :showPont='false' :drag='false'>
                   </drap-upload>
                 </div>
+                <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
               </div>
               <div class="qrcode-bottom-view">
                 建议：750*1334像素，高度不限，小于2M，jpg、png、jpeg格式
-                <span type='text' class='safe-btn'>
-                  示例说明
-                </span>
+                <el-tooltip  placement="top" popper-class='popperClass'>
+                  <span type='text' class='safe-btn'>
+                    查看实例
+                  </span>
+                  <template slot='content'>
+                    <img :src='demoImg' class='demo-img' />
+                  </template>
+                </el-tooltip>
               </div>
             </div>
           </el-form-item>
@@ -148,7 +154,7 @@
 </template>
 <script>
 import PhoneBox from '@/components/NewUi/PhoneBox'
-import { DEFAULT_SETPOSTER_DATA, STEP_LIST } from '../../src/const'
+import { DEFAULT_SETPOSTER_DATA, STEP_LIST, defBgImg, demoImg } from '../../src/const'
 import validates from '../../src/validates'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import VueDragResize from 'vue-drag-resize'
@@ -179,7 +185,9 @@ export default {
           nickPosition: 1
         }
       },
-      loading: false
+      loading: false,
+      demoImg,
+      defBgImg
     }
   },
   props: ['data', 'isStating'],
@@ -194,6 +202,10 @@ export default {
         qrcodeX: params.left,
         qrcodeY: params.top
       }
+    },
+    // 恢复默认图
+    showDefCard (key, src) {
+      this.model[key] = src
     },
     handlePrev () {
       this.$emit('changeStepId', 'prev')
@@ -243,12 +255,6 @@ export default {
     align-items: center;
     height: 40px;
   }
-  .remind-text {
-    font-size: 14px;
-    color: #0392FB;
-    line-height: 22px;
-    cursor: pointer;
-  }
 }
 .user-content_bg {
   font-size: 12px;
@@ -297,6 +303,9 @@ export default {
       text-align: center;
     }
   }
+}
+.demo-img {
+  width: 100px;
 }
 </style>
 <style scoped>

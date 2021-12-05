@@ -130,7 +130,7 @@ export const toolFn = {
       const regexp = new RegExp(pre + item.id + after, 'g')
       string = string.replace(
         regexp,
-        `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
+        `<wise id="${toolFn.getGuid()}" class="${item.id}">${item.value}</wise>`
       )
     })
     return string.replace(/\n/g, '<br/>')

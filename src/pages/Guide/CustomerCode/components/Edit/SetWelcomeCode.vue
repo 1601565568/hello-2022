@@ -34,14 +34,14 @@
             />
           </el-form-item>
           <el-form-item
-            label="活动卡片"
+            label="活动链接"
             required
           >
             <div class="item-box">
               <el-form-item prop="cardTitle">
                 <length-input
                   v-model="model.cardTitle"
-                  placeholder="请输入标题"
+                  placeholder="请输入活动名称"
                   :length="20"
                 />
               </el-form-item>
@@ -62,7 +62,7 @@
                     <drap-upload  :scale='1' :maxSize="2" scaleTip='1' v-model='model.cardCoverPic' :isNeedCrop='true' :drag='false'>
                     </drap-upload>
                   </div>
-                  <ns-button type='text' class="remind-text" @click="showDefCard">恢复默认卡片图</ns-button>
+                  <ns-button type='text' class="remind-text" @click="showDefCard">恢复默认图片</ns-button>
                 </div>
                 <div class="qrcode-bottom-view">
                   建议：比例为1:1，小于2M，jpg、png、jpeg格式
@@ -84,7 +84,7 @@
 </template>
 <script>
 import Box from '@/components/NewUi/Box'
-import { STEP_LIST, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_WELCOMECODE } from '../../src/const'
+import { STEP_LIST, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_WELCOMECODE, Tools } from '../../src/const'
 import validates from '../../src/validates'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import ElAvatar from '@nascent/nui/lib/avatar'
@@ -112,10 +112,7 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ]
       },
-      tools: [
-        { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
-        { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
-      ]
+      tools: Tools
     }
   },
   props: ['data', 'isStating'],
@@ -152,7 +149,9 @@ export default {
   },
   mounted () {
     this.model = { ...this.data }
-    this.showDefaultText()
+    if (!this.model.activityIntroduction) {
+      this.showDefaultText()
+    }
   }
 }
 </script>
