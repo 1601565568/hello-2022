@@ -160,7 +160,7 @@
                         <el-input class="middle"  v-model="model.virtualFinishedCount" @input='inputNumber'/>
                         人
                       </div>
-                      <div class="qrcode-bottom-view">
+                      <div class="qrcode-bottom-view align-with-form">
                         <span class="remind-view"></span>
                         填写已完成活动的虚拟人数，营造火爆的场景，以吸引用户参与，完成人数为空或为0时则不显示
                       </div>
@@ -339,8 +339,8 @@ export default {
         for (let i = 0; i < ladderRewardList.length; i++) {
           const item = { ...ladderRewardList[i] }
           let activeInfoItem = {}
-          if (newActiveInfoList[i]) {
-            activeInfoItem = Object.assign(item, newActiveInfoList[i])
+          if (this.model.activeInfoList[i]) {
+            activeInfoItem = Object.assign(item, this.model.activeInfoList[i])
           } else {
             activeInfoItem = Object.assign({}, DEFAULT_ACTIVEINFO_ITEM, item)
           }
@@ -425,9 +425,15 @@ export default {
     border-bottom: 1px solid #E8E8E8;
   }
 }
+.align-with-form {
+  margin-left: -100px;
+}
 </style>
 <style scoped>
 .customCode-content_box {
+  >>> .el-avatar > img {
+    width: 100%;
+  }
   >>> .collapse-right,>>> .collapse-left{
     height: 100%;
     overflow-y: auto;

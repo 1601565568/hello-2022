@@ -191,6 +191,7 @@ export default {
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
 .container {
+  min-width: 1158px;
   background-color: #fff;
   padding-top: 40px;
   height: calc(100vh - 160px);

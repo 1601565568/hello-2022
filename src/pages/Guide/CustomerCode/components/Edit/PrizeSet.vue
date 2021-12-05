@@ -113,7 +113,7 @@
               <p>{{ scope.row.validNumber }}</p>
             </template></el-table-column
           >
-          <el-table-column type="default" min-width="100"  label="当前活动奖励总数" :sortable="false">
+          <el-table-column type="default" min-width="100"  label="当前活动奖励数量" :sortable="false">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -483,7 +483,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { ...this.data }
+    this.model = JSON.parse(JSON.stringify(this.data))
   }
 }
 </script>

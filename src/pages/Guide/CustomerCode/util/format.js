@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -112,7 +112,7 @@ export const loadingFormat = (model) => {
     qrcodeY: model.qrcodeY
   }
   const setWelcomeCodeData = {
-    activityIntroduction: model.activityIntroduction,
+    activityIntroduction: TagArea.methods.stringTohtml.call({ tools: Tools }, model.activityIntroduction),
     cardCopywriting: model.cardCopywriting,
     cardCoverPic: model.cardCoverPic,
     cardTitle: model.cardTitle
