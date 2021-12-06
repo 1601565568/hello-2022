@@ -337,34 +337,7 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: 0,
-        presetParams: [
-          {
-            paramCode: 'guideId',
-            paramName: 'guideId',
-            status: 1
-          },
-          {
-            paramCode: 'shopId',
-            paramName: 'shopId',
-            status: 1
-          },
-          {
-            paramCode: 'workNumber',
-            paramName: 'workNumber',
-            status: 1
-          },
-          {
-            paramCode: 'outShopId',
-            paramName: 'outShopId',
-            status: 1
-          },
-          {
-            paramCode: 'materialId',
-            paramName: 'materialId',
-            status: 1
-          }
-        ]
+        codeStyle: 0
       },
       urlObj: {
         howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
@@ -411,7 +384,34 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
         ]
       },
-      appIdRefresh: false
+      appIdRefresh: false,
+      presetParams: [
+        {
+          paramCode: 'guideId',
+          paramName: 'guideId',
+          status: 1
+        },
+        {
+          paramCode: 'shopId',
+          paramName: 'shopId',
+          status: 1
+        },
+        {
+          paramCode: 'workNumber',
+          paramName: 'workNumber',
+          status: 1
+        },
+        {
+          paramCode: 'outShopId',
+          paramName: 'outShopId',
+          status: 1
+        },
+        {
+          paramCode: 'materialId',
+          paramName: 'materialId',
+          status: 1
+        }
+      ]
     }
   },
   watch: {
@@ -541,6 +541,7 @@ export default {
     },
     showImageCode () {
       this.visible = true
+      this.content.presetParams = this.presetParams
       this.loadAppIds()
       // if (this.miniList.length > 0) {
       //   this.content.appid = this.miniList[0].appid
@@ -583,7 +584,8 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: 0
+        codeStyle: 0,
+        presetParams: this.presetParams
       }
       this.appIdRefresh = false
       this.goodsCache = {
@@ -792,7 +794,7 @@ export default {
               that.$emit('handleImageCode', false)
               that.visible = false
               that.initData()
-              that.$refs.ruleForm.resetFields()
+              that.$refs.ruleForm.resetFielxwds()
             })
             .catch(resp => {
               that.saveLoad = false
