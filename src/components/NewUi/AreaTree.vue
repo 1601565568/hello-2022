@@ -79,7 +79,7 @@ export default {
               this.$emit('inputName', this.areaName)
               setTimeout(() => {
                 this.$refs.shopTree.setCurrentKey(this.areaId)
-              }, 0)
+              }, 2000)
             }
           }
         })

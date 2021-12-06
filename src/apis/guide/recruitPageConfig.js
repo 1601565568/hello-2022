@@ -11,6 +11,6 @@ export default {
   },
   mpFollowStateChange: {
     url: prefix + 'mpFollowStateChange',
-    method: 'GET'
+    method: 'POST'
   }
 }
