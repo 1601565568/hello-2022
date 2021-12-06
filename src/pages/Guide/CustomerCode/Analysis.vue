@@ -29,10 +29,10 @@
         <div :class="'tab-content'+(item.id===analysisType?' avtive':'')" @click='hanldeChangeType(item.id)'>
           <h3 class="tab-label">
             {{item.label}}
-            <el-tooltip v-if='item.tip'  placement="top" popper-class='popperClass'>
+            <el-tooltip v-if='item.tip' :content="item.id==='friend'?inviteFriendTip:item.tip" placement="top" popper-class='popperClass'>
               <Icon type="question-circle" />
               <template slot='content'>
-                <p class='popperClass'>{{item.tip}}</p>
+                <p class='popperClass' v-html="item.id==='friend'?inviteFriendTip:item.tip"></p>
               </template>
             </el-tooltip>
           </h3>

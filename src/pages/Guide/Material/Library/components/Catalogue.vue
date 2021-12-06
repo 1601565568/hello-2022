@@ -81,7 +81,19 @@
                     item.sourceName || '-'
                   }}</span>
                 </el-tooltip>
-                <span>{{ item.createTime }}</span>
+                <div>
+                  <el-switch
+                    v-model="item.currentStatus"
+                    class="tablescope"
+                    inactive-text="下架"
+                    active-color="#0091FA"
+                    inactive-color="#8C8C8C"
+                    active-text="上架"
+                    active-value="1"
+                    inactive-value="2"
+                    @change="currentStatusChange(item)"
+                  ></el-switch>
+                </div>
               </div>
               <div
                 class="catalogue-materials__item--content catalogue-ellipsis2"
@@ -145,7 +157,7 @@
                   </li>
                 </div> -->
                 <div v-for="(c_item, c_index) in item.mediaList" :key="c_index" class="catalogue-materials__image">
-                  <div v-if="c_item.type === 1 || c_item.type === 0" class="v_image">
+                  <div v-if="c_item.type === 1 || c_item.type === 0 || c_item.type === 5" class="v_image">
                     <img class="pit-img-view" v-if="c_item.type == 0" :src="defaultImgUrl"  @click="showGuideInfo(c_index, item)" :style="{ width: imageHeight + 'px',height: imageHeight + 'px'}">
                     <img
                       v-else
@@ -266,6 +278,7 @@
                   >浏览量: {{ item.pageView || 0 }}</span
                 >
               </div>
+              <div class="material-time">{{item.shelfTimeData || item.createTime}}</div>
             </div>
             <div
               class="catalogue-materials__item--btns"
@@ -371,7 +384,8 @@ export default {
       selectItem: {},
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      selectStatus: '1'
     }
   },
   watch: {
@@ -438,6 +452,9 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
+    currentStatusChange (item) {
+      this.$emit('currentStatusChange', item)
+    },
     strToRichText (text) {
       if (!text) {
         return ''
@@ -512,7 +529,7 @@ export default {
       let item = data.mediaList[current]
       let imgs = []
       data.mediaList.forEach(item => {
-        imgs.push(item.type === 1 ? item.content.image : item.content.video)
+        imgs.push(item.type === 1 || item.type === 5 ? item.content.image : item.content.video)
       })
       this.$emit('preview', current, imgs, type)
     },
@@ -647,6 +664,11 @@ export default {
       margin-right: 4px;
     }
   }
+}
+.material-time {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 </style>
 <style scoped>

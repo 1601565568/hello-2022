@@ -11,10 +11,13 @@
       <div class="data-view">
         <el-row :gutter="15">
           <template v-for="item in dataList">
-            <el-col :key="item.name" :span="4">
+            <el-col :key="item.name" :span="6">
               <div class="base-cell" :class="item.claseName">
                 <div class="text">{{ item.name }}</div>
-                <div class="number">{{ item.data }}</div>
+                <div class="subTitle">昨日次数</div>
+                <div class="number">{{ item.yesterdayNum }}</div>
+                <div class="subTitle">总次数</div>
+                <div class="number">{{ item.totalNum }}</div>
               </div>
             </el-col>
           </template>
@@ -106,6 +109,8 @@
                     </el-table-column>
                     <el-table-column prop="nowCompletionSum" label="补全次数">
                     </el-table-column>
+                    <el-table-column prop="nowFriendsCircleSum" label="朋友圈发送次数">
+                    </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
                         <ns-button
@@ -139,6 +144,16 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="按素材统计" name="second">
+            <div class="no-input-view" style="width:200px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForPerson(1)"
+                ></Icon>
+              </el-input>
+            </div>
             <div v-if="listMaterial.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -176,6 +191,8 @@
                     <el-table-column prop="downloadSum" label="下载次数">
                     </el-table-column>
                     <el-table-column prop="completionSum" label="补全次数">
+                    </el-table-column>
+                    <el-table-column prop="friendsCircleSum" label="朋友圈发送次数">
                     </el-table-column>
                     <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
@@ -235,12 +252,10 @@ export default {
         }
       },
       dataList: [
-        { name: '素材发送次数总计', data: 0, claseName: 'one' },
-        { name: '素材下载总次数', data: 0, claseName: 'two' },
-        { name: '素材补全总次数', data: 0, claseName: 'three' },
-        { name: '昨日素材发送次数', data: 0, claseName: 'four' },
-        { name: '昨日素材下载次数', data: 0, claseName: 'five' },
-        { name: '昨日素材补全次数', data: 0, claseName: 'six' }
+        { name: '素材发送次数', totalNum: 0, yesterdayNum: 0, claseName: 'one' },
+        { name: '素材下载次数', totalNum: 0, yesterdayNum: 0, claseName: 'two' },
+        { name: '素材补全次数', totalNum: 0, yesterdayNum: 0, claseName: 'three' },
+        { name: '素材发朋友圈次数', totalNum: 0, yesterdayNum: 0, claseName: 'four' }
       ],
       listData: [],
       option: {
@@ -252,31 +267,36 @@ export default {
         },
         legend: {
           data: [
-            '素材发送次数总计',
+            '素材发送总次数',
             '素材下载总次数',
             '素材补全总次数',
+            '素材发朋友圈总次数',
             '每日素材发送次数',
             '每日素材下载次数',
-            '每日素材补全次数'
+            '每日素材补全次数',
+            '每日素材发朋友圈次数'
           ],
-          left: 'center',
+          left: '2%',
           bottom: '9%',
           icon: 'roundRect',
           itemWidth: 10,
           itemHeight: 10,
           selected: {
-            素材发送次数总计: false,
+            素材发送总次数: false,
             素材下载总次数: false,
-            素材补全总次数: false
+            素材补全总次数: false,
+            素材发朋友圈总次数: false
           }
         },
         color: [
           '#4287FF',
-          '#722898',
+          '#F7B586',
           '#95DA73',
-          '#F34CA7',
           '#7962EC',
-          '#F5AD34'
+          '#A0522D',
+          '#6D8764',
+          '#E3C800',
+          '#EC028B'
         ],
         grid: {
           left: '2%',
@@ -342,7 +362,8 @@ export default {
       showTodaySelect: true,
       startTime: '',
       endTime: '',
-      datePickerValue: []
+      datePickerValue: [],
+      materialTitle: ''
     }
   },
   methods: {
@@ -479,38 +500,17 @@ export default {
         .then(resp => {
           if (resp.success) {
             const json = resp.result || {}
-            this.dataList = [
-              {
-                name: '素材发送次数总计',
-                data: json.sendSum || 0,
-                claseName: 'one'
-              },
-              {
-                name: '素材下载总次数',
-                data: json.downloadSum || 0,
-                claseName: 'two'
-              },
-              {
-                name: '素材补全总次数',
-                data: json.completionSum || 0,
-                claseName: 'three'
-              },
-              {
-                name: '昨日素材发送次数',
-                data: json.nowSendSum || 0,
-                claseName: 'four'
-              },
-              {
-                name: '昨日素材下载次数',
-                data: json.nowDownloadSum || 0,
-                claseName: 'five'
-              },
-              {
-                name: '昨日素材补全次数',
-                data: json.nowCompletionSum || 0,
-                claseName: 'six'
-              }
-            ]
+            this.dataList[0].totalNum = json.sendSum || 0
+            this.dataList[0].yesterdayNum = json.nowSendSum || 0
+
+            this.dataList[1].totalNum = json.downloadSum || 0
+            this.dataList[1].yesterdayNum = json.nowDownloadSum || 0
+
+            this.dataList[2].totalNum = json.completionSum || 0
+            this.dataList[2].yesterdayNum = json.nowCompletionSum || 0
+
+            this.dataList[3].totalNum = json.friendsCircleSum || 0
+            this.dataList[3].yesterdayNum = json.nowFriendsCircleSum || 0
           }
         })
         .catch(resp => {})
@@ -546,7 +546,8 @@ export default {
       const parms = {
         searchMap: {
           endTime: this.endTime + ' 23:59:59',
-          startTime: this.startTime + ' 00:00:00'
+          startTime: this.startTime + ' 00:00:00',
+          materialTitle: this.materialTitle
         },
         start:
           (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -588,22 +589,26 @@ export default {
             const sendTotal = []
             const downTotal = []
             const addTotal = []
+            const friendsCircleSum = []
             const ySendTotal = []
             const yDownTotal = []
             const yAddTotal = []
+            const yFriendsCircleSum = []
             for (const item of arr) {
               times.push(item.date)
               sendTotal.push(item.sendSum)
               downTotal.push(item.downloadSum)
               addTotal.push(item.completionSum)
+              friendsCircleSum.push(item.friendsCircleSum)
               ySendTotal.push(item.nowSendSum)
               yDownTotal.push(item.nowDownloadSum)
               yAddTotal.push(item.nowCompletionSum)
+              yFriendsCircleSum.push(item.nowFriendsCircleSum)
             }
             this.option.xAxis.data = times
             this.option.series = [
               {
-                name: '素材发送次数总计',
+                name: '素材发送总次数',
                 type: 'line',
                 data: sendTotal
               },
@@ -616,6 +621,11 @@ export default {
                 name: '素材补全总次数',
                 type: 'line',
                 data: addTotal
+              },
+              {
+                name: '素材发朋友圈总次数',
+                type: 'line',
+                data: friendsCircleSum
               },
               {
                 name: '每日素材发送次数',
@@ -631,6 +641,11 @@ export default {
                 name: '每日素材补全次数',
                 type: 'line',
                 data: yAddTotal
+              },
+              {
+                name: '每日素材发朋友圈次数',
+                type: 'line',
+                data: yFriendsCircleSum
               }
             ]
           }
@@ -692,46 +707,39 @@ export default {
   }
   .base-cell {
     color: #ffffff;
-    text-align: center;
     border-radius: 4px;
-    height: 120px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    padding: 16px;
     .number {
-      font-size: 24px;
+      font-size: 20px;
       color: #ffffff;
-      text-align: center;
       line-height: 32px;
       font-weight: 500;
+    }
+    .subTitle {
+      font-size: 12px;
+      color: #FFFFFF;
     }
     .text {
       font-size: 16px;
       color: #ffffff;
-      text-align: center;
       line-height: 24px;
       font-weight: 400;
       margin-bottom: 10px;
     }
   }
   .one {
-    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
+    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
   }
   .two {
-    background-image: linear-gradient(269deg, #ad5489 0%, #702698 100%);
+    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
   }
   .three {
-    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
+    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
   }
   .four {
-    background-image: linear-gradient(269deg, #fc6767 0%, #ec008c 100%);
-  }
-  .five {
-    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
-  }
-  .six {
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
+    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
   }
 }
 .material-show {

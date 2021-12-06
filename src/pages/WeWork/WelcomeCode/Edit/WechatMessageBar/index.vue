@@ -18,6 +18,10 @@
         </div>
       </ImageMessage>
     </div>
+    <div v-if="pitBit" class="add-material-item" @click="showImageCode">
+      <i class="iconfont icon-fumatupian icon" style="font-size:30px;"></i>
+      <span class="item-tip">附码图片</span>
+    </div>
     <div class="add-material-item">
       <VideoMessage
         @confirm="addVideoMessage"
@@ -70,6 +74,12 @@
       :visible.sync="visiblePitbitMessageDialog"
       @update:visible="pitbitMsg = null"
     />
+    <ImageCode
+      :visible.sync="visibleImageCodeDialog"
+      @handleImageCode="handleImageCode"
+      @confirm="addMessage"
+      ref='imagecode'
+    />
   </div>
 </template>
 
@@ -82,7 +92,7 @@ import LinkMessageDialog from './LinkMessageDialog'
 import MiniProgramMessageDialog from './MiniProgramMessageDialog'
 import PosterMessageDialog from './PosterMessageDialog'
 import PitbitMessageDialog from './PitbitMessageDialog'
-
+import ImageCode from './ImageCode'
 export default {
   components: {
     ImageMessage,
@@ -90,7 +100,8 @@ export default {
     LinkMessageDialog,
     MiniProgramMessageDialog,
     PosterMessageDialog,
-    PitbitMessageDialog
+    PitbitMessageDialog,
+    ImageCode
   },
   props: {
     pitBit: {
@@ -122,10 +133,17 @@ export default {
       linkMsg: null,
       miniProgramMsg: null,
       posterMsg: null,
-      pitbitMsg: null
+      pitbitMsg: null,
+      visibleImageCodeDialog: false
     }
   },
   methods: {
+    handleImageCode () {
+    },
+    showImageCode (val) {
+      this.$refs.imagecode.showImageCode()
+      // this.visibleImageCodeDialog = val
+    },
     uploadImageProgress (message) {
       let msg = {}
       if (this.imageMsg) msg = this.imageMsg
@@ -181,9 +199,10 @@ export default {
           type = 3
         } else if (message.type === 'miniprogram') {
           type = 4
+        } else if (message.type === 'imagecode') {
+          type = 5
         }
       }
-      // console.log(message)
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
@@ -268,7 +287,8 @@ export default {
 <style lang="scss" scoped>
 .add-material-bar {
   display: flex;
-  height: 92px;
+  flex-direction: row;
+  // height: 92px;
   .bitpit{
     width: 40px;
     height: 40px;
