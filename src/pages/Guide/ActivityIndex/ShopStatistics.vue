@@ -293,7 +293,7 @@
       >
         <template slot="header">
           销售额(元)/销售指标(元)/完成率
-          <el-tooltip content="全渠道订单中成单、提货、发货门店为所选门店的，所有交易成功的订单总额">
+          <el-tooltip content="全渠道订单中下单、提货、发货门店为当前门店的交易成功订单金额-退款成功金额">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
@@ -311,12 +311,12 @@
       <el-table-column label="提成（元）" prop="sellPrice" width="100" align="right">
         <template slot="header">
           提成(元)
-          <el-tooltip content="【成单门店为该门店，成单导购为该门店导购的所有成单导购提成和】+【专属门店为该门店，专属导购为该门店导购的所有专属导购提成和】">
+          <el-tooltip content="【成单门店为该门店且成单导购为该门店导购的成单导购提成和-退款金额提成】+【专属门店为该门店且专属导购为该门店导购的专属导购提成和-退款金额提成】">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
         <template slot-scope="scope">
-          <span v-if="scope.row.sellPrice == 0">0.00</span>
+          <a href="javascript:" v-if="scope.row.sellPrice == 0" @click="showSellDialog(scope.row.shopId, scope.row.shopName)">0.00</a>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
@@ -382,58 +382,134 @@
       <!--奖励弹窗结束-->
 
       <!--提成弹窗开始 -->
-      <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
-        <!-- 高级搜索 -->
-        <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
-        <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-        <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
-          <el-form-item>
-            <el-form-grid size="xmd">
-              <el-form-item label="姓名：">
-                <el-input  type="text" v-model="customerName">
-                </el-input>
-              </el-form-item>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-grid size="xmd">
-            <el-form-item label="订单号：">
-              <el-input  type="text" v-model="tradeNo">
-              </el-input>
-            </el-form-item>
-          </el-form-grid>
-          <el-form-grid>
-            <el-form-item>
-              <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-              <ns-button @click="formReset('searchform')">重置</ns-button>
-            </el-form-item>
-          </el-form-grid>
-        </el-form>
-        <!-- 高级搜索-结束 -->
-        <div style="overflow-x:hidden;overflow-y:auto;">
-          <el-table :data="detailData" stripe>
-            <el-table-column prop="guideName" label="导购" align="left"></el-table-column>
-            <el-table-column prop="name" label="姓名" align="left">
-              <template slot-scope="scope">
-                <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
-              </template>
-            </el-table-column>
-            <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
-            <el-table-column prop="payment" label="订单实付(含运费)" align="right"></el-table-column>
-            <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
-            <el-table-column prop="reward" label="提成" align="right" width="80"></el-table-column>
-          </el-table>
+      <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="960px" :before-close="onCancleSellDialog" :vetically=true>
+        <div class="shop-remind-view">
+          <div>成单导购提成：此门店员工为成单导购的订单提成（下单时的提成比例）</div>
+          <div>专属导购提成：此门店员工为会员专属导购的订单提成（下单时的提成比例)</div>
+          <div>订单发生退款时，则扣减对应的成单导购提成和专属导购提成</div>
         </div>
-        <!--分页开始-->
-        <el-pagination v-if="pagination.enable" class="template-table-pagination"
-                       :page-sizes="pagination1.sizeOpts"
-                       :total="pagination1.total"
-                       :current-page.sync="pagination1.page"
-                       :page-size="pagination1.size"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       @size-change="sizeChange"
-                       @current-change="pageChange"
-        >
-        </el-pagination>
+        <div class="select-data-view">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="订单信息" name="first">
+              <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+                <el-form-item>
+                  <el-form-grid size="xmd" width="230">
+                    <el-form-item label="姓名：">
+                      <el-input  type="text" v-model="customerName">
+                      </el-input>
+                    </el-form-item>
+                  </el-form-grid>
+                </el-form-item>
+                <el-form-grid size="xmd" width="250">
+                  <el-form-item label="订单号：">
+                    <el-input  type="text" v-model="tradeNo">
+                    </el-input>
+                  </el-form-item>
+                </el-form-grid>
+                <el-form-grid>
+                  <el-form-item>
+                    <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+                    <ns-button @click="formReset('searchform')">重置</ns-button>
+                  </el-form-item>
+                </el-form-grid>
+              </el-form>
+              <div>
+                <el-table :data="detailData" stripe class="new-table_border drawer-table" :row-style="{ height: '48px' }">
+                  <el-table-column prop="guideName" label="导购"></el-table-column>
+                  <el-table-column prop="name" label="姓名">
+                    <template slot-scope="scope">
+                      <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="tradeId" label="订单编号"></el-table-column>
+                  <el-table-column prop="payment" label="订单实付(含运费)" align="right">
+                    <template slot-scope="scope">
+                      {{'¥'+scope.row.payment}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="createTime" label="时间"></el-table-column>
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
+                    <template slot-scope="scope">
+                      {{'¥'+scope.row.reward}}
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <el-pagination v-if="pagination.enable" class="template-table-pagination"
+                            :page-sizes="pagination1.sizeOpts"
+                            :total="pagination1.total"
+                            :current-page.sync="pagination1.page"
+                            :page-size="pagination1.size"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            @size-change="sizeChange"
+                            @current-change="pageChange"
+              >
+              </el-pagination>
+            </el-tab-pane>
+            <el-tab-pane label="退款信息" name="second">
+              <el-form ref="table_filter_form" label-width="60px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+                <el-form-item>
+                  <el-form-grid size="xmd" width="230">
+                    <el-form-item label="姓名：">
+                      <el-input  type="text" v-model="customerName">
+                      </el-input>
+                    </el-form-item>
+                  </el-form-grid>
+                </el-form-item>
+                <el-form-grid size="xmd" width="290">
+                  <el-form-item label="退款编号：">
+                    <el-input  type="text" v-model="outRefundId">
+                    </el-input>
+                  </el-form-item>
+                </el-form-grid>
+                <el-form-grid>
+                  <el-form-item>
+                    <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+                    <ns-button @click="formReset('searchform')">重置</ns-button>
+                  </el-form-item>
+                </el-form-grid>
+              </el-form>
+              <div>
+                <el-table :data="detailData" stripe class="new-table_border drawer-table" :row-style="{ height: '48px' }">
+                  <el-table-column prop="guideName" label="导购" ></el-table-column>
+                  <el-table-column prop="name" label="姓名">
+                    <template slot-scope="scope">
+                      <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="outRefundId" label="退款编号">
+                    <template slot-scope="scope">
+                      {{scope.row.outRefundId || '-'}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="payment" label="退款金额(含运费)"  align="right">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.payment">{{'¥'+scope.row.payment}}</span>
+                      <span v-else>{{'-'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
+                  <el-table-column prop="createTime" label="时间" ></el-table-column>
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
+                    <template slot-scope="scope">
+                      {{'¥'+scope.row.reward}}
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <el-pagination v-if="pagination.enable" class="template-table-pagination"
+                            :page-sizes="pagination1.sizeOpts"
+                            :total="pagination1.total"
+                            :current-page.sync="pagination1.page"
+                            :page-size="pagination1.size"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            @size-change="sizeChange"
+                            @current-change="pageChange"
+              >
+              </el-pagination>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
         <div slot="footer" class="dialog-footer">
           <ns-button @click="onCancleSellDialog">关闭</ns-button>
         </div>
@@ -508,6 +584,7 @@ export default {
     }
     let nowDate = new Date()
     return {
+      activeName: 'first',
       test: 'testmy',
       typeOptions: [
         {
@@ -586,7 +663,8 @@ export default {
       tradeNo: null,
       shopId: null,
       type: null,
-      pagination1: pagination1
+      pagination1: pagination1,
+      outRefundId: null
     }
   },
   created: function () {
@@ -600,6 +678,14 @@ export default {
     this.loadListFun()
   },
   methods: {
+    handleClick (tab, event) {
+      if (tab.name === 'first') {
+        this.outRefundId = null
+      } else {
+        this.tradeNo = null
+      }
+      this.formSearch()
+    },
     handleDateChange () {
       this.searchform.date = ''
     },
@@ -728,6 +814,7 @@ export default {
     formReset () {
       this.customerName = null
       this.tradeNo = null
+      this.outRefundId = null
       this.friendWxnick = null
       this.findDetailData(this.shopId)
     },
@@ -743,6 +830,7 @@ export default {
           'YYYY-MM'
         )
       }
+      const negative = this.activeName === 'first' ? 0 : 1
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
         length: _this.pagination1.size,
@@ -753,7 +841,9 @@ export default {
           friendWxnick: _this.friendWxnick,
           type: this.searchform.type,
           rewardType: _this.type,
-          date: _this.searchObj.searchMap.date
+          date: _this.searchObj.searchMap.date,
+          negative,
+          outRefundId: _this.outRefundId
         }
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {
@@ -832,7 +922,11 @@ export default {
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
-
+  @import '@components/NewUi/styles/reset.css';
+  >>>.el-form-item--small .el-form-item__label {
+    text-align: left;
+    font-size: 12px;
+  }
   .el-input.el-input--small .el-input__inner {
     text-indent: 25px !important;
   }
@@ -844,5 +938,35 @@ export default {
   }
   .resetbtn {
     margin-left: 9px;
+  }
+  .shop-remind-view {
+    background-color: #F2F9FE;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+  .select-data-view >>> .el-tabs__header {
+    border: none;
+    height: 46px;
+    margin-left: -10px;
+  }
+
+  .select-data-view >>> .el-tabs__item.is-active {
+    color: #0094fc;
+  }
+
+  .select-data-view >>> .el-tabs__active-bar {
+    background: #0094fc;
+  }
+
+  .select-data-view >>> .el-tabs__item:focus.is-active.is-focus:not(:active) {
+    box-shadow: none;
+  }
+  .drawer-table {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 16px;
   }
 </style>
