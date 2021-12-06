@@ -196,7 +196,7 @@
     </el-form>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，配置欢迎语</div>
-      <div class='btn current' @click="handleSubmit" :loading='loading'>保存</div>
+      <ns-button class='btn current' @click="handleSubmit" :loading='loading'>保存</ns-button>
     </div>
     <NsAddTagDialog
         :visible.sync="NsAddTagDialogVisible"
@@ -334,7 +334,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { ...this.data }
+    this.model = JSON.parse(JSON.stringify(this.data))
   }
 }
 </script>
