@@ -393,19 +393,19 @@
             <el-tab-pane label="订单信息" name="first">
               <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
-                  <el-form-grid size="xmd" width="230">
+                  <!-- <el-form-grid size="xmd" width="230"> -->
                     <el-form-item label="姓名：">
                       <el-input  type="text" v-model="customerName">
                       </el-input>
                     </el-form-item>
-                  </el-form-grid>
+                  <!-- </el-form-grid> -->
                 </el-form-item>
-                <el-form-grid size="xmd" width="250">
+                <!-- <el-form-grid size="xmd" width="250"> -->
                   <el-form-item label="订单号：">
                     <el-input  type="text" v-model="tradeNo">
                     </el-input>
                   </el-form-item>
-                </el-form-grid>
+                <!-- </el-form-grid> -->
                 <el-form-grid>
                   <el-form-item>
                     <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
@@ -449,19 +449,19 @@
             <el-tab-pane label="退款信息" name="second">
               <el-form ref="table_filter_form" label-width="60px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
-                  <el-form-grid size="xmd" width="230">
+                  <!-- <el-form-grid size="xmd" width="230"> -->
                     <el-form-item label="姓名：">
                       <el-input  type="text" v-model="customerName">
                       </el-input>
                     </el-form-item>
-                  </el-form-grid>
+                  <!-- </el-form-grid> -->
                 </el-form-item>
-                <el-form-grid size="xmd" width="290">
+                <!-- <el-form-grid size="xmd" width="290"> -->
                   <el-form-item label="退款编号：">
                     <el-input  type="text" v-model="outRefundId">
                     </el-input>
                   </el-form-item>
-                </el-form-grid>
+                <!-- </el-form-grid> -->
                 <el-form-grid>
                   <el-form-item>
                     <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
