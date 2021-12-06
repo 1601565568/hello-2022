@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -44,7 +44,8 @@ export const submitFormat = (model) => {
     validTimeType: baseInfoData.validTimeType,
     pageDecoration: JSON.stringify(submitPageDecorationDataFormat(pageDecorationData)),
     prizeRuleList: submitPrizeRuleListFormat(pageDecorationData.activeInfoList),
-    prizeSendPlan: 1
+    prizeSendPlan: 1,
+    prizeLadderRule: prizeSetData.prizeLadderRule
   }
   return data
 }
@@ -112,7 +113,7 @@ export const loadingFormat = (model) => {
     qrcodeY: model.qrcodeY
   }
   const setWelcomeCodeData = {
-    activityIntroduction: model.activityIntroduction,
+    activityIntroduction: TagArea.methods.stringTohtml.call({ tools: Tools }, model.activityIntroduction),
     cardCopywriting: model.cardCopywriting,
     cardCoverPic: model.cardCoverPic,
     cardTitle: model.cardTitle

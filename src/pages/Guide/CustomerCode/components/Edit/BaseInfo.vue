@@ -23,13 +23,13 @@
           />
         </el-form-item>
         <el-form-item label="参加活动人员" prop="guideIds">
-          <div class="flex-box form-item_toptext">
+          <!-- <div class="flex-box form-item_toptext">
             <span>选择的员工可以在企微侧边栏使用该裂变大师活动</span>
             <span class="form-item_toptext__length"
               >已选<span>{{ model.guideIds.length }}</span
               >人</span
             >
-          </div>
+          </div> -->
           <html-area>
             <div class="employee-list">
               <template v-if="model.guideDatas.length > 0">
@@ -76,6 +76,10 @@
               </div>
             </template>
           </html-area>
+          <div class="qrcode-bottom-view">
+            <span class="remind-view"></span>
+            选择的员工可以在企微侧边栏使用该裂变大师活动
+          </div>
         </el-form-item>
         <el-form-item label="有效时间" required prop="validTimeType">
           <div class="form-item_toptext">

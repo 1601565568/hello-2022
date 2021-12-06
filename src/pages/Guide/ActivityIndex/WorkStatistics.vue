@@ -405,7 +405,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="时间" ></el-table-column>
-              <el-table-column prop="reward" label="提成"   align="right">
+              <el-table-column prop="reward" label="提成"   align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
                 </template>
@@ -454,12 +454,13 @@
               </el-table-column>
               <el-table-column prop="payment" label="退款金额" align="right">
                 <template slot-scope="scope">
-                  {{'¥'+scope.row.payment}}
+                  <span v-if="scope.row.payment">{{'¥'+scope.row.payment}}</span>
+                  <span v-else>{{'-'}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="tradeId" label="关联订单号"></el-table-column>
               <el-table-column prop="createTime" label="时间"></el-table-column>
-              <el-table-column prop="reward" label="提成" align="right">
+              <el-table-column prop="reward" label="提成" align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
                 </template>

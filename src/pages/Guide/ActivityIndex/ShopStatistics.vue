@@ -393,19 +393,19 @@
             <el-tab-pane label="订单信息" name="first">
               <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
-                  <el-form-grid size="xmd" width="230">
+                  <!-- <el-form-grid size="xmd" width="230"> -->
                     <el-form-item label="姓名：">
                       <el-input  type="text" v-model="customerName">
                       </el-input>
                     </el-form-item>
-                  </el-form-grid>
+                  <!-- </el-form-grid> -->
                 </el-form-item>
-                <el-form-grid size="xmd" width="250">
+                <!-- <el-form-grid size="xmd" width="250"> -->
                   <el-form-item label="订单号：">
                     <el-input  type="text" v-model="tradeNo">
                     </el-input>
                   </el-form-item>
-                </el-form-grid>
+                <!-- </el-form-grid> -->
                 <el-form-grid>
                   <el-form-item>
                     <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
@@ -428,7 +428,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column prop="createTime" label="时间"></el-table-column>
-                  <el-table-column prop="reward" label="提成"  align="right">
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
@@ -449,19 +449,19 @@
             <el-tab-pane label="退款信息" name="second">
               <el-form ref="table_filter_form" label-width="60px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
                 <el-form-item>
-                  <el-form-grid size="xmd" width="230">
+                  <!-- <el-form-grid size="xmd" width="230"> -->
                     <el-form-item label="姓名：">
                       <el-input  type="text" v-model="customerName">
                       </el-input>
                     </el-form-item>
-                  </el-form-grid>
+                  <!-- </el-form-grid> -->
                 </el-form-item>
-                <el-form-grid size="xmd" width="290">
+                <!-- <el-form-grid size="xmd" width="290"> -->
                   <el-form-item label="退款编号：">
                     <el-input  type="text" v-model="outRefundId">
                     </el-input>
                   </el-form-item>
-                </el-form-grid>
+                <!-- </el-form-grid> -->
                 <el-form-grid>
                   <el-form-item>
                     <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
@@ -484,12 +484,13 @@
                   </el-table-column>
                   <el-table-column prop="payment" label="退款金额(含运费)"  align="right">
                     <template slot-scope="scope">
-                      {{'¥'+scope.row.payment}}
+                      <span v-if="scope.row.payment">{{'¥'+scope.row.payment}}</span>
+                      <span v-else>{{'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
                   <el-table-column prop="createTime" label="时间" ></el-table-column>
-                  <el-table-column prop="reward" label="提成"  align="right">
+                  <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
                     </template>
