@@ -482,7 +482,7 @@
                       {{scope.row.outRefundId || '-'}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="payment" label="退款金额(含运费)"  align="right">
+                  <el-table-column prop="payment" label="退款金额"  align="right">
                     <template slot-scope="scope">
                       <span v-if="scope.row.payment">{{'¥'+scope.row.payment}}</span>
                       <span v-else>{{'-'}}</span>
