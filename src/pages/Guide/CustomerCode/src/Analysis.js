@@ -51,6 +51,12 @@ export default {
           value: 0,
           id: 'prize',
           key: 'reachStandardNumber'
+        },
+        {
+          label: '领奖记录',
+          value: 0,
+          id: 'receive',
+          key: 'reachStandardNumber'
         }
       ],
       model: {

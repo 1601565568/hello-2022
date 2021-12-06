@@ -82,17 +82,17 @@
                     </div>
                   </div>
                 </div>
-                <div class="get-number-view" v-show="parseInt(model.activeInfo.number) > 0">
+                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor}">领取奖励</div>
+                <div class="get-number-view" v-show="parseInt(model.virtualFinishedCount) > 0">
                   <div class="number-img">
-                    <div v-for="(item,index) in imgs.slice(0,parseInt(model.activeInfo.number) > 3 ? 3 : parseInt(model.activeInfo.number))" :key="index">
+                    <div v-for="(item,index) in imgs.slice(0,parseInt(model.virtualFinishedCount) > 3 ? 3 : parseInt(model.virtualFinishedCount))" :key="index">
                       <img :src="item" class="img-view"/>
                     </div>
                   </div>
                   <div class="">已有
-                    <span :style="{color:showColor.mainColor}">{{model.activeInfo.number}}</span>
+                    <span :style="{color:showColor.mainColor}">{{model.virtualFinishedCount}}</span>
                   人领取</div>
                 </div>
-                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor}">领取奖励</div>
               </div>
               <!-- <div v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1">
                 <div class="rouder-bottom">
@@ -515,7 +515,7 @@ export default {
   flex-direction: row;
   font-size: 12px;
   color: #595959;
-  margin-bottom: 16px;
+  margin-top: 16px;
   align-items: center;
 }
 .img-view {
