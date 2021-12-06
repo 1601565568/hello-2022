@@ -823,7 +823,9 @@ export default {
         // canvas.style.height = targetHeight * scale + 'px'
         // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
-          useCORS: true
+          useCORS: true,
+          width: view.offsetWidth,
+          height: view.offsetHeight
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
