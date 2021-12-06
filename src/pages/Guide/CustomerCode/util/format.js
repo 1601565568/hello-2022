@@ -44,7 +44,8 @@ export const submitFormat = (model) => {
     validTimeType: baseInfoData.validTimeType,
     pageDecoration: JSON.stringify(submitPageDecorationDataFormat(pageDecorationData)),
     prizeRuleList: submitPrizeRuleListFormat(pageDecorationData.activeInfoList),
-    prizeSendPlan: 1
+    prizeSendPlan: 1,
+    prizeLadderRule: prizeSetData.prizeLadderRule
   }
   return data
 }
