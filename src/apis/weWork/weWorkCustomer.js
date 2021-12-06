@@ -68,5 +68,27 @@ export default {
     method: 'post',
     responseType: 'blob',
     timeout: 600000
+  },
+  //  群流失好友流失
+  queryLossFriendsList: {
+    url: '/wework/lossFriends/queryLossFriendsList',
+    method: 'post'
+  },
+  // 群流失好友流失导出
+  exportLossFriendsList: {
+    url: '/wework/lossFriends/exportLossFriendsList',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 群流失提醒设置
+  saveOrUpdateTask: {
+    url: '/wework/lossFriendsWarnConf/saveOrUpdateTask',
+    method: 'post'
+  },
+  // 群流失提醒设置详情
+  findDefaultTask: {
+    url: '/wework/lossFriendsWarnConf/findDefaultTask',
+    method: 'get'
   }
 }
