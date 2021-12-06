@@ -43,7 +43,7 @@
             :types='1'
             :data='taskMsg.materialMsg'
             @preview='togglePreview'
-            :materialTitle='taskMsg.materialTitle'></addMaterial>
+            :materialTitle='taskMsg.materialContent'></addMaterial>
           <div class="v_btn" v-if="taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length > 0">共{{taskMsg.materialMsg.imageList && taskMsg.materialMsg.imageList.length || 0}}条信息
             <el-tooltip v-if="subNumber(0, taskMsg.materialMsg.imageList)" content="图片" placement="top" effect="light">
               <Icon class="icons" type="images" />

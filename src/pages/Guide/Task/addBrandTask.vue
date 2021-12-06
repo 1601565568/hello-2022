@@ -15,6 +15,7 @@
           <el-dialog
             title="温馨提醒"
             :visible.sync="saveTipsFlag"
+             width="600px"
             height="196px"
             @before-close="() => closeSaveTips(false)">
             <div  style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00;margin:5px 9px 0 7px"></i>
@@ -163,6 +164,7 @@
                     title="预算完成获取客户名单时间吗？"
                     :visible.sync="dialogVisible"
                     height="196px"
+                     width="600px"
                     :before-close="closeTips">
                     <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:5px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
                     <span slot="footer" class="dialog-footer">
@@ -617,51 +619,5 @@ export default addBrandTask
    height: 40px;
   line-height: 20px;
 }
->>> .el-dialog{
-  width: 480px!important;
-  height: 196px;
-  border-radius: 4px;
-  .el-dialog__wrap {
-    height: 72px!important;
-    overflow: hidden;
-  }
-  .el-dialog__header {
-    width: 100%;
-    height: 56px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    padding-left: 16px;
-    font-size: 16px;
-    color: #303133;
-    font-weight: 500;
-  }
-  .el-dialog__body{
-    margin: 16px 16px 0 16px;
-    padding: 0!important;
-    height: 76px;
-  }
-  .el-dialog__content{
-    font-size: 14px;
-    height: 76px;
-  }
-  .el-scrollbar__bar{
-    display: none;
-  }
-  .el-dialog__footer{
-    margin: 0;
-    padding: 0!important;
-    .el-button{
-      width: 88px;
-      height: 32px;
-      border-radius: 2px;
-      font-size: 14px;
-      padding: 0;
-      margin-right: 16px
-    }
-     .el_btn_yes{
-      background: #0094FC;
-      }
-  }
-}
+
 </style>

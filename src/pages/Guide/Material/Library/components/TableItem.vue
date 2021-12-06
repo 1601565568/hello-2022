@@ -9,7 +9,7 @@
         >
           <div slot="content" v-html="strToRichText(data.content)"></div>
           <div class="tableItem-content__ellipsis">
-            <EmojiText :text='data.content' />
+            <EmojiText :text='data.content' />111
           </div>
           <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
