@@ -50,6 +50,12 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    checkList: { // 已经选择的标签
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   data () {
@@ -81,11 +87,12 @@ export default {
       try {
         const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
         if (res.success) {
-          // this.tagList = res.result
           const showList = res.result.filter(tagGroupItem => {
-            for (const tagValueItem of tagGroupItem.tagValueList) {
-              if (this.checkList.indexOf(tagValueItem.tagId) >= 0) {
-                return true
+            if (Array.isArray(tagGroupItem.tagValueList)) {
+              for (const tagValueItem of tagGroupItem.tagValueList) {
+                if (this.checkList.indexOf(tagValueItem.tagId) >= 0) {
+                  return true
+                }
               }
             }
           })
