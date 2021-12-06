@@ -47,7 +47,7 @@
                 <span class="iconfont icon-a-0 time-icon-number"></span>
               </span>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1">
+            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="isOpnePrize">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
                   <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
@@ -56,7 +56,7 @@
                   </div>
                 </template>
               </div>
-              <div class="time-content-view" v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1" :style="{ borderRadius : model.activeInfoList && model.activeInfoList.length > 1?'0 0 12px 12px':'12px' }">
+              <div class="time-content-view" v-show="isOpnePrize" :style="{ borderRadius : model.activeInfoList && model.activeInfoList.length > 1?'0 0 12px 12px':'12px' }">
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="activeInfo.image || defGoodsUrl" alt="" srcset="">
                   <div style="margin-left:8px;">
@@ -77,7 +77,7 @@
                       </template>
                     </div>
                     <div>
-                      <span :style="{color:showColor.mianColor,fontSize:'13px'}">5</span>
+                      <span :style="{color:showColor.mainColor,fontSize:'13px'}">5</span>
                       <span style="color:#8C8C8C;font-size:13px">/5</span>
                     </div>
                   </div>
@@ -202,7 +202,8 @@ export default {
     model: Object,
     pageObj: Object,
     validTimeType: {},
-    activeId: {}
+    activeId: {},
+    isOpnePrize: {}
   },
   // computed: {
   //   pageObj () {
@@ -276,6 +277,7 @@ export default {
   font-size: 14px;
   color: #595959;
   width: 100%;
+  word-break: break-all;
 }
 .content-view {
   position: relative;
@@ -549,6 +551,7 @@ export default {
 }
 .time-title-view {
   // line-height: 20px;
+  padding: 8px 0;
   width: 100%;
   display: flex;
   align-items: center;

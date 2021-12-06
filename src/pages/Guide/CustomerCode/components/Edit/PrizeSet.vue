@@ -48,6 +48,7 @@
                   :step="1"
                   step-strictly
                   controls
+                  @blur="handleBindRecruitment"
                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                 ></el-input-number>
               </el-form-item>
@@ -228,7 +229,7 @@
         <div class='swicth-item'>
           <span>允许奖品叠加领取</span>
           <template v-if='model.prizeRuleList && model.prizeRuleList.length > 1'>
-            <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+            <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
           </template>
           <template v-else>
             <el-switch :value='false' :disabled='true' />
@@ -252,13 +253,13 @@
       <el-form-item v-if='model.isOpnePrize'>
         <div class='swicth-item'>
           <span>仅会员可领取奖励</span>
-          <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+          <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0' :disabled="isStating"/>
         </div>
         <div class="qrcode-bottom-view">
           <span class="remind-view"></span>
-          非会员注册入会后才可领取奖励
+          设置入会链接
           <ns-button type='text' class='safe-btn' @click='handleGoSet'>
-            去设置入会链接
+            去设置
           </ns-button>
         </div>
       </el-form-item>
@@ -359,11 +360,23 @@ export default {
   props: ['data', 'isStating', 'isEdit'],
   components: { ElInputNumber, Coupon, StrategiesList },
   methods: {
-    // 新增阶梯奖项
+    /**
+     * 达标人数失焦后重新重新校验所有达标人数
+     */
+    handleBindRecruitment () {
+      const list = this.model.prizeRuleList.map((item, index) => 'prizeRuleList.' + index + '.recruitment')
+
+      this.$refs.setPrizeruleForm.validateField(list)
+    },
+    /**
+     * 新增阶梯奖项
+     */
     handleAddPrizeItem () {
       this.model.prizeRuleList.push({ ...DEFAULT_PRIZE_ITEM, prizeGrade: this.model.prizeRuleList.length + 1 })
     },
-    // 删除阶梯奖项
+    /**
+     * 删除阶梯奖项
+     */
     handleDelPrizeItem (index) {
       this.model.prizeRuleList.splice(index, 1)
     },
@@ -476,7 +489,7 @@ export default {
             })
             this.$emit('changeStepId', 'next')
           } else {
-            this.$notify.error('我也不知道提示什么，反正是错了')
+            this.$notify.error('奖品库存不足，请重新编辑')
           }
         }
       })

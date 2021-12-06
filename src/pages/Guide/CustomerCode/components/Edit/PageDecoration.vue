@@ -225,7 +225,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = id}'/>
+        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = id}' :isOpnePrize='isOpnePrize'/>
       </template>
     </Box>
     <div class='costomcode-footer'>
@@ -368,11 +368,6 @@ export default {
           }
         }
       })
-    }
-  },
-  watch: {
-    validTimeType (value) {
-      console.log(value)
     }
   },
   mounted () {
