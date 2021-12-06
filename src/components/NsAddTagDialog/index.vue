@@ -9,32 +9,37 @@
     <div>
       <el-input style="width:180px;margin-left: 7px" v-model="searchTagGroupName" placeholder="请输入标签名" clearable></el-input>
       <el-form class="add-tags" label-position="left">
-        <el-form-item>
+        <el-form-item v-loading="loading">
           <div
-            v-if="showList.length"
             class="checkboxs-tags"
+            :class="{ center: !loading && !showList.length }"
             v-infinite-scroll="loadMore"
           >
             <el-form-item
+              v-show="showList.length"
               label-width="60px"
               v-for="tagGroupItem in showList"
               :key="tagGroupItem.tagGroupId"
               :label="tagGroupItem.tagGroupName"
             >
-              <el-checkbox-group v-model="checkList">
+              <el-checkbox-group :value="checkList">
                 <el-checkbox
                   v-for="tagValueItem in tagGroupItem.tagValueList"
                   :key="tagValueItem.tagId"
                   :label="tagValueItem.tagId"
-                  @change="chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId)"
+                  @change="(flag) => chooseTag(tagGroupItem.tagGroupId, tagValueItem.tagId, flag)"
                 >
                   {{tagValueItem.tagName}}
                 </el-checkbox>
               </el-checkbox-group>
             </el-form-item>
-            <!-- <span class="no-tag" v-if="showList.length === tagList.length">没有更多了~</span> -->
+            <div class="no-data" v-show="!loading && !showList.length && !closing">
+              <img v-show="tagList.length && !showList.length" :src="searchPng" />
+              <span v-show="tagList.length && !showList.length" class="no-tag">没有搜索到数据哦~</span>
+              <img v-show="!tagList.length" :src="noDataPng" />
+              <span v-show="!tagList.length" class="no-tag">没有数据哦~</span>
+            </div>
           </div>
-          <!-- <span class="no-tag" v-else>暂无标签数据</span> -->
         </el-form-item>
       </el-form>
     </div>
@@ -46,6 +51,9 @@
 </template>
 
 <script>
+import searchPng from './no-data.png'
+import noDataPng from './no-data2.png'
+
 /**
  * 打标签模态框
  */
@@ -72,6 +80,15 @@ export default {
       default: function () {
         return []
       }
+    },
+    max: { // 最多选择多少个标签组
+      type: Number,
+      default: 50
+    }
+  },
+  computed: {
+    tagGroupIds () {
+      return Array.from(new Set(Object.values(this.tagId2TagGroupId)))
     }
   },
   watch: {
@@ -82,6 +99,10 @@ export default {
   },
   data () {
     return {
+      searchPng: searchPng,
+      noDataPng: noDataPng,
+      loading: false,
+      closing: false,
       searchTagGroupName: '',
       tagList: [],
       showList: [],
@@ -97,14 +118,26 @@ export default {
       const slice = this.searchList.slice(len, len + 10)
       if (slice.length) this.showList.push(...slice)
     },
-    chooseTag (tagGroupId, tagId) {
-      if (this.checkList.indexOf(tagId) > -1) {
-        this.tagId2TagGroupId[tagId] = tagGroupId
-      } else {
-        delete this.tagId2TagGroupId[tagId]
+    chooseTag (tagGroupId, tagId, flag) {
+      const index = this.checkList.indexOf(tagId)
+      if (flag || (!flag && index < 0)) {
+        // 选中
+        if (this.tagGroupIds.length < this.max || this.tagGroupIds.indexOf(tagGroupId) > -1) {
+          this.checkList.push(tagId)
+          this.$set(this.tagId2TagGroupId, tagId, tagGroupId)
+        } else {
+          this.$notify.error(`最多选择${this.max}个标签`)
+        }
+      } else if (index > -1) {
+        // 取消选中
+        this.checkList.splice(index, 1)
+        this.$delete(this.tagId2TagGroupId, tagId)
       }
     },
     async open () {
+      this.loading = true
+      this.closing = false
+      this.searchTagGroupName = ''
       await this.getTagList()
       if (this.selectedTags) {
         // 初始化已选中标签
@@ -128,6 +161,7 @@ export default {
 
       this.searchList = this.tagList
       this.showList = this.tagList.slice(0, 10)
+      this.loading = false
     },
     confirm () {
       this.$emit('confirm', {
@@ -138,7 +172,7 @@ export default {
       this.close()
     },
     close () {
-      this.searchTagGroupName = ''
+      this.closing = true
       this.showList = []
       this.searchList = []
       this.checkList = []
@@ -170,8 +204,7 @@ export default {
   margin-top: 28px;
   .checkboxs-tags {
     overflow: auto;
-    max-height: 500px;
-    /* min-height: 300px; */
+    height: 500px;
     border: 1px solid #D9D9D9;
     padding: 16px;
     width: 99%;
@@ -179,10 +212,24 @@ export default {
       display: none;
     }
   }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-  .no-tag {
-    color: #8c8c8c;
-    font-size: 14px;
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 220px;
+      height: 220px;
+    }
+    .no-tag {
+      color: #8c8c8c;
+      font-size: 14px;
+    }
   }
 }
 </style>
