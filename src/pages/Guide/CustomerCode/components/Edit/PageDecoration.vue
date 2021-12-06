@@ -225,7 +225,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = id}' :isOpnePrize='isOpnePrize'/>
+        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = "tab"+id}' :isOpnePrize='isOpnePrize'/>
       </template>
     </Box>
     <div class='costomcode-footer'>
@@ -340,7 +340,7 @@ export default {
           const item = { ...ladderRewardList[i] }
           let activeInfoItem = {}
           if (this.model.activeInfoList[i]) {
-            activeInfoItem = Object.assign(item, this.model.activeInfoList[i])
+            activeInfoItem = Object.assign(this.model.activeInfoList[i], item)
           } else {
             activeInfoItem = Object.assign({}, DEFAULT_ACTIVEINFO_ITEM, item)
           }
@@ -371,7 +371,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { ...this.data }
+    this.model = JSON.parse(JSON.stringify(this.data))
   }
 }
 </script>

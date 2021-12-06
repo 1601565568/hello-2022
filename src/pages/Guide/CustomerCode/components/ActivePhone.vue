@@ -7,7 +7,7 @@
             <img class="phone-view" src="../Images/iphoneActive.jpg"/>
           </div>
           <div class="scroll-view">
-            <div class="info-view" v-show="eidtList[0].status === 1">
+            <div class="info-view">
               <div class="user-info">
                 <img :class="'user-img user-img-rund'" src="../Images/iphone-1.jpg"/>
                 <span>裂变大师昵称</span>
@@ -50,7 +50,7 @@
             <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="isOpnePrize">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
-                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
+                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff',borderRadius:item.prizeGrade === betweenItem[0]?'8px 8px 8px 0':parseInt(item.prizeGrade) === betweenItem[1]?'8px 8px 8px 8px ':'8px 8px 0 0'}" @click='handleChangeActiveId(item.prizeGrade)'>
                     <div class='rankname'>{{`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}`}}</div>
                     <div class='ranknum'>邀请{{item.recruitment}}人</div>
                   </div>
@@ -193,6 +193,10 @@ export default {
     activeInfo () {
       const { activeInfoList } = this.model
       return activeInfoList[this.activeId.split('tab')[1] - 1] || {}
+    },
+    betweenItem () {
+      const activeId = parseInt(this.activeId.split('tab')[1])
+      return [activeId - 1, activeId + 1]
     }
   },
   props: {

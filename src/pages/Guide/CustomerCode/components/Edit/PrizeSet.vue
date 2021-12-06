@@ -352,6 +352,7 @@ export default {
         }
       ],
       redpackVisible: false,
+      couponVisible: false,
       chooseItem: {}, // 如果红包记录选择的那项
       chooseIndex: -1, // 选择的下标
       maxLength: 5 // 阶梯奖励最大数
@@ -403,7 +404,9 @@ export default {
         if (!result) {
           const { prizeType } = scope.row
           if (prizeType === 1) {
-            this.getCoupon()
+            this.$nextTick(() => {
+              this.getCoupon()
+            })
           } else if (prizeType === 2) {
             this.chooseItem = row
             this.redpackVisible = true
