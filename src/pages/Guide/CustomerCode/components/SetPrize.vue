@@ -380,7 +380,6 @@ export default {
     // 删除阶梯奖项
     handleDelPrizeItem (index) {
       this.model.prizeRuleList.splice(index, 1)
-      console.log(this.judgeDuplicatePrizes())
     },
     remainNumber (item) {
       const prizeNumber = parseInt(item.prizeNumber) || 0

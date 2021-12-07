@@ -75,8 +75,6 @@
       @update:visible="pitbitMsg = null"
     />
     <ImageCode
-      :visible.sync="visibleImageCodeDialog"
-      @handleImageCode="handleImageCode"
       @confirm="addMessage"
       ref='imagecode'
     />

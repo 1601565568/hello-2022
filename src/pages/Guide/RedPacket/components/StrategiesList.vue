@@ -1,5 +1,5 @@
 <template>
-  <div class='strategies-container'>
+  <div class='strategies-container' v-loading='!loaded'>
     <div class='blue-tip' v-if='isFormCustomCode'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的活动发放红包</div>
     <div class='blue-tip' v-else>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
     <div class='dialog'>
@@ -7,14 +7,14 @@
         <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
-        <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='height:400px'>
+        <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='min-height:400px;height:400px'>
           <template v-for='item in _data._table.data'>
             <div :key='item.id' class='radio-item'>
               <el-radio :value="checkItem.id" :label="item.id" @change='handleChangeCheckItem(item)'>{{item.name}}</el-radio>
             </div>
           </template>
         </el-scrollbar>
-        <template v-else>
+        <template v-else-if='loaded'>
           <img :src='nodatabox' class='empty-img'>
           <p class='empty-text'>没有数据哦～</p>
         </template>
@@ -68,7 +68,8 @@ export default {
       luckyRed,
       diyRed,
       nodatabox,
-      timeTypeForever
+      timeTypeForever,
+      loaded: false
     }
   },
   props: {
@@ -87,7 +88,9 @@ export default {
   mounted () {
     this.checkItem = { ...this.chooseItem }
     this.model = { ...this.model, ...this.extModel }
-    this.$reload()
+    this.$queryList$(this.$generateParams$()).then(() => {
+      this.loaded = true
+    })
   },
   methods: {
     handleChangeCheckItem (value) {
@@ -112,6 +115,7 @@ export default {
     box-sizing: border-box;
     padding: 16px 40px 16px 6px;
     position: relative;
+    min-height: 428px;
     &:after {
       content: ' ';
       position: absolute;

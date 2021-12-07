@@ -136,16 +136,20 @@
             clearable
             show-word-limit
           >
-            <div class="link-url-view">
-              <div class="link-top-parma" v-if="defaultModel.custom === 1">
-                <span>点击插入</span>
-                <span v-for="(item, index) in placeholderLink" :key="index">
-                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">{{item.label}}</span>
-                </span>
-                <span v-if="viewRange === 1">
-                  <span class="base-parma" v-if="defaultModel.custom === 1" type="text" @click="brandDialogVisible = true">品牌id</span>
-                </span>
-              </div>
+            <tag-area
+              v-if="defaultModel.custom === 1"
+              class="tag-area"
+              v-model='defaultModel.link'
+              :showEmoji='false'
+              :showTextEmoji='false'
+              ref="tagContent"
+              className="tagContent"
+              placeholder="输入链接地址"
+              tag="wise"
+              :tools="placeholderLink"
+              emojiClass=''
+            />
+            <div class="link-url-view" v-if="defaultModel.custom === 2">
               <el-input
                 ref="linkModelLink"
                 type="textarea"
@@ -157,8 +161,8 @@
             </div>
             <div v-if="defaultModel.custom === 2" class="remind-text-view" style="margin-top:4px;">
               以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
-              <span style="color:#0094FC;">编辑招募信息&nbsp;&nbsp;</span>
-              <span style="color:#0094FC;">刷新</span>
+              <span class="edit-link-text" @click="toEditLinkPage">编辑招募信息&nbsp;&nbsp;</span>
+              <span class="edit-link-text" @click="reloadLink">刷新</span>
             </div>
           </el-form-item>
           <!-- <el-form-item
@@ -264,11 +268,12 @@
 import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
 import NsBrandDialog from '@/components/NsBrandDialog'
-
+import TagArea from '@/components/NewUi/TagArea'
 export default {
   components: {
     ElUpload,
-    NsBrandDialog
+    NsBrandDialog,
+    TagArea
   },
   props: {
     visible: {
@@ -342,40 +347,58 @@ export default {
       },
       placeholderLink: [
         {
-          label: '集团ID',
-          value: '{groupId}'
+          text: '集团ID',
+          id: '{groupId}',
+          type: 'tag',
+          value: '集团ID'
         },
         {
-          label: '好友userid',
-          value: '{userId}'
+          text: '好友userid',
+          id: '{userId}',
+          type: 'tag',
+          value: '好友userid'
         },
         {
-          label: '导购userid',
-          value: '{guideUserId}'
+          text: '导购userid',
+          id: '{guideUserId}',
+          type: 'tag',
+          value: '导购userid'
         },
         {
-          label: '导购账号',
-          value: '{guideAccount}'
+          text: '导购账号',
+          id: '{guideAccount}',
+          type: 'tag',
+          value: '导购账号'
         },
         {
-          label: '导购工号',
-          value: '{workNumber}'
+          text: '导购工号',
+          id: '{workNumber}',
+          type: 'tag',
+          value: '导购工号'
         },
         {
-          label: '导购ID',
-          value: '{guideId}'
+          text: '导购ID',
+          id: '{guideId}',
+          type: 'tag',
+          value: '导购ID'
         },
         {
-          label: '员工工作门店',
-          value: '{shopId}'
+          text: '员工工作门店',
+          id: '{shopId}',
+          type: 'tag',
+          value: '员工工作门店'
         },
         {
-          label: '随机数标识',
-          value: '{random}'
+          text: '随机数标识',
+          id: '{random}',
+          type: 'tag',
+          value: '随机数标识'
         },
         {
-          label: '时间戳',
-          value: '{timestamp}'
+          text: '时间戳',
+          id: '{timestamp}',
+          type: 'tag',
+          value: '时间戳'
         }
       ],
       defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
@@ -384,6 +407,12 @@ export default {
   mounted () {
   },
   methods: {
+    reloadLink () {
+      this.getSystemPresetLink()
+    },
+    toEditLinkPage () {
+      this.$router.push({ path: '/Guide/RecruitSet/RecruitPageConfig' })
+    },
     // 上传图片是否成功事件
     handleAvatarSuccess (uploadRes, file) {
       this.defaultModel.image = uploadRes.result.url
@@ -448,9 +477,16 @@ export default {
       oTextarea.select()
     },
     open () {
+      this.initData()
       if (this.content !== null) {
         this.defaultModel = { ...this.content }
-
+        if (this.defaultModel.custom === 1) {
+          this.$nextTick(() => {
+            this.defaultModel.link = this.$refs.tagContent.stringTohtml(this.defaultModel.link)
+            this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.link
+            this.$refs.tagContent.currentText = this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerText
+          })
+        }
         if (this.defaultModel.custom === 2) {
           this.disabled = true
         } else {
@@ -479,8 +515,7 @@ export default {
         this.disabled = false
       }
     },
-    // 关闭弹框
-    close () {
+    initData () {
       this.defaultModel = {
         custom: 1, // 链接类型
         settingId: null, // 预置链接的链接id
@@ -490,6 +525,12 @@ export default {
         image: '', // H5消息封面图片URL
         brandId: null
       }
+      this.defaultModel.link = this.$refs.tagContent.stringTohtml('')
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
+    },
+    // 关闭弹框
+    close () {
+      this.initData()
       this.disabled = false
       this.$refs.searchform.clearValidate()
       this.$emit('update:visible', false)
@@ -497,7 +538,11 @@ export default {
     confirm () {
       this.$refs.searchform.validate(valid => {
         if (valid) {
-          this.$emit('confirm', { type: 'link', content: this.defaultModel })
+          const obj = { ...this.defaultModel }
+          if (this.defaultModel.custom === 1) {
+            obj.link = this.$refs.tagContent.htmlToString(this.defaultModel.link)
+          }
+          this.$emit('confirm', { type: 'link', content: obj })
           this.close()
         }
       })
@@ -508,6 +553,10 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.edit-link-text {
+  color:#0094FC;
+  cursor: pointer;
+}
 /* .remind-text-view {
   font-size: 12px;
   color: rgba(0,0,0,0.45);

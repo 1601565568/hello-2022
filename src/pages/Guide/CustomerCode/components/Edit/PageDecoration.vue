@@ -51,7 +51,7 @@
                       </el-tooltip>
                     </template>
                      <!-- 时间类型为所有时间，按钮禁用 end-->
-                    <template v-else-if="item.itemCode ==='reward'"></template>
+                    <template v-else-if="item.itemCode ==='reward' || item.itemCode ==='activityRule' || item.itemCode ==='shareButton'"></template>
                     <template v-else>
                        <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" ></el-switch>
                     </template>
@@ -59,165 +59,179 @@
                       <el-switch active-color="#0091FA" inactive-color="#8C8C8C" v-model="item.status" :active-value="1" :inactive-value="0" :disabled="(isStating && item.itemCode ==='reward' || validTimeType === 0)"></el-switch>
                     </div> -->
                   </div>
-                  <!-- 主图模块 start-->
-                  <div v-if='item.itemCode === "banner"' class='colle-container'>
-                    <el-form-item prop='bannerUrl'>
-                      <div class='simple-updata'>
-                        <el-avatar v-if="model.bannerUrl" shape="square" :size="100" fit="contain" :src="model.bannerUrl"></el-avatar>
-                        <div v-else class='default-updata'>
-                          <Icon type="plus" className="company-upload__tip"/>
-                        </div>
-                        <div class='upload-content'>
-                          <drap-upload  :maxSize="2"  v-model='model.bannerUrl' :drag='false'>
-                          </drap-upload>
-                        </div>
-                        <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
-                      </div>
-                      <div class="qrcode-bottom-view">
-                        建议：宽度750像素，高度不限，小于2M，jpg、png、jpeg格式
-                      </div>
-                    </el-form-item>
-                  </div>
-                  <!-- 主图模块 end-->
-                  <!-- 活动奖品 start-->
-                  <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container customCode-tab'>
-                    <el-tabs v-model="tabAvtive" type="card" @tab-click="handleChangeTab(item.itemCode,item.status)">
-                      <template v-for='(item,index) in model.activeInfoList'>
-                        <el-tab-pane :key='item.prizeGrade' :label="`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}·${item.recruitment}人`" :name="`tab${item.prizeGrade}`">
-                          <div class="goods-input-view">
-                            <el-form-item
-                              class="larger-item"
-                              label-width="0px"
-                            >
-                              <div class='formin-text'>奖品内容：{{item.prizeType === 1 ? '优惠券':'红包'}}({{item.prizeName}})</div>
-                            </el-form-item>
-                            <el-form-item
-                              :prop="'activeInfoList.' + index + '.goodsName'"
-                              label-width="0"
-                              :rules="[
-                                {
-                                  required: true,
-                                  message: '请输入奖品名称',
-                                  trigger: ['blur', 'change']
-                                },
-                                { validator: validates.goodsName, trigger: ['blur', 'change'] }
-                              ]"
-                            >
-                              <length-input
-                                :value='model.activeInfoList[index].goodsName'
-                                placeholder="请输入奖品名称"
-                                :length="20"
-                                :disabled="isStating"
-                                @input='(e)=>{handleChangePrize(e,index,"goodsName")}'
-                              />
-                            </el-form-item>
-                            <el-form-item
-                              :prop="'activeInfoList.' + index + '.goodsDes'"
-                              label-width="0"
-                              :rules="[
-                                {
-                                  required: true,
-                                  message: '请输入奖品简介',
-                                  trigger: ['blur', 'change']
-                                },
-                                { validator: validates.goodsDesc, trigger: ['blur', 'change'] }
-                              ]"
-                            >
-                              <length-input
-                                :value="item.goodsDes"
-                                placeholder="请输入奖品简介"
-                                :disabled="isStating"
-                                :length="50"
-                                @input='(e)=>{handleChangePrize(e,index,"goodsDes")}'
-                              />
-                            </el-form-item>
-                            <el-form-item :prop="'activeInfoList.' + index + '.image'" label-width="0">
-                              <div class='simple-updata'>
-                                <el-avatar v-if="item.image" shape="square" :size="100" fit="contain" :src="item.image"></el-avatar>
-                                <div v-else class='default-updata'>
-                                  <Icon type="plus" className="company-upload__tip"/>
-                                </div>
-                                <div class='upload-content'>
-                                  <drap-upload  :maxSize="2"  :value='item.image' :drag='false' @input='(e)=>{handleChangePrize(e,index,"image")}'>
-                                  </drap-upload>
-                                </div>
-                                <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
-                              </div>
-                              <div class="qrcode-bottom-view">
-                                建议：比例为1:1，小于2M，jpg、png、jpeg格式
-                              </div>
-                            </el-form-item>
+                  <div class="item-container">
+                    <div class="noEdit" v-if="item.status === 0">
+                      开启后可编辑内容
+                    </div>
+                    <!-- 主图模块 start-->
+                    <div v-if='item.itemCode === "banner"' class='colle-container'>
+                      <el-form-item prop='bannerUrl'>
+                        <div class='simple-updata'>
+                          <el-avatar v-if="model.bannerUrl" shape="square" :size="100" fit="contain" :src="model.bannerUrl"></el-avatar>
+                          <div v-else class='default-updata'>
+                            <Icon type="plus" className="company-upload__tip"/>
                           </div>
-                        </el-tab-pane>
-                      </template>
-                    </el-tabs>
-                    <el-form-item
-                      label="虚拟完成人数"
-                      class="larger-item"
-                      label-width="110px"
-                    >
-                      <div class="qrcode-top-view">
-                        <el-input class="middle"  v-model="model.virtualFinishedCount" @input='inputNumber'/>
-                        人
-                      </div>
-                      <div class="qrcode-bottom-view align-with-form">
-                        <span class="remind-view"></span>
-                        填写已完成活动的虚拟人数，营造火爆的场景，以吸引用户参与，完成人数为空或为0时则不显示
-                      </div>
-                    </el-form-item>
-                  </div>
-                  <!-- 活动奖品 end-->
-                  <!-- 活动规则 start-->
-                  <div v-if='item.itemCode === "activityRule"' class='colle-container'>
-                    <el-form-item label-width="110px" label="活动规则" prop="rules" required>
-                      <tag-area
-                        v-model="model.rules"
-                        tag="wise"
-                        ref="tagAreaTextRules"
-                        :maxlength="1000"
-                        placeholder="请输入活动规则"
-                        @input="inputLength"
-                        :showEmoji="true"
-                        :showTextEmoji="true"
-                      />
-                    </el-form-item>
-                  </div>
-                  <!-- 活动规则 end-->
-                  <!-- 注册会员 start-->
-                  <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
-                    <el-form-item prop='bannerUrl'>
-                      <div class='simple-updata'>
-                        <el-avatar v-if="model.regUrl" shape="square" :size="100" fit="contain" :src="model.regUrl"></el-avatar>
-                        <div v-else class='default-updata'>
-                          <Icon type="plus" className="company-upload__tip"/>
+                          <div class='upload-content'>
+                            <drap-upload  :maxSize="2"  v-model='model.bannerUrl' :drag='false'>
+                            </drap-upload>
+                          </div>
+                          <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
                         </div>
-                        <div class='upload-content'>
-                          <drap-upload :maxSize="2" v-model='model.regUrl' :drag='false'>
-                          </drap-upload>
+                        <div class="qrcode-bottom-view">
+                          建议：小于2M，jpg、png、jpeg格式
                         </div>
-                        <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
-                      </div>
-                      <div class="qrcode-bottom-view">
-                        建议：宽度750像素，高度不限，小于2M，jpg、png、jpeg格式
-                      </div>
-                    </el-form-item>
+                      </el-form-item>
+                    </div>
+                    <!-- 主图模块 end-->
+                    <!-- 活动奖品 start-->
+                    <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container customCode-tab'>
+                      <el-tabs v-model="tabAvtive" type="card" @tab-click="handleChangeTab(item.itemCode,item.status)">
+                        <template v-for='(item,index) in model.activeInfoList'>
+                          <el-tab-pane :key='item.prizeGrade' :label="`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}·${item.recruitment}人`" :name="`tab${item.prizeGrade}`">
+                            <div class="goods-input-view">
+                              <el-form-item
+                                class="larger-item"
+                                label-width="0px"
+                              >
+                                <div class='formin-text'>奖品内容：{{item.prizeType === 1 ? '优惠券':'红包'}}({{item.prizeName}})</div>
+                              </el-form-item>
+                              <el-form-item
+                                :prop="'activeInfoList.' + index + '.goodsName'"
+                                label-width="0"
+                                :rules="[
+                                  {
+                                    required: true,
+                                    message: '请输入奖品名称',
+                                    trigger: ['blur', 'change']
+                                  },
+                                  { validator: validates.goodsName, trigger: ['blur', 'change'] }
+                                ]"
+                              >
+                                <length-input
+                                  :value='model.activeInfoList[index].goodsName'
+                                  placeholder="请输入奖品名称"
+                                  :length="20"
+                                  :disabled="isStating"
+                                  @input='(e)=>{handleChangePrize(e,index,"goodsName")}'
+                                />
+                              </el-form-item>
+                              <el-form-item
+                                :prop="'activeInfoList.' + index + '.goodsDes'"
+                                label-width="0"
+                                :rules="[
+                                  {
+                                    required: true,
+                                    message: '请输入奖品简介',
+                                    trigger: ['blur', 'change']
+                                  },
+                                  { validator: validates.goodsDesc, trigger: ['blur', 'change'] }
+                                ]"
+                              >
+                                <length-input
+                                  :value="item.goodsDes"
+                                  placeholder="请输入奖品简介"
+                                  :disabled="isStating"
+                                  :length="50"
+                                  @input='(e)=>{handleChangePrize(e,index,"goodsDes")}'
+                                />
+                              </el-form-item>
+                              <el-form-item :prop="'activeInfoList.' + index + '.image'" label-width="0">
+                                <div class='simple-updata'>
+                                  <el-avatar v-if="item.image" shape="square" :size="100" fit="contain" :src="item.image"></el-avatar>
+                                  <div v-else class='default-updata'>
+                                    <Icon type="plus" className="company-upload__tip"/>
+                                  </div>
+                                  <div class='upload-content'>
+                                    <drap-upload  :scale='1' scaleTip='1'  :isNeedCrop='true'  :maxSize="2"  :value='item.image' :drag='false' @input='(e)=>{handleChangePrize(e,index,"image")}'>
+                                    </drap-upload>
+                                  </div>
+                                  <ns-button type='text' class="remind-text" @click="showDefCardByImage(index)">恢复默认图片</ns-button>
+                                </div>
+                                <div class="qrcode-bottom-view">
+                                  建议：比例为1:1，小于2M，jpg、png、jpeg格式
+                                </div>
+                              </el-form-item>
+                            </div>
+                          </el-tab-pane>
+                        </template>
+                      </el-tabs>
+                      <el-form-item
+                        label="虚拟完成人数"
+                        class="larger-item"
+                        label-width="110px"
+                      >
+                        <div class="qrcode-top-view">
+                          <el-input class="middle"  v-model="model.virtualFinishedCount" @input='inputNumber'/>
+                          人
+                        </div>
+                        <div class="qrcode-bottom-view align-with-form">
+                          <span class="remind-view"></span>
+                          填写已完成活动的虚拟人数，营造火爆的场景，以吸引用户参与，完成人数为空或为0时则不显示
+                        </div>
+                      </el-form-item>
+                    </div>
+                    <!-- 活动奖品 end-->
+                    <!-- 活动规则 start-->
+                    <div v-if='item.itemCode === "activityRule"' class='colle-container'>
+                      <el-form-item
+                        label-width="110px"
+                        label="活动规则"
+                        prop="rules"
+                        required
+                        :rules="[
+                          { required: true, message: '请输入活动规则', trigger: ['blur', 'change'] },
+                          { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '活动规则最多1000个字', trigger: ['blur', 'change'] }
+                        ]"
+                      >
+                        <tag-area
+                          v-model="model.rules"
+                          tag="wise"
+                          ref="tagAreaTextRules"
+                          :maxlength="1000"
+                          placeholder="请输入活动规则"
+                          @inputLength="inputLength"
+                          :showEmoji="true"
+                          :showTextEmoji="true"
+                        />
+                      </el-form-item>
+                    </div>
+                    <!-- 活动规则 end-->
+                    <!-- 注册会员 start-->
+                    <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
+                      <el-form-item prop='bannerUrl'>
+                        <div class='simple-updata'>
+                          <el-avatar v-if="model.regUrl" shape="square" :size="100" fit="contain" :src="model.regUrl"></el-avatar>
+                          <div v-else class='default-updata'>
+                            <Icon type="plus" className="company-upload__tip"/>
+                          </div>
+                          <div class='upload-content'>
+                            <drap-upload :maxSize="2" v-model='model.regUrl' :drag='false'>
+                            </drap-upload>
+                          </div>
+                          <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
+                        </div>
+                        <div class="qrcode-bottom-view">
+                          建议：小于2M，jpg、png、jpeg格式
+                        </div>
+                      </el-form-item>
+                    </div>
+                    <!-- 注册会员 end-->
+                    <!-- 分享按钮模块 start-->
+                    <div v-if='item.itemCode === "shareButton"' class='colle-container'>
+                      <el-form-item label="分享按钮名称"
+                        class="larger-item"
+                        label-width="110px"
+                        prop="shareBtnText"
+                      >
+                        <length-input
+                          v-model="model.shareBtnText"
+                          placeholder="请输入分享按钮名称"
+                          :length="10"
+                        />
+                      </el-form-item>
+                    </div>
+                    <!-- 分享按钮模块 end-->
                   </div>
-                  <!-- 注册会员 end-->
-                  <!-- 分享按钮模块 start-->
-                  <div v-if='item.itemCode === "shareButton"' class='colle-container'>
-                    <el-form-item label="分享按钮名称"
-                      class="larger-item"
-                      label-width="110px"
-                      prop="shareBtnText"
-                    >
-                      <length-input
-                        v-model="model.shareBtnText"
-                        placeholder="请输入分享按钮名称"
-                        :length="10"
-                      />
-                    </el-form-item>
-                  </div>
-                  <!-- 分享按钮模块 end-->
                 </div>
               </template>
             </div>
@@ -225,7 +239,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = id}' :isOpnePrize='isOpnePrize'/>
+        <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = "tab"+id}' :isOpnePrize='isOpnePrize'/>
       </template>
     </Box>
     <div class='costomcode-footer'>
@@ -236,7 +250,7 @@
 </template>
 <script>
 import Box from '@/components/NewUi/Box'
-import { STEP_LIST, DEFAULT_PAGEDECORATION_DATA, DEFAULT_ACTIVEINFO_ITEM } from '../../src/const'
+import { STEP_LIST, DEFAULT_PAGEDECORATION_DATA, GET_DEFAULT_ACTIVEINFO_ITEM, defaultCoupon, defaultRedpack } from '../../src/const'
 import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl, defPosters, defCardImg } from '../../util/Edit'
 import ColorView from '../ColorView'
 import validates from '../../src/validates'
@@ -253,9 +267,11 @@ export default {
       input: '',
       model: { ...DEFAULT_PAGEDECORATION_DATA },
       validates,
+      activityIntroductionLength: 0,
       rules: {
         rules: [
-          { required: true, message: '请输入活动规则', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入活动规则', trigger: ['blur', 'change'] },
+          { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), message: '活动规则最多1000个字', trigger: ['blur', 'change'] }
         ],
         shareBtnText: [
           { required: true, message: '请输入分享按钮名称', trigger: ['blur', 'change'] }
@@ -277,10 +293,12 @@ export default {
     formatSettingType (code) {
       return formatCustomComponent(code)
     },
-    inputLength () {
+    inputLength (length) {
       if (this.$refs.tagAreaTextRules) {
         this.$emit('scrollPhone', 'rules-view')
       }
+      this.activityIntroductionLength = length
+      this.$refs.pageDecorationForm && this.$refs.pageDecorationForm.validateField('rules')
     },
     inputNumber (value) {
       let str = value
@@ -294,10 +312,17 @@ export default {
     showDefCard (key, src) {
       this.model[key] = src
     },
+    // 奖品模块恢复默认图
+    showDefCardByImage (index) {
+      const item = this.model.activeInfoList[index]
+      const { prizeType } = item
+      item.image = prizeType === 1 ? defaultCoupon : defaultRedpack
+      this.$set(this.model.activeInfoList, index, item)
+    },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
       if (itemCode === 'countdown' || itemCode === 'reward') {
-        this.$refs.activePhone.acScrollPhone('time-view')
+        this.$refs.activePhone.acScrollPhone('time-title-view')
       }
       if (itemCode === 'banner') {
         this.$refs.activePhone.acScrollPhone('banner-view')
@@ -330,7 +355,7 @@ export default {
       this.onShowEdit(itemCode, status)
     },
     /**
-     * 根据阶梯设置奖品
+     * 根据阶梯重新设置奖品
      */
     setActiveInfoList (ladderRewardList, isOpnePrize) {
       this.isOpnePrize = isOpnePrize
@@ -340,9 +365,9 @@ export default {
           const item = { ...ladderRewardList[i] }
           let activeInfoItem = {}
           if (this.model.activeInfoList[i]) {
-            activeInfoItem = Object.assign(item, this.model.activeInfoList[i])
+            activeInfoItem = Object.assign(this.model.activeInfoList[i], item)
           } else {
-            activeInfoItem = Object.assign({}, DEFAULT_ACTIVEINFO_ITEM, item)
+            activeInfoItem = Object.assign({}, GET_DEFAULT_ACTIVEINFO_ITEM(item.prizeType), item)
           }
           newActiveInfoList.push(activeInfoItem)
         }
@@ -371,7 +396,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { ...this.data }
+    this.model = JSON.parse(JSON.stringify(this.data))
   }
 }
 </script>
@@ -423,6 +448,29 @@ export default {
 .align-with-form {
   margin-left: -100px;
 }
+.item-container {
+  position: relative;
+  .noEdit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    left: 0;
+    top: 0;
+    z-index:10;
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    font-size: 14px;
+    color: #595959;
+  }
+  &:hover .noEdit {
+    opacity: 0.85;
+  }
+}
 </style>
 <style scoped>
 .customCode-content_box {
@@ -432,6 +480,20 @@ export default {
   >>> .collapse-right,>>> .collapse-left{
     height: 100%;
     overflow-y: auto;
+    &::-webkit-scrollbar{
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-thumb{
+      border-radius: 1em;
+      background-color: rgba(144, 147, 153, .3);
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track{
+      border-radius: 1em;
+      background-color: rgba(50,50,50,0);
+      cursor: pointer;
+    }
   }
   >>> .collapse-content {
     padding-bottom: 0;

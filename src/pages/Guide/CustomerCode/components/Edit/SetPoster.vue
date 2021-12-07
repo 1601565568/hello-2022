@@ -27,7 +27,7 @@
                 <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
               </div>
               <div class="qrcode-bottom-view">
-                建议：750*1334像素，高度不限，小于2M，jpg、png、jpeg格式
+                建议：750*1334像素，小于2M，jpg、png、jpeg格式
                 <el-tooltip  placement="top" popper-class='popperClass'>
                   <span type='text' class='safe-btn'>
                     查看实例
@@ -101,7 +101,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <div class='preview-img' :style="{ backgroundImage: 'url(' + model.backgroundPic.replace(/\s/g, encodeURIComponent(' ')) + ')' }">
+        <div class='preview-img'  :style='{backgroundImage: `url(${model.backgroundPic})`}'>
           <div class='user-content_bg' v-if='!model.backgroundPic'>纯色背景</div>
           <div
             :class="
@@ -223,9 +223,10 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.loading = true
-    }, 1000)
+    // setTimeout(() => {
+    //   this.loading = true
+    // }, 1000)
+    // console.log(this.model)
     this.model = { ...this.data }
   }
 }
@@ -313,6 +314,20 @@ export default {
   >>> .collapse-right,>>> .collapse-left{
     height: 100%;
     overflow-y: auto;
+    &::-webkit-scrollbar{
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-thumb{
+      border-radius: 1em;
+      background-color: rgba(144, 147, 153, .3);
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track{
+      border-radius: 1em;
+      background-color: rgba(50,50,50,0);
+      cursor: pointer;
+    }
   }
   >>> .collapse-content {
     padding-bottom: 0;

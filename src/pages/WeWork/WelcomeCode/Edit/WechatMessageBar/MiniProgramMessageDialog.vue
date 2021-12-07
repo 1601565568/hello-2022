@@ -33,7 +33,21 @@
               />
             </ElFormItem>
             <ElFormItem label="小程序路径" prop="path" label-width="110px">
-              <div class="link-url-view">
+              <tag-area
+                class="tag-area"
+                v-model='defaultModel.path'
+                :maxlength="255"
+                :showEmoji='false'
+                :showTextEmoji='false'
+                ref="tagContent"
+                className="tagContent"
+                placeholder="输入链接地址"
+                tag="wise"
+                :tools="placeholderLink"
+                emojiClass=''
+                @inputLength="inputLength"
+              />
+              <!-- <div class="link-url-view">
                 <div class="link-top-parma">
                   <span>点击插入</span>
                   <span v-for="(item, index) in placeholderLink" :key="index">
@@ -55,7 +69,7 @@
                   class="link-url-textarea"
                   show-word-limit
                 />
-              </div>
+              </div> -->
             </ElFormItem>
             <ElFormItem label-width="110px" style="margin-top:-20px">
               <div class="remind-text-view">
@@ -175,12 +189,13 @@
 import ElUpload from '@nascent/nui/lib/upload'
 import MiniConfigHelp from './MiniConfigHelp/index.vue'
 import NsBrandDialog from '@/components/NsBrandDialog'
-
+import TagArea from '@/components/NewUi/TagArea'
 export default {
   components: {
     ElUpload,
     MiniConfigHelp,
-    NsBrandDialog
+    NsBrandDialog,
+    TagArea
   },
   props: {
     visible: {
@@ -217,6 +232,14 @@ export default {
       }
     }
 
+    const validateAppLink = (rule, value, callback) => {
+      if (this.linkLength > 255) {
+        callback(new Error(`长度在1-255个字符以内`))
+      } else {
+        callback()
+      }
+    }
+
     return {
       brandDialogVisible: false,
       defaultModel: {
@@ -238,52 +261,75 @@ export default {
         image: [{ required: true, message: '请传入图片', trigger: 'blur' }],
         path: [
           { required: true, message: '请输入小程序路径', trigger: 'blur' },
-          { min: 1, max: 255, message: '长度在1-255个字符以内', trigger: 'blur' }
+          { required: true, validator: validateAppLink, trigger: 'blur' }
         ]
       },
       placeholderLink: [
         {
-          label: '集团ID',
-          value: '{groupId}'
+          text: '集团ID',
+          id: '{groupId}',
+          type: 'tag',
+          value: '集团ID'
         },
         {
-          label: '好友userid',
-          value: '{userId}'
+          text: '好友userid',
+          id: '{userId}',
+          type: 'tag',
+          value: '好友userid'
         },
         {
-          label: '导购userid',
-          value: '{guideUserId}'
+          text: '导购userid',
+          id: '{guideUserId}',
+          type: 'tag',
+          value: '导购userid'
         },
         {
-          label: '导购账号',
-          value: '{guideAccount}'
+          text: '导购账号',
+          id: '{guideAccount}',
+          type: 'tag',
+          value: '导购账号'
         },
         {
-          label: '导购工号',
-          value: '{workNumber}'
+          text: '导购工号',
+          id: '{workNumber}',
+          type: 'tag',
+          value: '导购工号'
         },
         {
-          label: '导购ID',
-          value: '{guideId}'
+          text: '导购ID',
+          id: '{guideId}',
+          type: 'tag',
+          value: '导购ID'
         },
         {
-          label: '员工工作门店',
-          value: '{shopId}'
+          text: '员工工作门店',
+          id: '{shopId}',
+          type: 'tag',
+          value: '员工工作门店'
         },
         {
-          label: '随机数标识',
-          value: '{random}'
+          text: '随机数标识',
+          id: '{random}',
+          type: 'tag',
+          value: '随机数标识'
         },
         {
-          label: '时间戳',
-          value: '{timestamp}'
+          text: '时间戳',
+          id: '{timestamp}',
+          type: 'tag',
+          value: '时间戳'
         }
       ],
-      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg'
+      defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg',
+      linkLength: 0
     }
   },
   mounted () {},
   methods: {
+    inputLength (length) {
+      this.linkLength = length
+      this.$refs.searchform && this.$refs.searchform.validateField('path')
+    },
     // 为链接插入预留字段
     insertPlaceHolderToWeb (append) {
       if (this.defaultModel.path === undefined) {
@@ -314,27 +360,40 @@ export default {
       return isJPG && isLt10M
     },
     open () {
+      this.initData()
       if (this.content !== null) {
         this.defaultModel = this.content
+        this.$nextTick(() => {
+          this.defaultModel.path = this.$refs.tagContent.stringTohtml(this.defaultModel.path)
+          this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.path
+          this.$refs.tagContent.currentText = this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerText
+        })
       }
     },
-    // 关闭弹框
-    close () {
+    initData () {
       this.defaultModel = {
         appid: '', // 小程序的appid
         title: '', // 小程序消息的title
         image: '', // 小程序消息的封面图
         path: ''
       }
+      this.defaultModel.path = this.$refs.tagContent.stringTohtml('')
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
+    },
+    // 关闭弹框
+    close () {
+      this.initData()
       this.$refs.searchform.clearValidate()
-
       this.$emit('update:visible', false)
     },
     // 新增
     confirm () {
       this.$refs.searchform.validate(valid => {
         if (valid) {
-          this.$emit('confirm', { type: 'miniprogram', content: this.defaultModel })
+          const obj = { ...this.defaultModel }
+          obj.path = this.$refs.tagContent.htmlToString(this.defaultModel.path)
+          // params.content = this.$refs.tagContent.htmlToString(this.pitContent)
+          this.$emit('confirm', { type: 'miniprogram', content: obj })
           this.close()
         }
       })

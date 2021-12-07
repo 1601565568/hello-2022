@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='scroll-div'>
     <el-form
       label-width="110px"
       size="medium"
@@ -32,6 +32,10 @@
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
                 :rules="[
+                  {
+                    validator: validates.validateMaxNumber.bind(this),
+                    trigger: ['blur','change']
+                  },
                   {
                     validator: ValidateUtil.checkRankNumber.bind(this, scope.$index),
                     trigger: ['blur']
@@ -332,6 +336,7 @@ export default {
       model: { ...DEFAULT_SETPRIZE_DATA },
       isEditSetPrize: false, // 未开始活动未开启奖励设置可编辑，已开启禁止编辑 design by zwx
       ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber, checkRankNumber },
+      validates,
       rules: {
         prizeType: [
           {
@@ -352,6 +357,7 @@ export default {
         }
       ],
       redpackVisible: false,
+      couponVisible: false,
       chooseItem: {}, // 如果红包记录选择的那项
       chooseIndex: -1, // 选择的下标
       maxLength: 5 // 阶梯奖励最大数
@@ -403,7 +409,9 @@ export default {
         if (!result) {
           const { prizeType } = scope.row
           if (prizeType === 1) {
-            this.getCoupon()
+            this.$nextTick(() => {
+              this.getCoupon()
+            })
           } else if (prizeType === 2) {
             this.chooseItem = row
             this.redpackVisible = true
@@ -417,6 +425,10 @@ export default {
      */
     handleSureRedPack () {
       const checkedItem = this.$refs.strategiesList.checkItem
+      if (!checkedItem.id) {
+        this.$notify.error('请选择红包')
+        return
+      }
       const item = this.model.prizeRuleList[this.chooseIndex]
       // 由于要回显，这里暂时不删除弹框返回的数据,等待保存的时候重新格式化
       const minxinItem = Object.assign(item, checkedItem, {
@@ -533,6 +545,24 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.scroll-div {
+  height: 100%;
+  overflow-y: auto;
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 </style>
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class="library-image-form">
+  <div class="library-image-form limit-scroll-view">
     <el-form ref="form" :model="model" :rules="rules" label-width="140px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
@@ -213,7 +213,7 @@
       </el-form-item> -->
       <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
         <el-radio-group v-model="model.codeType">
-          <el-radio :label="1">图片上植入小程序码 </el-radio>
+          <el-radio :label="1" :disabled="disabledPicType">图片上植入小程序码 </el-radio>
           <el-radio :label="2">单独增加一张小程序码图 </el-radio>
         </el-radio-group>
         <!-- <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
@@ -338,7 +338,8 @@ export default {
       pitTitle: '',
       pitContent: '',
       showMiniCode: false,
-      isUploading: false
+      isUploading: false,
+      disabledPicType: false
     }
   },
   computed: {
@@ -369,6 +370,15 @@ export default {
       handler (newVal) {
         this.$refs.form.validateField('mediaList')
         this.$emit('list', newVal)
+        const isSelect = (item) => item.type === 1
+        const index = newVal.findIndex(isSelect)
+        if (index === -1) {
+          this.disabledPicType = true
+          this.model.codeType = 2
+        } else {
+          this.disabledPicType = false
+          this.model.codeType = 1
+        }
       },
       deep: true
     },
@@ -771,6 +781,16 @@ export default {
 <style scoped>
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
+.limit-scroll-view {
+  max-height: 700px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+     display: none;
+  }
+  &::-webkit-scrollbar {
+     display: none;
+  }
+}
 .run-link-view {
   width: 200px;
   height: 32px;
@@ -1057,6 +1077,7 @@ export default {
   color: #0094FC;
   font-size: 14px;
   margin-left: 8px;
+  display: inline-block;
 }
 .add-material {
   margin-top: 16px;

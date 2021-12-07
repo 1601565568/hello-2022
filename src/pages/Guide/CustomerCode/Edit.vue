@@ -98,6 +98,9 @@ export default {
      */
     changeStepId (type) {
       this.stepId = type === 'next' ? this.stepId + 1 : this.stepId - 1
+      this.$nextTick(() => {
+        this.changeCallBack(this.stepId)
+      })
     },
     /**
      * 修改data数据
@@ -124,8 +127,9 @@ export default {
       const result = json.result
       return result
     },
+
     /**
-     * 修改data过程中的额外处理
+     * 修改data过程中的副作用
      */
     extraDeal (key, value) {
       // 奖品设置中设置的阶梯奖励装修页面和高级设置需要用到，存入ladderRewardList中
@@ -146,6 +150,16 @@ export default {
       }
     },
     /**
+     * 显示新步骤后的回掉
+     */
+    changeCallBack (stepId) {
+      const item = STEP_LIST.find(item => item.id === stepId)
+      // 设置海报的二维码挪动，需要父组件现实后重新加载
+      if (item.dataName === 'setPosterData') {
+        this.$refs.SetPoster[0].loading = true
+      }
+    },
+    /**
      * 提交
      */
     onSubmit () {
@@ -154,7 +168,7 @@ export default {
         this.$notify.success('保存成功')
         this.$router.push({ name: 'CustomerCodeList' })
       }).catch(res => {
-        his.$refs.AdvancedSetup[0].changeLoading(false)
+        this.$refs.AdvancedSetup[0].changeLoading(false)
         this.$notify.error(res.msg)
       }).finally(res => {
         // this.btnLoad = false

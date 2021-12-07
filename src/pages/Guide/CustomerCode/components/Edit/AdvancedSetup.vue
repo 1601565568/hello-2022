@@ -196,7 +196,7 @@
     </el-form>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，配置欢迎语</div>
-      <div class='btn current' @click="handleSubmit" :loading='loading'>保存</div>
+      <ns-button class='btn current' @click="handleSubmit" :loading='loading'>保存</ns-button>
     </div>
     <NsAddTagDialog
         :visible.sync="NsAddTagDialogVisible"
@@ -233,7 +233,18 @@ export default {
           }
         ],
         effectiveCycle: [
-          { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
+          { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1 || value > 9999) {
+                callback(new Error(`请输入1～9999的整数`))
+              } else {
+                callback()
+              }
+            },
+            message: '请输入1～9999的整数',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       tagConf: {
@@ -334,7 +345,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { ...this.data }
+    this.model = JSON.parse(JSON.stringify(this.data))
   }
 }
 </script>
@@ -344,6 +355,20 @@ export default {
 .scroll-div {
   height: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 .padding-form {
   padding-right: 42px;
