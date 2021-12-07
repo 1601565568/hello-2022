@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='scroll-div'>
     <el-form
       label-width="110px"
       size="medium"
@@ -545,6 +545,10 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.scroll-div {
+  height: 100%;
+  overflow-y: auto;
 }
 </style>
 <style lang="scss" scoped>

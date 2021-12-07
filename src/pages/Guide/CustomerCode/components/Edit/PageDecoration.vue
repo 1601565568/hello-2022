@@ -78,7 +78,7 @@
                           <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
                         </div>
                         <div class="qrcode-bottom-view">
-                          建议：宽度750像素，高度不限，小于2M，jpg、png、jpeg格式
+                          建议：小于2M，jpg、png、jpeg格式
                         </div>
                       </el-form-item>
                     </div>
@@ -211,7 +211,7 @@
                           <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
                         </div>
                         <div class="qrcode-bottom-view">
-                          建议：宽度750像素，高度不限，小于2M，jpg、png、jpeg格式
+                          建议：小于2M，jpg、png、jpeg格式
                         </div>
                       </el-form-item>
                     </div>
