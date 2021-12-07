@@ -57,22 +57,6 @@
                 <span class="custom-radio-base-name">输入小程序路径</span>
               </div>
             </div>
-            <!-- <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
-              <el-radio :label=0>选择商品</el-radio>
-              <el-radio :label=1>输入小程序路径</el-radio>
-            </el-radio-group> -->
-            <!-- <div class="select-shop-view" v-show="content.codeStyle === 0">
-              <el-form-item prop="itemName" :rules="[
-                {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
-              ]">
-                <el-input
-                  placeholder="商品名称"
-                  v-model="content.itemName"
-                  :disabled="true"
-                />
-              </el-form-item>
-              <div class="shop-button" @click="selectShopGoods">选择商品</div>
-            </div> -->
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
               <el-form-item prop="path">
@@ -87,7 +71,6 @@
                 >
                 </el-input>
               </el-form-item>
-              <!-- <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div> -->
               <div class="show-path-url-view" style="margin-top:-10px">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
@@ -324,7 +307,7 @@ export default {
   computed: {
     compPath () {
       let arr = []
-      for (const item of this.content.presetParams) {
+      for (const item of this.presetParams) {
         arr.push(item.paramCode + '=' + '{' + item.paramName + '}')
       }
       if (arr.length > 0) {
@@ -467,11 +450,7 @@ export default {
         } else if (this.content.codeStyle === 1) {
           this.miniCache = { ...this.content }
         }
-        // console.log(item.content)
       }
-      // if (this.miniList.length > 0) {
-      //   this.content.appid = this.miniList[0].appid
-      // }
     },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
@@ -813,9 +792,6 @@ export default {
 .right-view {
   width: 45%;
   position: relative;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
   .show-info-view {
     position: absolute;
     top: 100px;
@@ -848,27 +824,11 @@ export default {
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
-          // position: relative;
           overflow: hidden;
           text-align: justify;
           text-overflow: ellipsis;
-          // display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          // &::before{
-          //   content: '...';
-          //   position: absolute;
-          //   right: 0;
-          //   bottom: 0;
-          // }
-          // &::after{
-          //   content: "";
-          //   position: absolute;
-          //   right: 0;
-          //   width: 35px;
-          //   height: 35px;
-          //   background-color: white;
-          // }
         }
         .left-price-view {
           font-size: 20px;
@@ -962,46 +922,11 @@ export default {
     flex-direction: row;
     font-size: 12px;
     cursor: pointer;
-    // margin-bottom: 16px;
     .item-view {
       display: inline-block;
       margin-right: 8px;
     }
   }
-  // .path-para-view {
-  //   display: flex;
-  //   flex-direction: row;
-  //   font-size: 14px;
-  //   color: #595959;
-  //   justify-content: space-between;
-  //   align-content: center;
-  //   .path-left-view {
-  //     display: flex;
-  //     flex-direction: row;
-  //     justify-content: space-between;
-  //     align-items: center;
-  //     width: 130px;
-  //     height: 32px;
-  //     line-height: 32px;
-  //     .help-icon {
-  //       color: #8c8c8c;
-  //       margin-left: 5px;
-  //     }
-  //   }
-  // }
-  // .show-path-remind-view {
-  //   margin-top: 8px;
-  //   display: flex;
-  //   flex-direction: row;
-  //   font-size: 12px;
-  //   color: #303133;
-  //   justify-content: space-between;
-  //   margin-bottom: 8px;
-  //   .remid-right-view {
-  //     width: 60%;
-  //     text-align: center;
-  //   }
-  // }
 }
 .remind-img {
   font-size: 14px;
