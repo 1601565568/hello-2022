@@ -154,7 +154,7 @@ export default {
         this.$notify.success('保存成功')
         this.$router.push({ name: 'CustomerCodeList' })
       }).catch(res => {
-        his.$refs.AdvancedSetup[0].changeLoading(false)
+        this.$refs.AdvancedSetup[0].changeLoading(false)
         this.$notify.error(res.msg)
       }).finally(res => {
         // this.btnLoad = false
