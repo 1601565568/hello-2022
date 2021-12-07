@@ -377,6 +377,8 @@ export default {
         image: '', // 小程序消息的封面图
         path: ''
       }
+      this.defaultModel.path = this.$refs.tagContent.stringTohtml('')
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
     },
     // 关闭弹框
     close () {
