@@ -100,113 +100,6 @@
                   <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
-              <!-- <div>路径带参</div>
-              <div class="show-path-remind-view">
-                <div>SCRM字段参数名称</div>
-                <div class="remid-right-view">小程序字段参数名称</div>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/shopId-show.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="shopIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="internalIdChecked"
-                      >内部门店ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/internal-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="internalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="externalIdChecked"
-                      >外部员工ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/external-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="externalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                      width="200"
-                      title="scrm对员工的唯一标识"
-                    >
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/member-userId.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="materialIdChecked">素材ID</el-checkbox>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
-              </div> -->
             </div>
           </el-form-item>
           <el-form-item label="封面图" required>
@@ -326,18 +219,6 @@ export default {
       maxSize: 2,
       maxPrice: 999999999,
       miniList: [],
-      // shopIdChecked: false,
-      // shopIdVal: '',
-      // internalIdChecked: false,
-      // internalIdVal: '',
-      // externalIdChecked: false,
-      // externalIdVal: '',
-      // memberIdChecked: false,
-      // memberIdVal: '',
-      // memberUserIdChecked: false,
-      // memberUserIdVal: '',
-      // materialIdChecked: false,
-      // materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
@@ -361,8 +242,7 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: 0,
-        presetParams: []
+        codeStyle: 0
       },
       urlObj: {
         howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
@@ -409,46 +289,51 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
         ]
       },
-      appIdRefresh: false
+      appIdRefresh: false,
+      presetParams: [
+        {
+          paramCode: 'guideId',
+          paramName: 'guideId',
+          status: 1
+        },
+        {
+          paramCode: 'shopId',
+          paramName: 'shopId',
+          status: 1
+        },
+        {
+          paramCode: 'workNumber',
+          paramName: 'workNumber',
+          status: 1
+        },
+        {
+          paramCode: 'outShopId',
+          paramName: 'outShopId',
+          status: 1
+        },
+        {
+          paramCode: 'materialId',
+          paramName: 'materialId',
+          status: 1
+        }
+      ]
     }
   },
   watch: {
-    // shopIdVal (newValue, oldValue) {
-    //   this.shopIdVal = this.shopIdVal.replace(/\s+/g, '')
-    // },
-    // internalIdVal (newValue, oldValue) {
-    //   this.internalIdVal = this.internalIdVal.replace(/\s+/g, '')
-    // },
-    // externalIdVal (newValue, oldValue) {
-    //   this.externalIdVal = this.externalIdVal.replace(/\s+/g, '')
-    // },
-    // memberIdVal (newValue, oldValue) {
-    //   this.memberIdVal = this.memberIdVal.replace(/\s+/g, '')
-    // },
-    // memberUserIdVal (newValue, oldValue) {
-    //   this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
-    // },
-    // materialIdVal (newValue, oldValue) {
-    //   this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
-    // }
   },
   computed: {
     compPath () {
-      // const shopId = this.shopIdChecked && this.shopIdVal ? 'shopId=' + this.shopIdVal : ''
-      // const internalId = this.internalIdChecked && this.internalIdVal ? 'workNumber=' + this.internalIdVal : ''
-      // const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
-      // const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
-      // const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
-      // const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
-      // let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
-      // arr = arr.filter(item => item.length > 0)
-      // if (arr.length > 0) {
-      //   if (this.content.path.includes('?')) {
-      //     return this.content.path + '&' + arr.join('&')
-      //   } else {
-      //     return this.content.path + '?' + arr.join('&')
-      //   }
-      // }
+      let arr = []
+      for (const item of this.content.presetParams) {
+        arr.push(item.paramCode + '=' + '{' + item.paramName + '}')
+      }
+      if (arr.length > 0) {
+        if (this.content.path.includes('?')) {
+          return this.content.path + '&' + arr.join('&')
+        } else {
+          return this.content.path + '?' + arr.join('&')
+        }
+      }
       return this.content.path
     }
   },
@@ -573,6 +458,7 @@ export default {
     },
     showImageCode (item) {
       this.visible = true
+      this.content.presetParams = this.presetParams
       this.loadAppIds()
       if (item) {
         this.content = { ...item.content }
@@ -592,18 +478,6 @@ export default {
     },
     initData () {
       this.saveLoad = false
-      // this.shopIdChecked = false
-      // this.shopIdVal = ''
-      // this.internalIdChecked = false
-      // this.internalIdVal = ''
-      // this.externalIdChecked = false
-      // this.externalIdVal = ''
-      // this.memberIdChecked = false
-      // this.memberIdVal = ''
-      // this.memberUserIdChecked = false
-      // this.memberUserIdVal = ''
-      // this.materialIdChecked = false
-      // this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
@@ -625,7 +499,7 @@ export default {
         backgroundImage: '',
         appid: '',
         codeStyle: 0,
-        presetParams: []
+        presetParams: this.presetParams
       }
       this.appIdRefresh = false
       this.goodsCache = {
@@ -774,43 +648,6 @@ export default {
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
         this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-        // this.content.presetParams = []
-        // let guideId = {
-        //   paramCode: 'guideId',
-        //   paramName: this.memberIdVal,
-        //   status: this.memberIdChecked ? 1 : 0
-        // }
-        // let shopId = {
-        //   paramCode: 'shopId',
-        //   paramName: this.shopIdVal,
-        //   status: this.shopIdChecked ? 1 : 0
-        // }
-        // let workNumber = {
-        //   paramCode: 'workNumber',
-        //   paramName: this.internalIdVal,
-        //   status: this.internalIdChecked ? 1 : 0
-        // }
-        // let outShopId = {
-        //   paramCode: 'outShopId',
-        //   paramName: this.externalIdVal,
-        //   status: this.externalIdChecked ? 1 : 0
-        // }
-        // let guideUserId = {
-        //   paramCode: 'guideUserId',
-        //   paramName: this.memberUserIdVal,
-        //   status: this.memberUserIdChecked ? 1 : 0
-        // }
-        // let materialId = {
-        //   paramCode: 'materialId',
-        //   paramName: this.materialIdVal,
-        //   status: this.materialIdChecked ? 1 : 0
-        // }
-        // this.content.presetParams.push(guideId)
-        // this.content.presetParams.push(shopId)
-        // this.content.presetParams.push(workNumber)
-        // this.content.presetParams.push(outShopId)
-        // this.content.presetParams.push(guideUserId)
-        // this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         // let canvas = document.createElement('canvas')
@@ -823,7 +660,9 @@ export default {
         // canvas.style.height = targetHeight * scale + 'px'
         // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
-          useCORS: true
+          useCORS: true,
+          width: view.offsetWidth,
+          height: view.offsetHeight
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
