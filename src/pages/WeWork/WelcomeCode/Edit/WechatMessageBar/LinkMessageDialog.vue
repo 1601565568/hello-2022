@@ -161,8 +161,8 @@
             </div>
             <div v-if="defaultModel.custom === 2" class="remind-text-view" style="margin-top:4px;">
               以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
-              <span style="color:#0094FC;">编辑招募信息&nbsp;&nbsp;</span>
-              <span style="color:#0094FC;">刷新</span>
+              <span class="edit-link-text" @click="toEditLinkPage">编辑招募信息&nbsp;&nbsp;</span>
+              <span class="edit-link-text" @click="reloadLink">刷新</span>
             </div>
           </el-form-item>
           <!-- <el-form-item
@@ -407,6 +407,12 @@ export default {
   mounted () {
   },
   methods: {
+    reloadLink () {
+      this.getSystemPresetLink()
+    },
+    toEditLinkPage () {
+      this.$router.push({ path: '/Guide/RecruitSet/RecruitPageConfig' })
+    },
     // 上传图片是否成功事件
     handleAvatarSuccess (uploadRes, file) {
       this.defaultModel.image = uploadRes.result.url
@@ -545,6 +551,10 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.edit-link-text {
+  color:#0094FC;
+  cursor: pointer;
+}
 /* .remind-text-view {
   font-size: 12px;
   color: rgba(0,0,0,0.45);
