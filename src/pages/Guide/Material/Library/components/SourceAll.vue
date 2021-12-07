@@ -1,5 +1,5 @@
 <template>
-  <div class="library-image-form">
+  <div class="library-image-form limit-scroll-view">
     <el-form ref="form" :model="model" :rules="rules" label-width="140px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
@@ -781,6 +781,16 @@ export default {
 <style scoped>
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
+.limit-scroll-view {
+  max-height: 700px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+     display: none;
+  }
+  &::-webkit-scrollbar {
+     display: none;
+  }
+}
 .run-link-view {
   width: 200px;
   height: 32px;

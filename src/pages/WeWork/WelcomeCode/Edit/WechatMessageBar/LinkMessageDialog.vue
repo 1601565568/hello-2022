@@ -525,6 +525,8 @@ export default {
         image: '', // H5消息封面图片URL
         brandId: null
       }
+      this.defaultModel.link = this.$refs.tagContent.stringTohtml('')
+      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
     },
     // 关闭弹框
     close () {
