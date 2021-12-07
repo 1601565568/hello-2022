@@ -1057,6 +1057,7 @@ export default {
   color: #0094FC;
   font-size: 14px;
   margin-left: 8px;
+  display: inline-block;
 }
 .add-material {
   margin-top: 16px;

@@ -57,22 +57,6 @@
                 <span class="custom-radio-base-name">输入小程序路径</span>
               </div>
             </div>
-            <!-- <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
-              <el-radio :label=0>选择商品</el-radio>
-              <el-radio :label=1>输入小程序路径</el-radio>
-            </el-radio-group> -->
-            <!-- <div class="select-shop-view" v-show="content.codeStyle === 0">
-              <el-form-item prop="itemName" :rules="[
-                {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
-              ]">
-                <el-input
-                  placeholder="商品名称"
-                  v-model="content.itemName"
-                  :disabled="true"
-                />
-              </el-form-item>
-              <div class="shop-button" @click="selectShopGoods">选择商品</div>
-            </div> -->
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
               <el-form-item prop="path">
@@ -87,7 +71,6 @@
                 >
                 </el-input>
               </el-form-item>
-              <!-- <div style="font-size:12px;color:#8C8C8C;margin-top:-10px">移入“预览”查看映射关系的完整编译路径</div> -->
               <div class="show-path-url-view" style="margin-top:-10px">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
@@ -100,113 +83,6 @@
                   <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
-              <!-- <div>路径带参</div> -->
-              <!-- <div class="show-path-remind-view">
-                <div>SCRM字段参数名称</div>
-                <div class="remid-right-view">小程序字段参数名称</div>
-              </div> -->
-              <!-- <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/shopId-show.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="shopIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="internalIdChecked"
-                      >内部门店ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/internal-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="internalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="externalIdChecked"
-                      >外部员工ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/external-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="externalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                      width="200"
-                      title="scrm对员工的唯一标识"
-                    >
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/member-userId.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="materialIdChecked">素材ID</el-checkbox>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
-              </div> -->
             </div>
           </el-form-item>
           <el-form-item label="封面图" required>
@@ -326,18 +202,6 @@ export default {
       maxSize: 2,
       maxPrice: 999999999,
       miniList: [],
-      // shopIdChecked: false,
-      // shopIdVal: '',
-      // internalIdChecked: false,
-      // internalIdVal: '',
-      // externalIdChecked: false,
-      // externalIdVal: '',
-      // memberIdChecked: false,
-      // memberIdVal: '',
-      // memberUserIdChecked: false,
-      // memberUserIdVal: '',
-      // materialIdChecked: false,
-      // materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
@@ -443,7 +307,7 @@ export default {
   computed: {
     compPath () {
       let arr = []
-      for (const item of this.content.presetParams) {
+      for (const item of this.presetParams) {
         arr.push(item.paramCode + '=' + '{' + item.paramName + '}')
       }
       if (arr.length > 0) {
@@ -586,29 +450,13 @@ export default {
         } else if (this.content.codeStyle === 1) {
           this.miniCache = { ...this.content }
         }
-        // console.log(item.content)
       }
-      // if (this.miniList.length > 0) {
-      //   this.content.appid = this.miniList[0].appid
-      // }
     },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
     },
     initData () {
       this.saveLoad = false
-      // this.shopIdChecked = false
-      // this.shopIdVal = ''
-      // this.internalIdChecked = false
-      // this.internalIdVal = ''
-      // this.externalIdChecked = false
-      // this.externalIdVal = ''
-      // this.memberIdChecked = false
-      // this.memberIdVal = ''
-      // this.memberUserIdChecked = false
-      // this.memberUserIdVal = ''
-      // this.materialIdChecked = false
-      // this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
@@ -779,38 +627,6 @@ export default {
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
         this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-        // this.content.presetParams = []
-        // let guideId = {
-        //   paramCode: 'guideId',
-        //   paramName: 'guideId',
-        //   status: 1
-        // }
-        // let shopId = {
-        //   paramCode: 'shopId',
-        //   paramName: 'shopId',
-        //   status: 1
-        // }
-        // let workNumber = {
-        //   paramCode: 'workNumber',
-        //   paramName: 'workNumber',
-        //   status: 1
-        // }
-        // let outShopId = {
-        //   paramCode: 'outShopId',
-        //   paramName: 'outShopId',
-        //   status: 1
-        // }
-        // let materialId = {
-        //   paramCode: 'materialId',
-        //   paramName: 'materialId',
-        //   status: 1
-        // }
-        // this.content.presetParams.push(guideId)
-        // this.content.presetParams.push(shopId)
-        // this.content.presetParams.push(workNumber)
-        // this.content.presetParams.push(outShopId)
-        // this.content.presetParams.push(guideUserId)
-        // this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         // let canvas = document.createElement('canvas')
@@ -841,7 +657,7 @@ export default {
               that.$emit('handleImageCode', false)
               that.visible = false
               that.initData()
-              that.$refs.ruleForm.resetFielxwds()
+              that.$refs.ruleForm.resetFields()
             })
             .catch(resp => {
               that.saveLoad = false
@@ -976,9 +792,6 @@ export default {
 .right-view {
   width: 45%;
   position: relative;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
   .show-info-view {
     position: absolute;
     top: 100px;
@@ -1011,27 +824,11 @@ export default {
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
-          // position: relative;
           overflow: hidden;
           text-align: justify;
           text-overflow: ellipsis;
-          // display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          // &::before{
-          //   content: '...';
-          //   position: absolute;
-          //   right: 0;
-          //   bottom: 0;
-          // }
-          // &::after{
-          //   content: "";
-          //   position: absolute;
-          //   right: 0;
-          //   width: 35px;
-          //   height: 35px;
-          //   background-color: white;
-          // }
         }
         .left-price-view {
           font-size: 20px;
@@ -1125,46 +922,11 @@ export default {
     flex-direction: row;
     font-size: 12px;
     cursor: pointer;
-    // margin-bottom: 16px;
     .item-view {
       display: inline-block;
       margin-right: 8px;
     }
   }
-  // .path-para-view {
-  //   display: flex;
-  //   flex-direction: row;
-  //   font-size: 14px;
-  //   color: #595959;
-  //   justify-content: space-between;
-  //   align-content: center;
-  //   .path-left-view {
-  //     display: flex;
-  //     flex-direction: row;
-  //     justify-content: space-between;
-  //     align-items: center;
-  //     width: 130px;
-  //     height: 32px;
-  //     line-height: 32px;
-  //     .help-icon {
-  //       color: #8c8c8c;
-  //       margin-left: 5px;
-  //     }
-  //   }
-  // }
-  // .show-path-remind-view {
-  //   margin-top: 8px;
-  //   display: flex;
-  //   flex-direction: row;
-  //   font-size: 12px;
-  //   color: #303133;
-  //   justify-content: space-between;
-  //   margin-bottom: 8px;
-  //   .remid-right-view {
-  //     width: 60%;
-  //     text-align: center;
-  //   }
-  // }
 }
 .remind-img {
   font-size: 14px;
