@@ -233,7 +233,18 @@ export default {
           }
         ],
         effectiveCycle: [
-          { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
+          { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1 || value > 9999) {
+                callback(new Error(`请输入1～9999的整数`))
+              } else {
+                callback()
+              }
+            },
+            message: '请输入1～9999的整数',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       tagConf: {
@@ -344,6 +355,20 @@ export default {
 .scroll-div {
   height: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 .padding-form {
   padding-right: 42px;

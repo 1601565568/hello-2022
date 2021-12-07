@@ -17,6 +17,10 @@
           <el-form-item label="欢迎语"
             required
             prop="activityIntroduction"
+            :rules="[
+              { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
+              { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '欢迎语最多1000个字', trigger: ['blur', 'change'] }
+            ]"
           >
             <tag-area
               v-model="model.activityIntroduction"
@@ -101,7 +105,7 @@ export default {
           { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] }
         ],
         cardTitle: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片标题' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入活动消息卡片名称' },
           { validator: validates.validateCard, trigger: ['blur', 'change'] }
         ],
         cardCopywriting: [
@@ -112,7 +116,9 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ]
       },
-      tools: Tools
+      tools: Tools,
+      validates,
+      activityIntroductionLength: 0
     }
   },
   props: ['data', 'isStating'],
@@ -128,6 +134,7 @@ export default {
       const str = this.$refs.tagAreaText.stringTohtml(introText)
       this.model.activityIntroduction = str
       this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = str
+      this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
     },
     showDefCard () {
       this.model.cardCoverPic = defCardImg
@@ -178,6 +185,20 @@ export default {
   >>> .collapse-right,>>> .collapse-left{
     height: 100%;
     overflow-y: auto;
+    &::-webkit-scrollbar{
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-thumb{
+      border-radius: 1em;
+      background-color: rgba(144, 147, 153, .3);
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track{
+      border-radius: 1em;
+      background-color: rgba(50,50,50,0);
+      cursor: pointer;
+    }
   }
   >>> .collapse-content {
     padding-bottom: 0;

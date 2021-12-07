@@ -549,6 +549,20 @@ export default {
 .scroll-div {
   height: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 </style>
 <style lang="scss" scoped>
