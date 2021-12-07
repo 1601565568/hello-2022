@@ -314,7 +314,12 @@ export default {
             this.$notify.error('请选择会员分组')
             return
           }
-          that.saveTipsFlag = true
+          if (that.model.areaId) {
+            that.saveTipsFlag = true
+          } else {
+            that.doSave()
+          }
+
           // that.showSubgroupMsg(id)
         }
       })
