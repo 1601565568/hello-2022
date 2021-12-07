@@ -1,4 +1,11 @@
 export default {
+  validateMaxNumber: (rule, value, callback) => {
+    if (value > 9999) {
+      callback(new Error('最大9999'))
+    } else {
+      callback()
+    }
+  },
   shareName: (rule, value, callback) => {
     if (value.length > 10) {
       callback(new Error('分享按钮名称最多10个字'))
@@ -51,6 +58,7 @@ export default {
     }
   },
   validateActivityIntroduction: (length, rule, value, callback) => {
+    console.log(length)
     if (length > 1000) {
       callback(new Error(`活动介绍最多1000个字`))
     } else {
