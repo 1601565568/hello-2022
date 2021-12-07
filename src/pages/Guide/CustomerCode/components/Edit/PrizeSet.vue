@@ -33,6 +33,10 @@
                 :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
                 :rules="[
                   {
+                    validator: validates.validateMaxNumber.bind(this),
+                    trigger: ['blur','change']
+                  },
+                  {
                     validator: ValidateUtil.checkRankNumber.bind(this, scope.$index),
                     trigger: ['blur']
                   }
@@ -332,6 +336,7 @@ export default {
       model: { ...DEFAULT_SETPRIZE_DATA },
       isEditSetPrize: false, // 未开始活动未开启奖励设置可编辑，已开启禁止编辑 design by zwx
       ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber, checkRankNumber },
+      validates,
       rules: {
         prizeType: [
           {
@@ -420,6 +425,10 @@ export default {
      */
     handleSureRedPack () {
       const checkedItem = this.$refs.strategiesList.checkItem
+      if (!checkedItem.id) {
+        this.$notify.error('请选择红包')
+        return
+      }
       const item = this.model.prizeRuleList[this.chooseIndex]
       // 由于要回显，这里暂时不删除弹框返回的数据,等待保存的时候重新格式化
       const minxinItem = Object.assign(item, checkedItem, {

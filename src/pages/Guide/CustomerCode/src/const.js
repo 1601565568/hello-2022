@@ -106,12 +106,12 @@ export const DEFAULT_SETPRIZE_DATA = {
   prizeLadderRule: 0 // 阶梯奖励规则：0：不允许奖品叠加领取；1：允许奖品叠加领取；
 }
 // 页面装修
-export const DEFAULT_ACTIVEINFO_ITEM = {
-  image: defGoodsUrl,
+export const GET_DEFAULT_ACTIVEINFO_ITEM = (prizeType = 1) => ({
+  image: prizeType === 2 ? defaultRedpack : defaultCoupon,
   number: '0',
   goodsName: '',
   goodsDes: ''
-}
+})
 export const DEFAULT_PAGEDECORATION_DATA = {
   pageColor: '#FFA30E,#F96C39,#FFFFFF', // 活动页面配色方案
   showColor: {
@@ -131,7 +131,7 @@ export const DEFAULT_PAGEDECORATION_DATA = {
     { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
   ],
   activeInfo: {},
-  activeInfoList: [DEFAULT_ACTIVEINFO_ITEM],
+  activeInfoList: [GET_DEFAULT_ACTIVEINFO_ITEM()],
   bannerUrl: defBanner,
   rules: '',
   regUrl: defRegUrl,
@@ -141,6 +141,8 @@ export const DEFAULT_PAGEDECORATION_DATA = {
 // 设置裂变海报
 export const defBgImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/allgrey.jpg'
 export const demoImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/demo.jpg'
+export const defaultCoupon = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/defaultCoupon.png'
+export const defaultRedpack = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/defaultRedpack.png'
 export const DEFAULT_SETPOSTER_DATA = {
   backgroundPic: defBgImg, // 海报
   headPortrait: 1, // 用户头像：0无，1有
