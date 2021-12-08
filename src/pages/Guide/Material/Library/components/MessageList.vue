@@ -1,6 +1,6 @@
 <template>
   <ul class="message-list">
-    <draggable v-model="list" :disabled="isUploading" @update="datadragEnd">
+    <draggable :list="list" :disabled="isUploading" @update="datadragEnd">
       <li
         class="message-list-item"
         v-for="({ type, content }, key) in list"
