@@ -179,7 +179,7 @@
   font-size: 14px;
   color: #8C8C8C;
   line-height: 22px;
-  margin-top: 8px;
+  margin-top: -8px;
 }
 .link-url-view {
   background: #FFFFFF;
@@ -203,4 +203,60 @@
   min-width: 50px;
   text-align: center;
   cursor: pointer;
+}
+
+.img-url__logo {
+  position: relative;
+  height: 110px;
+  overflow: hidden;
+}
+.img-url__logo >>> .upload-demo .el-upload {
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.img-url__logo >>> .poster-content{
+  opacity: 0;
+  padding: 0;
+}
+.img-url__logo >>> .el-upload-list {
+  display: none;
+}
+.img-url__logo >>> .poster-set_content {
+  display: none
+}
+.img-url__logo >>> .padingbottom {
+  display: none;
+}
+
+.link-avatar-uploader-icon {
+  font-size: 24px;
+  color: #DDDDDD;
+  width: 110px;
+  height: 110px;
+  line-height: 110px;
+  text-align: center;
+  border: 1px solid #DDDDDD;
+  position: absolute;
+}
+
+.img-url__avatar {
+  width: 110px;
+  height: 110px;
+  display: block;
+  position: absolute;
+  border: 1px solid #DDDDDD;
+}
+
+.link-upload-view {
+  width: 110px;
+  height: 110px;
+  background: #ffffff;
+  >>> .el-upload {
+    width: 110px;
+    height: 110px;
+    position: relative;
+  }
 }

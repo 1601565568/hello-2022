@@ -130,7 +130,26 @@
               />
             </ElFormItem>
             <ElFormItem label="封面图：" prop="image" label-width="110px" class="el-form-validate__box">
-              <ElUpload
+              <el-form-item prop="image">
+                <div class="link-upload-view">
+                  <div class="img-url__logo">
+                    <img v-if="defaultModel.image" :src="defaultModel.image" class="img-url__avatar" />
+                    <i v-else class="el-icon-plus link-avatar-uploader-icon"></i>
+                    <drap-upload
+                      :scale='1.25'
+                      scaleTip='1'
+                      v-model='defaultModel.image'
+                      :isNeedCrop='true'
+                      :showPont='false'
+                      :drag='false'
+                      :maxSize='2'
+                      @input="handleAvatarSuccess"
+                    >
+                    </drap-upload>
+                  </div>
+                </div>
+              </el-form-item>
+              <!-- <ElUpload
                 :action="this.$api.core.sgUploadFile('message')"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
@@ -141,7 +160,7 @@
               >
                 <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar" />
                 <Icon type="plus" className="message-upload__tip" v-else />
-              </ElUpload>
+              </ElUpload> -->
               <!-- <div>
                 请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
               </div> -->
@@ -186,16 +205,17 @@
   </div>
 </template>
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
+// import ElUpload from '@nascent/nui/lib/upload'
 import MiniConfigHelp from './MiniConfigHelp/index.vue'
 import NsBrandDialog from '@/components/NsBrandDialog'
 import TagArea from '@/components/NewUi/TagArea'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 export default {
   components: {
-    ElUpload,
     MiniConfigHelp,
     NsBrandDialog,
-    TagArea
+    TagArea,
+    DrapUpload
   },
   props: {
     visible: {
@@ -344,8 +364,8 @@ export default {
       oTextarea.select()
     },
     // 上传图片是否成功事件
-    handleAvatarSuccess (res, file) {
-      this.defaultModel.image = res.result.url
+    handleAvatarSuccess (url) {
+      this.defaultModel.image = url
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
@@ -368,6 +388,11 @@ export default {
           this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.path
           this.$refs.tagContent.currentText = this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerText
         })
+      } else {
+        this.$nextTick(() => {
+          this.defaultModel.path = this.$refs.tagContent.stringTohtml('')
+          this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
+        })
       }
     },
     initData () {
@@ -377,8 +402,6 @@ export default {
         image: '', // 小程序消息的封面图
         path: ''
       }
-      this.defaultModel.path = this.$refs.tagContent.stringTohtml('')
-      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
     },
     // 关闭弹框
     close () {

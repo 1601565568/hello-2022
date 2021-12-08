@@ -214,9 +214,28 @@
               />
             </div>
           </el-form-item>
-          <el-form-item label="" prop="image" label-width="110px" class="el-form-validate__box">
+          <el-form-item label="" label-width="110px" class="el-form-validate__box">
             <label slot="label"><span style="display:inline-block;width:10px;"></span>封面图</label>
-            <el-upload
+            <el-form-item prop="image">
+              <div class="link-upload-view">
+                <div class="img-url__logo">
+                  <img v-if="defaultModel.image" :src="defaultModel.image" class="img-url__avatar" />
+                  <i v-else class="el-icon-plus link-avatar-uploader-icon"></i>
+                  <drap-upload
+                    :scale='1'
+                    scaleTip='1'
+                    v-model='defaultModel.image'
+                    :isNeedCrop='true'
+                    :showPont='false'
+                    :drag='false'
+                    :maxSize='2'
+                    @input="handleAvatarSuccess"
+                  >
+                  </drap-upload>
+                </div>
+              </div>
+            </el-form-item>
+            <!-- <el-upload
               :disabled="disabled"
               :action="uploadUrl"
               accept="image/jpeg,image/gif,image/png"
@@ -228,7 +247,7 @@
             >
               <img v-if="defaultModel.image" :src="defaultModel.image" class="message-upload__avatar">
               <Icon v-else type="plus" className="message-upload__tip"/>
-            </el-upload>
+            </el-upload> -->
             <div class="text-secondary">上传限制：建议比例1:1，小于2M，jpg、png、jpeg格式</div>
           </el-form-item>
           <!-- <el-form-item v-show="defaultModel.custom === 1">
@@ -265,15 +284,16 @@
   </el-dialog>
 </template>
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
+// import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
 import NsBrandDialog from '@/components/NsBrandDialog'
 import TagArea from '@/components/NewUi/TagArea'
+import DrapUpload from '@/components/NewUi/DrapUpload'
 export default {
   components: {
-    ElUpload,
     NsBrandDialog,
-    TagArea
+    TagArea,
+    DrapUpload
   },
   props: {
     visible: {
@@ -341,7 +361,7 @@ export default {
           { required: true, message: '请输入文案', trigger: 'blur' },
           { min: 1, max: 50, message: '长度在2-50个字符以内', trigger: 'blur' }
         ],
-        imgUrl: [
+        image: [
           { required: true, message: '请传入图片', trigger: 'blur' }
         ]
       },
@@ -414,8 +434,8 @@ export default {
       this.$router.push({ path: '/Guide/RecruitSet/RecruitPageConfig' })
     },
     // 上传图片是否成功事件
-    handleAvatarSuccess (uploadRes, file) {
-      this.defaultModel.image = uploadRes.result.url
+    handleAvatarSuccess (url) {
+      this.defaultModel.image = url
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
@@ -480,7 +500,7 @@ export default {
       this.initData()
       if (this.content !== null) {
         this.defaultModel = { ...this.content }
-        if (this.defaultModel.custom === 1) {
+        if (this.defaultModel.custom === 1 && this.defaultModel.link) {
           this.$nextTick(() => {
             this.defaultModel.link = this.$refs.tagContent.stringTohtml(this.defaultModel.link)
             this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.link
@@ -492,8 +512,12 @@ export default {
         } else {
           this.disabled = false
         }
+      } else {
+        this.$nextTick(() => {
+          this.defaultModel.link = this.$refs.tagContent.stringTohtml('')
+          this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
+        })
       }
-
       this.getSystemPresetLink()
     },
     linkRadioChange () {
@@ -525,8 +549,8 @@ export default {
         image: '', // H5消息封面图片URL
         brandId: null
       }
-      this.defaultModel.link = this.$refs.tagContent.stringTohtml('')
-      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
+      // this.defaultModel.link = this.$refs.tagContent.stringTohtml('')
+      // this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = ''
     },
     // 关闭弹框
     close () {
@@ -557,103 +581,6 @@ export default {
   color:#0094FC;
   cursor: pointer;
 }
-/* .remind-text-view {
-  font-size: 12px;
-  color: rgba(0,0,0,0.45);
-  line-height: 20px;
-}
-.show-content-view {
-  display: flex;
-  flex-direction: row;
-  margin-top: 8px;
-  justify-content: space-between;
-}
-.show-content {
-  font-size: 12px;
-  color: #8C8C8C;
-  line-height: 20px;
-  word-break: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  width: 147px;
-}
-.show-img {
-  width: 60px;
-  height: 60px;
-  background-color: gainsboro;
-  flex-shrink: 0;
-}
-
-.show-phone-view {
-  background: #FFFFFF;
-  border: 1px solid #EEEEEE;
-  border-radius: 4px;
-  padding: 16px;
-  width: 247px;
-}
-.show-title {
-  font-size: 14px;
-  color: #262626;
-  line-height: 18px;
-  font-weight: 500;
-}
-.text-secondary {
-  font-size: 14px;
-  color: #8C8C8C;
-  line-height: 22px;
-  margin-top: 8px;
-}
-.link-url-view {
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
-  border-radius: 2px;
-  width: 368px;
-}
-.link-top-parma {
-  background: #F5F5F5;
-  padding: 8px;
-}
-.base-parma {
-  background: #FFFFFF;
-  display: inline-block;
-  font-size: 12px;
-  border-radius: 14px;
-  color: #595959;
-  margin-left: 4px;
-  margin-bottom: 6px;
-  padding: 0px 6px;
-  min-width: 50px;
-  text-align: center;
-  cursor: pointer;
-} */
-/* .link-container-view {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  position: relative;
-}
-.link-left-view {
-  width: 60%;
-}
-.link-line-view {
-  height: 100%;
-  width: 1px;
-  background: #E8E8E8;
-  position: absolute;
-  left: 65%;
-}
-.link-right-view {
-  width: 40%;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  flex-direction: row-reverse;
-} */
-
   .title {
     line-height: 24px;
     font-size: 16px;
