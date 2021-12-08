@@ -90,6 +90,7 @@
             @edit="editAnnexMessage"
             @delete="deleteAnnexMessage"
             :isUploading.sync="isUploading"
+            @dragUploadList="dragUploadList"
           />
           <el-popover
             placement="top-start"
@@ -432,6 +433,9 @@ export default {
     }
   },
   methods: {
+    dragUploadList (list) {
+      this.model.mediaList = list
+    },
     uploadProgress (data) {
       if (data) {
         const percent = data.content.percent

@@ -1,61 +1,66 @@
 <template>
   <ul class="message-list">
-    <li
-      class="message-list-item"
-      v-for="({ type, content }, key) in list"
-      :key="key"
-    >
-      <div class="message-detail">
-        <template v-if="type !== 0">
-          <template v-if="content.percent < 100 && (type == 1 || type == 2)">
-            <img src="@/assets/materical-loading.gif" class="bitpit" />
+    <draggable v-model="list" :disabled="isUploading" @update="datadragEnd">
+      <li
+        class="message-list-item"
+        v-for="({ type, content }, key) in list"
+        :key="key"
+      >
+        <div class="message-detail">
+          <template v-if="type !== 0">
+            <template v-if="content.percent < 100 && (type == 1 || type == 2)">
+              <img src="@/assets/materical-loading.gif" class="bitpit" />
+            </template>
+            <template v-else>
+              <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+            </template>
           </template>
           <template v-else>
-            <Icon :type="WelcomeMessageTypeTip[type].icon" class="icon" />
+            <img class="bitpit" src="@/assets/kwBig.png" alt="">
           </template>
-        </template>
-        <template v-else>
-          <img class="bitpit" src="@/assets/kwBig.png" alt="">
-        </template>
-        <span v-if="type !== 0">
-          <span v-if="type === 5">{{content.title}}</span>
-          <span v-if="type === 1">{{getFileName(content.image || '')}}</span>
-          <span v-else-if="type === 2">
-            <span v-if="content.percent">{{content.video}}</span>
-            <span v-else>{{getFileName(content.video || '')}}</span>
+          <span v-if="type !== 0">
+            <span v-if="type === 5">{{content.title}}</span>
+            <span v-if="type === 1">{{getFileName(content.image || '')}}</span>
+            <span v-else-if="type === 2">
+              <span v-if="content.percent">{{content.video}}</span>
+              <span v-else>{{getFileName(content.video || '')}}</span>
+            </span>
+            <span v-else>
+              {{content | msgText(type)}}
+            </span>
           </span>
-          <span v-else>
-            {{content | msgText(type)}}
-          </span>
-        </span>
-        <span v-else>自建坑位</span>
-      </div>
-      <div class="message-order" :class="{ 'first-line': key === 0 }">
-        <!-- <view v-show="isShowEdit({ type, content })"> -->
-          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
-            <Icon type="zhiding" />
+          <span v-else>自建坑位</span>
+        </div>
+        <div class="message-order" :class="{ 'first-line': key === 0 }">
+          <!-- <view v-show="isShowEdit({ type, content })"> -->
+            <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
+              <Icon type="zhiding" />
+            </ns-button>
+            <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
+              <Icon type="top-arr" />
+            </ns-button>
+            <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
+              <Icon type="down-arr" />
+            </ns-button>
+            <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
+              <Icon type="zhidi" />
+            </ns-button>
+          <!-- </view> -->
+        </div>
+        <div class="message-operate">
+          <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">
+            <span class="iconfont icon-zidingyibeifen" style="font-size:20px;"></span>
           </ns-button>
-          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
-            <Icon type="top-arr" />
+          <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)" :disabled="isUploading">
+            <span class="iconfont icon-ns-delete1" style="font-size:24px;"></span>
           </ns-button>
-          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
-            <Icon type="down-arr" />
+          <ns-button type="text" size="small" :disabled="isUploading">
+            <span class="iconfont icon-a-tuodongbeifen18" style="font-size:24px;"></span>
           </ns-button>
-          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
-            <Icon type="zhidi" />
-          </ns-button>
-        <!-- </view> -->
-      </div>
-      <div class="message-operate">
-        <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">
-          <span class="iconfont icon-zidingyibeifen" style="font-size:20px;"></span>
-        </ns-button>
-        <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)" :disabled="isUploading">
-          <span class="iconfont icon-ns-delete1" style="font-size:24px;"></span>
-        </ns-button>
-      </div>
-      <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="2" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
-    </li>
+        </div>
+        <el-progress v-if="content.percent < 100 && (type == 1 || type == 2)" class="progress" :stroke-width="2" :show-text="false" :percentage="Number(content.percent)" :color="customColor"></el-progress>
+      </li>
+    </draggable>
   </ul>
 </template>
 
@@ -63,9 +68,11 @@
 import { WelcomeMessageType, WelcomeMessageTypeTip } from '../types'
 import ElProgress from '@nascent/nui/lib/progress'
 import { fileName } from '@/utils/fileName'
+import draggable from 'vuedraggable'
 export default {
   components: {
-    ElProgress
+    ElProgress,
+    draggable
   },
   props: {
     list: {
@@ -105,6 +112,9 @@ export default {
     }
   },
   methods: {
+    datadragEnd (list) {
+      this.$emit('dragUploadList', this.list)
+    },
     getFileName (url) {
       return fileName(url)
     },
