@@ -31,22 +31,20 @@
           </span>
           <span v-else>自建坑位</span>
         </div>
-        <div class="message-order" :class="{ 'first-line': key === 0 }">
-          <!-- <view v-show="isShowEdit({ type, content })"> -->
-            <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
-              <Icon type="zhiding" />
-            </ns-button>
-            <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
-              <Icon type="top-arr" />
-            </ns-button>
-            <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
-              <Icon type="down-arr" />
-            </ns-button>
-            <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
-              <Icon type="zhidi" />
-            </ns-button>
-          <!-- </view> -->
-        </div>
+        <!-- <div class="message-order" :class="{ 'first-line': key === 0 }">
+          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'top')">
+            <Icon type="zhiding" />
+          </ns-button>
+          <ns-button v-show="key !== 0 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'up')">
+            <Icon type="top-arr" />
+          </ns-button>
+          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'down')">
+            <Icon type="down-arr" />
+          </ns-button>
+          <ns-button v-show="key !== list.length - 1 && isShowEdit({ type, content })" type="text" @click="sortMessage(key, 'bottom')">
+            <Icon type="zhidi" />
+          </ns-button>
+        </div> -->
         <div class="message-operate">
           <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">
             <span class="iconfont icon-zidingyibeifen" style="font-size:20px;"></span>
@@ -170,7 +168,7 @@ export default {
     border-radius: none;
 }
 .message-list {
-  width: 626px;
+  width: 540px;
   list-style: none;
   padding: 0;
   .message-list-item {
@@ -179,6 +177,7 @@ export default {
     height: 52px;
     border-bottom: 1px solid #e8e8e8;
     position: relative;
+    justify-content: space-between;
 
     .message-detail {
       width: 212px;
@@ -222,10 +221,11 @@ export default {
     }
 
     .message-operate {
-      margin-left: 67px;
+      // margin-left: 67px;
       width: 128px;
       display: inline-flex;
       align-items: center;
+      justify-content: flex-end;
     }
     .progress {
       position: absolute;
