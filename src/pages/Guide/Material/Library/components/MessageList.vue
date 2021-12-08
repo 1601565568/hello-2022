@@ -153,6 +153,7 @@ export default {
 <style lang="scss" scoped>
 .chosen {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  background-color: white;
 }
 .el-progress-bar__outer,
 .el-progress-bar__inner {
@@ -169,6 +170,7 @@ export default {
     border-bottom: 1px solid #e8e8e8;
     position: relative;
     justify-content: space-between;
+    background-color: white;
     &:hover {
       // background-color: #f1f1f1;
       cursor: move;

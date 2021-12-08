@@ -216,11 +216,11 @@
           </el-form-item>
           <el-form-item label="" label-width="110px" class="el-form-validate__box">
             <label slot="label"><span style="display:inline-block;width:10px;"></span>封面图</label>
-            <el-form-item prop="image">
+            <el-form-item prop="imageUrl">
               <div class="link-upload-view">
                 <div class="img-url__logo">
                   <div v-if="defaultModel.image" class="upload-mask-view">
-                    <div class="upload-img-mask" @click="changeUploadFile" v-show="defaultModel.custom === 1">
+                    <div class="upload-img-mask" @click="changeUploadFile" v-if="defaultModel.custom === 1">
                       <i class="iconfont icon-ns-deal1" style="font-size:18px;"></i>
                     </div>
                     <img :src="defaultModel.image" class="img-url__avatar" />
@@ -228,7 +228,7 @@
                   <div v-else>
                     <i class="el-icon-plus link-avatar-uploader-icon"></i>
                   </div>
-                  <div v-show="defaultModel.custom === 1">
+                  <div v-if="defaultModel.custom === 1">
                     <drap-upload
                       ref="drapUpload"
                       :scale='1'
