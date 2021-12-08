@@ -298,7 +298,7 @@ export default {
         name: '',
         content: '',
         subdivisionIds: null,
-        codeType: 1,
+        codeType: 2,
         marketType: null,
         codeModule: null,
         extJson: '',
@@ -343,7 +343,7 @@ export default {
       pitContent: '',
       showMiniCode: false,
       isUploading: false,
-      disabledPicType: false
+      disabledPicType: true
     }
   },
   computed: {
