@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools, DEFAULT_PRIZE_ITEM } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -97,7 +97,7 @@ export const loadingFormat = (model) => {
   }
   const prizeSetData = {
     isOpnePrize: !!model.prizeRuleList.length,
-    prizeRuleList: loadingPrizeRuleListFormat(model.prizeRuleList),
+    prizeRuleList: model.prizeRuleList && model.prizeRuleList.length ? loadingPrizeRuleListFormat(model.prizeRuleList) : [{ ...DEFAULT_PRIZE_ITEM }],
     isOnlyReceiveByMember: model.isOnlyReceiveByMember,
     prizeLadderRule: model.prizeLadderRule
   }

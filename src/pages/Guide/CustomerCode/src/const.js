@@ -131,7 +131,7 @@ export const DEFAULT_PAGEDECORATION_DATA = {
     { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
   ],
   activeInfo: {},
-  activeInfoList: [GET_DEFAULT_ACTIVEINFO_ITEM()],
+  activeInfoList: [],
   bannerUrl: defBanner,
   rules: '',
   regUrl: defRegUrl,

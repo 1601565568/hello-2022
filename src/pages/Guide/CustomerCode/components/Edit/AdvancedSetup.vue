@@ -161,7 +161,6 @@
       <el-form-item
         label="自动打标签"
         required
-        prop="effectiveCycle"
       >
         <div class='item-box low-bottom'>
           <template v-for="(tagItem, tagkey) in tagConf">
@@ -251,9 +250,9 @@ export default {
         addValidFriendTags: { label: '自动打标签', tip: '在裂变活动中，通过去重规则后新增的好友', stairPrefix: '自动打标梯度' },
         beGuestCodeTags: { tip: '成为裂变大师后自动打标签', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
         noStandardTags: { tip: '活动结束后，裂变未达标', stairPrefix: '未达标阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
-        standardTags: { tip: '活动结束后，裂变达标', stairPrefix: '阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
+        standardTags: { tip: '活动结束后，裂变达标', stairPrefix: '达标阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
         noReceiveRewardsTags: { tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
-        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
+        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励', isNeedJudgeIsOpnePrize: true }
       },
       isOpnePrize: true,
       loading: false
