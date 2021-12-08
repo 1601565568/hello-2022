@@ -15,7 +15,7 @@
         >
           <el-form-item label="上传海报" prop="content">
             <div class='item-box'>
-              <div class='simple-updata'>
+              <!-- <div class='simple-updata'>
                 <el-avatar v-if="model.backgroundPic" shape="square" :size="100" fit="contain" :src="model.backgroundPic"></el-avatar>
                 <div v-else class='default-updata'>
                   <Icon type="plus" className="company-upload__tip"/>
@@ -36,6 +36,23 @@
                     <img :src='demoImg' class='demo-img' />
                   </template>
                 </el-tooltip>
+              </div> -->
+              <div class='updata-box'>
+                <SimpleUpload :maxWidth="750" :maxHeight="1334" :maxSize="2" scaleTip='1' v-model='model.backgroundPic' :isNeedCrop='true'  :showPont='false' :drag='false'/>
+                <div class='updata-option'>
+                  <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
+                  <div class="qrcode-bottom-view">
+                    建议：750*1334像素，小于2M，jpg、png、jpeg格式
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <span type='text' class='safe-btn'>
+                        查看实例
+                      </span>
+                      <template slot='content'>
+                        <img :src='demoImg' class='demo-img' />
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
               </div>
             </div>
           </el-form-item>
@@ -160,6 +177,7 @@ import DrapUpload from '@/components/NewUi/DrapUpload'
 import VueDragResize from 'vue-drag-resize'
 import ElAvatar from '@nascent/nui/lib/avatar'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
+import SimpleUpload from '@/components/NewUi/SimpleUpload'
 export default {
   data () {
     return {
@@ -192,7 +210,7 @@ export default {
   },
   props: ['data', 'isStating'],
   components: {
-    PhoneBox, DrapUpload, VueDragResize, ElAvatar, ElColorPicker
+    PhoneBox, VueDragResize, SimpleUpload, ElColorPicker
   },
   methods: {
     // 拖动二维码
