@@ -785,7 +785,7 @@ export default {
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
 .limit-scroll-view {
-  max-height: 700px;
+  max-height: 750px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
      display: none;
