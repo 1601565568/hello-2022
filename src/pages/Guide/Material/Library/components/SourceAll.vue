@@ -329,7 +329,7 @@ export default {
       },
       mType: 1,
       imageNum: 9,
-      catalogue: [{ id: 0, name: '素材库' }],
+      catalogue: [{ id: 0, name: '' }],
       visible: false,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       showEdit: false,

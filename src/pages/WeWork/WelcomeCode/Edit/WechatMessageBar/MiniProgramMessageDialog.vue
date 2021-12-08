@@ -133,9 +133,17 @@
               <el-form-item prop="image">
                 <div class="link-upload-view">
                   <div class="img-url__logo">
-                    <img v-if="defaultModel.image" :src="defaultModel.image" class="img-url__avatar" />
-                    <i v-else class="el-icon-plus link-avatar-uploader-icon"></i>
+                    <div v-if="defaultModel.image" class="upload-mask-view">
+                      <div class="upload-img-mask" @click="changeUploadFile">
+                        <i class="iconfont icon-ns-deal1" style="font-size:18px;"></i>
+                      </div>
+                      <img :src="defaultModel.image" class="img-url__avatar" />
+                    </div>
+                    <div v-else>
+                      <i class="el-icon-plus link-avatar-uploader-icon"></i>
+                    </div>
                     <drap-upload
+                      ref="drapUpload"
                       :scale='1.25'
                       scaleTip='1'
                       v-model='defaultModel.image'
@@ -346,6 +354,9 @@ export default {
   },
   mounted () {},
   methods: {
+    changeUploadFile () {
+      this.$refs.drapUpload.loadUploadView()
+    },
     inputLength (length) {
       this.linkLength = length
       this.$refs.searchform && this.$refs.searchform.validateField('path')
