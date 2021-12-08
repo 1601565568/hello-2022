@@ -89,9 +89,17 @@
             <el-form-item prop="backgroundImage">
               <div class="upload-view">
                 <div class="img-url__logo">
-                  <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <div v-if="content.backgroundImage" class="upload-mask-view">
+                    <div class="upload-img-mask" @click="changeUploadFile">
+                      <i class="iconfont icon-ns-deal1" style="font-size:18px;"></i>
+                    </div>
+                    <img :src="content.backgroundImage" class="avatar" />
+                  </div>
+                  <div v-else>
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </div>
                   <drap-upload
+                    ref="drapUpload"
                     :scale='1'
                     scaleTip='1'
                     v-model='content.backgroundImage'
@@ -324,6 +332,9 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    changeUploadFile () {
+      this.$refs.drapUpload.loadUploadView()
+    },
     checkOriginalPricRules (rule, value, callback) {
       if (this.content.originalPriceStatus === 1) {
         const regex = /^(\d+)(.\d{0,2})?$/g
