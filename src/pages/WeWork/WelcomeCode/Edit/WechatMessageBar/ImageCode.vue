@@ -131,7 +131,7 @@
           <el-form-item label="原价" required>
             <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="originalPriceStatusChange">
             </el-switch>
-            <div class="price-view" v-show="content.originalPriceStatus === 1" style="margin-bottom:8px;">
+            <div class="price-view" v-show="content.originalPriceStatus === 1">
               <div class="sub-title">原价（元）</div>
               <el-form-item prop="originalPrice" :rules="[
                 {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
@@ -901,6 +901,7 @@ export default {
   flex-direction: row;
   align-content: center;
   justify-content: space-between;
+  margin-bottom: 5px;
   .sub-title {
     height: 32px;
     line-height: 32px;
