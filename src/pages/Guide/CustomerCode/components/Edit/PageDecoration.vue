@@ -66,19 +66,14 @@
                     <!-- 主图模块 start-->
                     <div v-if='item.itemCode === "banner"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
-                        <div class='simple-updata'>
-                          <el-avatar v-if="model.bannerUrl" shape="square" :size="100" fit="contain" :src="model.bannerUrl"></el-avatar>
-                          <div v-else class='default-updata'>
-                            <Icon type="plus" className="company-upload__tip"/>
+                        <div class='updata-box'>
+                          <SimpleUpload v-model='model.bannerUrl' />
+                          <div class='updata-option'>
+                            <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
+                            <div class="qrcode-bottom-view">
+                              建议：小于2M，jpg、png、jpeg格式
+                            </div>
                           </div>
-                          <div class='upload-content'>
-                            <drap-upload  :maxSize="2"  v-model='model.bannerUrl' :drag='false'>
-                            </drap-upload>
-                          </div>
-                          <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
-                        </div>
-                        <div class="qrcode-bottom-view">
-                          建议：小于2M，jpg、png、jpeg格式
                         </div>
                       </el-form-item>
                     </div>
@@ -136,19 +131,14 @@
                                 />
                               </el-form-item>
                               <el-form-item :prop="'activeInfoList.' + index + '.image'" label-width="0">
-                                <div class='simple-updata'>
-                                  <el-avatar v-if="item.image" shape="square" :size="100" fit="contain" :src="item.image"></el-avatar>
-                                  <div v-else class='default-updata'>
-                                    <Icon type="plus" className="company-upload__tip"/>
+                                <div class='updata-box'>
+                                  <SimpleUpload  :scale='1' scaleTip='1'  :isNeedCrop='true'  :maxSize="2"  :value='item.image' :drag='false' @input='(e)=>{handleChangePrize(e,index,"image")}' />
+                                  <div class='updata-option'>
+                                    <ns-button type='text' class="remind-text" @click="showDefCardByImage(index)">恢复默认图片</ns-button>
+                                    <div class="qrcode-bottom-view">
+                                       建议：比例为1:1，小于2M，jpg、png、jpeg格式
+                                    </div>
                                   </div>
-                                  <div class='upload-content'>
-                                    <drap-upload  :scale='1' scaleTip='1'  :isNeedCrop='true'  :maxSize="2"  :value='item.image' :drag='false' @input='(e)=>{handleChangePrize(e,index,"image")}'>
-                                    </drap-upload>
-                                  </div>
-                                  <ns-button type='text' class="remind-text" @click="showDefCardByImage(index)">恢复默认图片</ns-button>
-                                </div>
-                                <div class="qrcode-bottom-view">
-                                  建议：比例为1:1，小于2M，jpg、png、jpeg格式
                                 </div>
                               </el-form-item>
                             </div>
@@ -199,19 +189,17 @@
                     <!-- 注册会员 start-->
                     <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
-                        <div class='simple-updata'>
-                          <el-avatar v-if="model.regUrl" shape="square" :size="100" fit="contain" :src="model.regUrl"></el-avatar>
-                          <div v-else class='default-updata'>
-                            <Icon type="plus" className="company-upload__tip"/>
-                          </div>
-                          <div class='upload-content'>
-                            <drap-upload :maxSize="2" v-model='model.regUrl' :drag='false'>
-                            </drap-upload>
-                          </div>
-                          <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
-                        </div>
                         <div class="qrcode-bottom-view">
                           建议：小于2M，jpg、png、jpeg格式
+                        </div>
+                        <div class='updata-box'>
+                          <SimpleUpload :maxSize="2" v-model='model.regUrl' :drag='false' />
+                          <div class='updata-option'>
+                            <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
+                            <div class="qrcode-bottom-view">
+                              建议：小于2M，jpg、png、jpeg格式
+                            </div>
+                          </div>
                         </div>
                       </el-form-item>
                     </div>
@@ -258,8 +246,7 @@ import ElColorPicker from '@nascent/nui/lib/color-picker'
 import ActivePhone from '../ActivePhone'
 import TagArea from '@/components/NewUi/TagArea'
 import LengthInput from '@/components/NewUi/LengthInput'
-import DrapUpload from '@/components/NewUi/DrapUpload'
-import ElAvatar from '@nascent/nui/lib/avatar'
+import SimpleUpload from '@/components/NewUi/SimpleUpload'
 
 export default {
   data () {
@@ -287,7 +274,7 @@ export default {
   },
   props: ['data', 'isStating', 'validTimeType', 'ladderRewardList'],
   components: {
-    Box, ActivePhone, ColorView, ElColorPicker, TagArea, ElAvatar, LengthInput, DrapUpload
+    Box, ActivePhone, ColorView, ElColorPicker, TagArea, LengthInput, SimpleUpload
   },
   methods: {
     formatSettingType (code) {

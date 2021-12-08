@@ -50,7 +50,7 @@
             <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="isOpnePrize">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
-                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff',borderRadius:item.prizeGrade === betweenItem[0]?'8px 8px 8px 0':parseInt(item.prizeGrade) === betweenItem[1]?'8px 8px 8px 8px ':'8px 8px 0 0'}" @click='handleChangeActiveId(item.prizeGrade)'>
+                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
                     <div class='rankname'>{{`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}`}}</div>
                     <div class='ranknum'>邀请{{item.recruitment}}人</div>
                   </div>
@@ -193,10 +193,6 @@ export default {
     activeInfo () {
       const { activeInfoList } = this.model
       return activeInfoList[this.activeId.split('tab')[1] - 1] || {}
-    },
-    betweenItem () {
-      const activeId = parseInt(this.activeId.split('tab')[1])
-      return [activeId - 1, activeId + 1]
     }
   },
   props: {
@@ -372,6 +368,7 @@ export default {
     text-align: center;
     color:#fff;
     padding: 9px 0;
+    border-radius: 8px 8px 0 0;
     .rankname {
       font-size: 14px;
       line-height: 22px;
@@ -381,10 +378,35 @@ export default {
       line-height: 20px;
     }
     &.active {
-      background: #fff;
-      border-radius: 8px 8px 0 0;
-      &::before,&:after {
-
+      background-color: #fff;
+      position: relative;
+      &::before {
+        position: absolute;
+        bottom: 0;
+        left: -8px;
+        display: block;
+        height: 8px;
+        width: 8px;
+        content: " ";
+        background-size: 100% 100%;
+        background-image: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/radiusLeft.svg');
+      }
+      &:after {
+        position: absolute;
+        bottom: 0;
+        right: -8px;
+        display: block;
+        height: 8px;
+        width: 8px;
+        content: " ";
+        background-size: 100% 100%;
+        background-image: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/radiusRight.svg');
+      }
+      &:first-child::before {
+        display: none !important;
+      }
+      &:last-child::after {
+        display: none !important;
       }
     }
   }

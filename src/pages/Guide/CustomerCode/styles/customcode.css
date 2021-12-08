@@ -52,7 +52,25 @@
   background: #F5F5F5;
   border-radius: 2px;
 }
-.simple-updata {
+.updata-box {
+  display: flex;
+  align-items: flex-end;
+}
+.updata-box .updata-option {
+  margin-left: 8px;
+  position: relative;
+  top: -3px;
+}
+.updata-box .updata-option .remind-text {
+  color: #0392FB;
+  font-weight: 400;
+}
+.updata-box .updata-option .qrcode-bottom-view {
+  font-size: 12px;
+  color: #8C8C8C;
+  line-height: 20px;
+}
+/* .simple-updata {
   position: relative;
   overflow: hidden;
   margin-bottom: 8px;
@@ -104,7 +122,7 @@
 }
 .simple-updata >>> .padingbottom {
   display: none;
-}
+} */
 .qrcode-bottom-view {
   font-size: 12px;
   color: rgba(0,0,0,0.45);

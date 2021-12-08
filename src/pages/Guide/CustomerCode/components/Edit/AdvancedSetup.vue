@@ -163,7 +163,7 @@
         required
         prop="effectiveCycle"
       >
-        <div class='item-box'>
+        <div class='item-box low-bottom'>
           <template v-for="(tagItem, tagkey) in tagConf">
             <template  v-if='!tagItem.isNeedJudgeIsOpnePrize || isOpnePrize'>
               <el-form-item
@@ -404,6 +404,10 @@ export default {
     margin-right: 15px;
     display: inline-block;
     white-space: nowrap;
+    font-size: 12px;
+    color: rgba(0,0,0,0.65);
+    line-height: 32px;
+    font-weight: 400;
   }
   .select-tips {
     border: 1px solid #dcdfe6;
@@ -432,5 +436,10 @@ export default {
       margin-right: 9px;
     }
   }
+}
+</style>
+<style scoped>
+.normal-from .low-bottom >>> .el-form-item {
+  margin-bottom: 16px;
 }
 </style>
