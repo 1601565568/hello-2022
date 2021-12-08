@@ -1,6 +1,6 @@
 <template>
   <ul class="message-list">
-    <draggable :list="list" :disabled="isUploading" @update="datadragEnd" force-fallback="true" animation="1000">
+    <draggable :list="list" :disabled="isUploading" @update="datadragEnd" force-fallback="true" animation="1000" chosen-class="chosen">
       <transition-group>
         <li
           class="message-list-item"
@@ -151,6 +151,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.chosen {
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
 .el-progress-bar__outer,
 .el-progress-bar__inner {
     border-radius: none;
@@ -167,7 +170,7 @@ export default {
     position: relative;
     justify-content: space-between;
     &:hover {
-      background-color: #f1f1f1;
+      // background-color: #f1f1f1;
       cursor: move;
     }
     .message-detail {
