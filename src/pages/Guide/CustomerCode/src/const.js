@@ -168,7 +168,7 @@ export const DEFAULT_SETWELCOMECODE_DATA = {
 // 高级设置
 export const GET_DEFAULT_TAGS_ITEM = (level = 1) => ({ level, tag: '', tagGroupId: '' })
 export const GET_DEFAULT_TAGS = () => ({
-  count: 10,
+  count: 0,
   addValidFriendTags: [ GET_DEFAULT_TAGS_ITEM() ],
   beGuestCodeTags: [ GET_DEFAULT_TAGS_ITEM() ],
   noStandardTags: [ GET_DEFAULT_TAGS_ITEM() ],
