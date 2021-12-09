@@ -150,9 +150,12 @@ export default {
   },
   mounted () {
     this.model = { ...this.data }
-    if (!this.model.activityIntroduction) {
-      this.showDefaultText()
-    }
+    // if (!this.model.activityIntroduction) {
+    //   this.showDefaultText()
+    // } else {
+    //   this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = this.model.activityIntroduction
+    //   this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+    // }
   }
 }
 </script>

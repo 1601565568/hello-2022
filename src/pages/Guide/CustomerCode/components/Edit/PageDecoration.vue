@@ -189,9 +189,6 @@
                     <!-- 注册会员 start-->
                     <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
-                        <div class="qrcode-bottom-view">
-                          建议：小于2M，jpg、png、jpeg格式
-                        </div>
                         <div class='updata-box'>
                           <SimpleUpload :maxSize="2" v-model='model.regUrl' :drag='false' />
                           <div class='updata-option'>
@@ -251,7 +248,6 @@ import SimpleUpload from '@/components/NewUi/SimpleUpload'
 export default {
   data () {
     return {
-      input: '',
       model: { ...DEFAULT_PAGEDECORATION_DATA },
       validates,
       activityIntroductionLength: 0,
@@ -308,7 +304,10 @@ export default {
     },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
-      if (itemCode === 'countdown' || itemCode === 'reward') {
+      if (itemCode === 'reward') {
+        this.$refs.activePhone.acScrollPhone('time-view')
+      }
+      if (itemCode === 'countdown') {
         this.$refs.activePhone.acScrollPhone('time-title-view')
       }
       if (itemCode === 'banner') {
@@ -341,6 +340,13 @@ export default {
     handleChangeTab (itemCode, status) {
       this.onShowEdit(itemCode, status)
     },
+    isDefaultImg (img) {
+      // return (type === 2 && img === defaultRedpack) || (defaultCoupon === 1 && img === defaultCoupon)
+      return img === defaultRedpack || img === defaultCoupon
+    },
+    setDefaultImg (type) {
+      return type === 2 ? defaultRedpack : defaultCoupon
+    },
     /**
      * 根据阶梯重新设置奖品
      */
@@ -352,7 +358,14 @@ export default {
           const item = { ...ladderRewardList[i] }
           let activeInfoItem = {}
           if (this.model.activeInfoList[i]) {
-            activeInfoItem = Object.assign(this.model.activeInfoList[i], item)
+            // 根据奖品类型重新选择默认图
+            let image = ''
+            if (this.isDefaultImg(this.model.activeInfoList[i].image)) {
+              image = this.setDefaultImg(item.prizeType)
+            } else {
+              image = this.model.activeInfoList[i].image
+            }
+            activeInfoItem = Object.assign({}, this.model.activeInfoList[i], item, { goodsDes: this.model.activeInfoList[i].goodsDes, goodsName: this.model.activeInfoList[i].goodsName, image })
           } else {
             activeInfoItem = Object.assign({}, GET_DEFAULT_ACTIVEINFO_ITEM(item.prizeType), item)
           }

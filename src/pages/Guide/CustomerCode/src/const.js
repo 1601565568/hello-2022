@@ -131,7 +131,7 @@ export const DEFAULT_PAGEDECORATION_DATA = {
     { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
   ],
   activeInfo: {},
-  activeInfoList: [GET_DEFAULT_ACTIVEINFO_ITEM()],
+  activeInfoList: [],
   bannerUrl: defBanner,
   rules: '',
   regUrl: defRegUrl,
@@ -154,7 +154,7 @@ export const DEFAULT_SETPOSTER_DATA = {
   qrcodeY: 349 // 二维码Y轴坐标值
 }
 // 设置欢迎语
-export const DEFAULT_WELCOMECODE = `你好 , 我是{USER_NICK}<br/>恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友<br/>邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！<br/>活动有效期：{ACTIVITY_VALIT_TIME}<br/>点击下方链接去分享吧 ↓↓`
+export const DEFAULT_WELCOMECODE = `你好，我是{USER_NICK}\n恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友\n邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：{ACTIVITY_VALIT_TIME}\n点击下方链接去分享吧↓↓`
 export const Tools = [
   { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
   { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }

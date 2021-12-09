@@ -43,7 +43,7 @@
 import ElSteps from '@nascent/nui/lib/steps'
 import ElStep from '@nascent/nui/lib/step'
 import PageEdit from '@/components/NewUi/PageEdit'
-import { STEP_LIST, DEFAULT_BASEINFO_DATA, DEFAULT_SETPRIZE_DATA, DEFAULT_SETPOSTER_DATA, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_ADVANCEDSETUP_DATA, DEFAULT_PRIZE_ITEM, DEFAULT_PAGEDECORATION_DATA } from './src/const'
+import { STEP_LIST, DEFAULT_BASEINFO_DATA, DEFAULT_SETPRIZE_DATA, DEFAULT_SETPOSTER_DATA, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_ADVANCEDSETUP_DATA, DEFAULT_PRIZE_ITEM, DEFAULT_PAGEDECORATION_DATA, DEFAULT_WELCOMECODE } from './src/const'
 import { submitFormat, loadingFormat } from './util/format'
 import BaseInfo from './components/Edit/BaseInfo'
 import AdvancedSetup from './components/Edit/AdvancedSetup'
@@ -154,9 +154,11 @@ export default {
      */
     changeCallBack (stepId) {
       const item = STEP_LIST.find(item => item.id === stepId)
-      // 设置海报的二维码挪动，需要父组件现实后重新加载
-      if (item.dataName === 'setPosterData') {
+      if (item.module === 'SetPoster') {
+        // 设置海报的二维码挪动，需要父组件现实后重新加载
         this.$refs.SetPoster[0].loading = true
+      } else if (item.module === 'SetWelcomeCode') {
+        this.$refs.SetWelcomeCode[0].showDefaultText(this.$refs.SetWelcomeCode[0].model.activityIntroduction || DEFAULT_WELCOMECODE)
       }
     },
     /**
