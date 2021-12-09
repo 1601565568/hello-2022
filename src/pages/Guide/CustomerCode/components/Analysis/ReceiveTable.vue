@@ -1,5 +1,5 @@
 <template>
-  <page-table :searchCol='24'>
+  <page-table :searchCol='22'>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="所属员工：">
@@ -24,6 +24,7 @@
         </el-form-item>
         <el-form-item label="奖励内容：" @keyup.enter.native="handleSearch">
           <el-input v-model="prizeName" placeholder="请输入奖励内容">
+             <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
           </el-input>
         </el-form-item>
         <el-form-item label="领取时间：" class='el-form__change'>
