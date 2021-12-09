@@ -304,7 +304,10 @@ export default {
     },
     // 点击获取编辑模块
     onShowEdit (itemCode, status) {
-      if (itemCode === 'countdown' || itemCode === 'reward') {
+      if (itemCode === 'reward') {
+        this.$refs.activePhone.acScrollPhone('time-view')
+      }
+      if (itemCode === 'countdown') {
         this.$refs.activePhone.acScrollPhone('time-title-view')
       }
       if (itemCode === 'banner') {
