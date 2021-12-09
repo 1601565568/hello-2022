@@ -76,12 +76,22 @@
               </div>
             </template>
           </html-area>
-          <div class="qrcode-bottom-view">
+          <!-- <div class="qrcode-bottom-view">
             <span class="remind-view"></span>
             选择的员工可以在企微侧边栏使用该裂变大师活动
+          </div> -->
+          <div class="flex-box form-item_toptext">
+            <div class="qrcode-bottom-view">
+              <span class="remind-view"></span>
+              选择的员工可以在企微侧边栏使用该裂变大师活动
+            </div>
+            <span class="form-item_toptext__length"
+              >已选<span>{{ model.guideIds.length }}</span
+              >人</span
+            >
           </div>
         </el-form-item>
-        <el-form-item label="有效时间" required prop="validTimeType">
+        <el-form-item label="有效时间" required prop="validTimeType" class='larger-item'>
           <div class="form-item_toptext">
             <el-radio
               v-model="model.validTimeType"
@@ -236,9 +246,11 @@ export default {
   line-height: 22px;
   font-size: 12px;
   color: #595959;
-  margin-bottom: 8px;
+  margin-top: 5px;
   .form-item_toptext__length {
-    font-size: 14px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.45);
+    line-height: 20px;
     span {
       color: #0091fa;
     }

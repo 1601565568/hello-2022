@@ -89,9 +89,17 @@
             <el-form-item prop="backgroundImage">
               <div class="upload-view">
                 <div class="img-url__logo">
-                  <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <div v-if="content.backgroundImage" class="upload-mask-view">
+                    <div class="upload-img-mask" @click="changeUploadFile">
+                      <i class="iconfont icon-ns-deal1" style="font-size:18px;"></i>
+                    </div>
+                    <img :src="content.backgroundImage" class="avatar" />
+                  </div>
+                  <div v-else>
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </div>
                   <drap-upload
+                    ref="drapUpload"
                     :scale='1'
                     scaleTip='1'
                     v-model='content.backgroundImage'
@@ -131,7 +139,7 @@
           <el-form-item label="原价" required>
             <el-switch v-model="content.originalPriceStatus" active-color="#0091FA" :active-value=1 :inactive-value=0 @change="originalPriceStatusChange">
             </el-switch>
-            <div class="price-view" v-show="content.originalPriceStatus === 1" style="margin-bottom:8px;">
+            <div class="price-view" v-show="content.originalPriceStatus === 1">
               <div class="sub-title">原价（元）</div>
               <el-form-item prop="originalPrice" :rules="[
                 {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
@@ -324,6 +332,9 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    changeUploadFile () {
+      this.$refs.drapUpload.loadUploadView()
+    },
     checkOriginalPricRules (rule, value, callback) {
       if (this.content.originalPriceStatus === 1) {
         const regex = /^(\d+)(.\d{0,2})?$/g
@@ -901,6 +912,7 @@ export default {
   flex-direction: row;
   align-content: center;
   justify-content: space-between;
+  margin-bottom: 5px;
   .sub-title {
     height: 32px;
     line-height: 32px;

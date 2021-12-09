@@ -90,6 +90,7 @@
             @edit="editAnnexMessage"
             @delete="deleteAnnexMessage"
             :isUploading.sync="isUploading"
+            @dragUploadList="dragUploadList"
           />
           <el-popover
             placement="top-start"
@@ -212,14 +213,18 @@
         <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
       </el-form-item> -->
       <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
-        <el-radio-group v-model="model.codeType">
-          <el-radio :label="1" :disabled="disabledPicType">图片上植入小程序码 </el-radio>
-          <el-radio :label="2">单独增加一张小程序码图 </el-radio>
-        </el-radio-group>
-        <!-- <div v-if="model.codeType == 2" style="line-height:1.5;" class="library-icon__extra">
-          <Icon type="info-circle" />
-          <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
-        </div> -->
+        <template v-if="disabledPicType">
+          <el-radio-group v-model="model.codeType">
+            <el-radio :label="1" :disabled="true">图片上植入小程序码 </el-radio>
+            <el-radio :label="2">单独增加一张小程序码图 </el-radio>
+          </el-radio-group>
+        </template>
+        <template v-else>
+          <el-radio-group v-model="model.codeType">
+            <el-radio :label="1">图片上植入小程序码 </el-radio>
+            <el-radio :label="2">单独增加一张小程序码图 </el-radio>
+          </el-radio-group>
+        </template>
       </el-form-item>
       <el-form-item label="归属文件夹：">
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
@@ -294,7 +299,7 @@ export default {
         name: '',
         content: '',
         subdivisionIds: null,
-        codeType: 1,
+        codeType: 2,
         marketType: null,
         codeModule: null,
         extJson: '',
@@ -325,7 +330,7 @@ export default {
       },
       mType: 1,
       imageNum: 9,
-      catalogue: [{ id: 0, name: '素材库' }],
+      catalogue: [{ id: 0, name: '' }],
       visible: false,
       defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
       showEdit: false,
@@ -339,7 +344,7 @@ export default {
       pitContent: '',
       showMiniCode: false,
       isUploading: false,
-      disabledPicType: false
+      disabledPicType: true
     }
   },
   computed: {
@@ -377,7 +382,6 @@ export default {
           this.model.codeType = 2
         } else {
           this.disabledPicType = false
-          this.model.codeType = 1
         }
       },
       deep: true
@@ -429,6 +433,9 @@ export default {
     }
   },
   methods: {
+    dragUploadList (list) {
+      this.model.mediaList = list
+    },
     uploadProgress (data) {
       if (data) {
         const percent = data.content.percent
@@ -782,7 +789,7 @@ export default {
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
 .limit-scroll-view {
-  max-height: 700px;
+  max-height: 750px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
      display: none;

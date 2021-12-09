@@ -161,9 +161,8 @@
       <el-form-item
         label="自动打标签"
         required
-        prop="effectiveCycle"
       >
-        <div class='item-box'>
+        <div class='item-box low-bottom'>
           <template v-for="(tagItem, tagkey) in tagConf">
             <template  v-if='!tagItem.isNeedJudgeIsOpnePrize || isOpnePrize'>
               <el-form-item
@@ -251,9 +250,9 @@ export default {
         addValidFriendTags: { label: '自动打标签', tip: '在裂变活动中，通过去重规则后新增的好友', stairPrefix: '自动打标梯度' },
         beGuestCodeTags: { tip: '成为裂变大师后自动打标签', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
         noStandardTags: { tip: '活动结束后，裂变未达标', stairPrefix: '未达标阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
-        standardTags: { tip: '活动结束后，裂变达标', stairPrefix: '阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
+        standardTags: { tip: '活动结束后，裂变达标', stairPrefix: '达标阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
         noReceiveRewardsTags: { tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯', isNeedJudgeIsOpnePrize: true }, // 需要判断是否开启奖励
-        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
+        receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励', isNeedJudgeIsOpnePrize: true }
       },
       isOpnePrize: true,
       loading: false
@@ -331,9 +330,23 @@ export default {
     changeLoading (loading) {
       this.loading = loading
     },
+    totalTagCount () {
+      let tagGroupId = ''
+      for (const key in this.model.tags) {
+        if (key !== 'count') {
+          const tag = this.model.tags[key]
+          tag.forEach(item => {
+            if (item.tagGroupId) tagGroupId += `,${item.tagGroupId}`
+          })
+        }
+      }
+      tagGroupId = tagGroupId.slice(1)
+      return tagGroupId ? Array.from(new Set(tagGroupId.split(','))).length : 0
+    },
     handleSubmit () {
       this.$refs.advancedsetupForm.validate((valid) => {
         if (valid) {
+          this.model.tags.count = this.totalTagCount()
           this.$emit('changeData', {
             key: STEP_LIST[5].dataName,
             value: this.model
@@ -404,6 +417,10 @@ export default {
     margin-right: 15px;
     display: inline-block;
     white-space: nowrap;
+    font-size: 12px;
+    color: rgba(0,0,0,0.65);
+    line-height: 32px;
+    font-weight: 400;
   }
   .select-tips {
     border: 1px solid #dcdfe6;
@@ -432,5 +449,10 @@ export default {
       margin-right: 9px;
     }
   }
+}
+</style>
+<style scoped>
+.normal-from .low-bottom >>> .el-form-item {
+  margin-bottom: 16px;
 }
 </style>

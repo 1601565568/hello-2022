@@ -198,6 +198,7 @@ export default {
       this.showColor.mainColor = item.mainColor
       this.showColor.bgColor = item.bgColor
       this.showColor.strColor = item.strColor
+      this.$emit('input', this.showColor)
       this.dialogVisible = false
     },
     setCustomer (index) {
@@ -225,6 +226,7 @@ export default {
         this.showColor.bgColor = item.bgColor
         this.showColor.strColor = item.strColor
       }
+      this.$emit('input', this.showColor)
       this.dialogVisible = false
     },
     colorClick (index) {

@@ -108,7 +108,12 @@
                     请选择
                   </p>
                   <p v-else class="couponText">{{ scope.row.prizeName }}</p>
-                  <Icon type="couponicon" />
+                  <template v-if='scope.row.prizeType === 1'>
+                    <Icon type="couponicon" />
+                  </template>
+                  <template v-else>
+                    <Icon type="ns-pack" />
+                  </template>
                 </div>
               </el-form-item>
             </template>
@@ -118,7 +123,15 @@
               <p>{{ scope.row.validNumber }}</p>
             </template></el-table-column
           >
-          <el-table-column type="default" min-width="100"  label="当前活动奖励数量" :sortable="false">
+          <el-table-column type="default" min-width="100"  label="当前活动奖品数量" :sortable="false">
+            <template slot="header">
+              <template v-if='isEdit'>
+                当前活动奖品总数量
+              </template>
+              <template v-else>
+                当前活动奖品数量
+              </template>
+            </template>
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -157,7 +170,7 @@
               ></el-form-item>
             </template>
           </el-table-column>
-          <el-table-column type="default" min-width="100"  label="活动剩余数量" :sortable="false" v-if="isEdit">
+          <el-table-column type="default" min-width="100"  label="当前活动奖品剩余数量" :sortable="false" v-if="isEdit">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -257,9 +270,9 @@
       <el-form-item v-if='model.isOpnePrize'>
         <div class='swicth-item'>
           <span>仅会员可领取奖励</span>
-          <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+          <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
         </div>
-        <div class="qrcode-bottom-view">
+        <div class="qrcode-bottom-view" v-if='model.isOnlyReceiveByMember'>
           <span class="remind-view"></span>
           设置入会链接
           <ns-button type='text' class='safe-btn' @click='handleGoSet'>
@@ -549,6 +562,7 @@ export default {
 .scroll-div {
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   &::-webkit-scrollbar{
     width: 5px;
     height: 5px;

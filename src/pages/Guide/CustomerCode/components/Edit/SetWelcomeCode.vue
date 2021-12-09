@@ -19,6 +19,7 @@
             prop="activityIntroduction"
             :rules="[
               { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
+              { validator: validates.validateActivityIntroductionLeast.bind(this,activityIntroductionLength), message: '请输入欢迎语', trigger: ['blur', 'change'] },
               { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '欢迎语最多1000个字', trigger: ['blur', 'change'] }
             ]"
           >
@@ -57,19 +58,14 @@
                 />
               </el-form-item>
               <el-form-item prop="cardCoverPic">
-                <div class='simple-updata'>
-                  <el-avatar v-if="model.cardCoverPic" shape="square" :size="100" fit="contain" :src="model.cardCoverPic"></el-avatar>
-                  <div v-else class='default-updata'>
-                    <Icon type="plus" className="company-upload__tip"/>
+                <div class='updata-box'>
+                  <SimpleUpload :scale='1' :maxSize="2" scaleTip='1' v-model='model.cardCoverPic' :isNeedCrop='true' :drag='false'/>
+                  <div class='updata-option'>
+                    <ns-button type='text' class="remind-text" @click="showDefCard">恢复默认图片</ns-button>
+                    <div class="qrcode-bottom-view">
+                      建议：比例为1:1，小于2M，jpg、png、jpeg格式
+                    </div>
                   </div>
-                  <div class='upload-content'>
-                    <drap-upload  :scale='1' :maxSize="2" scaleTip='1' v-model='model.cardCoverPic' :isNeedCrop='true' :drag='false'>
-                    </drap-upload>
-                  </div>
-                  <ns-button type='text' class="remind-text" @click="showDefCard">恢复默认图片</ns-button>
-                </div>
-                <div class="qrcode-bottom-view">
-                  建议：比例为1:1，小于2M，jpg、png、jpeg格式
                 </div>
               </el-form-item>
             </div>
@@ -90,10 +86,9 @@
 import Box from '@/components/NewUi/Box'
 import { STEP_LIST, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_WELCOMECODE, Tools } from '../../src/const'
 import validates from '../../src/validates'
-import DrapUpload from '@/components/NewUi/DrapUpload'
-import ElAvatar from '@nascent/nui/lib/avatar'
 import LengthInput from '@/components/NewUi/LengthInput'
 import TagArea from '@/components/NewUi/TagArea'
+import SimpleUpload from '@/components/NewUi/SimpleUpload'
 import { defCardImg } from '../../util/Edit'
 import Welcome from '../Welcome'
 export default {
@@ -123,7 +118,7 @@ export default {
   },
   props: ['data', 'isStating'],
   components: {
-    Box, DrapUpload, ElAvatar, TagArea, LengthInput, Welcome
+    Box, SimpleUpload, TagArea, LengthInput, Welcome
   },
   methods: {
     inputLength (length) {
@@ -156,9 +151,12 @@ export default {
   },
   mounted () {
     this.model = { ...this.data }
-    if (!this.model.activityIntroduction) {
-      this.showDefaultText()
-    }
+    // if (!this.model.activityIntroduction) {
+    //   this.showDefaultText()
+    // } else {
+    //   this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = this.model.activityIntroduction
+    //   this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+    // }
   }
 }
 </script>
