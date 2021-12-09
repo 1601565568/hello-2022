@@ -26,7 +26,7 @@
       <div class="search">
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="关键字：">
-            <el-form-grid size="xmd">
+            <!-- <el-form-grid size="xmd"> -->
               <el-input style="width:180px"
                         @keyup.enter.native="searchAction"
                         @clear="searchAction"
@@ -35,16 +35,16 @@
                         placeholder="请输入账号/姓名/手机号"
                         clearable>
               </el-input>
-            </el-form-grid>
+            <!-- </el-form-grid> -->
           </el-form-item>
           <el-form-item label="所属门店：">
-            <el-form-grid size="xmd">
+            <!-- <el-form-grid size="xmd"> -->
               <shop-select-load ref="shopSelect"
                                 @change="handleShoperSelectChange"
                                 v-model="model.shop"
                                 :sameSystemShopId='sameSystemShopId'
                                 clearable/>
-            </el-form-grid>
+            <!-- </el-form-grid> -->
           </el-form-item>
           <!-- <el-form-item>
             <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
@@ -106,8 +106,8 @@
       <div slot="footer" class="dialog-footer">
         <span class="recordChooseList">已选导购{{recordChooseList.length}}人</span>
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button @click="onlyTransMember(1)">仅转移会员</ns-button>
-        <ns-button type="primary" @click="transAllMember(2)">转移会员并转移好友</ns-button>
+        <ns-button @click="onlyTransMember()">仅转移会员</ns-button>
+        <ns-button type="primary" @click="transAllMember()">转移会员并转移好友</ns-button>
       </div>
     </el-dialog>
     <!-- 新客户详情弹窗-->
@@ -866,7 +866,7 @@
         @close="replaceStoreShow = false"
         ></replaceStore>
     <RemindMsg ref="remindMsg"/>
-    <SendMsg ref="sendMsg" @transClick="transClick"/>
+    <SendMsg ref="sendMsg"/>
   </div>
 </template>
 <script>
