@@ -108,7 +108,12 @@
                     请选择
                   </p>
                   <p v-else class="couponText">{{ scope.row.prizeName }}</p>
-                  <Icon type="couponicon" />
+                  <template v-if='scope.row.prizeType === 1'>
+                    <Icon type="couponicon" />
+                  </template>
+                  <template v-else>
+                    <Icon type="ns-pack" />
+                  </template>
                 </div>
               </el-form-item>
             </template>
@@ -557,6 +562,7 @@ export default {
 .scroll-div {
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   &::-webkit-scrollbar{
     width: 5px;
     height: 5px;

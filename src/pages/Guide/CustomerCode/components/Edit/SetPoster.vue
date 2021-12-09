@@ -15,28 +15,6 @@
         >
           <el-form-item label="上传海报" prop="content">
             <div class='item-box'>
-              <!-- <div class='simple-updata'>
-                <el-avatar v-if="model.backgroundPic" shape="square" :size="100" fit="contain" :src="model.backgroundPic"></el-avatar>
-                <div v-else class='default-updata'>
-                  <Icon type="plus" className="company-upload__tip"/>
-                </div>
-                <div class='upload-content'>
-                  <drap-upload  :maxWidth="750" :maxHeight="1334" :maxSize="2" scaleTip='1' v-model='model.backgroundPic' :isNeedCrop='true'  :showPont='false' :drag='false'>
-                  </drap-upload>
-                </div>
-                <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
-              </div>
-              <div class="qrcode-bottom-view">
-                建议：750*1334像素，小于2M，jpg、png、jpeg格式
-                <el-tooltip  placement="top" popper-class='popperClass'>
-                  <span type='text' class='safe-btn'>
-                    查看实例
-                  </span>
-                  <template slot='content'>
-                    <img :src='demoImg' class='demo-img' />
-                  </template>
-                </el-tooltip>
-              </div> -->
               <div class='updata-box'>
                 <SimpleUpload :maxWidth="750" :maxHeight="1334" :maxSize="2" scaleTip='1' v-model='model.backgroundPic' :isNeedCrop='true'  :showPont='false' :drag='false'/>
                 <div class='updata-option'>
@@ -45,10 +23,10 @@
                     建议：750*1334像素，小于2M，jpg、png、jpeg格式
                     <el-tooltip  placement="top" popper-class='popperClass'>
                       <span type='text' class='safe-btn'>
-                        查看实例
+                        查看示例
                       </span>
                       <template slot='content'>
-                        <img :src='demoImg' class='demo-img' />
+                        <img :src='demoImg' class='demo-img' style='width:220px'/>
                       </template>
                     </el-tooltip>
                   </div>
