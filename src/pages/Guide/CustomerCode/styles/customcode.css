@@ -3,7 +3,7 @@
   bottom: 20px;
   left: 210px;
   right: 10px;
-  height: 78px;
+  height: 64px;
   background: #FFFFFF;
   box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
   display: flex;
@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-right: 14px;
+  margin-right: 16px;
 }
 .preview-img {
   width: 100%;

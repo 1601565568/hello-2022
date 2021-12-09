@@ -20,7 +20,7 @@
                 </div>
                 <div class='flex-box flex-start color-box_custom colle-container'>
                   <el-form-item label-width="110px" label="整体配色方案" prop="guideIds">
-                    <ColorView v-model="model.showColor" ref="colorView"/>
+                    <ColorView v-model="model.showColor" ref="colorView" @input='handleChangeColor'/>
                   </el-form-item>
                   <el-form-item label-width="130px" label="领取奖励按钮颜色" prop="guideIds">
                     <el-color-picker
@@ -273,6 +273,12 @@ export default {
     Box, ActivePhone, ColorView, ElColorPicker, TagArea, LengthInput, SimpleUpload
   },
   methods: {
+    handleChangeColor (value) {
+      if (value.mainColor) {
+        this.model.getBtnColor = value.mainColor
+        this.model.shareBtnColor = value.mainColor
+      }
+    },
     formatSettingType (code) {
       return formatCustomComponent(code)
     },
