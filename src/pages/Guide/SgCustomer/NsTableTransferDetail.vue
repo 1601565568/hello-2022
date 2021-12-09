@@ -4,10 +4,7 @@
     <div class="top-search-view">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
-          <el-input
-            v-model="searchData.mobile"
-            placeholder="请输入手机号"
-          >
+          <el-input v-model="searchData.mobile" placeholder="请输入手机号">
             <Icon
               type="ns-search"
               slot="suffix"
@@ -73,7 +70,11 @@
         <div class="operation-view  base-view" style="width:220px">
           <div class="name" style="width:100px">会员转移状态：</div>
           <div class="item-select">
-            <el-select v-model="searchData.customerStatus" :default-first-option="true" @change="inputClick">
+            <el-select
+              v-model="searchData.customerStatus"
+              :default-first-option="true"
+              @change="inputClick"
+            >
               <el-option
                 v-for="item in memberStatus"
                 :key="item.value"
@@ -84,16 +85,17 @@
             </el-select>
           </div>
           <div class="icon-view">
-            <Icon
-              type="ns-arrow-drowdown"
-              style="color: #8C8C8C;"
-            />
+            <Icon type="ns-arrow-drowdown" style="color: #8C8C8C;" />
           </div>
         </div>
         <div class="operation-view base-view" style="width:220px">
           <div class="name" style="width:100px">好友转移状态：</div>
           <div class="item-select">
-            <el-select v-model="searchData.friendStatus" :default-first-option="true" @change="inputClick">
+            <el-select
+              v-model="searchData.friendStatus"
+              :default-first-option="true"
+              @change="inputClick"
+            >
               <el-option
                 v-for="item in friendStatus"
                 :key="item.value"
@@ -104,10 +106,7 @@
             </el-select>
           </div>
           <div class="icon-view">
-            <Icon
-              type="ns-arrow-drowdown"
-              style="color: #8C8C8C;"
-            />
+            <Icon type="ns-arrow-drowdown" style="color: #8C8C8C;" />
           </div>
         </div>
       </div>
@@ -121,14 +120,17 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '96px' }"
             :border="false"
-            :cell-style="{ borderRight: 'none'}"
+            :cell-style="{ borderRight: 'none' }"
           >
             <el-table-column label="会员信息">
               <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img :src="scope.row.customerHeadImage" class="header-img">
-                    <span>{{scope.row.customerName}}</span>
+                    <img
+                      :src="scope.row.customerHeadImage"
+                      class="header-img"
+                    />
+                    <span>{{ scope.row.customerName }}</span>
                   </div>
                 </template>
               </el-table-column>
@@ -137,43 +139,71 @@
                   <span>{{ scope.row.sex === 1 ? '男' : '女' }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="customerMobile" label="手机号" width="120px">
+              <el-table-column
+                prop="customerMobile"
+                label="手机号"
+                width="120px"
+              >
               </el-table-column>
-              <el-table-column prop="memberCard" label="会员卡号"  width="120px">
+              <el-table-column prop="memberCard" label="会员卡号" width="120px">
               </el-table-column>
-              <el-table-column prop="oldGuideName" label="原专属导购" width="290px">
+              <el-table-column
+                prop="oldGuideName"
+                label="原专属导购"
+                width="290px"
+              >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{scope.row.oldGuideName}}</div>
+                    <div>{{ scope.row.oldGuideName }}</div>
                     <el-popover
                       placement="bottom"
                       width="300"
                       trigger="hover"
                       :title="scope.row.oldShopName"
                     >
-                      <div slot="reference" class="shop-name-view">{{scope.row.oldShopName}}</div>
+                      <div slot="reference" class="shop-name-view">
+                        {{ scope.row.oldShopName }}
+                      </div>
                     </el-popover>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="receiveGuideName" label="新专属导购" width="290px">
+              <el-table-column
+                prop="receiveGuideName"
+                label="新专属导购"
+                width="290px"
+              >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{scope.row.receiveGuideName}}</div>
+                    <div>{{ scope.row.receiveGuideName }}</div>
                     <el-popover
                       placement="bottom"
                       width="300"
                       trigger="hover"
                       :title="scope.row.receiveShopName"
                     >
-                      <div slot="reference" class="shop-name-view">{{scope.row.receiveShopName}}</div>
+                      <div slot="reference" class="shop-name-view">
+                        {{ scope.row.receiveShopName }}
+                      </div>
                     </el-popover>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="customerStatus" label="会员转移状态" width="125px">
+              <el-table-column
+                prop="customerStatus"
+                label="会员转移状态"
+                width="125px"
+              >
                 <template slot-scope="scope">
-                  <span class="trans-status-view">{{customerStatusText(scope.row.customerStatus)}}</span>
+                  <span
+                    class="trans-status-view"
+                    :class="
+                      scope.row.customerStatus !== 1
+                        ? 'trans-status-view-fail'
+                        : ''
+                    "
+                    >{{ customerStatusText(scope.row.customerStatus) }}</span
+                  >
                 </template>
               </el-table-column>
             </el-table-column>
@@ -181,25 +211,53 @@
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img :src="scope.row.friendHeadImage" class="header-img">
-                    <span>{{scope.row.friendNick}}</span>
+                    <img :src="scope.row.friendHeadImage" class="header-img" />
+                    <span>{{ scope.row.friendNick }}</span>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column prop="friendMobile" label="手机号" width="120px">
               </el-table-column>
-              <el-table-column prop="oldGuideName" label="原添加人" width="120px">
+              <el-table-column
+                prop="oldGuideName"
+                label="原添加人"
+                width="120px"
+              >
               </el-table-column>
-              <el-table-column prop="friendStatus" label="好友转移状态" width="150px">
+              <el-table-column
+                prop="friendStatus"
+                label="好友转移状态"
+                width="150px"
+              >
                 <template slot-scope="scope">
-                  <span class="trans-status-view">{{friendStatusText(scope.row.friendStatus)}}</span>
+                  <span
+                    class="trans-status-view"
+                    :class="
+                      scope.row.friendStatus === 2
+                        ? 'trans-status-view-wait'
+                        : scope.row.friendStatus === 5
+                        ? 'trans-status-view-none'
+                        : scope.row.friendStatus === 1
+                        ? ''
+                        : 'trans-status-view-fail'
+                    "
+                    >{{ friendStatusText(scope.row.friendStatus) }}</span
+                  >
                 </template>
               </el-table-column>
-              <el-table-column prop="friendFailureMsg" label="备注" width="120px">
+              <el-table-column
+                prop="friendFailureMsg"
+                label="备注"
+                width="120px"
+              >
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
               </el-table-column>
-              <el-table-column prop="transferTime" label="转移时间" width="160px">
+              <el-table-column
+                prop="transferTime"
+                label="转移时间"
+                width="160px"
+              >
               </el-table-column>
             </el-table-column>
           </el-table>
@@ -244,10 +302,12 @@ export default {
           sex: 'sex',
           customerName: '周景琛',
           customerStatus: 0,
-          customerHeadImage: 'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
-          friendHeadImage: 'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
+          customerHeadImage:
+            'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
+          friendHeadImage:
+            'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
           friendNick: '周景琛1',
-          friendStatus: 0
+          friendStatus: 1
         }
       ],
       friendStatus: [
@@ -354,8 +414,7 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName =
-              '转移明细数据统计' + '.xlsx'
+            let fileName = '转移明细数据统计' + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -377,14 +436,16 @@ export default {
     },
     loadListData () {
       this.$http
-        .fetch(this.$api.guide.guide.findCustomerTransferLogDetailList, this.searchData)
+        .fetch(
+          this.$api.guide.guide.findCustomerTransferLogDetailList,
+          this.searchData
+        )
         .then(resp => {
           if (resp.success) {
             // this.listData = resp.result.data || []
           }
         })
-        .catch(resp => {
-        })
+        .catch(resp => {})
     }
   },
   mounted () {
@@ -412,12 +473,25 @@ export default {
     }
   }
   .trans-status-view {
-    background: #EDFAE1;
-    border: 1px solid #C2F099;
+    background: #edfae1;
+    border: 1px solid #c2f099;
     border-radius: 2px;
     padding: 2px 8px;
     display: inline-block;
     font-size: 12px;
+    text-align: center;
+  }
+  .trans-status-view-fail {
+    background: #fff1f0;
+    border: 1px solid #ffc5c2;
+  }
+  .trans-status-view-wait {
+    background: #e6f2ff;
+    border: 1px solid #bddcff;
+  }
+  .trans-status-view-none {
+    background: #fff4e6;
+    border: 1px solid #ffd8a8;
   }
 }
 .top-title-view {
