@@ -135,7 +135,9 @@ export default {
       allShopOptions: [],
       shopOptions: [],
       activeTab: {}, // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
-      viewList: null
+      viewList: null,
+      transferRange: null,
+      transferSuccessMsg: ''
     }
   },
   mixins: [tableMixin],
@@ -986,6 +988,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.transferRange = 1
+        this.transferSuccessMsg = ''
         this.onSave(1)
       }).catch(() => {
       })
@@ -996,6 +1000,11 @@ export default {
         return
       }
       this.$refs.sendMsg.showDialog()
+    },
+    transClick (msg) {
+      this.transferRange = 2
+      this.transferSuccessMsg = msg
+      this.onSave(1)
     },
     onSave (taskType) {
       var params
@@ -1015,7 +1024,9 @@ export default {
         terminalType: 1, // 终端
         taskType: 1, // 按会员转移
         checkType: checkAll ? 1 : 0, // 是否全选 0选中 1取消选中
-        customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList) // 客户选中列表
+        customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList), // 客户选中列表
+        transferRange: this.transferRange,
+        transferSuccessMsg: this.transferSuccessMsg
       }
       if (taskType === 1) {
         params = {
