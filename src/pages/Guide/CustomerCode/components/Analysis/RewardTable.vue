@@ -97,7 +97,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column width="120px" prop="guideName" label="已领数量">
+          <el-table-column width="120px" prop="guideName" label="已领次数">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.count || '0'}}
