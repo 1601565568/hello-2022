@@ -56,7 +56,7 @@ export default {
           label: '领奖记录',
           value: 0,
           id: 'receive',
-          key: 'reachStandardNumber'
+          key: 'awardNumber'
         }
       ],
       model: {
