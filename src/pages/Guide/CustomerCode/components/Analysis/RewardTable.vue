@@ -12,16 +12,6 @@
             </template>
           </NsGuideDialog>
         </el-form-item>
-        <el-form-item label="领取状态：" class='el-form__change'>
-          <el-select v-model="model.presentsState" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
-            <el-option
-              v-for="item in statusList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="">
           <el-input v-model="seachVal" placeholder="请输入裂变大师昵称"  @keyup.enter.native="handleSearch">
             <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
@@ -107,20 +97,11 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="presentsState" width="120px" >
-            <template slot='header'>
-              领奖状态
-              <el-tooltip  effect='light' popper-class='popperClass' placement="top">
-                <Icon type="question-circle" class='question-circle'/>
-                <template slot='content'>
-                  若有奖励未领取，即“待领取”状态<br/>
-                  若已全部领取，即“已领取”状态
-                </template>
-              </el-tooltip>
-            </template>
+          <el-table-column width="120px" prop="guideName" label="已领数量">
             <template slot-scope="scope">
-              <el-tag type="info" v-if="scope.row.presentsState === 1">已领取</el-tag>
-              <el-tag type="warning" v-if="scope.row.presentsState === 2">待领取</el-tag>
+              <div class="scope-title_text">
+                {{scope.row.count || '0'}}
+              </div>
             </template>
           </el-table-column>
         </el-table>
