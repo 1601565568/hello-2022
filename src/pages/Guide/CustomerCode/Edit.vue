@@ -233,6 +233,7 @@ export default {
   // }
   .min-width_container {
     min-width: 1158px;
+    height: 100%;
   }
 }
 .customecode-step {
