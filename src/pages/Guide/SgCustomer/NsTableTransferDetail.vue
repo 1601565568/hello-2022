@@ -216,8 +216,8 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="friendMobile" label="手机号" width="120px">
-              </el-table-column>
+              <!-- <el-table-column prop="friendMobile" label="手机号" width="120px">
+              </el-table-column> -->
               <el-table-column
                 prop="oldGuideName"
                 label="原添加人"
@@ -280,39 +280,17 @@
 </template>
 <script>
 import PageTable from '@/components/NewUi/PageTable'
+import moment from 'moment'
 export default {
   components: {
     PageTable
   },
   data () {
     return {
-      listData: [
-        {
-          customerMobile: '13185092609',
-          memberCard: '890217389273',
-          oldGuideName: '刘楚涵',
-          oldShopName: '杭州下沙线下体验店杭州下沙线下体验店…',
-          receiveGuideName: '1刘楚涵',
-          receiveShopName: '1杭州下沙线下体验店杭州下沙线下体验店…',
-          friendMobile: '18257978226',
-          addPerson: 'addPerson',
-          friendFailureMsg: '可显示接替失败原因',
-          operatorName: 'admin',
-          transferTime: '2021-03-31 13:54:19',
-          sex: 'sex',
-          customerName: '周景琛',
-          customerStatus: 0,
-          customerHeadImage:
-            'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
-          friendHeadImage:
-            'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
-          friendNick: '周景琛1',
-          friendStatus: 1
-        }
-      ],
+      listData: [],
       friendStatus: [
         {
-          value: 0,
+          value: null,
           label: '全部'
         },
         {
@@ -338,7 +316,7 @@ export default {
       ],
       memberStatus: [
         {
-          value: 0,
+          value: null,
           label: '全部'
         },
         {
@@ -364,9 +342,8 @@ export default {
         transferStartTime: '',
         transferEndTime: '',
         operatorName: '',
-        taskId: '',
-        customerStatus: 0,
-        friendStatus: 0
+        customerStatus: null,
+        friendStatus: null
       }
     }
   },
@@ -442,7 +419,7 @@ export default {
         )
         .then(resp => {
           if (resp.success) {
-            // this.listData = resp.result.data || []
+            this.listData = resp.result.data || []
           }
         })
         .catch(resp => {})
