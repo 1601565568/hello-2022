@@ -39,6 +39,13 @@ export default {
     url: '/guide/customertransferlog/findCustomerTransferLogDetailList',
     method: 'post'
   },
+  exportTaskDetailList: {
+    // 素材列表
+    url: '/guide/customertransferlog/exportTaskDetailList',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
   findCustomerTransRecordList: { // 客户转移记录详情
     url: '/guide/customertransferlog/findCustomerTransferLogDetailList',
     method: 'post'

@@ -111,7 +111,7 @@
           </div>
         </div>
       </div>
-      <div class="output-file">导出文件</div>
+      <div class="output-file" @click="outputFile">导出文件</div>
     </div>
     <div class="trans-table-view">
       <page-table style="padding-top:0">
@@ -124,52 +124,82 @@
             :cell-style="{ borderRight: 'none'}"
           >
             <el-table-column label="会员信息">
-              <el-table-column prop="name" label="会员" width="170px">
+              <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img :src="scope.row.date" class="header-img">
-                    <span>{{scope.row.name}}</span>
+                    <img :src="scope.row.customerHeadImage" class="header-img">
+                    <span>{{scope.row.customerName}}</span>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="gender" label="性别" width="72px"> </el-table-column>
-              <el-table-column prop="phone" label="手机号" width="120px">
-              </el-table-column>
-              <el-table-column prop="card" label="会员卡号"  width="120px">
-              </el-table-column>
-              <el-table-column prop="original" label="原专属导购" width="290px">
-              </el-table-column>
-              <el-table-column prop="newShopping" label="新专属导购" width="290px">
-              </el-table-column>
-              <el-table-column prop="transfer" label="会员转移状态" width="125px">
+              <el-table-column prop="sex" label="性别" width="72px">
                 <template slot-scope="scope">
-                  <span class="trans-status-view">{{scope.row.transfer}}</span>
+                  <span>{{ scope.row.sex === 1 ? '男' : '女' }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="customerMobile" label="手机号" width="120px">
+              </el-table-column>
+              <el-table-column prop="memberCard" label="会员卡号"  width="120px">
+              </el-table-column>
+              <el-table-column prop="oldGuideName" label="原专属导购" width="290px">
+                <template slot-scope="scope">
+                  <div>
+                    <div>{{scope.row.oldGuideName}}</div>
+                    <el-popover
+                      placement="bottom"
+                      width="300"
+                      trigger="hover"
+                      :title="scope.row.oldShopName"
+                    >
+                      <div slot="reference" class="shop-name-view">{{scope.row.oldShopName}}</div>
+                    </el-popover>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="receiveGuideName" label="新专属导购" width="290px">
+                <template slot-scope="scope">
+                  <div>
+                    <div>{{scope.row.receiveGuideName}}</div>
+                    <el-popover
+                      placement="bottom"
+                      width="300"
+                      trigger="hover"
+                      :title="scope.row.receiveShopName"
+                    >
+                      <div slot="reference" class="shop-name-view">{{scope.row.receiveShopName}}</div>
+                    </el-popover>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="customerStatus" label="会员转移状态" width="125px">
+                <template slot-scope="scope">
+                  <span class="trans-status-view">{{customerStatusText(scope.row.customerStatus)}}</span>
                 </template>
               </el-table-column>
             </el-table-column>
             <el-table-column label="好友信息">
-              <el-table-column prop="namer" label="好友" width="170px">
+              <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img :src="scope.row.date" class="header-img">
-                    <span>{{scope.row.name}}</span>
+                    <img :src="scope.row.friendHeadImage" class="header-img">
+                    <span>{{scope.row.friendNick}}</span>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="fPhone" label="手机号" width="120px">
+              <el-table-column prop="friendMobile" label="手机号" width="120px">
               </el-table-column>
-              <el-table-column prop="addPerson" label="原添加人" width="120px">
+              <el-table-column prop="oldGuideName" label="原添加人" width="120px">
               </el-table-column>
-              <el-table-column prop="newPerson" label="好友转移状态" width="150px">
+              <el-table-column prop="friendStatus" label="好友转移状态" width="150px">
                 <template slot-scope="scope">
-                  <span class="trans-status-view">{{scope.row.newPerson}}</span>
+                  <span class="trans-status-view">{{friendStatusText(scope.row.friendStatus)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="remark" label="备注" width="120px">
+              <el-table-column prop="friendFailureMsg" label="备注" width="120px">
               </el-table-column>
-              <el-table-column prop="operationPerson" label="操作人" width="120px">
+              <el-table-column prop="operatorName" label="操作人" width="120px">
               </el-table-column>
-              <el-table-column prop="add_time" label="转移时间" width="160px">
+              <el-table-column prop="transferTime" label="转移时间" width="160px">
               </el-table-column>
             </el-table-column>
           </el-table>
@@ -198,7 +228,28 @@ export default {
   },
   data () {
     return {
-      listData: [],
+      listData: [
+        {
+          customerMobile: '13185092609',
+          memberCard: '890217389273',
+          oldGuideName: '刘楚涵',
+          oldShopName: '杭州下沙线下体验店杭州下沙线下体验店…',
+          receiveGuideName: '1刘楚涵',
+          receiveShopName: '1杭州下沙线下体验店杭州下沙线下体验店…',
+          friendMobile: '18257978226',
+          addPerson: 'addPerson',
+          friendFailureMsg: '可显示接替失败原因',
+          operatorName: 'admin',
+          transferTime: '2021-03-31 13:54:19',
+          sex: 'sex',
+          customerName: '周景琛',
+          customerStatus: 0,
+          customerHeadImage: 'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
+          friendHeadImage: 'https://tse1-mm.cn.bing.net/th/id/R-C.0e725652b27c4585e3b16564b6085c93?rik=%2fttc%2bMl0ichBJg&riu=http%3a%2f%2fwww.desktx.com%2fd%2ffile%2fwallpaper%2fanimals%2f20170217%2fc7bbeb3f8bb7ed4d0424a7daeb422016.jpg&ehk=6gc%2fhM15lFOasw5fL7Zm5XLxDpFfTVfFJuI%2bKnx3NIk%3d&risl=&pid=ImgRaw&r=0',
+          friendNick: '周景琛1',
+          friendStatus: 0
+        }
+      ],
       friendStatus: [
         {
           value: 0,
@@ -260,6 +311,57 @@ export default {
     }
   },
   methods: {
+    friendStatusText (status) {
+      if (status === 0) {
+        return '未处理'
+      } else if (status === 1) {
+        return '接替完毕'
+      } else if (status === 2) {
+        return '等待接替'
+      } else if (status === 3) {
+        return '客户拒绝'
+      } else if (status === 4) {
+        return '接替成员客户达到上限'
+      } else if (status === 5) {
+        return '无接替记录'
+      }
+    },
+    customerStatusText (status) {
+      if (status === 0) {
+        return '未转移'
+      } else if (status === 1) {
+        return '转移成功'
+      } else if (status === -1) {
+        return '转移失败'
+      } else if (status === 2) {
+        return '转移中'
+      }
+    },
+    outputFile () {
+      let that = this
+      that.$notify.info('导出中，请稍后片刻')
+      this.$http
+        .fetch(this.$api.guide.guide.exportTaskDetailList, {})
+        .then(resp => {
+          that.$notify.success('下载完成')
+        })
+        .catch(resp => {
+          if (!resp.size === 0) {
+            that.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            let curDate = moment().format('YYYYMMDDHHmmss')
+            let fileName =
+              '转移明细数据统计' + '.xlsx'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+    },
     dataPickerChange () {
       if (this.datePickerValue == null) {
         this.searchData.transferStartTime = ''
@@ -278,7 +380,7 @@ export default {
         .fetch(this.$api.guide.guide.findCustomerTransferLogDetailList, this.searchData)
         .then(resp => {
           if (resp.success) {
-            this.listData = resp.result.data || []
+            // this.listData = resp.result.data || []
           }
         })
         .catch(resp => {
@@ -396,5 +498,15 @@ export default {
 .trans-table-view {
   margin-top: 16px;
   background-color: white;
+}
+.shop-name-view {
+  width: 266px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 </style>
