@@ -35,6 +35,10 @@ export default {
     url: '/guide/customertransferlog/findList',
     method: 'post'
   },
+  findCustomerTransferLogDetailList: { // 客户转移明细
+    url: '/guide/customertransferlog/findCustomerTransferLogDetailList',
+    method: 'post'
+  },
   findCustomerTransRecordList: { // 客户转移记录详情
     url: '/guide/customertransferlog/findCustomerTransferLogDetailList',
     method: 'post'

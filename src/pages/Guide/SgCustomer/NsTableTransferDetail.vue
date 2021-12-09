@@ -5,9 +5,8 @@
       <div class="seach-left-view">
         <div class="no-input-view base-view">
           <el-input
-            v-model="input"
-            placeholder="请输入素材标题"
-            @change="inputClick"
+            v-model="searchData.mobile"
+            placeholder="请输入手机号"
           >
             <Icon
               type="ns-search"
@@ -19,9 +18,8 @@
         </div>
         <div class="no-input-view base-view">
           <el-input
-            v-model="input"
+            v-model="searchData.customerName"
             placeholder="请输入会员姓名"
-            @change="inputClick"
           >
             <Icon
               type="ns-search"
@@ -33,9 +31,8 @@
         </div>
         <div class="no-input-view base-view">
           <el-input
-            v-model="input"
+            v-model="searchData.friendNick"
             placeholder="请输入好友昵称"
-            @change="inputClick"
           >
             <Icon
               type="ns-search"
@@ -45,25 +42,18 @@
             ></Icon>
           </el-input>
         </div>
-        <div class="operation-view base-view">
-          <div class="name">操作人：</div>
-          <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="icon-view">
+        <div class="no-input-view base-view">
+          <el-input
+            v-model="searchData.operatorName"
+            placeholder="请输入操作人"
+          >
             <Icon
-              type="ns-arrow-drowdown"
-              style="color: #8C8C8C;"
-            />
-          </div>
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
         </div>
         <div class="date-view base-view">
           <span style="font-size:13px">转移时间：</span>
@@ -76,15 +66,16 @@
             align="center"
             value-format="yyyy-MM-dd"
             prefix-icon=""
+            @change="dataPickerChange"
           >
           </el-date-picker>
         </div>
         <div class="operation-view  base-view" style="width:220px">
           <div class="name" style="width:100px">会员转移状态：</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
+            <el-select v-model="searchData.customerStatus" :default-first-option="true" @change="inputClick">
               <el-option
-                v-for="item in options"
+                v-for="item in memberStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -102,9 +93,9 @@
         <div class="operation-view base-view" style="width:220px">
           <div class="name" style="width:100px">好友转移状态：</div>
           <div class="item-select">
-            <el-select v-model="actionValue" :default-first-option="true">
+            <el-select v-model="searchData.friendStatus" :default-first-option="true" @change="inputClick">
               <el-option
-                v-for="item in options"
+                v-for="item in friendStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -126,7 +117,7 @@
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table
-            :data="tableData"
+            :data="listData"
             class="new-table_border drawer-table"
             :row-style="{ height: '96px' }"
             :border="false"
@@ -207,93 +198,95 @@ export default {
   },
   data () {
     return {
-      input: '',
-      tableData: [
-        {
-          date: require('@/assets/baguser.png'),
-          name: '小樱',
-          gender: '女',
-          phone: '18566677789',
-          card: '会员卡号',
-          original: '原专属门店',
-          newShopping: '新专属门店',
-          transfer: '转移状态',
-          namer: '好友昵称',
-          fPhone: '18566677789',
-          addPerson: '原员工姓名',
-          newPerson: '新员工姓名',
-          fTransfer: '接替状态',
-          remark: '可显示接替失败原因',
-          operationPerson: 'admin',
-          add_time: '2021-05-23 12:23:44'
-        },
-        {
-          date: require('@/assets/baguser.png'),
-          name: '小樱',
-          gender: '女',
-          phone: '18566677789',
-          card: '会员卡号',
-          original: '原专属门店',
-          newShopping: '新专属门店',
-          transfer: '转移状态',
-          namer: '好友昵称',
-          fPhone: '18566677789',
-          addPerson: '原员工姓名',
-          newPerson: '新员工姓名',
-          fTransfer: '接替状态',
-          remark: '可显示接替失败原因',
-          operationPerson: 'admin',
-          add_time: '2021-05-23 12:23:44'
-        },
-        {
-          date: require('@/assets/baguser.png'),
-          name: '小樱',
-          gender: '女',
-          phone: '18566677789',
-          card: '会员卡号',
-          original: '原专属门店',
-          newShopping: '新专属门店',
-          transfer: '转移状态',
-          namer: '好友昵称',
-          fPhone: '18566677789',
-          addPerson: '原员工姓名',
-          newPerson: '新员工姓名',
-          fTransfer: '接替状态',
-          remark: '可显示接替失败原因',
-          operationPerson: 'admin',
-          add_time: '2021-05-23 12:23:44'
-        }
-      ],
-      options: [
+      listData: [],
+      friendStatus: [
         {
           value: 0,
           label: '全部'
         },
         {
-          value: 14,
-          label: '下载'
+          value: 1,
+          label: '接替完毕'
         },
         {
-          value: 16,
-          label: '发送'
+          value: 2,
+          label: '等待接替'
         },
         {
-          value: 18,
-          label: '补全'
+          value: 3,
+          label: '客户拒绝'
+        },
+        {
+          value: 4,
+          label: '接替成员客户达到上限'
+        },
+        {
+          value: 5,
+          label: '无接替记录'
+        }
+      ],
+      memberStatus: [
+        {
+          value: 0,
+          label: '全部'
+        },
+        {
+          value: 1,
+          label: '转移成功'
+        },
+        {
+          value: 2,
+          label: '转移失败'
         }
       ],
       datePickerValue: '',
-      actionValue: 0,
       paginationToPerson: {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 1,
         total: 0
+      },
+      searchData: {
+        mobile: '',
+        customerName: '',
+        friendNick: '',
+        transferStartTime: '',
+        transferEndTime: '',
+        operatorName: '',
+        taskId: '',
+        customerStatus: 0,
+        friendStatus: 0
       }
     }
   },
   methods: {
-    inputClick () {}
+    dataPickerChange () {
+      if (this.datePickerValue == null) {
+        this.searchData.transferStartTime = ''
+        this.searchData.transferEndTime = ''
+      } else {
+        this.searchData.transferStartTime = this.datePickerValue[0]
+        this.searchData.transferEndTime = this.datePickerValue[1]
+      }
+      this.loadListData()
+    },
+    inputClick () {
+      this.loadListData()
+    },
+    loadListData () {
+      this.$http
+        .fetch(this.$api.guide.guide.findCustomerTransferLogDetailList, this.searchData)
+        .then(resp => {
+          if (resp.success) {
+            this.listData = resp.result.data || []
+          }
+        })
+        .catch(resp => {
+        })
+    }
+  },
+  mounted () {
+    this.loadListData()
   }
 }
 </script>
