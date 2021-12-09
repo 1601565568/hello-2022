@@ -9,6 +9,7 @@ export enum WelcomeMessageType {
   MiniProgram,
   ImageCode
 }
+
 /**
  * 欢迎语附件类型对应Icon和标题
  */

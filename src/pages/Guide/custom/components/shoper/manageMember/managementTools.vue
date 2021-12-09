@@ -54,6 +54,9 @@ export default {
         case 'LBS群拉新':
           url = require(`../../../image/LBS.png`)
           break
+        case '转移明细':
+          url = require(`../../../image/transImg.png`)
+          break
       }
       return url
     }

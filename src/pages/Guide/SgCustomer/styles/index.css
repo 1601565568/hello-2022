@@ -1,0 +1,43 @@
+.no-input-view >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  height:32px;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  width:240px;
+}
+.no-input-view >>> .el-input__suffix {
+  width:30px;
+  height:30px;
+}
+
+.no-input-view >>> .el-input__suffix:before {
+  border-left: none;
+}
+
+.item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+}
+
+.item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
+}
+
+.date-view >>> .el-input__inner {
+  width: 256px;
+  height: 30px;
+  border: none;
+}
+.data-view >>> .el-range-input {
+  font-size: 14px;
+  text-align: center;
+}
+.data-view >>> .el-date-editor .el-range__icon {
+  display: none;
+}
+
+.date-view >>> .el-range-input {
+  font-size: 14px;
+  /* height: 32px; */
+}

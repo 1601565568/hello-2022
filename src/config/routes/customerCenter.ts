@@ -24,6 +24,12 @@ export default {
           'name': 'TRANS_CUSTOMER_RECORD',
           'title': '客户转移记录',
           'component': () => import('@/pages/Guide/SgCustomer/NsTableSgCustomer.vue')
+        },
+        {
+          'path': '/Guide/TransferDetails',
+          'name': 'TRANS_CUSTOMER_DETAIL',
+          'title': '客户转移明细',
+          'component': () => import('@/pages/Guide/SgCustomer/NsTableTransferDetail.vue')
         }
       ]
     },

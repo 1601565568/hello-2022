@@ -968,6 +968,35 @@ export default {
      * @param {*} taskType
      * taskType 1更换导购 2更换门店
      */
+    onlyTransMember () {
+      if (this.recordChooseList.length === 0) {
+        this.$notify.error('请先选择更换导购')
+        return
+      }
+      const confirmText = ['确定仅转移会员', '仅转移会员时，不会同步转移好友关系']
+      const arr = []
+      const h = this.$createElement
+      for (const i in confirmText) {
+        arr.push(h('p', null, confirmText[i]))
+      }
+      this.$confirm('提示信息', {
+        title: '提示信息',
+        message: h('div', null, arr),
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.onSave(1)
+      }).catch(() => {
+      })
+    },
+    transAllMember () {
+      if (this.recordChooseList.length === 0) {
+        this.$notify.error('请先选择更换导购')
+        return
+      }
+      this.$refs.sendMsg.showDialog()
+    },
     onSave (taskType) {
       var params
       if (taskType === 1 && this.recordChooseList.length === 0) {
