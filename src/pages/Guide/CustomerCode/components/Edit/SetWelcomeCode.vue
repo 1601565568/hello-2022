@@ -19,6 +19,7 @@
             prop="activityIntroduction"
             :rules="[
               { required: true, message: '请输入欢迎语', trigger: ['blur', 'change'] },
+              { validator: validates.validateActivityIntroductionLeast.bind(this,activityIntroductionLength), message: '请输入欢迎语', trigger: ['blur', 'change'] },
               { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '欢迎语最多1000个字', trigger: ['blur', 'change'] }
             ]"
           >

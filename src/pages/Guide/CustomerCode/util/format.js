@@ -66,7 +66,7 @@ export const submitPageDecorationDataFormat = (pageDecorationData) => {
     pic: pageDecorationData.regUrl
   }
   pageDecoration[MODULE_TO_INDEX_MAP.activityRule].value = {
-    content: pageDecorationData.rules
+    content: TagArea.methods.htmlToString(pageDecorationData.rules)
   }
   return pageDecoration
 }
@@ -153,7 +153,7 @@ export const loadingPageDecorationDataFormat = (model) => {
     activeInfo: {},
     activeInfoList: [],
     bannerUrl: bannerData.pic,
-    rules: activityRuleData.content,
+    rules: TagArea.methods.stringTohtml.call({ tools: [] }, activityRuleData.content),
     regUrl: regUrlData.pic,
     shareBtnText: shareData.name,
     virtualFinishedCount: rewardData.virtualFinishedCount

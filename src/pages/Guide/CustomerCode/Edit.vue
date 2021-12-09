@@ -10,6 +10,7 @@
     </template>
     <template slot='content'>
       <div class='container'>
+        <div class='min-width_container'>
         <div class='customecode-step antd-step'>
           <el-steps :active="stepId" finish-status="success">
             <template v-for="item in STEP_LIST">
@@ -34,6 +35,7 @@
               </component>
             </div>
           </template>
+        </div>
         </div>
       </div>
     </template>
@@ -207,21 +209,40 @@ export default {
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
 .container {
-  min-width: 1158px;
+  width: 100%;
+  overflow-x: auto;
   background-color: #fff;
-  padding-top: 40px;
+  padding-top: 20px;
   height: calc(100vh - 160px);
   box-sizing: border-box;
-  padding-bottom: 80px;
+  padding-bottom: 64px;
   position: relative;
+  // &::-webkit-scrollbar{
+  //   width: 5px;
+  //   height: 5px;
+  // }
+  // &::-webkit-scrollbar-thumb{
+  //   border-radius: 1em;
+  //   background-color: rgba(144, 147, 153, .3);
+  //   cursor: pointer;
+  // }
+  // &::-webkit-scrollbar-track{
+  //   border-radius: 1em;
+  //   background-color: rgba(50,50,50,0);
+  //   cursor: pointer;
+  // }
+  .min-width_container {
+    min-width: 1158px;
+    height: 100%;
+  }
 }
 .customecode-step {
   width: 1000px;
-  margin: 0px auto 40px;
+  margin: 0px auto 20px;
 }
 .content-box {
   padding-left: 42px;
-  height: calc( 100% - 87px );
+  height: calc( 100% - 67px );
   min-width: 1000px;
 }
 .content-div {

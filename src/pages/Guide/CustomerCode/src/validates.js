@@ -64,6 +64,13 @@ export default {
       callback()
     }
   },
+  validateActivityIntroductionLeast: (length, rule, value, callback) => {
+    if (length <= 0) {
+      callback(new Error(`请输入活动介绍`))
+    } else {
+      callback()
+    }
+  },
   // 活动人员
   validateGuideIds: (rule, value, callback) => {
     if (!value || value.length <= 0) {

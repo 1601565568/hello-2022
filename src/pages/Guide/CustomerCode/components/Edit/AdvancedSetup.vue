@@ -330,9 +330,23 @@ export default {
     changeLoading (loading) {
       this.loading = loading
     },
+    totalTagCount () {
+      let tagGroupId = ''
+      for (const key in this.model.tags) {
+        if (key !== 'count') {
+          const tag = this.model.tags[key]
+          tag.forEach(item => {
+            if (item.tagGroupId) tagGroupId += `,${item.tagGroupId}`
+          })
+        }
+      }
+      tagGroupId = tagGroupId.slice(1)
+      return tagGroupId ? Array.from(new Set(tagGroupId.split(','))).length : 0
+    },
     handleSubmit () {
       this.$refs.advancedsetupForm.validate((valid) => {
         if (valid) {
+          this.model.tags.count = this.totalTagCount()
           this.$emit('changeData', {
             key: STEP_LIST[5].dataName,
             value: this.model
