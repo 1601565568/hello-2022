@@ -38,7 +38,7 @@
       <span class="show-default-text" @click="showDefaultText">恢复默认</span>
       <div>
         <ns-button @click="dialogVisible = false">取 消</ns-button>
-        <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
+        <ns-button type="primary" @click="transAll">确 定</ns-button>
       </div>
     </span>
   </el-dialog>
@@ -64,7 +64,15 @@ export default {
       defaultWelcome: `您好，您的服务已升级，后续将由我的同事{guideUserId}{corpName}接替我的工作，继续为您服务。`
     }
   },
+  mounted () {
+    this.activityIntroduction = this.defaultWelcome
+  },
   methods: {
+    transAll () {
+      this.dialogVisible = false
+      const activityIntroduction = this.$refs.tagAreaText.htmlToString(this.activityIntroduction)
+      this.$emit('transClick', activityIntroduction)
+    },
     showDefaultText () {
       this.defaultText()
     },
