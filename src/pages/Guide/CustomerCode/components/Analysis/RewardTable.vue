@@ -40,7 +40,7 @@
           v-loading.lock="_data._table.loadingtable"
           @sort-change="handleSort"
           style="width: 100%">
-          <el-table-column
+          <el-table-column  width="120px"
             prop="name"
             label="裂变大师">
             <template slot-scope="scope">
@@ -49,17 +49,31 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="guideName"
-            label="所属员工">
+          <el-table-column width="120px" prop="guideName" label="所属员工">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.guideName|| '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="guideName">
+          <el-table-column prop="guideName" label="员工所属门店">
+            <template slot-scope="scope">
+              <div class="scope-name">
+                <div :class="'scope-name_text'" >
+                  {{scope.row.offlineShopsStr || '-'}}
+                </div>
+                <el-popover v-if="scope.row.offlineShopsStr"
+                  placement="top-start"
+                  class="item"
+                  width="180"
+                  trigger="hover"
+                  :content="scope.row.offlineShopsStr||''">
+                  <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShopsStr.split(',').length}}个</span>
+                </el-popover>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column width="180px" prop="friendsCount">
             <template slot='header'>
               成功邀请/扣减好友数
               <el-tooltip  effect='light' popper-class='popperClass' placement="top">
@@ -76,52 +90,37 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="recruitment"
-            label="达标门槛">
+          <el-table-column prop="presentsState">
+            <template slot='header'>
+              已达标门槛
+              <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                <Icon type="question-circle" class='question-circle'/>
+                <template slot='content'>
+                  显示 “达标阶梯（达标要求人数）”<br/>
+                  例：阶梯一（3）
+                </template>
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
               <div class="scope-title_text">
-                {{scope.row.recruitment|| '-'}}
+                {{scope.row.prizeLadderStr || '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="prizeType"
-            label="奖励类型">
-            <template slot-scope="scope">
-              <div class="scope-title_text">
-                {{scope.row.prizeType == 1 ? '优惠券': '-'}}
-              </div>
+          <el-table-column prop="presentsState" width="120px" >
+            <template slot='header'>
+              领奖状态
+              <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                <Icon type="question-circle" class='question-circle'/>
+                <template slot='content'>
+                  若有奖励未领取，即“待领取”状态<br/>
+                  若已全部领取，即“已领取”状态
+                </template>
+              </el-tooltip>
             </template>
-          </el-table-column>
-          <el-table-column
-            prop="prizeName"
-            label="奖励内容">
-            <template slot-scope="scope">
-              <div class="scope-title_text">
-                {{scope.row.prizeName || '-'}}
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="presentsState"
-            label="领取状态">
             <template slot-scope="scope">
               <el-tag type="info" v-if="scope.row.presentsState === 1">已领取</el-tag>
               <el-tag type="warning" v-if="scope.row.presentsState === 2">待领取</el-tag>
-              <el-tag type="danger" v-if="scope.row.presentsState === 0">发放失败</el-tag>
-              <!-- <div class="scope-title_text"> -->
-              <!-- {{scope.row.prizeName || '-'}} -->
-              <!-- </div> -->
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="time"
-            label="领取时间">
-            <template slot-scope="scope">
-              <div class="scope-title_text">
-                {{scope.row.time || '-'}}
-              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -168,9 +167,6 @@ export default {
         {
           label: '全部',
           value: null
-        }, {
-          label: '发放失败',
-          value: 0
         }, {
           label: '已领取',
           value: 1
@@ -241,7 +237,7 @@ export default {
             } else {
               time = '全部'
             }
-            let fileName = '达标总人数明细' + time + '.csv'
+            let fileName = '当前达标总人数明细' + time + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
