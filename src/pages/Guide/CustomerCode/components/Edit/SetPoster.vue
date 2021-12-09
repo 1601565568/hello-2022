@@ -118,7 +118,7 @@
         </el-form>
       </template>
       <template slot="collapse-right">
-        <div class='preview-img'  :style='{backgroundImage: `url(${model.backgroundPic})`}'>
+        <div class='preview-img' :style='{backgroundImage: `url("${model.backgroundPic}")`}'>
           <div class='user-content_bg' v-if='!model.backgroundPic'>纯色背景</div>
           <div
             :class="
