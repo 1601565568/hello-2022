@@ -300,6 +300,8 @@
             :current-page.sync="paginationToPerson.page"
             :page-size="paginationToPerson.size"
             layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChangeForPerson"
+            @current-change="handleCurrentChangeForPerson"
           >
           </el-pagination>
         </template>
@@ -378,6 +380,18 @@ export default {
     }
   },
   methods: {
+    handleCurrentChangeForPerson () {
+      this.paginationToPerson.page = page
+      this.loadListData()
+    },
+    handleSizeChangeForPerson () {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadListData()
+    },
     friendStatusText (status) {
       if (status === 0) {
         return '未处理'
@@ -433,8 +447,8 @@ export default {
         this.searchData.transferStartTime = ''
         this.searchData.transferEndTime = ''
       } else {
-        this.searchData.transferStartTime = this.datePickerValue[0]
-        this.searchData.transferEndTime = this.datePickerValue[1]
+        this.searchData.transferStartTime = this.datePickerValue[0] + ' 00:00:00'
+        this.searchData.transferEndTime = this.datePickerValue[1] + ' 23:59:59'
       }
       this.loadListData()
     },
@@ -450,6 +464,7 @@ export default {
         .then(resp => {
           if (resp.success) {
             this.listData = resp.result.data || []
+            this.paginationToPerson.total = parseInt(resp.result.recordsTotal)
           }
         })
         .catch(resp => {})
