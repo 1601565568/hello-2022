@@ -34,9 +34,9 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="$searchAction$()" class="surround-btn"
                :model="model" :rules="rules" :inline="true">
-        <el-form-item label="操作人：" prop="dealUserName">
+        <el-form-item label="操作人：" prop="operatorName">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.dealUserName" placeholder="请输入操作人姓名" clearable>
+            <el-input  type="text" v-model="model.operatorName" placeholder="请输入操作人姓名" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>

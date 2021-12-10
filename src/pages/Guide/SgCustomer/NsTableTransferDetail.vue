@@ -455,7 +455,7 @@ export default {
         const startTime = this.datePickerValue[0]
         const diff = moment(endTime).diff(moment(startTime), 'days')
         if (diff > 30) {
-          this.$notify.info('仅支持搜索30天以内的数据')
+          this.$notify.info('仅支持搜索30天以内的搜索')
           return
         }
         this.searchData.transferStartTime = this.datePickerValue[0] + ' 00:00:00'
