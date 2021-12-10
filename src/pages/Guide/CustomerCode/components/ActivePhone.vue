@@ -7,7 +7,7 @@
             <img class="phone-view" src="../Images/iphoneActive.jpg"/>
           </div>
           <div class="scroll-view">
-            <div class="info-view" v-show="eidtList[0].status === 1">
+            <div class="info-view">
               <div class="user-info">
                 <img :class="'user-img user-img-rund'" src="../Images/iphone-1.jpg"/>
                 <span>裂变大师昵称</span>
@@ -47,7 +47,7 @@
                 <span class="iconfont icon-a-0 time-icon-number"></span>
               </span>
             </div>
-            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1">
+            <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="isOpnePrize">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
                   <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
@@ -56,7 +56,7 @@
                   </div>
                 </template>
               </div>
-              <div class="time-content-view" v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1" :style="{ borderRadius : model.activeInfoList && model.activeInfoList.length > 1?'0 0 12px 12px':'12px' }">
+              <div class="time-content-view" v-show="isOpnePrize" :style="{ borderRadius : model.activeInfoList && model.activeInfoList.length > 1?'0 0 12px 12px':'12px' }">
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="activeInfo.image || defGoodsUrl" alt="" srcset="">
                   <div style="margin-left:8px;">
@@ -77,22 +77,22 @@
                       </template>
                     </div>
                     <div>
-                      <span :style="{color:showColor.mianColor,fontSize:'13px'}">5</span>
+                      <span :style="{color:showColor.mainColor,fontSize:'13px'}">5</span>
                       <span style="color:#8C8C8C;font-size:13px">/5</span>
                     </div>
                   </div>
                 </div>
-                <div class="get-number-view" v-show="parseInt(model.activeInfo.number) > 0">
+                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor}">领取奖励</div>
+                <div class="get-number-view" v-show="parseInt(model.virtualFinishedCount) > 0">
                   <div class="number-img">
-                    <div v-for="(item,index) in imgs.slice(0,parseInt(model.activeInfo.number) > 3 ? 3 : parseInt(model.activeInfo.number))" :key="index">
+                    <div v-for="(item,index) in imgs.slice(0,parseInt(model.virtualFinishedCount) > 3 ? 3 : parseInt(model.virtualFinishedCount))" :key="index">
                       <img :src="item" class="img-view"/>
                     </div>
                   </div>
                   <div class="">已有
-                    <span :style="{color:showColor.mainColor}">{{model.activeInfo.number}}</span>
+                    <span :style="{color:showColor.mainColor}">{{model.virtualFinishedCount}}</span>
                   人领取</div>
                 </div>
-                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor}">领取奖励</div>
               </div>
               <!-- <div v-show="eidtList[MODULE_TO_INDEX_MAP.reward].status === 1">
                 <div class="rouder-bottom">
@@ -155,8 +155,8 @@
                 <span class="iconfont icon-huodongguize rules-icon"></span>
                 <span class="iconfont icon-a-000-copy rules-icon"></span>
               </div>
-              <div class="rules-content-view" v-if="model.rules">
-                <div class="welcome-info-view" v-html="model.rules"></div>
+              <div class="rules-content-view">
+                <div class="welcome-info-view" v-html="model.rules|| '活动规则'"></div>
                 <!-- <div style="margin-top:8px" v-if="model.validTimeType === 1">
                   <div v-if="model.time.length > 0">活动有效期：{{model.time[0]}}{{'至'}}{{model.time[1]}}</div>
                   <div v-else>活动有效期：</div>
@@ -202,7 +202,8 @@ export default {
     model: Object,
     pageObj: Object,
     validTimeType: {},
-    activeId: {}
+    activeId: {},
+    isOpnePrize: {}
   },
   // computed: {
   //   pageObj () {
@@ -276,6 +277,7 @@ export default {
   font-size: 14px;
   color: #595959;
   width: 100%;
+  word-break: break-all;
 }
 .content-view {
   position: relative;
@@ -366,6 +368,7 @@ export default {
     text-align: center;
     color:#fff;
     padding: 9px 0;
+    border-radius: 8px 8px 0 0;
     .rankname {
       font-size: 14px;
       line-height: 22px;
@@ -375,10 +378,35 @@ export default {
       line-height: 20px;
     }
     &.active {
-      background: #fff;
-      border-radius: 8px 8px 0 0;
-      &::before,&:after {
-
+      background-color: #fff;
+      position: relative;
+      &::before {
+        position: absolute;
+        bottom: 0;
+        left: -8px;
+        display: block;
+        height: 8px;
+        width: 8px;
+        content: " ";
+        background-size: 100% 100%;
+        background-image: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/radiusLeft.svg');
+      }
+      &:after {
+        position: absolute;
+        bottom: 0;
+        right: -8px;
+        display: block;
+        height: 8px;
+        width: 8px;
+        content: " ";
+        background-size: 100% 100%;
+        background-image: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/radiusRight.svg');
+      }
+      &:first-child::before {
+        display: none !important;
+      }
+      &:last-child::after {
+        display: none !important;
       }
     }
   }
@@ -515,7 +543,7 @@ export default {
   flex-direction: row;
   font-size: 12px;
   color: #595959;
-  margin-bottom: 16px;
+  margin-top: 16px;
   align-items: center;
 }
 .img-view {
@@ -549,6 +577,7 @@ export default {
 }
 .time-title-view {
   // line-height: 20px;
+  padding: 8px 0;
   width: 100%;
   display: flex;
   align-items: center;

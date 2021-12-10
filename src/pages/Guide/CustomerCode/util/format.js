@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools, DEFAULT_PRIZE_ITEM } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -44,7 +44,8 @@ export const submitFormat = (model) => {
     validTimeType: baseInfoData.validTimeType,
     pageDecoration: JSON.stringify(submitPageDecorationDataFormat(pageDecorationData)),
     prizeRuleList: submitPrizeRuleListFormat(pageDecorationData.activeInfoList),
-    prizeSendPlan: 1
+    prizeSendPlan: 1,
+    prizeLadderRule: prizeSetData.prizeLadderRule
   }
   return data
 }
@@ -65,7 +66,7 @@ export const submitPageDecorationDataFormat = (pageDecorationData) => {
     pic: pageDecorationData.regUrl
   }
   pageDecoration[MODULE_TO_INDEX_MAP.activityRule].value = {
-    content: pageDecorationData.rules
+    content: TagArea.methods.htmlToString(pageDecorationData.rules)
   }
   return pageDecoration
 }
@@ -96,7 +97,7 @@ export const loadingFormat = (model) => {
   }
   const prizeSetData = {
     isOpnePrize: !!model.prizeRuleList.length,
-    prizeRuleList: loadingPrizeRuleListFormat(model.prizeRuleList),
+    prizeRuleList: model.prizeRuleList && model.prizeRuleList.length ? loadingPrizeRuleListFormat(model.prizeRuleList) : [{ ...DEFAULT_PRIZE_ITEM }],
     isOnlyReceiveByMember: model.isOnlyReceiveByMember,
     prizeLadderRule: model.prizeLadderRule
   }
@@ -152,7 +153,7 @@ export const loadingPageDecorationDataFormat = (model) => {
     activeInfo: {},
     activeInfoList: [],
     bannerUrl: bannerData.pic,
-    rules: activityRuleData.content,
+    rules: TagArea.methods.stringTohtml.call({ tools: [] }, activityRuleData.content),
     regUrl: regUrlData.pic,
     shareBtnText: shareData.name,
     virtualFinishedCount: rewardData.virtualFinishedCount

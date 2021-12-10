@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='scroll-div'>
     <el-form
       label-width="110px"
       size="medium"
@@ -33,6 +33,10 @@
                 :prop="'prizeRuleList.' + scope.$index + '.recruitment'"
                 :rules="[
                   {
+                    validator: validates.validateMaxNumber.bind(this),
+                    trigger: ['blur','change']
+                  },
+                  {
                     validator: ValidateUtil.checkRankNumber.bind(this, scope.$index),
                     trigger: ['blur']
                   }
@@ -48,6 +52,7 @@
                   :step="1"
                   step-strictly
                   controls
+                  @blur="handleBindRecruitment"
                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                 ></el-input-number>
               </el-form-item>
@@ -103,7 +108,12 @@
                     请选择
                   </p>
                   <p v-else class="couponText">{{ scope.row.prizeName }}</p>
-                  <Icon type="couponicon" />
+                  <template v-if='scope.row.prizeType === 1'>
+                    <Icon type="couponicon" />
+                  </template>
+                  <template v-else>
+                    <Icon type="ns-pack" />
+                  </template>
                 </div>
               </el-form-item>
             </template>
@@ -113,7 +123,15 @@
               <p>{{ scope.row.validNumber }}</p>
             </template></el-table-column
           >
-          <el-table-column type="default" min-width="100"  label="当前活动奖励数量" :sortable="false">
+          <el-table-column type="default" min-width="100"  label="当前活动奖品数量" :sortable="false">
+            <template slot="header">
+              <template v-if='isEdit'>
+                当前活动奖品总数量
+              </template>
+              <template v-else>
+                当前活动奖品数量
+              </template>
+            </template>
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -152,7 +170,7 @@
               ></el-form-item>
             </template>
           </el-table-column>
-          <el-table-column type="default" min-width="100"  label="活动剩余数量" :sortable="false" v-if="isEdit">
+          <el-table-column type="default" min-width="100"  label="当前活动奖品剩余数量" :sortable="false" v-if="isEdit">
             <template slot-scope="scope">
               <el-form-item
                 :prop="'prizeRuleList.' + scope.$index + '.prizeNumber'"
@@ -228,7 +246,7 @@
         <div class='swicth-item'>
           <span>允许奖品叠加领取</span>
           <template v-if='model.prizeRuleList && model.prizeRuleList.length > 1'>
-            <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+            <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
           </template>
           <template v-else>
             <el-switch :value='false' :disabled='true' />
@@ -252,13 +270,13 @@
       <el-form-item v-if='model.isOpnePrize'>
         <div class='swicth-item'>
           <span>仅会员可领取奖励</span>
-          <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+          <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
         </div>
-        <div class="qrcode-bottom-view">
+        <div class="qrcode-bottom-view" v-if='model.isOnlyReceiveByMember'>
           <span class="remind-view"></span>
-          非会员注册入会后才可领取奖励
+          设置入会链接
           <ns-button type='text' class='safe-btn' @click='handleGoSet'>
-            去设置入会链接
+            去设置
           </ns-button>
         </div>
       </el-form-item>
@@ -331,6 +349,7 @@ export default {
       model: { ...DEFAULT_SETPRIZE_DATA },
       isEditSetPrize: false, // 未开始活动未开启奖励设置可编辑，已开启禁止编辑 design by zwx
       ValidateUtil: { ...ValidateUtil, checkStock, checkaddPrizeNumber, checkRankNumber },
+      validates,
       rules: {
         prizeType: [
           {
@@ -351,6 +370,7 @@ export default {
         }
       ],
       redpackVisible: false,
+      couponVisible: false,
       chooseItem: {}, // 如果红包记录选择的那项
       chooseIndex: -1, // 选择的下标
       maxLength: 5 // 阶梯奖励最大数
@@ -359,11 +379,23 @@ export default {
   props: ['data', 'isStating', 'isEdit'],
   components: { ElInputNumber, Coupon, StrategiesList },
   methods: {
-    // 新增阶梯奖项
+    /**
+     * 达标人数失焦后重新重新校验所有达标人数
+     */
+    handleBindRecruitment () {
+      const list = this.model.prizeRuleList.map((item, index) => 'prizeRuleList.' + index + '.recruitment')
+
+      this.$refs.setPrizeruleForm.validateField(list)
+    },
+    /**
+     * 新增阶梯奖项
+     */
     handleAddPrizeItem () {
       this.model.prizeRuleList.push({ ...DEFAULT_PRIZE_ITEM, prizeGrade: this.model.prizeRuleList.length + 1 })
     },
-    // 删除阶梯奖项
+    /**
+     * 删除阶梯奖项
+     */
     handleDelPrizeItem (index) {
       this.model.prizeRuleList.splice(index, 1)
     },
@@ -390,7 +422,9 @@ export default {
         if (!result) {
           const { prizeType } = scope.row
           if (prizeType === 1) {
-            this.getCoupon()
+            this.$nextTick(() => {
+              this.getCoupon()
+            })
           } else if (prizeType === 2) {
             this.chooseItem = row
             this.redpackVisible = true
@@ -404,6 +438,10 @@ export default {
      */
     handleSureRedPack () {
       const checkedItem = this.$refs.strategiesList.checkItem
+      if (!checkedItem.id) {
+        this.$notify.error('请选择红包')
+        return
+      }
       const item = this.model.prizeRuleList[this.chooseIndex]
       // 由于要回显，这里暂时不删除弹框返回的数据,等待保存的时候重新格式化
       const minxinItem = Object.assign(item, checkedItem, {
@@ -434,6 +472,7 @@ export default {
      * 判断是否有重复奖品，重新计算库存是否超出
      */
     judgeDuplicatePrizes () {
+      if (!this.model.isOpnePrize) return true
       const obj = {}
       this.model.prizeRuleList.map(item => {
         const { prizeId, prizeType, validNumber, prizeNumber, addPrizeNumber = 0 } = item
@@ -476,7 +515,7 @@ export default {
             })
             this.$emit('changeStepId', 'next')
           } else {
-            this.$notify.error('我也不知道提示什么，反正是错了')
+            this.$notify.error('奖品库存不足，请重新编辑')
           }
         }
       })
@@ -520,6 +559,25 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.scroll-div {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 </style>
 <style lang="scss" scoped>

@@ -279,7 +279,7 @@ export default {
     },
     // 删除文件钩子
     handleRemove (file) {
-      if (!file || !this.isNeedCrop) {
+      if (!file) {
         this.$emit('input', '')
       }
     },

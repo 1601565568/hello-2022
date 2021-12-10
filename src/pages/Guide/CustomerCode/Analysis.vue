@@ -25,7 +25,7 @@
       </div>
     </div>
     <el-row class='analysis-tab' :gutter="16">
-      <el-col v-for='item in typeList' :span='6' :key="item.id">
+      <el-col v-for='item in typeList' :span='5' :key="item.id">
         <div :class="'tab-content'+(item.id===analysisType?' avtive':'')" @click='hanldeChangeType(item.id)'>
           <h3 class="tab-label">
             {{item.label}}
@@ -52,6 +52,9 @@
       </template>
       <template v-if='analysisType === "prize"'>
         <reward-table :startTime='startTime' :endTime='endTime'/>
+      </template>
+      <template v-if='analysisType === "receive"'>
+        <receive-table :startTime='startTime' :endTime='endTime'/>
       </template>
     </div>
     <el-drawer
@@ -82,9 +85,10 @@ import EmployeeTable from './components/Analysis/EmployeeTable'
 import FriendTable from './components/Analysis/FriendTable'
 import MasterTable from './components/Analysis/MasterTable'
 import RewardTable from './components/Analysis/RewardTable'
+import ReceiveTable from './components/Analysis/ReceiveTable'
 export default Analysis
 Analysis.components = {
-  PageTable, ElDrawer, MasterDrawer, FriendDrawer, EmployeeTable, FriendTable, MasterTable, RewardTable
+  PageTable, ElDrawer, MasterDrawer, FriendDrawer, EmployeeTable, FriendTable, MasterTable, RewardTable, ReceiveTable
 }
 </script>
 <style lang="scss" scoped>
@@ -183,5 +187,9 @@ Analysis.components = {
     border-bottom: none;
   }
 }
-
+.analysis-container {
+  >>> .el-col-5 {
+    width: 20%;
+  }
+}
 </style>

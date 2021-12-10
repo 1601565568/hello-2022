@@ -12,8 +12,8 @@
             </template>
           </NsGuideDialog>
         </el-form-item>
-        <el-form-item label="活动码状态：" class='el-form__change'>
-          <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({guestCodeStatus:value})}'>
+        <el-form-item label="奖励类型：" class='el-form__change'>
+          <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({prizeType:value})}'>
             <el-option
               v-for="item in statusList"
               :key="item.value"
@@ -22,7 +22,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="添加好友时间：" class='el-form__change'>
+        <el-form-item label="奖励内容：" @keyup.enter.native="handleSearch">
+          <el-input v-model="prizeName" placeholder="请输入奖励内容">
+             <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="领取时间：" class='el-form__change'>
           <el-date-picker
             v-model="seachDate"
             type="datetimerange"
@@ -58,70 +63,62 @@
             label="裂变大师">
             <template slot-scope="scope">
               <div class="scope-title">
-                <img :src='scope.row.promotionAvatar || defaultIcon' class="scope-title_img">
                 <div class="scope-title_text">
-                  {{scope.row.promotionName||'-'}}
+                  {{scope.row.name||'-'}}
                 </div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="belongEmpName"
-            label="所属员工">
+          <el-table-column width="120px" prop="guideName" label="所属员工">
             <template slot-scope="scope">
               <div class="scope-title_text">
-                <div class="scope-name">
-                  <div :class="'scope-name_text'+ (scope.row.belongEmpShops.length>10?' more':'')" >
-                    {{scope.row.belongEmpName}}({{scope.row.belongEmpShops.map(item=>item.shopName).join(',')}})
-                  </div>
-                  <el-popover
-                    placement="top-start"
-                    class="item"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.belongEmpShops.map(item=>item.shopName).join(',')">
-                    <span class="scope-name_tip" slot="reference">共{{scope.row.belongEmpShops ? scope.row.belongEmpShops.length:0}}个</span>
-                  </el-popover>
-                  <!-- <div class="scope-name_num">
-                    共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
-                  </div> -->
+                {{scope.row.guideName|| '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="guideName" label="员工所属门店">
+            <template slot-scope="scope">
+              <div class="scope-name">
+                <div :class="'scope-name_text'" >
+                  {{scope.row.offlineShopsStr || '-'}}
                 </div>
+                <el-popover v-if="scope.row.offlineShopsStr"
+                            placement="top-start"
+                            class="item"
+                            width="180"
+                            trigger="hover"
+                            :content="scope.row.offlineShopsStr||''">
+                  <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShopsStr.split(',').length}}个</span>
+                </el-popover>
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="employeeNumber"
-            label="工号">
+          <el-table-column prop="prizeType" label="奖励类型">
             <template slot-scope="scope">
               <div class="scope-title_text">
-                {{scope.row.employeeNumber|| '-'}}
+                {{prizeTypeList[scope.row.prizeType].value}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="inviteFriendNo"
-            sortable="custom"
-            label="邀请好友数">
-            <template slot-scope="scope">
-              <ns-button type='text' @click="handleShowFriend(scope.row, scope.$index)">{{scope.row.inviteFriendNo}}</ns-button>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="lastAddFriendsDate"
-            sortable="custom"
-            label="最近添加好友时间">
+          <el-table-column prop="prizeGrade" label="奖励阶梯">
             <template slot-scope="scope">
               <div class="scope-title_text">
-                {{scope.row.lastAddFriendsDate|| '-'}}
+                {{prizeGradeList[scope.row.prizeGrade].value}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="promotionMasterNumber"
-            align='center'
-            label="活动码状态">
+          <el-table-column prop="prizeName" label="奖励内容">
             <template slot-scope="scope">
-              <el-tag :type="statusTableList[scope.row.activityStatus].color" class='scope-name_tag'>{{statusTableList[scope.row.activityStatus].value}}</el-tag>
+              <div class="scope-title_text">
+                {{scope.row.prizeName || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="receiveTime" label="领取时间">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.receiveTime|| '-'}}
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -161,8 +158,9 @@ export default {
         lastAddFriendsDate: null
       },
       validTimeStart: this.$route.query.validTimeStart,
-      url: this.$api.guide.customerCode.getPromotionListByGuestCodeId,
+      url: this.$api.guide.customerCode.findAwardRecordTable,
       seachVal: '',
+      prizeName: '',
       seachDate: [],
       guideIds: [],
       exportState: true,
@@ -171,26 +169,44 @@ export default {
           label: '全部',
           value: null
         }, {
-          label: '已失效',
-          value: 0
+          label: '优惠券',
+          value: 1
         }, {
-          label: '正常',
+          label: '红包',
           value: 2
         }
       ],
-      // 状态列表
-      statusTableList: {
+      // 奖励类型
+      prizeTypeList: {
         0: {
-          value: '已失效',
-          color: 'info'
+          value: '未知'
         },
         1: {
-          value: '未生成',
-          color: 'info'
+          value: '优惠券'
         },
         2: {
-          value: '正常',
-          color: 'success'
+          value: '红包'
+        }
+      },
+      // 奖励阶梯
+      prizeGradeList: {
+        0: {
+          value: '未知'
+        },
+        1: {
+          value: '阶梯一'
+        },
+        2: {
+          value: '阶梯二'
+        },
+        3: {
+          value: '阶梯三'
+        },
+        4: {
+          value: '阶梯四'
+        },
+        5: {
+          value: '阶梯五'
         }
       },
       activeIndex: -1,
@@ -225,7 +241,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.customerCode.promotionListExport, params)
+        .fetch(this.$api.guide.customerCode.awardRecordTableExport, params)
         .then(resp => {
           that.exportState = true
           that.$notify.success('下载完成')
@@ -248,7 +264,7 @@ export default {
             } else {
               time = '全部'
             }
-            let fileName = '裂变大师人数明细' + time + '.csv'
+            let fileName = '领奖记录明细' + time + '.csv'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -256,22 +272,12 @@ export default {
         })
     },
     handleSearch () {
-      this.changeSearchfrom({ promotionName: this.seachVal })
+      this.changeSearchfrom({ name: this.seachVal, prizeName: this.prizeName })
     },
     // 修改请求参数
     changeSearchfrom (obj = {}) {
       this.model = Object.assign(this.model, obj)
       this.$searchAction$()
-    },
-    handleShowFriend (item, index) {
-      const data = {
-        ...item,
-        employeeName: item.promotionName,
-        inviteFriendNumber: item.inviteFriendNo,
-        nextName: '裂变大师'
-      }
-      this.activeIndex = index
-      this.$emit('showFriend', data)
     },
     handleSort (data) {
       const order = data.order
@@ -335,7 +341,7 @@ export default {
   watch: {
     seachDate (newVal) {
       const date = newVal || [null, null]
-      this.changeSearchfrom({ addFriendTimeStart: date[0], addFriendTimeEnd: date[1] })
+      this.changeSearchfrom({ receiveTimeStart: date[0], receiveTimeEnd: date[1] })
     },
     startTime: {
       handler (newVal) {
