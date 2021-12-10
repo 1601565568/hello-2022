@@ -134,9 +134,7 @@ export default {
         TaskStatus.totalCount === TaskStatus.successCount
       ) {
         content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
-        if (TaskStatus.transferRange === 2) {
-          this.showLookBtn = true
-        }
+        this.showLookBtn = true
       }
       /* 特殊情况处理 */
       if (
@@ -146,9 +144,7 @@ export default {
         parseInt(TaskStatus.totalCount) === 0
       ) {
         content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
-        if (TaskStatus.transferRange === 2) {
-          this.showLookBtn = true
-        }
+        this.showLookBtn = true
       }
       this.pageContent = content
     },
