@@ -435,7 +435,11 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '转移明细数据统计' + '.xlsx'
+            let timeStr = ''
+            if (this.searchData.transferStartTime && this.searchData.transferEndTime) {
+              timeStr = this.searchData.transferStartTime + '-' + this.searchData.transferEndTime
+            }
+            let fileName = '转移明细数据统计' + timeStr + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
