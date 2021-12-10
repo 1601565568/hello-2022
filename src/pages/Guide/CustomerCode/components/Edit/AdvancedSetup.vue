@@ -199,11 +199,12 @@
       <div class='btn current' @click="handleSubmit" :loading='loading'>保存</div>
     </div>
     <NsAddTagDialog
-        :visible.sync="NsAddTagDialogVisible"
-        :tagList="tagList"
-        :selectedTags="activeSelectedTags"
-        @confirm="confirmSelectedTag"
-      />
+      :visible.sync="NsAddTagDialogVisible"
+      :tagList="tagList"
+      :selectedTags="activeSelectedTags"
+      :max="50"
+      @confirm="confirmSelectedTag"
+    />
   </div>
 </template>
 <script>
