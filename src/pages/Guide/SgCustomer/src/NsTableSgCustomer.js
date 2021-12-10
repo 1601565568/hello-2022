@@ -1,6 +1,7 @@
 import moment from 'moment'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import { head } from 'lodash'
 export default {
   name: 'NsTableSgCustomer',
   mixins: [tableMixin],
@@ -62,7 +63,7 @@ export default {
     var model = Object.assign({},
       {
         // 高级搜索字段
-        dealUserName: null,
+        operatorName: null,
         intoGuideName: null,
         outGuideName: null,
         transferType: '',
@@ -167,10 +168,20 @@ export default {
      * @msg: 打开弹框
      */
     showListDialog (id) {
-      var _this = this
-      _this.title = '转移会员'
-      _this.showCustomerDialogVisible = true
-      _this.findCustomerDetail(id)
+      const route = this.$router.push({
+        path: 'Guide/TransferDetails',
+        name: 'TRANS_CUSTOMER_DETAIL',
+        params: {
+          taskId: id
+        },
+        query: {
+          taskId: id
+        }
+      })
+      // var _this = this
+      // _this.title = '转移会员'
+      // _this.showCustomerDialogVisible = true
+      // _this.findCustomerDetail(id)
     },
     /**
      * @msg: 查询转移记录转移会员详情

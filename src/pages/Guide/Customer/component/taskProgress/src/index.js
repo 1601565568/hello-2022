@@ -58,11 +58,12 @@ export default {
   },
   methods: {
     lookTransDetail () {
-      this.$router.push({
+      const taskId = this.shopCustomerTransferTaskStatus.taskId
+      const route = this.$router.push({
         path: 'Guide/TransferDetails',
         name: 'TRANS_CUSTOMER_DETAIL',
         params: {
-          taskId: this.shopCustomerTransferTaskStatus.taskId
+          taskId
         }
       })
     },
@@ -107,10 +108,10 @@ export default {
       let TaskStatus = this.formatTaskStatus(val)
       this.showBtn = false
       this.showLookBtn = false
-      let str = ''
-      str = TaskStatus.transferRange === 1 ? '更换专属导购' : '更换专属导购和企业微信好友关系'
+      const str = TaskStatus.transferRange === 1 ? '更换专属导购' : '更换专属导购和企业微信好友关系'
+      const sucStr = TaskStatus.transferRange === 2 ? '；好友转移待24小时确认结果' : ''
       if (TaskStatus.totalCount === 0) {
-        content = '该门店会员正在更换导购,更换进度...'
+        content = `该门店会员正在${str},更换进度...`
       }
       if (TaskStatus.totalCount !== 0 && status !== 3) {
         content = `该门店${TaskStatus.totalCount}个会员正在${str}，更换进度：`
@@ -121,19 +122,18 @@ export default {
         TaskStatus.totalCount !== TaskStatus.successCount
       ) {
         if (TaskStatus.transferRange === 1) {
-          content = `该门店${TaskStatus.totalCount}个会员更换导购情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人`
           this.showBtn = true
         } else if (TaskStatus.transferRange === 2) {
-          content = `该门店${TaskStatus.totalCount}个会员更换导购情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人；好友转移待24小时确认结果`
           this.showLookBtn = true
         }
+        content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
         TaskStatus.status === 3 &&
         TaskStatus.totalCount === TaskStatus.successCount
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员${str}成功`
+        content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
         if (TaskStatus.transferRange === 2) {
           this.showLookBtn = true
         }
@@ -145,8 +145,10 @@ export default {
         parseInt(TaskStatus.successCount) === 0 &&
         parseInt(TaskStatus.totalCount) === 0
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员${str}成功`
-        this.showLookBtn = true
+        content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        if (TaskStatus.transferRange === 2) {
+          this.showLookBtn = true
+        }
       }
       this.pageContent = content
     },

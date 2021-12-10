@@ -866,7 +866,7 @@
         @close="replaceStoreShow = false"
         ></replaceStore>
     <RemindMsg ref="remindMsg"/>
-    <SendMsg ref="sendMsg"/>
+    <SendMsg ref="sendMsg" @transClick="transClick"/>
   </div>
 </template>
 <script>
