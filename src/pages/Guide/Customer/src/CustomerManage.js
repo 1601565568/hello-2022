@@ -1044,7 +1044,6 @@ export default {
         }
       }
       this.createCustomerTransferTask(params, taskType)
-      this.$refs.remindMsg.showMsg()
     },
     // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
@@ -1084,6 +1083,7 @@ export default {
           this.$refs.table1.clearRemoveStatus()
           this.shopFindListShow = false
           this.$refs.table1.$reload()
+          this.$refs.remindMsg.showMsg()
           // this.$refs.table1.getShopCustomerTransferTaskStatus()
           if (taskType === 2) {
             this.replaceStoreShow = false
