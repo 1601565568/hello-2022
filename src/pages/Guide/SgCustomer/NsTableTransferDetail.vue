@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="top-title-view">转移明细</div>
-    <div class="top-search-view">
+    <div class="customer-header">
+      <h3>转移明细</h3>
+    </div>
+    <div class="top-search-view" style="margin-top:58px">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
           <el-input v-model="searchData.mobile" placeholder="请输入手机号">
@@ -370,7 +372,8 @@ export default {
         transferEndTime: '',
         operatorName: '',
         customerStatus: null,
-        friendStatus: null
+        friendStatus: null,
+        taskId: null
       }
     }
   },
@@ -453,6 +456,7 @@ export default {
     }
   },
   mounted () {
+    this.searchData.taskId = this.$route.params.taskId ? this.$route.params.taskId : null
     this.loadListData()
   }
 }
@@ -509,6 +513,7 @@ export default {
   margin-bottom: 16px;
 }
 .top-search-view {
+  margin-top: 16px;
   width: 100%;
   background: white;
   border-radius: 4px;
@@ -586,5 +591,26 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   word-break: break-all;
+}
+.customer-header {
+  background-color: #fff;
+  margin: -10px -10px 0;
+  padding: 16px;
+  min-width: 1046px;
+  position: fixed;
+  top: 90px;
+  z-index: 10;
+  left: 200px;
+  width: calc(100% - 185px);;
+  h3 {
+    font-size: 16px;
+    color: #262626;
+    font-weight: bold;
+  }
+}
+ @media screen and (max-width: 1625px) {
+  .customer-header {
+    top: 70px;
+  }
 }
 </style>
