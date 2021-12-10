@@ -148,12 +148,12 @@
                 </template>
               </el-table-column>
               <el-table-column
-                prop="customerMobile"
+                prop="customerCipherMobile"
                 label="手机号"
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.customerMobile || '-' }}</span>
+                  <span>{{ scope.row.customerCipherMobile || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="memberCard" label="会员卡号" width="120px">
