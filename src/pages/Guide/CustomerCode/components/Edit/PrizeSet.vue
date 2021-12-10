@@ -472,6 +472,7 @@ export default {
      * 判断是否有重复奖品，重新计算库存是否超出
      */
     judgeDuplicatePrizes () {
+      if (!this.model.isOpnePrize) return true
       const obj = {}
       this.model.prizeRuleList.map(item => {
         const { prizeId, prizeType, validNumber, prizeNumber, addPrizeNumber = 0 } = item

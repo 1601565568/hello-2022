@@ -38,7 +38,6 @@ export default {
 .simple-updata {
   position: relative;
   overflow: hidden;
-  margin-bottom: 8px;
   display: flex;
   align-items: flex-end;
 }
