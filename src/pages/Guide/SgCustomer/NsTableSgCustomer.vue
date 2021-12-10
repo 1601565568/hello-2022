@@ -90,16 +90,16 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserName" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="operatorName" align="left"
                          label="操作人姓名" :sortable="false" width="180">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserId" align="right"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="operator" align="right"
                          label="操作人ID" :sortable="false" width="160">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferNum" align="right"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="taskCount" align="right"
                          label="转移人数" :sortable="false" width="150">
           <template slot-scope="scope">
-            <a href="javascript:" @click="showListDialog(scope.row.transferId)">{{scope.row.transferNum}}</a>
+            <a href="javascript:" @click="showListDialog(scope.row.taskId)">{{scope.row.taskCount}}</a>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
