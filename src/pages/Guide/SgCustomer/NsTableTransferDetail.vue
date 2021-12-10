@@ -380,11 +380,11 @@ export default {
     }
   },
   methods: {
-    handleCurrentChangeForPerson () {
+    handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
       this.loadListData()
     },
-    handleSizeChangeForPerson () {
+    handleSizeChangeForPerson (size) {
       this.paginationToPerson = {
         ...this.paginationToPerson,
         size,
@@ -467,10 +467,13 @@ export default {
       this.loadListData()
     },
     loadListData () {
+      let data = { ...this.searchData }
+      data.page = this.paginationToPerson.page
+      data.pageSize = this.paginationToPerson.size
       this.$http
         .fetch(
           this.$api.guide.guide.findCustomerTransferLogDetailList,
-          this.searchData
+          data
         )
         .then(resp => {
           if (resp.success) {
