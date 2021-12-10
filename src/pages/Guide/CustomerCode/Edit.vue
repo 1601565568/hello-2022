@@ -11,15 +11,17 @@
     <template slot='content'>
       <div class='container'>
         <div class='min-width_container'>
-        <div class='customecode-step antd-step'>
-          <el-steps :active="stepId" finish-status="success">
-            <template v-for="item in STEP_LIST">
-              <el-step :key="item.id" :title="item.name"></el-step>
-            </template>
-          </el-steps>
+          <div class='customecode-step antd-step'>
+            <el-steps :active="stepId" finish-status="success">
+              <template v-for="item in STEP_LIST">
+                <el-step :key="item.id" :title="item.name"></el-step>
+              </template>
+            </el-steps>
+          </div>
         </div>
         <div class='content-box' v-loading="!isLoaded">
           <template  v-if='isLoaded'>
+            <div class='min-width_container max-height'>
             <div v-for="item in STEP_LIST" :key='item.id' v-show='stepId===item.id' class='content-div'>
               <component
                 :is="item.module"
@@ -34,8 +36,8 @@
                 >
               </component>
             </div>
+            </div>
           </template>
-        </div>
         </div>
       </div>
     </template>
@@ -210,30 +212,15 @@ export default {
 @import "@components/NewUi/styles/reset.css";
 .container {
   width: 100%;
-  overflow-x: auto;
   background-color: #fff;
   padding-top: 20px;
   height: calc(100vh - 160px);
   box-sizing: border-box;
   padding-bottom: 64px;
   position: relative;
-  // &::-webkit-scrollbar{
-  //   width: 5px;
-  //   height: 5px;
-  // }
-  // &::-webkit-scrollbar-thumb{
-  //   border-radius: 1em;
-  //   background-color: rgba(144, 147, 153, .3);
-  //   cursor: pointer;
-  // }
-  // &::-webkit-scrollbar-track{
-  //   border-radius: 1em;
-  //   background-color: rgba(50,50,50,0);
-  //   cursor: pointer;
-  // }
+  overflow: hidden;
   .min-width_container {
     min-width: 1158px;
-    height: 100%;
   }
 }
 .customecode-step {
@@ -243,7 +230,25 @@ export default {
 .content-box {
   padding-left: 42px;
   height: calc( 100% - 67px );
-  min-width: 1000px;
+  width: 100%;
+  overflow-x: auto;
+  .min-width_container.max-height {
+    height: 100%;
+  }
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background-color: rgba(144, 147, 153, .3);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: rgba(50,50,50,0);
+    cursor: pointer;
+  }
 }
 .content-div {
   height: 100%;

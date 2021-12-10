@@ -67,7 +67,7 @@
                     <div v-if='item.itemCode === "banner"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
                         <div class='updata-box'>
-                          <SimpleUpload v-model='model.bannerUrl' />
+                          <SimpleUpload v-model='model.bannerUrl' :maxSize="2" :drag='false'/>
                           <div class='updata-option'>
                             <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
                             <div class="qrcode-bottom-view">
@@ -170,6 +170,7 @@
                         required
                         :rules="[
                           { required: true, message: '请输入活动规则', trigger: ['blur', 'change'] },
+                          { validator: validates.validateActivityIntroductionLeast.bind(this,activityIntroductionLength), message: '请输入活动规则', trigger: ['blur', 'change'] },
                           { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '活动规则最多1000个字', trigger: ['blur', 'change'] }
                         ]"
                       >
@@ -257,7 +258,8 @@ export default {
           { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), message: '活动规则最多1000个字', trigger: ['blur', 'change'] }
         ],
         shareBtnText: [
-          { required: true, message: '请输入分享按钮名称', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入分享按钮名称', trigger: ['blur', 'change'] },
+          { validator: validates.shareName, message: '分享按钮名称最多10个字', trigger: ['blur', 'change'] }
         ]
       },
       activeNames: [0, 1, 2, 3, 4, 5, 6, 7],

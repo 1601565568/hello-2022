@@ -14,7 +14,7 @@
         prop="name"
         class="larger-item"
       >
-        <el-switch v-model="model.isOpnePrize" :disabled="isStating"/>
+        <el-switch v-model="model.isOpnePrize" :disabled="isEdit"/>
       </el-form-item>
       <el-form-item v-if='model.isOpnePrize'>
         <el-table
@@ -162,7 +162,7 @@
                 ]"
               >
                 <el-input
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   v-model="scope.row.prizeNumber"
                   maxlength="10"
                   type="number"
@@ -188,7 +188,7 @@
             min-width="100"
             label="追加数量"
             :sortable="false"
-            v-if="isStating || isEditSetPrize"
+            v-if="isEdit || isEditSetPrize"
           >
             <template slot-scope="scope">
               <el-form-item
