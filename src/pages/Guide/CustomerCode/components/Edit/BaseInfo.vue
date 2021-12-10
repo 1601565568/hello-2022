@@ -154,7 +154,7 @@ import HtmlArea from '@/components/NewUi/HtmlArea'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import TagArea from '@/components/NewUi/TagArea'
 import moment from 'moment'
-import { DEFAULT_BASEINFO_DATA, STEP_LIST } from '../../src/const'
+import { DEFAULT_BASEINFO_DATA, STEP_LIST, GUIDE_MAX } from '../../src/const'
 import validates from '../../src/validates'
 export default {
   data () {
@@ -222,14 +222,36 @@ export default {
         }
       }
     },
+    // 编辑时 参加活动人员超过GUIDE_MAX确认 设置裂变海报 -> 聚合码禁用
+    codeDisableCheck () {
+      return new Promise((resolve, reject) => {
+        if (!this.$route.query.guestCodeId || this.model.guideIds.length <= GUIDE_MAX) {
+          // 非编辑 或 参加活动人员小与GUIDE_MAX
+          return resolve(true)
+        }
+
+        this.$confirm(`参加活动员工大于${GUIDE_MAX}，第四步中裂变大师的海报聚合码将自动为您转为单员工二维码，是否继续 `, '提示', {
+          confirmButtonText: '继续',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          resolve(true)
+        }).catch(() => {
+          resolve(false)
+        })
+      })
+    },
     handleSubmit () {
-      this.$refs.baseDataFrom.validate((valid) => {
+      this.$refs.baseDataFrom.validate(async (valid) => {
         if (valid) {
-          this.$emit('changeData', {
-            key: STEP_LIST[0].dataName,
-            value: this.model
-          })
-          this.$emit('changeStepId', 'next')
+          const codeDisabled = await this.codeDisableCheck()
+          if (codeDisabled) {
+            this.$emit('changeData', {
+              key: STEP_LIST[0].dataName,
+              value: this.model
+            })
+            this.$emit('changeStepId', 'next')
+          }
         }
       })
     }

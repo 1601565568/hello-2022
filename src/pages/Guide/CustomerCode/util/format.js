@@ -34,6 +34,7 @@ export const submitFormat = (model) => {
     qrcodeSize: setPosterData.qrcodeSize,
     qrcodeX: setPosterData.qrcodeX,
     qrcodeY: setPosterData.qrcodeY,
+    qrCodeType: setPosterData.qrCodeType,
     repeatParticipation: advancedSetupData.repeatParticipation,
     tags: advancedSetupData.tags,
     time: baseInfoData.time,
@@ -110,7 +111,8 @@ export const loadingFormat = (model) => {
     headerType: model.nickPosition,
     qrcodeSize: model.qrcodeSize,
     qrcodeX: model.qrcodeX,
-    qrcodeY: model.qrcodeY
+    qrcodeY: model.qrcodeY,
+    qrCodeType: model.qrCodeType
   }
   const setWelcomeCodeData = {
     activityIntroduction: TagArea.methods.stringTohtml.call({ tools: Tools }, model.activityIntroduction),

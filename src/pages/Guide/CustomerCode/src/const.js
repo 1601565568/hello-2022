@@ -80,6 +80,8 @@ export const EDIT_DATA = {
 }
 
 // 各个模块 默认数据
+// 最多可选参与活动员工个数
+export const GUIDE_MAX = 100
 // 基础信息
 export const DEFAULT_BASEINFO_DATA = {
   name: '', // 一客一码活动名称
@@ -151,7 +153,8 @@ export const DEFAULT_SETPOSTER_DATA = {
   headerType: 1,
   qrcodeSize: 172, // 二维码大小
   qrcodeX: 74, // 二维码X轴坐标值
-  qrcodeY: 349 // 二维码Y轴坐标值
+  qrcodeY: 349, // 二维码Y轴坐标值
+  qrCodeType: 0 // 二维码类型(生成企微联系我二维码类型) 0=单员工二维码；1=多员工聚合二维码
 }
 // 设置欢迎语
 export const DEFAULT_WELCOMECODE = `你好，我是{USER_NICK}\n恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友\n邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：{ACTIVITY_VALIT_TIME}\n点击下方链接去分享吧↓↓`
