@@ -435,7 +435,11 @@ export default {
             link.style.display = 'none'
             link.href = url
             let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '转移明细数据统计' + '.xlsx'
+            let timeStr = ''
+            if (this.searchData.transferStartTime && this.searchData.transferEndTime) {
+              timeStr = this.searchData.transferStartTime + '-' + this.searchData.transferEndTime
+            }
+            let fileName = '转移明细数据统计' + timeStr + '.xlsx'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -447,6 +451,13 @@ export default {
         this.searchData.transferStartTime = ''
         this.searchData.transferEndTime = ''
       } else {
+        const endTime = this.datePickerValue[1]
+        const startTime = this.datePickerValue[0]
+        const diff = moment(endTime).diff(moment(startTime), 'days')
+        if (diff > 30) {
+          this.$notify.info('仅支持搜索30天以内的数据')
+          return
+        }
         this.searchData.transferStartTime = this.datePickerValue[0] + ' 00:00:00'
         this.searchData.transferEndTime = this.datePickerValue[1] + ' 23:59:59'
       }
