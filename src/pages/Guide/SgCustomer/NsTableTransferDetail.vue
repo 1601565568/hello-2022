@@ -126,11 +126,17 @@
               <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img
-                      :src="scope.row.customerHeadImage"
-                      class="header-img"
-                    />
-                    <span>{{ scope.row.customerName }}</span>
+                      <img
+                        :src="scope.row.customerHeadImage"
+                        class="header-img"
+                        v-if="scope.row.customerHeadImage"
+                      />
+                      <img
+                        src="@/assets/default-avatar.png"
+                        class="header-img"
+                        v-else
+                      />
+                    <span>{{ scope.row.customerName || '-'}}</span>
                   </div>
                 </template>
               </el-table-column>
@@ -144,8 +150,14 @@
                 label="手机号"
                 width="120px"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.customerMobile || '-' }}</span>
+                </template>
               </el-table-column>
               <el-table-column prop="memberCard" label="会员卡号" width="120px">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.memberCard || '-' }}</span>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="oldGuideName"
@@ -154,7 +166,7 @@
               >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{ scope.row.oldGuideName }}</div>
+                    <div>{{ scope.row.oldGuideName || '-'}}</div>
                     <el-popover
                       placement="bottom"
                       width="300"
@@ -175,7 +187,7 @@
               >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{ scope.row.receiveGuideName }}</div>
+                    <div>{{ scope.row.receiveGuideName || '-' }}</div>
                     <el-popover
                       placement="bottom"
                       width="300"
@@ -211,18 +223,24 @@
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
-                    <img :src="scope.row.friendHeadImage" class="header-img" />
+                    <img :src="scope.row.friendHeadImage" v-if="scope.row.friendHeadImage" class="header-img" />
+                     <img
+                        src="@/assets/default-avatar.png"
+                        class="header-img"
+                        v-else
+                      />
                     <span>{{ scope.row.friendNick }}</span>
                   </div>
                 </template>
               </el-table-column>
-              <!-- <el-table-column prop="friendMobile" label="手机号" width="120px">
-              </el-table-column> -->
               <el-table-column
                 prop="oldGuideName"
                 label="原添加人"
                 width="120px"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.oldGuideName || '-' }}</span>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="friendStatus"
@@ -250,14 +268,23 @@
                 label="备注"
                 width="120px"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.friendFailureMsg || '-' }}</span>
+                </template>
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.operatorName || '-' }}</span>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="transferTime"
                 label="转移时间"
                 width="160px"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.transferTime || '-' }}</span>
+                </template>
               </el-table-column>
             </el-table-column>
           </el-table>
