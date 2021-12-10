@@ -29,6 +29,7 @@
                 :isEdit='isEdit'
                 :ladderRewardList='ladderRewardList'
                 :validTimeType='validTimeType'
+                :selectedGuideNum ='selectedGuideNum'
                 @changeStepId='changeStepId'
                 @changeData='changeData'
                 >
@@ -77,7 +78,8 @@ export default {
       employeePage: {
         start: 0,
         length: 200
-      }
+      },
+      selectedGuideNum: 0 // 已选择员工个数
     }
   },
   computed: {
@@ -145,6 +147,7 @@ export default {
       // 页面装修需要用到时间类型
       if (key === 'baseInfoData') {
         this.validTimeType = value.validTimeType
+        this.selectedGuideNum = value.guideIds.length // 设置裂变海报使用 超过GUIDE_MAX禁用聚合二维码
       }
       // 高级设置完成提交
       if (key === 'advancedSetupData') {

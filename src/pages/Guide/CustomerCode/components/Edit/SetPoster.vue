@@ -93,6 +93,38 @@
               </div>
             </div>
           </el-form-item>
+          <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item">
+            <el-radio-group v-model="model.qrCodeType">
+              <el-radio :label="0">单员工二维码</el-radio>
+              <el-radio :label="1" :disabled="codeDisabled">聚合二维码</el-radio>
+            </el-radio-group>
+            <div class="qrcode-bottom-view">
+              <span class="remind-view"></span>
+              员工二维码：用户扫码后将添加分享员工为好友
+              <el-tooltip  placement="top" popper-class='popperClass'>
+                <span type='text' class='safe-btn'>
+                  示例说明
+                </span>
+                <template slot='content'>
+                  消费者通过员工小A分享的裂变活动都将添加小A为好友
+                </template>
+              </el-tooltip>
+            </div>
+            <div class="qrcode-bottom-view">
+              <span class="remind-view"></span>
+              <span>
+                员工聚合码：用户扫码后将添第一步（活动信息）中参加活动的员工中任一员工为好友，参与员工超过100人时，无法使用聚合码（仅可使用单员工二维码）
+                <el-tooltip  placement="top" popper-class='popperClass'>
+                <span type='text' class='safe-btn'>
+                  示例说明
+                </span>
+                <template slot='content'>
+                  消费者通过员工小A分享的裂变活动，将添加聚合码中任一员工为好友
+                </template>
+              </el-tooltip>
+              </span>
+            </div>
+          </el-form-item>
         </el-form>
       </template>
       <template slot="collapse-right">
@@ -149,7 +181,7 @@
 </template>
 <script>
 import PhoneBox from '@/components/NewUi/PhoneBox'
-import { DEFAULT_SETPOSTER_DATA, STEP_LIST, defBgImg, demoImg } from '../../src/const'
+import { DEFAULT_SETPOSTER_DATA, STEP_LIST, GUIDE_MAX, defBgImg, demoImg } from '../../src/const'
 import validates from '../../src/validates'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import VueDragResize from 'vue-drag-resize'
@@ -183,12 +215,23 @@ export default {
       },
       loading: false,
       demoImg,
-      defBgImg
+      defBgImg,
+      codeDisabled: false // 禁用聚合二维码
     }
   },
-  props: ['data', 'isStating'],
+  props: ['data', 'isStating', 'selectedGuideNum'],
   components: {
     PhoneBox, VueDragResize, SimpleUpload, ElColorPicker
+  },
+  watch: {
+    selectedGuideNum (val) {
+      if (val > GUIDE_MAX) {
+        this.model.qrCodeType = 0
+        this.codeDisabled = true
+      } else {
+        this.codeDisabled = false
+      }
+    }
   },
   methods: {
     // 拖动二维码
