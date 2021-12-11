@@ -96,7 +96,7 @@
           <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item">
             <el-radio-group v-model="model.qrCodeType">
               <el-radio :label="0">单员工二维码</el-radio>
-              <div class="qrcode-bottom-view">
+              <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
                 员工二维码：用户扫码后将添加分享员工为好友
                 <el-tooltip  placement="top" popper-class='popperClass'>
@@ -109,7 +109,7 @@
                 </el-tooltip>
               </div>
               <el-radio :label="1" :disabled="codeDisabled">聚合二维码</el-radio>
-              <div class="qrcode-bottom-view">
+              <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
                 <span>
                   员工聚合码：用户扫码后将添第一步（活动信息）中参加活动的员工中任一员工为好友，参与员工超过100人时，无法使用聚合码（仅可使用单员工二维码）
@@ -311,8 +311,10 @@ export default {
 
 .qrcode-bottom-view {
   height: 20px;
-  padding: 10px 0;
   box-sizing: content-box;
+  &.padding {
+    padding: 10px 0;
+  }
 }
 .user-content {
   .user-content_img {

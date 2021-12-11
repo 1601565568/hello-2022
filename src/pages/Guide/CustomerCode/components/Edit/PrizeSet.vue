@@ -43,7 +43,7 @@
                 ]"
               >
                 <el-input-number
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   style="width:100%"
                   size="medium"
                   v-model="scope.row.recruitment"
@@ -77,7 +77,7 @@
                 ]"
               >
                 <el-select
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   v-model="scope.row.prizeType"
                   placeholder="请选择"
                   @change='(value)=>{handleChangePrizeType(scope,value)}'
@@ -414,7 +414,7 @@ export default {
      * 判断奖励类型
      */
     handleSetPrize (scope) {
-      if (this.isStating || this.isEditSetPrize) {
+      if (this.isEdit || this.isEditSetPrize) {
         return false
       }
       const { $index, row } = scope
