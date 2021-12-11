@@ -58,10 +58,10 @@ export default {
       userImg: baguser,
       activityIntroduction: '',
       tools: [
-        { type: 'tag', text: '企业微信员工姓名', id: 'guideUserId', value: '企业微信员工姓名' },
+        { type: 'tag', text: '企业微信员工姓名', id: 'guideUserName', value: '企业微信员工姓名' },
         { type: 'tag', text: '企业简称', id: 'corpName', value: '@企业简称' }
       ],
-      defaultWelcome: `您好，您的服务已升级，后续将由我的同事{guideUserId}{corpName}接替我的工作，继续为您服务。`
+      defaultWelcome: `您好，您的服务已升级，后续将由我的同事{guideUserName}{corpName}接替我的工作，继续为您服务。`
     }
   },
   mounted () {
