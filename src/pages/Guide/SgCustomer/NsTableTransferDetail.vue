@@ -145,7 +145,7 @@
                         class="header-img"
                         v-else
                       />
-                    <span>{{ scope.row.customerName || '-'}}</span>
+                    <span @click="lookUserInfo(scope.row)">{{ scope.row.customerName || '-'}}</span>
                   </div>
                 </template>
               </el-table-column>
@@ -329,14 +329,17 @@
         </template>
       </page-table>
     </div>
+    <NSUserDetails ref="NSUserDetails" :userDetails="userDetails"/>
   </div>
 </template>
 <script>
 import PageTable from '@/components/NewUi/PageTable'
+import NSUserDetails from '@/components/NSUserDetails'
 import moment from 'moment'
 export default {
   components: {
-    PageTable
+    PageTable,
+    NSUserDetails
   },
   data () {
     return {
@@ -399,10 +402,17 @@ export default {
         friendStatus: null,
         taskId: null
       },
-      blankType: null
+      blankType: null,
+      userDetails: {}
     }
   },
   methods: {
+    lookUserInfo (val) {
+      const obj = { ...val }
+      obj.shopId = val.receiveShopId || ''
+      obj.unionid = val.unionId || ''
+      this.$refs.NSUserDetails.showDetailDialog(obj)
+    },
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
       this.loadListData()
@@ -543,6 +553,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
     .header-img {
       width: 50px;
       height: 50px;
