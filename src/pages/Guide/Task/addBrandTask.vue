@@ -15,15 +15,18 @@
           <el-dialog
             title="温馨提醒"
             :visible.sync="saveTipsFlag"
-             width="600px"
+             width="480px"
             height="196px"
             @before-close="() => closeSaveTips(false)">
             <div  style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00;margin:5px 9px 0 7px"></i>
               <div v-if="!model.cost">
                 保存后系统将自动获取会员分组名单，您可在编辑任务页面查看进度，保障任务正常进行。是否继续保存？
               </div>
-              <div v-else>
+              <div v-else-if="model.cost!='-1秒'">
                 预估{{model.cost}}成功获取会员分组名单，请核对任务开始时间，保障任务正常进行。是否继续保存？
+              </div>
+              <div v-else>
+                预算获取会员分组名单失败，请核对任务开始时间，保障任务正常进行。是否继续保存？
               </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -164,7 +167,8 @@
                     title="预算完成获取客户名单时间吗？"
                     :visible.sync="dialogVisible"
                     height="196px"
-                     width="600px"
+                     width="480px"
+                    custom-class='budgetTime'
                     :before-close="closeTips">
                     <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:5px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
                     <span slot="footer" class="dialog-footer">
@@ -182,7 +186,8 @@
                         style="width: 10px; height: 10px; margin-left:5px"
                         :src="imgUrl"
                         fit="cover" /></div>
-                      <div class="tips"  v-else-if="model.isClickBudget && model.cost">预估{{model.cost}}完成获取名单</div>
+                      <div class="tips"  v-else-if="model.isClickBudget && model.cost!='-1秒'">预估{{model.cost}}完成获取名单</div>
+                      <div class="tips"  v-else-if="model.isClickBudget && model.cost=='-1秒'">预算获取会员分组名单失败</div>
                     </div>
                     <div class="disc">
                       单次执行的任务，将于任务开始时间的凌晨获取客户名单（当日开始，则保存任务后获取客户名单）；<br />
@@ -207,7 +212,7 @@
                 </div>
               </ElFormItem>
               <template v-if="model.type === 2">
-                <ElFormItem label='素材'>
+                <ElFormItem label='素材' required>
                   <div>
                     <NsButton icon='el-icon-circle-plus-outline'
                       :disabled='canNotEdit' @click='selectMaterialShowFun()'
@@ -377,6 +382,28 @@ export default addBrandTask
 .newTask-content {
   background: var(--theme-color-white);
   margin-top: var(--default-margin-larger);
+}
+
+>>> .budgetTime .el-dialog__body{
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+    }
+   >>> .budgetTime .el-scrollbar__wrap{
+     margin-top: 22px;
+     font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+   }
+>>> .budgetTime .el-dialog__header .el-dialog__title{
+  height: 30px;
+  line-height: 30px;
+}
+>>> .budgetTime ..el-dialog__footer{
+      position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 16px!important;
 }
 >>> .newTask-head {
   .el-breadcrumb {
@@ -618,6 +645,11 @@ export default addBrandTask
   padding-left: 16px;
    height: 40px;
   line-height: 20px;
+}
+.el-icon-warning:before{
+  font-size: 14px;
+  vertical-align: sub;
+  line-height: 22px;
 }
 
 </style>

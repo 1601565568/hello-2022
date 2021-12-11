@@ -180,6 +180,9 @@ export default {
     togglePreview (current, list, type) {
       this.$refs.preview.toggleShow(current, list, type)
     },
+    handleCancel () {
+      this.$router.push({ name: 'CustomerCodeList' })
+    },
     // 选择视角
     chooseView (viewId) {
       this.model.viewId = viewId
@@ -230,17 +233,16 @@ export default {
         .then(resp => {
           if (resp.success) {
             const needTime = +resp.result.cost
-            // console.log(needTime, 'needTime')
+
             if (needTime >= 60 && needTime < 3600) {
               this.model.cost = `${Math.ceil(needTime / 60)}分钟`
             } else if (needTime > 3600) {
               this.model.cost = `${(needTime / 3600).toFixed(1)}小时`
-            } else if (needTime >= 0 && needTime < 60) {
+            } else if (needTime < 60) {
               this.model.cost = `${needTime}秒`
-            } else if (needTime < 0) {
-              this.$notify.error('获取失败', resp)
             }
           }
+          console.log(this.model.cost, 'needTime')
         })
         .catch(resp => {
           this.$notify.error('获取预算时间失败', resp)
