@@ -6,6 +6,16 @@
     <div class="top-search-view" style="margin-top:58px">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
+          <el-input v-model="searchData.taskId" placeholder="请输入转移批次号">
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="no-input-view base-view">
           <el-input v-model="searchData.mobile" placeholder="请输入手机号">
             <Icon
               type="ns-search"
@@ -58,12 +68,12 @@
           <span style="font-size:13px">转移时间：</span>
           <el-date-picker
             v-model="datePickerValue"
-            type="daterange"
+            type="datetimerange"
             range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             align="center"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             prefix-icon=""
             @change="dataPickerChange"
           >
@@ -124,6 +134,13 @@
             :border="false"
             :cell-style="{ borderRight: 'none' }"
           >
+            <el-table-column label="转移批次号">
+              <el-table-column prop="taskId" label="" width="180px">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.taskId || '-' }}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
             <el-table-column label="会员信息">
               <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
@@ -150,11 +167,11 @@
               <el-table-column
                 prop="customerMobile"
                 label="手机号"
-                width="120px"
+                width="130px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.customerMobile || '-' }}</span>
-                </template>
+                  <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="scope.row.encCustomerMobile" :sensitiveData="scope.row.customerMobile"></ns-sg-sensitive-button>
+                </template >
               </el-table-column>
               <el-table-column prop="memberCard" label="会员卡号" width="120px">
                 <template slot-scope="scope">
@@ -224,7 +241,7 @@
             <el-table-column label="好友信息">
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
-                  <div class="user-info">
+                  <div class="user-info" v-if="scope.row.transferRange === 2">
                     <img :src="scope.row.friendHeadImage" v-if="scope.row.friendHeadImage" class="header-img" />
                      <img
                         src="@/assets/default-avatar.png"
@@ -233,6 +250,7 @@
                       />
                     <span>{{ scope.row.friendNick }}</span>
                   </div>
+                  <div v-else>-</div>
                 </template>
               </el-table-column>
               <el-table-column
@@ -241,7 +259,8 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.oldGuideName || '-' }}</span>
+                  <span  v-if="scope.row.transferRange === 2">{{ scope.row.oldGuideName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -250,7 +269,8 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -261,6 +281,7 @@
                 <template slot-scope="scope">
                   <span
                     class="trans-status-view"
+                    v-if="scope.row.transferRange === 2"
                     :class="
                       scope.row.friendStatus === 2
                         ? 'trans-status-view-wait'
@@ -272,6 +293,7 @@
                     "
                     >{{ friendStatusText(scope.row.friendStatus) }}</span
                   >
+                  <span v-else></span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -280,12 +302,14 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.operatorName || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.operatorName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -294,7 +318,8 @@
                 width="160px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.transferTime || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.transferTime || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
             </el-table-column>
@@ -385,7 +410,8 @@ export default {
         customerStatus: null,
         friendStatus: null,
         taskId: null
-      }
+      },
+      blankType: null
     }
   },
   methods: {
@@ -467,8 +493,8 @@ export default {
           this.$notify.info('仅支持搜索30天以内的搜索')
           return
         }
-        this.searchData.transferStartTime = this.datePickerValue[0] + ' 00:00:00'
-        this.searchData.transferEndTime = this.datePickerValue[1] + ' 23:59:59'
+        this.searchData.transferStartTime = this.datePickerValue[0]
+        this.searchData.transferEndTime = this.datePickerValue[1]
       }
       this.loadListData()
     },
@@ -494,7 +520,13 @@ export default {
     }
   },
   mounted () {
-    this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
+    if (this.$route.query) {
+      this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
+      this.searchData.operatorName = this.$route.query.operatorName ? this.$route.query.operatorName : null
+      this.searchData.transferStartTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
+      this.searchData.transferEndTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
+      this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
+    }
     this.loadListData()
   }
 }

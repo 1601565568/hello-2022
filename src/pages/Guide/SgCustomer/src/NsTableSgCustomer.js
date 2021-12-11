@@ -167,11 +167,13 @@ export default {
     /**
      * @msg: 打开弹框
      */
-    showListDialog (id) {
+    showListDialog (item) {
       const route = this.$router.resolve({
         name: 'TRANS_CUSTOMER_DETAIL',
         query: {
-          taskId: id
+          taskId: item.taskId,
+          operatorName: item.operatorName,
+          transferTime: item.transferTime
         }
       })
       window.open(route.href, '_blank')
