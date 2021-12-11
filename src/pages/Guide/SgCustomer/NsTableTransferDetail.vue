@@ -449,7 +449,6 @@ export default {
       const endTime = this.datePickerValue[1]
       const startTime = this.datePickerValue[0]
       const diff = moment(endTime).diff(moment(startTime), 'days')
-      console.log(diff)
       if (diff > 30) {
         this.$notify.info('仅支持导出30天以内的数据')
         return
