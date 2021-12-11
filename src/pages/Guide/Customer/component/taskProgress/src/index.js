@@ -59,11 +59,14 @@ export default {
   methods: {
     lookTransDetail () {
       const taskId = this.shopCustomerTransferTaskStatus.taskId
+      const operatorName = this.shopCustomerTransferTaskStatus.operatorName || ''
+      const transferTime = this.shopCustomerTransferTaskStatus.transferTime || ''
       const route = this.$router.resolve({
         name: 'TRANS_CUSTOMER_DETAIL',
         query: {
           taskId,
-          type: '_blank'
+          operatorName,
+          transferTime
         }
       })
       window.open(route.href, '_blank')

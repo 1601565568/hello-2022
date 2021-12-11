@@ -6,6 +6,16 @@
     <div class="top-search-view" style="margin-top:58px">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
+          <el-input v-model="searchData.taskId" placeholder="请输入转移批次号">
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 30px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="no-input-view base-view">
           <el-input v-model="searchData.mobile" placeholder="请输入手机号">
             <Icon
               type="ns-search"
@@ -58,12 +68,12 @@
           <span style="font-size:13px">转移时间：</span>
           <el-date-picker
             v-model="datePickerValue"
-            type="daterange"
+            type="datetimerange"
             range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             align="center"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             prefix-icon=""
             @change="dataPickerChange"
           >
@@ -125,6 +135,11 @@
             :cell-style="{ borderRight: 'none' }"
           >
             <el-table-column label="会员信息">
+              <el-table-column prop="taskId" label="转移批次号" width="180px">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.taskId || '-' }}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
@@ -468,8 +483,8 @@ export default {
           this.$notify.info('仅支持搜索30天以内的搜索')
           return
         }
-        this.searchData.transferStartTime = this.datePickerValue[0] + ' 00:00:00'
-        this.searchData.transferEndTime = this.datePickerValue[1] + ' 23:59:59'
+        this.searchData.transferStartTime = this.datePickerValue[0]
+        this.searchData.transferEndTime = this.datePickerValue[1]
       }
       this.loadListData()
     },
@@ -495,7 +510,13 @@ export default {
     }
   },
   mounted () {
-    this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
+    if (this.$route.query) {
+      this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
+      this.searchData.operatorName = this.$route.query.operatorName ? this.$route.query.operatorName : null
+      this.searchData.transferStartTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
+      this.searchData.transferEndTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
+      this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
+    }
     this.loadListData()
   }
 }

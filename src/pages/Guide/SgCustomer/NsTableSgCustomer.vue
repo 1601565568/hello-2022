@@ -90,6 +90,9 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="taskId" align="left"
+                         label="转移批次号" :sortable="false" width="180">
+        </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operatorName" align="left"
                          label="操作人姓名" :sortable="false" width="180">
         </el-table-column>
@@ -102,7 +105,7 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="taskCount" align="right"
                          label="转移人数" :sortable="false" width="150">
           <template slot-scope="scope">
-            <a href="javascript:" @click="showListDialog(scope.row.taskId)">{{scope.row.taskCount}}</a>
+            <a href="javascript:" @click="showListDialog(scope.row)">{{scope.row.taskCount}}</a>
           </template>
         </el-table-column>
         <!-- <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
