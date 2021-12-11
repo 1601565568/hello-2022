@@ -59,7 +59,7 @@ export default {
   methods: {
     lookTransDetail () {
       const taskId = this.shopCustomerTransferTaskStatus.taskId
-      const route = this.$router.push({
+      const route = this.$router.resolve({
         path: 'Guide/TransferDetails',
         name: 'TRANS_CUSTOMER_DETAIL',
         params: {
@@ -69,6 +69,7 @@ export default {
           taskId
         }
       })
+      window.open(route.href, '_blank')
     },
     init () {
       let user = this.$store.state.user.remumber.remumber_login_info.productConfig.user

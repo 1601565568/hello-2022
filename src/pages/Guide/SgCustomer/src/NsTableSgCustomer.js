@@ -168,16 +168,13 @@ export default {
      * @msg: 打开弹框
      */
     showListDialog (id) {
-      const route = this.$router.push({
-        path: 'Guide/TransferDetails',
+      const route = this.$router.resolve({
         name: 'TRANS_CUSTOMER_DETAIL',
-        params: {
-          taskId: id
-        },
         query: {
           taskId: id
         }
       })
+      window.open(route.href, '_blank')
       // var _this = this
       // _this.title = '转移会员'
       // _this.showCustomerDialogVisible = true

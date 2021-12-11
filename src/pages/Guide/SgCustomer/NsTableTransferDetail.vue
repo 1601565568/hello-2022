@@ -148,12 +148,12 @@
                 </template>
               </el-table-column>
               <el-table-column
-                prop="customerCipherMobile"
+                prop="customerMobile"
                 label="手机号"
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.customerCipherMobile || '-' }}</span>
+                  <span>{{ scope.row.customerMobile || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="memberCard" label="会员卡号" width="120px">
@@ -494,7 +494,7 @@ export default {
     }
   },
   mounted () {
-    this.searchData.taskId = this.$route.params.taskId ? this.$route.params.taskId : null
+    this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
     this.loadListData()
   }
 }

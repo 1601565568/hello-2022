@@ -41,3 +41,7 @@
   font-size: 14px;
   /* height: 32px; */
 }
+
+.trans-table-view >>> .el-table--border th, .el-table--border td {
+  border-right: none;
+}
