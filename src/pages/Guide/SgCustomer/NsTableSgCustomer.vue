@@ -108,7 +108,7 @@
             <a href="javascript:" @click="showListDialog(scope.row)">{{scope.row.taskCount}}</a>
           </template>
         </el-table-column>
-        <!-- <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
                          label="转移类型" :sortable="false" width="200">
           <template slot-scope="scope">
             <span v-if="scope.row.transferType == 0">
@@ -130,7 +130,7 @@
               未知类型
             </span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferTime" align="center"
                          label="转移时间" :sortable="false" >
         </el-table-column>

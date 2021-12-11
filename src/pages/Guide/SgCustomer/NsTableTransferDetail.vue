@@ -414,12 +414,12 @@ export default {
   },
   methods: {
     lookUserInfo (val) {
-      const obj = { ...val }
-      obj.shopId = val.receiveShopId || ''
-      obj.unionid = val.unionId || ''
-      if (obj.shopId && obj.unionid) {
-        this.$refs.NSUserDetails.showDetailDialog(obj)
-      }
+      // const obj = { ...val }
+      // obj.shopId = val.receiveShopId || ''
+      // obj.unionid = val.unionId || ''
+      // if (obj.shopId && obj.unionid) {
+      //   this.$refs.NSUserDetails.showDetailDialog(obj)
+      // }
     },
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
@@ -537,11 +537,16 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.query) {
+    const keys = Object.keys(this.$route.query)
+    if (keys.length > 0) {
       this.searchData.taskId = this.$route.query.taskId ? this.$route.query.taskId : null
       this.searchData.operatorName = this.$route.query.operatorName ? this.$route.query.operatorName : null
       this.searchData.transferStartTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
       this.searchData.transferEndTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
+      this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
+    } else {
+      this.searchData.transferStartTime = moment().subtract('days', 30).format('YYYY-MM-DD HH:mm:ss')
+      this.searchData.transferEndTime = moment().subtract('days', 0).format('YYYY-MM-DD HH:mm:ss')
       this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
     }
     this.loadListData()
