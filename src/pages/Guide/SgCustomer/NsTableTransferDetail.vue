@@ -298,8 +298,7 @@
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.externalUserId">{{ scope.row.operatorName || '-' }}</span>
-                  <span v-else>-</span>
+                  <span>{{ scope.row.operatorName || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -308,8 +307,7 @@
                 width="160px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.externalUserId">{{ scope.row.transferTime || '-' }}</span>
-                  <span v-else>-</span>
+                  <span>{{ scope.row.transferTime || '-' }}</span>
                 </template>
               </el-table-column>
             </el-table-column>
@@ -451,7 +449,6 @@ export default {
       const endTime = this.datePickerValue[1]
       const startTime = this.datePickerValue[0]
       const diff = moment(endTime).diff(moment(startTime), 'days')
-      console.log(diff)
       if (diff > 30) {
         this.$notify.info('仅支持导出30天以内的数据')
         return
