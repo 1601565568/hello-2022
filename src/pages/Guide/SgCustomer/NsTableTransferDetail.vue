@@ -231,7 +231,7 @@
             <el-table-column label="好友信息">
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
-                  <div class="user-info" v-if="scope.row.transferRange === 2">
+                  <div class="user-info" v-if="scope.row.externalUserId">
                     <img :src="scope.row.friendHeadImage" v-if="scope.row.friendHeadImage" class="header-img" />
                      <img
                         src="@/assets/default-avatar.png"
@@ -249,7 +249,7 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span  v-if="scope.row.transferRange === 2">{{ scope.row.oldGuideName || '-' }}</span>
+                  <span  v-if="scope.row.externalUserId">{{ scope.row.oldGuideName || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -259,7 +259,7 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.transferRange === 2">{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-if="scope.row.externalUserId">{{ scope.row.receiveGuideName || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -271,7 +271,7 @@
                 <template slot-scope="scope">
                   <span
                     class="trans-status-view"
-                    v-if="scope.row.transferRange === 2"
+                    v-if="scope.row.externalUserId"
                     :class="
                       scope.row.friendStatus === 2
                         ? 'trans-status-view-wait'
@@ -292,13 +292,13 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.transferRange === 2">{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-if="scope.row.externalUserId">{{ scope.row.friendFailureMsg || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.transferRange === 2">{{ scope.row.operatorName || '-' }}</span>
+                  <span v-if="scope.row.externalUserId">{{ scope.row.operatorName || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -308,7 +308,7 @@
                 width="160px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.transferRange === 2">{{ scope.row.transferTime || '-' }}</span>
+                  <span v-if="scope.row.externalUserId">{{ scope.row.transferTime || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -444,6 +444,18 @@ export default {
       }
     },
     outputFile () {
+      if (this.datePickerValue == null) {
+        this.$notify.info('请选择转移时间')
+        return
+      }
+      const endTime = this.datePickerValue[1]
+      const startTime = this.datePickerValue[0]
+      const diff = moment(endTime).diff(moment(startTime), 'days')
+      console.log(diff)
+      if (diff > 30) {
+        this.$notify.info('仅支持导出30天以内的数据')
+        return
+      }
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
