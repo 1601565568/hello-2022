@@ -16,16 +16,6 @@
           </el-input>
         </div>
         <div class="no-input-view base-view">
-          <el-input v-model="searchData.mobile" placeholder="请输入手机号">
-            <Icon
-              type="ns-search"
-              slot="suffix"
-              style="font-size: 30px;"
-              @click="inputClick"
-            ></Icon>
-          </el-input>
-        </div>
-        <div class="no-input-view base-view">
           <el-input
             v-model="searchData.customerName"
             placeholder="请输入会员姓名"
