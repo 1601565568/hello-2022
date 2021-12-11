@@ -10,7 +10,7 @@
             <Icon
               type="ns-search"
               slot="suffix"
-              style="font-size: 30px;"
+              style="font-size: 28px;"
               @click="inputClick"
             ></Icon>
           </el-input>
@@ -23,7 +23,7 @@
             <Icon
               type="ns-search"
               slot="suffix"
-              style="font-size: 30px;"
+              style="font-size: 28px;"
               @click="inputClick"
             ></Icon>
           </el-input>
@@ -36,7 +36,7 @@
             <Icon
               type="ns-search"
               slot="suffix"
-              style="font-size: 30px;"
+              style="font-size: 28px;"
               @click="inputClick"
             ></Icon>
           </el-input>
@@ -49,7 +49,7 @@
             <Icon
               type="ns-search"
               slot="suffix"
-              style="font-size: 30px;"
+              style="font-size: 28px;"
               @click="inputClick"
             ></Icon>
           </el-input>
