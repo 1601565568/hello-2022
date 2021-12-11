@@ -241,7 +241,7 @@
             <el-table-column label="好友信息">
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
-                  <div class="user-info">
+                  <div class="user-info" v-if="scope.row.transferRange === 2">
                     <img :src="scope.row.friendHeadImage" v-if="scope.row.friendHeadImage" class="header-img" />
                      <img
                         src="@/assets/default-avatar.png"
@@ -250,6 +250,7 @@
                       />
                     <span>{{ scope.row.friendNick }}</span>
                   </div>
+                  <div v-else>-</div>
                 </template>
               </el-table-column>
               <el-table-column
@@ -258,7 +259,8 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.oldGuideName || '-' }}</span>
+                  <span  v-if="scope.row.transferRange === 2">{{ scope.row.oldGuideName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -267,7 +269,8 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -278,6 +281,7 @@
                 <template slot-scope="scope">
                   <span
                     class="trans-status-view"
+                    v-if="scope.row.transferRange === 2"
                     :class="
                       scope.row.friendStatus === 2
                         ? 'trans-status-view-wait'
@@ -289,6 +293,7 @@
                     "
                     >{{ friendStatusText(scope.row.friendStatus) }}</span
                   >
+                  <span v-else></span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -297,12 +302,14 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column prop="operatorName" label="操作人" width="120px">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.operatorName || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.operatorName || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -311,7 +318,8 @@
                 width="160px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.transferTime || '-' }}</span>
+                  <span v-if="scope.row.transferRange === 2">{{ scope.row.transferTime || '-' }}</span>
+                  <span v-else>-</span>
                 </template>
               </el-table-column>
             </el-table-column>
