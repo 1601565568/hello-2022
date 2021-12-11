@@ -134,12 +134,14 @@
             :border="false"
             :cell-style="{ borderRight: 'none' }"
           >
-            <el-table-column label="会员信息">
-              <el-table-column prop="taskId" label="转移批次号" width="180px">
+            <el-table-column label="转移批次号">
+              <el-table-column prop="taskId" label="" width="180px">
                 <template slot-scope="scope">
                   <span>{{ scope.row.taskId || '-' }}</span>
                 </template>
               </el-table-column>
+            </el-table-column>
+            <el-table-column label="会员信息">
               <el-table-column prop="customerName" label="会员" width="170px">
                 <template slot-scope="scope">
                   <div class="user-info">
