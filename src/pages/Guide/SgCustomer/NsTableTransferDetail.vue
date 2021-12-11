@@ -245,6 +245,15 @@
                 </template>
               </el-table-column>
               <el-table-column
+                prop="receiveGuideName"
+                label="新添加人"
+                width="120px"
+              >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.receiveGuideName || '-' }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 prop="friendStatus"
                 label="好友转移状态"
                 width="150px"

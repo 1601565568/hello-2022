@@ -64,6 +64,9 @@ export default {
         name: 'TRANS_CUSTOMER_DETAIL',
         params: {
           taskId
+        },
+        query: {
+          taskId
         }
       })
     },

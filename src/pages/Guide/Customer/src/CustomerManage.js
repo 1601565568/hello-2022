@@ -975,7 +975,7 @@ export default {
         this.$notify.error('请先选择更换导购')
         return
       }
-      const confirmText = ['确定仅转移会员', '仅转移会员时，不会同步转移好友关系']
+      const confirmText = ['确定仅转移会员？', '仅转移会员时，不会同步转移好友关系']
       const arr = []
       const h = this.$createElement
       for (const i in confirmText) {
