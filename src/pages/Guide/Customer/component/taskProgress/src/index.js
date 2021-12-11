@@ -129,14 +129,16 @@ export default {
         } else if (TaskStatus.transferRange === 2) {
           this.showLookBtn = true
         }
-        content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
+        // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
+        content = `会员转移成功${TaskStatus.totalCount}人，失败${TaskStatus.successCount}人` + sucStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
         TaskStatus.status === 3 &&
         TaskStatus.totalCount === TaskStatus.successCount
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        // content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        content = `会员转移成功${TaskStatus.totalCount}人` + sucStr
         this.showLookBtn = true
       }
       /* 特殊情况处理 */
@@ -146,7 +148,8 @@ export default {
         parseInt(TaskStatus.successCount) === 0 &&
         parseInt(TaskStatus.totalCount) === 0
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        // content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        content = `会员转移成功${TaskStatus.totalCount}人` + sucStr
         this.showLookBtn = true
       }
       this.pageContent = content
