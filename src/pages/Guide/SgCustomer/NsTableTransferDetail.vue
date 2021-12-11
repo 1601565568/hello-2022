@@ -66,6 +66,7 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             prefix-icon=""
             @change="dataPickerChange"
+            :picker-options="pickerOptions"
           >
           </el-date-picker>
         </div>
@@ -343,6 +344,11 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
+        }
+      },
       listData: [],
       friendStatus: [
         {
@@ -411,7 +417,9 @@ export default {
       const obj = { ...val }
       obj.shopId = val.receiveShopId || ''
       obj.unionid = val.unionId || ''
-      this.$refs.NSUserDetails.showDetailDialog(obj)
+      if (obj.shopId && obj.unionid) {
+        this.$refs.NSUserDetails.showDetailDialog(obj)
+      }
     },
     handleCurrentChangeForPerson (page) {
       this.paginationToPerson.page = page
@@ -459,7 +467,7 @@ export default {
       const endTime = this.datePickerValue[1]
       const startTime = this.datePickerValue[0]
       const diff = moment(endTime).diff(moment(startTime), 'days')
-      if (diff > 30) {
+      if (diff > 29) {
         this.$notify.info('仅支持导出30天以内的数据')
         return
       }
@@ -498,7 +506,7 @@ export default {
         const endTime = this.datePickerValue[1]
         const startTime = this.datePickerValue[0]
         const diff = moment(endTime).diff(moment(startTime), 'days')
-        if (diff > 30) {
+        if (diff > 29) {
           this.$notify.info('仅支持搜索30天以内的搜索')
           return
         }
