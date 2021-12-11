@@ -171,7 +171,8 @@ export default {
       const route = this.$router.resolve({
         name: 'TRANS_CUSTOMER_DETAIL',
         query: {
-          taskId: id
+          taskId: id,
+          type: '_blank'
         }
       })
       window.open(route.href, '_blank')

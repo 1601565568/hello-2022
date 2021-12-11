@@ -60,13 +60,10 @@ export default {
     lookTransDetail () {
       const taskId = this.shopCustomerTransferTaskStatus.taskId
       const route = this.$router.resolve({
-        path: 'Guide/TransferDetails',
         name: 'TRANS_CUSTOMER_DETAIL',
-        params: {
-          taskId
-        },
         query: {
-          taskId
+          taskId,
+          type: '_blank'
         }
       })
       window.open(route.href, '_blank')

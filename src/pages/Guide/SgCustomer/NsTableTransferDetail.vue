@@ -150,11 +150,11 @@
               <el-table-column
                 prop="customerMobile"
                 label="手机号"
-                width="120px"
+                width="130px"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.customerMobile || '-' }}</span>
-                </template>
+                  <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="scope.row.encCustomerMobile" :sensitiveData="scope.row.customerMobile"></ns-sg-sensitive-button>
+                </template >
               </el-table-column>
               <el-table-column prop="memberCard" label="会员卡号" width="120px">
                 <template slot-scope="scope">
@@ -385,7 +385,8 @@ export default {
         customerStatus: null,
         friendStatus: null,
         taskId: null
-      }
+      },
+      blankType: null
     }
   },
   methods: {
