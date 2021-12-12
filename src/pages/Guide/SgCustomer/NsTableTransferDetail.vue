@@ -6,6 +6,16 @@
     <div class="top-search-view" style="margin-top:58px">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
+          <el-input v-model="searchData.mobile" placeholder="请输入手机号码">
+            <Icon
+              type="ns-search"
+              slot="suffix"
+              style="font-size: 28px;"
+              @click="inputClick"
+            ></Icon>
+          </el-input>
+        </div>
+        <div class="no-input-view base-view">
           <el-input v-model="searchData.taskId" placeholder="请输入转移批次号">
             <Icon
               type="ns-search"
@@ -95,12 +105,12 @@
           <div class="name" style="width:100px">好友转移状态：</div>
           <div class="item-select">
             <el-select
-              v-model="searchData.friendStatus"
+              v-model="searchData.takeoverStatus"
               :default-first-option="true"
               @change="inputClick"
             >
               <el-option
-                v-for="item in friendStatus"
+                v-for="item in takeoverStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -266,7 +276,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                prop="friendStatus"
+                prop="takeoverStatus"
                 label="好友转移状态"
                 width="150px"
               >
@@ -275,15 +285,15 @@
                     class="trans-status-view"
                     v-if="scope.row.externalUserId"
                     :class="
-                      scope.row.friendStatus === 2
+                      scope.row.takeoverStatus === 2
                         ? 'trans-status-view-wait'
-                        : scope.row.friendStatus === 5
+                        : scope.row.takeoverStatus === 5
                         ? 'trans-status-view-none'
-                        : scope.row.friendStatus === 1
+                        : scope.row.takeoverStatus === 1
                         ? ''
                         : 'trans-status-view-fail'
                     "
-                    >{{ friendStatusText(scope.row.friendStatus) }}</span
+                    >{{ friendStatusText(scope.row.takeoverStatus) }}</span
                   >
                   <span v-else>-</span>
                 </template>
@@ -351,7 +361,7 @@ export default {
         }
       },
       listData: [],
-      friendStatus: [
+      takeoverStatus: [
         {
           value: null,
           label: '全部'
@@ -375,6 +385,10 @@ export default {
         {
           value: 5,
           label: '无接替记录'
+        },
+        {
+          value: -1,
+          label: '转移失败'
         }
       ],
       memberStatus: [
@@ -406,7 +420,7 @@ export default {
         transferEndTime: '',
         operatorName: '',
         customerStatus: null,
-        friendStatus: null,
+        takeoverStatus: null,
         taskId: null
       },
       blankType: null,
@@ -453,6 +467,8 @@ export default {
         return '接替成员客户达到上限'
       } else if (status === 5) {
         return '无接替记录'
+      } else if (status === -1) {
+        return '转移失败'
       }
     },
     customerStatusText (status) {
