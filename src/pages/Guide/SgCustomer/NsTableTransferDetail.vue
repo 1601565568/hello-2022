@@ -140,9 +140,10 @@
                         :src="scope.row.customerHeadImage"
                         class="header-img"
                         v-if="scope.row.customerHeadImage"
+                        @error="errorImg()"
                       />
                       <img
-                        src="@/assets/default-avatar.png"
+                        :src="defaultUserImg"
                         class="header-img"
                         v-else
                       />
@@ -409,10 +410,16 @@ export default {
         taskId: null
       },
       blankType: null,
-      userDetails: {}
+      userDetails: {},
+      defaultUserImg: require('@/assets/default-avatar.png')
     }
   },
   methods: {
+    errorImg () {
+      let img = event.srcElement
+      img.src = this.defaultUserImg
+      img.onerror = null
+    },
     lookUserInfo (val) {
       // const obj = { ...val }
       // obj.shopId = val.receiveShopId || ''
