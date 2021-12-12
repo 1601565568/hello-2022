@@ -163,7 +163,7 @@
               </el-table-column>
               <el-table-column prop="sex" label="性别" width="72px">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.sex === 1 ? '男' : '女' }}</span>
+                  <span>{{ scope.row.sex === 1 ? '男' : scope.row.sex === -1 ? '未知' : '女' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
