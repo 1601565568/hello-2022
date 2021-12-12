@@ -90,6 +90,7 @@ export default {
       ) {
         this.isShow = true
       }
+      this.isShow = val.showProgress === 1
       if (
         parseInt(val.status) === 3 &&
         parseInt(val.totalCount) !== 0 &&
