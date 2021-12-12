@@ -492,7 +492,7 @@ export default {
       const endTime = this.datePickerValue[1]
       const startTime = this.datePickerValue[0]
       const diff = moment(endTime).diff(moment(startTime), 'days')
-      if (diff > 30) {
+      if (diff > 29) {
         this.$notify.info('仅支持导出30天以内的数据')
         return
       }
@@ -531,7 +531,7 @@ export default {
         const endTime = this.datePickerValue[1]
         const startTime = this.datePickerValue[0]
         const diff = moment(endTime).diff(moment(startTime), 'days')
-        if (diff > 30) {
+        if (diff > 29) {
           this.$notify.info('仅支持搜索30天以内的搜索')
           return
         }
@@ -570,7 +570,7 @@ export default {
       this.searchData.transferEndTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
       this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
     } else {
-      this.searchData.transferStartTime = moment().subtract('days', 30).format('YYYY-MM-DD HH:mm:ss')
+      this.searchData.transferStartTime = moment().subtract('days', 29).format('YYYY-MM-DD HH:mm:ss')
       this.searchData.transferEndTime = moment().subtract('days', 0).format('YYYY-MM-DD HH:mm:ss')
       this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
     }
