@@ -132,7 +132,7 @@ export default {
           this.showLookBtn = true
         }
         // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
-        content = `会员转移成功${TaskStatus.totalCount}人，失败${TaskStatus.successCount}人` + sucStr
+        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + sucStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
