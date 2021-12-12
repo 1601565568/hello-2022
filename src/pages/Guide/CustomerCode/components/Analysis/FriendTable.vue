@@ -2,7 +2,7 @@
   <page-table>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="好友添加员工：">
+        <el-form-item label="添加员工：">
           <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
