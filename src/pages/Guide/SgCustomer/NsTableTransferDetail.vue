@@ -283,7 +283,6 @@
                 <template slot-scope="scope">
                   <span
                     class="trans-status-view"
-                    v-if="scope.row.takeoverStatus !== 0"
                     :class="
                       scope.row.takeoverStatus === 2
                         ? 'trans-status-view-wait'
@@ -295,7 +294,6 @@
                     "
                     >{{ friendStatusText(scope.row.takeoverStatus) }}</span
                   >
-                  <span v-else>-</span>
                 </template>
               </el-table-column>
               <el-table-column
