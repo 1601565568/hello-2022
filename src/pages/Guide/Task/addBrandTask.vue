@@ -17,6 +17,7 @@
             :visible.sync="saveTipsFlag"
              width="480px"
             height="196px"
+            custom-class='budgetTime'
             @before-close="() => closeSaveTips(false)">
             <div  style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00;margin:5px 9px 0 7px"></i>
               <div v-if="!model.cost">
@@ -399,7 +400,7 @@ export default addBrandTask
   height: 30px;
   line-height: 30px;
 }
->>> .budgetTime ..el-dialog__footer{
+>>> .budgetTime .el-dialog__footer{
       position: absolute;
     right: 0;
     bottom: 0;

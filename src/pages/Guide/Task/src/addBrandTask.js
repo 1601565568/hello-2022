@@ -242,7 +242,6 @@ export default {
               this.model.cost = `${needTime}秒`
             }
           }
-          console.log(this.model.cost, 'needTime')
         })
         .catch(resp => {
           this.$notify.error('获取预算时间失败', resp)
@@ -391,6 +390,27 @@ export default {
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
+            // this.showSubgroupMsg(this.model.subgroupId)
+            this.model.isClickBudget = false
+            console.log(this.model.subgroupId, this.model.viewId, this.model.subgroupId, 'this.model.subgroupId')
+            this.$http
+              .fetch(this.$api.guide.queryExpectTime, { subdivisionId: this.model.subgroupId })
+              .then(resp => {
+                if (resp.success) {
+                  const needTime = +resp.result.cost
+                  if (needTime >= 60 && needTime < 3600) {
+                    this.model.cost = `${Math.ceil(needTime / 60)}分钟`
+                  } else if (needTime > 3600) {
+                    this.model.cost = `${(needTime / 3600).toFixed(1)}小时`
+                  } else if (needTime < 60) {
+                    this.model.cost = `${needTime}秒`
+                  }
+                }
+              })
+              .catch(resp => {
+                this.$notify.error('获取预算时间失败', resp)
+              })
+
             if (obj.areaId) {
               this.chooseArea(obj.areaId)
             }
@@ -443,6 +463,7 @@ export default {
       const id = this.$route.params.id
       if (+id > 0) {
         this.EditFun(id)
+        console.log(id, 'id')
       }
     },
     handleSizeChange (val) {
@@ -472,7 +493,7 @@ export default {
     this.init()
   },
   beforeUpdate () {
-    if (this.titleText !== '新建任务') { this.showSubgroupMsg(this.model.subgroupId) }
+
   },
   created: function () {
   }
