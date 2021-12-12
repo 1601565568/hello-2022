@@ -159,7 +159,7 @@
                         class="header-img"
                         v-else
                       />
-                    <span @click="lookUserInfo(scope.row)">{{ scope.row.customerName || '-'}}</span>
+                      <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encCustomerName" :sensitiveData="scope.row.customerName"></ns-sg-sensitive-button>
                   </div>
                 </template>
               </el-table-column>
