@@ -66,8 +66,26 @@ export default {
   },
   mounted () {
     this.activityIntroduction = this.defaultWelcome
+    this.loadDefMsg()
   },
   methods: {
+    loadDefMsg () {
+      this.$http
+        .fetch(this.$api.guide.shop.findEnterpriseMessage, {})
+        .then(res => {
+          if (res.success) {
+            const defStr = res.result || ''
+            if (defStr && defStr.length > 0) {
+              if (this.$refs.tagAreaText) {
+                const text = this.$refs.tagAreaText.stringTohtml(defStr)
+                this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
+                this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+                this.activityIntroduction = defStr
+              }
+            }
+          }
+        })
+    },
     transAll () {
       this.dialogVisible = false
       const activityIntroduction = this.$refs.tagAreaText.htmlToString(this.activityIntroduction)
@@ -81,7 +99,7 @@ export default {
     },
     showDialog () {
       this.dialogVisible = true
-      this.defaultText()
+      this.loadDefMsg()
     },
     defaultText () {
       this.$nextTick(() => {

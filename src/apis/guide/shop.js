@@ -53,5 +53,9 @@ export default {
   redoCustomerTransferTask: {
     url: '/guide/customer/redoCustomerTransferTask',
     method: 'post'
+  },
+  findEnterpriseMessage: {
+    url: '/Guide/SystemPreset/findEnterpriseMessage',
+    method: 'get'
   }
 }
