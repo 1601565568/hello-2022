@@ -495,7 +495,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.guide.exportTaskDetailList, {})
+        .fetch(this.$api.guide.guide.exportTaskDetailList, this.searchData)
         .then(resp => {
           that.$notify.success('下载完成')
         })
@@ -566,7 +566,7 @@ export default {
       this.searchData.transferEndTime = this.$route.query.transferTime ? this.$route.query.transferTime : null
       this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
     } else {
-      this.searchData.transferStartTime = moment().subtract('days', 30).format('YYYY-MM-DD HH:mm:ss')
+      this.searchData.transferStartTime = moment().subtract('days', 29).format('YYYY-MM-DD HH:mm:ss')
       this.searchData.transferEndTime = moment().subtract('days', 0).format('YYYY-MM-DD HH:mm:ss')
       this.datePickerValue = [this.searchData.transferStartTime, this.searchData.transferEndTime]
     }
