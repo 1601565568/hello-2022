@@ -547,6 +547,7 @@ export default {
       let data = { ...this.searchData }
       data.page = this.paginationToPerson.page
       data.pageSize = this.paginationToPerson.size
+      if (data.taskId === '') data.taskId = null
       this.$http
         .fetch(
           this.$api.guide.guide.findCustomerTransferLogDetailList,
