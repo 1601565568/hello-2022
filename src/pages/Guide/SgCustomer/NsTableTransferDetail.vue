@@ -78,6 +78,7 @@
             @change="dataPickerChange"
             :clearable="false"
             popper-class='date-filter'
+            :default-time="['00:00:00','23:59:59']"
           >
           </el-date-picker>
         </div>
