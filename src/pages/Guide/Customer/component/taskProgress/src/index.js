@@ -178,11 +178,11 @@ export default {
           if (res.success) {
             this.$emit('onResetCustomerTransferTask', 1)
           } else {
-            this.$notify.error(`关闭任务失败${res.msg}`)
+            this.$notify.warning(`关闭任务失败${res.msg}`)
           }
         })
         .catch(err => {
-          this.$notify.error(`关闭任务接口${err.msg}`)
+          this.$notify.warning(`关闭任务接口${err.msg}`)
         })
     },
     onRedoCustomerTransferTask () {
