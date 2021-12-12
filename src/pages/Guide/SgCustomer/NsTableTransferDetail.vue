@@ -243,7 +243,7 @@
             <el-table-column label="好友信息">
               <el-table-column prop="friendNick" label="好友" width="170px">
                 <template slot-scope="scope">
-                  <div class="user-info" v-if="scope.row.externalUserId">
+                  <div class="user-info" v-if="scope.row.takeoverStatus !== 0">
                     <img :src="scope.row.friendHeadImage" v-if="scope.row.friendHeadImage" class="header-img" />
                      <img
                         src="@/assets/default-avatar.png"
@@ -261,7 +261,7 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span  v-if="scope.row.externalUserId">{{ scope.row.oldGuideName || '-' }}</span>
+                  <span  v-if="scope.row.takeoverStatus !== 0">{{ scope.row.oldGuideName || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -271,7 +271,7 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.externalUserId">{{ scope.row.receiveGuideName || '-' }}</span>
+                  <span v-if="scope.row.takeoverStatus !== 0">{{ scope.row.receiveGuideName || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
@@ -283,7 +283,7 @@
                 <template slot-scope="scope">
                   <span
                     class="trans-status-view"
-                    v-if="scope.row.externalUserId"
+                    v-if="scope.row.takeoverStatus !== 0"
                     :class="
                       scope.row.takeoverStatus === 2
                         ? 'trans-status-view-wait'
@@ -304,7 +304,7 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.externalUserId">{{ scope.row.friendFailureMsg || '-' }}</span>
+                  <span v-if="scope.row.takeoverStatus !== 0">{{ scope.row.friendFailureMsg || '-' }}</span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
