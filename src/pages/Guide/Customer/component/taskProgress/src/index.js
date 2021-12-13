@@ -126,11 +126,13 @@ export default {
         TaskStatus.status === 3 &&
         TaskStatus.totalCount !== TaskStatus.successCount
       ) {
-        if (TaskStatus.transferRange === 1) {
-          this.showBtn = true
-        } else if (TaskStatus.transferRange === 2) {
-          this.showLookBtn = true
-        }
+        // if (TaskStatus.transferRange === 1) {
+        //   this.showBtn = true
+        // } else if (TaskStatus.transferRange === 2) {
+        //   this.showLookBtn = true
+        // }
+        this.showLookBtn = true
+        this.showBtn = true
         // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
         content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + sucStr
       }

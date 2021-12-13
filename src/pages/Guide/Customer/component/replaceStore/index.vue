@@ -28,7 +28,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="门店类型："  style="margin-left: 10px;">
+              <el-form-item label="门店类型："  style="margin-left: 10px;" label-width="75px">
                  <el-select v-model="departData.shopType" placeholder="请选择">
                   <el-option
                     v-for="item in options"
