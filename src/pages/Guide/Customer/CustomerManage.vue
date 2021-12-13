@@ -37,7 +37,7 @@
               </el-input>
             <!-- </el-form-grid> -->
           </el-form-item>
-          <el-form-item label="所属门店：">
+          <el-form-item label="所属门店：" label-width="75px">
             <!-- <el-form-grid size="xmd"> -->
               <shop-select-load ref="shopSelect"
                                 @change="handleShoperSelectChange"
