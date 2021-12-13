@@ -81,7 +81,19 @@
                     item.sourceName || '-'
                   }}</span>
                 </el-tooltip>
-                <span>{{ item.createTime }}</span>
+                <div>
+                  <el-switch
+                    v-model="item.currentStatus"
+                    class="tablescope"
+                    inactive-text="下架"
+                    active-color="#0091FA"
+                    inactive-color="#8C8C8C"
+                    active-text="上架"
+                    active-value="1"
+                    inactive-value="2"
+                    @change="currentStatusChange(item)"
+                  ></el-switch>
+                </div>
               </div>
               <div
                 class="catalogue-materials__item--content catalogue-ellipsis2"
@@ -266,6 +278,7 @@
                   >浏览量: {{ item.pageView || 0 }}</span
                 >
               </div>
+              <div class="material-time">{{item.shelfTimeData || item.createTime}}</div>
             </div>
             <div
               class="catalogue-materials__item--btns"
@@ -371,7 +384,8 @@ export default {
       selectItem: {},
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png'
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
+      selectStatus: '1'
     }
   },
   watch: {
@@ -438,6 +452,9 @@ export default {
     window.removeEventListener('resize', this.setWrapperW)
   },
   methods: {
+    currentStatusChange (item) {
+      this.$emit('currentStatusChange', item)
+    },
     strToRichText (text) {
       if (!text) {
         return ''
@@ -647,6 +664,11 @@ export default {
       margin-right: 4px;
     }
   }
+}
+.material-time {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 </style>
 <style scoped>

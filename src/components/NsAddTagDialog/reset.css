@@ -1,0 +1,44 @@
+>>> .el-scrollbar__bar  {
+  display: none;
+}
+
+.add-tags {
+  >>> .el-form-item {
+    margin-bottom: 24px;
+  }
+
+  .checkboxs-tags {
+    >>> .el-form-item {
+      display: flex;
+    }
+  }
+  >>> .el-form-item__label {
+    font-size: 14px;
+    min-width: 60px;
+    /* display: block; */
+  }
+
+  >>> .el-select {
+    height: 32px;
+    width: 99%;
+    input {
+      height: 32px;
+    }
+    .el-input__suffix {
+      height: 30px;
+    }
+  }
+
+  >>> .el-checkbox__label {
+    font-size: 14px;
+  }
+
+  .checkboxs-tags {
+    >>> .el-form-item__content {
+      margin-left: 20px !important;
+    }
+    >>> .el-form-grid {
+      margin-right: 0 !important;
+    }
+  }
+}

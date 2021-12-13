@@ -82,12 +82,12 @@
                   <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
-              <div>路径带参</div>
-              <div class="show-path-remind-view">
+              <!-- <div>路径带参</div> -->
+              <!-- <div class="show-path-remind-view">
                 <div>SCRM字段参数名称</div>
                 <div class="remid-right-view">小程序字段参数名称</div>
-              </div>
-              <div class="path-para-view">
+              </div> -->
+              <!-- <div class="path-para-view">
                 <div class="path-left-view">
                   <div>
                     <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
@@ -188,7 +188,7 @@
                   <div>=</div>
                 </div>
                 <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
-              </div>
+              </div> -->
             </div>
           </el-form-item>
           <el-form-item label="">
@@ -337,8 +337,7 @@ export default {
         },
         backgroundImage: '',
         appid: '',
-        codeStyle: 0,
-        presetParams: []
+        codeStyle: 0
       },
       urlObj: {
         howAuth: 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,777,779,788,&id=3809&title=',
@@ -385,39 +384,44 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请输入小程序路径，长度在1-255个字' }
         ]
       },
-      appIdRefresh: false
+      appIdRefresh: false,
+      presetParams: [
+        {
+          paramCode: 'guideId',
+          paramName: 'guideId',
+          status: 1
+        },
+        {
+          paramCode: 'shopId',
+          paramName: 'shopId',
+          status: 1
+        },
+        {
+          paramCode: 'workNumber',
+          paramName: 'workNumber',
+          status: 1
+        },
+        {
+          paramCode: 'outShopId',
+          paramName: 'outShopId',
+          status: 1
+        },
+        {
+          paramCode: 'materialId',
+          paramName: 'materialId',
+          status: 1
+        }
+      ]
     }
   },
   watch: {
-    shopIdVal (newValue, oldValue) {
-      this.shopIdVal = this.shopIdVal.replace(/\s+/g, '')
-    },
-    internalIdVal (newValue, oldValue) {
-      this.internalIdVal = this.internalIdVal.replace(/\s+/g, '')
-    },
-    externalIdVal (newValue, oldValue) {
-      this.externalIdVal = this.externalIdVal.replace(/\s+/g, '')
-    },
-    memberIdVal (newValue, oldValue) {
-      this.memberIdVal = this.memberIdVal.replace(/\s+/g, '')
-    },
-    memberUserIdVal (newValue, oldValue) {
-      this.memberUserIdVal = this.memberUserIdVal.replace(/\s+/g, '')
-    },
-    materialIdVal (newValue, oldValue) {
-      this.materialIdVal = this.materialIdVal.replace(/\s+/g, '')
-    }
   },
   computed: {
     compPath () {
-      const shopId = this.shopIdChecked && this.shopIdVal ? 'shopId=' + this.shopIdVal : ''
-      const internalId = this.internalIdChecked && this.internalIdVal ? 'workNumber=' + this.internalIdVal : ''
-      const outShopId = this.externalIdChecked && this.externalIdVal ? 'outShopId=' + this.externalIdVal : ''
-      const guideId = this.memberIdChecked && this.memberIdVal ? 'guideId=' + this.memberIdVal : ''
-      const guideUserId = this.memberUserIdChecked && this.memberUserIdVal ? 'guideUserId=' + this.memberUserIdVal : ''
-      const materialId = this.materialIdChecked && this.materialIdVal ? 'materialId=' + this.materialIdVal : ''
-      let arr = [shopId, internalId, outShopId, guideId, guideUserId, materialId]
-      arr = arr.filter(item => item.length > 0)
+      let arr = []
+      for (const item of this.content.presetParams) {
+        arr.push(item.paramCode + '=' + '{' + item.paramName + '}')
+      }
       if (arr.length > 0) {
         if (this.content.path.includes('?')) {
           return this.content.path + '&' + arr.join('&')
@@ -537,6 +541,7 @@ export default {
     },
     showImageCode () {
       this.visible = true
+      this.content.presetParams = this.presetParams
       this.loadAppIds()
       // if (this.miniList.length > 0) {
       //   this.content.appid = this.miniList[0].appid
@@ -557,6 +562,8 @@ export default {
       this.memberIdVal = ''
       this.memberUserIdChecked = false
       this.memberUserIdVal = ''
+      this.materialIdChecked = false
+      this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
@@ -578,7 +585,7 @@ export default {
         backgroundImage: '',
         appid: '',
         codeStyle: 0,
-        presetParams: []
+        presetParams: this.presetParams
       }
       this.appIdRefresh = false
       this.goodsCache = {
@@ -727,43 +734,38 @@ export default {
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
         this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-        this.content.presetParams = []
-        let guideId = {
-          paramCode: 'guideId',
-          paramName: this.memberIdVal,
-          status: this.memberIdChecked ? 1 : 0
-        }
-        let shopId = {
-          paramCode: 'shopId',
-          paramName: this.shopIdVal,
-          status: this.shopIdChecked ? 1 : 0
-        }
-        let workNumber = {
-          paramCode: 'workNumber',
-          paramName: this.internalIdVal,
-          status: this.internalIdChecked ? 1 : 0
-        }
-        let outShopId = {
-          paramCode: 'outShopId',
-          paramName: this.externalIdVal,
-          status: this.externalIdChecked ? 1 : 0
-        }
-        let guideUserId = {
-          paramCode: 'guideUserId',
-          paramName: this.memberUserIdVal,
-          status: this.memberUserIdChecked ? 1 : 0
-        }
-        let materialId = {
-          paramCode: 'materialId',
-          paramName: this.materialIdVal,
-          status: this.materialIdChecked ? 1 : 0
-        }
-        this.content.presetParams.push(guideId)
-        this.content.presetParams.push(shopId)
-        this.content.presetParams.push(workNumber)
-        this.content.presetParams.push(outShopId)
-        this.content.presetParams.push(guideUserId)
-        this.content.presetParams.push(materialId)
+        // this.content.presetParams = []
+        // let guideId = {
+        //   paramCode: 'guideId',
+        //   paramName: 'guideId',
+        //   status: 1
+        // }
+        // let shopId = {
+        //   paramCode: 'shopId',
+        //   paramName: 'shopId',
+        //   status: 1
+        // }
+        // let workNumber = {
+        //   paramCode: 'workNumber',
+        //   paramName: 'workNumber',
+        //   status: 1
+        // }
+        // let outShopId = {
+        //   paramCode: 'outShopId',
+        //   paramName: 'outShopId',
+        //   status: 1
+        // }
+        // let materialId = {
+        //   paramCode: 'materialId',
+        //   paramName: 'materialId',
+        //   status: 1
+        // }
+        // this.content.presetParams.push(guideId)
+        // this.content.presetParams.push(shopId)
+        // this.content.presetParams.push(workNumber)
+        // this.content.presetParams.push(outShopId)
+        // this.content.presetParams.push(guideUserId)
+        // this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         // let canvas = document.createElement('canvas')
@@ -776,7 +778,9 @@ export default {
         // canvas.style.height = targetHeight * scale + 'px'
         // canvas.getContext('2d').scale(scale, scale)
         html2canvas(view, {
-          useCORS: true
+          useCORS: true,
+          width: view.offsetWidth,
+          height: view.offsetHeight
         }).then(canvas => {
           const file = canvas.toDataURL('image/jpeg')
           let blob = this.dataURLtoFile(file, 'image/jpeg')
@@ -792,7 +796,7 @@ export default {
               that.$emit('handleImageCode', false)
               that.visible = false
               that.initData()
-              that.$refs.ruleForm.resetFields()
+              that.$refs.ruleForm.resetFielxwds()
             })
             .catch(resp => {
               that.saveLoad = false
@@ -866,7 +870,7 @@ export default {
 }
 .left-view {
   width: 55%;
-  height: 700px;
+  height: 650px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
