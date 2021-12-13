@@ -182,10 +182,15 @@
                       <div @click="showSubgroupMsg(model.subgroupId)" class="tips" v-if="!model.cost && !model.isClickBudget" >
                         <span>点击预算获取时长</span>
                       </div>
-                      <div class="tips"  v-else-if="model.isClickBudget && !model.cost">预算中，可正常保存 <el-image
-                        style="width: 10px; height: 10px; margin-left:5px"
+                      <!-- <div class="tips"  v-else-if="model.isClickBudget && !model.cost">预算中，可正常保存 <el-image -->
+                      <!-- <div class="tips"  > -->
+                         <!-- <el-image
+                        style="width: 10px; height: 10px; margin-left:5px "
                         :src="imgUrl"
-                        fit="cover" /></div>
+                        fit="cover" /> -->
+                        <div  v-else-if="model.isClickBudget && !model.cost"><NsButton :loading='true' type='text'>预算中，可正常保存</NsButton></div>
+
+                        <!-- </div> -->
                       <div class="tips" v-else-if="model.isClickBudget && model.cost !== '-1秒'">预估{{model.cost}}完成获取名单</div>
                       <div class="tips" v-else-if="model.isClickBudget && model.cost=='-1秒'">预算获取会员分组名单失败</div>
                     </div>
@@ -625,6 +630,7 @@ export default addBrandTask
 }
 .succFont{
   font-size: 12px;
+  margin-top: 2px;
 }
 .flex__box{
   display: flex;
@@ -648,6 +654,7 @@ export default addBrandTask
 }
 .el-icon-warning:before{
   font-size: 14px;
+
   /* line-height: 22px; */
 }
 

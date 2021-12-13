@@ -208,9 +208,9 @@ export default {
         })
     },
     // 提示
-    openTips (flag) {
-      if (!flag) { this.dialogVisible = true }
-    },
+    // openTips (flag) {
+    //   if (!flag) { this.dialogVisible = true }
+    // },
     // 关闭提示
     closeTips () {
       this.dialogVisible = false
@@ -258,7 +258,9 @@ export default {
         }
       }
       this.model = Object.assign({}, this.model, { subgroupId })
-      this.dialogVisible = true
+      if (this.titleText === '新建任务') {
+        this.dialogVisible = true
+      }
     },
     // 选择素材
     selectMaterialShowFun () {
@@ -379,7 +381,7 @@ export default {
         activityTime: []
       }
       this.selectMaterial = {}
-      this.dialogVisible = true
+      // this.dialogVisible = true
     },
     // 编辑
     EditFun (id) {
