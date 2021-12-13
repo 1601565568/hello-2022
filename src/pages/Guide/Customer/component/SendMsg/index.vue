@@ -103,6 +103,7 @@ export default {
       this.loadDefMsg()
     },
     defaultText () {
+      this.activityIntroduction = this.defaultWelcome
       this.$nextTick(() => {
         if (this.$refs.tagAreaText) {
           const text = this.$refs.tagAreaText.stringTohtml(this.defaultWelcome)
