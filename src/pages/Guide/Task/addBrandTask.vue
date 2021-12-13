@@ -187,8 +187,8 @@
                         style="width: 10px; height: 10px; margin-left:5px"
                         :src="imgUrl"
                         fit="cover" /></div>
-                      <div class="tips"  v-else-if="model.isClickBudget && model.cost!='-1秒'">预估{{model.cost}}完成获取名单</div>
-                      <div class="tips"  v-else-if="model.isClickBudget && model.cost=='-1秒'">预算获取会员分组名单失败</div>
+                      <div class="tips" v-if="model.isClickBudget && model.cost !== '-1秒'">预估{{model.cost}}完成获取名单</div>
+                      <div class="tips" v-if="model.isClickBudget && model.cost=='-1秒'">预算获取会员分组名单失败</div>
                     </div>
                     <div class="disc">
                       单次执行的任务，将于任务开始时间的凌晨获取客户名单（当日开始，则保存任务后获取客户名单）；<br />

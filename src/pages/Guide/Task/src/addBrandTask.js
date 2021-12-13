@@ -391,8 +391,6 @@ export default {
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
             // this.showSubgroupMsg(this.model.subgroupId)
-            this.model.isClickBudget = false
-            console.log(this.model.subgroupId, this.model.viewId, this.model.subgroupId, 'this.model.subgroupId')
             this.$http
               .fetch(this.$api.guide.queryExpectTime, { subdivisionId: this.model.subgroupId })
               .then(resp => {
@@ -405,6 +403,7 @@ export default {
                   } else if (needTime < 60) {
                     this.model.cost = `${needTime}秒`
                   }
+                  this.model.isClickBudget = true
                 }
               })
               .catch(resp => {
