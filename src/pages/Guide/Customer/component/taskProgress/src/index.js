@@ -19,7 +19,8 @@ export default {
       taskProgressStaute: 0, // 显示成功状态  1成功
       isClose: 1,
       pageContent: '', // 页面文案显示
-      showBtn: false
+      showBtn: false,
+      showLookBtn: false
     }
   },
   watch: {
@@ -56,6 +57,20 @@ export default {
     }
   },
   methods: {
+    lookTransDetail () {
+      const taskId = this.shopCustomerTransferTaskStatus.taskId
+      const operatorName = this.shopCustomerTransferTaskStatus.operatorName || ''
+      const transferTime = this.shopCustomerTransferTaskStatus.transferTime || ''
+      const route = this.$router.resolve({
+        name: 'TRANS_CUSTOMER_DETAIL',
+        query: {
+          taskId,
+          operatorName,
+          transferTime
+        }
+      })
+      window.open(route.href, '_blank')
+    },
     init () {
       let user = this.$store.state.user.remumber.remumber_login_info.productConfig.user
       let { nick, nickId } = user
@@ -75,6 +90,7 @@ export default {
       ) {
         this.isShow = true
       }
+      this.isShow = val.showProgress === 1
       if (
         parseInt(val.status) === 3 &&
         parseInt(val.totalCount) !== 0 &&
@@ -96,26 +112,36 @@ export default {
       var content = ''
       let TaskStatus = this.formatTaskStatus(val)
       this.showBtn = false
+      this.showLookBtn = false
+      const str = TaskStatus.transferRange === 1 ? '更换专属导购' : '更换专属导购和企业微信好友关系'
+      const sucStr = TaskStatus.transferRange === 2 ? '；好友转移待24小时确认结果' : ''
       if (TaskStatus.totalCount === 0) {
-        content = '该门店会员正在更换导购,更换进度...'
+        content = `该门店会员正在${str},更换进度...`
       }
       if (TaskStatus.totalCount !== 0 && status !== 3) {
-        content = `该门店${TaskStatus.totalCount}个会员正在更换导购，更换进度：`
+        content = `该门店${TaskStatus.totalCount}个会员正在${str}，更换进度：`
       }
       if (
         TaskStatus.totalCount !== 0 &&
         TaskStatus.status === 3 &&
         TaskStatus.totalCount !== TaskStatus.successCount
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员更换导购情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人`
-        this.showBtn = true
+        if (TaskStatus.transferRange === 1) {
+          this.showBtn = true
+        } else if (TaskStatus.transferRange === 2) {
+          this.showLookBtn = true
+        }
+        // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
+        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + sucStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
         TaskStatus.status === 3 &&
         TaskStatus.totalCount === TaskStatus.successCount
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员更换导购成功`
+        // content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        content = `会员转移成功${TaskStatus.totalCount}人` + sucStr
+        this.showLookBtn = true
       }
       /* 特殊情况处理 */
       if (
@@ -124,7 +150,9 @@ export default {
         parseInt(TaskStatus.successCount) === 0 &&
         parseInt(TaskStatus.totalCount) === 0
       ) {
-        content = `该门店${TaskStatus.totalCount}个会员更换导购成功`
+        // content = `该门店${TaskStatus.totalCount}个会员${str}成功` + sucStr
+        content = `会员转移成功${TaskStatus.totalCount}人` + sucStr
+        this.showLookBtn = true
       }
       this.pageContent = content
     },
@@ -150,11 +178,11 @@ export default {
           if (res.success) {
             this.$emit('onResetCustomerTransferTask', 1)
           } else {
-            this.$notify.error(`关闭任务失败${res.msg}`)
+            this.$notify.warning(`${res.msg}`)
           }
         })
         .catch(err => {
-          this.$notify.error(`关闭任务接口${err.msg}`)
+          this.$notify.warning(`${err.msg}`)
         })
     },
     onRedoCustomerTransferTask () {
@@ -174,7 +202,7 @@ export default {
           }
         })
         .catch(err => {
-          this.$notify.error(`重新任务接口失败${err.msg}`)
+          this.$notify.error(`${err.msg}`)
         })
     }
   },

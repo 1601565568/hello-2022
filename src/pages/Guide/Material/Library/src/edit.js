@@ -26,7 +26,8 @@ export default {
       title: '',
       subdivision: false,
       pitContent: '',
-      labelList: []
+      labelList: [],
+      isEdit: false
     }
   },
   computed: {
@@ -82,6 +83,7 @@ export default {
     },
     getDetail (id) {
       if (id || id === 0) {
+        this.isEdit = true
         this.$http.fetch(this.$api.guide.queryMaterial, { id }).then(resp => {
           this.detail = resp.result || {}
           this.detail.textContent = this.detail.textContentStr

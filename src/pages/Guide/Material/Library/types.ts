@@ -9,6 +9,7 @@ export enum WelcomeMessageType {
   MiniProgram,
   ImageCode
 }
+
 /**
  * 欢迎语附件类型对应Icon和标题
  */
@@ -35,6 +36,6 @@ export const WelcomeMessageTypeTip = {
   },
   [WelcomeMessageType.ImageCode]: {
     tip: '附码图片',
-    icon: 'fumatupian-02'
+    icon: 'fumatupian-2'
   }
 }

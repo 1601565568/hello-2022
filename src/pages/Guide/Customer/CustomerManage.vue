@@ -12,7 +12,13 @@
         <span class="number">已选会员{{checkNumberLength}}人</span>
       </div>
       <div class="replace-rule">
-        更换规则：1、分配给多个导购时，将按照选择导购的先后顺序均分。2、分配逻辑为随机分配，与转移前会员专属导购身份无关。
+        <div>更换规则：</div>
+        <div>
+          1、分配给多个导购时，将按照选择导购的先后顺序均分。<br/>
+          2、分配逻辑为随机分配，与转移前会员专属导购身份无关。<br/>
+          3、支持选择会员转移时，是否自动转移好友关系。<br/>
+          <span class="remind-text"></span>90个自然日内，在职员工的每位好友仅可被转移2次
+        </div>
       </div>
       <!--  搜索开始  -->
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
@@ -20,7 +26,7 @@
       <div class="search">
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="关键字：">
-            <el-form-grid size="xmd">
+            <!-- <el-form-grid size="xmd"> -->
               <el-input style="width:180px"
                         @keyup.enter.native="searchAction"
                         @clear="searchAction"
@@ -29,16 +35,16 @@
                         placeholder="请输入账号/姓名/手机号"
                         clearable>
               </el-input>
-            </el-form-grid>
+            <!-- </el-form-grid> -->
           </el-form-item>
-          <el-form-item label="所属门店：">
-            <el-form-grid size="xmd">
+          <el-form-item label="所属门店：" label-width="75px">
+            <!-- <el-form-grid size="xmd"> -->
               <shop-select-load ref="shopSelect"
                                 @change="handleShoperSelectChange"
                                 v-model="model.shop"
                                 :sameSystemShopId='sameSystemShopId'
                                 clearable/>
-            </el-form-grid>
+            <!-- </el-form-grid> -->
           </el-form-item>
           <!-- <el-form-item>
             <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
@@ -100,7 +106,8 @@
       <div slot="footer" class="dialog-footer">
         <span class="recordChooseList">已选导购{{recordChooseList.length}}人</span>
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(1)">确定</ns-button>
+        <ns-button @click="onlyTransMember()">仅转移会员</ns-button>
+        <ns-button type="primary" @click="transAllMember()">转移会员并转移好友</ns-button>
       </div>
     </el-dialog>
     <!-- 新客户详情弹窗-->
@@ -859,6 +866,7 @@
         @close="replaceStoreShow = false"
         ></replaceStore>
     <RemindMsg ref="remindMsg"/>
+    <SendMsg ref="sendMsg" @transClick="transClick"/>
   </div>
 </template>
 <script>
@@ -868,12 +876,14 @@ import ElImage from '@nascent/nui/lib/image'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import replaceStore from './component/replaceStore'
 import RemindMsg from './component/RemindMsg'
+import SendMsg from './component/SendMsg'
 CustomerManage.components = {
   NsTableGuide,
   ElImage,
   ShopSelectLoad,
   replaceStore,
-  RemindMsg
+  RemindMsg,
+  SendMsg
 }
 export default CustomerManage
 </script>
@@ -1207,11 +1217,21 @@ export default CustomerManage
     }
   }
   .replace-rule {
-    padding: 0 16px;
+    padding: 9px 16px;
     margin-bottom: 16px;
     background: #F2F9FE;
     border-radius: 2px;
-    height: 40px;
-    line-height: 40px;
+    /* height: 40px; */
+    line-height: 22px;
+    display: flex;
+    flex-direction: row;
+  }
+  .remind-text {
+    width: 8px;
+    height: 8px;
+    background: #F2AA18;
+    margin-right: 8px;
+    display: inline-block;
+    border-radius: 50%;
   }
 </style>

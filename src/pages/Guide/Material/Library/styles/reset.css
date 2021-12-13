@@ -155,3 +155,7 @@
 >>>.el-popover.dwaer-popper {
   min-width: 0 !important;
 }
+
+/* >>> .el-col-16 {
+  width:50%;
+} */

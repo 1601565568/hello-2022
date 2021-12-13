@@ -8,6 +8,7 @@
           <span>
             {{pageContent}}
             <ns-button v-if="showBtn" type="text" @click="onRedoCustomerTransferTask()">继续更换</ns-button>
+            <ns-button v-if="showLookBtn" type="text" @click="lookTransDetail">查看详情</ns-button>
           </span>
           <div style="width:208px" v-if="shopCustomerTransferTaskStatus
             && parseInt(shopCustomerTransferTaskStatus.status) !== 3">
