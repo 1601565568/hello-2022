@@ -135,7 +135,9 @@ export default {
       allShopOptions: [],
       shopOptions: [],
       activeTab: {}, // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
-      viewList: null
+      viewList: null,
+      transferRange: null,
+      transferSuccessMsg: ''
     }
   },
   mixins: [tableMixin],
@@ -968,6 +970,42 @@ export default {
      * @param {*} taskType
      * taskType 1更换导购 2更换门店
      */
+    onlyTransMember () {
+      if (this.recordChooseList.length === 0) {
+        this.$notify.error('请先选择更换导购')
+        return
+      }
+      const confirmText = ['确定仅转移会员？', '仅转移会员时，不会同步转移好友关系']
+      const arr = []
+      const h = this.$createElement
+      for (const i in confirmText) {
+        arr.push(h('p', null, confirmText[i]))
+      }
+      this.$confirm('提示信息', {
+        title: '提示信息',
+        message: h('div', null, arr),
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.transferRange = 1
+        this.transferSuccessMsg = ''
+        this.onSave(1)
+      }).catch(() => {
+      })
+    },
+    transAllMember () {
+      if (this.recordChooseList.length === 0) {
+        this.$notify.error('请先选择更换导购')
+        return
+      }
+      this.$refs.sendMsg.showDialog()
+    },
+    transClick (msg) {
+      this.transferRange = 2
+      this.transferSuccessMsg = msg
+      this.onSave(1)
+    },
     onSave (taskType) {
       var params
       if (taskType === 1 && this.recordChooseList.length === 0) {
@@ -986,7 +1024,9 @@ export default {
         terminalType: 1, // 终端
         taskType: 1, // 按会员转移
         checkType: checkAll ? 1 : 0, // 是否全选 0选中 1取消选中
-        customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList) // 客户选中列表
+        customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList), // 客户选中列表
+        transferRange: this.transferRange,
+        transferSuccessMsg: this.transferSuccessMsg
       }
       if (taskType === 1) {
         params = {
@@ -1004,7 +1044,6 @@ export default {
         }
       }
       this.createCustomerTransferTask(params, taskType)
-      this.$refs.remindMsg.showMsg()
     },
     // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
@@ -1044,6 +1083,7 @@ export default {
           this.$refs.table1.clearRemoveStatus()
           this.shopFindListShow = false
           this.$refs.table1.$reload()
+          this.$refs.remindMsg.showMsg()
           // this.$refs.table1.getShopCustomerTransferTaskStatus()
           if (taskType === 2) {
             this.replaceStoreShow = false

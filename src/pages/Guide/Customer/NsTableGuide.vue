@@ -1,7 +1,7 @@
 <template>
   <div class="NsTableGuide_main">
     <div class="template-page__title-bar">
-      <div class="title">客户列表</div>
+      <div class="title">会员列表</div>
     </div>
     <div class="template-page__row-left">
       <div class="template-page__row-left__area">

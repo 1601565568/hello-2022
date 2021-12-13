@@ -14,7 +14,7 @@
         prop="name"
         class="larger-item"
       >
-        <el-switch v-model="model.isOpnePrize" :disabled="isStating"/>
+        <el-switch v-model="model.isOpnePrize" :disabled="isEdit"/>
       </el-form-item>
       <el-form-item v-if='model.isOpnePrize'>
         <el-table
@@ -43,7 +43,7 @@
                 ]"
               >
                 <el-input-number
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   style="width:100%"
                   size="medium"
                   v-model="scope.row.recruitment"
@@ -77,7 +77,7 @@
                 ]"
               >
                 <el-select
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   v-model="scope.row.prizeType"
                   placeholder="请选择"
                   @change='(value)=>{handleChangePrizeType(scope,value)}'
@@ -162,7 +162,7 @@
                 ]"
               >
                 <el-input
-                  :disabled="isStating || isEditSetPrize"
+                  :disabled="isEdit || isEditSetPrize"
                   v-model="scope.row.prizeNumber"
                   maxlength="10"
                   type="number"
@@ -188,7 +188,7 @@
             min-width="100"
             label="追加数量"
             :sortable="false"
-            v-if="isStating || isEditSetPrize"
+            v-if="isEdit || isEditSetPrize"
           >
             <template slot-scope="scope">
               <el-form-item
@@ -414,7 +414,7 @@ export default {
      * 判断奖励类型
      */
     handleSetPrize (scope) {
-      if (this.isStating || this.isEditSetPrize) {
+      if (this.isEdit || this.isEditSetPrize) {
         return false
       }
       const { $index, row } = scope
@@ -472,6 +472,7 @@ export default {
      * 判断是否有重复奖品，重新计算库存是否超出
      */
     judgeDuplicatePrizes () {
+      if (!this.model.isOpnePrize) return true
       const obj = {}
       this.model.prizeRuleList.map(item => {
         const { prizeId, prizeType, validNumber, prizeNumber, addPrizeNumber = 0 } = item
