@@ -33,10 +33,10 @@
             <span v-else>自建坑位</span>
           </div>
           <div class="message-operate">
-            <ns-button type="text" size="small" @click="editMessage({ type, content }, key)" :disabled="isUploading">
+            <ns-button type="text" size="small" @click.stop="editMessage({ type, content }, key)" :disabled="isUploading">
               <span class="iconfont icon-zidingyibeifen" style="font-size:20px;"></span>
             </ns-button>
-            <ns-button type="text" size="small" @click="deleteMessage({ type, content },key)" :disabled="isUploading">
+            <ns-button type="text" size="small" @click.stop="deleteMessage({ type, content },key)" :disabled="isUploading">
               <span class="iconfont icon-ns-delete1" style="font-size:24px;"></span>
             </ns-button>
             <ns-button type="text" size="small" :disabled="isUploading">

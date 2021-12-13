@@ -40,7 +40,6 @@
                 :showEmoji='false'
                 :showTextEmoji='false'
                 ref="tagContent"
-                className="tagContent"
                 placeholder="输入链接地址"
                 tag="wise"
                 :tools="placeholderLink"
