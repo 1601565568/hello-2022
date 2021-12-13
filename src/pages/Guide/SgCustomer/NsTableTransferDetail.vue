@@ -403,7 +403,7 @@ export default {
           label: '转移成功'
         },
         {
-          value: 2,
+          value: -1,
           label: '转移失败'
         }
       ],
