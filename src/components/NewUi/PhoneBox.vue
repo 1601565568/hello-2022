@@ -21,7 +21,7 @@
       <slot name='collapse-left'></slot>
     </template>
     <template slot='collapse-right'>
-      <div class='phone-title'>{{phoneTitle}}</div>
+      <div class='phone-title' v-if='phoneTitle'>{{phoneTitle}}</div>
       <Phone>
         <div class='mobile-header' v-if='phoneBar'>
           <img src='@/assets/phoneBar.png' class='header-img'/>

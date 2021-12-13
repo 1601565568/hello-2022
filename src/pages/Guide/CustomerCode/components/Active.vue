@@ -17,11 +17,15 @@
         @updatePrize="updatePrize"
         @updateStair="args => $emit('updateStair', args)"
       />
+
       <el-form-item
         label=""
         class="larger-item"
       >
         <div class="goods-view">
+          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+
+          </el-tabs>
           <div class="goods-input-view">
             <el-form-item prop="goodsName">
               <length-input

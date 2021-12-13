@@ -14,6 +14,7 @@
             class="checkboxs-tags"
             :class="{ center: !loading && !showList.length }"
             v-infinite-scroll="loadMore"
+            :infinite-scroll-distance="10"
           >
             <el-form-item
               v-show="showList.length"

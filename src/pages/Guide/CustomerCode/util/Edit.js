@@ -1,3 +1,4 @@
+import { MODULE_TO_INDEX_MAP } from '../src/const'
 // 默认数据
 export const defBanner = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认banner图.png'
 export const defGoodsUrl = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/默认奖品图.jpg'
@@ -13,17 +14,17 @@ export const formatePageObj = (eidtList, prizeModel) => {
     share: {}
   }
   pageObj.headStyle = eidtList[0].value.headPortraitShape
-  pageObj.bannerUrl = eidtList[1].value.pic
-  pageObj.activeInfo.number = eidtList[3].value.virtualFinishedCount.toString()
-  pageObj.activeInfo.getColor = eidtList[3].value.btnColor
-  pageObj.rules = eidtList[5].value.content
-  pageObj.regUrl = eidtList[6].value.pic
-  let shareColor = eidtList[7].value.color
+  pageObj.bannerUrl = eidtList[MODULE_TO_INDEX_MAP.banner].value.pic
+  pageObj.activeInfo.number = eidtList[MODULE_TO_INDEX_MAP.reward].value.virtualFinishedCount.toString()
+  pageObj.activeInfo.getColor = eidtList[MODULE_TO_INDEX_MAP.reward].value.btnColor
+  pageObj.rules = eidtList[MODULE_TO_INDEX_MAP.activityRule].value.content
+  pageObj.regUrl = eidtList[MODULE_TO_INDEX_MAP.memberRegister].value.pic
+  let shareColor = eidtList[MODULE_TO_INDEX_MAP.shareButton].value.color
   // if (!shareColor.includes('#')) {
-  //   shareColor = '#' + eidtList[7].value.color
+  //   shareColor = '#' + eidtList[MODULE_TO_INDEX_MAP.shareButton].value.color
   // }
   pageObj.share.color = shareColor
-  pageObj.share.name = eidtList[7].value.name
+  pageObj.share.name = eidtList[MODULE_TO_INDEX_MAP.shareButton].value.name
   let prizeRuleListObj = prizeModel.prizeRuleList[0] || {}
   pageObj.activeInfo.goodsName = prizeRuleListObj.prizeNameSetting || ''
   pageObj.activeInfo.goodsDes = prizeRuleListObj.prizeIntro || ''
@@ -51,10 +52,10 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     validNumber: 0 // 优惠券剩余数量
   }
   eidtList[0].value.headPortraitShape = pageObj.headStyle
-  eidtList[1].value.pic = pageObj.bannerUrl.length > 0 ? pageObj.bannerUrl : defBanner
-  eidtList[3].value.virtualFinishedCount = parseInt(pageObj.activeInfo.number)
-  eidtList[3].value.btnColor = pageObj.activeInfo.getColor
-  let activeItem = eidtList[3] || {}
+  eidtList[MODULE_TO_INDEX_MAP.banner].value.pic = pageObj.bannerUrl.length > 0 ? pageObj.bannerUrl : defBanner
+  eidtList[MODULE_TO_INDEX_MAP.reward].value.virtualFinishedCount = parseInt(pageObj.activeInfo.number)
+  eidtList[MODULE_TO_INDEX_MAP.reward].value.btnColor = pageObj.activeInfo.getColor
+  let activeItem = eidtList[MODULE_TO_INDEX_MAP.reward] || {}
   if (activeItem.status === 0) {
     model.prizeRuleList[0] = null
   } else {
@@ -64,11 +65,11 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
     prizeRuleListObj.prizePic = pageObj.activeInfo.image.length > 0 ? pageObj.activeInfo.image : defGoodsUrl
     model.prizeRuleList[0] = prizeRuleListObj
   }
-  eidtList[5].value.content = pageObj.rules
-  eidtList[6].value.pic = pageObj.regUrl.length > 0 ? pageObj.regUrl : defRegUrl
-  eidtList[7].value.color = pageObj.share.color
-  eidtList[7].value.name = pageObj.share.name
-  model.prizeStatus = eidtList[3].status
+  eidtList[MODULE_TO_INDEX_MAP.activityRule].value.content = pageObj.rules
+  eidtList[MODULE_TO_INDEX_MAP.memberRegister].value.pic = pageObj.regUrl.length > 0 ? pageObj.regUrl : defRegUrl
+  eidtList[MODULE_TO_INDEX_MAP.shareButton].value.color = pageObj.share.color
+  eidtList[MODULE_TO_INDEX_MAP.shareButton].value.name = pageObj.share.name
+  model.prizeStatus = eidtList[MODULE_TO_INDEX_MAP.reward].status
   model.pageDecoration = JSON.stringify(eidtList)
   model.pageColor = showColor.mainColor + ',' + showColor.bgColor + ',' + showColor.strColor
   model.nick = model.headPortrait
@@ -79,7 +80,7 @@ export const formatModel = (model, eidtList, pageObj, showColor) => {
 
 export const formatModelSave = (model, activityIntroduction, activeRules, guestCodeId, eidtList) => {
   model.activityIntroduction = activityIntroduction
-  eidtList[5].value.content = activeRules
+  eidtList[MODULE_TO_INDEX_MAP.activityRule].value.content = activeRules
   model.pageDecoration = JSON.stringify(eidtList)
   model.guestCodeId = guestCodeId
   return model
