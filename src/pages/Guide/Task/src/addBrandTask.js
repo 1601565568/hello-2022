@@ -473,7 +473,6 @@ export default {
       const id = this.$route.params.id
       if (+id > 0) {
         this.EditFun(id)
-        console.log(id, 'id')
       }
     },
     handleSizeChange (val) {
