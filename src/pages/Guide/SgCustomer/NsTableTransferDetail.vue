@@ -560,7 +560,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(resp.msg || '查询转移明细失败')
         })
     }
   },
