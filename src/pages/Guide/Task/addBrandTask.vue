@@ -171,7 +171,7 @@
                      width="480px"
                     custom-class='budgetTime'
                     :before-close="closeTips">
-                    <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:5px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
+                    <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:1px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
                     <span slot="footer" class="dialog-footer">
                       <NsButton @click="closeTips" >无需预算</NsButton>
                       <NsButton type="primary" @click="goBudget(model.subgroupId)" style="margin: 0 6px 0 16px" >立即预算</NsButton>
