@@ -14,7 +14,7 @@
           </el-popover> -->
         </div>
       </template>
-      <div class="link-container-view">
+      <div class="link-container-view" v-if="visible">
         <div class="link-left-view">
           <ElForm :rules="rules" ref="searchform" :model="defaultModel">
             <!-- <ElFormItem>
