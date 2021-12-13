@@ -2,7 +2,7 @@
   <PageEdit>
     <template slot="header">
       <div class="common-header flex-box">
-        <h3>新建素材</h3>
+        <h3>{{isEdit ? '编辑素材' : '新建素材'}}</h3>
         <div class="common-btn">
           <ns-button class="customer-btn_cancel" @click="onBack" size="large">取消</ns-button>
           <ns-button class="customer-btn_save" @click='onSave' type="primary" size="large">保存</ns-button>
@@ -24,7 +24,8 @@
               @subdivision='proviewSubdivision'
               @pitContent='proviewPitContent'
               @togglePreview="togglePreview"
-              @back="gotoList"/>
+              @back="gotoList"
+            />
           </template>
           <template slot="collapse-right">
             <MessagePreviewPanel
@@ -38,17 +39,6 @@
         <label-add ref="labelAdd" @submit="getLabelList"></label-add>
       </SimpleCollapse>
     </template>
-        <!-- <Component
-          ref="component"
-          :is="item.type"
-          :detail="detail"
-          :labelList="labelList"
-          :breadcrumb="breadcrumb"
-          @toggleLabel="toggleLabel"
-          @togglePreview="togglePreview"
-          @back="gotoList"
-        /> -->
-    <!-- <preview ref="preview"></preview> -->
   </PageEdit>
 </template>
 <script>

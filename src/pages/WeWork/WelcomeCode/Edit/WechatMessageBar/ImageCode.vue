@@ -10,7 +10,8 @@
     <div class="container-view">
       <div class="left-view" id="right-originalPrice-view">
         <el-form label-width="100px" label-position="left" class="form-view" :model="content" :rules="rules" ref="ruleForm">
-          <el-form-item label="小程序">
+          <el-form-item label="">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>选择小程序</label>
             <el-form-item required prop="appid">
               <el-select v-model="content.appid" placeholder="请选择小程序">
                 <el-option
@@ -22,29 +23,39 @@
               </el-select>
             </el-form-item>
             <div class="mini-view">
-              <div @click="refreshAppId">已授权未显示？点此刷新</div>
+              <div style="color:#8C8C8C;">请先授权要选择的小程序，授权成功点击“刷新”获取</div>
               <div>
                 <span @click="toBlackPage('howAuth')">如何授权&nbsp;</span>
                 <span @click="toBlackPage('toAuth')">&nbsp;去授权</span>
+                <span @click="refreshAppId">&nbsp;刷新</span>
               </div>
             </div>
           </el-form-item>
           <el-form-item label="附码方式" required>
-            <el-radio-group v-model="content.codeStyle" @change="handleCodeStyle">
-              <el-radio :label=0>选择商品</el-radio>
-              <el-radio :label=1>输入小程序路径</el-radio>
-            </el-radio-group>
-            <div class="select-shop-view" v-show="content.codeStyle === 0">
+            <div class="custom-reaio-view">
+              <div class="custom-radio-base" @click="handleCodeStyle(0)">
+                <span class="iconfont icon-ns_arrow-circle-leftfuben6" style="color:#0091FA;font-size:18px" v-if="content.codeStyle === 0"></span>
+                <span class="iconfont icon-ns-succeed" style="color:#D9D9D9;font-size:18px" v-else></span>
+                <span class="custom-radio-base-name">选择商品</span>
+              </div>
               <el-form-item prop="itemName" :rules="[
                 {required:content.codeStyle === 0 ? true:false, message:'请选择商品', trigger: ['blur', 'change']},
               ]">
-                <el-input
-                  placeholder="商品名称"
-                  v-model="content.itemName"
-                  :disabled="true"
-                />
+                <div class="select-shop-view" @click="selectShopGoods">
+                  <div :class="content.itemName ? 'shop-name-text shop-true-name' : 'shop-name-text' ">{{content.itemName || '请选择商品'}}</div>
+                  <div>
+                    <Icon
+                      type="icon-xin"
+                      style="color: #8C8C8C;"
+                    />
+                  </div>
+                </div>
               </el-form-item>
-              <div class="shop-button" @click="selectShopGoods">选择商品</div>
+              <div class="custom-radio-base" @click="handleCodeStyle(1)">
+                <span class="iconfont icon-ns_arrow-circle-leftfuben6" style="color:#0091FA;font-size:18px" v-if="content.codeStyle === 1"></span>
+                <span class="iconfont icon-ns-succeed" style="color:#D9D9D9;font-size:18px" v-else></span>
+                <span class="custom-radio-base-name">输入小程序路径</span>
+              </div>
             </div>
             <div class="parameter-view">
               <div style="margin-bottom:8px">小程序路径</div>
@@ -60,17 +71,7 @@
                 >
                 </el-input>
               </el-form-item>
-              <div class="show-path-url-view">
-                <!-- <el-popover
-                  placement="bottom"
-                  trigger="hover"
-                  width="200"
-                >
-                  <div style="padding: 5px 8px;line-height: 24px;font-size: 14px;">
-                    <div>{{parmaStrBottom}}</div>
-                  </div>
-                  <span slot="reference" class="item-view">带参配置说明</span>
-                </el-popover> -->
+              <div class="show-path-url-view" style="margin-top:-10px">
                 <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
                 <el-popover
                   placement="bottom"
@@ -82,126 +83,23 @@
                   <span slot="reference" class="item-view">预览完整路径</span>
                 </el-popover>
               </div>
-              <!-- <div>路径带参</div> -->
-              <!-- <div class="show-path-remind-view">
-                <div>SCRM字段参数名称</div>
-                <div class="remid-right-view">小程序字段参数名称</div>
-              </div> -->
-              <!-- <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="shopIdChecked">店铺编码</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/shopId-show.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="shopIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="internalIdChecked"
-                      >内部门店ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/internal-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="internalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="externalIdChecked"
-                      >外部员工ID</el-checkbox
-                    >
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/external-Id.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="externalIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberIdChecked">员工ID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                      width="200"
-                      title="scrm对员工的唯一标识"
-                    >
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="memberUserIdChecked">员工userID</el-checkbox>
-                    <el-popover
-                      placement="bottom"
-                      trigger="click"
-                    >
-                      <div>
-                        <img style="width:890px;449px" src='@/assets/member-userId.jpg'/>
-                      </div>
-                      <i slot="reference" class="iconfont icon-ns-help help-icon"></i>
-                    </el-popover>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="memberUserIdVal"/>
-              </div>
-              <div class="path-para-view">
-                <div class="path-left-view">
-                  <div>
-                    <el-checkbox v-model="materialIdChecked">素材ID</el-checkbox>
-                  </div>
-                  <div>=</div>
-                </div>
-                <el-input placeholder="请输入对应的字段参数名称" v-model="materialIdVal"/>
-              </div> -->
             </div>
           </el-form-item>
-          <el-form-item label="">
-            <label slot="label"><span style="display:inline-block;width:10px;"></span>货号</label>
-            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
-          </el-form-item>
-          <el-form-item label="图片" required>
+          <el-form-item label="封面图" required>
             <el-form-item prop="backgroundImage">
               <div class="upload-view">
                 <div class="img-url__logo">
-                  <img v-if="content.backgroundImage" :src="content.backgroundImage" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <div v-if="content.backgroundImage" class="upload-mask-view">
+                    <div class="upload-img-mask" @click="changeUploadFile">
+                      <i class="iconfont icon-ns-deal1" style="font-size:18px;"></i>
+                    </div>
+                    <img :src="content.backgroundImage" class="avatar" />
+                  </div>
+                  <div v-else>
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </div>
                   <drap-upload
+                    ref="drapUpload"
                     :scale='1'
                     scaleTip='1'
                     v-model='content.backgroundImage'
@@ -216,12 +114,12 @@
               </div>
             </el-form-item>
             <div class="remind-img">
-              请上传格式为JPG、JPEG、PNG格式的图片，<br/>大小不超过2M
+              上传限制：建议比例1:1，小于2M，jpg、png、jpeg格式
             </div>
           </el-form-item>
-          <el-form-item label="名称" required prop="title">
+          <el-form-item label="显示名称" required prop="title">
             <el-input
-              placeholder="请输入名称，长度在100个字符以内"
+              placeholder="请输入名称，长度在36个字符以内"
               v-model="content.title"
               @input="titleChange"
             />
@@ -234,7 +132,7 @@
                 {required:content.priceStatus === 1 ? true:false, message:'请输入售价', trigger: ['blur', 'change']},
                 {validator:checkPriceRules, trigger: ['blur', 'change'] }
               ]">
-                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange"/>
+                <el-input placeholder="请输入售价" v-model="content.price" type="number" @input="priceChange" @keydown.native="channelInputLimit"/>
               </el-form-item>
             </div>
           </el-form-item>
@@ -247,9 +145,13 @@
                 {required:content.originalPriceStatus === 1 ? true:false, message:'请输入原价', trigger: ['blur', 'change']},
                 {validator:checkOriginalPricRules, trigger: ['blur', 'change'] }
               ]">
-                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange"/>
+                <el-input placeholder="请输入原价" v-model="content.originalPrice" type="number" @input="originalPriceChange" @keydown.native="channelInputLimit"/>
               </el-form-item>
             </div>
+          </el-form-item>
+          <el-form-item label="">
+            <label slot="label"><span style="display:inline-block;width:10px;"></span>货号</label>
+            <el-input placeholder="请输入货号" v-model="content.outerId" @input="outerIdChange"/>
           </el-form-item>
         </el-form>
       </div>
@@ -260,12 +162,18 @@
           <div class="content-view">
             <div class="conent-left-view">
               <div class="title-view" v-if="content.title.length > 0">{{content.title}}</div>
-              <div class="title-view" v-else>这是名称</div>
-              <div class="left-price-view" v-show="content.price && content.priceStatus ===1 ">
-                <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price }}
+              <div class="title-view" v-else>显示名称</div>
+              <div class="left-price-view" v-show="content.priceStatus === 1">
+                <span v-if="content.price">
+                  <span style="font-size: 14px;display:inline-block;margin-right:4px">¥</span>{{ content.price}}
+                </span>
+                <span v-else>
+                  <span>售价</span>
+                </span>
               </div>
-              <div class="left-orgian-view" v-show="content.originalPrice && content.originalPriceStatus === 1">
-                原价：¥{{ content.originalPrice }}
+              <div class="left-orgian-view" v-show="content.originalPriceStatus === 1">
+                <span v-if="content.originalPrice">原价：¥{{ content.originalPrice }}</span>
+                <span v-else>原价</span>
               </div>
             </div>
             <div class="code-img-view">
@@ -302,18 +210,6 @@ export default {
       maxSize: 2,
       maxPrice: 999999999,
       miniList: [],
-      shopIdChecked: false,
-      shopIdVal: '',
-      internalIdChecked: false,
-      internalIdVal: '',
-      externalIdChecked: false,
-      externalIdVal: '',
-      memberIdChecked: false,
-      memberIdVal: '',
-      memberUserIdChecked: false,
-      memberUserIdVal: '',
-      materialIdChecked: false,
-      materialIdVal: '',
       defaultCodeUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/defaultCodeUrl@@32f02ec7-a959-4b02-b893-bf7f6d5fe423.jpg',
       defaultUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/message/202111/80000002/image-code-def@@e321db41-7eec-4269-bde8-53fcea0c7865.jpg',
@@ -367,10 +263,10 @@ export default {
       },
       rules: {
         title: [
-          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在100个字符以内' },
+          { required: true, trigger: ['blur', 'change'], message: '请输入名称，长度在36个字符以内' },
           { validator: (rule, value, callback) => {
-            if (value.length > 100) {
-              callback(new Error('名称长度在100个字符以内'))
+            if (value.length > 36) {
+              callback(new Error('名称长度在36个字符以内'))
             } else {
               callback()
             }
@@ -419,7 +315,7 @@ export default {
   computed: {
     compPath () {
       let arr = []
-      for (const item of this.content.presetParams) {
+      for (const item of this.presetParams) {
         arr.push(item.paramCode + '=' + '{' + item.paramName + '}')
       }
       if (arr.length > 0) {
@@ -436,6 +332,9 @@ export default {
     this.loadAppIds()
   },
   methods: {
+    changeUploadFile () {
+      this.$refs.drapUpload.loadUploadView()
+    },
     checkOriginalPricRules (rule, value, callback) {
       if (this.content.originalPriceStatus === 1) {
         const regex = /^(\d+)(.\d{0,2})?$/g
@@ -488,6 +387,14 @@ export default {
         target.scrollTop = target.scrollHeight
       }, 0)
     },
+    channelInputLimit (e) {
+      let key = e.key
+      if (key === 'e') {
+        e.returnValue = false
+        return false
+      }
+      return true
+    },
     originalPriceChange (e) {
       if (this.content.codeStyle === 0) {
         this.goodsCache.originalPrice = e
@@ -510,6 +417,8 @@ export default {
       }
     },
     outerIdChange (e) {
+      // const str = e.replace(/[\u4e00-\u9fa5]/ig, '')
+      // this.content.outerId = str
       if (this.content.codeStyle === 0) {
         this.goodsCache.outerId = e
       } else if (this.content.codeStyle === 1) {
@@ -524,11 +433,13 @@ export default {
       }
     },
     handleCodeStyle (index) {
+      this.content.codeStyle = index
       let cacheObj = {}
       if (index === 0) {
         cacheObj = this.goodsCache
       } else if (index === 1) {
         cacheObj = this.miniCache
+        this.content.itemName = ''
       }
       this.content.path = cacheObj.path
       this.content.outerId = cacheObj.outerId
@@ -539,31 +450,24 @@ export default {
       this.content.priceStatus = cacheObj.priceStatus
       this.content.originalPriceStatus = cacheObj.originalPriceStatus
     },
-    showImageCode () {
+    showImageCode (item) {
       this.visible = true
       this.content.presetParams = this.presetParams
       this.loadAppIds()
-      // if (this.miniList.length > 0) {
-      //   this.content.appid = this.miniList[0].appid
-      // }
+      if (item) {
+        this.content = { ...item.content }
+        if (this.content.codeStyle === 0) {
+          this.goodsCache = { ...this.content }
+        } else if (this.content.codeStyle === 1) {
+          this.miniCache = { ...this.content }
+        }
+      }
     },
     toBlackPage (key) {
       window.open(this.urlObj[key], '_blank')
     },
     initData () {
       this.saveLoad = false
-      this.shopIdChecked = false
-      this.shopIdVal = ''
-      this.internalIdChecked = false
-      this.internalIdVal = ''
-      this.externalIdChecked = false
-      this.externalIdVal = ''
-      this.memberIdChecked = false
-      this.memberIdVal = ''
-      this.memberUserIdChecked = false
-      this.memberUserIdVal = ''
-      this.materialIdChecked = false
-      this.materialIdVal = ''
       this.content = {
         path: '',
         title: '',
@@ -734,38 +638,6 @@ export default {
         const showInfo = document.querySelector('#show-info-view').getBoundingClientRect()
         this.content.watermarkSetting.gSeX = showInfo.right - codeImg.right + 1
         this.content.watermarkSetting.gSeY = showInfo.bottom - codeImg.bottom
-        // this.content.presetParams = []
-        // let guideId = {
-        //   paramCode: 'guideId',
-        //   paramName: 'guideId',
-        //   status: 1
-        // }
-        // let shopId = {
-        //   paramCode: 'shopId',
-        //   paramName: 'shopId',
-        //   status: 1
-        // }
-        // let workNumber = {
-        //   paramCode: 'workNumber',
-        //   paramName: 'workNumber',
-        //   status: 1
-        // }
-        // let outShopId = {
-        //   paramCode: 'outShopId',
-        //   paramName: 'outShopId',
-        //   status: 1
-        // }
-        // let materialId = {
-        //   paramCode: 'materialId',
-        //   paramName: 'materialId',
-        //   status: 1
-        // }
-        // this.content.presetParams.push(guideId)
-        // this.content.presetParams.push(shopId)
-        // this.content.presetParams.push(workNumber)
-        // this.content.presetParams.push(outShopId)
-        // this.content.presetParams.push(guideUserId)
-        // this.content.presetParams.push(materialId)
         let that = this
         this.saveLoad = true
         // let canvas = document.createElement('canvas')
@@ -796,7 +668,7 @@ export default {
               that.$emit('handleImageCode', false)
               that.visible = false
               that.initData()
-              that.$refs.ruleForm.resetFielxwds()
+              that.$refs.ruleForm.resetFields()
             })
             .catch(resp => {
               that.saveLoad = false
@@ -805,7 +677,9 @@ export default {
       }
     },
     selectShopGoods () {
-      this.$refs.selectGoods.showToggle()
+      if (this.content.codeStyle === 1) return
+      let obj = { codeTarget: this.content.sysItemId }
+      this.$refs.selectGoods.showToggle(obj)
     },
     selectShopInit () {
       this.content.bankId = ''
@@ -855,6 +729,51 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './styles/imageCode.css';
+.custom-reaio-view {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  color: #303133;
+  // margin-bottom: 20px;
+  .custom-radio-base {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    margin-right: 8px;
+    .custom-radio-base-name {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+  .select-shop-view {
+    width: 141px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    margin-right: 8px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 9px;
+    cursor: pointer;
+    .shop-name-text {
+      font-size: 14px;
+      color: #BFBFBF;
+      overflow: hidden;
+      word-break: break-all;
+      -webkit-line-clamp: 1;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+    .shop-true-name {
+      color: #595959;
+    }
+  }
+}
 .container-view {
   display: flex;
   flex-direction: row;
@@ -884,9 +803,6 @@ export default {
 .right-view {
   width: 45%;
   position: relative;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
   .show-info-view {
     position: absolute;
     top: 100px;
@@ -919,27 +835,11 @@ export default {
           font-weight: 600;
           width: 204px;
           margin-bottom: 8px;
-          // position: relative;
           overflow: hidden;
           text-align: justify;
           text-overflow: ellipsis;
-          // display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          // &::before{
-          //   content: '...';
-          //   position: absolute;
-          //   right: 0;
-          //   bottom: 0;
-          // }
-          // &::after{
-          //   content: "";
-          //   position: absolute;
-          //   right: 0;
-          //   width: 35px;
-          //   height: 35px;
-          //   background-color: white;
-          // }
         }
         .left-price-view {
           font-size: 20px;
@@ -974,13 +874,12 @@ export default {
   }
 }
 .mini-view {
-  font-size: 14px;
+  font-size: 12px;
   color: #0094fc;
   line-height: 22px;
   font-weight: 400;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 15px;
   margin-top: 5px;
   cursor: pointer;
@@ -1004,7 +903,7 @@ export default {
   }
 }
 .price-view {
-  margin-top: 16px;
+  margin-top: 10px;
   background: #f5f5f5;
   border-radius: 2px;
   width: 100%;
@@ -1013,6 +912,7 @@ export default {
   flex-direction: row;
   align-content: center;
   justify-content: space-between;
+  margin-bottom: 5px;
   .sub-title {
     height: 32px;
     line-height: 32px;
@@ -1023,7 +923,7 @@ export default {
 .parameter-view {
   background: #f5f5f5;
   width: 100%;
-  padding: 16px 16px 8px 16px;
+  padding: 16px 16px 16px 16px;
   margin-bottom: 8px;
   font-size: 14px;
   color: #595959;
@@ -1032,45 +932,11 @@ export default {
     color: #0094fc;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    font-size: 12px;
     cursor: pointer;
     .item-view {
       display: inline-block;
-      margin-left: 8px;
-    }
-  }
-  .path-para-view {
-    display: flex;
-    flex-direction: row;
-    font-size: 14px;
-    color: #595959;
-    justify-content: space-between;
-    align-content: center;
-    .path-left-view {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 130px;
-      height: 32px;
-      line-height: 32px;
-      .help-icon {
-        color: #8c8c8c;
-        margin-left: 5px;
-      }
-    }
-  }
-  .show-path-remind-view {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: row;
-    font-size: 12px;
-    color: #303133;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    .remid-right-view {
-      width: 60%;
-      text-align: center;
+      margin-right: 8px;
     }
   }
 }

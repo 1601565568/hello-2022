@@ -6,7 +6,8 @@ export enum ScWelcomeMessageType {
   Image,
   Video,
   Link,
-  MiniProgram
+  MiniProgram,
+  ImageCode
 }
 /**
  * 欢迎语附件类型对应Icon和标题
@@ -31,5 +32,9 @@ export const WelcomeMessageTypeTip = {
   [ScWelcomeMessageType.MiniProgram]: {
     tip: '小程序',
     icon: 'xiaochengxushouquan'
+  },
+  [ScWelcomeMessageType.ImageCode]: {
+    tip: '附码图片',
+    icon: 'fumatupian-2'
   }
 }

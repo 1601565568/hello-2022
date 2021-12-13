@@ -1,10 +1,10 @@
 <template>
-  <el-dialog
+   <el-dialog
     ref="tagArea"
     width="658px"
     :visible="visible"
     className="pitbit"
-    title="指南"
+    title="新增自建坑位"
     :tools="tools"
     :show-scroll-x="false"
     :close-on-click-modal="false"
@@ -13,8 +13,9 @@
     modal-append-to-body
     append-to-body
   >
-    <div>
-      <div class="guide-text">指南说明</div>
+    <div class="line-view-form">
+      <div class="guide-text">拍摄要求</div>
+      <div class="top-title-view">
         <el-input
           type="textarea"
           placeholder="请输入"
@@ -24,36 +25,40 @@
           class="input_textarea"
         >
         </el-input>
-    </div>
-    <div>
-      <div class="guide-text">示意图</div>
-      <div class="upload-view">
-        <div v-if="pitUrl" style="width:114px;height:114x;position:relative;">
-          <div class="guide-mask">
-            <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
-          </div>
-          <img :src="pitUrl" style="width:114px;height:114px;border-radius: 4px; object-fit: cover;" />
-        </div>
-        <div v-else class="show-uploader-view">
-          <el-upload
-            class="library-guide"
-            :action="this.$api.core.sgUploadFile('image')"
-            :on-success="handleGuideSuccess"
-            :before-upload="beforeAvatarUpload"
-            :show-file-list="false"
-          >
-            <div style="width:114px;height:114x;position:relative;">
-              <div class="library-select-guide-uploader" slot="reference">
-                <div class="el-upload--picture-card">
-                  <Icon type="plus" />
-                </div>
-              </div>
-            </div>
-          </el-upload>
-        </div>
       </div>
     </div>
-    <div slot="footer" class="dialog-footer">
+    <div class="line-view-form">
+      <div class="guide-text">拍摄示意图</div>
+      <div>
+        <div class="upload-view">
+          <div v-if="pitUrl" style="width:114px;height:114x;position:relative;">
+            <div class="guide-mask">
+              <Icon type="ns-delete" style="font-size:18px;" @click="removeGuideImage" />
+            </div>
+            <img :src="pitUrl" style="width:114px;height:114px;border-radius: 4px; object-fit: cover;" />
+          </div>
+          <div v-else class="show-uploader-view">
+            <el-upload
+              class="library-guide"
+              :action="this.$api.core.sgUploadFile('image')"
+              :on-success="handleGuideSuccess"
+              :before-upload="beforeAvatarUpload"
+              :show-file-list="false"
+            >
+              <div style="width:114px;height:114x;position:relative;">
+                <div class="library-select-guide-uploader" slot="reference">
+                  <div class="el-upload--picture-card">
+                    <Icon type="plus" />
+                  </div>
+                </div>
+              </div>
+            </el-upload>
+          </div>
+        </div>
+        <div class="remind-upload-text">上传拍摄示意图，提供拍摄参考。上传限制：小于2M，jpg、png、jpeg格式 </div>
+      </div>
+    </div>
+    <div slot="footer">
       <ns-button @click="close">取消</ns-button>
       <ns-button @click="confirm" type="primary">确定</ns-button>
     </div>
@@ -137,22 +142,30 @@ export default {
 </script>
 
 <style scoped>
+>>> .el-dialog__header {
+  height: 65px;
+  font-weight: 500;
+}
 /* @import '@theme/variables.pcss'; */
-@import '../styles/image.css';
+/* @import '../styles/image.css'; */
+.line-view-form {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 24px;
+}
 .top-title-view {
-  width: 540px;
-  height: 144px;
-}
-.library-image {
-  >>> .el-form-item--small.el-form-item  {
-    margin-bottom: 24px;
-  }
-  >>> .w-textarea{
-    margin-bottom: 0;
+  width: 548px;
+  height: 140px;
+  >>> .input_textarea {
+    height: 140px;
+    font-size: 14px;
   }
 }
-.library-image{
-  /* padding-top: 12px; */
+.remind-upload-text {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
+  margin-top: 8px;
 }
 .guide-text {
   height: 22px;
@@ -161,7 +174,7 @@ export default {
   line-height: 22px;
   font-weight: 400;
   margin-bottom: 8px;
-  margin-top: 16px;
+  width: 78px;
 }
 .input_textarea{
   height: 102px;
@@ -220,9 +233,6 @@ export default {
   }
 }
 
-.dialog-footer {
-  margin-top: 47px;
-}
 .diag-view {
   width: 72px;
   height: 32px;

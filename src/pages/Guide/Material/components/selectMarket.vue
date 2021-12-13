@@ -48,7 +48,7 @@
         >
         <el-table-column  width="30">
           <template slot-scope="scope">
-              <el-radio :label="scope.row.activityId" v-model="market.activityId" ></el-radio>
+              <el-radio :label="scope.row.activityId" v-model="activityId" ></el-radio>
           </template>
         </el-table-column>
         <!-- <el-table-column  label="活动类型" align="left" >
@@ -115,15 +115,21 @@ export default {
       wechatPageUrlList: [],
       dialogImageUrl: '',
       groudList: [{ name: '多人拼团', type: 2 }, { name: '满减送', type: 3 }, { name: '秒杀', type: 4 }],
-      dialogVisible: false
+      dialogVisible: false,
+      activityId: ''
     }
   },
   methods: {
     selectCurrentChange (currentRow) {
       this.market = currentRow || {}
     },
-    showToggle (obj) {
+    showToggle (obj = {}) {
       this.dialogVisible = true
+      if (obj.codeTarget && obj.codeTarget.length > 0) {
+        this.activityId = obj.codeTarget
+      } else {
+        this.activityId = ''
+      }
       this.loadListFun()
     },
     handleSelectionChange (val) {
@@ -136,6 +142,7 @@ export default {
       this.handleClose()
     },
     handleClose () {
+      this.activityId = ''
       this.dialogVisible = false
       this.$refs.searchform.resetFields()
     },
@@ -148,6 +155,13 @@ export default {
           that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null
+        }
+        if (this.dataList && this.activityId) {
+          const isSelect = (item) => item.activityId === this.activityId
+          const index = this.dataList.findIndex(isSelect)
+          if (index !== -1) {
+            this.market = this.dataList[index]
+          }
         }
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('查询失败', resp))

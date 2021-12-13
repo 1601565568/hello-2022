@@ -171,6 +171,9 @@ export default {
     }
   },
   methods: {
+    loadUploadView () {
+      this.$refs.upload.$children[0].$refs.input.click()
+    },
     getFileName (url) {
       return fileName(url)
     },
