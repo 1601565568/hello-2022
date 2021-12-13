@@ -81,6 +81,22 @@
     height: 32px;
     line-height: 32px;
   }
+  >>> .el-input-number.is-controls-right .el-input--medium .el-input__inner {
+    height: 32px;
+    line-height: 32px;
+  }
+  >>> .el-input-number--medium {
+    line-height: 34px;
+  }
+  >>> .el-input-number.is-controls-right[class*=medium] [class*=increase], .el-input-number.is-controls-right[class*=medium] [class*=decrease] {
+    line-height: 15px;
+  }
+  >>> .el-input-number.is-controls-right .el-input-number__decrease {
+    bottom: 2px;
+  }
+  >>> .el-input-number__increase {
+    top: 2px;
+  }
   >>> .is-controls-right .el-input--medium .el-input__inner {
     height: 36px;
     line-height: 36px;
@@ -132,6 +148,9 @@
         display: none;
       }
     }
+  }
+  >>> .el-avatar > img {
+    margin: auto;
   }
 }
 /* 表格 */

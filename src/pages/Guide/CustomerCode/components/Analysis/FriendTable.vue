@@ -2,7 +2,7 @@
   <page-table>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="所属员工：">
+        <el-form-item label="添加员工：">
           <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
@@ -49,6 +49,51 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="employeeName"
+            label="好友添加员工">
+            <template slot-scope="scope">
+              <div class="scope-title_text" v-if="scope.row.addOfflineShops">
+                <div class="scope-name">
+                  <div :class="'scope-name_text'+ (scope.row.addOfflineShops.split(',').length>10?' more':'')" >
+                    {{scope.row.addEmployeeName}}({{scope.row.addOfflineShops}})
+                  </div>
+                  <el-popover
+                    placement="top-start"
+                    class="item"
+                    width="200"
+                    trigger="hover"
+                    :content="scope.row.addOfflineShops">
+                    <span class="scope-name_tip" slot="reference">共{{scope.row.addOfflineShops.split(',').length}}个</span>
+                  </el-popover>
+                </div>
+              </div>
+              <div class="scope-title_text" v-else>
+                <div class="scope-name">
+                  <div :class="'scope-name_text'" >
+                    {{scope.row.addEmployeeName}}
+                  </div>
+                  <el-popover
+                    placement="top-start"
+                    class="item"
+                    width="200"
+                    trigger="hover"
+                    content="">
+                    <span class="scope-name_tip" slot="reference">共0个</span>
+                  </el-popover>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="employeeNumber"
+            label="工号">
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.addEmployeeNumber|| '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="promotionName"
             label="裂变大师">
             <template slot-scope="scope">
@@ -62,12 +107,12 @@
           </el-table-column>
           <el-table-column
             prop="employeeName"
-            label="所属员工">
+            label="裂变大师所属员工">
             <template slot-scope="scope">
-              <div class="scope-title_text">
+              <div class="scope-title_text" v-if="scope.row.offlineShops">
                 <div class="scope-name">
-                  <div :class="'scope-name_text'+ (scope.row.offlineShops.length>10?' more':'')" >
-                    {{scope.row.employeeName}}({{scope.row.offlineShops.join(',')}})
+                  <div :class="'scope-name_text'+ (scope.row.offlineShops.split(',').length>10?' more':'')" >
+                    {{scope.row.employeeName}}({{scope.row.offlineShops}})
                   </div>
                   <el-popover
                     placement="top-start"
@@ -75,11 +120,26 @@
                     width="200"
                     trigger="hover"
                     :content="scope.row.offlineShops">
-                    <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops ? scope.row.offlineShops.length:0}}个</span>
+                    <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops.split(',').length}}个</span>
                   </el-popover>
                   <!-- <div class="scope-name_num">
                     共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
                   </div> -->
+                </div>
+              </div>
+              <div class="scope-title_text" v-else>
+                <div class="scope-name">
+                  <div :class="'scope-name_text'" >
+                    {{scope.row.employeeName}}
+                  </div>
+                  <el-popover
+                  placement="top-start"
+                  class="item"
+                  width="200"
+                  trigger="hover"
+                  content="">
+                  <span class="scope-name_tip" slot="reference">共0个</span>
+                </el-popover>
                 </div>
               </div>
             </template>
@@ -135,7 +195,8 @@ export default {
         timeEnd: null,
         employeeName: null,
         guideIds: null,
-        guestCodeId: this.$route.query.guestCodeId
+        guestCodeId: this.$route.query.guestCodeId,
+        type: 1
       },
       exportState: true,
       validTimeStart: this.$route.query.validTimeStart,

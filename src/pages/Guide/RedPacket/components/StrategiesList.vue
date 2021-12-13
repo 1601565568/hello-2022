@@ -1,19 +1,20 @@
 <template>
-  <div class='strategies-container'>
-    <div class='blue-tip'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
+  <div class='strategies-container' v-loading='!loaded'>
+    <div class='blue-tip' v-if='isFormCustomCode'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的活动发放红包</div>
+    <div class='blue-tip' v-else>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
     <div class='dialog'>
       <div class='dialog-list'>
         <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
-        <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='height:400px'>
+        <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='min-height:400px;height:400px'>
           <template v-for='item in _data._table.data'>
             <div :key='item.id' class='radio-item'>
               <el-radio :value="checkItem.id" :label="item.id" @change='handleChangeCheckItem(item)'>{{item.name}}</el-radio>
             </div>
           </template>
         </el-scrollbar>
-        <template v-else>
+        <template v-else-if='loaded'>
           <img :src='nodatabox' class='empty-img'>
           <p class='empty-text'>没有数据哦～</p>
         </template>
@@ -29,7 +30,7 @@
           <div class='packet-detail'>剩余个数：{{checkItem.remainder}}个</div>
           <div class='packet-detail' v-if='checkItem.redpackType === normalRed'>单个金额：{{checkItem.money/100 | moneyStr}}元</div>
           <div class='packet-detail' v-else>红包金额：{{checkItem.moneyMin/100 | moneyStr}}-{{checkItem.moneyMax/100 | moneyStr}}元（员工自定义）</div>
-          <div class='packet-detail'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>
+          <div class='packet-detail' v-if='!isFormCustomCode'>发放上限：{{checkItem.everyoneLimit ? `${checkItem.everyoneLimit}个/人/日` : '不限'}}</div>
         </div>
       </div>
     </div>
@@ -67,15 +68,29 @@ export default {
       luckyRed,
       diyRed,
       nodatabox,
-      timeTypeForever
+      timeTypeForever,
+      loaded: false
     }
   },
-  props: ['chooseItem'],
+  props: {
+    chooseItem: {},
+    isFormCustomCode: {
+      default: false
+    },
+    extModel: {
+      default () {
+        return {}
+      }
+    }
+  },
   components: { RedPacket },
   mixins: [tableMixin],
   mounted () {
-    this.checkItem = this.chooseItem
-    this.$reload()
+    this.checkItem = { ...this.chooseItem }
+    this.model = { ...this.model, ...this.extModel }
+    this.$queryList$(this.$generateParams$()).then(() => {
+      this.loaded = true
+    })
   },
   methods: {
     handleChangeCheckItem (value) {
@@ -100,6 +115,7 @@ export default {
     box-sizing: border-box;
     padding: 16px 40px 16px 6px;
     position: relative;
+    min-height: 428px;
     &:after {
       content: ' ';
       position: absolute;

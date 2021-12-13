@@ -91,10 +91,16 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="inviteFriendNumber"
-            align='center'
-            sortable="custom"
-            label="邀请好友总数">
+            prop="inviteFriendNumber" align='center'>
+            <template slot='header'>
+              添加好友总数
+              <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                <Icon type="question-circle"  class='question-circle'/>
+                <template slot='content'>
+                  添加该导购为好友的人数
+                </template>
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
               <ns-button type='text' @click="handleShowFriend(scope.row, scope.$index)">{{scope.row.inviteFriendNumber}}</ns-button>
             </template>

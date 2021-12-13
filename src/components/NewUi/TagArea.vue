@@ -130,7 +130,7 @@ export const toolFn = {
       const regexp = new RegExp(pre + item.id + after, 'g')
       string = string.replace(
         regexp,
-        `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
+        `<wise id="${toolFn.getGuid()}" class="${item.id}">${item.value}</wise>`
       )
     })
     return string.replace(/\n/g, '<br/>')
@@ -256,12 +256,16 @@ export default {
   computed: {
     count () {
       // 字符长度记数
-      let num = this.maxlength - this.currentText.length
+      let currentTextLength = this.currentText.length
+      if (this.$refs[this.className] && this.$refs[this.className].innerHTML && this.$refs[this.className] && this.$refs[this.className].innerHTML === '<br>') {
+        currentTextLength -= 1
+      }
+      let num = this.maxlength - currentTextLength
       let text =
         num < 0
           ? `已超出${Math.abs(num)}个字符`
-          : `${this.currentText.length}/${this.maxlength}`
-      this.$emit('inputLength', this.currentText.length)
+          : `${currentTextLength}/${this.maxlength}`
+      this.$emit('inputLength', currentTextLength)
       return { num, text }
     },
     contenteditable () {

@@ -41,6 +41,17 @@
                   </template>
                 </el-table-column>
                 <el-table-column
+                  prop="friendName"
+                  label="添加员工">
+                  <template slot-scope="scope">
+                    <div class="scope-title">
+                      <div class="scope-title_text">
+                        {{scope.row.addEmployeeName|| '-'}}
+                      </div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
                   prop="addTime"
                   sortable="custom"
                   label="最近添加好友时间">
