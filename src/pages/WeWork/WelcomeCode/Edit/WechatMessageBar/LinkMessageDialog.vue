@@ -25,7 +25,7 @@
         </el-popover>
       </div>
     </template> -->
-    <div class="link-container-view">
+    <div class="link-container-view" v-if="visible">
       <div class="link-left-view">
         <el-form
           ref="searchform"
