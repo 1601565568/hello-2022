@@ -160,7 +160,6 @@
       </el-form-item>
       <el-form-item
         label="自动打标签"
-        required
       >
         <div class='item-box low-bottom'>
           <template v-for="(tagItem, tagkey) in tagConf">
