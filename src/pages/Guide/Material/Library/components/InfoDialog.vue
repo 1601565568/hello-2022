@@ -16,9 +16,9 @@
         <div class="u_main">
           <div class="u_box" v-for="(item, index) in metailInfo.mediaList" :key="index" :class="{'t_box': item.type !== 0 && item.type !== 1}">
             <div class="u_imgList" v-if="item.type === 0 || item.type == 1">
-              <img v-if="item.type == 1" :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
+              <img :src='(item.content.pitUrl || item.content.image) || defaultImgUrl'
               @click="showPreview(index, item, metailInfo)" alt="">
-              <img v-else :src="item.content.image" alt="">
+              <!-- <img v-else :src="item.content.image" alt=""> -->
             </div>
             <div v-if="item.type === 2" class="u_videoList">
               <div>
@@ -93,6 +93,8 @@ export default {
           videoList.push(item.content.video)
         } else if (item.type === 1) {
           imgs.push(item.content.image)
+        } else if (item.type === 0) {
+          imgs.push(item.content.pitUrl)
         }
       })
       if (row.type === 2) {
