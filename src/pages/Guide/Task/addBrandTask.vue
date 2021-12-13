@@ -32,7 +32,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
               <NsButton @click="() => closeSaveTips(false)" >取消</NsButton>
-              <NsButton type="primary" @click="closeSaveTips(true)" >确认</NsButton>
+              <NsButton type="primary" @click="closeSaveTips(true)" >保存</NsButton>
             </span>
           </el-dialog>
         </div>
@@ -174,7 +174,7 @@
                     <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:5px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
                     <span slot="footer" class="dialog-footer">
                       <NsButton @click="closeTips" >无需预算</NsButton>
-                      <NsButton type="primary" @click="goBudget(model.subgroupId)" >立即预算</NsButton>
+                      <NsButton type="primary" @click="goBudget(model.subgroupId)" style="margin: 0 6px 0 16px" >立即预算</NsButton>
                     </span>
                   </el-dialog>
                    <div v-if="model.viewId&&model.subgroupId" class="succFont">
