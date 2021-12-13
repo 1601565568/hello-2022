@@ -402,24 +402,26 @@ export default {
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
             // this.showSubgroupMsg(this.model.subgroupId)
-            this.$http
-              .fetch(this.$api.guide.queryExpectTime, { subdivisionId: this.model.subgroupId })
-              .then(resp => {
-                if (resp.success) {
-                  const needTime = +resp.result.cost
-                  if (needTime >= 60 && needTime < 3600) {
-                    this.model.cost = `${Math.ceil(needTime / 60)}分钟`
-                  } else if (needTime > 3600) {
-                    this.model.cost = `${(needTime / 3600).toFixed(1)}小时`
-                  } else if (needTime < 60) {
-                    this.model.cost = `${needTime}秒`
+            if (obj.areaId) {
+              this.$http
+                .fetch(this.$api.guide.queryExpectTime, { subdivisionId: this.model.subgroupId })
+                .then(resp => {
+                  if (resp.success) {
+                    const needTime = +resp.result.cost
+                    if (needTime >= 60 && needTime < 3600) {
+                      this.model.cost = `${Math.ceil(needTime / 60)}分钟`
+                    } else if (needTime > 3600) {
+                      this.model.cost = `${(needTime / 3600).toFixed(1)}小时`
+                    } else if (needTime < 60) {
+                      this.model.cost = `${needTime}秒`
+                    }
+                    this.model.isClickBudget = true
                   }
-                  this.model.isClickBudget = true
-                }
-              })
-              .catch(resp => {
-                this.$notify.error('获取预算时间失败', resp)
-              })
+                })
+                .catch(resp => {
+                  this.$notify.error('获取预算时间失败', resp)
+                })
+            }
 
             if (obj.areaId) {
               this.chooseArea(obj.areaId)
