@@ -59,8 +59,26 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="guideName">
+            <template slot='header'>
+              成功邀请/扣减好友数
+              <el-tooltip  effect='light' popper-class='popperClass' placement="top">
+                <Icon type="question-circle"  class='question-circle'/>
+                <template slot='content'>
+                  成功邀请数：有效的成功邀请人数（已扣除“扣减好友数”）<br />
+                  扣减好友数：因活动规则解除好友后扣除的好友数
+                </template>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <div class="scope-title_text">
+                {{scope.row.friendsCount||0}}/{{scope.row.unfriendsCount||0}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="recruitment"
-            label="达标人数">
+            label="达标门槛">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.recruitment|| '-'}}

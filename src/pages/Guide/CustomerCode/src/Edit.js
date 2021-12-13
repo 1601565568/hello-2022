@@ -1,5 +1,6 @@
 import validates from './validates'
 import { formatePageObj, formatModel, formatCustomComponent, formatPrizeModel, formatModelSave, RichText, defBanner, defGoodsUrl, defRegUrl, defPosters, defCardImg } from '../util/Edit'
+import { EDIT_DATA, DEFAULT_DATA } from './const'
 import moment from 'moment'
 export default {
   data () {
@@ -14,6 +15,9 @@ export default {
     }
     return {
       normalDesc: '你好， {EXTERNAL_CONTACT_NICK} , 我是{USER_NICK}恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加{USER_NICK}为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：2020-03-03~2020-03-13\n点击以下链接可查询助力进展哦！{PROMOTION_URL}\n注册会员也可享受会员专属礼哦\n点击立即入会：{RECRUIT_URL}\n快去分享你的专属海报 ↓↓',
+      NsAddTagDialogVisible: false, // 打标模态框
+      NsAddTagDialogColumn: '', // 正在打标的字段
+      tagList: [],
       collapseList: [1, 2, 3, 4],
       customerLoading: false,
       guestCodeId: null,
@@ -55,8 +59,34 @@ export default {
         prizeSendPlan: 1, // 奖品发放方案：0：不发放；1：普通奖励（只能领取一个）
         prizeRuleList: [], // 奖励规则集，奖励机制启用后，该值不能为空
         validTimeEnd: '', // 活动有效时间结束
-        validTimeStart: '' // 活动有效时间结束
+        validTimeStart: '', // 活动有效时间结束
+        // 数据安全
+        // distinctType: 0, // 去重方式：0=不去重；1=全局去重；2=活动内去重；
+        // unfriendDeduction: 0, // 解除好友关系是否扣减好友数：0=不扣减；1扣减
+        // validIntervalTimeOfStatistical: 0, // 统计的有效间隔时间(统计时效)：0=立即生效；>0 =间隔该时间后生效
+        // repeatParticipation: 0 // 是否允许重复参与：0=允许；1=不允许
+        ...DEFAULT_DATA,
+        // 自动打标
+        tags: {
+          count: 10,
+          addValidFriendTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          beGuestCodeTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          noStandardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          standardTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          noReceiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ],
+          receiveRewardsTags: [ { level: 1, tag: '', tagGroupId: '' } ]
+        }
       },
+      staircase: [ '一', '二', '三', '四', '五' ],
+      allTagGroupIds: [], // 所有的tagGroupId，用于计算tags.count
+      tagConf: [
+        { key: 'addValidFriendTags', label: '自动打标签', tip: '在裂变活动中，通过去重规则后新增的好友', stairPrefix: '自动打标梯度' },
+        { key: 'beGuestCodeTags', tip: '成为裂变大师后自动打标签', stairPrefix: '成为大师梯度', help: '分享裂变海报的客户即自动成为裂变大师' },
+        { key: 'noStandardTags', tip: '活动结束后，裂变未达标', stairPrefix: '未达标阶梯' },
+        { key: 'standardTags', tip: '活动结束后，裂变达标', stairPrefix: '阶梯' },
+        { key: 'noReceiveRewardsTags', tip: '活动结束后，裂变达标但未领取奖励', stairPrefix: '未领阶梯' },
+        { key: 'receiveRewardsTags', tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励' }
+      ],
       // 校验规则
       rules: {
         name: [
@@ -93,6 +123,19 @@ export default {
         ],
         effectiveCycle: [
           { required: true, message: '请填写过期时间', trigger: ['blur', 'change'] }
+        ],
+        validIntervalTimeOfStatistical: [
+          {
+            validator: (rule, value, callback) => {
+              if ((!value && value !== 0) || value < 0 || value > 9999) {
+                callback(new Error(`请输入0～9999的整数`))
+              } else {
+                callback()
+              }
+            },
+            message: '请输入0～9999的整数',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       // 用户信息排列方式
@@ -144,6 +187,7 @@ export default {
           goodsName: '',
           goodsDes: ''
         },
+        isOnlyReceiveByMember: 0,
         rules: '',
         regUrl: defRegUrl,
         share: {
@@ -202,6 +246,22 @@ export default {
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
       ]
       return tools
+    },
+    // 数据安全去重方式提示
+    dedupWay () {
+      return EDIT_DATA.DEDUP_WAY[this.model.distinctType] || {}
+    },
+    // 打开选择tag的模块框时，要回显选中的标签
+    activeSelectedTags () {
+      if (!this.NsAddTagDialogColumn) return ''
+      const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
+      return this.model[tags][tagKey][index].tag
+    },
+    tagConfShowList () {
+      if (this.eidtList[3].status) {
+        return this.tagConf.slice(0)
+      }
+      return this.tagConf.slice(0, 2)
     }
   },
   mounted () {
@@ -222,6 +282,45 @@ export default {
     }
   },
   methods: {
+    updateStair (type) {
+      if (type === 'add') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.push({ level: noStandardTags.length + 1, tag: '', tagGroupId: '' })
+        standardTags.push({ level: standardTags.length + 1, tag: '', tagGroupId: '' })
+        noReceiveRewardsTags.push({ level: noReceiveRewardsTags.length + 1, tag: '', tagGroupId: '' })
+      } else if (type === 'del') {
+        const { noStandardTags, standardTags, noReceiveRewardsTags } = this.model.tags
+        noStandardTags.pop()
+        standardTags.pop()
+        noReceiveRewardsTags.pop()
+      }
+    },
+    openAddTagDialog (tag) {
+      this.NsAddTagDialogVisible = true
+      this.NsAddTagDialogColumn = tag
+    },
+    // 确认选择的tag
+    confirmSelectedTag (info) {
+      const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
+      const tagItem = this.model[tags][tagKey][index]
+      tagItem.tag = info.tagIds.join(',')
+      tagItem.tagGroupId = info.tagGroupIds.join(',')
+
+      this.NsAddTagDialogColumn = ''
+    },
+    totalTagCount () {
+      let tagGroupId = ''
+      for (const key in this.model.tags) {
+        if (key !== 'count') {
+          const tag = this.model.tags[key]
+          tag.forEach(item => {
+            if (item.tagGroupId) tagGroupId += `,${item.tagGroupId}`
+          })
+        }
+      }
+      tagGroupId = tagGroupId.slice(1)
+      return tagGroupId ? Array.from(new Set(tagGroupId.split(','))).length : 0
+    },
     showDefPosters () {
       this.model.backgroundPic = defPosters
     },
@@ -250,8 +349,14 @@ export default {
         }
       }
     },
-    inputEffectiveCycle (e) {
-      this.model.effectiveCycle = e.target.value.replace(/[^\d]/g, '')
+    inputEffectiveCycle (e, name, max) {
+      let value = ''
+      if (typeof e === 'object') {
+        value = e.target.value.replace(/[^\d]/g, '')
+      } else {
+        value = e.replace(/[^\d]/g, '')
+      }
+      this.model[name] = max && max < value ? max : value
     },
     showDefaultText (introText = this.defauletWelcome) {
       const str = this.$refs.tagAreaText.stringTohtml(introText)
@@ -303,9 +408,19 @@ export default {
     formatSettingType (code) {
       return formatCustomComponent(code)
     },
-    // handleChangePopoverShow (popoverShow = !this.popoverShow) {
-    //   this.popoverShow = popoverShow
-    // },
+    swtichRewardStatus (status, code) {
+      if (code === 'reward') {
+        // 关闭活动奖励模块，清除打标组数据
+        if (status === 0) {
+          this.tagConf.slice(2).forEach(item => {
+            this.model.tags[item.key].forEach(iten => {
+              iten.tag = ''
+              iten.tagGroupId = ''
+            })
+          })
+        }
+      }
+    },
     /**
      * 打开选择品牌模态框
      */
@@ -348,7 +463,7 @@ export default {
       // 是否可以在未开始活动编辑奖励
       this.isSetPrize = !!(result.status === 1 && this.guestCodeId)
       // this.fileList = [{ name: result.backgroundPic }]
-      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel) }
+      this.pageObj = { ...formatePageObj(this.eidtList, this.prizeModel), isOnlyReceiveByMember: result.isOnlyReceiveByMember || 0 }
       this.$nextTick(() => {
         this.isLoading = true
         if (this.$refs.colorView) {
@@ -393,6 +508,18 @@ export default {
         qrcodeX: params.left,
         qrcodeY: params.top
       }
+    },
+    // 数据与安全模块字段检验
+    verifySafeData () {
+      return new Promise((resolve, reject) => {
+        this.$refs.datasafeForm.validate((valid) => {
+          if (valid) {
+            resolve()
+          } else {
+            reject(new Error('数据与安全校验失败'))
+          }
+        })
+      })
     },
     // 保存
     async handleSave () {
@@ -486,7 +613,7 @@ export default {
       }
       const activeItem = this.eidtList[3]
       let ruleForm4
-      if (activeItem.status === 1 && (!this.isEdit || this.copyGuestCodeId.length > 0)) {
+      if (activeItem.status === 1 && (!this.isEdit || this.copyGuestCodeId > 0)) {
         ruleForm4 = this.$refs.componentList[2].validateRules()
         let prizeRuleListObj = this.model.prizeRuleList[0] || {}
         if (!prizeRuleListObj.recruitment) {
@@ -558,6 +685,7 @@ export default {
       if (shareItem.status === 1) {
         checksRules.push(ruleForm6)
       }
+      await this.verifySafeData()
       const checks = await Promise.all(checksRules)
       if (checks.length === checksRules.length) {
         // this.model = formatModel(this.model, this.eidtList, this.pageObj, this.showColor)
@@ -566,7 +694,7 @@ export default {
         const saveRules = this.$refs.tagAreaText.htmlToString(this.pageObj.rules)
         this.model = formatModelSave(this.model, saveIntro, saveRules, guestCodeId, this.eidtList)
         const headPosition = this.headPosition[this.model.headerType]
-        const data = { ...this.model, ...headPosition }
+        const data = { ...this.model, ...headPosition, tags: { ...this.model.tags, count: this.totalTagCount() } }
         this.$http.fetch(this.$api.guide.customerCode.saveOrUpdate, data).then(res => {
           this.$notify.success('保存成功')
           this.handleCancel()

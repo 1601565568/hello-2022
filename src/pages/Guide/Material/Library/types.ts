@@ -6,7 +6,8 @@ export enum WelcomeMessageType {
   Image,
   Video,
   Link,
-  MiniProgram
+  MiniProgram,
+  ImageCode
 }
 
 /**
@@ -32,5 +33,9 @@ export const WelcomeMessageTypeTip = {
   [WelcomeMessageType.MiniProgram]: {
     tip: '小程序',
     icon: 'xiaochengxushouquan'
+  },
+  [WelcomeMessageType.ImageCode]: {
+    tip: '附码图片',
+    icon: 'fumatupian-02'
   }
 }

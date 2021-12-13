@@ -1,4 +1,7 @@
 import { getErrorMsg } from '@/utils/toast'
+import guidePng from '../images/guide.png'
+import shopPng from '../images/shop.png'
+
 export default {
   data () {
     return {
@@ -12,25 +15,62 @@ export default {
           extra: 'checkbox_button'
         }
       ],
+      noticeList: [
+        {
+          value: '一：导购招募成功通知',
+          key: 'guideMsgCfg'
+        },
+        {
+          value: '二：门店招募成功通知',
+          key: 'shopManageMsgCfg'
+        }
+      ],
+      noticeOptions: [
+        { key: 'name', label: '会员姓名' },
+        { key: 'time', label: '入会时间' },
+        { key: 'memberCard', label: '会员卡号' },
+        { key: 'mobile', label: '联系方式' },
+        { key: 'shopName', label: '专属门店' }
+      ],
       noHaveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingHave.png',
       haveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingNo.png',
       previewVisin: false,
-      mpFollowState: true,
-      btnLoad: false
-      // result: {} // 保存初始接口数据不做处理
+      previewNoticeVisin: false,
+      noticeImg: '',
+      btnLoad: false,
+      model: {
+        mpFollowState: 0,
+        guideMsgCfg: {
+          state: 0,
+          name: 0,
+          time: 0,
+          memberCard: 0,
+          mobile: 0,
+          shopName: 0
+        },
+        shopManageMsgCfg: {
+          state: 0,
+          name: 0,
+          time: 0,
+          memberCard: 0,
+          mobile: 0,
+          shopName: 0
+        }
+      }
     }
   },
   computed: {
     showImg () {
-      return this.mpFollowState ? this.haveImg : this.noHaveImg
+      return this.model.mpFollowState ? this.haveImg : this.noHaveImg
     }
   },
-  mounted () {
+  created () {
     this.$http.fetch(this.$api.guide.recruitPageConfig.getInfo).then(res => {
       if (res.success) {
-        const { mpFollowState } = res.result
-        // this.result = res.result
-        this.mpFollowState = !!mpFollowState
+        const { mpFollowState, guideMsgCfg, shopManageMsgCfg } = res.result
+        if (mpFollowState) this.model.mpFollowState = mpFollowState
+        if (guideMsgCfg) this.model.guideMsgCfg = guideMsgCfg
+        if (shopManageMsgCfg) this.model.shopManageMsgCfg = shopManageMsgCfg
       }
     })
   },
@@ -38,9 +78,25 @@ export default {
     handlePreview () {
       this.previewVisin = true
     },
+    handlePreviewNotice (key) {
+      this.previewNoticeVisin = true
+      if (key === 'guideMsgCfg') this.noticeImg = guidePng
+      if (key === 'shopManageMsgCfg') this.noticeImg = shopPng
+    },
+    changeState (key, state) {
+      // const reset = (val) => {
+      //   for (const col in this.model.guideMsgCfg) {
+      //     if (col !== 'state') {
+      //       this.model[key][col] = val
+      //     }
+      //   }
+      // }
+      // if (state === 1) reset(1)
+      // if (state === 0) reset(0)
+    },
     handleSave () {
       this.btnLoad = true
-      this.$http.fetch(this.$api.guide.recruitPageConfig.mpFollowStateChange, { mpFollowState: +this.mpFollowState }).then((res) => {
+      this.$http.fetch(this.$api.guide.recruitPageConfig.mpFollowStateChange, this.model).then((res) => {
         if (res.success) {
           this.$notify.success('修改成功')
         } else {

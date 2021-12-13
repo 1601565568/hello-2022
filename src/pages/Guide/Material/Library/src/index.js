@@ -86,7 +86,11 @@ export default {
         subdivisionId: '',
         mType: '',
         codeType: '',
-        time: []
+        time: [],
+        outerId: '',
+        shelfTime: '',
+        endTime: '',
+        currentStatus: ''
       },
       // table列表配置
       table: {
@@ -208,7 +212,7 @@ export default {
       filterValue: '',
       queryNum: 0,
       // 搜索时，排除文件夹的字段
-      excludeQuery: ['content', 'subdivisionId', 'mType'],
+      excludeQuery: ['content', 'subdivisionId', 'mType', 'outerId', 'currentStatus'],
       queryLoading: null,
       selectItem: {},
       materialScriptId: 0,
@@ -271,6 +275,25 @@ export default {
     }
   },
   methods: {
+    currentStatusChange (item) {
+      item.currentStatus = item.currentStatus === '1' ? '2' : '1'
+      // const currentStatus = item.currentStatus === '1' ? '2' : '1'
+      this.$http
+        .fetch(this.$api.guide.updateCurrentStatus, {
+          id: item.id,
+          currentStatus: item.currentStatus
+        })
+        .then(resp => {
+          this.$notify.success('素材状态设置成功')
+          this.loadList()
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('素材状态设置失败', resp))
+        })
+        .finally(() => {
+          //
+        })
+    },
     strToRichText (text) {
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
@@ -472,6 +495,18 @@ export default {
         params.timeEnd = moment(params.time[1]).format('YYYY-MM-DD HH:mm:ss')
       }
       delete params.time
+      if (params.shelfTime && params.shelfTime.length === 2) {
+        params.shelfTimeStart = moment(params.shelfTime[0]).format('YYYY-MM-DD HH:mm:ss')
+        params.shelfTimeEnd = moment(params.shelfTime[1]).format('YYYY-MM-DD HH:mm:ss')
+      }
+      delete params.shelfTime
+
+      if (params.endTime && params.endTime.length === 2) {
+        params.endTimeStart = moment(params.endTime[0]).format('YYYY-MM-DD HH:mm:ss')
+        params.endTimeEnd = moment(params.endTime[1]).format('YYYY-MM-DD HH:mm:ss')
+      }
+      delete params.endTime
+
       this.searchObj.searchMap = params
       this.pagination.page = 1
       this.reloadList()
@@ -635,7 +670,12 @@ export default {
       this.$http
         .fetch(this.$api.guide.batchDeleteMaterial, { itemList })
         .then(resp => {
-          this.$notify.success('删除成功')
+          // 特殊场景 一半成功 一半失败
+          if (resp && resp.code === '202') {
+            this.$notify.error(getErrorMsg('删除失败', resp))
+          } else {
+            this.$notify.success(resp.msg || '删除成功')
+          }
           this.selectRows = []
           this.loadList()
         })

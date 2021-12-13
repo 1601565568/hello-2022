@@ -1,6 +1,8 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import backIcon from '../Images/icon-fanhuishangyiji.png'
+import { ANALYSIS_DATE, DEFAULT_DATA } from './const'
+
 export default {
   data () {
     return {
@@ -45,7 +47,7 @@ export default {
           key: 'inviteFriendNumber'
         },
         {
-          label: '达标总人数',
+          label: '当前达标总人数',
           value: 0,
           id: 'prize',
           key: 'reachStandardNumber'
@@ -61,10 +63,22 @@ export default {
       chooseMaster: {}, // 选中的推广大使
       chooseFriend: {}, // 选中的邀请好友
       showType: 'master', // 弹出框显示的内容
-      backIcon: backIcon
+      backIcon: backIcon,
+      totalData: DEFAULT_DATA
     }
   },
   mixins: [tableMixin],
+  computed: {
+    // 邀请好友总数 tip展示
+    inviteFriendTip () {
+      const { distinctType, unfriendDeduction, validIntervalTimeOfStatistical, repeatParticipation } = this.totalData
+      return '1.通过此活动新增好友数总和。' + '<br />' +
+      '2.' + ANALYSIS_DATE.DISTINC_TYPE[distinctType] + '<br />' +
+      '3.' + ANALYSIS_DATE.UNFRIEND_DEDUCTION[unfriendDeduction] + '<br />' +
+      '4.' + ANALYSIS_DATE.VALID_INTERVAL_TIME_OF_STATISTICAL(validIntervalTimeOfStatistical) + '<br />' +
+      '5.' + ANALYSIS_DATE.REPEACT_PARTICIPATION[repeatParticipation]
+    }
+  },
   methods: {
     // 获取列表统计
     getDataTotal () {
@@ -81,13 +95,15 @@ export default {
               employeeNumber: 0,
               inviteFriendNumber: 0,
               promotionMasterNumber: 0,
-              reachStandardNumber: 0
+              reachStandardNumber: 0,
+              ...DEFAULT_DATA
             }
           } = res
           this.typeList = this.typeList.map(item => ({
             ...item,
             value: result[item.key]
           }))
+          this.totalData = result
         })
         .catch(res => {
           this.$notify.error(res.msg)

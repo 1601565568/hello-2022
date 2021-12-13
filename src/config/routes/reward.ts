@@ -55,6 +55,12 @@ export default {
           component: () => import('@/pages/WeWork/MaterialChat/index.vue')
         },
         {
+          path: '/Social/OperationData/MaterialOperationChat',
+          name: 'MaterialOperationChat',
+          title: '素材库运营统计',
+          component: () => import('@/pages/WeWork/MaterialOperatChat/index.vue')
+        },
+        {
           path: '/Social/OperationData/NoStatistical',
           name: 'NoStatistical',
           title: '未执行统计',
