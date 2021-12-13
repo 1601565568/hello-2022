@@ -258,6 +258,7 @@ export default {
         }
       }
       this.model = Object.assign({}, this.model, { subgroupId })
+      this.dialogVisible = true
     },
     // 选择素材
     selectMaterialShowFun () {
