@@ -43,6 +43,8 @@ export default {
       // this.couponRadio = null
       this.model.couponTitle = null
       this.model.couponCode = null
+      this.couponRadio = null
+      this.couponMessage = null
       this.$searchAction$()
     },
     closeDialog () {

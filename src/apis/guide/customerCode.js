@@ -40,6 +40,11 @@ export default {
     url: `${prefix}getPromotionListByGuestCodeId`,
     method: 'post'
   },
+  // 查询裂变大师领取奖励明细列表
+  findAwardRecordTable: {
+    url: `${prefix}findAwardRecordTable`,
+    method: 'post'
+  },
   // 获取好友明细列表
   getFriendListByParam: {
     url: `${prefix}getFriendListByParam`,
@@ -95,6 +100,13 @@ export default {
   // 一客一码推广大师人员列表导出
   promotionListExport: {
     url: `${prefix}promotionListExport`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 领取记录明细导出
+  awardRecordTableExport: {
+    url: `${prefix}awardRecordTableExport`,
     method: 'post',
     responseType: 'blob',
     timeout: 600000

@@ -7,9 +7,9 @@
           :enterable="true"
           popper-class="table-body__tooltip"
         >
-          <div slot="content" v-html="strToRichText(data.content)"></div>
+          <div slot="content" v-html="strToRichText(data.content)" class="content-tooltip-view"></div>
           <div class="tableItem-content__ellipsis">
-            <EmojiText :text='data.content' />
+            <EmojiText :text='data.content' />111
           </div>
           <!-- <div class="tableItem-content__ellipsis">{{ data.content }}</div> -->
         </el-tooltip>
@@ -190,6 +190,18 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
+.content-tooltip-view {
+  max-height: 100px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #9093994d;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 6px;
+  }
+}
 .tableItem-content___box{
   position: relative;
 }

@@ -12,8 +12,8 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：" prop="dealUserName">
-          <el-input ref="quickText" style="width: 200px" v-model="model.dealUserName" placeholder="请输入操作人姓名" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
+        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：" prop="operatorName">
+          <el-input ref="quickText" style="width: 200px" v-model="model.operatorName" placeholder="请输入操作人姓名" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button><!-- @keyup.enter.native="$searchAction$()" -->
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -34,13 +34,13 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="$searchAction$()" class="surround-btn"
                :model="model" :rules="rules" :inline="true">
-        <el-form-item label="操作人：" prop="dealUserName">
+        <el-form-item label="操作人：" prop="operatorName">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.dealUserName" placeholder="请输入操作人姓名" clearable>
+            <el-input  type="text" v-model="model.operatorName" placeholder="请输入操作人姓名" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="转移类型：" prop="transferType">
+        <!-- <el-form-item label="转移类型：" prop="transferType">
           <el-form-grid size="xmd" >
             <el-select  v-model="model.transferType" filterable clearable placeholder="请选择转移方式">
               <el-option label="后台客户列表转移" value="0"></el-option>
@@ -50,7 +50,7 @@
               <el-option label="商城会员自主转移" value="4"></el-option>
             </el-select>
           </el-form-grid>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="转移时间：" prop="timeRange">
           <el-form-grid size="xlg">
             <el-date-picker
@@ -90,16 +90,22 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserName" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="taskId" align="left"
+                         label="转移批次号" :sortable="false" width="180">
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="operatorName" align="left"
                          label="操作人姓名" :sortable="false" width="180">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserId" align="right"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="operator" align="right"
                          label="操作人ID" :sortable="false" width="160">
+          <template slot-scope="scope">
+            <span>{{scope.row.operator || '-'}}</span>
+          </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferNum" align="right"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="taskCount" align="right"
                          label="转移人数" :sortable="false" width="150">
           <template slot-scope="scope">
-            <a href="javascript:" @click="showListDialog(scope.row.transferId)">{{scope.row.transferNum}}</a>
+            <a href="javascript:" @click="showListDialog(scope.row)">{{scope.row.taskCount}}</a>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"

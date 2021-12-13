@@ -13,7 +13,7 @@
       <div class="content clearfix">
         <div class="searchAction">
           <div class="searchAction_top">
-            <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
+            <el-form ref="table_filter_form" :model="model"  :inline="true">
                 <el-form-item label="门店名称：">
                   <el-form-grid v-if='dialogVisible'>
                     <ns-droptree :defaultExpandAll='true' ref="shopCateTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode"  :multiple="false" v-model="param.shopArea"  :clearable='!areaId'></ns-droptree>

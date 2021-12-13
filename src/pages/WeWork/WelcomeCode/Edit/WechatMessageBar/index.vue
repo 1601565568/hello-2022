@@ -19,7 +19,7 @@
       </ImageMessage>
     </div>
     <div v-if="pitBit" class="add-material-item" @click="showImageCode">
-      <i class="iconfont icon-fumatupian icon" style="font-size:30px;"></i>
+      <i class="iconfont icon-fumatupian-copy icon" style="font-size:40px;"></i>
       <span class="item-tip">附码图片</span>
     </div>
     <div class="add-material-item">
@@ -75,8 +75,6 @@
       @update:visible="pitbitMsg = null"
     />
     <ImageCode
-      :visible.sync="visibleImageCodeDialog"
-      @handleImageCode="handleImageCode"
       @confirm="addMessage"
       ref='imagecode'
     />
@@ -134,6 +132,7 @@ export default {
       miniProgramMsg: null,
       posterMsg: null,
       pitbitMsg: null,
+      imageCodeMsg: null,
       visibleImageCodeDialog: false
     }
   },
@@ -183,6 +182,7 @@ export default {
       if (this.miniProgramMsg) msg = this.miniProgramMsg
       if (this.posterMsg) msg = this.posterMsg
       if (this.pitbitMsg) msg = this.pitbitMsg
+      if (this.imageCodeMsg) msg = this.imageCodeMsg
       // 新增时，添加sop活动类型
       let type
       if (msg.type === undefined && !this.pitBit) {
@@ -241,6 +241,10 @@ export default {
         case tType.Pitbit:
           this.pitbitMsg = context
           this.visiblePitbitMessageDialog = true
+          break
+        case tType.ImageCode:
+          this.imageCodeMsg = context
+          this.$refs.imagecode.showImageCode(context)
           break
         default:
           break

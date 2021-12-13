@@ -171,6 +171,9 @@ export default {
     }
   },
   methods: {
+    loadUploadView () {
+      this.$refs.upload.$children[0].$refs.input.click()
+    },
     getFileName (url) {
       return fileName(url)
     },
@@ -279,7 +282,7 @@ export default {
     },
     // 删除文件钩子
     handleRemove (file) {
-      if (!file || !this.isNeedCrop) {
+      if (!file) {
         this.$emit('input', '')
       }
     },

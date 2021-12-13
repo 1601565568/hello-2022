@@ -60,9 +60,13 @@
 .top-input-view >>> .el-textarea__inner::-webkit-input-placeholder {
   color:#BFBFBF;
 }
+.input_textarea >>>.el-textarea__inner{
+  width: 540px;
+  font-size: 14px;
+}
 
 .select-time-view >>> .el-date-editor.el-input {
-  width: 416px;
+  width: 425px;
   height: 32px;
 }
 .select-time-view >>> .el-input__suffix {
@@ -80,4 +84,36 @@
 
 >>> .el-radio__label, .el-checkbox__label{
   color:#606266;
+}
+
+.library-image-form {
+  >>> .el-form-item--small.el-form-item  {
+    margin-bottom: 24px;
+  }
+  >>> .w-textarea{
+    margin-bottom: 0;
+  }
+  >>> .el-form-item--small .el-form-item__label {
+    padding-right: 36px;
+    font-size: 14px;
+  }
+  >>> .el-radio__input.is-checked + .el-radio__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  >>> .el-radio__label, .el-checkbox__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+
+.run-item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+}
+
+.run-item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
 }
