@@ -559,7 +559,9 @@ export default {
             this.paginationToPerson.total = parseInt(resp.result.recordsTotal)
           }
         })
-        .catch(resp => {})
+        .catch(resp => {
+          this.$notify.error(resp.msg)
+        })
     }
   },
   mounted () {
