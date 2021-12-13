@@ -15,7 +15,6 @@
               v-model="activityIntroduction"
               tag="wise"
               ref="tagAreaText"
-              className="tagAreaText"
               :maxlength="100"
               :tools="tools"
               placeholder="请输入活动介绍"
@@ -74,14 +73,16 @@ export default {
         .fetch(this.$api.guide.shop.findEnterpriseMessage, {})
         .then(res => {
           if (res.success) {
-            const defStr = res.result || ''
+            const defStr = res.result || this.defaultWelcome
             if (defStr && defStr.length > 0) {
-              if (this.$refs.tagAreaText) {
-                const text = this.$refs.tagAreaText.stringTohtml(defStr)
-                this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
-                this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
-                this.activityIntroduction = defStr
-              }
+              this.$nextTick(() => {
+                if (this.$refs.tagAreaText) {
+                  const text = this.$refs.tagAreaText.stringTohtml(defStr)
+                  this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
+                  this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
+                  this.activityIntroduction = defStr
+                }
+              })
             }
           }
         })

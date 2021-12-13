@@ -559,7 +559,9 @@ export default {
             this.paginationToPerson.total = parseInt(resp.result.recordsTotal)
           }
         })
-        .catch(resp => {})
+        .catch(resp => {
+          this.$notify.error(resp.msg || '查询转移明细失败')
+        })
     }
   },
   mounted () {
