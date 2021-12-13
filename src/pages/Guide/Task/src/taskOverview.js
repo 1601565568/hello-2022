@@ -204,6 +204,7 @@ export default {
             if (obj.materialId) {
               this.taskMsg.materialId = obj.materialId
               this.taskMsg.materialTitle = obj.materialTitle
+              this.taskMsg.materialContent = obj.materialContent
               this.taskMsg.materialType = obj.materialType
               this.taskMsg.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
             }
