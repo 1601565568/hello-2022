@@ -94,12 +94,15 @@ export default {
         } else if (item.type === 1) {
           imgs.push(item.content.image)
         } else if (item.type === 0) {
-          imgs.push(item.content.pitUrl)
+          if (item.content.pitUrl) {
+            imgs.push(item.content.pitUrl)
+          }
         }
       })
       if (row.type === 2) {
         this.$refs.preview.toggleShow(0, videoList.filter(item => item !== ''), type)
       } else {
+        if (imgs.length === 0) return
         this.$refs.preview.toggleShow(0, imgs.filter(item => item !== ''), type)
       }
     },
