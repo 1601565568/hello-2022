@@ -152,7 +152,6 @@
                     :value='model.subgroupId'
                     placeholder='请选择会员分组'
                     @change='chooseSubgroup'
-                    @visible-change='openTips'
                     :disabled='canNotEdit'
                     style="margin-bottom:0px!important;"
                   >
@@ -171,7 +170,7 @@
                      width="480px"
                     custom-class='budgetTime'
                     :before-close="closeTips">
-                    <div style="display:flex;max-width:424px"><i class="el-icon-warning" style="color: #FFAA00; margin:1px 9px 0 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
+                    <div style="display:flex;max-width:424px;align-items:baseline"><i class="el-icon-warning" style="color: #FFAA00; margin:0 9px 7px"></i><div>成功获取会员分组名单后才可正常下发任务</div></div>
                     <span slot="footer" class="dialog-footer">
                       <NsButton @click="closeTips" >无需预算</NsButton>
                       <NsButton type="primary" @click="goBudget(model.subgroupId)" style="margin: 0 6px 0 16px" >立即预算</NsButton>
@@ -649,8 +648,7 @@ export default addBrandTask
 }
 .el-icon-warning:before{
   font-size: 14px;
-  vertical-align: sub;
-  line-height: 22px;
+  /* line-height: 22px; */
 }
 
 </style>
