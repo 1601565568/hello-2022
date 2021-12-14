@@ -5,7 +5,7 @@
     width="659px"
     :before-close="handleClose"
   >
-    <div class="content-view">
+    <div class="content-view" v-if="dialogVisible">
       <img class="bar-view" src="@/assets/sendMsgBar.jpg"/>
       <div class="send-msg-view">
         <img :src="userImg" class="left-img"/>
@@ -64,8 +64,7 @@ export default {
     }
   },
   mounted () {
-    this.activityIntroduction = this.defaultWelcome
-    this.loadDefMsg()
+    this.defaultText()
   },
   methods: {
     loadDefMsg () {
@@ -75,14 +74,7 @@ export default {
           if (res.success) {
             const defStr = res.result || this.defaultWelcome
             if (defStr && defStr.length > 0) {
-              this.$nextTick(() => {
-                if (this.$refs.tagAreaText) {
-                  const text = this.$refs.tagAreaText.stringTohtml(defStr)
-                  this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
-                  this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
-                  this.activityIntroduction = defStr
-                }
-              })
+              this.defaultText(defStr)
             }
           }
         })
@@ -102,11 +94,11 @@ export default {
       this.dialogVisible = true
       this.loadDefMsg()
     },
-    defaultText () {
-      this.activityIntroduction = this.defaultWelcome
+    defaultText (value = this.defaultWelcome) {
+      this.activityIntroduction = value
       this.$nextTick(() => {
         if (this.$refs.tagAreaText) {
-          const text = this.$refs.tagAreaText.stringTohtml(this.defaultWelcome)
+          const text = this.$refs.tagAreaText.stringTohtml(value)
           this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerHTML = text
           this.$refs.tagAreaText.currentText = this.$refs.tagAreaText.$refs[this.$refs.tagAreaText.className].innerText
         }

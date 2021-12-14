@@ -964,7 +964,7 @@ export default {
       }
     },
     replaceStoreonSave () {
-      this.onSave(2)
+      this.onSave(2, 'shopChange')
     },
     /**
      * @param {*} taskType
@@ -1006,7 +1006,7 @@ export default {
       this.transferSuccessMsg = msg
       this.onSave(1)
     },
-    onSave (taskType) {
+    onSave (taskType, changeType = 'guide') {
       var params
       if (taskType === 1 && this.recordChooseList.length === 0) {
         this.$notify.error('请先选择更换导购')
@@ -1027,6 +1027,9 @@ export default {
         customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList), // 客户选中列表
         transferRange: this.transferRange,
         transferSuccessMsg: this.transferSuccessMsg
+      }
+      if (changeType === 'shopChange') {
+        obj.transferRange = 1
       }
       if (taskType === 1) {
         params = {

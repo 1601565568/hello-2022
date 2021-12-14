@@ -114,7 +114,7 @@ export default {
       this.showBtn = false
       this.showLookBtn = false
       const str = TaskStatus.transferRange === 1 ? '更换专属导购' : '更换专属导购和企业微信好友关系'
-      let sucStr = TaskStatus.transferRange === 2 ? '；好友转移待24小时确认结果' : ''
+      let sucStr = TaskStatus.transferRange === 2 ? '；好友转移结果可在详情中查看' : ''
       if (TaskStatus.totalCount === 0) {
         content = `该门店会员正在${str},更换进度...`
       }

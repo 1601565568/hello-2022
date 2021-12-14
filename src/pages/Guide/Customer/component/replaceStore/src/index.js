@@ -52,7 +52,8 @@ export default {
         shopType: '',
         shopOptions: [],
         shopAreaTree: [],
-        allShopOptions: []
+        allShopOptions: [],
+        shopName: ''
       },
       shopId: '', // 记录门店勾选的状态
       options: [{
@@ -134,6 +135,7 @@ export default {
       } else {
         this.model = model
       }
+      this.model.shopName = this.departData.shopName || ''
       this.$searchAction$()
     },
     resetInputAction () {
@@ -145,6 +147,7 @@ export default {
       this.departData.shopArea = {}
       this.departData.value = ''
       this.departData.shopType = ''
+      this.departData.shopName = ''
       this.model = model
       this.$searchAction$()
     },
