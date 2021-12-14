@@ -63,6 +63,7 @@
                   :isButton="false"
                   :validNull="true"
                   :auth="false"
+                  :isOpenDialogAfterRequest='true'
                   btnTitle=""
                   type="text"
                   dialogTitle="选择员工"
