@@ -114,7 +114,7 @@ export default {
       this.showBtn = false
       this.showLookBtn = false
       const str = TaskStatus.transferRange === 1 ? '更换专属导购' : '更换专属导购和企业微信好友关系'
-      let sucStr = TaskStatus.transferRange === 2 ? '；好友转移待24小时确认结果' : ''
+      let sucStr = TaskStatus.transferRange === 2 ? '；好友转移结果可在详情中查看' : ''
       if (TaskStatus.totalCount === 0) {
         content = `该门店会员正在${str},更换进度...`
       }
@@ -134,11 +134,10 @@ export default {
         this.showLookBtn = true
         this.showBtn = true
         // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
-        let lessSubStr = '；好友转移结果可在详情中查看'
         if (TaskStatus.successCount === 0) {
-          lessSubStr = '；未进行好友转移'
+          sucStr = '；未进行好友转移'
         }
-        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + lessSubStr
+        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + sucStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
