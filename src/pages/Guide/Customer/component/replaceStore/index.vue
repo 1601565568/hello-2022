@@ -28,7 +28,8 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="门店类型："  style="margin-left: 10px;" label-width="75px">
+              <br/>
+              <el-form-item label="门店类型：" label-width="70px">
                  <el-select v-model="departData.shopType" placeholder="请选择">
                   <el-option
                     v-for="item in options"
@@ -37,6 +38,13 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
+              </el-form-item>
+              <el-form-item label="店铺名称："  style="margin-left: 10px;" label-width="70px">
+                <el-input
+                  v-model="departData.shopName"
+                  placeholder="请输入店铺名称"
+                  clearable
+                />
               </el-form-item>
           </el-form>
           <div>
