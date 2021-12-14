@@ -134,10 +134,11 @@ export default {
         this.showLookBtn = true
         this.showBtn = true
         // content = `该门店${TaskStatus.totalCount}个会员${str}情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人` + sucStr
+        let lessSubStr = '；好友转移结果可在详情中查看'
         if (TaskStatus.successCount === 0) {
-          sucStr = '；未进行好友转移'
+          lessSubStr = '；未进行好友转移'
         }
-        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + sucStr
+        content = `会员转移成功${TaskStatus.successCount}人，失败${TaskStatus.errorCount}人` + lessSubStr
       }
       if (
         TaskStatus.totalCount !== 0 &&
