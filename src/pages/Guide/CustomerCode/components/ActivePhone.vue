@@ -50,7 +50,7 @@
             <div class="time-view" :style="{background:showColor.mainColor + '66'}" v-show="isOpnePrize">
               <div class='ranklist' v-if='model.activeInfoList && model.activeInfoList.length > 1'>
                 <template v-for='item in model.activeInfoList'>
-                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.bgColor: '#fff'}" @click='handleChangeActiveId(item.prizeGrade)'>
+                  <div :class='"rankitem " + (activeId=== `tab${item.prizeGrade}` ? "active":"")' :key='item.prizeGrade' :style="{ color : activeId=== `tab${item.prizeGrade}` ? showColor.mainColor: showColor.strColor}" @click='handleChangeActiveId(item.prizeGrade)'>
                     <div class='rankname'>{{`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}`}}</div>
                     <div class='ranknum'>邀请{{item.recruitment}}人</div>
                   </div>
@@ -60,13 +60,13 @@
                 <div class="goods-view">
                   <img style="width: 90px;height: 90px;border-radius: 6px;" :src="activeInfo.image || defGoodsUrl" alt="" srcset="">
                   <div style="margin-left:8px;">
-                    <div class="goods-title">{{activeInfo.goodsName || '请输入商品名称'}}</div>
-                    <div class="goods-desc">{{activeInfo.goodsDes || '请输入商品描述'}}</div>
+                    <div class="goods-title">{{activeInfo.goodsName || '请输入奖品名称'}}</div>
+                    <div class="goods-desc">{{activeInfo.goodsDes || '请输入奖品简介'}}</div>
                   </div>
                 </div>
                 <div class="progress-view">
                   <div style="margin-bottom:0px;">
-                    <div class="tip-view" :style="{background:showColor.mainColor}">已邀请5人</div>
+                    <div class="tip-view" :style="{background:showColor.mainColor,color:showColor.strColor}">已邀请5人</div>
                     <div class="triangle-down" :style="{borderTopColor: showColor.mainColor}"></div>
                   </div>
                   <div class="cus-progress-view">
@@ -82,7 +82,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor}">领取奖励</div>
+                <div class="get-view" :style="{background:model.getBtnColor || showColor.mainColor,color: showColor.strColor}">领取奖励</div>
                 <div class="get-number-view" v-show="parseInt(model.virtualFinishedCount) > 0">
                   <div class="number-img">
                     <div v-for="(item,index) in imgs.slice(0,parseInt(model.virtualFinishedCount) > 3 ? 3 : parseInt(model.virtualFinishedCount))" :key="index">
@@ -169,7 +169,7 @@
             </div>
           </div>
           <div class="share-view" v-show="eidtList[MODULE_TO_INDEX_MAP.shareButton].status === 1">
-            <div class="share-button" :style="{background:model.shareBtnColor}">{{model.shareBtnText}}</div>
+            <div class="share-button" :style="{background:model.shareBtnColor,color:showColor.strColor}">{{model.shareBtnText}}</div>
           </div>
         </div>
       </template>
@@ -489,7 +489,7 @@ export default {
   display: flex;
   flex-direction: row;
   padding-bottom: 16px;
-  border-bottom: 1px dashed #959595;
+  border-bottom: 1px dashed #E8E8E8;
   margin-bottom: 16px;
 }
 .goods-title {

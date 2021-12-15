@@ -4,7 +4,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="参与员工：">
-            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide" :isOpenDialogAfterRequest='true'>
               <template slot='selfBtn'>
                 <div class='self-btn'>
                   {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}

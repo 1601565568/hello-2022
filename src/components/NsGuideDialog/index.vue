@@ -27,7 +27,21 @@
   <div>
     <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()">
       <template v-if="selfBtn">
-        <slot name='selfBtn'></slot>
+        <!-- 需要接口返回后才展示点击按钮 start -->
+        <template v-if='isOpenDialogAfterRequest'>
+          <template v-if='requestLoaded'>
+            <slot name='selfBtn'></slot>
+          </template>
+          <template v-else>
+            <ns-button type='text' :loading='true' style='margin-right:10px'>加载中</ns-button>
+          </template>
+        </template>
+        <!-- 需要接口返回后才展示点击按钮 end -->
+        <!-- 老版逻辑直接显示点击按钮 start -->
+        <template v-else>
+          <slot name='selfBtn'></slot>
+        </template>
+        <!-- 老版逻辑直接显示点击按钮 start -->
       </template>
       <template v-else>
        <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}

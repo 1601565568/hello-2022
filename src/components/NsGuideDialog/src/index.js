@@ -79,6 +79,12 @@ export default {
     showTitleTip: {
       type: Boolean,
       default: false
+    },
+    // 裂变大师临时修改,匹克数据太大导致接口回来之前弹框卡死 design by mzm
+    // 是否需要等待接口返回后才展示弹框
+    isOpenDialogAfterRequest: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -133,7 +139,8 @@ export default {
         total: 0
       },
       isCheckAll: false,
-      loading: true
+      loading: true,
+      requestLoaded: false // 区域树是否加载完成
     }
   },
   computed: {},
@@ -162,6 +169,9 @@ export default {
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
+      if (this.isOpenDialogAfterRequest && !this.requestLoaded) {
+        return
+      }
       vm.visible = true
       vm.isCheckAll = false
       vm.$nextTick(function () {
@@ -277,6 +287,9 @@ export default {
           } else {
             that.shopOptions = resp.result.shopOptions
           }
+          this.$nextTick(() => {
+            this.requestLoaded = true
+          })
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
