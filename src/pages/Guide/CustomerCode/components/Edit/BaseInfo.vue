@@ -23,13 +23,6 @@
           />
         </el-form-item>
         <el-form-item label="参加活动人员" prop="guideIds">
-          <!-- <div class="flex-box form-item_toptext">
-            <span>选择的员工可以在企微侧边栏使用该裂变大师活动</span>
-            <span class="form-item_toptext__length"
-              >已选<span>{{ model.guideIds.length }}</span
-              >人</span
-            >
-          </div> -->
           <html-area>
             <div class="employee-list">
               <template v-if="model.guideDatas.length > 0">
@@ -77,10 +70,6 @@
               </div>
             </template>
           </html-area>
-          <!-- <div class="qrcode-bottom-view">
-            <span class="remind-view"></span>
-            选择的员工可以在企微侧边栏使用该裂变大师活动
-          </div> -->
           <div class="flex-box form-item_toptext">
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
@@ -90,6 +79,51 @@
               >已选<span>{{ model.guideIds.length }}</span
               >人</span
             >
+          </div>
+        </el-form-item>
+        <el-form-item label="参加活动人员" prop="guideIds">
+          <html-area>
+            <div class="employee-list">
+              <template v-if="model.guideDatas.length">
+                <template v-for="(item) in model.guideDatas">
+                  <div class="employee-list_item" :key="item.id">
+                    {{ item.name }}
+                  </div>
+                </template>
+                <span
+                  class="employee-list_all"
+                  v-if="model.guideDatas.length > 0"
+                >
+                  <i class="el-icon-close" @click="handleDelectAll()"></i>
+                </span>
+              </template>
+              <template v-else>
+                <p class="employee-text">
+                  请选择可以在企微侧边栏使用该活动裂变大师的员工
+                </p>
+              </template>
+            </div>
+            <template slot="suffix">
+              <div class="employee-suffix">
+                <NsGuideV2Dialog
+                  :visible.sync="NsGuide2DialogVisible"
+                  :appendToBody="true"
+                  :rawInput="5"
+                  v-model="model.guideIds"
+                  @rawList="handleChangeGuide"
+                />
+                <Icon class="" type="geren" @click="NsGuide2DialogVisible = true"></Icon>
+              </div>
+            </template>
+          </html-area>
+          <div class="flex-box form-item_toptext">
+            <div class="qrcode-bottom-view">
+              <span class="remind-view"></span>
+              选择的员工可以在企微侧边栏使用该裂变大师活动
+            </div>
+            <span class="form-item_toptext__length">
+              已选<span>{{ model.guideIds.length }}</span>人
+            </span>
           </div>
         </el-form-item>
         <el-form-item label="有效时间" required prop="validTimeType" class='larger-item'>
@@ -153,7 +187,7 @@ import Box from '@/components/NewUi/Box'
 import LengthInput from '@/components/NewUi/LengthInput'
 import HtmlArea from '@/components/NewUi/HtmlArea'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import TagArea from '@/components/NewUi/TagArea'
+import NsGuideV2Dialog from '@/components/NsGuideV2Dialog'
 import moment from 'moment'
 import { DEFAULT_BASEINFO_DATA, STEP_LIST, GUIDE_MAX } from '../../src/const'
 import validates from '../../src/validates'
@@ -169,6 +203,8 @@ export default {
       }
     }
     return {
+      NsGuide2DialogVisible: false,
+      NsGuideV2DialogVisible: false,
       model: { ...DEFAULT_BASEINFO_DATA },
       rules: {
         name: [
@@ -192,7 +228,7 @@ export default {
   },
   props: ['data', 'isStating'],
   components: {
-    Box, LengthInput, HtmlArea, NsGuideDialog
+    Box, LengthInput, HtmlArea, NsGuideDialog, NsGuideV2Dialog
   },
   methods: {
     handleChangeGuide (value) {
@@ -317,6 +353,10 @@ export default {
   margin-top: 3px;
   cursor: pointer;
 }
+.employee-selected-text {
+  font-size: 14px;
+  padding-bottom: 8px;
+}
 .employee-text {
   font-size: 14px;
   color: #bfbfbf;
@@ -346,7 +386,11 @@ export default {
   border-radius: 2px;
 }
 .employee-suffix {
-  color: #bfbfbf;
+  cursor: pointer;
+  min-width: 40px;
+  font-size: 12px;
+  color: #0392FB;
+  text-align: center;
 }
 .time-line-view {
   display: inline-block;
