@@ -14,17 +14,18 @@
       </el-tooltip>
     </div>
     <div
-      v-loading="mapLoading"
-      :element-loading-text="`${((Object.keys(selectedGuideIdMap).length / _data._pagination.total) * 100).toFixed(2)}%`"
+      v-loading="openLoading || mapLoading"
+      :element-loading-text="mapLoading ? `${((Object.keys(selectedGuideIdMap).length / _data._pagination.total) * 100).toFixed(2)}%` : ''"
     >
       <el-form class="el-form-reset" label-width="85px" inline>
         <el-form-item label="工作门店：">
           <ns-droptree
             placeholder="请选择区域"
             :multiple="false"
+            :data="shopAreaTree"
             v-model="shopArea"
             :clearable='false'
-            :defaultExpandAll='true'
+            @current-change="shopAreaChange"
           />
         </el-form-item>
         <el-form-item label="工作门店：">
@@ -39,9 +40,10 @@
         </el-form-item>
         <el-form-item label="选择部门：">
           <ns-droptree
-            :data="departmentOptions"
+            :data="departmentTree"
             :multiple="false"
-            v-model="model.empDepar"
+            v-model="department"
+            @input="(item) => { model.empDepar = item.value }"
             clearable
           />
         </el-form-item>
@@ -121,7 +123,7 @@
     </div>
     <div slot="footer" class="dialog-footer">
       <ns-button @click="close">取消</ns-button>
-      <ns-button type="primary" @click="confirm" :disabled="mapLoading">确定</ns-button>
+      <ns-button type="primary" @click="confirm" :disabled="openLoading || mapLoading">确定</ns-button>
     </div>
   </el-dialog>
 </template>
@@ -193,15 +195,18 @@ export default {
   data () {
     return {
       shopOptions: [], // 门店options
-      departmentOptions: [], // 可选部门options
+      allShopOptions: [], // 所有门店
+      shopAreaTree: [], // 区域树
+      departmentTree: [], // 部门树
 
-      shopArea: '',
-
+      openLoading: false,
       mapLoading: false,
       selectedGuideIdMap: {},
       showSelectedList: [],
       unShowSelectedList: [],
 
+      shopArea: {}, // 选择的区域，筛选门店
+      department: {}, // 选择的部门
       model: {
         empName: '', // 员工姓名
         job: null, // 导购类型 0 导购 1 店长
@@ -220,17 +225,22 @@ export default {
   computed: {},
   methods: {
     async open () {
+      this.openLoading = true
       this.url = this.guideUrl
       // 查询部门列表
       await this.getDepartmentList()
-      // 查询区域树列表
-      await this.getAreaList()
+      // 查询区域列表 以及 门店列表
+      await this.getShopAreaAndShopList()
       // 查询待选择数据
       await this.$reload()
       // 已选中勾选
       await this.initSelectedData(this.guideIds.length, 'open')
+      this.openLoading = false
     },
     close () {
+      this.openLoading = false
+      this.mapLoading = false
+      this.resetDialog()
       this.$emit('update:visible', false)
     },
     confirm () {
@@ -263,12 +273,25 @@ export default {
         this.showSelectedList.push(...showSelectedList)
       }
     },
+    // 改变区域 过滤门店列表
+    shopAreaChange (data) {
+      this.shopOptions = this.allShopOptions.filter(item => item.ext.indexOf(data.id) > -1)
+      this.model.shopId = ''
+    },
     // 搜索
     async search () {
       this.reload({ page: 1 })
     },
     // 重置
     reset () {
+      this.resetDialog()
+      this.reload({ page: 1 })
+    },
+    resetDialog () {
+      this.shopArea = {}
+      this.department = {}
+      this.shopOptions = this.allShopOptions
+
       this.model = {
         empName: '',
         job: null,
@@ -281,7 +304,6 @@ export default {
         fileImportKey: '',
         manualInputKey: ''
       }
-      this.reload({ page: 1 })
     },
     // 勾选一个
     selectOne (_, row) {
@@ -420,17 +442,48 @@ export default {
 
       this.mapLoading = false
     },
-    // API 获取所有区域
-    async getAreaList () {
+    // API 获取所有区域 和 门店
+    async getShopAreaAndShopList () {
+      const resp = await this.$http.fetch(this.$api.core.sysShop.getShopTree)
+      if (resp.success) {
+        this.shopAreaTree = this.getTree(resp.result.shopAreaTree, '0')
+        this.allShopOptions = resp.result.shopOptions
+        this.shopOptions = resp.result.shopOptions
+      } else {
+        this.$notify.error('查询部门树失败')
+      }
     },
     // API 获取所有部门
     async getDepartmentList () {
       const resp = await this.$http.fetch(this.$api.core.department.queryDepartmentTreeByYun)
       if (resp.success) {
-        this.departmentOptions = resp.result
+        this.departmentTree = [{ id: '0', parentId: '-1', label: '全部', children: this.getTree(resp.result, '0') }]
       } else {
         this.$notify.error('查询部门树失败')
       }
+    },
+    getTree (list, parentId) {
+      const parent = []
+      const child = []
+      for (const item of list) {
+        if (item.parentId === parentId) {
+          parent.push(item)
+        } else {
+          child.push(item)
+        }
+      }
+
+      if (parent.length) {
+        for (const item of parent) {
+          if (child.length) {
+            item.children = this.getTree(child, item.id)
+          } else {
+            item.children = []
+          }
+        }
+      }
+
+      return parent
     }
   }
 }

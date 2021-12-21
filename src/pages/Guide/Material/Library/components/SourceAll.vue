@@ -230,6 +230,69 @@
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button :style='catalogueStr ? "margin-left: 12px" : ""' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
+      <el-form-item class="remind-setting" label="提醒设置：">
+        <el-switch
+          :active-value="1"
+          :inactive-value="0"
+          v-model="model.notifyState"
+        ></el-switch>
+        <span class="add-tip label-gap" style="display:block;margin-top: 16px;">如开启，将通知员工有新的素材上架</span>
+      </el-form-item>
+      <el-form-item v-if="model.notifyState">
+        <el-form-item label-width="106px" label="提醒员工" prop="guideIdList" required>
+          <html-area style="position:relative;height: 32px;width: 540px">
+            <div class="employee-list">
+              <span class="selected-tip">
+                已选择<span class="selected-count">{{ model.guideIdList.length }}</span>人
+              </span>
+              <template v-if="guideDatas.length">
+                <div class="employee-list_item" v-for="item in guideDatas" :key="item.id">
+                  {{ item.name }}
+                </div>
+              </template>
+              <p v-else class="employee-text">
+                请选择员工
+              </p>
+              <span v-if="model.guideIdList.length > 5">...</span>
+            </div>
+            <template slot="suffix">
+              <div class="employee-suffix">
+                <NsGuideV2Dialog
+                  :visible.sync="NsGuide2DialogVisible"
+                  :appendToBody="true"
+                  :rawInput="5"
+                  v-model="model.guideIdList"
+                  @rawList="handleChangeGuide"
+                />
+                <Icon type="geren" @click="NsGuide2DialogVisible = true"></Icon>
+              </div>
+            </template>
+          </html-area>
+        </el-form-item>
+        <el-form-item label-width="106px" label="通知时间">
+          <el-radio-group v-model="model.notifyType">
+            <el-radio :label="0">上架即通知</el-radio>
+            <el-radio :label="1">自定义通知时间</el-radio>
+          </el-radio-group>
+          <div class="select-time-view" v-if="model.notifyType">
+            <span class="remind-text">通知时间</span>
+            <el-form-item prop="notifyTime" :rules="[
+              {required: model.notifyType ? true : false, message:'请选择通知时间', trigger: ['blur', 'change']},
+            ]">
+              <el-date-picker
+                v-model="model.notifyTime"
+                type="datetime"
+                size="large"
+                format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择通知时间"
+                :picker-options="notifyTimePickerOptions"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </div>
+        </el-form-item>
+      </el-form-item>
     </el-form>
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
@@ -250,6 +313,9 @@ import TagArea from '@/components/NewUi/TagArea'
 // import draggable from 'vuedraggable'
 import MessageList from './MessageList'
 import WechatMessageBar from '@/pages/WeWork/WelcomeCode/Edit/WechatMessageBar/index'
+import HtmlArea from '@/components/NewUi/HtmlArea'
+import NsGuideV2Dialog from '@/components/NsGuideV2Dialog'
+
 export default {
   name: 'imageform',
   components: {
@@ -259,9 +325,15 @@ export default {
     GuideInfo,
     TagArea,
     MessageList,
-    WechatMessageBar
+    WechatMessageBar,
+    HtmlArea,
+    NsGuideV2Dialog
   },
   props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    },
     labelList: {
       type: Array,
       default () {
@@ -283,6 +355,7 @@ export default {
   },
   data: function () {
     return {
+      NsGuide2DialogVisible: false,
       loading: false,
       wechatPageTypeList: [
         { name: '商城主页面', id: 1 },
@@ -310,7 +383,11 @@ export default {
         shelfType: 1,
         endType: 1,
         endTime: '',
-        shelfTime: ''
+        shelfTime: '',
+        notifyState: 0,
+        notifyType: 0,
+        guideIdList: [],
+        notifyTime: ''
       },
       rules: {
         name: [
@@ -326,7 +403,8 @@ export default {
             trigger: ['blur', 'change']
           }
         ],
-        mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }]
+        mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }],
+        guideIdList: { required: true, message: '请选择员工', trigger: ['blur', 'change'] }
       },
       mType: 1,
       imageNum: 9,
@@ -344,7 +422,8 @@ export default {
       pitContent: '',
       showMiniCode: false,
       isUploading: false,
-      disabledPicType: true
+      disabledPicType: true,
+      guideDatas: [] // 提醒设置，已选员工展示使用
     }
   },
   computed: {
@@ -368,6 +447,23 @@ export default {
     // 图片多选时，判断还能选择的张数
     limitImage () {
       return this.imageNum - this.mediaList.length
+    },
+    notifyTimePickerOptions () {
+      if (this.model.shelfType === 1) {
+        // 立即上架 通知时间需晚于当前时间
+        return {
+          disabledDate: (time) => {
+            return time < Date.now() - 3600 * 1000 * 24
+          }
+        }
+      } else {
+        // 自定义上架 通知时间需晚于上架时间
+        return {
+          disabledDate: (time) => {
+            return time < (new Date(this.model.shelfTime.slice(0, 10))).getTime() - 3600 * 1000 * 24
+          }
+        }
+      }
     }
   },
   watch: {
@@ -403,27 +499,33 @@ export default {
       },
       deep: true
     },
-    detail (newObj) {
-      const parentIds = newObj.parentPath.split('/')
-      const parentNames = newObj.parentPathName.split('/')
-      const tempModel = { ...newObj }
-      // Object.keys(this.model).forEach(k => {
-      //   tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-      //   // if (k === 'mediaList') {
-      //   //   tempModel[k] = tempModel[k].filter(v =>
-      //   //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
-      //   //   )
-      //   // }
-      // })
-      this.model = tempModel
-      // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
-      this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
-      this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
-      this.catalogue = parentIds.map((id, index) => ({
-        id: +id,
-        name: parentNames[index]
-      }))
-    },
+    detail: [
+      function (newObj) {
+        const parentIds = newObj.parentPath.split('/')
+        const parentNames = newObj.parentPathName.split('/')
+        const tempModel = { ...newObj }
+        // Object.keys(this.model).forEach(k => {
+        //   tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
+        //   // if (k === 'mediaList') {
+        //   //   tempModel[k] = tempModel[k].filter(v =>
+        //   //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
+        //   //   )
+        //   // }
+        // })
+        this.model = tempModel
+        // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
+        this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
+        this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
+        this.catalogue = parentIds.map((id, index) => ({
+          id: +id,
+          name: parentNames[index]
+        }))
+      },
+      async function getGuideList (newObj) {
+        const res = await this.$http.fetch(this.$api.core.sysUser.findByGuideIds, { userIds: newObj.guideIdList.slice(0, 5).join(',') })
+        this.guideDatas = res.result
+      }
+    ],
     'model.codeType' (newVal) {
       this.imageNum = newVal === 2 ? 8 : 9
     },
@@ -433,6 +535,10 @@ export default {
     }
   },
   methods: {
+    handleChangeGuide (value) {
+      this.guideDatas = value
+      this.$refs.form && this.$refs.form.validateField('guideIdList')
+    },
     dragUploadList (list) {
       this.model.mediaList = list
     },
@@ -744,6 +850,18 @@ export default {
       }
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.parentId = this.catalogue[this.catalogue.length - 1].id
+
+      if (!this.isEdit && this.model.notifyState === 1 && this.model.notifyType === 1) {
+        if (this.model.shelfType === 1 && new Date() > new Date(this.model.notifyTime)) {
+          // 立即上架
+          return this.$notify.warning('提醒时间需晚于当前时间')
+        }
+
+        if (this.model.shelfType === 0 && new Date(this.model.shelfTime) > new Date(this.model.notifyTime)) {
+          // 自定义上架时间
+          return this.$notify.warning('提醒时间需晚于素材上架时间')
+        }
+      }
 
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
@@ -1146,5 +1264,72 @@ export default {
     line-height: 32px;
     height: 32px;
   }
+}
+
+.remind-setting {
+  margin-bottom: 42px;
+}
+
+.employee-list {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 9px;
+  .selected-tip {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 12px;
+    color: rgba(0,0,0,0.45);
+    line-height: 20px;
+    .selected-count {
+      color: #0094FC;
+    }
+  }
+
+  .employee-list_item {
+    display: inline-block;
+    align-items: center;
+    background: #f5f5f5;
+    margin-right: 4px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    i {
+      margin-left: 4px;
+      cursor: pointer;
+      display: inline;
+    }
+  }
+  .employee-list_all {
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    color: #fff;
+    width: 18px;
+    text-align: center;
+    border-radius: 50%;
+    background: #8c8c8c;
+    margin-top: 3px;
+    cursor: pointer;
+  }
+  .employee-selected-text {
+    font-size: 14px;
+    padding-bottom: 8px;
+  }
+  .employee-text {
+    font-size: 14px;
+    line-height: 32px;
+    color: #bfbfbf;
+  }
+}
+.employee-suffix {
+  cursor: pointer;
+  min-width: 40px;
+  font-size: 12px;
+  color: #0392FB;
+  text-align: center;
 }
 </style>
