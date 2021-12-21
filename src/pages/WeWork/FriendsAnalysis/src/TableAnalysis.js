@@ -176,7 +176,41 @@ export default {
       tableData: [],
       echartList: [],
       currentPage: 0,
-      outputClickState: true
+      outputClickState: true,
+      dataList: [
+        {
+          key: 'chat_totals',
+          nick: '昨天好友总数',
+          value: 0
+        },
+        {
+          key: 'member_totals',
+          nick: '昨日净增人数',
+          value: 0
+        },
+        {
+          key: 'new_member_cnts',
+          nick: '昨日添加人数',
+          value: 0
+        },
+        {
+          key: 'member_loss_cnts',
+          nick: '昨日删除人数',
+          value: 0
+        },
+        {
+          key: 'member_loss_cnts_one',
+          nick: '昨日被删除人数',
+          value: 0
+        }
+      ],
+      colorList: [
+        'linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%)',
+        'linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%)',
+        'linear-gradient(270deg, #A0E35E 0%, #67C230 100%)',
+        'linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%)',
+        'linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%)'
+      ]
     }
   },
   watch: {
@@ -335,6 +369,11 @@ export default {
               deleteCount: deleteCount,
               beDeletedCount: beDeletedCount
             }
+            this.dataList[0].value = customerTotal || 0
+            this.dataList[1].value = increaseCount || 0
+            this.dataList[2].value = addCount || 0
+            this.dataList[3].value = deleteCount || 0
+            this.dataList[4].value = beDeletedCount || 0
           }
         })
       this.changeChartDataType()
