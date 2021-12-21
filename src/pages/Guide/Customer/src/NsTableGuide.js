@@ -321,7 +321,8 @@ export default {
           if (isShop) {
             this.totalNumTrige = addLabel
           }
-          data.label = showLabel + addLabel
+          // data.label = showLabel + addLabel
+          data.label = isShop ? showLabel + addLabel : showLabel
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
