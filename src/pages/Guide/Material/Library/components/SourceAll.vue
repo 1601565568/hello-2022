@@ -271,13 +271,13 @@
         </el-form-item>
         <el-form-item label-width="106px" label="通知时间">
           <el-radio-group v-model="model.notifyType">
-            <el-radio :label="0">上架即通知</el-radio>
-            <el-radio :label="1">自定义通知时间</el-radio>
+            <el-radio :label="1">上架即通知</el-radio>
+            <el-radio :label="2">自定义通知时间</el-radio>
           </el-radio-group>
-          <div class="select-time-view" v-if="model.notifyType">
+          <div class="select-time-view" v-if="model.notifyType === 2">
             <span class="remind-text">通知时间</span>
             <el-form-item prop="notifyTime" :rules="[
-              {required: model.notifyType ? true : false, message:'请选择通知时间', trigger: ['blur', 'change']},
+              {required: model.notifyType === 2 ? true : false, message:'请选择通知时间', trigger: ['blur', 'change']},
             ]">
               <el-date-picker
                 v-model="model.notifyTime"
@@ -385,7 +385,7 @@ export default {
         endTime: '',
         shelfTime: '',
         notifyState: 0,
-        notifyType: 0,
+        notifyType: 1,
         guideIdList: [],
         notifyTime: ''
       },
@@ -852,7 +852,7 @@ export default {
       params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
-      if (!this.isEdit && this.model.notifyState === 1 && this.model.notifyType === 1) {
+      if (!this.isEdit && this.model.notifyState === 1 && this.model.notifyType === 2) {
         if (this.model.shelfType === 1 && new Date() > new Date(this.model.notifyTime)) {
           // 立即上架
           return this.$notify.warning('提醒时间需晚于当前时间')
