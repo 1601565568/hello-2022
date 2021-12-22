@@ -240,7 +240,7 @@
       </el-form-item>
       <el-form-item v-if="model.notifyState">
         <el-form-item label-width="106px" label="提醒员工" prop="guideIdList" required>
-          <html-area style="position:relative;height: 32px;width: 540px">
+          <html-area style="position:relative;height: 32px;max-width: 540px">
             <div class="employee-list">
               <span class="selected-tip">
                 已选择<span class="selected-count">{{ model.guideIdList.length }}</span>人
@@ -449,6 +449,7 @@ export default {
       return this.imageNum - this.mediaList.length
     },
     notifyTimePickerOptions () {
+      if (this.isEdit) return {}
       if (this.model.shelfType === 1) {
         // 立即上架 通知时间需晚于当前时间
         return {
