@@ -322,7 +322,7 @@ export default {
             this.totalNumTrige = addLabel
           }
           // 特殊处理
-          let addText = isShop ? '' : '(已离职)'
+          let addText = data.status === 2 ? '(已离职)' : ''
           data.label = showLabel + addText + addLabel
         }
       }).catch((resp) => {
