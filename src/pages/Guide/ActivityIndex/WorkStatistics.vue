@@ -70,6 +70,8 @@
                     <div style="float: right;">
                         <NsGuideDialog
                         :isButton="false"
+                        :isNeedLink="true"
+                        :echoStore="true"
                         :validNull="true"
                         :auth="false"
                         type="primary"
@@ -143,6 +145,8 @@
                 <div style="float: right;">
                     <NsGuideDialog
                         :isButton="false"
+                        :isNeedLink="true"
+                        :echoStore="true"
                         :validNull="true"
                         :auth="false"
                         type="primary"
