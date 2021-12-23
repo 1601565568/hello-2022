@@ -312,7 +312,7 @@ export default {
             }
           }
           // 显示 total
-          var showLabel = data.label
+          let showLabel = data.label
           if (showLabel.indexOf('(') !== -1 && showLabel.indexOf(')') !== -1) {
             showLabel = showLabel.substring(0, showLabel.indexOf('('))
           }
@@ -321,7 +321,9 @@ export default {
           if (isShop) {
             this.totalNumTrige = addLabel
           }
-          data.label = showLabel + addLabel
+          // 特殊处理
+          let addText = isShop ? '' : '(已离职)'
+          data.label = showLabel + addText + addLabel
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
