@@ -815,8 +815,19 @@ export default {
       })
     },
     doSave () {
+      // 提醒设置更新
       this.model.shelfTime = this.model.shelfType === 1 ? '' : this.model.shelfTime
       this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
+      if (this.model.notifyState === 0) {
+        this.guideDatas = []
+        this.model = {
+          ...this.model,
+          notifyType: 1,
+          guideIdList: [],
+          notifyTime: ''
+        }
+      }
+
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.name = params.name.replace(/\s+/g, '')
       const obj = this.$refs.tagContent.count
