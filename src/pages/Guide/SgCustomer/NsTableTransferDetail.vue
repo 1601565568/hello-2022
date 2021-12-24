@@ -189,7 +189,10 @@
               >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{ scope.row.oldGuideName || '-'}}</div>
+                    <div>
+                      {{ scope.row.oldGuideName || '-'}}
+                      <span v-if="scope.row.status === 2">(已离职)</span>
+                    </div>
                     <el-popover
                       placement="bottom"
                       width="300"
