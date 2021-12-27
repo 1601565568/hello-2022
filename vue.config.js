@@ -19,6 +19,7 @@ module.exports = {
       .set('vue$', 'vue/dist/vue.js')
       .set(packageConfig.name, resolve(''))
       .set('@theme', resolve(`src/theme/${process.env.VUE_APP_THEME}`))
+      .set('@layout', resolve(`node_modules/@nascent/ecrp-ecrm/src/layout/${process.env.VUE_APP_LAYOUT}`))
   },
   devServer: {
     port: process.env.PORT,
