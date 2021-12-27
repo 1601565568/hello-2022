@@ -5,6 +5,7 @@
     width="659px"
     :before-close="handleClose"
   >
+    <div class="top-remind-view">企业微信组织架构删除的员工，无法发送设置的消息内容，将发送企业微信官方默认的消息。</div>
     <div class="content-view" v-if="dialogVisible">
       <img class="bar-view" src="@/assets/sendMsgBar.jpg"/>
       <div class="send-msg-view">
@@ -109,10 +110,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.top-remind-view {
+  margin-top: 10px;
+  font-size: 14px;
+  height: 39px;
+  background: #F2F9FE;
+  border-radius: 2px;
+  line-height: 39px;
+  text-align: center;
+}
 .content-view {
   background: #F2F2F2;
   margin-bottom: 28px;
-  margin-top: 28px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
   .bar-view {
