@@ -740,8 +740,19 @@ export default {
       }
       return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
     },
+    checkTableDataExists () {
+      if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
+        this.$notify.error('当前没有匹配的数据项')
+        return true
+      }
+      return false
+    },
     // 导出
     exportExcel () {
+      if (this.checkTableDataExists()) {
+        return false
+      }
+
       var url = API_ROOT + '/guide/guideperf/exportExcel'
       var form = document.createElement('form')
       if (this.searchform.type === '2') {
