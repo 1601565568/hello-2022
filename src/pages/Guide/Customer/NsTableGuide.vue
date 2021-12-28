@@ -440,6 +440,9 @@ export default NsTableGuide
 .member-tree-view >>>.el-tree-node__content{
   height: 100%;
   align-items: flex-start;
+  max-width: 200px;
+  display: -webkit-box ;
+  overflow: hidden;
 }
 
 </style>
