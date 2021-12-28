@@ -112,7 +112,7 @@ export default {
 <style scoped lang="scss">
 .top-remind-view {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 22px;
   background: #F2F9FE;
   border-radius: 2px;
