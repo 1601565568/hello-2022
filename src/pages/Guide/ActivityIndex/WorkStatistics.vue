@@ -740,16 +740,10 @@ export default {
       }
       return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
     },
-    checkTableDataExists () {
-      if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
-        this.$notify.error('当前没有匹配的数据项')
-        return true
-      }
-      return false
-    },
     // 导出
     exportExcel () {
-      if (this.checkTableDataExists()) {
+      if (!this.dataList.length) {
+        this.$notify.info('当前没有匹配的数据项')
         return false
       }
 
