@@ -1,10 +1,12 @@
 <template>
   <el-dialog
-    title="设置好友收到的消息"
     :visible.sync="dialogVisible"
     width="659px"
     :before-close="handleClose"
   >
+    <div slot="title">
+      <span class="dialogtitle">设置好友收到的消息</span>
+    </div>
     <div class="top-remind-view">企业微信组织架构删除的员工，无法发送设置的消息内容，将发送企业微信官方默认的消息。</div>
     <div class="content-view" v-if="dialogVisible">
       <img class="bar-view" src="@/assets/sendMsgBar.jpg"/>
@@ -110,6 +112,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.dialogtitle {
+  font-size: 16px;
+  color: #303133;
+  display: inline-block;
+  margin-right: 16px;
+  font-weight: bold;
+}
 .top-remind-view {
   margin-top: 10px;
   font-size: 12px;
