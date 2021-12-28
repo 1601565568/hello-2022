@@ -113,11 +113,10 @@ export default {
 .top-remind-view {
   margin-top: 10px;
   font-size: 14px;
-  height: 39px;
+  line-height: 22px;
   background: #F2F9FE;
   border-radius: 2px;
-  line-height: 39px;
-  text-align: center;
+  padding: 8px 16px;
 }
 .content-view {
   background: #F2F2F2;
