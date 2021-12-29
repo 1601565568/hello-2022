@@ -21,7 +21,7 @@
                   <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
                   <div class="qrcode-bottom-view">
                     建议：750*1334像素，小于2M，jpg、png、jpeg格式
-                    <el-tooltip  placement="top" popper-class='popperClass'>
+                    <el-tooltip effect='light' popper-class='popperClass' placement="right-end">
                       <span type='text' class='safe-btn'>
                         查看示例
                       </span>
