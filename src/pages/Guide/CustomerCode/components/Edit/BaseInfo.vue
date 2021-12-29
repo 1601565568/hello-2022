@@ -23,13 +23,6 @@
           />
         </el-form-item>
         <el-form-item label="参加活动人员" prop="guideIds">
-          <!-- <div class="flex-box form-item_toptext">
-            <span>选择的员工可以在企微侧边栏使用该裂变大师活动</span>
-            <span class="form-item_toptext__length"
-              >已选<span>{{ model.guideIds.length }}</span
-              >人</span
-            >
-          </div> -->
           <html-area>
             <div class="employee-list">
               <template v-if="model.guideDatas.length > 0">
@@ -77,10 +70,6 @@
               </div>
             </template>
           </html-area>
-          <!-- <div class="qrcode-bottom-view">
-            <span class="remind-view"></span>
-            选择的员工可以在企微侧边栏使用该裂变大师活动
-          </div> -->
           <div class="flex-box form-item_toptext">
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
@@ -153,7 +142,6 @@ import Box from '@/components/NewUi/Box'
 import LengthInput from '@/components/NewUi/LengthInput'
 import HtmlArea from '@/components/NewUi/HtmlArea'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import TagArea from '@/components/NewUi/TagArea'
 import moment from 'moment'
 import { DEFAULT_BASEINFO_DATA, STEP_LIST, GUIDE_MAX } from '../../src/const'
 import validates from '../../src/validates'
@@ -317,6 +305,10 @@ export default {
   margin-top: 3px;
   cursor: pointer;
 }
+.employee-selected-text {
+  font-size: 14px;
+  padding-bottom: 8px;
+}
 .employee-text {
   font-size: 14px;
   color: #bfbfbf;
@@ -346,7 +338,11 @@ export default {
   border-radius: 2px;
 }
 .employee-suffix {
-  color: #bfbfbf;
+  cursor: pointer;
+  min-width: 40px;
+  font-size: 12px;
+  color: #0392FB;
+  text-align: center;
 }
 .time-line-view {
   display: inline-block;
