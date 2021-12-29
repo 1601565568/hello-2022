@@ -34,16 +34,18 @@
         </el-checkbox-group>
       </div>
       <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
-        <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
-                 node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
-                 :filter-node-method="onFilterNode" @node-click="onClickNode">
-          <div class="subdivision-tree-node" slot-scope="{ node }" >
-            <span>{{node.label}}</span>
-            <span v-if="node.label === '全部'"></span>
-            <!-- 后端返回的是组件，不建议增加status字段 -->
-            <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
-          </div>
-        </el-tree>
+        <div class="member-tree-view">
+          <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
+                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
+                  :filter-node-method="onFilterNode" @node-click="onClickNode">
+            <div class="subdivision-tree-node" slot-scope="{ node }" >
+              <span>{{node.label}}</span>
+              <span v-if="node.label === '全部'"></span>
+              <!-- 后端返回的是组件，不建议增加status字段 -->
+              <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
+            </div>
+          </el-tree>
+        </div>
       </el-scrollbar>
       <el-pagination style='text-align: center' small
                      :total="shopTreePage.total"
@@ -281,7 +283,6 @@ export default NsTableGuide
 
 <style scoped>
   @import "@theme/variables.pcss";
-
   .template-page__row-left {
     width: 220px;
     position: absolute;
@@ -433,4 +434,15 @@ export default NsTableGuide
   display: inline-block;
   margin: 0 8px;
 }
+.member-tree-view >>> .el-tree-node{
+  white-space: normal;
+}
+.member-tree-view >>>.el-tree-node__content{
+  height: 100%;
+  align-items: flex-start;
+  max-width: 200px;
+  display: -webkit-box ;
+  overflow: hidden;
+}
+
 </style>

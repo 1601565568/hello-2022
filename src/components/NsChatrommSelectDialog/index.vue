@@ -30,7 +30,7 @@
               <el-option :key="3" value="LYD" label="联营店"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-show="model.shopType === 2"  label="选择门店：">
+          <el-form-item v-show="model.shopType === 2"  label="选择门店：" label-width="75px">
             <el-form-grid>
               <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :load="loadShopAreaNode" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
             </el-form-grid>
@@ -41,12 +41,12 @@
               </el-select-load>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="选择部门：">
+          <el-form-item label="选择部门：" label-width="75px">
             <el-form-grid size="md">
               <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="员工姓名：">
+          <el-form-item label="员工姓名：" label-width="75px">
             <el-form-grid>
               <ElInput :maxlength="20" v-model="model.empName"/>
             </el-form-grid>
@@ -56,7 +56,7 @@
               <ElInput :maxlength="11" v-model="model.empMobile"/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="员工工号：">
+          <el-form-item label="员工工号：" label-width="75px">
             <el-form-grid>
               <ElInput :maxlength="20" v-model="model.guideNum"/>
             </el-form-grid>
@@ -66,12 +66,12 @@
               <ElInput :maxlength="20" v-model="model.chatroomName"/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="群主昵称：" v-show="isqywx">
+          <el-form-item label="群主昵称：" v-show="isqywx" label-width="75px">
             <el-form-grid>
               <ElInput :maxlength="20" v-model="model.chatroomLeaderName"/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="导入门店：">
+          <el-form-item label="导入门店：" label-width="75px">
             <el-form-grid size="md">
               <el-input placeholder="请选择" readonly v-model="model.shopIds4Show" @focus="$refs.shopIdSelect.onOpenSearch()" :title="model.shopIds4Show">
               <span
