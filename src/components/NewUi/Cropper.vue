@@ -118,6 +118,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   padding: 6px;
+  background-color: #F5F5F5;
   .cropper-main {
     width: 600px;
     height: 600px;
