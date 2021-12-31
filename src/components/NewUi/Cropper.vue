@@ -41,7 +41,7 @@ export default {
       option: {
         info: true, // 裁剪框的大小信息
         outputSize: 1, // 裁剪生成图片的质量
-        outputType: 'jpeg', // 裁剪生成图片的格式
+        outputType: 'png', // 裁剪生成图片的格式
         canScale: true, // 图片是否允许滚轮缩放
         autoCrop: true, // 是否默认生成截图框
         fixedBox: false, // 固定截图框大小 不允许改变
@@ -118,6 +118,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   padding: 6px;
+  background-color: #F5F5F5;
   .cropper-main {
     width: 600px;
     height: 600px;
