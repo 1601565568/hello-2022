@@ -10,8 +10,24 @@
 </template>
 
 <script>
+import isShowArea from '@/layout/src/isShowArea'
 export default {
   name: 'downModule',
+  props: {
+    isArea: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    $route: {
+      handler () {
+        this.activeName = this.$route.matched[0].name
+        this.isShowAreaSelect = isShowArea(this.$route)
+      },
+      immediate: true
+    }
+  },
   data () {
     return {
       timer: null,
@@ -23,7 +39,7 @@ export default {
       const ball = document
         .querySelector('#run-icon-view')
       this.showFile = true
-      const widthX = 150 - 112
+      const widthX = this.isShowAreaSelect ? 150 - 112 - 114 : 150 - 112
       const heightY = -340
       const run = ball.animate([
         // keyframes
