@@ -215,7 +215,7 @@
             </el-table-column> -->
             <el-table-column prop="sgExclusiveGuideName" label="专属导购" align="left">
               <template slot-scope="scope">
-                  {{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}
+                {{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}{{scope.row.status === 2 ? '(已离职)': ''}}
               </template>
             </el-table-column>
 
