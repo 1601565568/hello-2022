@@ -66,9 +66,9 @@
               :indeterminate="isIndeterminate"
               v-model="checkAll"
               @change="handleCheckAllChange">
-              所有数据
+              {{showShopOrGuideName()}}
             </el-checkbox>
-            <span class="total">共{{total}}条</span>
+            <span class="total">(共{{total}}条)</span>
             <ns-table-operate-button  :buttons="_data._table.table_buttons">
             </ns-table-operate-button>
             <!-- table_buttons写在里面事件不生效有点懵 -->

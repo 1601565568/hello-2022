@@ -84,7 +84,10 @@ export default {
       shopCustomerTransferTaskStatusTime: null, // 定时调用判断门店转移任务状态显示
       visibleAreaTreeDialog: false, // 区域树组件是否显示
       selectedAreaInfo: { id: -1, label: '' },
-      areaTree: []
+      areaTree: [],
+      selectItem: {
+        label: ''
+      }
     }
   },
   computed: {
@@ -160,6 +163,17 @@ export default {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    showShopOrGuideName () {
+      const maxLen = 12
+      let name = this.selectItem.label || ''
+      if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
+        name = name.substring(0, name.indexOf('('))
+      }
+      if (name.length > maxLen) {
+        name = name.substring(0, maxLen) + '...'
+      }
+      return name
+    },
     // 查询区域列表
     async getAreaList (data) {
       const resp = await this.$http.fetch(this.$api.guide.shop.findDigitalShopList, {
@@ -288,6 +302,7 @@ export default {
       })
     },
     totalForUnconditionalSearch (data) {
+      this.selectItem = data
       let isShop = false
       let param = {
         shopId: this.offLineShopId
