@@ -23,10 +23,12 @@ export default {
       const ball = document
         .querySelector('#run-icon-view')
       this.showFile = true
+      const widthX = 150 - 112
+      const heightY = -340
       const run = ball.animate([
         // keyframes
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(-340px)' }
+        { transform: 'rotate(180deg)' },
+        { transform: `translate(${widthX}px, ${heightY}px` }
       ], {
         // timing options
         duration: 1000,
@@ -60,7 +62,7 @@ export default {
   border-radius: 50%;
   position: fixed;
   top: 350px;
-  right: 112px;
+  right: 150px;
   background-color: white;
   display: flex;
   align-items: center;
