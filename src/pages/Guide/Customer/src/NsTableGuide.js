@@ -25,6 +25,10 @@ export default {
       },
       {
         'func': function () {
+          if (this.$parent.total === '0') {
+            this.$parent.$notify.error('请选择要更换导购的会员')
+            return
+          }
           this.$parent.$emit('handlereplaceShop')
         },
         'name': '更换门店'
@@ -163,6 +167,13 @@ export default {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    changeGuide () {
+      if (this.total === '0') {
+        this.$notify.error('请选择要更换导购的会员')
+        return
+      }
+      this.$emit('add')
+    },
     showShopOrGuideName () {
       const maxLen = 12
       let name = this.selectItem.label || ''
