@@ -10,12 +10,12 @@
                :close-on-click-modal = "false" :before-close="onDialogClose" width="960px">
       <div>
         <div v-show="!onlyOne" style="width: 220px; margin-bottom: 10px">
-          <el-tabs v-model="tabType" @tab-click="changeTab">
+          <el-tabs v-model="tabType" @tab-click="changeTab" v-if="isCrm">
             <el-tab-pane label="客户分群" name="group"></el-tab-pane>
             <el-tab-pane label="员工全部好友" name="employee"></el-tab-pane>
           </el-tabs>
         </div>
-        <el-form label-width="60px" :inline="true">
+        <el-form label-width="70px" :inline="true">
           <el-form-item v-show="tabType === 'group'">
             <el-form-item label="选择视角：">
               <el-form-grid>
@@ -382,7 +382,8 @@ export default {
       shopAreaData: [],
       deptData: [],
       viewOptions: [], // 视角列表
-      isLoadShopAreaTree: false // 判断区域树是否请求完成
+      isLoadShopAreaTree: false, // 判断区域树是否请求完成
+      isCrm: false
     }
   },
   computed: mapState({
@@ -1124,6 +1125,8 @@ export default {
     vm.getDepartmentTree()
     // vm.getGroupTree()
     vm.getShopAreaAndShop()
+    const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+    this.isCrm = crm === '1'
   },
   created: function () {
     // do nothing

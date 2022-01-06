@@ -68,6 +68,7 @@ export default {
           areas: res.data.result.areas,
           areaTree: res.data.result.areaTree,
           views: res.data.result.views,
+          companyPlan: res.data.result.companyPlan,
           // 拓展字段
           productConfig: {
             ...productConfig,
@@ -120,7 +121,9 @@ export default {
             return item
           })
         }
-
+        // CRM购买方案. 暂时方案
+        const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? 1 : 0
+        localStorage.setItem('USER_LOCAL_COMPANY_PLAN', companyPlan)
         resolve(res.data.result)
       } else {
         reject(res.data)
