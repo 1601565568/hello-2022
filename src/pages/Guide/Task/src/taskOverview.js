@@ -101,7 +101,8 @@ export default {
       runType: null,
       queryTime: null,
       dialogVisible: false,
-      taskTime: ''
+      taskTime: '',
+      isCrm: false
     }
   },
   computed: {
@@ -296,6 +297,8 @@ export default {
     }
   },
   mounted: function () {
+    const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+    this.isCrm = crm === '1'
     this.init()
   }
 }
