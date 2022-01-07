@@ -781,19 +781,21 @@ export default {
       if (this.$route.query.taskId) {
         return
       }
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          if (resp.result) {
-            that.onlyOne = ''
-          }
-        }).catch(() => {
-          that.$notify.error('验证产品方案失败！')
-        })
-      that.onlyOne = 'employee'
+      const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+      this.onlyOne = crm === '1' ? '' : 'employee'
+      // const that = this
+      // // 分群类别加载
+      // this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
+      //   .then(resp => {
+      //     // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+      //     const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+      //     if (resp.result) {
+      //       that.onlyOne = ''
+      //     }
+      //   }).catch(() => {
+      //     that.$notify.error('验证产品方案失败！')
+      //   })
+      // that.onlyOne = 'employee'
     },
     //  树方法
     _nodeChildren: function (setting, node, newChildren) { // 私有方法，children 键处理

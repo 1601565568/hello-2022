@@ -382,8 +382,7 @@ export default {
       shopAreaData: [],
       deptData: [],
       viewOptions: [], // 视角列表
-      isLoadShopAreaTree: false, // 判断区域树是否请求完成
-      isCrm: false
+      isLoadShopAreaTree: false // 判断区域树是否请求完成
     }
   },
   computed: mapState({
@@ -1124,8 +1123,6 @@ export default {
     vm.getDepartmentTree()
     // vm.getGroupTree()
     vm.getShopAreaAndShop()
-    const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-    this.isCrm = crm === '1'
   },
   created: function () {
     // do nothing
