@@ -405,6 +405,8 @@ export default {
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
+            // 编辑状态基于任务原有的状态显示
+            this.isCrm = obj.subgroupId != null
             // this.showSubgroupMsg(this.model.subgroupId)
             if (obj.areaId) {
               this.$http
@@ -479,6 +481,10 @@ export default {
       const id = this.$route.params.id
       if (+id > 0) {
         this.EditFun(id)
+      } else {
+        // 新建状态根据session中的参数赋值
+        const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+        this.isCrm = crm === '1'
       }
     },
     handleSizeChange (val) {
@@ -505,8 +511,6 @@ export default {
     }
   },
   mounted: function () {
-    const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-    this.isCrm = crm === '1'
     this.init()
   },
   beforeUpdate () {
