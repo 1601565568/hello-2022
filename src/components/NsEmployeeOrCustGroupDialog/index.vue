@@ -10,7 +10,7 @@
                :close-on-click-modal = "false" :before-close="onDialogClose" width="960px">
       <div>
         <div v-show="!onlyOne" style="width: 220px; margin-bottom: 10px">
-          <el-tabs v-model="tabType" @tab-click="changeTab" v-if="isCrm">
+          <el-tabs v-model="tabType" @tab-click="changeTab">
             <el-tab-pane label="客户分群" name="group"></el-tab-pane>
             <el-tab-pane label="员工全部好友" name="employee"></el-tab-pane>
           </el-tabs>
