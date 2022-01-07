@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class='header-tip'>
-      <div class='header-tip__content'>需向企业微信申请企业白名单，才可使用此功能</div>
-    </div>
     <ns-page-table @add="$emit('add')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">
@@ -60,7 +57,13 @@
               <span v-else>-</span>
             </template>
           </el-table-column>
-            <el-table-column prop="personnels" label="可加入群聊(未满)" align="left" min-width="120" :show-overflow-tooltip="true">
+            <el-table-column prop="personnels" align="left" min-width="120" :show-overflow-tooltip="true">
+              <template slot="header">
+                可加入群聊
+                <el-tooltip content='群成员未满200的群，可通过群聚合码扫码加入'>
+                  <Icon type="question-circle" />
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 {{scope.row.canJoinChatRoom || '-'}}
               </template>
@@ -68,7 +71,7 @@
           <el-table-column prop="num"  min-width="120">
             <template slot="header">
               已聚合群聊
-              <el-tooltip content='单个码聚合群上限为100个，达到后不会自动新建，请注意及时删除已满群聊'>
+              <el-tooltip :content='`单个聚合码的群上限为${isWhiteList ? 100 : 5}个，请及时删除已满人数的群聊`'>
                 <Icon type="question-circle" />
               </el-tooltip>
             </template>
