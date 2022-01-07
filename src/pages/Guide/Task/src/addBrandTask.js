@@ -126,7 +126,8 @@ export default {
         level: '等级',
         address: '地区'
       }],
-      disabled: false
+      disabled: false,
+      isCrm: false
     }
   },
   computed: {
@@ -504,6 +505,8 @@ export default {
     }
   },
   mounted: function () {
+    const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+    this.isCrm = crm === '1'
     this.init()
   },
   beforeUpdate () {

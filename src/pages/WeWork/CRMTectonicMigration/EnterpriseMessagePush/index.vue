@@ -667,6 +667,7 @@ export default {
               vm.model.executeTime = data.executeTime
             }
             vm.model.customerType = data.customerType + ''
+            vm.onlyOne = data.customerType === 1 ? '' : 'employee'
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
@@ -776,6 +777,10 @@ export default {
         })
     },
     verifyProductToCRM: function () {
+      // 编辑保留之前的任务的状态
+      if (this.$route.query.taskId) {
+        return
+      }
       const that = this
       // 分群类别加载
       this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
