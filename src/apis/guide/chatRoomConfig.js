@@ -51,5 +51,9 @@ export default {
   chatRoomGroupDelete: {
     url: '/chatRoomGroup/deleteByConfigId',
     method: 'get'
+  },
+  isWhiteList: {
+    url: '/chatRoomGroup/isWhiteList',
+    method: 'get'
   }
 }
