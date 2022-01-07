@@ -26,7 +26,7 @@
             <el-tag type="info" v-if="taskMsg.state === 3">已完成</el-tag>
             <el-tag type="warning" v-if="taskMsg.state === 5">未开始</el-tag>
             <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
-            <div class='task-group__name' v-if='taskMsg.subGroupId && isCrm'>{{taskMsg.subGroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
+            <div class='task-group__name' v-if='taskMsg.subGroupId'>{{taskMsg.subGroupName}} <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
