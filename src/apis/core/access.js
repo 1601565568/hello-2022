@@ -122,7 +122,7 @@ export default {
           })
         }
         // CRM购买方案. 暂时方案
-        const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? 1 : 0
+        const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? '1' : '0'
         localStorage.setItem('USER_LOCAL_COMPANY_PLAN', companyPlan)
         resolve(res.data.result)
       } else {
