@@ -406,7 +406,13 @@ export default {
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
             // 编辑状态基于任务原有的状态显示
-            this.isCrm = obj.subgroupId != null
+            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+            const isCrm = crm === '1'
+            if (isCrm) {
+              this.isCrm = true
+            } else {
+              this.isCrm = obj.subgroupId != null
+            }
             // this.showSubgroupMsg(this.model.subgroupId)
             if (obj.areaId) {
               this.$http
