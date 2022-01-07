@@ -671,7 +671,13 @@ export default {
             if (that.$route.query.openType === 'copy') {
               that.initCrmData()
             } else {
-              vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+              const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+              const isCrm = crm === '1'
+              if (isCrm) {
+                vm.onlyOne = ''
+              } else {
+                vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+              }
             }
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
