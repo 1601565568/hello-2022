@@ -667,7 +667,12 @@ export default {
               vm.model.executeTime = data.executeTime
             }
             vm.model.customerType = data.customerType + ''
-            vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+            // 编辑状态修改
+            if (that.$route.query.openType === 'copy') {
+              that.initCrmData()
+            } else {
+              vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+            }
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
@@ -775,13 +780,16 @@ export default {
           that.$notify.error('员工加载失败！')
         })
     },
+    initCrmData () {
+      const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+      this.onlyOne = crm === '1' ? '' : 'employee'
+    },
     verifyProductToCRM: function () {
       // 编辑保留之前的任务的状态
       if (this.$route.query.taskId) {
         return
       }
-      const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-      this.onlyOne = crm === '1' ? '' : 'employee'
+      this.initCrmData()
       // const that = this
       // // 分群类别加载
       // this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
