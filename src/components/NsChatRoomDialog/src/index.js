@@ -130,7 +130,7 @@ export default {
         this.resetSearch()
       }
 
-      if (Array.isArray(this.selectedRoomIds)) {
+      if (Array.isArray(this.selectedRoomIds) && this.selectedRoomIds.length) {
         // 查询所有的群 筛选选中的
         this.findAllGroups()
       }
