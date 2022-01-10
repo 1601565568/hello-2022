@@ -69,7 +69,7 @@
               </template>
             </el-table-column>
           <el-table-column prop="num"  min-width="120">
-            <template slot="header">
+            <template v-slot:header>
               已聚合群聊
               <el-tooltip :content='`单个聚合码的群上限为${isWhiteList ? 100 : 5}个，请及时删除已满人数的群聊`'>
                 <Icon type="question-circle" />
