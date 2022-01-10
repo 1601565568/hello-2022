@@ -667,17 +667,16 @@ export default {
               vm.model.executeTime = data.executeTime
             }
             vm.model.customerType = data.customerType + ''
-            // 编辑状态修改
-            if (that.$route.query.openType === 'copy') {
-              that.initCrmData()
+            // 编辑状态修改 that.$route.query.openType === 'copy'
+            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+            const isCrm = crm === '1'
+            if (isCrm) {
+              vm.onlyOne = ''
             } else {
-              const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-              const isCrm = crm === '1'
-              if (isCrm) {
-                vm.onlyOne = ''
-              } else {
-                vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+              if (data.customerType === 1) {
+                data.userGroupIds = ''
               }
+              vm.onlyOne = data.customerType === 1 ? '' : 'employee'
             }
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
@@ -707,7 +706,8 @@ export default {
             }
             vm.employeeSelectData = employeeSelectData
             const userList = []
-            for (const item of data.userGroupIds.split(',')) {
+            const arr = data.userGroupIds && data.userGroupIds.split(',')
+            for (const item of arr) {
               let userItem = {}
               if (data.customerType === 2) {
                 userItem = {
