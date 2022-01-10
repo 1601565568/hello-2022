@@ -675,8 +675,10 @@ export default {
             } else {
               if (data.customerType === 1) {
                 data.userGroupIds = ''
+                vm.onlyOne = 'employee'
+              } else {
+                vm.onlyOne = data.customerType === 1 ? '' : 'employee'
               }
-              vm.onlyOne = data.customerType === 1 ? '' : 'employee'
             }
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
