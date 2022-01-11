@@ -425,6 +425,7 @@ export default {
         if (valid) {
           const obj = { ...this.defaultModel }
           obj.path = this.$refs.tagContent.htmlToString(this.defaultModel.path)
+          obj.path = obj.path.replaceAll('&amp;', '&')
           // params.content = this.$refs.tagContent.htmlToString(this.pitContent)
           this.$emit('confirm', { type: 'miniprogram', content: obj })
           this.close()

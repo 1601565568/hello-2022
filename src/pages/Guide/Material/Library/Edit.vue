@@ -15,6 +15,7 @@
           <template slot='collapse-left'>
             <source-all
               ref='sourceAll'
+              :isEdit="isEdit"
               :detail="detail"
               :labelList="labelList"
               :breadcrumb="breadcrumb"

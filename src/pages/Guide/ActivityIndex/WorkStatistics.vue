@@ -70,6 +70,8 @@
                     <div style="float: right;">
                         <NsGuideDialog
                         :isButton="false"
+                        :isNeedLink="true"
+                        :echoStore="true"
                         :validNull="true"
                         :auth="false"
                         type="primary"
@@ -143,6 +145,8 @@
                 <div style="float: right;">
                     <NsGuideDialog
                         :isButton="false"
+                        :isNeedLink="true"
+                        :echoStore="true"
                         :validNull="true"
                         :auth="false"
                         type="primary"
@@ -738,6 +742,11 @@ export default {
     },
     // 导出
     exportExcel () {
+      if (!this.dataList.length) {
+        this.$notify.info('当前没有匹配的数据项')
+        return false
+      }
+
       var url = API_ROOT + '/guide/guideperf/exportExcel'
       var form = document.createElement('form')
       if (this.searchform.type === '2') {

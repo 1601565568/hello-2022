@@ -14,6 +14,7 @@ export default {
       checkedChatRoom: []
     }
     return {
+      isWhiteList: false,
       loading: false,
       model: defModel,
       title: '新建群聚合码',
@@ -21,6 +22,8 @@ export default {
     }
   },
   mounted () {
+    this.checkWhiteList()
+
     this.configId = this.$route.query.configId
     if (this.configId) {
       this.title = '编辑群聚合码'
@@ -86,6 +89,17 @@ export default {
     getChatRoomData (selectChatRoomData) {
       let data = selectChatRoomData
       this.model.checkedChatRoom = data
+    },
+    // 是否有白名单
+    async checkWhiteList () {
+      try {
+        const resp = await this.$http.fetch(this.$api.guide.chatRoomConfig.isWhiteList)
+        if (resp.success) {
+          this.isWhiteList = !!resp.result
+        }
+      } catch (error) {
+        this.$notify.error('是否是白名单获取失败')
+      }
     }
   }
 }

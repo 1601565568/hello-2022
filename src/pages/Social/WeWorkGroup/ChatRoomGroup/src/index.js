@@ -78,6 +78,7 @@ export default {
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
+      isWhiteList: false,
       model: model,
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
@@ -100,7 +101,8 @@ export default {
       dataList: []
     }
   },
-  created: function () {
+  created: async function () {
+    await this.checkWhiteList()
     this.loadListFun()
   },
   methods: {
@@ -169,6 +171,17 @@ export default {
             that.$notify.error(getErrorMsg('删除失败', resp))
           })
       })
+    },
+    // 是否有白名单
+    async checkWhiteList () {
+      try {
+        const resp = await this.$http.fetch(this.$api.guide.chatRoomConfig.isWhiteList)
+        if (resp.success) {
+          this.isWhiteList = !!resp.result
+        }
+      } catch (error) {
+        this.$notify.error('是否是白名单获取失败')
+      }
     }
   }
 }

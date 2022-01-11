@@ -237,7 +237,7 @@ export default {
     transText (val) {
       if (val === 14) {
         return '下载'
-      } else if (val === 16) {
+      } else if (val === 16 || val === 20) {
         return '发送'
       } else if (val === 18) {
         return '补全'

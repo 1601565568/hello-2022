@@ -1,9 +1,9 @@
 <template>
   <!-- 信息更新页面 -->
   <div class="dataCenter-content">
-    <div style="padding: 7px 0px 25px;">
-    </div>
-    <el-row class="dataCenter-content__grid" :gutter="5">
+    <!-- <div style="padding: 7px 0px 25px;">
+    </div> -->
+    <!-- <el-row class="dataCenter-content__grid" :gutter="5">
       <el-col>
         <div class="interactive__item">
           <div class="interactive__icon interactive__icon--blue">
@@ -69,9 +69,25 @@
           </div>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
     <!--/数据面板-->
-
+    <div class="material-data">
+      <div class="top-view">
+        <div class="title">好友分析</div>
+      </div>
+      <div class="data-view">
+        <!-- <el-row :gutter='5'> -->
+          <template v-for='(item, index) in dataList'>
+            <el-col :key='item.key'>
+              <div class='row-item' :style='`background-image:${colorList[index]}`'>
+                <div class='nick'>{{item.nick}}</div>
+                <div class='value'>{{item.value}}</div>
+              </div>
+            </el-col>
+          </template>
+        <!-- </el-row> -->
+      </div>
+    </div>
     <ns-page-table :colButton="0">
       <template slot="searchSearch">
         <el-form label-width="100px"
@@ -190,6 +206,51 @@ export default TableAnalysis
 
 <style scoped>
 @import "@theme/variables.pcss";
+.material-data {
+  border-radius: 4px;
+  background-color: white;
+  padding-bottom: 24px;
+  margin-bottom: 6px;
+  .top-view {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .data-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left:16px;
+    margin-right:16px;
+  }
+  .title {
+    font-size: 16px;
+    color: #262626;
+    line-height: 56px;
+    font-weight: 500;
+    padding-left: 16px;
+  }
+  .row-item {
+    padding: 27px 0;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 4px;
+    margin-left: 5px;
+    margin-right: 5px;
+    .nick {
+      line-height: 24px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .value {
+      line-height: 32px;
+      font-size: 24px;
+    }
+  }
+}
 @b interactive {
   @e item {
     /*height: 130px;*/
