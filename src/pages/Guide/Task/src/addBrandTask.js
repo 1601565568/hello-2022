@@ -126,7 +126,8 @@ export default {
         level: '等级',
         address: '地区'
       }],
-      disabled: false
+      disabled: false,
+      isCrm: false
     }
   },
   computed: {
@@ -404,6 +405,14 @@ export default {
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             this.model.taskSendTime = obj.taskSendTime
+            // 编辑状态基于任务原有的状态显示
+            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+            const isCrm = crm === '1'
+            if (isCrm) {
+              this.isCrm = true
+            } else {
+              this.isCrm = obj.subgroupId != null
+            }
             // this.showSubgroupMsg(this.model.subgroupId)
             if (obj.areaId) {
               this.$http
@@ -478,6 +487,10 @@ export default {
       const id = this.$route.params.id
       if (+id > 0) {
         this.EditFun(id)
+      } else {
+        // 新建状态根据session中的参数赋值
+        const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+        this.isCrm = crm === '1'
       }
     },
     handleSizeChange (val) {

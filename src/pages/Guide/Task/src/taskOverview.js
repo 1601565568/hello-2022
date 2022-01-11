@@ -101,7 +101,8 @@ export default {
       runType: null,
       queryTime: null,
       dialogVisible: false,
-      taskTime: ''
+      taskTime: '',
+      isCrm: false
     }
   },
   computed: {
@@ -178,6 +179,8 @@ export default {
             this.taskMsg.state = obj.state
             this.taskMsg.subGroupName = obj.subGroupName
             this.taskMsg.subGroupId = obj.subgroupId
+            // 编辑状态基于任务原有的状态显示
+            // this.isCrm = obj.subgroupId != null
             // 指定门店
             if (obj.targetIds === '0') {
               this.taskMsg.shopRangeType = 0
@@ -296,6 +299,8 @@ export default {
     }
   },
   mounted: function () {
+    // const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+    // this.isCrm = crm === '1'
     this.init()
   }
 }
