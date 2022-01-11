@@ -668,14 +668,17 @@ export default {
             }
             vm.model.customerType = data.customerType + ''
             // 编辑状态修改 that.$route.query.openType === 'copy'
-            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-            const isCrm = crm === '1'
-            if (isCrm) {
-              vm.onlyOne = ''
-            } else {
+            if (that.$route.query.openType === 'copy') {
+              that.initCrmData()
               if (data.customerType === 1) {
                 data.userGroupIds = ''
                 vm.onlyOne = 'employee'
+              }
+            } else {
+              const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+              const isCrm = crm === '1'
+              if (isCrm) {
+                vm.onlyOne = ''
               } else {
                 vm.onlyOne = data.customerType === 1 ? '' : 'employee'
               }
