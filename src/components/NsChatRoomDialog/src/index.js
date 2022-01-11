@@ -128,9 +128,7 @@ export default {
         let seledctDateReady = JSON.parse(JSON.stringify(this.selectedDataParent))
         this.selectedData = seledctDateReady
         this.resetSearch()
-      }
-
-      if (Array.isArray(this.selectedRoomIds) && this.selectedRoomIds.length) {
+      } else if (Array.isArray(this.selectedRoomIds)) {
         // 查询所有的群 筛选选中的
         this.findAllGroups()
       }
