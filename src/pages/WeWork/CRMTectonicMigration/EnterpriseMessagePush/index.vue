@@ -672,6 +672,7 @@ export default {
               that.initCrmData()
               if (data.customerType === 1) {
                 data.userGroupIds = ''
+                data.customerType = 2
                 vm.onlyOne = 'employee'
               }
             } else {
