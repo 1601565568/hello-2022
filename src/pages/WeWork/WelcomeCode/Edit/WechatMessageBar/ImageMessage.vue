@@ -17,6 +17,7 @@
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
+import { compress } from 'squoosh-compress'
 
 export default {
   components: {
@@ -43,22 +44,36 @@ export default {
   },
   methods: {
     beforeUpload (file) {
-      this.loading = true
-      const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      let _this = this
+      return new Promise((resolve, reject) => {
+        this.loading = true
+        const isPngOrJpg =
+          file.type === 'image/jpg' ||
+          file.type === 'image/png' ||
+          file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
 
-      if (!isPngOrJpg) {
-        this.$message.error('上传jpg、jpeg、png图片')
-        this.loading = false
-        return false
-      }
-
-      if (!isLt2M) {
-        this.$message.error('大小不超过2M')
-        this.loading = false
-        return false
-      }
-      return true
+        if (!isPngOrJpg) {
+          this.$message.error('上传jpg、jpeg、png图片')
+          this.loading = false
+          reject(new Error())
+        }
+        if (!isLt2M) {
+          this.$message.error('大小不超过2M')
+          this.loading = false
+          reject(new Error())
+        }
+        const type = file.type === 'image/png' ? 'browser-png' : 'browser-jpeg'
+        compress(file, {
+          type,
+          options: {
+            quality: 0.4
+          }
+        }, file.name).then((res) => {
+          resolve(res)
+          return true
+        })
+      })
     },
     onSuccess (uploadRes, file) {
       this.loading = false
