@@ -25,7 +25,7 @@ export default {
       window.open('https://work.weixin.qq.com/wework_admin/frame#customer/autoReply')
     },
     GoUseTutorial () {
-      window.open('https://oa.nascent.cn:30004/zhiku/detail?parent_ids=null30,45,487,&id=2492')
+      window.open('https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2492')
     }
   }
 }
