@@ -294,55 +294,55 @@ export default {
       placeholderLink: [
         {
           text: '集团ID',
-          id: '{groupId}',
+          id: 'groupId',
           type: 'tag',
           value: '集团ID'
         },
         {
           text: '好友userid',
-          id: '{userId}',
+          id: 'userId',
           type: 'tag',
           value: '好友userid'
         },
         {
           text: '导购userid',
-          id: '{guideUserId}',
+          id: 'guideUserId',
           type: 'tag',
           value: '导购userid'
         },
         {
           text: '导购账号',
-          id: '{guideAccount}',
+          id: 'guideAccount',
           type: 'tag',
           value: '导购账号'
         },
         {
           text: '导购工号',
-          id: '{workNumber}',
+          id: 'workNumber',
           type: 'tag',
           value: '导购工号'
         },
         {
           text: '导购ID',
-          id: '{guideId}',
+          id: 'guideId',
           type: 'tag',
           value: '导购ID'
         },
         {
           text: '员工工作门店',
-          id: '{shopId}',
+          id: 'shopId',
           type: 'tag',
           value: '员工工作门店'
         },
         {
           text: '随机数标识',
-          id: '{random}',
+          id: 'random',
           type: 'tag',
           value: '随机数标识'
         },
         {
           text: '时间戳',
-          id: '{timestamp}',
+          id: 'timestamp',
           type: 'tag',
           value: '时间戳'
         }
