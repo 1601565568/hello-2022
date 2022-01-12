@@ -2,7 +2,7 @@
   <PageEdit>
     <template slot="header">
       <div class="common-header flex-box">
-        <h3>新增智能欢迎语</h3>
+        <h3>{{$route.query.welcomeCodeUuid ? '编辑欢迎语' : '新增欢迎语'}}</h3>
         <div class="common-btn">
           <ns-button class="customer-btn_cancel" size="large" @click="$router.go(-1)" :loading="loading">取消</ns-button>
           <ns-button class="customer-btn_save" type="primary" size="large" @click="saveWelcome" :loading="loading">保存</ns-button>
@@ -13,8 +13,15 @@
        <SimpleCollapse :title="'发布内容'">
           <PhoneBox phoneTitle phoneBar="内容预览">
             <template slot='collapse-left'>
-              <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="98px" label-position="left">
-                <el-form-item label="欢迎语" prop="content" :rules="rules.content" required>
+              <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="107px" label-position="left">
+                <div class="banner-tip">
+                  <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语>店铺欢迎语>默认欢迎语</span>
+                </div>
+                <el-form-item prop="content" :rules="rules.content" required>
+                  <template slot="label">
+                    <span>欢迎语</span>
+                    <el-tag v-if="model.type === 9" style="margin-left: 4px">默认</el-tag>
+                  </template>
                   <tag-area
                     class="tag-area"
                     v-model='model.content'
@@ -60,62 +67,68 @@
                   </el-popover>
                 </el-form-item>
                 <el-form-item label="使用范围">
-                  <div class="select-area">
-                    <span class="select-title">选择店铺</span>
-                    <NsShopDialog
-                      :selfBtn='true'
-                      :appendToBody='true'
-                      :isButton="false"
-                      :auth="false"
-                      type="icon"
-                      btnTitle=""
-                      dialogTitle="选择店铺"
-                      v-model="model.shopIds"
-                    >
-                      <template slot='btnIcon'>
-                        <div class="select-tips">
-                          <span v-if="!model.shopIds.length" class="un-selected">请选择店铺</span>
-                          <span v-else class="selected">已选择{{model.shopIds.length}}个店铺</span>
-                          <Icon type="shop" class="icon"/>
+                  <template v-if="model.type === 9">
+                    <div>全部员工</div>
+                    <span class="add-tip label-gap">当员工未配置欢迎语时，将发送该默认欢迎语</span>
+                  </template>
+                  <template v-else>
+                    <div class="select-area">
+                      <span class="select-title">选择店铺</span>
+                      <NsShopDialog
+                        :selfBtn='true'
+                        :appendToBody='true'
+                        :isButton="false"
+                        :auth="false"
+                        type="icon"
+                        btnTitle=""
+                        dialogTitle="选择店铺"
+                        v-model="model.shopIds"
+                      >
+                        <template slot='btnIcon'>
+                          <div class="select-tips">
+                            <span v-if="!model.shopIds.length" class="un-selected">请选择店铺</span>
+                            <span v-else class="selected">已选择{{model.shopIds.length}}个店铺</span>
+                            <Icon type="shop" class="icon"/>
+                          </div>
+                        </template>
+                      </NsShopDialog>
+                    </div>
+                    <div class="select-area">
+                      <span class="select-title">选择员工</span>
+                      <NsGuideDialog
+                        :selfBtn='true'
+                        :appendToBody='true'
+                        :isButton="false"
+                        :showTitleTip='true'
+                        :auth="true"
+                        type="primary"
+                        btnTitle=""
+                        dialogTitle="选择员工"
+                        v-model="model.employeeIds"
+                      >
+                        <template slot='selfBtn'>
+                          <div class="select-tips">
+                            <span v-if="!model.employeeIds.length" class="un-selected">请选择员工</span>
+                            <span v-else class="selected">已选择{{model.employeeIds.length}}个员工</span>
+                            <Icon type="ns-people" class="icon"/>
+                          </div>
+                        </template>
+                      </NsGuideDialog>
+                    </div>
+                    <div class="select-area">
+                      <ChannelCodeDialog
+                        :visible.sync="channelCodeDialogVisible"
+                        @confirm="confirmChannelCodes"
+                        :content="model.channelCodes"
+                      />
+                      <span class="select-title">选择渠道</span>
+                        <div class="select-tips" @click="channelCodeDialogVisible = true">
+                          <span v-if="!model.channelCodes.length" class="un-selected">请选择渠道</span>
+                          <span v-else class="selected">已选择{{model.channelCodes.length}}个渠道</span>
+                          <Icon type="channel" class="icon"/>
                         </div>
-                      </template>
-                    </NsShopDialog>
-                  </div>
-                  <div class="select-area">
-                    <span class="select-title">选择员工</span>
-                    <NsGuideDialog
-                      :selfBtn='true'
-                      :appendToBody='true'
-                      :isButton="false"
-                      :showTitleTip='true'
-                      :auth="true"
-                      type="primary"
-                      btnTitle=""
-                      dialogTitle="选择员工"
-                      v-model="model.employeeIds"
-                    >
-                      <template slot='selfBtn'>
-                        <div class="select-tips">
-                          <span v-if="!model.employeeIds.length" class="un-selected">请选择员工</span>
-                          <span v-else class="selected">已选择{{model.employeeIds.length}}个员工</span>
-                          <Icon type="ns-people" class="icon"/>
-                        </div>
-                      </template>
-                    </NsGuideDialog>
-                  </div>
-                  <div class="select-area">
-                    <ChannelCodeDialog
-                      :visible.sync="channelCodeDialogVisible"
-                      @confirm="confirmChannelCodes"
-                      :content="model.channelCodes"
-                    />
-                    <span class="select-title">选择渠道</span>
-                      <div class="select-tips" @click="channelCodeDialogVisible = true">
-                        <span v-if="!model.channelCodes.length" class="un-selected">请选择渠道</span>
-                        <span v-else class="selected">已选择{{model.channelCodes.length}}个渠道</span>
-                        <Icon type="channel" class="icon"/>
-                      </div>
-                  </div>
+                    </div>
+                  </template>
                 </el-form-item>
               </el-form>
             </template>
@@ -257,10 +270,7 @@ export default {
         if (deleteData) {
           return
         }
-        // if (Number(data.index) >= 0) {
-        //   // 编辑
-        //   this.model.annexList.splice(data.index, 1, data)
-        // } else {
+
         // 根据uid判断是否存在
         let isLargeNumber = (item) => item.content.uid === data.content.uid
         let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
@@ -272,8 +282,6 @@ export default {
         } else {
           this.model.annexList.splice(findEditIndex, 1, data)
         }
-        // const limit = Number(data.content.percent) === 100
-        // }
       }
     },
     tagAreaInputLength (length) {
@@ -384,6 +392,19 @@ export default {
 @import "./styles/reset.css";
 
 .el-form-reset {
+  .banner-tip {
+    height: 54px;
+    background: #F2F9FE;
+    border-radius: 2px;
+    .text {
+      display: inline-block;
+      font-size: 14px;
+      color: #303133;
+      line-height: 54px;
+      padding-left: 16px;
+    }
+  }
+
   .el-form-item {
     margin-top: 26px;
     .el-input {
@@ -394,7 +415,7 @@ export default {
     }
     .select-area {
       margin-top: 11px;
-      max-width: 626px;
+      max-width: 617px;
       height: 64px;
       background: #F5F5F5;
       font-size: 14px;
@@ -407,7 +428,7 @@ export default {
         white-space: nowrap;
       }
       .select-tips {
-        width: 494px;
+        width: 455px;
         height: 32px;
         margin-left: 36px;
         background: #fff;
