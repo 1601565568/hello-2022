@@ -352,6 +352,11 @@ export default {
     },
     async doSave () {
       var params = {}
+      // 编辑保存 未分组数据重置
+      if (!this.model.viewId) {
+        this.model.subgroupId = null
+        this.model.subgroupName = null
+      }
       if (this.model.materialMsg) {
         params = { ...this.model, materialMsg: JSON.stringify(this.model.materialMsg) }
       } else {
