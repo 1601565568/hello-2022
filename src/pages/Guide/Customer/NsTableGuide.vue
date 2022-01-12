@@ -57,7 +57,7 @@
       </el-pagination>
     </div>
     <div  class="template-page__row-right">
-      <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" :colButton="10">
+      <ns-page-table @add="changeGuide()"  @shopEdit="$emit('shopEdit')" :colButton="10">
         <!-- 按钮 -->
         <template v-if="showChangeGuide" slot="buttons">
           <div style="display:flex">
@@ -66,9 +66,9 @@
               :indeterminate="isIndeterminate"
               v-model="checkAll"
               @change="handleCheckAllChange">
-              所有数据
+              {{showShopOrGuideName()}}
             </el-checkbox>
-            <span class="total">共{{_data._pagination.total}}条</span>
+            <span class="total" v-if="selectItem.label.length > 0">(共{{total}}条)</span>
             <ns-table-operate-button  :buttons="_data._table.table_buttons">
             </ns-table-operate-button>
             <!-- table_buttons写在里面事件不生效有点懵 -->
@@ -215,7 +215,7 @@
             </el-table-column> -->
             <el-table-column prop="sgExclusiveGuideName" label="专属导购" align="left">
               <template slot-scope="scope">
-                  {{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}
+                {{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}{{scope.row.status === 2 ? '(已离职)': ''}}
               </template>
             </el-table-column>
 
