@@ -12341,6 +12341,11 @@ sprintf-js@~1.0.2:
   resolved "https://registry.npm.taobao.org/sprintf-js/download/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
+squoosh-compress@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/squoosh-compress/download/squoosh-compress-1.0.1.tgz#d2df80bca501bde3aae33070adfc8cc7820b8b69"
+  integrity sha1-0t+AvKUBveOq4zBwrfyMx4ILi2k=
+
 ssf@~0.11.2:
   version "0.11.2"
   resolved "https://registry.npm.taobao.org/ssf/download/ssf-0.11.2.tgz#0b99698b237548d088fc43cdf2b70c1a7512c06c"
