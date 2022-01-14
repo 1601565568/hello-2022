@@ -13,6 +13,9 @@
         <Icon type="close" class="close-icon" @click="handleClose" />
       </div>
       <div class="down-title">下载中心</div>
+      <div class="remind-view">
+        下载中心仅保留近3天生成的报表，请尽快下载
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -53,10 +56,21 @@ export default {
     color: #262626;
     line-height: 24px;
     font-weight: 500;
+    padding: 12px 0;
   }
   .close-icon {
     width: 20px;
     height: 20px;
+  }
+  .remind-view {
+    width: 688px;
+    background: #f2f9fe;
+    border-radius: 2px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #595959;
+    line-height: 22px;
+    padding: 9px 16px;
   }
 }
 </style>
