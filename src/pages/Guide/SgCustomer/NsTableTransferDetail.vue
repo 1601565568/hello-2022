@@ -3,7 +3,7 @@
     <div class="customer-header">
       <h3>转移明细</h3>
     </div>
-    <div class="top-search-view" style="margin-top:58px">
+    <div class="top-search-view">
       <div class="seach-left-view">
         <div class="no-input-view base-view">
           <el-input v-model="searchData.mobile" placeholder="请输入手机号码">
@@ -719,25 +719,22 @@ export default {
   -webkit-box-orient: vertical;
   word-break: break-all;
 }
+
 .customer-header {
+  width: calc(100% + 20px);
+  font-size: 16px;
+  color: #262626;
+  height: 48px;
   background-color: #fff;
-  margin: -10px -10px 0;
-  padding: 16px;
-  min-width: 1046px;
-  position: fixed;
-  top: 90px;
-  z-index: 10;
-  left: 200px;
-  width: calc(100% - 185px);;
+  font-weight: bold;
+  margin: -10px -10px 0px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
   h3 {
     font-size: 16px;
     color: #262626;
     font-weight: bold;
-  }
-}
- @media screen and (max-width: 1625px) {
-  .customer-header {
-    top: 70px;
   }
 }
 </style>

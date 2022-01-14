@@ -3,7 +3,8 @@
     <div class="template-page__title-bar">
       <div class="title">会员列表</div>
     </div>
-    <div class="template-page__row-left">
+    <div class="container">
+      <div class="template-page__row-left">
       <div class="template-page__row-left__area">
         <AreaTreeDialog
           :visible.sync="visibleAreaTreeDialog"
@@ -264,6 +265,7 @@
         <!-- 分页-结束 -->
       </ns-page-table>
     </div>
+    </div>
   </div>
 </template>
 <script>
@@ -283,12 +285,15 @@ export default NsTableGuide
 
 <style scoped>
   @import "@theme/variables.pcss";
+
+  .container {
+    display: flex;
+    margin-top: 10px;
+  }
+
   .template-page__row-left {
+    flex-shrink: 0;
     width: 220px;
-    position: absolute;
-    left: 210px;
-    top: 118px;
-    z-index: 2;
     overflow: hidden;
     >>> .el-input {
       margin-bottom: var(--default-margin-base);
@@ -317,16 +322,12 @@ export default NsTableGuide
     }
   }
   .template-page__row-right {
-    position: absolute;
-    top: 118px;
-    left: 0;
-    z-index: 1;
-    margin: 0;
+    margin-left: 5px;
     width: 100%;
   }
 
   .template-page__title-bar {
-    width: 100%;
+    width: calc(100% + 20px);
     font-size: 16px;
     color: #262626;
     height: 48px;
@@ -340,38 +341,6 @@ export default NsTableGuide
       height: 20px;
       margin: 0 16px;
       border-left: 1px solid #E8E8E8;
-    }
-  }
-
-  .template-table {
-    margin: 0 10px 10px 435px;
-  }
-  @media screen and (min-width: 1624px) {
-    .el-tree-node__content{
-      width: 210px;
-    }
-
-    .template-page__row-left {
-      width: 220px;
-      position: absolute;
-      left: 210px;
-      top: 138px;
-      z-index: 2;
-      overflow: hidden;
-      >>> .el-input {
-        margin-bottom: var(--default-margin-base);
-      }
-    }
-    .template-page__row-right {
-      position: absolute;
-      top: 138px;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      margin: 0;
-    }
-    .template-table {
-      margin: 0 10px 10px 435px;
     }
   }
 

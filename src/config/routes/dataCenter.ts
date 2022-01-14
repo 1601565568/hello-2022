@@ -1,7 +1,7 @@
 export default {
   path: '/DataCenter/DataCenterOption',
   name: 'DataCenter',
-  component: () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  component: () => import('@layout/Default.vue'),
   meta: {
     title: '数据中心',
     requiresAuth: true
@@ -14,7 +14,7 @@ export default {
       path: '/DataCenter/SystemAnalysis',
       name: 'SystemAnalysis',
       title: '系统使用分析',
-      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      component: () => import('@layout/Content.vue'),
       redirect: {
         path: '/DataCenter/VisitStatistics'
       },

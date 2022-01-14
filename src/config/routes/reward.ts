@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/ActivityIndex/ShopSetList',
   'name': 'ACTIVITY_INDEX',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '数据运营',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/ActivityIndex/ShopSetList',
       'name': 'WeWorkOperateAnalysis',
       'title': '企微运营分析',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           path: '/AnalysisWechatData/EnterpriseWechatFriendData',
@@ -29,7 +29,7 @@ export default {
           'path': '/Social/WeComCustomerOperation/LossCustomers',
           'name': 'WeComLossCustomers',
           'title': '流失客户',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
+          'component': () => import('@layout/ContentTab.vue'),
           'redirect': {
             'name': 'WeComDeleteCustomers'
           },
@@ -78,7 +78,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'WeChatOperateAnalysis',
       'title': '微信运营分析',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/SgGuide/ActivityAnalysis',
@@ -92,7 +92,7 @@ export default {
       'path': '/Risk/PhoneRiskManagement/SMSRecords',
       'name': 'RiskManage',
       'title': '风控管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Risk/PhoneRiskManagement/CallRecords',
@@ -112,7 +112,7 @@ export default {
       'path': '/Guide/ActivityIndex/WorkStatistics',
       'name': 'ShopOperateAnalysis',
       'title': '门店运营分析',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/ActivityIndex/WorkStatistics',
@@ -159,7 +159,7 @@ export default {
       'path': '/WeWork/SessionStatistics',
       'name': 'WeWorkSessionStatistics',
       'title': '会话统计',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/WeWork/Customer/SessionStatistics',
@@ -179,7 +179,7 @@ export default {
       'path': '/Guide/OperationLog/List',
       'name': 'SystemLog',
       'title': '系统日志',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/OperationLog/List',
@@ -199,7 +199,7 @@ export default {
       'path': '/Social/SocialOperation/RedPacket/Analysis',
       'name': 'redPacketAnalysis',
       'title': '',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'redPacketAnalysis'
       },

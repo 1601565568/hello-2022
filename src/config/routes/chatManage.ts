@@ -1,7 +1,7 @@
 export default {
   'path': '/Chat/ChatManage',
   'name': 'ChatManage',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '会话管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Social/WeWorkGroup/ChatRecord',
       'name': 'ChatManage',
       'title': '会话管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Social/WeWorkGroup/ChatRecord',
