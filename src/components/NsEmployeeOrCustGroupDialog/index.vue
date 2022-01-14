@@ -15,7 +15,7 @@
             <el-tab-pane label="员工全部好友" name="employee"></el-tab-pane>
           </el-tabs>
         </div>
-        <el-form label-width="60px" :inline="true">
+        <el-form label-width="70px" :inline="true">
           <el-form-item v-show="tabType === 'group'">
             <el-form-item label="选择视角：">
               <el-form-grid>

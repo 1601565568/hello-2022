@@ -189,7 +189,10 @@
               >
                 <template slot-scope="scope">
                   <div>
-                    <div>{{ scope.row.oldGuideName || '-'}}</div>
+                    <div>
+                      {{ scope.row.oldGuideName || '-'}}
+                      <span v-if="scope.row.status === 2">(已离职)</span>
+                    </div>
                     <el-popover
                       placement="bottom"
                       width="300"
@@ -263,7 +266,10 @@
                 width="120px"
               >
                 <template slot-scope="scope">
-                  <span  v-if="scope.row.takeoverStatus !== 0">{{ scope.row.oldGuideName || '-' }}</span>
+                  <span  v-if="scope.row.takeoverStatus !== 0">
+                    {{ scope.row.oldGuideName || '-' }}
+                    <span v-if="scope.row.status === 2">(已离职)</span>
+                  </span>
                   <span v-else>-</span>
                 </template>
               </el-table-column>
