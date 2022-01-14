@@ -8,7 +8,7 @@
 export default {
   'path': '/WeWork/WelcomeCode',
   'name': 'WEWORK',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '企业微信',
     'requiresAuth': true

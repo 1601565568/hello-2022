@@ -1,7 +1,7 @@
 export default {
   'path': '/Risk/RiskManagement',
   'name': 'RiskManagement',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '风控管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Risk/PhoneRiskManagement',
       'name': 'PhoneRiskManagement',
       'title': '手机风控',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Risk/PhoneRiskManagement/CallRecords',

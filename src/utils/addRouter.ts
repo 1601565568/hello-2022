@@ -2,7 +2,7 @@ export default (parentName: any, secondName:any, name:any, module: any) => (
   {
     path: `/${module}`,
     name: parentName,
-    component: () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+    component: () => import('@layout/Default.vue'),
     meta: { requiresAuth: true },
     redirect: {
       path: `/${module}/Content`
@@ -13,7 +13,7 @@ export default (parentName: any, secondName:any, name:any, module: any) => (
         name: secondName,
         title: '系统使用分析',
         meta: { requiresAuth: true },
-        component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+        component: () => import('@layout/Content.vue'),
         redirect: {
           path: `/${module}/Content/Index`
         },

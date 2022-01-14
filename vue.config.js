@@ -2,6 +2,18 @@
 const path = require('path')
 const packageConfig = require('./package.json')
 
+const getFavicon = function () {
+  const configQA = {
+    iconPaths: {
+      favicon32: 'QA-favicon-32x32.png',
+      favicon16: 'QA-favicon-16x16.png'
+    }
+  }
+  const configSmall = undefined
+
+  return process.env.VUE_APP_LAYOUT === 'QA' ? configQA : configSmall
+}
+
 function resolve (dir) {
   return path.join(__dirname, './', dir)
 }
@@ -19,6 +31,7 @@ module.exports = {
       .set('vue$', 'vue/dist/vue.js')
       .set(packageConfig.name, resolve(''))
       .set('@theme', resolve(`src/theme/${process.env.VUE_APP_THEME}`))
+      .set('@layout', resolve(`node_modules/@nascent/ecrp-ecrm/src/layout/${process.env.VUE_APP_LAYOUT}`))
   },
   devServer: {
     port: process.env.PORT,
@@ -38,5 +51,6 @@ module.exports = {
       }
     },
     before: app => { if (process.env.VUE_APP_MOCK === 'true') { require('./node_modules/@nascent/ecrp-ecrm/build/mock')(app) } } // 引入mock/index.js
-  }
+  },
+  pwa: getFavicon()
 }

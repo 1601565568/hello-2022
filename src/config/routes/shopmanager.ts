@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/SgGuide/List',
   'name': 'SHOP_MANAGER',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '门店管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'SHOP_MANAGER2',
       'title': '门店管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/SgStoreManagement/List',
@@ -41,7 +41,7 @@ export default {
       'path': '/Guide/Task/List',
       'name': 'TaskManger',
       'title': '任务体系',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Task/List',

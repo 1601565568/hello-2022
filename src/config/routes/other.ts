@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Others',
   'name': 'SG_OTHERS',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '其他',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Others/SgWxAuth',
       'name': 'OTHERS_SGWXACCOUNT',
       'title': '授权管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Others/SgWxAuth',
@@ -37,7 +37,7 @@ export default {
       'path': '/Guide/custom/DecorationEdit',
       'name': 'RecruitPageConfig',
       'title': '自定义装修',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/custom/Decoration',
@@ -57,7 +57,7 @@ export default {
       'path': '/Guide/SensitivePermission/index',
       'name': 'OTHER_CONFIG',
       'title': '其他设置',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/SensitivePermission/index',
@@ -71,7 +71,7 @@ export default {
       'path': '/account/companyInformation',
       'name': 'companyInformation',
       'title': '公司信息',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/account/companyInformation',
@@ -85,7 +85,7 @@ export default {
       'path': '/Guide/Service',
       'name': 'CustomerService',
       'title': '客服管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Service/ThirdLink',
@@ -99,7 +99,7 @@ export default {
       'path': '/Social/OperationConfig',
       'name': 'OperationConfig',
       'title': '运营设置',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         // 6.9 三方应用需求修改页面路径 WeWorkConfig => WeWorkTools
         // {

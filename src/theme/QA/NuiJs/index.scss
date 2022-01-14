@@ -1,0 +1,13 @@
+/* .scss文件的变量覆盖原则：上方代码覆盖下方代码 */
+
+// element-ui组件库样式主变量文件修改版
+@import "var";
+@import "~@nascent/ecrp-ecrm/src/theme/QA/NuiJs/var";
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~@nascent/nui/lib/theme-chalk/fonts';
+
+// element-ui组件库样式原文件
+@import "~@nascent/nui/packages/theme-chalk/src/index";
+
+@import "./my.scss";

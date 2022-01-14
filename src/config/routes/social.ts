@@ -1,7 +1,7 @@
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '社群营销',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Marketing/EnterpriseMessage',
       'name': 'EnterpriseMessage',
       'title': '企微好友营销',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'EnterpriseMessage'
       },
@@ -40,7 +40,7 @@ export default {
       'path': '/Marketing/EnterpriseGroupMessage',
       'name': 'EnterpriseGroupMessage',
       'title': '企微群营销',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'EnterpriseGroupMessage'
       },
@@ -49,7 +49,7 @@ export default {
           'path': '/Marketing/EnterpriseGroupMessage',
           'name': 'EnterpriseGroupMessage',
           'title': '企微群营销',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'path': '/Marketing/EnterpriseGroupMessage'
           },
@@ -78,7 +78,7 @@ export default {
           'path': '/Marketing/SOP',
           'name': 'SOP',
           'title': '社群日历',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': '/Marketing/SOP'
           },
@@ -101,7 +101,7 @@ export default {
           'path': '/Social/SocialOperation/RedPacket/Send/List',
           'name': 'redPacketSend',
           'title': '',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'redPacketSendList'
           },
@@ -126,7 +126,7 @@ export default {
       'path': '/EnterpriseExamine',
       'name': 'ActivityAuditList',
       'title': '活动审核',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/EnterpriseExamine',
@@ -146,7 +146,7 @@ export default {
       'path': '/Marketing/FriendsCircle/OutList',
       'name': 'FriendsCircle',
       'title': '朋友圈统计',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'enterpriseExamine'
       },
@@ -187,7 +187,7 @@ export default {
       'path': '/Marketing/EnterpriseFriendCircle',
       'name': 'EnterpriseFriendCircle',
       'title': '朋友圈营销',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'EnterpriseFriendCircle'
       },
@@ -204,7 +204,7 @@ export default {
       'path': '/Marketing/ActivityAuditList',
       'name': 'ActivityAuditList',
       'title': '活动审核',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'ActivityAuditList'
       },
