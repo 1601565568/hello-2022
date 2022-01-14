@@ -91,7 +91,10 @@ export default {
           routerAuth: res.data.result.menus,
           cloudUrl: res.data.result.cloudUrl,
           copyrightInfo: res.data.result.copyrightInfo,
-          uiLockBtnEnable: res.data.result.uiLockBtnEnable
+          uiLockBtnEnable: res.data.result.uiLockBtnEnable,
+          thirdMenus: res.data.result.thirdMenus,
+          themeType: res.data.result.themeType,
+          homeUrl: res.data.result.homeUrl
         }
 
         if (res.data.result.menus.length > 0) {
