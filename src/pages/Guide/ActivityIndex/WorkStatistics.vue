@@ -196,7 +196,7 @@
       <el-table-column label="姓名" prop="name">
         <template slot-scope="scope">
           <p v-if="scope.row.status == 2">
-            {{scope.row.name }} <span v-if="scope.row.sameFlag === 1 && scope.row.work_number">({{scope.row.work_number}})</span> <span class="text-error">(已离职)</span>
+            {{scope.row.name }} <span v-if="scope.row.sameFlag === 1 && scope.row.work_number">({{scope.row.work_number}})</span> <span class="text-error"></span>
           </p>
 <!--          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null || (scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0)">-->
           <p v-else-if="scope.row.gsShopId != null && scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0">
