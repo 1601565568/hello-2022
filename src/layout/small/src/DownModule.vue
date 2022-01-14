@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import isShowArea from '@/layout/src/isShowArea'
+import isShowArea from './isShowArea'
 export default {
   name: 'downModule',
   props: {

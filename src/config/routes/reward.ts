@@ -139,7 +139,7 @@ export default {
       'path': '/Guide/ActivityIndex/WorkStatistics',
       'name': 'CustomerOperateAnalysis',
       'title': '会员统计',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Customer/Chat/CustomerChat',

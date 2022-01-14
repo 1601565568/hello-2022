@@ -18,16 +18,12 @@
     </span>
     </el-dialog>
   </div>
-  <DownModule/>
 </div>
 </template>
 
 <script>
-import DownModule from './DownModule.vue'
+
 export default {
-  components: {
-    DownModule
-  },
   data () {
     return {
       customerVisible: false,
