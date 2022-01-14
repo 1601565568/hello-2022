@@ -667,6 +667,28 @@ export default {
               vm.model.executeTime = data.executeTime
             }
             vm.model.customerType = data.customerType + ''
+            // 编辑状态修改 that.$route.query.openType === 'copy'
+            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+            const isCrm = crm === '1'
+            if (that.$route.query.openType === 'copy') {
+              if (!isCrm) {
+                if (data.customerType === 1) {
+                  data.userGroupIds = ''
+                  data.customerType = 2
+                  vm.onlyOne = 'employee'
+                } else if (data.customerType === 2) {
+                  vm.onlyOne = 'employee'
+                }
+              } else {
+                vm.onlyOne = crm === '1' ? '' : 'employee'
+              }
+            } else {
+              if (isCrm) {
+                vm.onlyOne = ''
+              } else {
+                vm.onlyOne = data.customerType === 1 ? '' : 'employee'
+              }
+            }
             vm.copyCustomerType = vm.model.customerType
             if (data.content) {
               if (data.content.text) {
@@ -695,7 +717,8 @@ export default {
             }
             vm.employeeSelectData = employeeSelectData
             const userList = []
-            for (const item of data.userGroupIds.split(',')) {
+            const arr = data.userGroupIds && data.userGroupIds.split(',')
+            for (const item of arr) {
               let userItem = {}
               if (data.customerType === 2) {
                 userItem = {
@@ -774,20 +797,29 @@ export default {
           that.$notify.error('员工加载失败！')
         })
     },
+    initCrmData () {
+      const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+      this.onlyOne = crm === '1' ? '' : 'employee'
+    },
     verifyProductToCRM: function () {
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          if (resp.result) {
-            that.onlyOne = ''
-          }
-        }).catch(() => {
-          that.$notify.error('验证产品方案失败！')
-        })
-      that.onlyOne = 'employee'
+      // 编辑保留之前的任务的状态
+      if (this.$route.query.taskId) {
+        return
+      }
+      this.initCrmData()
+      // const that = this
+      // // 分群类别加载
+      // this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
+      //   .then(resp => {
+      //     // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+      //     const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+      //     if (resp.result) {
+      //       that.onlyOne = ''
+      //     }
+      //   }).catch(() => {
+      //     that.$notify.error('验证产品方案失败！')
+      //   })
+      // that.onlyOne = 'employee'
     },
     //  树方法
     _nodeChildren: function (setting, node, newChildren) { // 私有方法，children 键处理

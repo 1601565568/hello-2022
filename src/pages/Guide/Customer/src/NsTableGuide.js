@@ -25,6 +25,10 @@ export default {
       },
       {
         'func': function () {
+          if (this.$parent.total === '0') {
+            this.$parent.$notify.error('请选择要更换导购的会员')
+            return
+          }
           this.$parent.$emit('handlereplaceShop')
         },
         'name': '更换门店'
@@ -84,7 +88,10 @@ export default {
       shopCustomerTransferTaskStatusTime: null, // 定时调用判断门店转移任务状态显示
       visibleAreaTreeDialog: false, // 区域树组件是否显示
       selectedAreaInfo: { id: -1, label: '' },
-      areaTree: []
+      areaTree: [],
+      selectItem: {
+        label: ''
+      }
     }
   },
   computed: {
@@ -160,6 +167,24 @@ export default {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    changeGuide () {
+      if (this.total === '0') {
+        this.$notify.error('请选择要更换导购的会员')
+        return
+      }
+      this.$emit('add')
+    },
+    showShopOrGuideName () {
+      const maxLen = 12
+      let name = this.selectItem.label || ''
+      if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
+        name = name.substring(0, name.indexOf('('))
+      }
+      if (name.length > maxLen) {
+        name = name.substring(0, maxLen) + '...'
+      }
+      return name
+    },
     // 查询区域列表
     async getAreaList (data) {
       const resp = await this.$http.fetch(this.$api.guide.shop.findDigitalShopList, {
@@ -288,6 +313,7 @@ export default {
       })
     },
     totalForUnconditionalSearch (data) {
+      this.selectItem = data
       let isShop = false
       let param = {
         shopId: this.offLineShopId
@@ -312,7 +338,7 @@ export default {
             }
           }
           // 显示 total
-          var showLabel = data.label
+          let showLabel = data.label
           if (showLabel.indexOf('(') !== -1 && showLabel.indexOf(')') !== -1) {
             showLabel = showLabel.substring(0, showLabel.indexOf('('))
           }
@@ -321,7 +347,9 @@ export default {
           if (isShop) {
             this.totalNumTrige = addLabel
           }
-          data.label = showLabel + addLabel
+          // 特殊处理
+          let addText = data.status === 2 ? '(已离职)' : ''
+          data.label = showLabel + addText + addLabel
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))

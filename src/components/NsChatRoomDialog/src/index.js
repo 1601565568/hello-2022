@@ -46,6 +46,10 @@ export default {
     isSelectAll: {
       type: Boolean,
       default: false
+    },
+    selectedMax: { // 可选群上限
+      type: Number,
+      default: 100
     }
   },
   data: function () {
@@ -124,9 +128,7 @@ export default {
         let seledctDateReady = JSON.parse(JSON.stringify(this.selectedDataParent))
         this.selectedData = seledctDateReady
         this.resetSearch()
-      }
-
-      if (Array.isArray(this.selectedRoomIds)) {
+      } else if (Array.isArray(this.selectedRoomIds)) {
         // 查询所有的群 筛选选中的
         this.findAllGroups()
       }
@@ -411,8 +413,8 @@ export default {
         this.$notify.warning('请选择群组')
         return
       }
-      if (this.selectedData.length > 100) {
-        this.$notify.warning('群组上限100')
+      if (this.selectedData.length > this.selectedMax) {
+        this.$notify.warning(`最多支持选择${this.selectedMax}个群`)
         return
       }
       let selectData = this.selectedData
