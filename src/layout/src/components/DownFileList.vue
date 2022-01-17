@@ -16,20 +16,73 @@
       <div class="remind-view">
         下载中心仅保留近3天生成的报表，请尽快下载
       </div>
+      <div class="down-search"></div>
+      <div class="down-table" v-if="listData.length > 0">
+        <page-table style="padding-top:0">
+            <template slot="table">
+              <el-table
+                :data="listData"
+                class="new-table_border drawer-table"
+                :row-style="{ height: '48px' }"
+              >
+                <el-table-column prop="guideName" label="文件名称">
+                </el-table-column>
+                <el-table-column prop="phone" label="生成时间">
+                  <template slot-scope="scope">{{
+                    scope.row.phone || '-'
+                  }}</template>
+                </el-table-column>
+                <el-table-column prop="post" label="操作">
+                  <template slot-scope="scope">{{
+                    transPost(scope.row.post)
+                  }}</template>
+                </el-table-column>
+              </el-table>
+            </template>
+            <template slot="pagination">
+              <el-pagination
+                background
+                class="label-dialog__pagination"
+                :page-sizes="paginationToPerson.sizeOpts"
+                :total="paginationToPerson.total"
+                :current-page.sync="paginationToPerson.page"
+                :page-size="paginationToPerson.size"
+                layout="total, sizes, prev, pager, next, jumper"
+                @size-change="handleSizeChangeForPerson"
+                @current-change="handleCurrentChangeForPerson"
+              >
+              </el-pagination>
+            </template>
+          </page-table>
+      </div>
+      <div v-else>
+        <NoData />
+      </div>
     </div>
   </el-drawer>
 </template>
 
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
+import PageTable from '@/components/NewUi/PageTable'
+import NoData from '@/pages/WeWork/MaterialChat/components/NoData'
 export default {
   name: 'downFileList',
   components: {
-    ElDrawer
+    ElDrawer,
+    PageTable,
+    NoData
   },
   data () {
     return {
-      drawer: false
+      drawer: false,
+      paginationToPerson: {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      },
+      listData: []
     }
   },
   methods: {
@@ -38,25 +91,40 @@ export default {
     },
     openDrawer () {
       this.drawer = true
+    },
+    handleSizeChangeForPerson (size) {
+      this.paginationToPerson = {
+        ...this.paginationToPerson,
+        size,
+        page: 1
+      }
+      this.loadDetail()
+    },
+    handleCurrentChangeForPerson (page) {
+      this.paginationToPerson.page = page
+      this.loadDetail()
+    },
+    loadDetail () {
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@components/NewUi/styles/reset.css';
 .down-view {
-  padding: 16px;
   .close-view {
     height: 49px;
     display: flex;
     align-items: center;
+    padding: 16px;
   }
   .down-title {
     font-size: 16px;
     color: #262626;
     line-height: 24px;
     font-weight: 500;
-    padding: 12px 0;
+    padding: 16px;
   }
   .close-icon {
     width: 20px;
@@ -71,6 +139,12 @@ export default {
     color: #595959;
     line-height: 22px;
     padding: 9px 16px;
+    margin: 16px;
   }
+}
+.drawer-table {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
 }
 </style>
