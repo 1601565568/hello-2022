@@ -191,7 +191,7 @@
                     </el-tooltip>
                   </template>
                   <div style='display:flex;'>
-                    当群聚合码超过100个群时，自动移除 <div class='cha'></div>
+                    当群聚合超的群过100个群时，自动移除 <div class='cha'></div>
                     <el-form-item prop='roomUserNum'>
                       <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
                     </el-form-item><div class='cha'></div>人以上群聊
