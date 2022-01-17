@@ -71,7 +71,7 @@ export default {
   margin-right: calc(15px + 8px);
   width: 32px;
   height: 32px;
-  background: #5BA5F5;
+  background: rgba(255, 255, 255, .2);
   border-radius: 50%;
   display: flex;
   align-items: center;
