@@ -1,7 +1,7 @@
 export default {
   'path': '/Customer/CustomerCenter',
   'name': 'CUSTOMER_CENTER',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '用户中心',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Customer',
       'name': 'CustomerManage',
       'title': '客户管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Customer/CustomerManage',
@@ -37,7 +37,7 @@ export default {
       'path': '/Social/WeComCustomerOperation/ExternalContactList',
       'name': 'WeComExternalContactList',
       'title': '好友管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'WeComExternalContactList'
       },
@@ -58,7 +58,7 @@ export default {
           'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
           'name': 'WeComFriendsAnalysis',
           'title': '好友分析',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeComRepeatCustomer'
           },
@@ -75,7 +75,7 @@ export default {
           'path': '/Social/WeComCustomerOperation/RepeatCustomer',
           'name': 'WeComRepeatCustomer',
           'title': '重复客户',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeComRepeatCustomer'
           },
@@ -94,7 +94,7 @@ export default {
       'path': '/Social/WeComCustomerOperation/RoomList',
       'name': 'WeComRoomManage',
       'title': '群管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'WeComRepeatCustomer'
       },

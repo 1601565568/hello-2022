@@ -1,7 +1,7 @@
 export default {
   path: '/Greeting',
   name: 'SocialOperation',
-  component: () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  component: () => import('@layout/Default.vue'),
   meta: { requiresAuth: true },
   redirect: {
     path: '/Greeting/Content'
@@ -12,7 +12,7 @@ export default {
       name: 'Greeting',
       title: '系统使用分析',
       meta: { requiresAuth: true },
-      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      component: () => import('@layout/Content.vue'),
       redirect: {
         path: '/Greeting/Content/Index'
       },

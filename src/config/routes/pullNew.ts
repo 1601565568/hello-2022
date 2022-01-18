@@ -1,7 +1,7 @@
 export default {
   'path': '/Pull/PullNew',
   'name': 'PULL_NEW',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '获客引流',
     'requiresAuth': true
@@ -11,13 +11,13 @@ export default {
       'path': '/Social/SocialOperation',
       'name': 'SocialOperation',
       'title': '好友引流',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/SgFriendAutoPass/List',
           'name': 'AutoPass',
           'title': '好友自动通过',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'AutoPass'
           },
@@ -40,7 +40,7 @@ export default {
           'path': '/Guide/SgPersonalQrcode/List',
           'name': 'AutoPass',
           'title': '聚合二维码',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'SgPersonalQrcode'
           },
@@ -69,7 +69,7 @@ export default {
           'path': '/Guide/SgGuide/ChatAutoReply',
           'name': 'ChatAutoReply',
           'title': '聊天智能回复',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'ChatAutoReply'
           },
@@ -92,7 +92,7 @@ export default {
           'path': '/WeWork/WelcomeCode/WelcomeCodeList',
           'name': 'WelcomeCodeList',
           'title': '智能欢迎语(企微)',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WelcomeCodeList'
           },
@@ -115,7 +115,7 @@ export default {
           'path': '/Guide/speech/speechList',
           'name': 'WelcomesIndex',
           'title': '欢迎语',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WelcomesIndex'
           },
@@ -138,7 +138,7 @@ export default {
           'path': '/Social/SocialOperation/CustomerCode/List',
           'name': 'CustomerCode',
           'title': '裂变大师',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeWorkGuestCode'
           },
@@ -168,7 +168,7 @@ export default {
           name: 'LBSFriends',
           title: 'LBS好友聚合码',
           meta: { requiresAuth: true },
-          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          component: () => import('@layout/ContentOnly.vue'),
           // redirect: {
           //   path: '/Guide/LBS/Friends/Index'
           // },
@@ -203,7 +203,7 @@ export default {
       'path': '/Social/WeWorkGroup',
       'name': 'WeWorkGroup',
       'title': '群引流',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Social/WeWorkGroup/GroupAssistant',
@@ -221,7 +221,7 @@ export default {
           'path': '/Social/WeWorkGroup/chatRoomGroup',
           'name': 'chatRoomGroupAll',
           'title': '群聚合码',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'chatRoomGroup'
           },
@@ -257,7 +257,7 @@ export default {
           name: 'LBSGroup',
           title: 'LBS群聚合码',
           meta: { requiresAuth: true },
-          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          component: () => import('@layout/ContentOnly.vue'),
           children: [
             {
               path: '/Guide/LBS/Group/Index',
@@ -288,7 +288,7 @@ export default {
       'path': '/Guide/RecruitSet',
       'name': 'RecruitSet',
       'title': '会员引流',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/RecruitSet/RecruitConfigGift',
@@ -320,7 +320,7 @@ export default {
       'path': '/Guide/chanel/chanel',
       'name': 'ChannelCenter',
       'title': '渠道中心',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'chanel'
       },
