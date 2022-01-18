@@ -283,12 +283,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="销售额(元)/销售指标(元)/完成率"
+        label="成单导购销售额(元)/销售指标(元)/完成率"
         align="right"
-        width="250"
+        width="280"
       >
         <template slot="header">
-          销售额(元)/销售指标(元)/完成率
+          成单导购销售额(元)/销售指标(元)/完成率
           <el-tooltip content="此员工为成单导购的订单金额减去退款金额（不限制下单门店为该门店）">
             <Icon type="question-circle"/>
           </el-tooltip>
@@ -299,6 +299,17 @@
           <span v-else>{{$numeral(scope.row.sellQuota).format('0,0.00')}}</span>
           </span>/<span>{{scope.row.sellCompleteRate || '-'}}</span>
       </template>
+      </el-table-column>
+      <el-table-column label="专属导购销售额（元）" prop="sellPrice" width="150" align="right">
+        <template slot="header">
+          专属导购销售额(元)
+          <el-tooltip content="专属导购为此导购且专属门店为此门店的订单">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
+        <template slot-scope="scope">
+          <span>{{scope.row.exclusiveGuideMonery || '-'}}</span>
+        </template>
       </el-table-column>
       <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
         <template slot="header">
@@ -409,6 +420,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="时间" ></el-table-column>
+              <el-table-column prop="commissionType" label="提成类型">
+                <template slot-scope="scope">
+                  <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="reward" label="提成"   align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
@@ -464,6 +480,11 @@
               </el-table-column>
               <el-table-column prop="tradeId" label="关联订单号"></el-table-column>
               <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="commissionType" label="提成类型">
+                <template slot-scope="scope">
+                  <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="reward" label="提成" align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
@@ -625,6 +646,15 @@ export default {
     this.loadListFun()
   },
   methods: {
+    commissionTypeText (type) {
+      let typeText = '-'
+      if (type === 0) {
+        typeText = '成单导购提成'
+      } else if (type === 1) {
+        typeText = '专属导购提成'
+      }
+      return typeText
+    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null
