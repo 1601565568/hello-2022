@@ -428,6 +428,11 @@
                     </template>
                   </el-table-column>
                   <el-table-column prop="createTime" label="时间"></el-table-column>
+                  <el-table-column prop="commissionType" label="提成类型">
+                    <template slot-scope="scope">
+                      <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
@@ -490,6 +495,11 @@
                   </el-table-column>
                   <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
                   <el-table-column prop="createTime" label="时间" ></el-table-column>
+                  <el-table-column prop="commissionType" label="提成类型">
+                    <template slot-scope="scope">
+                      <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
@@ -678,6 +688,15 @@ export default {
     this.loadListFun()
   },
   methods: {
+    commissionTypeText (type) {
+      let typeText = '-'
+      if (type === 0) {
+        typeText = '成单导购提成'
+      } else if (type === 1) {
+        typeText = '专属导购提成'
+      }
+      return typeText
+    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null
