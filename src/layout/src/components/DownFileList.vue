@@ -45,109 +45,56 @@
             value-format="yyyy-MM-dd"
             prefix-icon=""
             @change="dataPickerChange"
+            :default-time="['00:00:00','23:59:59']"
           >
           </el-date-picker>
         </div>
       </div>
-      <div class="down-table" v-if="listData.length > 0">
-        <page-table style="padding-top:0">
-          <template slot="table">
-            <el-table
-              :data="listData"
-              class="new-table_border drawer-table"
-              :row-style="{ height: '48px' }"
-            >
-              <el-table-column prop="guideName" label="文件名称">
-              </el-table-column>
-              <el-table-column prop="phone" label="生成时间">
-                <template slot-scope="scope">{{
-                  scope.row.phone || '-'
-                }}</template>
-              </el-table-column>
-              <el-table-column prop="post" label="操作">
-                <template slot-scope="scope">{{
-                  transPost(scope.row.post)
-                }}</template>
-              </el-table-column>
-            </el-table>
-          </template>
-          <template slot="pagination">
-            <el-pagination
-              background
-              class="label-dialog__pagination"
-              :page-sizes="paginationToPerson.sizeOpts"
-              :total="paginationToPerson.total"
-              :current-page.sync="paginationToPerson.page"
-              :page-size="paginationToPerson.size"
-              layout="total, sizes, prev, pager, next, jumper"
-              @size-change="handleSizeChangeForPerson"
-              @current-change="handleCurrentChangeForPerson"
-            >
-            </el-pagination>
-          </template>
-        </page-table>
-      </div>
-      <div v-else>
-        <NoData />
-      </div>
+      <DownTableList ref="downTableList"/>
     </div>
   </el-drawer>
 </template>
 
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
-import PageTable from '@/components/NewUi/PageTable'
-import NoData from '@/pages/WeWork/MaterialChat/components/NoData'
+import DownTableList from './DownTableList'
 export default {
   name: 'downFileList',
   components: {
     ElDrawer,
-    PageTable,
-    NoData
+    DownTableList
   },
   data () {
     return {
       drawer: false,
-      paginationToPerson: {
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      },
-      listData: [],
       inputTitle: '',
-      datePickerValue: ''
+      datePickerValue: []
     }
   },
   methods: {
     dataPickerChange (e) {
+      this.loadTableList()
     },
     handleClose () {
       this.drawer = false
     },
     openDrawer () {
       this.drawer = true
-    },
-    handleSizeChangeForPerson (size) {
-      this.paginationToPerson = {
-        ...this.paginationToPerson,
-        size,
-        page: 1
+      if (this.$refs.downTableList) {
+        this.loadTableList()
       }
-      this.loadDetail()
     },
-    handleCurrentChangeForPerson (page) {
-      this.paginationToPerson.page = page
-      this.loadDetail()
+    inputChange (e) {
+      this.loadTableList()
     },
-    loadDetail () {},
-    inputChange () {}
+    loadTableList () {
+      this.$refs.downTableList.loadDetail(this.inputTitle, this.datePickerValue)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@components/NewUi/styles/reset.css';
 @import '@pages/WeWork/MaterialChat/styles/index.css';
 .down-view {
   .close-view {
@@ -179,11 +126,6 @@ export default {
     margin: 16px 16px 0 16px;
   }
 }
-.drawer-table {
-  padding: 0;
-  font-size: 14px;
-  font-weight: 400;
-}
 .down-search {
   height: 65px;
   display: flex;
@@ -207,6 +149,5 @@ export default {
 }
 .date-view >>> .el-range-input {
   font-size: 14px;
-  /* height: 32px; */
 }
 </style>

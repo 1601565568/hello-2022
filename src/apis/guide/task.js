@@ -22,5 +22,9 @@ export default {
   findDailyStatistics: {
     url: '/guide/task/findDailyStatistics',
     method: 'get'
+  },
+  exportList: {
+    url: '/file/export/record/list',
+    method: 'post'
   }
 }
