@@ -33,21 +33,20 @@
             ></Icon>
           </el-input>
         </div>
-        <div class="input-view">
-          <el-input
-            placeholder="请输入生成时间"
-            autofocus="false"
-            type="text"
-            v-model="inputTitle"
-            @change="inputChange"
+        <div class="date-view base-view">
+          <span style="font-size:13px">生成时间：</span>
+          <el-date-picker
+            v-model="datePickerValue"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="center"
+            value-format="yyyy-MM-dd"
+            prefix-icon=""
+            @change="dataPickerChange"
           >
-            <Icon
-              type="ns-search"
-              slot="suffix"
-              style="font-size: 30px;"
-              @click="inputChange"
-            ></Icon>
-          </el-input>
+          </el-date-picker>
         </div>
       </div>
       <div class="down-table" v-if="listData.length > 0">
@@ -116,10 +115,14 @@ export default {
         total: 0
       },
       listData: [],
-      inputTitle: ''
+      inputTitle: '',
+      datePickerValue: ''
     }
   },
   methods: {
+    dataPickerChange (e) {
+      console.log(e)
+    },
     handleClose () {
       this.drawer = false
     },
@@ -191,5 +194,20 @@ export default {
 }
 .input-view {
   margin-right: 16px;
+  width: 240px;
+}
+.date-view {
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  padding: 0px 12px;
+}
+.date-view >>> .el-input__inner {
+  width: 326px;
+  height: 30px;
+  border: none;
+}
+.date-view >>> .el-range-input {
+  font-size: 14px;
+  /* height: 32px; */
 }
 </style>
