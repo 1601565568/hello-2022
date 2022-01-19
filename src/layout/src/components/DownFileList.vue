@@ -121,7 +121,6 @@ export default {
   },
   methods: {
     dataPickerChange (e) {
-      console.log(e)
     },
     handleClose () {
       this.drawer = false
