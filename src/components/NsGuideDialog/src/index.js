@@ -1,31 +1,31 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { Object } from 'core-js'
 import store from 'store/dist/store.legacy.min.js'
-let vm
+
 export default {
   name: 'NsGuideDialog',
   mixins: [tableMixin],
   props: {
     value: {
-      default: function () {
+      default () {
         return []
       }
     },
     // 判断是否需要门店回显
     echoStore: {
-      default: function () {
+      default () {
         return false
       }
     },
     guideUrl: {
       type: Object,
-      default: function () {
+      default () {
         return this.$api.core.sysUser.queryGuidePage
       }
     },
     guideFindUrl: {
       type: Object,
-      default: function () {
+      default () {
         return this.$api.core.sysUser.findByGuideIds
       }
     },
@@ -37,7 +37,7 @@ export default {
     // 是否支持按区域选中0 - 不支持， 1-支持
     switchAreaFlag: {
       type: Number,
-      default: function () {
+      default () {
         return 0
       }
     },
@@ -87,7 +87,7 @@ export default {
       default: false
     }
   },
-  data: function () {
+  data () {
     return {
       allEmployeeData: [],
       // 左边树的数据
@@ -145,7 +145,7 @@ export default {
   },
   computed: {},
   watch: {
-    'departData.shopArea': function (o1, o2) {
+    'departData.shopArea' (o1, o2) {
       let shopOptions = []
       this.departData.shopId = ''
       this.departData.shopIds = ''
@@ -172,9 +172,9 @@ export default {
       if (this.isOpenDialogAfterRequest && !this.requestLoaded) {
         return
       }
-      vm.visible = true
-      vm.isCheckAll = false
-      vm.$nextTick(function () {
+      this.visible = true
+      this.isCheckAll = false
+      this.$nextTick(() => {
         this.departData.name = ''
         this.departData.mobile = ''
         this.departData.job = null
@@ -264,13 +264,13 @@ export default {
           that.departData.departmentTree = resp.result
           that.departData.allDepartments = resp.result
         }).catch(() => {
-          vm.$notify.error('查询部门树失败')
+          this.$notify.error('查询部门树失败')
         })
     },
     /**
      * 获取门店区域，所有门店选项
      */
-    getShopAreaAndShop: function () {
+    getShopAreaAndShop () {
       let isId = ''
       if (this.echoStore) {
         isId = store.get('user_area').id
@@ -297,21 +297,21 @@ export default {
     /**
      * 重置搜索条件并搜索
      */
-    resetSearch: function () {
-      vm.departData.name = ''
-      vm.departData.mobile = ''
-      vm.departData.job = ''
-      vm.departData.selectedDepart = {}
-      vm.departData.shopArea = {} // 选择的门店分类
-      vm.departData.shopId = '' // 选择的门店
-      vm.departData.fileImportKey = '' // 文件导入key
-      vm.departData.manualInputKey = '' // 手动输入key
+    resetSearch () {
+      this.departData.name = ''
+      this.departData.mobile = ''
+      this.departData.job = ''
+      this.departData.selectedDepart = {}
+      this.departData.shopArea = {} // 选择的门店分类
+      this.departData.shopId = '' // 选择的门店
+      this.departData.fileImportKey = '' // 文件导入key
+      this.departData.manualInputKey = '' // 手动输入key
       this.successCount = 0 // 已导入员工数量
       this.$refs.import.reset()
-      vm.searchEmployee(1)
+      this.searchEmployee(1)
     },
     // 接收导入员工参数
-    acceptImport: function (val) {
+    acceptImport (val) {
       this.successCount = val.successCount
       if (val.manualInputKey) {
         this.departData.manualInputKey = val.manualInputKey
@@ -323,7 +323,7 @@ export default {
     /**
      * 搜索员工
      */
-    searchEmployee: function (pageNo) {
+    searchEmployee (pageNo) {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
@@ -338,21 +338,21 @@ export default {
           if (resp.result.recordsTotal) {
             total = parseInt(resp.result.recordsTotal)
           }
-          vm.isCheckAll = false
+          this.isCheckAll = false
         }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
+          this.$notify.error('查询用户信息失败')
         }).finally(() => {
-          vm.allSearchEmployeeData = []
+          this.allSearchEmployeeData = []
           // 员工数据
-          vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
+          this.employeeData = this.handleEmployeeList(JSON.parse(JSON.stringify(data)), this.departData.allDepartments)
           // 所有员工数据
-          vm.allEmployeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
+          this.allEmployeeData = this.handleEmployeeList(JSON.parse(JSON.stringify(data)), this.departData.allDepartments)
           // 数据总数
-          vm.pagination4Emp.total = total
-          vm.$nextTick(function () {
+          this.pagination4Emp.total = total
+          this.$nextTick(() => {
             // 设置员工勾选状态
-            vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
-            vm.tableLoading = false
+            this.toggleRowSelection(this.selectedData, this.employeeData, this.recordId)
+            this.tableLoading = false
           })
         })
     },
@@ -360,8 +360,8 @@ export default {
      * 搜索全部员工
      */
     async searchAllEmployee () {
-      if (vm.allSearchEmployeeData.length > 0) {
-        return vm.allSearchEmployeeData
+      if (this.allSearchEmployeeData.length > 0) {
+        return this.allSearchEmployeeData
       }
       let param = { pageNo: 1, pageSize: 9999999 }
       this.setParam(param)
@@ -369,31 +369,31 @@ export default {
       await this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
+            this.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
           }
         }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
+          this.$notify.error('查询用户信息失败')
         })
-      return vm.allSearchEmployeeData
+      return this.allSearchEmployeeData
     },
     /**
      * 初始化搜索值
      * @param param
      */
     setParam (param) {
-      param.auth = vm.auth
-      param.switchAreaFlag = vm.switchAreaFlag
-      if (vm.departData.name) {
-        param.empName = vm.departData.name
+      param.auth = this.auth
+      param.switchAreaFlag = this.switchAreaFlag
+      if (this.departData.name) {
+        param.empName = this.departData.name
       }
-      if (vm.departData.job !== null) {
-        param.job = vm.departData.job
+      if (this.departData.job !== null) {
+        param.job = this.departData.job
       }
-      if (vm.departData.mobile) {
-        param.mobile = vm.departData.mobile
+      if (this.departData.mobile) {
+        param.mobile = this.departData.mobile
       }
-      if (vm.departData.selectedDepart.value && parseInt(vm.departData.selectedDepart.value) > 0) {
-        let jointString = vm.jointDepartId(vm.departData.selectedDepart.value, vm.departData.allDepartments)
+      if (this.departData.selectedDepart.value && parseInt(this.departData.selectedDepart.value) > 0) {
+        let jointString = this.jointDepartId(this.departData.selectedDepart.value, this.departData.allDepartments)
         param.empDepar = jointString.join(',')
       }
       if (this.departData.shopId) {
@@ -403,14 +403,14 @@ export default {
           param.areaId = '-' + this.departData.shopArea.value + '-'
         }
       }
-      if (vm.departData.manualInputKey) {
-        param.manualInputKey = vm.departData.manualInputKey // 手动输入导入文件
+      if (this.departData.manualInputKey) {
+        param.manualInputKey = this.departData.manualInputKey // 手动输入导入文件
       }
       if (this.$refs.import.model.redisKey !== '' && this.$refs.import.model.redisKey !== null) {
-        param.fileImportKey = vm.departData.fileImportKey // 表格导入文件
+        param.fileImportKey = this.departData.fileImportKey // 表格导入文件
       }
-      // if (vm.departData.fileImportKey) {
-      //   param.fileImportKey = vm.departData.fileImportKey
+      // if (this.departData.fileImportKey) {
+      //   param.fileImportKey = this.departData.fileImportKey
       // }
     },
     /**
@@ -421,7 +421,7 @@ export default {
       if (departId && allDepart && allDepart.length > 0) {
         allDepart.forEach(index => {
           if (index.parentId && index.id && parseInt(index.parentId) === parseInt(departId)) {
-            _jointString = _jointString.concat(vm.jointDepartId(index.id, allDepart))
+            _jointString = _jointString.concat(this.jointDepartId(index.id, allDepart))
           }
         })
       }
@@ -431,13 +431,13 @@ export default {
      * 设置员工勾选状态
      */
     toggleRowSelection (selectedData, allData, idKey) {
-      vm.$nextTick(function () {
+      this.$nextTick(() => {
         for (let data of allData) {
           let index = selectedData.filter(index => data[idKey] === index[idKey])
           if (index.length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(data, true)
+            this.$refs['employeeTable'].toggleRowSelection(data, true)
           } else {
-            vm.$refs['employeeTable'].toggleRowSelection(data, false)
+            this.$refs['employeeTable'].toggleRowSelection(data, false)
           }
         }
       })
@@ -447,10 +447,10 @@ export default {
      */
     selectChange (select, scope) {
       if (this.selectedData.length > 0) {
-        const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
+        const index = this.selectedData.findIndex(d => d[this.recordId] === scope[this.recordId])
         if (index > -1) {
           this.selectedData.splice(index, 1)
-          vm.isCheckAll = false
+          this.isCheckAll = false
         } else {
           this.selectedData.push(scope)
         }
@@ -467,15 +467,15 @@ export default {
     selectAllChange (select) {
       if (select.length === 0) {
         for (let data of this.employeeData) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index > -1) {
             this.selectedData.splice(index, 1)
           }
         }
-        vm.isCheckAll = false
+        this.isCheckAll = false
       } else {
         for (let data of select) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index === -1) {
             this.selectedData.push(data)
           }
@@ -492,12 +492,12 @@ export default {
         // 已选择的有权限的员工
         let authSelectedData = []
         let allEmployeeMap = {}
-        allEmployee.forEach(function (item) {
+        allEmployee.forEach((item) => {
           allEmployeeMap[item.id] = item
         })
         // 区分该批搜索数据中的权限数据
-        vm.selectedData.forEach(function (item) {
-          if (vm.auth && item.auth) {
+        this.selectedData.forEach((item) => {
+          if (this.auth && item.auth) {
             // 没有权限的员工
             selectedData2.push(item)
           } else {
@@ -510,32 +510,32 @@ export default {
             }
           }
         })
-        vm.selectedData = []
-        if (vm.isCheckAll) {
+        this.selectedData = []
+        if (this.isCheckAll) {
           // 清空左边列表
-          // vm.$refs.employeeTable.clearSelection()
+          // this.$refs.employeeTable.clearSelection()
           return
         } else {
           // 左边列表全部勾选
-          vm.employeeData.forEach(function (item) {
+          this.employeeData.forEach((item) => {
             if (allEmployeeMap[item.id]) {
-              vm.$refs.employeeTable.toggleRowSelection(item, true)
+              this.$refs.employeeTable.toggleRowSelection(item, true)
             }
           })
-          selectedData3.forEach(function (item) {
+          selectedData3.forEach((item) => {
             selectedData2.push(item)
           })
           // 右边员工数据添加
-          allEmployee.forEach(function (item) {
+          allEmployee.forEach((item) => {
             selectedData2.push(item)
           })
         }
-        vm.selectedData = selectedData2
-        // vm.isCheckAll = !vm.isCheckAll
+        this.selectedData = selectedData2
+        // this.isCheckAll = !this.isCheckAll
       })
     },
     clearSelection () {
-      vm.$refs.employeeTable.clearSelection()
+      this.$refs.employeeTable.clearSelection()
       this.selectedData = []
     },
     /**
@@ -543,32 +543,32 @@ export default {
      */
     removeEmp (scope) {
       this.selectedData.splice(scope.$index, 1)
-      // const index = this.$refs.employeeTable.selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
-      const item = this.employeeData.find(d => d[vm.recordId] === scope.row[vm.recordId])
+      // const index = this.$refs.employeeTable.selection.findIndex(d => d[this.recordId] === scope.row[this.recordId])
+      const item = this.employeeData.find(d => d[this.recordId] === scope.row[this.recordId])
       if (item) {
         this.$refs.employeeTable.toggleRowSelection(item)
-        vm.isCheckAll = false
+        this.isCheckAll = false
       }
     },
     /**
      * 根据右边数据，勾选左边员工
      */
     resetInput () {
-      if (vm.employeeData.length > 0) {
-        vm.fileData()
+      if (this.employeeData.length > 0) {
+        this.fileData()
       }
     },
     /**
      * 勾选处理逻辑
      */
     fileData () {
-      if (vm.$refs['employeeTable']) {
-        vm.$refs['employeeTable'].clearSelection()
+      if (this.$refs['employeeTable']) {
+        this.$refs['employeeTable'].clearSelection()
       }
-      vm.$nextTick(function () {
-        for (let indexDat of vm.employeeData) {
-          if (vm.selectedData.filter(d => d[vm.recordId] === indexDat[vm.recordId]).length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(indexDat, true)
+      this.$nextTick(() => {
+        for (let indexDat of this.employeeData) {
+          if (this.selectedData.filter(d => d[this.recordId] === indexDat[this.recordId]).length > 0) {
+            this.$refs['employeeTable'].toggleRowSelection(indexDat, true)
           }
         }
       })
@@ -578,49 +578,49 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: this.auth, switchAreaFlag: this.switchAreaFlag, areaId: this.departData.shopArea.value }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), vm.departData.allDepartments)
-            vm.allEmployeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), vm.departData.allDepartments)
+            this.employeeData = this.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), this.departData.allDepartments)
+            this.allEmployeeData = this.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), this.departData.allDepartments)
           }
           if (resp.result.recordsTotal) {
-            vm.pagination4Emp.total = parseInt(resp.result.recordsTotal)
+            this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
           } else {
-            vm.pagination4Emp.total = 0
+            this.pagination4Emp.total = 0
           }
         }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
+          this.$notify.error('查询用户信息失败')
         }).finally(() => {
           // 勾选默认值
-          if (vm.value && vm.value.length > 0) {
+          if (this.value && this.value.length > 0) {
             var param = {}
             param.pageNo = 1
             param.pageSize = 1
-            if (vm.value && vm.value.length > 0) {
-              if (vm.value[0] && typeof vm.value[0] === 'object') {
-                param.userIds = vm.value.map(item => item.id).join(',')
+            if (this.value && this.value.length > 0) {
+              if (this.value[0] && typeof this.value[0] === 'object') {
+                param.userIds = this.value.map(item => item.id).join(',')
               } else {
-                param.userIds = vm.value.join(',')
+                param.userIds = this.value.join(',')
               }
             }
-            vm.$http.fetch(this.guideFindUrl, param).then(resp => {
+            this.$http.fetch(this.guideFindUrl, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
-                vm.selectedData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result)), vm.departData.allDepartments)
-                vm.$nextTick(function () {
-                  vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
-                  vm.tableLoading = false
+                this.selectedData = this.handleEmployeeList(JSON.parse(JSON.stringify(resp.result)), this.departData.allDepartments)
+                this.$nextTick(() => {
+                  this.toggleRowSelection(this.selectedData, this.employeeData, this.recordId)
+                  this.tableLoading = false
                 })
               }
             })
           } else {
-            vm.selectedData = []
+            this.selectedData = []
           }
-          vm.$nextTick(function () {
-            vm.resetInput()
+          this.$nextTick(() => {
+            this.resetInput()
           })
-          vm.tableLoading = false
+          this.tableLoading = false
         })
     },
     /**
@@ -644,8 +644,8 @@ export default {
      * 关闭弹窗
      */
     onDialogClose () {
-      vm.visible = false
-      vm.isCheckAll = false
+      this.visible = false
+      this.isCheckAll = false
     },
     /**
      * 点击保存按钮
@@ -656,12 +656,12 @@ export default {
         return
       }
       this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
-      vm.visible = false
+      this.visible = false
     },
     /**
      * 返回组建数据到父组件
      */
-    callbackData: function (data) {
+    callbackData (data) {
       let transData = this.transformData(data)
       // 直接复制给父组件的input的v-model
       this.$emit('input', transData)
@@ -674,7 +674,7 @@ export default {
       let result = []
       if (data && data.length > 0) {
         data.map(item => {
-          result.push(item[vm.recordId])
+          result.push(item[this.recordId])
         })
       }
       return result
@@ -682,18 +682,15 @@ export default {
     /**
      * 点击页码数量时触发获取员工列表刷新事件
      */
-    $sizeChange$: function (size) {
+    $sizeChange$ (size) {
       this.pagination4Emp.size = size
       return this.searchEmployee(1)
     }
   },
-  mounted: function () {
-    vm = this
+  mounted () {
     // 获取部门树
-    vm.getDepartmentTree()
+    this.getDepartmentTree()
     // 区域树
-    vm.getShopAreaAndShop()
-  },
-  created: function () {
+    this.getShopAreaAndShop()
   }
 }

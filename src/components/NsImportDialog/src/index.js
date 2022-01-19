@@ -1,6 +1,5 @@
 import ElUpload from '@nascent/nui/lib/upload'
 
-let vm
 export default {
   components: {
     ElUpload
@@ -19,7 +18,7 @@ export default {
       default: 'text'
     }
   },
-  data: function () {
+  data () {
     return {
       fileList: [],
       loading: false, // 防重复提交
@@ -56,8 +55,8 @@ export default {
   methods: {
     // 打开弹窗
     onDialogOpen () {
-      vm.ImportVisible = true
-      vm.isCheckAll = false
+      this.ImportVisible = true
+      this.isCheckAll = false
     },
     onDialogClose () {
       this.number++
@@ -67,8 +66,8 @@ export default {
         this.fileList = []
       }
       this.number = 0
-      vm.ImportVisible = false
-      vm.isCheckAll = false
+      this.ImportVisible = false
+      this.isCheckAll = false
     },
     handleExceed (file, fileList) {
       this.$notify.error('已上传文件，不能重复上传')
@@ -134,19 +133,19 @@ export default {
         .then((resp) => {
           if (resp.success) {
             if (resp.result.errorCount > 0) {
-              vm.$notify.success('成功匹配员工数' + resp.result.successCount + '(存在' + resp.result.errorCount + '条无效数据可能是：员工已离职，员工不在数据权限范围内，员工信息错误等)')
+              this.$notify.success('成功匹配员工数' + resp.result.successCount + '(存在' + resp.result.errorCount + '条无效数据可能是：员工已离职，员工不在数据权限范围内，员工信息错误等)')
               this.$emit('acceptImport', resp.result)
-              vm.ImportVisible = false
+              this.ImportVisible = false
             } else {
-              vm.$notify.success('成功匹配员工数' + resp.result.successCount)
+              this.$notify.success('成功匹配员工数' + resp.result.successCount)
               this.$emit('acceptImport', resp.result)
-              vm.ImportVisible = false
+              this.ImportVisible = false
             }
           } else {
-            vm.$notify.error(resp.msg)
+            this.$notify.error(resp.msg)
           }
         }).catch((resp) => {
-          vm.$notify.error(resp.msg)
+          this.$notify.error(resp.msg)
         })
     },
     UploadImage (file) {
@@ -157,15 +156,15 @@ export default {
         .then((resp) => {
           if (resp.success) {
             this.model.redisKey = resp.result
-            vm.$notify.success('上传成功')
+            this.$notify.success('上传成功')
             this.loading = false
           } else {
-            vm.$notify.error(resp.msg)
+            this.$notify.error(resp.msg)
             this.loading = false
           }
         }).catch((resp) => {
           this.loading = false
-          vm.$notify.error(resp.msg)
+          this.$notify.error(resp.msg)
         })
     },
     ManualInputType () {
@@ -173,12 +172,11 @@ export default {
         .then((resp) => {
           this.statusOptions = resp.result
         }).catch((resp) => {
-          vm.$notify.error('获取类型列表失败', resp.msg)
+          this.$notify.error('获取类型列表失败', resp.msg)
         })
     }
   },
-  mounted: function () {
-    vm = this
+  mounted () {
     this.ManualInputType()
   }
 }

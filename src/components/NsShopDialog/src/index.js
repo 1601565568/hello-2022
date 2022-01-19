@@ -1,17 +1,17 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-let vm
+
 export default {
   name: 'NsShopDialog',
   mixins: [tableMixin],
   props: {
     value: {
-      default: function () {
+      default () {
         return []
       }
     },
     url: {
       type: Object,
-      default: function () {
+      default () {
         return this.$api.core.sysShop.queryShopList
       }
     },
@@ -47,7 +47,7 @@ export default {
       default: false
     }
   },
-  data: function () {
+  data () {
     return {
       allListData: [],
       allSearchEmployeeData: [],
@@ -89,7 +89,7 @@ export default {
   },
   computed: {},
   watch: {
-    'param.shopArea': function (o1, o2) {
+    'param.shopArea' (o1, o2) {
       let shopOptions = []
       this.param.shopId = ''
       this.param.shopIds = ''
@@ -113,9 +113,9 @@ export default {
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
-      vm.visible = true
-      vm.isCheckAll = false
-      vm.$nextTick(function () {
+      this.visible = true
+      this.isCheckAll = false
+      this.$nextTick(() => {
         this.param.name = ''
         this.param.shopArea = {} // 选择的门店区域
         this.param.shopId = '' // 选择的门店
@@ -125,22 +125,22 @@ export default {
     /**
      * 重置搜索条件并搜索
      */
-    resetSearch: function () {
-      vm.param.name = ''
-      vm.param.shopArea = {} // 选择的门店区域
-      vm.param.shopId = '' // 选择的门店
-      vm.searchEmployee(1)
+    resetSearch () {
+      this.param.name = ''
+      this.param.shopArea = {} // 选择的门店区域
+      this.param.shopId = '' // 选择的门店
+      this.searchEmployee(1)
     },
     /**
      * 搜索列表数据
      */
-    searchEmployee: function (pageNo) {
+    searchEmployee (pageNo) {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
-      let param = { start: (pageNo - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan, auth: vm.auth } }
-      if (vm.param.name) {
-        param.searchMap.shopName = vm.param.name
+      let param = { start: (pageNo - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: this.plan, auth: this.auth } }
+      if (this.param.name) {
+        param.searchMap.shopName = this.param.name
       }
       if (this.param.shopId) {
         param.searchMap.shopId = this.param.shopId
@@ -158,21 +158,21 @@ export default {
           if (resp.result.recordsTotal) {
             total = parseInt(resp.result.recordsTotal)
           }
-          vm.isCheckAll = false
+          this.isCheckAll = false
         }).catch(() => {
-          vm.$notify.error('请求数据信息失败')
+          this.$notify.error('请求数据信息失败')
         }).finally(() => {
-          vm.allSearchEmployeeData = []
+          this.allSearchEmployeeData = []
           // 列表数据
-          vm.listData = JSON.parse(JSON.stringify(data))
+          this.listData = JSON.parse(JSON.stringify(data))
           // 备份列表数据
-          vm.allListData = JSON.parse(JSON.stringify(data))
+          this.allListData = JSON.parse(JSON.stringify(data))
           // 数据总数
-          vm.pagination4Emp.total = total
-          vm.$nextTick(function () {
+          this.pagination4Emp.total = total
+          this.$nextTick(() => {
             // 设置列表数据勾选状态
-            vm.toggleRowSelection(vm.selectedData, vm.listData, vm.recordId)
-            vm.tableLoading = false
+            this.toggleRowSelection(this.selectedData, this.listData, this.recordId)
+            this.tableLoading = false
           })
         })
     },
@@ -180,12 +180,12 @@ export default {
      * 获取全部列表数据
      */
     async searchAllEmployee () {
-      if (vm.allSearchEmployeeData.length > 0) {
-        return vm.allSearchEmployeeData
+      if (this.allSearchEmployeeData.length > 0) {
+        return this.allSearchEmployeeData
       }
-      let param = { start: 0, length: 999999, searchMap: { plan: vm.plan, auth: vm.auth } }
-      if (vm.param.name) {
-        param.searchMap.shopName = vm.param.name
+      let param = { start: 0, length: 999999, searchMap: { plan: this.plan, auth: this.auth } }
+      if (this.param.name) {
+        param.searchMap.shopName = this.param.name
       }
       if (this.param.shopId) {
         param.searchMap.shopId = this.param.shopId
@@ -198,24 +198,24 @@ export default {
       await this.$http.fetch(this.url, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
+            this.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
           }
         }).catch(() => {
-          vm.$notify.error('请求数据信息失败')
+          this.$notify.error('请求数据信息失败')
         })
-      return vm.allSearchEmployeeData
+      return this.allSearchEmployeeData
     },
     /**
      * 设置列表数据勾选状态
      */
     toggleRowSelection (selectedData, allData, idKey) {
-      vm.$nextTick(function () {
+      this.$nextTick(() => {
         for (let data of allData) {
           let index = selectedData.filter(index => data[idKey] === index[idKey])
           if (index.length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(data, true)
+            this.$refs['employeeTable'].toggleRowSelection(data, true)
           } else {
-            vm.$refs['employeeTable'].toggleRowSelection(data, false)
+            this.$refs['employeeTable'].toggleRowSelection(data, false)
           }
         }
       })
@@ -225,7 +225,7 @@ export default {
      */
     selectChange (select, scope) {
       if (this.selectedData.length > 0) {
-        const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
+        const index = this.selectedData.findIndex(d => d[this.recordId] === scope[this.recordId])
         if (index > -1) {
           this.selectedData.splice(index, 1)
         } else {
@@ -244,14 +244,14 @@ export default {
     selectAllChange (select) {
       if (select.length === 0) {
         for (let data of this.listData) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index > -1) {
             this.selectedData.splice(index, 1)
           }
         }
       } else {
         for (let data of select) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index === -1) {
             this.selectedData.push(data)
           }
@@ -274,11 +274,11 @@ export default {
         let selectedData3 = []
         let authSelectedData = []
         let allEmployeeMap = {}
-        allEmployee.forEach(function (item) {
+        allEmployee.forEach((item) => {
           allEmployeeMap[item.id] = item
         })
-        vm.selectedData.forEach(function (item) {
-          if (vm.auth && item.auth) {
+        this.selectedData.forEach((item) => {
+          if (this.auth && item.auth) {
             selectedData2.push(item)
           } else {
             if (allEmployeeMap[item.id]) {
@@ -290,46 +290,46 @@ export default {
             }
           }
         })
-        vm.selectedData = []
-        if (vm.isCheckAll) {
-          vm.$refs.employeeTable.clearSelection()
+        this.selectedData = []
+        if (this.isCheckAll) {
+          this.$refs.employeeTable.clearSelection()
         } else {
-          vm.listData.forEach(function (item) {
-            vm.$refs.employeeTable.toggleRowSelection(item, true)
+          this.listData.forEach((item) => {
+            this.$refs.employeeTable.toggleRowSelection(item, true)
           })
           if (!this.isFix) {
-            selectedData3.forEach(function (item) {
+            selectedData3.forEach((item) => {
               selectedData2.push(item)
             })
           }
-          allEmployee.forEach(function (item) {
+          allEmployee.forEach((item) => {
             if (!selectedData3.find(items => items.shop_id === item.shop_id)) {
               selectedData2.push(item)
             }
           })
         }
-        vm.selectedData = selectedData2
+        this.selectedData = selectedData2
         if (this.isFix) {
-          vm.isCheckAll = false
+          this.isCheckAll = false
         } else {
-          vm.isCheckAll = !vm.isCheckAll
+          this.isCheckAll = !this.isCheckAll
         }
       })
     },
     // 删除所有人员
     removeAll () {
-      vm.$refs.employeeTable.clearSelection()
-      vm.selectedData = []
+      this.$refs.employeeTable.clearSelection()
+      this.selectedData = []
     },
     /**
      * 右侧数据删除事件
      */
     removeEmp (scope) {
       this.selectedData.splice(scope.$index, 1)
-      const index = this.$refs['employeeTable'].selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
+      const index = this.$refs['employeeTable'].selection.findIndex(d => d[this.recordId] === scope.row[this.recordId])
       if (index > -1) {
         this.$refs['employeeTable'].selection.splice(index, 1)
-        vm.isCheckAll = false
+        this.isCheckAll = false
       }
       if (this.$refs['employeeTable'].selection.length === 0) {
         this.$refs['employeeTable'].clearSelection()
@@ -339,21 +339,21 @@ export default {
      * 根据右边数据，勾选左边数据
      */
     resetInput () {
-      if (vm.listData.length > 0) {
-        vm.fileData()
+      if (this.listData.length > 0) {
+        this.fileData()
       }
     },
     /**
      * 勾选处理逻辑
      */
     fileData () {
-      if (vm.$refs['employeeTable']) {
-        vm.$refs['employeeTable'].clearSelection()
+      if (this.$refs['employeeTable']) {
+        this.$refs['employeeTable'].clearSelection()
       }
-      vm.$nextTick(function () {
-        for (let indexDat of vm.listData) {
-          if (vm.selectedData.filter(d => d[vm.recordId] === indexDat[vm.recordId]).length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(indexDat, true)
+      this.$nextTick(() => {
+        for (let indexDat of this.listData) {
+          if (this.selectedData.filter(d => d[this.recordId] === indexDat[this.recordId]).length > 0) {
+            this.$refs['employeeTable'].toggleRowSelection(indexDat, true)
           }
         }
       })
@@ -363,50 +363,50 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan, auth: vm.auth } }
+      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: this.plan, auth: this.auth } }
       this.$http.fetch(this.url, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.listData = JSON.parse(JSON.stringify(resp.result.data))
-            vm.allListData = JSON.parse(JSON.stringify(resp.result.data))
+            this.listData = JSON.parse(JSON.stringify(resp.result.data))
+            this.allListData = JSON.parse(JSON.stringify(resp.result.data))
           }
           if (resp.result.recordsTotal) {
-            vm.pagination4Emp.total = parseInt(resp.result.recordsTotal)
+            this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
           } else {
-            vm.pagination4Emp.total = 0
+            this.pagination4Emp.total = 0
           }
         }).catch(() => {
-          vm.$notify.error('请求数据信息失败')
+          this.$notify.error('请求数据信息失败')
         }).finally(() => {
           // 勾选默认值
-          if (vm.value && vm.value.length > 0) {
+          if (this.value && this.value.length > 0) {
             var param = {}
-            if (vm.value && vm.value.length > 0) {
-              param.shopIds = vm.value.join(',')
+            if (this.value && this.value.length > 0) {
+              param.shopIds = this.value.join(',')
             }
-            vm.$http.fetch(this.$api.core.sysShop.getShopListByShopIds, param).then(resp => {
+            this.$http.fetch(this.$api.core.sysShop.getShopListByShopIds, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
-                vm.selectedData = JSON.parse(JSON.stringify(resp.result))
-                vm.$nextTick(function () {
-                  vm.toggleRowSelection(vm.selectedData, vm.listData, vm.recordId)
-                  vm.tableLoading = false
+                this.selectedData = JSON.parse(JSON.stringify(resp.result))
+                this.$nextTick(() => {
+                  this.toggleRowSelection(this.selectedData, this.listData, this.recordId)
+                  this.tableLoading = false
                 })
               }
             }).catch((ee) => {})
           } else {
-            vm.selectedData = []
+            this.selectedData = []
           }
-          vm.$nextTick(function () {
-            vm.resetInput()
+          this.$nextTick(() => {
+            this.resetInput()
           })
-          vm.tableLoading = false
+          this.tableLoading = false
         })
     },
     /**
      * 关闭弹窗
      */
     onDialogClose () {
-      vm.visible = false
+      this.visible = false
     },
     /**
      * 点击保存按钮
@@ -417,12 +417,12 @@ export default {
         return
       }
       this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
-      vm.visible = false
+      this.visible = false
     },
     /**
      * 返回组建数据到父组件
      */
-    callbackData: function (data) {
+    callbackData (data) {
       let transData = this.transformData(data)
       // 直接复制给父组件的input的v-model
       this.$emit('input', transData)
@@ -434,7 +434,7 @@ export default {
       let result = []
       if (data && data.length > 0) {
         data.map(item => {
-          result.push(item[vm.recordId])
+          result.push(item[this.recordId])
         })
       }
       return result
@@ -442,7 +442,7 @@ export default {
     /**
      * 点击页码数量时触发获取列表刷新事件
      */
-    $sizeChange$: function (size) {
+    $sizeChange$ (size) {
       this.pagination4Emp.size = size
       return this.searchEmployee(1)
     },
@@ -489,7 +489,7 @@ export default {
     /**
      * 获取门店区域，所有门店选项
      */
-    getShopAreaAndShop: function () {
+    getShopAreaAndShop () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
@@ -501,11 +501,8 @@ export default {
         })
     }
   },
-  mounted: function () {
-    vm = this
+  mounted () {
     // 分类树
-    vm.getShopAreaAndShop()
-  },
-  created: function () {
+    this.getShopAreaAndShop()
   }
 }

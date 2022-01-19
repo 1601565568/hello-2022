@@ -155,21 +155,6 @@
             </el-pagination>
           </el-col>
           <el-col :span="12">
-            <!--<div v-infinite-scroll="loadSelectedDataF">
-              <ElTable :data="loadSelectedData" height="260">
-                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="已选员工" align="left"/>
-                <ElTableColumn  prop="select" align="center" width="55" >
-                  <template slot-scope="scope">
-                    <ns-button
-                      type="text"
-                      size="mini"
-                      @click="() => removeEmp(scope)">
-                      <Icon type="delete" className="code-delete"/>
-                    </ns-button>
-                  </template>
-                </ElTableColumn>
-              </ElTable>
-            </div>-->
             <div class="tmp-choose__result" >
               <p class="title">已选择了<span class="text-danger padding-lr-base">{{selectedData.length}}</span>个员工</p>
               <div v-if="loadSelectedData.length>0">
@@ -197,23 +182,6 @@
 </template>
 
 <script>
-//  使用方式：
-//  <NsEmployeeOrCustGroupDialog onlyOne="employee" btnTitle="+选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
-//  配置参数：
-// onlyOne：配置只使用一种选择类型，可配置employee（员工个人号）或group（客户分群）;
-//  不配置则默认两种情况可选
-//  btnTitle：配置按钮文本
-//  dialogTitle：配置弹框标题
-//  v-model：接收值设置v-model="employeeSelectData"
-//  employeeSelectData格式为
-//  {
-//    data: [],//选中的值，对象值根据类型为{employeeId:'',...}或{id:'',...}
-//      type: 'employee'//如果设置了onlyOne，则该值要对应上
-//  }
-// employeeProps 配置选择个号返回属性，要与组件数据的属性对应上如 employeeId: 'employeeId'
-// groupProps    配置选择分群返回属性，要与组件数据的属性对应上如 id: 'id'
-// queryType 查询类型 为空=查所有  1= 只查个人号  2=只查企业号
-
 import NsDroptree from '../NsDroptree'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { clone } from 'lodash'
@@ -221,7 +189,6 @@ import ElSelectLoad from '@nascent/nui/lib/select-load'
 import InfiniteScroll from '@nascent/nui/lib/infinite-scroll'
 import { mapState } from 'vuex'
 
-let vm
 const LOADPAGESIZE = 50
 export default {
   name: 'NsEmployeeOrCustGroupDialog',
@@ -236,7 +203,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: function () {
+      default () {
         return {
           data: [],
           type: 'group'
@@ -245,7 +212,7 @@ export default {
     },
     // 判断是否需要门店回显
     echoStore: {
-      default: function () {
+      default () {
         return false
       }
     },
@@ -256,7 +223,7 @@ export default {
     // 配置选择员工返回属性,属性名不可更改，属性值可配置为需要设置的值
     employeeProps: {
       type: Object,
-      default: function () {
+      default () {
         return {
           employeeID: 'employeeID'
         }
@@ -265,7 +232,7 @@ export default {
     // 配置选择分群返回属性,属性名不可更改，属性值可配置为需要设置的值
     groupProps: {
       type: Object,
-      default: function () {
+      default () {
         return {
           id: 'id'
         }
@@ -306,7 +273,7 @@ export default {
       default: false
     }
   },
-  data: function () {
+  data () {
     return {
       // 员工和分群的所有数据
       allEmpData: {
@@ -389,18 +356,18 @@ export default {
     area: state => state.user.area
   }),
   watch: {
-    tabType: function (val) {
+    tabType (val) {
       if (val && val === 'employee') {
-        vm.recordId = 'employeeID'
-        vm.recordName = 'name'
-        vm.objProps = 'employeeProps'
+        this.recordId = 'employeeID'
+        this.recordName = 'name'
+        this.objProps = 'employeeProps'
       } else if (val && val === 'group') {
-        vm.recordId = 'id'
-        vm.recordName = 'subdivisionName'
-        vm.objProps = 'groupProps'
+        this.recordId = 'id'
+        this.recordName = 'subdivisionName'
+        this.objProps = 'groupProps'
       }
     },
-    'model.shopArea': function (o1, o2) {
+    'model.shopArea' (o1, o2) {
       const shopOptions = []
       if (!o1.value || o1.value !== o2.value) {
         let areaIdStr = '/' + o1.value + '/'
@@ -413,7 +380,7 @@ export default {
         this.shopOptions = shopOptions
       }
     },
-    selectedData: function () {
+    selectedData () {
       if (this.selectedData.length === 0) {
         this.loadSelectedData = []
       } else {
@@ -452,17 +419,17 @@ export default {
       }
     },
     isAllSelect () {
-      if (vm.value && vm.value.data && vm.value.data.length > 0 && vm.matchEmployeeData.length > 0 && vm.matchEmployeeData.length === vm.value.data.length) {
-        vm.isCheckAll = true
+      if (this.value && this.value.data && this.value.data.length > 0 && this.matchEmployeeData.length > 0 && this.matchEmployeeData.length === this.value.data.length) {
+        this.isCheckAll = true
       } else {
-        vm.isCheckAll = false
+        this.isCheckAll = false
       }
     },
     // 切换tab
     changeTab (tab) {
-      vm.tabType = tab.name
-      vm.$nextTick(function () {
-        vm.getData(tab.name, 'tabChange ')
+      this.tabType = tab.name
+      this.$nextTick(() => {
+        this.getData(tab.name, 'tabChange ')
       })
     },
     // 懒加载部门树
@@ -552,7 +519,7 @@ export default {
     /**
      * 获取门店区域，所有门店选项
      */
-    getShopAreaAndShop: function () {
+    getShopAreaAndShop () {
       // 设置选中
       const that = this
       that.$http.fetch(that.$api.marketing.weworkMarketing.queryEmployeeTreeAndOption4Component)
@@ -576,21 +543,7 @@ export default {
           that.departData.departmentTree = resp.result
           that.departData.allDepartments = resp.result
         }).catch(() => {
-          vm.$notify.error('查询部门树失败')
-        })
-    },
-    /**
-     * 获取分群树
-     */
-    getGroupTree () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList, { viewId: this.model.viewId })
-        .then(resp => {
-          vm.groupData.groupTree = vm.handleGroupList(clone(resp.result), 'onlyCatalog')
-          vm.groupData.allGroup = vm.handleGroupList(clone(resp.result), 'onlyCatalog')
-        }).catch(() => {
-          vm.$notify.error('查询客户分群树失败')
-        }).finally(() => {
-          // do nothing
+          this.$notify.error('查询部门树失败')
         })
     },
     // 懒加载分群类树
@@ -620,66 +573,66 @@ export default {
     },
     // 全选按钮
     onSelectAllData () {
-      vm.selectedData = []
+      this.selectedData = []
       const selectedData2 = []
-      if (vm.isCheckAll) {
-        vm.$refs[vm.tabType + 'Table'].clearSelection()
+      if (this.isCheckAll) {
+        this.$refs[this.tabType + 'Table'].clearSelection()
       } else {
-        for (const item of vm.employeeData) {
-          vm.$refs[vm.tabType + 'Table'].toggleRowSelection(item, true)
+        for (const item of this.employeeData) {
+          this.$refs[this.tabType + 'Table'].toggleRowSelection(item, true)
         }
-        for (const item2 of vm.matchEmployeeData) {
+        for (const item2 of this.matchEmployeeData) {
           // const obj = {}
-          // obj[vm.recordId] = item2[vm.recordId]
-          // obj[vm.recordName] = item2[vm.recordName]
+          // obj[this.recordId] = item2[this.recordId]
+          // obj[this.recordName] = item2[this.recordName]
           selectedData2.push(clone(item2))
         }
       }
-      vm.selectedData = selectedData2
-      vm.isCheckAll = !vm.isCheckAll
+      this.selectedData = selectedData2
+      this.isCheckAll = !this.isCheckAll
     },
     // 重置搜索
-    resetSearch: function () {
-      if (vm.tabType === 'group') {
-        vm.groupData.name = ''
-        vm.groupData.selectedGroup.value = ''
-        vm.groupData.selectedGroup.text = ''
-        vm.$refs.groupClassTree.cleanClickHandle()
-        vm.searchGroup()
+    resetSearch () {
+      if (this.tabType === 'group') {
+        this.groupData.name = ''
+        this.groupData.selectedGroup.value = ''
+        this.groupData.selectedGroup.text = ''
+        this.$refs.groupClassTree.cleanClickHandle()
+        this.searchGroup()
       } else {
-        vm.model.name = ''
-        vm.model.selectedDepart.value = ''
-        vm.model.selectedDepart.text = ''
-        vm.model.shopArea = {} // 选择的区域分类
-        vm.model.mobile = ''
-        vm.model.shopId = '' // 选择的门店
-        vm.model.employeeType = '' // 选择的员工类型
-        vm.model.wechatNick = '' // 选择的员工类型
-        vm.model.wechatNo = '' // 选择的员工类型
-        vm.$refs.employeeDepartTree.cleanClickHandle()
-        vm.$refs.shopAreaTree.cleanClickHandle()
-        vm.searchEmployee()
+        this.model.name = ''
+        this.model.selectedDepart.value = ''
+        this.model.selectedDepart.text = ''
+        this.model.shopArea = {} // 选择的区域分类
+        this.model.mobile = ''
+        this.model.shopId = '' // 选择的门店
+        this.model.employeeType = '' // 选择的员工类型
+        this.model.wechatNick = '' // 选择的员工类型
+        this.model.wechatNo = '' // 选择的员工类型
+        this.$refs.employeeDepartTree.cleanClickHandle()
+        this.$refs.shopAreaTree.cleanClickHandle()
+        this.searchEmployee()
       }
     },
     searchData () {
-      if (vm.tabType === 'group') {
-        vm.searchGroup()
+      if (this.tabType === 'group') {
+        this.searchGroup()
       } else {
-        vm.searchEmployee()
+        this.searchEmployee()
       }
     },
     // 搜索用户
-    searchEmployee: function () {
-      vm.tableLoading = true
-      const data = vm.allEmployeeData.filter(vm.filterEmployeeTableData)
-      vm.setData4Search((data || []), 'name')
-      vm.tableLoading = false
+    searchEmployee () {
+      this.tableLoading = true
+      const data = this.allEmployeeData.filter(this.filterEmployeeTableData)
+      this.setData4Search((data || []), 'name')
+      this.tableLoading = false
     },
     /**
      *  过滤表格数据
      */
-    filterEmployeeTableData: function (data) {
-      const searchMap = vm.model
+    filterEmployeeTableData (data) {
+      const searchMap = this.model
       let flag = true
       if (searchMap.name) {
         flag = flag && (data.name.indexOf(searchMap.name) !== -1)
@@ -696,10 +649,10 @@ export default {
         } else {
           flag = false
         }
-      } else if (searchMap.shopArea && searchMap.shopArea.value && vm.shopOptions && vm.shopOptions.length > 0) {
+      } else if (searchMap.shopArea && searchMap.shopArea.value && this.shopOptions && this.shopOptions.length > 0) {
         let shopAreaFlag = false
-        for (let i = 0; i < vm.shopOptions.length; i++) {
-          if (data.shopIds && data.shopIds.indexOf(vm.shopOptions[i].value) !== -1) {
+        for (let i = 0; i < this.shopOptions.length; i++) {
+          if (data.shopIds && data.shopIds.indexOf(this.shopOptions[i].value) !== -1) {
             shopAreaFlag = true
             break
           }
@@ -713,21 +666,21 @@ export default {
         flag = flag && (data.mobile === searchMap.mobile)
       }
       if (searchMap.selectedDepart.value) {
-        const jointString = vm.jointDepartId(searchMap.selectedDepart.value, vm.departData.allDepartments)
+        const jointString = this.jointDepartId(searchMap.selectedDepart.value, this.departData.allDepartments)
         flag = flag && jointString.indexOf(data.positionID) >= 0
       }
       return flag
     },
     setData4Search (data, idColumn) {
-      vm.matchEmployeeData = data
-      vm.$nextTick(() => {
-        // vm.employeeData = data
-        const pageD = vm.pageingData(data, 0)
-        vm.employeeData = vm.handleShowData(pageD.dataList, vm.tabType)
-        // vm.employeeData = pageD.dataList
-        vm.pagination4Emp.total = pageD.total
-        vm.pagination4Emp.page = 1
-        vm.toggleRowSelection(vm.selectedData, vm.employeeData, idColumn)
+      this.matchEmployeeData = data
+      this.$nextTick(() => {
+        // this.employeeData = data
+        const pageD = this.pageingData(data, 0)
+        this.employeeData = this.handleShowData(pageD.dataList, this.tabType)
+        // this.employeeData = pageD.dataList
+        this.pagination4Emp.total = pageD.total
+        this.pagination4Emp.page = 1
+        this.toggleRowSelection(this.selectedData, this.employeeData, idColumn)
       })
     },
     // 拼接部门的id,所有子部门
@@ -736,7 +689,7 @@ export default {
       if (departId && allDepart && allDepart.length > 0) {
         allDepart.forEach(index => {
           if (index.parentId && index.id && parseInt(index.parentId) === parseInt(departId)) {
-            _jointString = _jointString.concat(vm.jointDepartId(index.id, allDepart))
+            _jointString = _jointString.concat(this.jointDepartId(index.id, allDepart))
           }
         })
       }
@@ -748,69 +701,69 @@ export default {
       if (groupId && allGroup && allGroup.length > 0) {
         allGroup.forEach(index => {
           if (index.parentId && index.id && parseInt(index.parentId) === parseInt(groupId)) {
-            _jointString = _jointString.concat(vm.jointGroupId(index.id, allGroup))
+            _jointString = _jointString.concat(this.jointGroupId(index.id, allGroup))
           }
         })
       }
       return _jointString
     },
     // 搜索分群
-    searchGroup: function () {
+    searchGroup () {
       let data = []
-      if (vm.groupData.name || (vm.groupData.selectedGroup.value && parseInt(vm.groupData.selectedGroup.value) > 0)) {
-        const jointString = vm.jointGroupId(vm.groupData.selectedGroup.value, vm.groupData.allGroup)
-        data = vm.allEmployeeData.filter(index => {
-          if (vm.groupData.name && vm.groupData.selectedGroup.value) {
-            return index.subdivisionName && index.subdivisionName.toString().indexOf(vm.groupData.name) !== -1 && jointString.indexOf(index.parentId) >= 0
-          } else if (vm.groupData.name) {
-            return index.subdivisionName && index.subdivisionName.toString().indexOf(vm.groupData.name) !== -1
+      if (this.groupData.name || (this.groupData.selectedGroup.value && parseInt(this.groupData.selectedGroup.value) > 0)) {
+        const jointString = this.jointGroupId(this.groupData.selectedGroup.value, this.groupData.allGroup)
+        data = this.allEmployeeData.filter(index => {
+          if (this.groupData.name && this.groupData.selectedGroup.value) {
+            return index.subdivisionName && index.subdivisionName.toString().indexOf(this.groupData.name) !== -1 && jointString.indexOf(index.parentId) >= 0
+          } else if (this.groupData.name) {
+            return index.subdivisionName && index.subdivisionName.toString().indexOf(this.groupData.name) !== -1
           } else {
             return jointString.indexOf(index.parentId) >= 0
           }
         }
         )
       } else {
-        data = clone(vm.allEmployeeData)
+        data = clone(this.allEmployeeData)
       }
-      vm.setData4Search(data, 'subdivisionName')
+      this.setData4Search(data, 'subdivisionName')
     },
     // 设置勾选状态
     toggleRowSelection (selectedData, allData, idKey) {
-      vm.$nextTick(function () {
+      this.$nextTick(() => {
         for (const data of allData) {
           const index = selectedData.filter(index => data[idKey] === index[idKey])
           if (index.length > 0) {
-            vm.$refs[vm.tabType + 'Table'].toggleRowSelection(data, true)
+            this.$refs[this.tabType + 'Table'].toggleRowSelection(data, true)
           }
         }
       })
     },
     selectChange (select, scope) {
       if (this.selectedData.length > 0) {
-        const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
+        const index = this.selectedData.findIndex(d => d[this.recordId] === scope[this.recordId])
         if (index > -1) {
           this.selectedData.splice(index, 1)
         } else {
           this.selectedData.push(scope)
         }
       } else {
-        this.selectedData = JSON.parse(JSON.stringify(this.$refs[vm.tabType + 'Table'].selection))
+        this.selectedData = JSON.parse(JSON.stringify(this.$refs[this.tabType + 'Table'].selection))
       }
       if (this.selectedData.length === 0) {
-        this.$refs[vm.tabType + 'Table'].clearSelection()
+        this.$refs[this.tabType + 'Table'].clearSelection()
       }
     },
     selectAllChange (select) {
       if (select.length === 0) {
         for (const data of this.employeeData) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index > -1) {
             this.selectedData.splice(index, 1)
           }
         }
       } else {
         for (const data of select) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
+          const index = this.selectedData.findIndex(d => d[this.recordId] === data[this.recordId])
           if (index === -1) {
             this.selectedData.push(data)
           }
@@ -820,14 +773,14 @@ export default {
     // 删除已选
     removeEmp (scope) {
       this.selectedData.splice(scope.$index, 1)
-      const index = this.$refs[vm.tabType + 'Table'].selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
+      const index = this.$refs[this.tabType + 'Table'].selection.findIndex(d => d[this.recordId] === scope.row[this.recordId])
       if (index > -1) {
-        this.$refs[vm.tabType + 'Table'].selection.splice(index, 1)
+        this.$refs[this.tabType + 'Table'].selection.splice(index, 1)
         this.loadSelectedData.splice(index, 1)
         this.isCheckAll = false
       }
-      if (this.$refs[vm.tabType + 'Table'].selection.length === 0) {
-        this.$refs[vm.tabType + 'Table'].clearSelection()
+      if (this.$refs[this.tabType + 'Table'].selection.length === 0) {
+        this.$refs[this.tabType + 'Table'].clearSelection()
       }
     },
 
@@ -835,22 +788,22 @@ export default {
      * 打开弹窗
      */
     onDialogOpen () {
-      vm.visible = true
-      this.tabType = vm.value && vm.value.type ? vm.value.type : (vm.onlyOne ? vm.onlyOne : 'employee')
-      vm.$nextTick(function () {
-        vm.getData(this.tabType, 'open')
+      this.visible = true
+      this.tabType = this.value && this.value.type ? this.value.type : (this.onlyOne ? this.onlyOne : 'employee')
+      this.$nextTick(() => {
+        this.getData(this.tabType, 'open')
       })
     },
     setFullInfo (val) {
-      if (val && val.length > 0 && vm.allEmployeeData && vm.allEmployeeData.length > 0) {
+      if (val && val.length > 0 && this.allEmployeeData && this.allEmployeeData.length > 0) {
         const data = []
         const mapArr = {}
-        vm.allEmployeeData.map(data => {
-          mapArr[data[vm.recordId]] = data[vm.recordName]
+        this.allEmployeeData.map(data => {
+          mapArr[data[this.recordId]] = data[this.recordName]
         })
         if (mapArr) {
           val.map(item => {
-            item[vm.recordName] = mapArr[item[vm.recordId]]
+            item[this.recordName] = mapArr[item[this.recordId]]
             data.push(JSON.parse(JSON.stringify(item)))
           })
         }
@@ -859,40 +812,40 @@ export default {
       return []
     },
     resetInput () {
-      if (vm.tabType === 'group') {
-        vm.groupData.name = ''
-        vm.groupData.selectedGroup.value = ''
-        vm.groupData.selectedGroup.text = ''
-        vm.$refs.groupClassTree.cleanClickHandle()
+      if (this.tabType === 'group') {
+        this.groupData.name = ''
+        this.groupData.selectedGroup.value = ''
+        this.groupData.selectedGroup.text = ''
+        this.$refs.groupClassTree.cleanClickHandle()
       } else {
-        vm.model.name = ''
-        vm.model.selectedDepart.value = ''
-        vm.model.selectedDepart.text = ''
-        vm.model.shopArea = this.echoStore ? { // 选择的门店区域
+        this.model.name = ''
+        this.model.selectedDepart.value = ''
+        this.model.selectedDepart.text = ''
+        this.model.shopArea = this.echoStore ? { // 选择的门店区域
           value: this.area.id,
           text: this.area.name
         } : {}
-        vm.model.mobile = ''
-        vm.model.shopId = '' // 选择的门店
-        vm.model.employeeType = '' // 选择的员工类型
-        vm.model.wechatNick = '' // 选择的员工类型
-        vm.model.wechatNo = '' // 选择的员工类型
-        vm.$refs.employeeDepartTree.cleanClickHandle()
-        vm.$refs.shopAreaTree.cleanClickHandle()
+        this.model.mobile = ''
+        this.model.shopId = '' // 选择的门店
+        this.model.employeeType = '' // 选择的员工类型
+        this.model.wechatNick = '' // 选择的员工类型
+        this.model.wechatNo = '' // 选择的员工类型
+        this.$refs.employeeDepartTree.cleanClickHandle()
+        this.$refs.shopAreaTree.cleanClickHandle()
       }
-      vm.isAllSelect()
-      vm.fileData()
+      this.isAllSelect()
+      this.fileData()
     },
     // 勾选已选择的选项
     fileData () {
-      if (vm.employeeData && vm.employeeData.length > 0 && vm.employeeData && vm.employeeData.length > 0) {
-        if (vm.$refs[vm.tabType + 'Table']) {
-          vm.$refs[vm.tabType + 'Table'].clearSelection()
+      if (this.employeeData && this.employeeData.length > 0 && this.employeeData && this.employeeData.length > 0) {
+        if (this.$refs[this.tabType + 'Table']) {
+          this.$refs[this.tabType + 'Table'].clearSelection()
         }
-        vm.$nextTick(function () {
-          for (const indexDat of vm.employeeData) {
-            if (vm.selectedData.filter(d => d[vm.recordId] === indexDat[vm.recordId]).length > 0) {
-              vm.$refs[vm.tabType + 'Table'].toggleRowSelection(indexDat, true)
+        this.$nextTick(() => {
+          for (const indexDat of this.employeeData) {
+            if (this.selectedData.filter(d => d[this.recordId] === indexDat[this.recordId]).length > 0) {
+              this.$refs[this.tabType + 'Table'].toggleRowSelection(indexDat, true)
             }
           }
         })
@@ -900,24 +853,24 @@ export default {
     },
     getData (name, openType) {
       if (name === 'employee') {
-        if (vm.allEmpData.query) {
-          vm.initData(vm.allEmpData.data)
-          vm.$nextTick(() => {
-            vm.setSelectedDataFull()
-            vm.resetInput()
+        if (this.allEmpData.query) {
+          this.initData(this.allEmpData.data)
+          this.$nextTick(() => {
+            this.setSelectedDataFull()
+            this.resetInput()
           })
         } else {
-          this.getEmployeeList(openType, vm.initData, vm.setSelectedDataFull)
+          this.getEmployeeList(openType, this.initData, this.setSelectedDataFull)
         }
       } else {
-        if (vm.allGroupData.query) {
-          vm.initData(vm.allGroupData.data)
-          vm.$nextTick(() => {
-            vm.setSelectedDataFull()
-            vm.resetInput()
+        if (this.allGroupData.query) {
+          this.initData(this.allGroupData.data)
+          this.$nextTick(() => {
+            this.setSelectedDataFull()
+            this.resetInput()
           })
         } else {
-          this.getGroupList(openType, vm.initData, vm.setSelectedDataFull)
+          this.getGroupList(openType, this.initData, this.setSelectedDataFull)
         }
       }
     },
@@ -930,40 +883,40 @@ export default {
       this.$http.fetch(this.$api.marketing.weworkMarketing.queryEmployeeWechatInfoList, param)
         .then(resp => {
           // 赋值员工数据
-          vm.allEmpData.query = true
-          if (vm.tabType === 'employee' && resp.result) {
+          this.allEmpData.query = true
+          if (this.tabType === 'employee' && resp.result) {
             initData(resp.result)
-            vm.allEmpData.data = resp.result
+            this.allEmpData.data = resp.result
           }
         }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
+          this.$notify.error('查询用户信息失败')
         }).finally(() => {
-          if (type && vm.tabType === 'employee') {
+          if (type && this.tabType === 'employee') {
             setSelectedDataFull()
           }
-          vm.$nextTick(function () {
-            vm.resetInput()
+          this.$nextTick(() => {
+            this.resetInput()
           })
-          vm.tableLoading = false
-          // vm.initEmployeeDataFlag = true
+          this.tableLoading = false
+          // this.initEmployeeDataFlag = true
         })
     },
     // 初始化数据
     initData (result) {
-      vm.allEmployeeData = vm.tabType === 'employee' ? clone(result) : vm.handleGroupList(clone(result), 'onlyGroup')
-      vm.matchEmployeeData = clone(vm.allEmployeeData)
-      const obj = vm.pageingData(vm.allEmployeeData, 0)
-      vm.employeeData = vm.handleShowData(obj.dataList, vm.tabType)
-      // vm.employeeData = obj.dataList
-      vm.pagination4Emp.total = obj.total
-      vm.pagination4Emp.page = 1
+      this.allEmployeeData = this.tabType === 'employee' ? clone(result) : this.handleGroupList(clone(result), 'onlyGroup')
+      this.matchEmployeeData = clone(this.allEmployeeData)
+      const obj = this.pageingData(this.allEmployeeData, 0)
+      this.employeeData = this.handleShowData(obj.dataList, this.tabType)
+      // this.employeeData = obj.dataList
+      this.pagination4Emp.total = obj.total
+      this.pagination4Emp.page = 1
     },
     // 完善选中的信息
     setSelectedDataFull () {
-      if (vm.value && vm.value.type === vm.tabType) {
-        vm.selectedData = vm.setFullInfo(JSON.parse(JSON.stringify(vm.value.data)))
+      if (this.value && this.value.type === this.tabType) {
+        this.selectedData = this.setFullInfo(JSON.parse(JSON.stringify(this.value.data)))
       } else {
-        vm.selectedData = []
+        this.selectedData = []
       }
     },
     // 处理员工信息
@@ -985,7 +938,7 @@ export default {
     handleShowData (data, tabType) {
       if (data && data.length > 0) {
         if (tabType === 'employee') {
-          const arr = vm.handleEmployeeList(data, vm.departData.allDepartments)
+          const arr = this.handleEmployeeList(data, this.departData.allDepartments)
           return arr
         } else {
           return data
@@ -996,12 +949,12 @@ export default {
     },
     // 修改页数
     changePage (page) {
-      const obj = vm.pageingData(vm.matchEmployeeData, vm.pagination4Emp.size * (page - 1))
-      vm.employeeData = vm.handleShowData(obj.dataList, vm.tabType)
-      vm.pagination4Emp.total = obj.total
-      vm.pagination4Emp.page = page
-      vm.$nextTick(function () {
-        vm.fileData()
+      const obj = this.pageingData(this.matchEmployeeData, this.pagination4Emp.size * (page - 1))
+      this.employeeData = this.handleShowData(obj.dataList, this.tabType)
+      this.pagination4Emp.total = obj.total
+      this.pagination4Emp.page = page
+      this.$nextTick(() => {
+        this.fileData()
       })
     },
     // 分页
@@ -1012,7 +965,7 @@ export default {
       }
       if (data && data.length > 0) {
         pageData.total = data.length
-        const arrObj = data.slice(pageIndex, ((pageIndex + vm.pagination4Emp.size) < data.length ? (pageIndex + vm.pagination4Emp.size) : data.length + 1))
+        const arrObj = data.slice(pageIndex, ((pageIndex + this.pagination4Emp.size) < data.length ? (pageIndex + this.pagination4Emp.size) : data.length + 1))
         pageData.dataList = clone(arrObj)
       }
       return pageData
@@ -1023,26 +976,26 @@ export default {
       this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList, { viewId: this.model.viewId })
         .then(resp => {
           // 赋值员工数据
-          vm.allGroupData.query = true
-          if (vm.tabType === 'group' && resp.result) {
+          this.allGroupData.query = true
+          if (this.tabType === 'group' && resp.result) {
             this.initData(resp.result)
-            vm.allGroupData.data = resp.result
+            this.allGroupData.data = resp.result
           }
 
           this.groupData.groupTree = this.handleGroupList(clone(resp.result), 'onlyCatalog')
           this.groupData.allGroup = this.handleGroupList(clone(resp.result), 'onlyCatalog')
-        }).catch((aaa) => {
-          vm.$notify.error('查询客户分群加载失败')
+        }).catch(() => {
+          this.$notify.error('查询客户分群加载失败')
         }).finally(() => {
           // 设置已选择的信息
-          if (type && vm.tabType === 'group') {
+          if (type && this.tabType === 'group') {
             setSelectedDataFull()
           }
-          vm.$nextTick(function () {
-            vm.resetInput()
+          this.$nextTick(() => {
+            this.resetInput()
           })
-          vm.tableLoading = false
-          vm.initGroupDataFlag = true
+          this.tableLoading = false
+          this.initGroupDataFlag = true
         })
     },
     // 处理客户分群信息
@@ -1067,22 +1020,22 @@ export default {
     onDialogClose () {
       // this.empName = ''
       this.groupName = ''
-      // this.employeeData = JSON.parse(JSON.stringify(vm.copySelectedData))
-      vm.visible = false
+      // this.employeeData = JSON.parse(JSON.stringify(this.copySelectedData))
+      this.visible = false
     },
     // 保存已选
     onSave () {
       if (this.selectedData.length > 0) {
         this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
-        vm.visible = false
+        this.visible = false
       } else {
-        this.$notify.warning('请选择' + (vm.tabType === 'group' ? '分群' : '员工'))
+        this.$notify.warning('请选择' + (this.tabType === 'group' ? '分群' : '员工'))
       }
     },
     /**
      * 返回数据
      */
-    callbackData: function (data) {
+    callbackData (data) {
       const transData = this.transformData(data)
       this.$emit('input', transData)
       this.$emit('change', transData)
@@ -1091,9 +1044,9 @@ export default {
     transformData (data) {
       const resultObj = {
         data: [],
-        type: vm.tabType
+        type: this.tabType
       }
-      const propsName = vm.objProps
+      const propsName = this.objProps
       // employeeProps
       if (data && data.length > 0) {
         if (this[propsName] && Object.getOwnPropertyNames(this[propsName]).length > 0) {
@@ -1111,22 +1064,17 @@ export default {
       }
       return resultObj
     },
-    $sizeChange$: function (size) {
+    $sizeChange$ (size) {
       this.pagination4Emp.size = size
-      vm.$nextTick(function () {
-        return vm.changePage(1)
+      this.$nextTick(() => {
+        return this.changePage(1)
       })
     }
   },
-  mounted: async function () {
-    vm = this
-    await vm.getViewList()
-    vm.getDepartmentTree()
-    // vm.getGroupTree()
-    vm.getShopAreaAndShop()
-  },
-  created: function () {
-    // do nothing
+  async mounted () {
+    await this.getViewList()
+    this.getDepartmentTree()
+    this.getShopAreaAndShop()
   }
 }
 </script>

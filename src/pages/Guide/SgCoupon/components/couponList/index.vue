@@ -149,11 +149,6 @@
                         <Icon type="ns-store" />
                       </template>
                     </shopSelect>
-                    <!-- <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
-                    <template slot='btnIcon'>
-                      <Icon type="ns-store"/>
-                    </template>
-                  </NsShopDialog> -->
                   </div>
                 </div>
               </el-form-grid>

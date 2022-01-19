@@ -28,14 +28,6 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
-            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIdList" @input="getDataTotal">
-              <template slot='btnIcon'>
-                <div class='self-btn'>
-                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
-                  <Icon type="shop" class='guideIds-icon'></Icon>
-                </div>
-              </template>
-            </NsShopDialog> -->
             <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
               <template slot='btnIcon'>
                <div class='self-btn'>
@@ -113,7 +105,6 @@
 <script>
 import Analysis from './src/index'
 import PageTable from '@/components/NewUi/PageTable'
-import NsShopDialog from '@/components/NsShopDialog'
 import ShopTable from './components/ShopTable'
 import EmployeeTable from './components/EmployeeTable'
 import ShopFriendsTable from './components/ShopFriendsTable'
@@ -122,7 +113,7 @@ import shopSelect from '../../../components/selectShops'
 
 export default Analysis
 Analysis.components = {
-  PageTable, NsShopDialog, ShopTable, EmployeeTable, ShopFriendsTable, EmployeeFriendsTable, shopSelect
+  PageTable, ShopTable, EmployeeTable, ShopFriendsTable, EmployeeFriendsTable, shopSelect
 }
 </script>
 <style lang="scss" scoped>

@@ -1,10 +1,3 @@
-<!--
- * @Descripttion: 智能欢迎语
- * @Author: yuye.huang
- * @Date: 2020-02-28 17:28:29
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-18 16:17:52
- -->
 <template>
   <div>
     <!-- 主列表 -->
