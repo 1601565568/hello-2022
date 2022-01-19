@@ -566,7 +566,7 @@ import listPageMixin from '@/mixins/listPage'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
-
+import { commissionTypeText } from './src/until.js'
 export default {
   mixins: [listPageMixin],
   components: { NsGuideDialog },
@@ -646,15 +646,6 @@ export default {
     this.loadListFun()
   },
   methods: {
-    commissionTypeText (type) {
-      let typeText = '-'
-      if (type === 0) {
-        typeText = '专属导购提成'
-      } else if (type === 1) {
-        typeText = '成单导购提成'
-      }
-      return typeText
-    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null
