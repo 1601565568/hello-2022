@@ -5,8 +5,10 @@
   "scripts": {
     "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
     "start": "vue-cli-service serve",
+    "start:QA": "cross-env VUE_APP_THEME=QA VUE_APP_LAYOUT=QA vue-cli-service serve",
     "start:mock": "cross-env VUE_APP_MOCK=true vue-cli-service serve",
     "build": "npm run clean:build && vue-cli-service build",
+    "build:QA": "npm run clean:build && cross-env VUE_APP_THEME=QA VUE_APP_LAYOUT=QA vue-cli-service build",
     "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
@@ -16,7 +18,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/ecrp-ecrm": "^0.5.67",
+    "@nascent/ecrp-ecrm": "0.6.92",
     "@nascent/icons-vue": "^1.0.11",
     "@nascent/log": "^0.2.3",
     "@nascent/nui": "^2.9.37",
@@ -38,6 +40,7 @@
     "numeral": "^2.0.6",
     "perfect-scrollbar": "^1.4.0",
     "register-service-worker": "^1.6.2",
+    "squoosh-compress": "^1.0.1",
     "store": "^2.0.12",
     "v-emoji-picker": "^1.1.4",
     "vue": "^2.6.10",

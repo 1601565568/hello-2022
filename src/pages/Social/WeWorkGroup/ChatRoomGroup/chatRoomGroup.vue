@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item label="可加入的群聊：" required>
             <el-form-grid class="el-form__grid--special">
-              <NsChatRoomDialog btnTitle="选择已有群聊" :selectedDataParent="model.checkedChatRoom" @getChatRoomData="getChatRoomData"></NsChatRoomDialog>
+              <NsChatRoomDialog :selectedMax="isWhiteList ? 100 : 5" btnTitle="选择已有群聊" :selectedDataParent="model.checkedChatRoom" @getChatRoomData="getChatRoomData"></NsChatRoomDialog>
               <div class="form-grid__tips">
                 <Icon type="tishi"/>
                 <span>选择多个群聊时，微信用户扫码后会随机加入一个群聊</span>

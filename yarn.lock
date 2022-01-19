@@ -1675,10 +1675,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^0.5.67":
-  version "0.5.67"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.5.67.tgz#feda827357312d1eba57dfcaa90b361475762497"
-  integrity sha512-AXsLXPmSZuq2JLCQadnNDfgW/AR6I0DPEkVnL2Rd+nWU49v2RynegpbMgt1JNnQR7UjNpO7w0gcUtdrApE6woA==
+"@nascent/ecrp-ecrm@0.6.92":
+  version "0.6.92"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.6.92.tgz#9f629705508f42a65981c0e8eb335368f24d2bd0"
+  integrity sha512-wEGuC/5bL+SRAUUUatvPi9l5YqqMX4i7qgijwXyP5nfrhhis5g9o/ir2N0yzxyvWXwKiPWGWR4vt9rov85BZOA==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
@@ -1693,7 +1693,7 @@
     echarts "^4.8.0"
     element-resize-detector "^1.2.1"
     file-saver "^2.0.2"
-    jquery "^3.5.1"
+    jquery "^3.6.0"
     lodash "^4.17.19"
     moment "^2.27.0"
     normalize.css "^8.0.1"
@@ -3287,7 +3287,7 @@ base64-arraybuffer@^0.2.0:
 
 base64-arraybuffer@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.nlark.com/base64-arraybuffer/download/base64-arraybuffer-1.0.1.tgz?cache=0&sync_timestamp=1628588823959&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbase64-arraybuffer%2Fdownload%2Fbase64-arraybuffer-1.0.1.tgz#87bd13525626db4a9838e00a508c2b73efcf348c"
+  resolved "https://registry.nlark.com/base64-arraybuffer/download/base64-arraybuffer-1.0.1.tgz?cache=0&sync_timestamp=1628588917496&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbase64-arraybuffer%2Fdownload%2Fbase64-arraybuffer-1.0.1.tgz#87bd13525626db4a9838e00a508c2b73efcf348c"
   integrity sha1-h70TUlYm20qYOOAKUIwrc+/PNIw=
 
 base64-js@^1.0.2:
@@ -4719,7 +4719,7 @@ css-declaration-sorter@^4.0.1:
 
 css-line-break@2.0.1:
   version "2.0.1"
-  resolved "https://registry.nlark.com/css-line-break/download/css-line-break-2.0.1.tgz?cache=0&sync_timestamp=1628084316300&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-line-break%2Fdownload%2Fcss-line-break-2.0.1.tgz#3dc74c2ed5eb64211480281932475790243e7338"
+  resolved "https://registry.nlark.com/css-line-break/download/css-line-break-2.0.1.tgz?cache=0&sync_timestamp=1628083455740&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-line-break%2Fdownload%2Fcss-line-break-2.0.1.tgz#3dc74c2ed5eb64211480281932475790243e7338"
   integrity sha1-PcdMLtXrZCEUgCgZMkdXkCQ+czg=
   dependencies:
     base64-arraybuffer "^0.2.0"
@@ -7896,10 +7896,15 @@ jest-worker@^25.4.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jquery@>=1.4.4, jquery@^3.3.1, jquery@^3.4.1, jquery@^3.5.1:
+jquery@>=1.4.4, jquery@^3.3.1, jquery@^3.4.1:
   version "3.5.1"
   resolved "https://registry.npm.taobao.org/jquery/download/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha1-17TQjhv9uGrS8aPQOeoXMEcXq7U=
+
+jquery@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npmmirror.com/jquery/download/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
 
 js-base64@^2.5.2:
   version "2.6.1"
@@ -12336,6 +12341,11 @@ sprintf-js@~1.0.2:
   resolved "https://registry.npm.taobao.org/sprintf-js/download/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
+squoosh-compress@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/squoosh-compress/download/squoosh-compress-1.0.1.tgz#d2df80bca501bde3aae33070adfc8cc7820b8b69"
+  integrity sha1-0t+AvKUBveOq4zBwrfyMx4ILi2k=
+
 ssf@~0.11.2:
   version "0.11.2"
   resolved "https://registry.npm.taobao.org/ssf/download/ssf-0.11.2.tgz#0b99698b237548d088fc43cdf2b70c1a7512c06c"
@@ -12829,7 +12839,7 @@ text-extensions@^1.0.0:
 
 text-segmentation@^1.0.2:
   version "1.0.2"
-  resolved "https://registry.nlark.com/text-segmentation/download/text-segmentation-1.0.2.tgz#1f828fa14aa101c114ded1bda35ba7dcc17c9858"
+  resolved "https://registry.nlark.com/text-segmentation/download/text-segmentation-1.0.2.tgz?cache=0&sync_timestamp=1628857855224&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftext-segmentation%2Fdownload%2Ftext-segmentation-1.0.2.tgz#1f828fa14aa101c114ded1bda35ba7dcc17c9858"
   integrity sha1-H4KPoUqhAcEU3tG9o1un3MF8mFg=
   dependencies:
     utrie "^1.0.1"
@@ -13477,7 +13487,7 @@ utils-merge@1.0.1:
 
 utrie@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.nlark.com/utrie/download/utrie-1.0.1.tgz#e155235ebcbddc89ae09261ab6e773ce61401b2f"
+  resolved "https://registry.nlark.com/utrie/download/utrie-1.0.1.tgz?cache=0&sync_timestamp=1628857880301&other_urls=https%3A%2F%2Fregistry.nlark.com%2Futrie%2Fdownload%2Futrie-1.0.1.tgz#e155235ebcbddc89ae09261ab6e773ce61401b2f"
   integrity sha1-4VUjXry93ImuCSYatudzzmFAGy8=
   dependencies:
     base64-arraybuffer "^1.0.1"

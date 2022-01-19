@@ -110,7 +110,7 @@
                 </ElRadioGroup>
                 <span v-if='model.shopRangeType === 1'><shopSelect :isInlineBlock='true' icon='el-icon-circle-plus-outline' @callBack="selectShopBack" :hasShopArr="hasShopArr">选择门店</shopSelect></span>
               </ElFormItem>
-              <ElFormItem label='会员分组' class='special-layout'>
+              <ElFormItem label='会员分组' class='special-layout' v-if="isCrm">
                 <div class='newTask-content__item'>
                   <el-select
                     filterable

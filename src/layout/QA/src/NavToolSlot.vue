@@ -1,5 +1,4 @@
 <template>
-<div>
   <div v-if="memberManagePlan == 2" class="nav_warpper">
     <div class="nav-avatar" @click="customerService" title="智慧客服端下载">
       <!--    <span class="nav-avatar__icon">-->
@@ -18,16 +17,10 @@
     </span>
     </el-dialog>
   </div>
-  <DownModule/>
-</div>
 </template>
 
 <script>
-import DownModule from './DownModule.vue'
 export default {
-  components: {
-    DownModule
-  },
   data () {
     return {
       customerVisible: false,

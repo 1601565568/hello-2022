@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import isShowArea from '@/layout/src/isShowArea'
+import isShowArea from '@/layout/small/src/isShowArea'
 import DownFileList from './components/DownFileList'
 export default {
   name: 'downModule',

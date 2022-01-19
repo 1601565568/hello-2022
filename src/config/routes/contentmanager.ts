@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Content',
   'name': 'CONTENT_MANAGER',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '内容管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Content',
       'name': 'CONTENT_MANAGER2',
       'title': '内容管理',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/ContentMange/MyMoments/index',
@@ -49,7 +49,7 @@ export default {
       'path': '/Guide/Content',
       'name': 'CONTENT_MANAGER_OTHER',
       'title': '其他',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Content/CustomerService',

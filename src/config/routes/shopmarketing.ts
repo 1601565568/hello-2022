@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Material/imageText',
   'name': 'SHOP_MARKETING',
-  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
+  'component': () => import('@layout/Default.vue'),
   'meta': {
     'title': '内容管理',
     'requiresAuth': true
@@ -11,13 +11,13 @@ export default {
       'path': '/Guide/Material/Library',
       'name': 'SHOP_MARKETING2',
       'title': '素材中心',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/Material/Library',
           'name': 'Library',
           'title': '素材库',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'LibraryList'
           },
@@ -54,7 +54,7 @@ export default {
       'path': '/Guide/SgCoupon/CouponList',
       'name': 'SHOP_MARKETING3',
       'title': '门店营销',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'children': [
         {
           'path': '/Guide/SgCoupon/CouponList',
@@ -74,7 +74,7 @@ export default {
       'path': '/Social/SocialOperation/QrcodePoster/List',
       'name': 'qrcodePoster',
       'title': '二维码海报',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'WeChatQrCodePlacard'
       },
@@ -97,7 +97,7 @@ export default {
       'path': '/Social/SocialOperation/QrcodePosterGH/List',
       'name': 'qrcodePoster',
       'title': '二维码海报（个号）',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'WeWorkQrCodePlacard'
       },
@@ -120,7 +120,7 @@ export default {
       'path': '/Social/SocialOperation/RedPacket/Strategies/List',
       'name': 'redPacketStrategies',
       'title': '',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'redPacketStrategiesList'
       },
@@ -143,7 +143,7 @@ export default {
       'path': '/Social/SocialOperation/RedPacket/Poster/List',
       'name': 'redPacketPoster',
       'title': '',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'component': () => import('@layout/Content.vue'),
       'redirect': {
         'name': 'redPacketPosterList'
       },
@@ -166,7 +166,7 @@ export default {
     //   'path': '/Social/SocialOperation/RedPacket/Analysis',
     //   'name': 'redPacketAnalysis',
     //   'title': '',
-    //   'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+    //   'component': () => import('@layout/Content.vue'),
     //   'redirect': {
     //     'name': 'redPacketAnalysis'
     //   },
