@@ -8,17 +8,14 @@
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
           >
-            <el-table-column prop="guideName" label="文件名称">
+            <el-table-column prop="fileName" label="文件名称">
             </el-table-column>
-            <el-table-column prop="phone" label="生成时间">
+            <el-table-column prop="generationTime" label="生成时间">
               <template slot-scope="scope">{{
-                scope.row.phone || '-'
+                scope.row.generationTime || '-'
               }}</template>
             </el-table-column>
-            <el-table-column prop="post" label="操作">
-              <template slot-scope="scope">{{
-                transPost(scope.row.post)
-              }}</template>
+            <el-table-column prop="fileState" label="操作">
             </el-table-column>
           </el-table>
         </template>
@@ -26,13 +23,13 @@
           <el-pagination
             background
             class="label-dialog__pagination"
-            :page-sizes="paginationToPerson.sizeOpts"
-            :total="paginationToPerson.total"
-            :current-page.sync="paginationToPerson.page"
-            :page-size="paginationToPerson.size"
+            :page-sizes="pagination.sizeOpts"
+            :total="pagination.total"
+            :current-page.sync="pagination.page"
+            :page-size="pagination.size"
             layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChangeForPerson"
-            @current-change="handleCurrentChangeForPerson"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
           >
           </el-pagination>
         </template>
@@ -55,7 +52,7 @@ export default {
   },
   data () {
     return {
-      paginationToPerson: {
+      pagination: {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 0,
@@ -65,27 +62,38 @@ export default {
     }
   },
   mounted () {
-    this.loadDetail()
+    // this.loadDetail()
   },
   methods: {
-    handleSizeChangeForPerson (size) {
-      this.paginationToPerson = {
-        ...this.paginationToPerson,
+    resetData () {
+      this.pagination = {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 0,
+        total: 0
+      }
+      this.listData = []
+    },
+    handleSizeChange (size) {
+      this.pagination = {
+        ...this.pagination,
         size,
-        page: 1
+        page: 0
       }
       this.loadDetail()
     },
-    handleCurrentChangeForPerson (page) {
-      this.paginationToPerson.page = page
+    handleCurrentChange (page) {
+      this.pagination.page = page
       this.loadDetail()
     },
-    async loadDetail (fileName = '', timeRange = []) {
-      const startTime = timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : ''
-      const endTime = timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : ''
+    async loadDetail (searchName = null, timeRange = []) {
+      this.resetData()
+      const startTime = timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
+      const endTime = timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
+      const fileName = searchName && searchName.length > 0 ? searchName : null
       const data = {
-        start: this.paginationToPerson.page,
-        length: this.paginationToPerson.size,
+        start: this.pagination.page,
+        length: this.pagination.size,
         searchMap: {
           fileName,
           startTime,
@@ -94,6 +102,9 @@ export default {
       }
       const json = await this.$http.fetch(this.$api.guide.task.exportList, data)
       if (json.success) {
+        const data = json.result.data || []
+        this.listData = data
+        this.pagination.total = parseInt(json.result.recordsTotal)
       }
     }
   }

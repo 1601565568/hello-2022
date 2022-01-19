@@ -14,7 +14,7 @@
       </div>
       <div class="down-title">下载中心</div>
       <div class="remind-view">
-        下载中心仅保留近3天生成的报表，请尽快下载
+        下载中心仅保留近7天生成的报表，请尽快下载
       </div>
       <div class="down-search">
         <div class="input-view">
@@ -76,12 +76,15 @@ export default {
     },
     handleClose () {
       this.drawer = false
+      this.inputTitle = ''
+      this.datePickerValue = []
+      this.$refs.downTableList.resetData()
     },
     openDrawer () {
       this.drawer = true
-      if (this.$refs.downTableList) {
+      this.$nextTick(() => {
         this.loadTableList()
-      }
+      })
     },
     inputChange (e) {
       this.loadTableList()
