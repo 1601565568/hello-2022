@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import DownModule from './DownModule'
+import DownModule from '../../down/DownModule'
 export default {
   components: {
     DownModule
