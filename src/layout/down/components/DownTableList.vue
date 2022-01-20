@@ -9,24 +9,30 @@
             :row-style="{ height: '48px' }"
           >
             <el-table-column prop="fileName" label="文件名称">
+              <template slot-scope="scope">
+                <span>{{fileNameStr(scope.row.fileName)}}</span>
+              </template>
             </el-table-column>
-            <el-table-column prop="generationTime" label="生成时间">
+            <el-table-column prop="generationTime" label="创建时间">
               <template slot-scope="scope">{{
                 scope.row.generationTime || '-'
               }}</template>
             </el-table-column>
             <el-table-column prop="fileState" label="操作">
+              <template slot-scope="scope">
+                <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row.fileState)">{{downStatus(scope.row.fileState)}}</span>
+              </template>
             </el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
           <el-pagination
             background
-            class="label-dialog__pagination"
-            :page-sizes="pagination.sizeOpts"
-            :total="pagination.total"
-            :current-page.sync="pagination.page"
-            :page-size="pagination.size"
+            class="label-dialog__downPagination"
+            :page-sizes="downPagination.sizeOpts"
+            :total="downPagination.total"
+            :current-page.sync="downPagination.page"
+            :page-size="downPagination.size"
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -52,7 +58,7 @@ export default {
   },
   data () {
     return {
-      pagination: {
+      downPagination: {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 0,
@@ -65,8 +71,29 @@ export default {
     // this.loadDetail()
   },
   methods: {
+    downExcelFile (type) {
+      if (type === 2) {
+      }
+    },
+    fileNameStr (name) {
+      if (name && name.length > 16) {
+        return name.substr(0, 16) + '...'
+      }
+      return name || '-'
+    },
+    downStatus (fileState) {
+      let str = '-'
+      if (fileState === 1) {
+        str = '生成中…'
+      } else if (fileState === 2) {
+        str = '下载'
+      } else if (fileState === 3) {
+        str = '生成失败'
+      }
+      return str
+    },
     resetData () {
-      this.pagination = {
+      this.downPagination = {
         size: 10,
         sizeOpts: [5, 10, 15],
         page: 0,
@@ -75,25 +102,24 @@ export default {
       this.listData = []
     },
     handleSizeChange (size) {
-      this.pagination = {
-        ...this.pagination,
+      this.downPagination = {
+        ...this.downPagination,
         size,
         page: 0
       }
       this.loadDetail()
     },
     handleCurrentChange (page) {
-      this.pagination.page = page
+      this.downPagination.page = page
       this.loadDetail()
     },
     async loadDetail (searchName = null, timeRange = []) {
-      this.resetData()
       const startTime = timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
       const endTime = timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
       const fileName = searchName && searchName.length > 0 ? searchName : null
       const data = {
-        start: this.pagination.page,
-        length: this.pagination.size,
+        start: this.downPagination.page,
+        length: this.downPagination.size,
         searchMap: {
           fileName,
           startTime,
@@ -104,7 +130,7 @@ export default {
       if (json.success) {
         const data = json.result.data || []
         this.listData = data
-        this.pagination.total = parseInt(json.result.recordsTotal)
+        this.downPagination.total = parseInt(json.result.recordsTotal)
       }
     }
   }
@@ -118,5 +144,11 @@ export default {
   font-size: 14px;
   font-weight: 400;
 }
-
+.down-text {
+  color: #0094FC;
+}
+.down-name {
+  cursor: pointer;
+  font-size: 14px;
+}
 </style>
