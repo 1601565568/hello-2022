@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div @updateAnimate="getDownIconInfo">
     <div class="dowm-module" id="dowm-module" @click="openDownFileList">
       <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
     </div>
-    <div class="run-icon-view" id="run-icon-view" v-show="showFile">
-      <span class="iconfont icon-wenben2x red-file-view"></span>
+    <div v-show="showFile">
+      <div class="run-icon-view" id="run-icon-view" :style="{top: iconTop, right: iconRight}">
+        <span class="iconfont icon-wenben2x red-file-view"></span>
+      </div>
     </div>
     <DownFileList ref="downFileList"/>
   </div>
@@ -31,12 +33,19 @@ export default {
         this.isShowAreaSelect = isShowArea(this.$route)
       },
       immediate: true
+    },
+    '$store.state.down.downAction': function (status) {
+      if (status) {
+        this.getDownIconInfo()
+      }
     }
   },
   data () {
     return {
       timer: null,
-      showFile: false
+      showFile: false,
+      iconTop: null,
+      iconRight: null
     }
   },
   methods: {
@@ -47,8 +56,12 @@ export default {
       const ball = document
         .querySelector('#run-icon-view')
       this.showFile = true
-      const widthX = this.isShowAreaSelect ? 150 - 112 - 114 - 32 : 150 - 112
-      const heightY = -340
+      const top = this.$store.state.down.top
+      const right = this.$store.state.down.right
+      this.iconTop = top + 'px'
+      this.iconRight = right + 'px'
+      const widthX = this.isShowAreaSelect ? right - 112 - 114 - 32 : right - 112
+      const heightY = 10 - top
       const run = ball.animate([
         // keyframes
         // { transform: 'rotate(180deg)' },
@@ -60,6 +73,14 @@ export default {
       })
       run.onfinish = () => {
         this.showFile = false
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: false,
+          width: null,
+          height: null
+        })
+        this.iconRight = null
+        this.iconTop = null
       }
     }
   }

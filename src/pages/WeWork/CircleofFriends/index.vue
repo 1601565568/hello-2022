@@ -194,7 +194,6 @@ import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/ItemDrawer'
 import PublishDetailDrawer from './components/PublishDetailDrawer'
-
 List.components = {
   PageTable,
   NsGuideDialog,
