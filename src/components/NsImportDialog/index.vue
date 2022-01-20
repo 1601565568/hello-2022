@@ -72,7 +72,6 @@
       <div slot="footer" class="dialog-footer">
         <ns-button @click="onDialogClose()">{{$t('operating.cancel')}}</ns-button>
         <ns-button type="primary" @click="save()">保存</ns-button>
-<!--        <ns-save @click="save()"></ns-save>-->
       </div>
     </el-dialog>
   </div>

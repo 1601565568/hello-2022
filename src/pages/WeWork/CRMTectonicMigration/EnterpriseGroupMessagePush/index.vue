@@ -22,7 +22,6 @@
               </ElFormItem>
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
-                  <!--<NsButton type="text" @click="onOpenGroupSelect()"><Icon type="plus"/>选择营销人群</NsButton>-->
                   <NsChatrommSelectDialog :echoStore='true' :isNeedLink='true' :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData2"></NsChatrommSelectDialog>
                 </ElFormGrid>
                 <ElFormGrid>
@@ -59,15 +58,6 @@
               <ElForm label-width="0px" ref="formPush" :model="model" :rules="rules" :disabled="isUpdate">
                 <ElFormItem prop="textarea">
                   <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="1000" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' :showEmoji='true' :showTextEmoji='true' @input='setView'/>
-                  <!-- <ElFormGrid>
-                    <el-input
-                      type="textarea"
-                      :rows="6"
-                      placeholder="请输入内容"
-                      @blur="setView"
-                      v-model="model.textarea" maxlength="1000" style="width: 700px;">
-                    </el-input>
-                  </ElFormGrid> -->
                 </ElFormItem>
                 <ElFormItem>
                   <ElFormGrid>
@@ -92,14 +82,6 @@
                           <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
                           <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
                       </div>
-                        <!--<div class="message-prompt__mass">
-                          <Icon type="link" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">链接</div>
-                        </div>
-                        <div class="message-prompt__mass" @click="dialogVisibleLink = true">
-                          <Icon type="applet" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">小程序</div>
-                        </div>-->
                       </div>
                       <NsButton type="text" slot="reference">+添加图片/图文/小程序</NsButton>
                      </ElPopover>

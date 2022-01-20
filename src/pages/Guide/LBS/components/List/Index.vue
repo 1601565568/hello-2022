@@ -5,14 +5,6 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="参与门店：">
-            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择员工" v-model="model.shopIdList" @input="handleChangeShop">
-              <template slot='btnIcon'>
-                <div class='self-btn'>
-                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
-                  <Icon type="shop" class='guideIds-icon'></Icon>
-                </div>
-              </template>
-            </NsShopDialog> -->
             <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
               <template slot='btnIcon'>
                 <div class='self-btn'>
@@ -171,10 +163,9 @@ import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PreviewPoster from '../../../components/PreviewPoster'
 import ShopList from '../../components/ShopList'
-import NsShopDialog from '@/components/NsShopDialog'
 import shopSelect from '../../../components/selectShops'
 Index.components = {
-  PageTable, ElDrawer, PreviewPoster, ShopList, NsShopDialog, shopSelect
+  PageTable, ElDrawer, PreviewPoster, ShopList, shopSelect
 }
 export default Index
 </script>

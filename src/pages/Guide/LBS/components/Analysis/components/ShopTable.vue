@@ -38,7 +38,6 @@
               <div class='btn-context'>
                 <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
                 <ns-button v-if='addState.includes(state)' type="text" class='detail-btn' @click='handleAddGroup(scope.row)' :loading='addiding === scope.row.shopId'>添加群聊</ns-button>
-                <!-- <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false' :isLoaded='false'></NsChatRoomDialog> -->
               </div>
             </template>
           </el-table-column>
