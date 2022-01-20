@@ -3,27 +3,29 @@
     <div class="down-table" v-if="listData.length > 0">
       <page-table style="padding-top:0">
         <template slot="table">
-          <el-table
-            :data="listData"
-            class="new-table_border drawer-table"
-            :row-style="{ height: '48px' }"
-          >
-            <el-table-column prop="fileName" label="文件名称">
-              <template slot-scope="scope">
-                <span>{{fileNameStr(scope.row.fileName)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="generationTime" label="创建时间">
-              <template slot-scope="scope">{{
-                scope.row.generationTime || '-'
-              }}</template>
-            </el-table-column>
-            <el-table-column prop="fileState" label="操作">
-              <template slot-scope="scope">
-                <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row)">{{downStatus(scope.row.fileState)}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div class="down-table-view">
+            <el-table
+              :data="listData"
+              class="new-table_border drawer-table"
+              :row-style="{ height: '48px' }"
+            >
+              <el-table-column prop="fileName" label="文件名称">
+                <template slot-scope="scope">
+                  <span>{{fileNameStr(scope.row.fileName)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="generationTime" label="创建时间">
+                <template slot-scope="scope">{{
+                  scope.row.generationTime || '-'
+                }}</template>
+              </el-table-column>
+              <el-table-column prop="fileState" label="操作">
+                <template slot-scope="scope">
+                  <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row)">{{downStatus(scope.row.fileState)}}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </template>
         <template slot="pagination">
           <el-pagination
@@ -179,5 +181,17 @@ export default {
 .down-name {
   cursor: pointer;
   font-size: 14px;
+}
+.down-table-view {
+  max-height: 520px;
+  overflow: scroll;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #9093994d;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 6px;
+  }
 }
 </style>
