@@ -45,6 +45,7 @@
             value-format="yyyy-MM-dd"
             prefix-icon=""
             @change="dataPickerChange"
+            :pickerOptions='pickerOptions'
           >
           </el-date-picker>
         </div>
@@ -67,7 +68,24 @@ export default {
     return {
       drawer: false,
       inputTitle: '',
-      datePickerValue: []
+      datePickerValue: [],
+      selectDate: '',
+      pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
+        disabledDate: (time) => {
+          if (this.selectDate !== '') {
+            const one = 6 * 24 * 3600 * 1000
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
+        }
+      }
     }
   },
   methods: {

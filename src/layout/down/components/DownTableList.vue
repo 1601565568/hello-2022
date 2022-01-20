@@ -61,7 +61,7 @@ export default {
       downPagination: {
         size: 10,
         sizeOpts: [5, 10, 15],
-        page: 0,
+        page: 1,
         total: 0
       },
       listData: []
@@ -120,7 +120,7 @@ export default {
       this.downPagination = {
         size: 10,
         sizeOpts: [5, 10, 15],
-        page: 0,
+        page: 1,
         total: 0
       }
       this.listData = []
@@ -129,7 +129,7 @@ export default {
       this.downPagination = {
         ...this.downPagination,
         size,
-        page: 0
+        page: 1
       }
       this.loadDetail()
     },
@@ -141,8 +141,9 @@ export default {
       const startTime = timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
       const endTime = timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
       const fileName = searchName && searchName.length > 0 ? searchName : null
+      const start = (this.downPagination.page - 1) * this.downPagination.size
       const data = {
-        start: this.downPagination.page,
+        start,
         length: this.downPagination.size,
         searchMap: {
           fileName,
