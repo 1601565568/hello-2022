@@ -22,5 +22,15 @@ export default {
   findDailyStatistics: {
     url: '/guide/task/findDailyStatistics',
     method: 'get'
+  },
+  exportList: {
+    url: '/file/export/record/list',
+    method: 'post'
+  },
+  downloadExcelFile: {
+    url: '/file/export/record/download',
+    method: 'get',
+    responseType: 'blob',
+    timeout: 600000
   }
 }
