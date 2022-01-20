@@ -1,9 +1,17 @@
 <template>
   <div @updateAnimate="getDownIconInfo">
-    <div class="dowm-module" id="dowm-module" @click="openDownFileList">
-      <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
-      <div class="down-red-view" v-show="showRed"></div>
-    </div>
+    <el-popover
+      placement="bottom"
+      title="下载中心"
+      width="200"
+      trigger="hover"
+      content="导出的所有文件将在下载中心中生成并下载～"
+    >
+      <div class="dowm-module" id="dowm-module" slot="reference" @click="openDownFileList">
+        <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
+        <div class="down-red-view" v-show="showRed"></div>
+      </div>
+    </el-popover>
     <div v-show="showFile">
       <div class="run-icon-view" id="run-icon-view" :style="{top: iconTop, right: iconRight}">
         <span class="iconfont icon-wenben2x red-file-view"></span>
