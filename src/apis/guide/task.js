@@ -36,5 +36,9 @@ export default {
   exportExcel: {
     url: '/file/export/record/exportExcel',
     method: 'post'
+  },
+  isSuccess: {
+    url: '/file/export/record/isSuccess',
+    method: 'get'
   }
 }

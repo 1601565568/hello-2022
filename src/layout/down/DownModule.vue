@@ -1,8 +1,17 @@
 <template>
   <div @updateAnimate="getDownIconInfo">
-    <div class="dowm-module" id="dowm-module" @click="openDownFileList">
-      <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
-    </div>
+    <el-popover
+      placement="bottom"
+      title="下载中心"
+      width="200"
+      trigger="hover"
+      content="导出的所有文件将在下载中心中生成并下载～"
+    >
+      <div class="dowm-module" id="dowm-module" slot="reference" @click="openDownFileList">
+        <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
+        <div class="down-red-view" v-show="showRed"></div>
+      </div>
+    </el-popover>
     <div v-show="showFile">
       <div class="run-icon-view" id="run-icon-view" :style="{top: iconTop, right: iconRight}">
         <span class="iconfont icon-wenben2x red-file-view"></span>
@@ -42,13 +51,31 @@ export default {
   },
   data () {
     return {
-      timer: null,
       showFile: false,
       iconTop: null,
-      iconRight: null
+      iconRight: null,
+      timer: null,
+      showRed: false
     }
   },
+  mounted () {
+    this.timerLoad()
+  },
+  destroyed () {
+    clearInterval(this.timer)
+  },
   methods: {
+    async exportIsSuccess (type) {
+      const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
+      if (json.success) {
+        this.showRed = json.result === 1
+      }
+    },
+    timerLoad () {
+      this.timer = setInterval(() => {
+        this.exportIsSuccess(null)
+      }, 10000)
+    },
     openDownFileList () {
       this.$refs.downFileList.openDrawer()
     },
@@ -58,6 +85,9 @@ export default {
       this.showFile = true
       const top = this.$store.state.down.top
       const right = this.$store.state.down.right
+      if (!top && !right) {
+        return
+      }
       this.iconTop = top + 'px'
       this.iconRight = right + 'px'
       const widthX = this.isShowAreaSelect ? right - 112 - 114 - 32 : right - 112
@@ -97,8 +127,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   .down-icon {
     font-size: 20px;
+  }
+  .down-red-view {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: red;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
   }
 }
 .run-icon-view {
