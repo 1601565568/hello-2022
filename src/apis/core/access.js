@@ -219,5 +219,10 @@ export default {
     cancelToken: false,
     url: '/core/access/changeView',
     method: 'get'
+  },
+  changeView: {
+    cancelToken: false,
+    url: '/changeView',
+    method: 'get'
   }
 }
