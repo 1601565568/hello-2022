@@ -688,6 +688,9 @@ export default {
     this.loadListFun()
   },
   methods: {
+    commissionTypeText (type) {
+      commissionTypeText(type)
+    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null
