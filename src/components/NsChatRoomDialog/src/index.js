@@ -1,24 +1,24 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-let vm
+
 export default {
   name: 'NsChatRoomDialog',
   mixins: [tableMixin],
   props: {
     value: {
-      default: function () {
+      default () {
         return []
       }
     },
     selectedDataParent: {
       type: Array,
-      default: function () {
+      default () {
         return []
       }
     },
     // 右边已选择的id数组
     selectedRoomIds: {
       type: Array,
-      default: function () {
+      default () {
         return []
       }
     },
@@ -52,7 +52,7 @@ export default {
       default: 100
     }
   },
-  data: function () {
+  data () {
     return {
       allGroups: [],
       // 左边树的数据
@@ -97,7 +97,7 @@ export default {
   },
   computed: {},
   watch: {
-    'departData.shopArea': function (o1, o2) {
+    'departData.shopArea' (o1, o2) {
       let shopOptions = []
       this.departData.shopId = ''
       this.departData.shopIds = ''
@@ -121,7 +121,7 @@ export default {
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
-      vm.visible = true
+      this.visible = true
       // 编辑使用.
       if (this.selectedDataParent.length > 0) {
         // ps: 这样会创建一个新的临时数据. 不会引用.
@@ -250,13 +250,13 @@ export default {
           that.departData.departmentTree = resp.result
           that.departData.allDepartments = resp.result
         }).catch(() => {
-          vm.$notify.error('查询部门树失败')
+          this.$notify.error('查询部门树失败')
         })
     },
     /**
      * 获取区域分类，所有门店选项
      */
-    getShopAreaAndShop: function () {
+    getShopAreaAndShop () {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
@@ -270,7 +270,7 @@ export default {
     /**
      * 重置搜索条件并搜索
      */
-    resetSearch: function () {
+    resetSearch () {
       this.departData.name = ''
       this.departData.selectedDepart = {}
       this.departData.shopArea = {} // 选择的门店分类
@@ -286,7 +286,7 @@ export default {
       if (departId && allDepart && allDepart.length > 0) {
         allDepart.forEach(index => {
           if (index.parentId && index.id && parseInt(index.parentId) === parseInt(departId)) {
-            _jointString = _jointString.concat(vm.jointDepartId(index.id, allDepart))
+            _jointString = _jointString.concat(this.jointDepartId(index.id, allDepart))
           }
         })
       }
@@ -403,7 +403,7 @@ export default {
      */
     onDialogClose () {
       this.$emit('onClose')
-      vm.visible = false
+      this.visible = false
     },
     /**
      * 点击保存按钮
@@ -421,29 +421,28 @@ export default {
       this.$emit('getChatRoomData', selectData)
       // 群id数组
       this.$emit('getChatRoomIds', selectData.map(item => item.chatId))
-      vm.visible = false
+      this.visible = false
     },
     /**
      * 点击页码数量时触发获取员工列表刷新事件
      */
-    $sizeChange$: function (size) {
+    $sizeChange$ (size) {
       this.pagination4Emp.size = size
       return this.getChatRoomList(1)
     },
     init () {
-      vm = this
       // 获取部门树
-      vm.getDepartmentTree()
+      this.getDepartmentTree()
       // 分类树
-      vm.getShopAreaAndShop()
+      this.getShopAreaAndShop()
     },
     emptyData () {
       this.selectedData = []
     }
   },
-  mounted: function () {
+  mounted () {
     this.init()
   },
-  created: function () {
+  created () {
   }
 }

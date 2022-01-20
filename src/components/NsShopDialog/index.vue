@@ -1,27 +1,3 @@
-<!-- 店铺选择左右联动组建：
-  zhimin.Mo 2020-06-12 09:56:00
-  使用方式：
-  1.html页面引入插件
-    <script>
-    import edit from 'index.js'
-    import NsShopDialog from '路径/components/NsShopDialog'
-    index.components = {
-      NsShopDialog
-    }
-    export default index
-    </script>
-  2.页面内引入标签
-  <NsShopDialog btnTitle="+选择适用门店" v-model="shopSelectData"></NsShopDialog>
-  配置参数(不配置则默认)：
-  btnTitle：(btnTitle="+选择适用门店")配置按钮文本
-  dialogTitle：(btnTitle="选择适用门店")配置弹框标题
-  url: (:guideUrl=$api.guide.moreAccount.findList)查询导购列表的请求地址，不设置则默认查询sg_guide表。 后台请用GuidePageVo承接查询条件，
-  plan: 默认方案：1：企微 2：个号 会带入到url的请求参数中
-  validNull：(:validNull="true")true必须选择一个门店 false可以不选择门店 默认false
-  v-model：接收值设置v-model="shopSelectData"
-  3.vue的data加入参数：
-  shopSelectData: [] //选中的值,如:[1,2,3,4]
--->
 <template>
   <div>
     <template v-if="type === 'icon'">

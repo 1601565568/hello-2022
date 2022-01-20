@@ -1,7 +1,6 @@
 import Coupon from '../../coupon'
 import StoreList from '../../storeList'
 import HtmlArea from '@/components/NewUi/HtmlArea'
-import NsShopDialog from '@/components/NsShopDialog'
 import shopSelect from '../../../../components/selectShops'
 import moment from 'moment'
 export default {
@@ -9,7 +8,6 @@ export default {
     Coupon,
     StoreList,
     HtmlArea,
-    NsShopDialog,
     shopSelect
   },
   data () {
