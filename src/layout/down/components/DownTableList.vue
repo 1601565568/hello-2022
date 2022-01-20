@@ -20,7 +20,7 @@
             </el-table-column>
             <el-table-column prop="fileState" label="操作">
               <template slot-scope="scope">
-                <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row.fileState)">{{downStatus(scope.row.fileState)}}</span>
+                <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row)">{{downStatus(scope.row.fileState)}}</span>
               </template>
             </el-table-column>
           </el-table>
@@ -71,8 +71,32 @@ export default {
     // this.loadDetail()
   },
   methods: {
-    downExcelFile (type) {
-      if (type === 2) {
+    downExcelFile (item) {
+      if (item.fileState === 2) {
+        const data = {
+          id: item.id
+        }
+        let that = this
+        that.$notify.info('导出中，请稍后片刻')
+        this.$http
+          .fetch(this.$api.guide.task.downloadExcelFile, data)
+          .then(resp => {
+            that.$notify.success('下载完成')
+          })
+          .catch(resp => {
+            if (!resp.size === 0) {
+              that.$notify.error('导出报错，请联系管理员')
+            } else {
+              let url = window.URL.createObjectURL(new Blob([resp]))
+              let link = document.createElement('a')
+              link.style.display = 'none'
+              link.href = url
+              let fileName = item.fileName + '.xlsx'
+              link.setAttribute('download', fileName)
+              document.body.appendChild(link)
+              link.click()
+            }
+          })
       }
     },
     fileNameStr (name) {
@@ -125,6 +149,10 @@ export default {
           startTime,
           endTime
         }
+      }
+      if (this.downPagination.page === 0) {
+        this.listData = []
+        this.downPagination.total = 0
       }
       const json = await this.$http.fetch(this.$api.guide.task.exportList, data)
       if (json.success) {

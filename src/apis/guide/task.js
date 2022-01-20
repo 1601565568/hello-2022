@@ -26,5 +26,11 @@ export default {
   exportList: {
     url: '/file/export/record/list',
     method: 'post'
+  },
+  downloadExcelFile: {
+    url: '/file/export/record/download',
+    method: 'get',
+    responseType: 'blob',
+    timeout: 600000
   }
 }
