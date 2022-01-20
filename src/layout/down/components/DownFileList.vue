@@ -85,7 +85,9 @@ export default {
             return time.getTime() < minTime || time.getTime() > maxTime
           }
         }
-      }
+      },
+      timer: null,
+      showRed: false
     }
   },
   methods: {
@@ -102,6 +104,7 @@ export default {
       this.drawer = true
       this.$nextTick(() => {
         this.loadTableList()
+        this.exportIsSuccess(0)
       })
     },
     inputChange (e) {
@@ -110,6 +113,12 @@ export default {
     loadTableList () {
       this.$refs.downTableList.resetData()
       this.$refs.downTableList.loadDetail(this.inputTitle, this.datePickerValue)
+    },
+    async exportIsSuccess (type) {
+      const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
+      if (json.success) {
+        this.showRed = json.result === 1
+      }
     }
   }
 }

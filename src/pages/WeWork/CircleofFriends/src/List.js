@@ -92,7 +92,7 @@ export default {
           this.$store.dispatch({
             type: 'down/downAction',
             status: true,
-            top: 200,
+            top: 180,
             right: 60
           })
         }).catch((resp) => {
