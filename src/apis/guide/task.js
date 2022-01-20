@@ -32,5 +32,9 @@ export default {
     method: 'get',
     responseType: 'blob',
     timeout: 600000
+  },
+  exportExcel: {
+    url: '/file/export/record/exportExcel',
+    method: 'post'
   }
 }
