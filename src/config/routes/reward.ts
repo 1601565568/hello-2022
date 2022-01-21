@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/ActivityIndex/ShopSetList',
   'name': 'ACTIVITY_INDEX',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '数据运营',
     'requiresAuth': true

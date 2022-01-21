@@ -1,7 +1,7 @@
 export default {
   'path': '/Customer/CustomerCenter',
   'name': 'CUSTOMER_CENTER',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '用户中心',
     'requiresAuth': true
