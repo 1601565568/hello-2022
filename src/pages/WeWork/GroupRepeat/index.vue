@@ -9,15 +9,8 @@
       <div style="fontSize:16px;marginTop:16px;fontWeight:bold">重复群统计 </div>
     </div>
     <div class="select-view">
-      <div class="item-down">
-        <div class="name">企微群:</div>
-        <div class="item-select">
-          选择企微群
-        </div>
-        <div class="icon-view">
-          <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
-        </div>
-      </div>
+      <GroupSelectDialog class="el-inline-block" v-bind:value="this.selectedData" @childChange="parentChang"
+        ref="GroupSelectDialog"/>
     </div>
     <div class="data-view">
       <page-table style="padding-top:0">
@@ -67,13 +60,15 @@ import PageTable from '@/components/NewUi/PageTable'
 import DataList from './components/DataList'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
+import GroupSelectDialog from './components/GroupSelectDialog'
 export default {
   name: 'GroupRepeat',
   components: {
     PageTable,
     DataList,
     ElBreadcrumb,
-    ElBreadcrumbItem
+    ElBreadcrumbItem,
+    GroupSelectDialog
   },
   data () {
     return {
