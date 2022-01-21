@@ -1,12 +1,14 @@
 <template>
   <div @updateAnimate="getDownIconInfo">
     <el-popover
-      placement="bottom"
-      title="下载中心"
-      width="200"
+      placement="bottom-end"
+      width="240"
       trigger="hover"
-      content="导出的所有文件将在下载中心中生成并下载～"
     >
+      <div class="down-cover-view">
+        <div class="cover-title">下载中心</div>
+        <div>导出的所有文件将在下载中心中生成并下载～</div>
+      </div>
       <div class="dowm-module" id="dowm-module" slot="reference" @click="openDownFileList">
         <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
         <div class="down-red-view" v-show="showRed"></div>
@@ -74,7 +76,7 @@ export default {
     timerLoad () {
       this.timer = setInterval(() => {
         this.exportIsSuccess(null)
-      }, 10000)
+      }, 30000)
     },
     openDownFileList () {
       this.$refs.downFileList.openDrawer()
@@ -155,6 +157,16 @@ export default {
   background: #5BA5F5;
   .red-file-view {
     color: white;
+  }
+}
+.down-cover-view {
+  padding: 8px;
+  .cover-title {
+    font-size: 14px;
+    color: #262626;
+    line-height: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
   }
 }
 </style>
