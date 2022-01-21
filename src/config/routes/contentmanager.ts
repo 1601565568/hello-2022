@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Content',
   'name': 'CONTENT_MANAGER',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '内容管理',
     'requiresAuth': true

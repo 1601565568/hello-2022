@@ -1,7 +1,7 @@
 export default {
   'path': '/Chat/ChatManage',
   'name': 'ChatManage',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '会话管理',
     'requiresAuth': true

@@ -1,7 +1,7 @@
 export default {
   'path': '/Risk/RiskManagement',
   'name': 'RiskManagement',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '风控管理',
     'requiresAuth': true

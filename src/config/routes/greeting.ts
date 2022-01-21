@@ -1,7 +1,7 @@
 export default {
   path: '/Greeting',
   name: 'SocialOperation',
-  component: () => import('@layout/Default.vue'),
+  component: () => import('@/layout/Default.vue'),
   meta: { requiresAuth: true },
   redirect: {
     path: '/Greeting/Content'
