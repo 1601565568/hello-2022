@@ -2,7 +2,7 @@ export default (parentName: any, secondName:any, name:any, module: any) => (
   {
     path: `/${module}`,
     name: parentName,
-    component: () => import('@layout/Default.vue'),
+    component: () => import('@/layout/Default.vue'),
     meta: { requiresAuth: true },
     redirect: {
       path: `/${module}/Content`
