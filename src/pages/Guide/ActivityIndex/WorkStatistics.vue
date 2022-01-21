@@ -647,7 +647,7 @@ export default {
   },
   methods: {
     commissionTypeText (type) {
-      commissionTypeText(type)
+      return commissionTypeText(type)
     },
     handleClick (tab, event) {
       if (tab.name === 'first') {
