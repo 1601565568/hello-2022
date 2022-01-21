@@ -1,18 +1,18 @@
 <template>
   <div>
+    <div style="padding: 16px;background: #fff;width:100%">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/userCenter/customer/customerList'}">用户中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/userCenter/group/list'}">群管理</el-breadcrumb-item>
+        <el-breadcrumb-item>重复群统计</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div style="fontSize:16px;marginTop:16px;fontWeight:bold">重复群统计 </div>
+    </div>
     <div class="select-view">
       <div class="item-down">
         <div class="name">企微群:</div>
         <div class="item-select">
-          <el-select v-model="actionValue" :default-first-option='true' @visible-change="selectOptionClick">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+          选择企微群
         </div>
         <div class="icon-view">
           <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
@@ -65,11 +65,15 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import DataList from './components/DataList'
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 export default {
   name: 'GroupRepeat',
   components: {
     PageTable,
-    DataList
+    DataList,
+    ElBreadcrumb,
+    ElBreadcrumbItem
   },
   data () {
     return {
