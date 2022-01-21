@@ -11,7 +11,7 @@ import mutations from './mutations'
 // @ts-ignore
 import common from '@nascent/ecrp-ecrm/src/store/modules/common'
 // @ts-ignore
-import user from './modules/user'
+import user from '@nascent/ecrp-ecrm/src/store/modules/user'
 // @ts-ignore
 import pay from './modules/pay/index.js'
 // @ts-ignore

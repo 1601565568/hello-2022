@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavHead @brand-change="onReload" @area-change="onReload"/>
+        <NavHead @area-change="onReload"/>
         <router-view v-if="isReload"/>
         <Footer />
     </div>
