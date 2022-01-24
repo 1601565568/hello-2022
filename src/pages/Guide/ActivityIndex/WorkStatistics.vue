@@ -851,6 +851,9 @@ export default {
         _this.searchObj.searchMap.date = moment(_this.searchform.date).format('YYYY-MM')
       }
       const negative = this.activeName === 'first' ? 0 : 1
+      // searchform.type searchform.dateRange
+      const startDate = this.searchform.type === '3' && this.searchform.dateRange ? this.searchform.dateRange[0] : ''
+      const endDate = this.searchform.type === '3' && this.searchform.dateRange ? this.searchform.dateRange[1] : ''
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
         length: _this.pagination1.size,
@@ -864,7 +867,9 @@ export default {
           rewardType: _this.type,
           date: _this.searchObj.searchMap.date,
           negative,
-          outRefundId: _this.outRefundId
+          outRefundId: _this.outRefundId,
+          startDate,
+          endDate
         }
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {
