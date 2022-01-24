@@ -852,8 +852,8 @@ export default {
       }
       const negative = this.activeName === 'first' ? 0 : 1
       // searchform.type searchform.dateRange
-      const startDate = this.searchform.type === '3' && this.searchform.dateRange ? this.searchform.dateRange[0] : ''
-      const endDate = this.searchform.type === '3' && this.searchform.dateRange ? this.searchform.dateRange[1] : ''
+      const startDate = this.searchform.type === '3' && this.searchform.dateRange ? moment(this.searchform.dateRange[0]).format('YYYY-MM-DD') : ''
+      const endDate = this.searchform.type === '3' && this.searchform.dateRange ? moment(this.searchform.dateRange[1]).format('YYYY-MM-DD') : ''
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
         length: _this.pagination1.size,
