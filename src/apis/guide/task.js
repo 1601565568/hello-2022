@@ -40,5 +40,15 @@ export default {
   isSuccess: {
     url: '/file/export/record/isSuccess',
     method: 'get'
+  },
+  segmentedDownload: {
+    url: '/file/export/record/segmentedDownload',
+    method: 'head',
+    callback: false
+  },
+  rangeSegmentedDownload: {
+    url: '/file/export/record/segmentedDownload',
+    method: 'head',
+    callback: false
   }
 }
