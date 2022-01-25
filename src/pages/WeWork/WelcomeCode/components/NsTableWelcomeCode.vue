@@ -52,7 +52,7 @@
       <el-form
         ref="table_filter_form"
         :model="model"
-        label-width="80px"
+        label-width="100px"
         :inline="true"
         @submit.native.prevent
       >
