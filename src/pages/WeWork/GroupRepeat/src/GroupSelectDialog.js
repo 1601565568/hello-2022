@@ -42,12 +42,15 @@ var tableMixin = {
       var that = this
       // 加载中
       that.tableLoading = true
-      that.$http.fetch(that.$api.groupManager.getGroupNameList, params).then(resp => {
+      that.$http.fetch(that.$api.weWork.groupManager.getGroupNameList, params).then(resp => {
         if (resp.result && resp.result.data && resp.result.data.length > 0) {
           that.$set(that.table, 'data', resp.result.data)
           that.$set(that.pagination, 'total', parseInt(resp.result.recordsTotal))
         } else {
-          that.$set(that.table, 'data', [])
+          that.$set(that.table, 'data', [
+            { 'ChatID': 'wrbyPeBgAAgIbJ9mOTboM2O-YqLvqZ7Q', 'Name': '111', 'OwnerName': 'zhang' },
+            { 'ChatID': 'wrbyPeBgAAg', 'Name': '222', 'OwnerName': 'zhang1' }
+          ])
           that.$set(that.pagination, 'total', 0)
         }
       }).catch(() => {
@@ -72,6 +75,12 @@ export default {
   data () {
     return {
       visible: false,
+      table1: {
+        data: [
+          { 'ChatID': 'wrbyPeBgAAgIbJ9mOTboM2O-YqLvqZ7Q', 'Name': '111', 'OwnerName': 'zhang' },
+          { 'ChatID': 'wrbyPeBgAAg', 'Name': '222', 'OwnerName': 'zhang1' }
+        ]
+      },
       table: {
         // 表格数据
         data: [],
@@ -355,7 +364,7 @@ export default {
     },
     getAllUser: function () {
       let that = this
-      this.$http.fetch(that.$api.groupManager.getAllUser,
+      this.$http.fetch(that.$api.weWork.groupManager.getAllUser,
         {})
         .then((resp) => {
           if (resp.success) {

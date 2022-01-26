@@ -12,15 +12,16 @@
       </div>
   <!-- /end 选择商品结果列表 列表展开收缩切换结构-->
   <!-- 选择发送对象客户弹窗结构 -->
-  <el-dialog title="选择群聊" :visible="visible" class="g-wrapper" width="960px" :show-scroll-x="false" append-to-body
-             height="530px" :response-limit=false :before-close="onClose">
-    <el-radio-group v-model="searchMode" style="margin-top: -6px;margin-bottom: 3px;">
+  <el-dialog title="选择群聊" :visible="visible" class="g-wrapper" width="1228px" :show-scroll-x="false" append-to-body
+             height="807px" :response-limit=false :before-close="onClose">
+    <el-radio-group v-model="searchMode" style="margin-top: 17px;margin-bottom: 3px;">
       <el-radio :label="1">所选群均有该客户</el-radio>
       <el-radio :label="2" >仅需其中两个群有该客户</el-radio>
     </el-radio-group>
-    <el-row class="tmp-choose__condition" :gutter="20">
+    <el-row class="tmp-choose__condition" :gutter="20" style="margin-top:24px!important">
       <el-col :span="24">
-        <el-form ref="form" :model="model" label-width="60px" :inline="true">
+        <!-- 客道 -->
+        <!-- <el-form ref="form" :model="model" label-width="63px" :inline="true">
           <el-form-item>
             <el-form-grid size="xmd">
               <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable @change="groupChange(model.ChatID)">
@@ -44,25 +45,58 @@
                   label="请选择群主"
                   value="">
                 </el-option>
-                <!-- <el-option
+                <el-option
                   v-for="item in userList"
                   :key="item.UserID"
                   :label="item.Name"
                   :value="item.Name">
-                </el-option> -->
+                </el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
-          <el-form-item style="margin-right: 0">
-            <el-form-grid>
-              <!-- <ns-button type="primary" @click="onSearch">{{$t('operating.search')}}</ns-button>
-              <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
+        </el-form> -->
+        <!-- scrm -->
+        <el-form ref="form" :model="model" :inline="true">
+          <el-form-item label="群名称：">
+            <el-form-grid size="small">
+              <el-input v-model="input" placeholder="请输入群名称"></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="工作门店：">
+            <el-form-grid size="small">
+              <el-select v-model="model.ownerName" placeholder="请选择区域" filterable style="float:left">
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
+            <el-form-grid size="small">
+              <el-select v-model="model.ownerName" placeholder="请选择门店" filterable style="float:left">
+                <el-option
+                  label="请选择门店"
+                  value="">
+                </el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="群主部门：">
+            <el-form-grid size="small">
+              <el-select v-model="model.ownerName" placeholder="请选择" filterable style="float:left">
+                <el-option
+                  label="请选择"
+                  value="">
+                </el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="群主：">
+            <el-form-grid size="small">
+              <el-input v-model="input" placeholder="请输入群主姓名"></el-input>
             </el-form-grid>
           </el-form-item>
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="tmp-choose__condition" :gutter="20">
+    <el-row class="tmp-choose__condition" :gutter="20" style="margin-top:24px!important">
       <el-col :span="16" class="condition-left">
         <el-table ref="table"
                   :data="table.data" stripe
@@ -72,46 +106,83 @@
                   v-loading="tableLoading"
                   :element-loading-text="$t('prompt.loading')">
           <el-table-column type="selection" width="45" align="center"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" width="280" type="default" prop="ChatID"
-                           label="群ID" :sortable="false" align="left">
+          <el-table-column :show-overflow-tooltip="true"  width="160" type="default" prop="Name"
+                           label="群名称" :sortable="false" align="left">
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true"  width="140" type="default" prop="Name"
-                           label="群名" :sortable="false" align="left">
-          </el-table-column>
-          <el-table-column :show-overflow-tooltip="true"  width="110" type="default" prop="OwnerName"
+          <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
                            label="群主" :sortable="false" align="left">
           </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" width="100" type="default" prop="ChatID"
+                           label="群成员" :sortable="false" align="left">
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="ChatID"
+                           label="群主工作门店" :sortable="false" align="left">
+          </el-table-column>
         </el-table>
-        <el-pagination class="template-table-pagination"
-                       layout="total, prev, pager, next, jumper"
-                       :page-size="pagination.currSize"
-                       :current-page="pagination.currPage"
-                       :total="pagination.total"
-                       @current-change="onPageChange">
-        </el-pagination>
       </el-col>
       <el-col :span="8" class="condition-right">
         <div class="tmp-choose__result">
-          <p class="title">已选择了<span class="text-danger padding-lr-base">{{selectedData.length}}</span>个群</p>
+          <p class="title">
+            已选择了
+            <!-- <span class="text-danger padding-lr-base"> -->
+              {{selectedData.length}}
+            <!-- </span> -->
+            个群
+          </p>
           <div v-if="selectedData.length>0">
-            <el-scrollbar style="margin-top: 5px;">
-              <ul class="tmp-choose__goods">
-                <li v-for="(item,index) in selectedData" :key="index">
-                  <span class="g-name">{{item.Name}}</span>
-                  <a @click="onDelSelected('selectedData',index,item)" class="delete-icon">
+            <el-table
+                  :data="selectedData" stripe
+                  :key="pagination.currPage"
+                  v-loading="tableLoading"
+                  :element-loading-text="$t('prompt.loading')"
+                  :show-header="false">
+              <el-table-column :show-overflow-tooltip="true"  width="160" type="default" prop="Name"
+                               :sortable="false" align="left">
+              </el-table-column>
+              <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
+                               :sortable="false" align="left">
+              </el-table-column>
+              <el-table-column :show-overflow-tooltip="true" width="100" type="default" prop="ChatID"
+                               :sortable="false" align="left">
+              </el-table-column>
+              <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="ChatID"
+                               :sortable="false" align="left">
+              </el-table-column>
+              <el-table-column :show-overflow-tooltip="true" width="50" type="default" prop="ChatID"
+                               :sortable="false" align="left">
+                <template scope="scope">
+                  <a @click="onDelSelected('selectedData',scope.$index,scope.row)" class="delete-icon">
                     <Icon type="delete" className="g-delete"/>
                   </a>
-                </li>
-              </ul>
-            </el-scrollbar>
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
-          <ns-no-data height="335" v-else>请从左侧群列表中选择</ns-no-data>
+          <!-- <ns-no-data height="335" v-else>请从左侧群列表中选择</ns-no-data> -->
+          <div v-else class="condition-right__empty">
+            <img src="../../../../assets/empty.png" alt="">
+            <span>请从左侧群列表中选择哦~</span>
+          </div>
         </div>
       </el-col>
     </el-row>
-    <div slot="footer" class="dialog-footer">
-      <ns-button @click="onClose">{{$t('operating.cancel')}}</ns-button>
-      <ns-button type="primary" @click="onConfirm">保存</ns-button>
+    <div slot="footer" class="dialog-footer" style="padding:0 !important">
+      <div style="borderTop:1px solid #F0F0F0; height:64px;display:flex; alignItems:center">
+        <span class="demonstration" style="width:70px">单页显示：</span>
+        <el-pagination class="template-table-pagination"
+                      layout="sizes, prev, pager, next, jumper"
+                      :page-size="pagination.currSize"
+                      :page-sizes="[100, 200, 300, 400]"
+                      :current-page="pagination.currPage"
+                      :total="pagination.total"
+                      @current-change="onPageChange"
+                      style="width:1158px; boxShadow: none;">
+        </el-pagination>
+      </div>
+      <div style="marginTop: 16px; width:100%; display:flex; justifyContent: end;">
+        <ns-button @click="onClose">{{$t('operating.cancel')}}</ns-button>
+        <ns-button type="primary" @click="onConfirm">保存</ns-button>
+      </div>
     </div>
   </el-dialog>
   </div>
@@ -119,6 +190,7 @@
 
 <script>
 import GroupSelectDialog from '../src/GroupSelectDialog'
+import NsRoomDialog from '../../../../components/NsRoomDialog/index.vue'
 
 export default GroupSelectDialog
 </script>
@@ -142,6 +214,15 @@ export default GroupSelectDialog
     margin-left: 16px;
     cursor: pointer;
   }
+  .dialog-footer{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+  }
+  .el-dialog__footer{
+    margin: 6px;
+  }
   .name {
       width: 56px;
       margin-left:8px;
@@ -154,20 +235,43 @@ export default GroupSelectDialog
   }
 
   .tmp-choose__result .title {
-    line-height: 30px;
+    width: 590px;
+    /* line-height: 30px; */
+    height: 40px;
     background: var(--theme-bg-color-base);
     padding: 0 8px;
     border-bottom: 1px solid var(--theme-base-border-color-primary);
+    color: #262626;
+    font-size: 14px;
+    line-height: 40px;
+    font-weight: 500;
+
   }
 
   .condition-left {
     width: 604px;
   }
-
+  .has-gutter tr {
+    height: 40px !important;
+  }
   .condition-right {
-    width: 346px;
+    width: 590px;
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+  .condition-right__empty{
+    width: 590px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #8C8C8C;
+    padding-top: 100px;
+  }
+  .condition-right__empty img{
+    width: 220px;
+    height: 220px;
+    margin-bottom: 10px;
   }
 
   >>> .el-table--border th:first-child .cell, >>> .el-table--border td:first-child .cell {
