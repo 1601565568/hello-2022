@@ -34,7 +34,7 @@
           :rules="rules"
         >
           <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
-          <el-form-item label="跳转链接" prop="custom" label-width="110px" required>
+          <el-form-item label="跳转链接" v-if="cloudPlatformType === 'ecrp'" prop="custom" label-width="110px" required>
             <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange">
               <el-radio :label="1">自定义链接</el-radio>
               <el-radio :label="2">系统预置链接</el-radio>
@@ -334,6 +334,7 @@ export default {
   },
   data () {
     return {
+      cloudPlatformType: '',
       brandDialogVisible: false,
       uploadUrl: this.$api.core.sgUploadFile('message'),
       disabled: false,
@@ -434,6 +435,10 @@ export default {
     }
   },
   mounted () {
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    if (this.cloudPlatformType === 'kd') {
+      this.placeholderLink = []
+    }
   },
   methods: {
     changeUploadFile () {

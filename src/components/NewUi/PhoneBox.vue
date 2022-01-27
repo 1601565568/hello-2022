@@ -27,6 +27,9 @@
           <img src='@/assets/phoneBar.png' class='header-img'/>
           <span class='phone-bar'>{{phoneBar}}</span>
         </div>
+        <div class='mobile-header' v-if='showPhoneHead'>
+          <img src='@/assets/phoneHead.png' class='header-img'/>
+        </div>
         <slot name='collapse-right'></slot>
       </Phone>
       <slot name='collapse-right__bottom'></slot>
@@ -59,6 +62,11 @@ export default {
       type: String
     },
     showBottom: {
+      type: Boolean,
+      default: false
+    },
+    // 群欢迎语替换图片
+    showPhoneHead: {
       type: Boolean,
       default: false
     }

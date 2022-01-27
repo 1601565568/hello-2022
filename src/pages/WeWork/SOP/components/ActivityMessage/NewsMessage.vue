@@ -6,7 +6,7 @@
       </div>
       <div class="link-content">
         <span>{{content.desc}}</span>
-        <img :src="content.imgUrl"/>
+        <img :src="content[imageLabel]"/>
       </div>
       <div class="link-footer">
         <!-- <img src="" alt="">
@@ -31,6 +31,10 @@ export default {
           imgUrl: ''
         }
       }
+    },
+    imageLabel: {
+      type: String,
+      default: 'imgUrl'
     }
   },
   data () {
