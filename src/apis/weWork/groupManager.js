@@ -11,6 +11,7 @@ export default {
     url: '/userCenter/groupManager/queryGroupListByOwnerId',
     method: 'post'
   },
+  // 选择群聊列表
   getGroupNameList: {
     url: '/chatRoom/canJoinList',
     method: 'post'
@@ -46,6 +47,16 @@ export default {
   },
   queryGroupAnalysisOverview: {
     url: '/userCenter/groupManager/queryGroupAnalysisOverview',
+    method: 'post'
+  },
+  // 所有用户
+  queryRepeatedInContactList: {
+    url: '/wework/externalContact/queryRepeatedInContactList',
+    method: 'post'
+  },
+  // 详情
+  queryRepeatedInContactDetailList: {
+    url: '/wework/weworkRoomMember/queryRepeatedInContactDetailList',
     method: 'post'
   }
 }

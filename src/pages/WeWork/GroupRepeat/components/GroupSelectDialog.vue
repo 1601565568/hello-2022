@@ -4,7 +4,7 @@
     <div class="item-down" @click="onShow">
         <div class="name">企微群:</div>
         <div class="item-select">
-          选择企微群
+          {{selectedData.length > 0 ?'已选择'+selectedData.length + '个企微群': '选择企微群'}}
         </div>
         <div class="icon-view">
           <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
@@ -105,8 +105,8 @@
                   :key="pagination.currPage"
                   v-loading="tableLoading"
                   :element-loading-text="$t('prompt.loading')">
-          <el-table-column type="selection" width="45" align="center"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true"  width="160" type="default" prop="Name"
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="Name"
                            label="群名称" :sortable="false" align="left">
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
@@ -136,7 +136,7 @@
                   v-loading="tableLoading"
                   :element-loading-text="$t('prompt.loading')"
                   :show-header="false">
-              <el-table-column :show-overflow-tooltip="true"  width="160" type="default" prop="Name"
+              <el-table-column :show-overflow-tooltip="true" type="default" prop="Name"
                                :sortable="false" align="left">
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
@@ -190,7 +190,6 @@
 
 <script>
 import GroupSelectDialog from '../src/GroupSelectDialog'
-import NsRoomDialog from '../../../../components/NsRoomDialog/index.vue'
 
 export default GroupSelectDialog
 </script>
@@ -201,8 +200,15 @@ export default GroupSelectDialog
   >>> .el-table th {
     line-height: 1;
   }
+  >>> .el-table__header tr{
+    height: 40px;
+  }
+  >>> .el-table__body tr{
+    height: 48px;
+    line-height: 48px;
+  }
   .item-down {
-    width: 171px;
+    /* width: 171px; */
     height: 32px;
     background: #FFFFFF;
     border: 1px solid #D9D9D9;

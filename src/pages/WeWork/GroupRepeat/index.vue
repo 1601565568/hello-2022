@@ -19,19 +19,28 @@
             :data="listData"
             class="new-table_border drawer-table"
             :row-style="{ height: '96px' }"
+            v-loading="tableLoading"
           >
-            <el-table-column prop="img" label="头像">
+            <el-table-column prop="avatar" label="头像">
               <template slot-scope="scope">
-                <img :src="scope.row.img"  width="50" height="50"/>
+                <img :src="scope.row.avatar"  width="50" height="50"/>
               </template>
             </el-table-column>
-            <el-table-column prop="nick" label="昵称" > </el-table-column>
-            <el-table-column prop="sex" label="性别" > </el-table-column>
-            <el-table-column prop="group" label="所属群" > </el-table-column>
-            <el-table-column prop="time" label="首次入群时间"> </el-table-column>
+            <el-table-column prop="name" label="昵称" > </el-table-column>
+            <el-table-column prop="gender" label="性别" >
+              <template slot-scope="scope">
+                <span>{{ scope.row.gender === 0 ? '女' : '男' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="repeatedNum" label="所属群" >
+              <template slot-scope="scope">
+                <span>{{ scope.row.repeatedNum }}个</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="firstJoinTime" label="首次入群时间"> </el-table-column>
             <el-table-column prop="dowm" label="操作">
-              <template>
-                <ns-button type="text" class="select-button" @click="showMoreData">详情</ns-button>
+              <template slot-scope="scope">
+                <ns-button type="text" class="select-button" @click="showMoreData(scope.row)">详情</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -51,7 +60,11 @@
         </template>
       </page-table>
     </div>
-    <DataList ref="datalist"/>
+    <DataList
+    v-bind:dataList="this.dataList"
+    ref="datalist"
+    v-bind:detailTableLoading="this.detailTableLoading"
+    v-bind:userMessage="this.userMessage"/>
   </div>
 </template>
 
@@ -72,55 +85,14 @@ export default {
   },
   data () {
     return {
-      listData: [
-        {
-          img:
-            'https://th.bing.com/th/id/Rd32269e86c0a421ab6ec323f856329aa?rik=2wms6PzgczYcHA&riu=http%3a%2f%2fpicture.ik123.com%2fuploads%2fallimg%2f141127%2f12-14112G64421.jpg&ehk=KCOzMdmbdCLtKnNxKvcLZCKXq5BKtX4jx5ure2%2fZV7c%3d&risl=&pid=ImgRaw',
-          nick: '普通红包',
-          sex: '女',
-          group: '这是一个群名称',
-          time: '2021-03-31 13:54:19'
-        },
-        {
-          img:
-            'https://th.bing.com/th/id/Rd32269e86c0a421ab6ec323f856329aa?rik=2wms6PzgczYcHA&riu=http%3a%2f%2fpicture.ik123.com%2fuploads%2fallimg%2f141127%2f12-14112G64421.jpg&ehk=KCOzMdmbdCLtKnNxKvcLZCKXq5BKtX4jx5ure2%2fZV7c%3d&risl=&pid=ImgRaw',
-          nick: '普通红包',
-          sex: '女',
-          group: '这是一个群名称',
-          time: '2021-03-31 13:54:19'
-        },
-        {
-          img:
-            'https://th.bing.com/th/id/Rd32269e86c0a421ab6ec323f856329aa?rik=2wms6PzgczYcHA&riu=http%3a%2f%2fpicture.ik123.com%2fuploads%2fallimg%2f141127%2f12-14112G64421.jpg&ehk=KCOzMdmbdCLtKnNxKvcLZCKXq5BKtX4jx5ure2%2fZV7c%3d&risl=&pid=ImgRaw',
-          nick: '普通红包',
-          sex: '女',
-          group: '这是一个群名称',
-          time: '2021-03-31 13:54:19'
-        },
-        {
-          img:
-            'https://th.bing.com/th/id/Rd32269e86c0a421ab6ec323f856329aa?rik=2wms6PzgczYcHA&riu=http%3a%2f%2fpicture.ik123.com%2fuploads%2fallimg%2f141127%2f12-14112G64421.jpg&ehk=KCOzMdmbdCLtKnNxKvcLZCKXq5BKtX4jx5ure2%2fZV7c%3d&risl=&pid=ImgRaw',
-          nick: '普通红包',
-          sex: '女',
-          group: '这是一个群名称',
-          time: '2021-03-31 13:54:19'
-        }
-      ],
-      options: [
-        {
-          value: '选项1',
-          label: '全部动作'
-        },
-        {
-          value: '选项2',
-          label: '下载'
-        },
-        {
-          value: '选项3',
-          label: '发送'
-        }
-      ],
-      actionValue: '全部动作',
+      listData: [],
+      // 列表页加载
+      tableLoading: false,
+      userMessage: null,
+      // 详情列表页数据加载
+      detailTableLoading: false,
+      // 详情列表数据
+      dataList: [],
       // 分页配置
       pagination: {
         size: 10,
@@ -134,12 +106,64 @@ export default {
   methods: {
     handleCurrentChange () {},
     handleSizeChange () {},
-    showMoreData () {
+    showMoreData (user) {
       this.$refs.datalist.openDeawer()
+      this.queryRepeatedInContactDetailList(user.userId)
+      this.userMessage = user
     },
     selectOptionClick (val) {
       this.flag = val
+    },
+    queryRepeatedInContactList () {
+      let params = {
+        'beanMap': {},
+        'draw': 0,
+        'length': 10,
+        'orderDir': '',
+        'orderKey': '',
+        'searchMap': {
+          'chatIds': '',
+          'leastRepeatedInNum': 0
+        },
+        'searchValue': '',
+        'start': 0
+      }
+      let that = this
+      that.tableLoading = true
+      this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactList, params).then((resp) => {
+        if (resp.success && resp.result.data.length > 0) {
+          this.listData = resp.result.data
+        }
+      }).finally(() => {
+        that.tableLoading = false
+      })
+    },
+    queryRepeatedInContactDetailList (detilUserId) {
+      let params = {
+        'beanMap': {},
+        'draw': 0,
+        'length': 10,
+        'orderDir': '',
+        'orderKey': '',
+        'searchMap': {
+          'userId': detilUserId
+        },
+        'searchValue': '',
+        'start': 0
+      }
+      let that = this
+      this.detailTableLoading = true
+      this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
+        if (resp.success && resp.result.data.length > 0) {
+          that.dataList = resp.result.data
+        }
+      }).finally(() => {
+        that.detailTableLoading = false
+      })
     }
+  },
+  mounted: function () {
+    this.queryRepeatedInContactList()
   }
 }
 </script>
