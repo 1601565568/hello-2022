@@ -60,6 +60,8 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NoData from '@/pages/WeWork/MaterialChat/components/NoData'
+import { Base64 } from 'js-base64'
+import OSS from 'ali-oss'
 export default {
   name: 'downTableList',
   components: {
@@ -81,50 +83,6 @@ export default {
     // this.loadDetail()
   },
   methods: {
-    downloadRange (data, start, end, i) {
-      return new Promise((resolve, reject) => {
-        const test = {
-          url: '/file/export/record/segmentedDownload',
-          method: 'get',
-          responseType: 'blob',
-          headers: {
-            'range': `bytes=${start}-${end}`
-          }
-        }
-        this.$http
-          .fetch(test, data)
-          .then(res => {
-          })
-          .catch(res => {})
-        // const req = new XMLHttpRequest()
-        // req.open('GET', url, true)
-        // req.setRequestHeader('range', `bytes=${start}-${end}`)
-        // req.responseType = 'blob'
-        // req.onload = function (oEvent) {
-        //   req.response.arrayBuffer().then(res => {
-        //     resolve({
-        //       i,
-        //       buffer: res
-        //     })
-        //   })
-        // }
-        // req.send()
-      })
-    },
-    // 合并buffer
-    concatenate (arrays) {
-      let totalLength = 0
-      for (let arr of arrays) {
-        totalLength += arr.length
-      }
-      let result = new Uint8Array(totalLength)
-      let offset = 0
-      for (let arr of arrays) {
-        result.set(arr, offset)
-        offset += arr.length
-      }
-      return result
-    },
     downExcelFile (item) {
       if (item.fileState === 2) {
         const data = {
@@ -135,62 +93,25 @@ export default {
         that.$notify.info('导出中，请稍后片刻 test')
         this.$http
           .fetch(url, data)
-          .then(res => {
-            const size = Number(res.headers['content-length'])
-            const m = 1024
-            const length = parseInt(size / m)
-            const arr = []
-            for (let i = 0; i < length; i++) {
-              let start = i * m
-              let end = i === length - 1 ? size - 1 : (i + 1) * m - 1
-              arr.push(this.downloadRange(data, start, end, i))
+          .then(json => {
+            if (json.success) {
+              const client = new OSS({
+                region: Base64.decode(json.result.region),
+                accessKeyId: Base64.decode(json.result.accessKeyId),
+                accessKeySecret: Base64.decode(json.result.accessKeySecret),
+                bucket: Base64.decode(json.result.bucket)
+              })
+              const filename = Base64.decode(json.result.fileName)
+              const response = {
+                'content-disposition': `attachment; filename=${encodeURIComponent(filename)}`
+              }
+              const result = client.signatureUrl(Base64.decode(json.result.filePath), { response })
+              window.location = result
             }
-            Promise.all(arr).then(res => {
-              const arrBufferList = res
-                .sort(item => item.i - item.i)
-                .map(item => new Uint8Array(item.buffer))
-              const allBuffer = this.concatenate(arrBufferList)
-              const blob = new Blob([allBuffer])
-              const blobUrl = URL.createObjectURL(blob)
-              const aTag = document.createElement('a')
-              aTag.download = item.fileName
-              aTag.href = blobUrl
-              aTag.click()
-              URL.revokeObjectURL(blob)
-              console.timeEnd('并发下载')
-            })
           })
           .catch(res => {})
       }
     },
-    // downExcelFile (item) {
-    //   if (item.fileState === 2) {
-    //     const data = {
-    //       id: item.id
-    //     }
-    //     let that = this
-    //     that.$notify.info('导出中，请稍后片刻')
-    //     this.$http
-    //       .fetch(this.$api.guide.task.downloadExcelFile, data)
-    //       .then(resp => {
-    //         that.$notify.success('下载完成')
-    //       })
-    //       .catch(resp => {
-    //         if (!resp.size === 0) {
-    //           that.$notify.error('导出报错，请联系管理员')
-    //         } else {
-    //           let url = window.URL.createObjectURL(new Blob([resp]))
-    //           let link = document.createElement('a')
-    //           link.style.display = 'none'
-    //           link.href = url
-    //           let fileName = item.fileName + '.xlsx'
-    //           link.setAttribute('download', fileName)
-    //           document.body.appendChild(link)
-    //           link.click()
-    //         }
-    //       })
-    //   }
-    // },
     fileNameStr (name) {
       if (name && name.length > 16) {
         return name.substr(0, 16) + '...'

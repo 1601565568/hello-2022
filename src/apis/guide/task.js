@@ -43,12 +43,6 @@ export default {
   },
   segmentedDownload: {
     url: '/file/export/record/segmentedDownload',
-    method: 'head',
-    callback: false
-  },
-  rangeSegmentedDownload: {
-    url: '/file/export/record/segmentedDownload',
-    method: 'head',
-    callback: false
+    method: 'post'
   }
 }
