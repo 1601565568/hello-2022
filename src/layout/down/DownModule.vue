@@ -19,7 +19,7 @@
         <span class="iconfont icon-wenben2x red-file-view"></span>
       </div>
     </div>
-    <DownFileList ref="downFileList"/>
+    <DownFileList ref="downFileList" @updateShowRed="updateShowRed"/>
   </div>
 </template>
 
@@ -67,6 +67,9 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    updateShowRed () {
+      this.showRed = false
+    },
     async exportIsSuccess (type) {
       const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
       if (json.success) {
