@@ -11,7 +11,7 @@
             >
               <el-table-column prop="fileName" label="文件名称">
                 <template slot-scope="scope">
-                  <span>{{fileNameStr(scope.row.fileName)}}</span>
+                  <span>{{ fileNameStr(scope.row.fileName) }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="generationTime" label="创建时间">
@@ -21,7 +21,15 @@
               </el-table-column>
               <el-table-column prop="fileState" label="操作">
                 <template slot-scope="scope">
-                  <span :class="scope.row.fileState === 2 ? 'down-text down-name': 'down-name'" @click="downExcelFile(scope.row)">{{downStatus(scope.row.fileState)}}</span>
+                  <span
+                    :class="
+                      scope.row.fileState === 2
+                        ? 'down-text down-name'
+                        : 'down-name'
+                    "
+                    @click="downExcelFile(scope.row)"
+                    >{{ downStatus(scope.row.fileState) }}</span
+                  >
                 </template>
               </el-table-column>
             </el-table>
@@ -52,6 +60,8 @@
 <script>
 import PageTable from '@/components/NewUi/PageTable'
 import NoData from '@/pages/WeWork/MaterialChat/components/NoData'
+import { Base64 } from 'js-base64'
+import OSS from 'ali-oss'
 export default {
   name: 'downTableList',
   components: {
@@ -79,26 +89,27 @@ export default {
           id: item.id
         }
         let that = this
-        that.$notify.info('导出中，请稍后片刻')
+        const url = this.$api.guide.task.segmentedDownload
+        that.$notify.info('导出中，请稍后片刻 test')
         this.$http
-          .fetch(this.$api.guide.task.downloadExcelFile, data)
-          .then(resp => {
-            that.$notify.success('下载完成')
-          })
-          .catch(resp => {
-            if (!resp.size === 0) {
-              that.$notify.error('导出报错，请联系管理员')
-            } else {
-              let url = window.URL.createObjectURL(new Blob([resp]))
-              let link = document.createElement('a')
-              link.style.display = 'none'
-              link.href = url
-              let fileName = item.fileName + '.xlsx'
-              link.setAttribute('download', fileName)
-              document.body.appendChild(link)
-              link.click()
+          .fetch(url, data)
+          .then(json => {
+            if (json.success) {
+              const client = new OSS({
+                region: Base64.decode(json.result.region),
+                accessKeyId: Base64.decode(json.result.accessKeyId),
+                accessKeySecret: Base64.decode(json.result.accessKeySecret),
+                bucket: Base64.decode(json.result.bucket)
+              })
+              const filename = Base64.decode(json.result.fileName)
+              const response = {
+                'content-disposition': `attachment; filename=${encodeURIComponent(filename)}`
+              }
+              const result = client.signatureUrl(Base64.decode(json.result.filePath), { response })
+              window.location = result
             }
           })
+          .catch(res => {})
       }
     },
     fileNameStr (name) {
@@ -140,8 +151,10 @@ export default {
       this.loadDetail()
     },
     async loadDetail (searchName = null, timeRange = []) {
-      const startTime = timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
-      const endTime = timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
+      const startTime =
+        timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
+      const endTime =
+        timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
       const fileName = searchName && searchName.length > 0 ? searchName : null
       const start = (this.downPagination.page - 1) * this.downPagination.size
       const data = {
@@ -176,7 +189,7 @@ export default {
   font-weight: 400;
 }
 .down-text {
-  color: #0094FC;
+  color: #0094fc;
 }
 .down-name {
   cursor: pointer;
