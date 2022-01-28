@@ -109,7 +109,9 @@ export default {
               window.location = result
             }
           })
-          .catch(res => {})
+          .catch(res => {
+            that.$notify.error(res.msg || '导出失败')
+          })
       }
     },
     fileNameStr (name) {
