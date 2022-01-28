@@ -90,7 +90,7 @@ export default {
         }
         let that = this
         const url = this.$api.guide.task.segmentedDownload
-        that.$notify.info('导出中，请稍后片刻 test')
+        that.$notify.info('导出中，请稍后片刻')
         this.$http
           .fetch(url, data)
           .then(json => {
