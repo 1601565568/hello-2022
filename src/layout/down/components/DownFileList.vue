@@ -115,6 +115,7 @@ export default {
     async exportIsSuccess (type) {
       const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
       if (json.success) {
+        this.$emit('updateShowRed')
       }
     }
   }
