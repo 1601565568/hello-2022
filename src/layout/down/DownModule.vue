@@ -2,12 +2,12 @@
   <div @updateAnimate="getDownIconInfo">
     <el-popover
       placement="bottom-end"
-      width="240"
-      trigger="hover"
+      width="188"
+      trigger="manual"
+      v-model="visible"
     >
       <div class="down-cover-view">
-        <div class="cover-title">下载中心</div>
-        <div>导出的所有文件将在下载中心中生成并下载～</div>
+        <div>您有文件已生成，快去下载吧</div>
       </div>
       <div class="dowm-module" id="dowm-module" slot="reference" @click="openDownFileList">
         <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
@@ -57,7 +57,8 @@ export default {
       iconTop: null,
       iconRight: null,
       timer: null,
-      showRed: false
+      showRed: false,
+      visible: false
     }
   },
   mounted () {
@@ -74,12 +75,18 @@ export default {
       const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
       if (json.success) {
         this.showRed = json.result === 1
+        if (this.showRed) {
+          this.visible = true
+          setTimeout(() => {
+            this.visible = false
+          }, 5000)
+        }
       }
     },
     timerLoad () {
       this.timer = setInterval(() => {
         this.exportIsSuccess(null)
-      }, 30000)
+      }, 10000)
     },
     openDownFileList () {
       this.$refs.downFileList.openDrawer()
