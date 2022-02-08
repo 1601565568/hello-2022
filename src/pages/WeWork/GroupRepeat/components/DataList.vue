@@ -14,28 +14,29 @@
       <div class="drawer-title">详情</div>
       <div class="user-info-view">
         <div class="user-img">
-          <img :src="userImg" class="user-img-rad"/>
+          <img :src="userMessage.avatar" class="user-img-rad"/>
           <div class="sex-view">
-            <Icon type="ns-boy" style="color: #1890FF;"/>
-            <!-- <Icon type="ns-girl" style="color: #F75961;"/> -->
+            <Icon type="ns-boy" style="color: #1890FF;" v-if="userMessage.gender === 1"/>
+            <Icon type="ns-girl" style="color: #F75961;" v-if="userMessage.gender === 0"/>
           </div>
         </div>
         <div class="user-info">
-          <div class="user-info-text">昵称：张三</div>
-          <div class="user-info-text">性别：女</div>
+          <div class="user-info-text">昵称：{{userMessage.name}}</div>
+          <div class="user-info-text">性别：{{userMessage.gender === 0 ? '女' : '男'}}</div>
         </div>
       </div>
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table
-            :data="listData"
+            :data="dataList"
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
+            v-loading="detailTableLoading"
           >
-            <el-table-column prop="title" label="群名称"> </el-table-column>
-            <el-table-column prop="owner" label="群主"> </el-table-column>
-            <el-table-column prop="shop" label="工作门店"> </el-table-column>
-            <el-table-column prop="time" label="入群时间"></el-table-column>
+            <el-table-column prop="name" label="群名称"> </el-table-column>
+            <el-table-column prop="ownerName" label="群主"> </el-table-column>
+            <el-table-column prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
+            <el-table-column prop="joinTime" label="入群时间"></el-table-column>
           </el-table>
         </template>
       </page-table>
@@ -52,39 +53,25 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      listData: [
-        {
-          title: '九和路篮球群',
-          owner: '导购小李',
-          shop: '九和路店',
-          time: '2020-01-01 18:00:00'
-        },
-        {
-          title: '九和路篮球群',
-          owner: '导购小李',
-          shop: '九和路店',
-          time: '2020-01-01 18:00:00'
-        },
-        {
-          title: '九和路篮球群',
-          owner: '导购小李',
-          shop: '九和路店',
-          time: '2020-01-01 18:00:00'
-        },
-        {
-          title: '九和路篮球群',
-          owner: '导购小李',
-          shop: '九和路店',
-          time: '2020-01-01 18:00:00'
-        },
-        {
-          title: '九和路篮球群',
-          owner: '导购小李',
-          shop: '九和路店',
-          time: '2020-01-01 18:00:00'
-        }
-      ],
       userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg'
+    }
+  },
+  props: {
+    dataList: {
+      type: Array,
+      default: null
+    },
+    detailTableLoading: {
+      type: Boolean,
+      default: false
+    },
+    userMessage: {
+      type: Object,
+      default: null
+    },
+    env: {
+      type: String,
+      default: ''
     }
   },
   methods: {
