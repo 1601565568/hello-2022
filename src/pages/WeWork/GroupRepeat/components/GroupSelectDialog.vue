@@ -27,9 +27,9 @@
               <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable @change="groupChange(model.ChatID)">
                 <el-option
                   v-for="item in groupList"
-                  :key="item.ChatID"
-                  :label="item.Name"
-                  :value="item.ChatID">
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.value">
                 </el-option>
               </el-select>
             </el-form-grid>
@@ -39,9 +39,9 @@
               <el-select v-model="model.ownerName" placeholder="请选择群主" filterable @change="ownerNameChange(model.ownerName)">
                 <el-option
                   v-for="item in userList"
-                  :key="item.UserID"
-                  :label="item.Name"
-                  :value="item.Name">
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.value">
                 </el-option>
               </el-select>
             </el-form-grid>
@@ -51,38 +51,40 @@
         <el-form ref="form" :model="model" :inline="true" v-else>
           <el-form-item label="群名称：">
             <el-form-grid size="small">
-              <el-input v-model="input" placeholder="请输入群名称"></el-input>
+              <el-input v-model="model.ChatID" placeholder="请输入群名称" @blur="groupChange(model.ChatID)"></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="工作门店：">
             <el-form-grid size="small">
-              <el-select v-model="model.ownerName" placeholder="请选择区域" filterable style="float:left">
-              </el-select>
+              <ns-droptree
+                ref="shopCateTree"
+                :defaultExpandAll='true'
+                placeholder="请选择区域"
+                :lazy="true"
+                :load="loadAreaTree"
+                :multiple="false"
+                v-model="shopAreaId"
+                clearable
+              />
             </el-form-grid>
-          </el-form-item>
-          <el-form-item>
             <el-form-grid size="small">
-              <el-select v-model="model.ownerName" placeholder="请选择门店" filterable style="float:left">
-                <el-option
-                  label="请选择门店"
-                  value="">
-                </el-option>
-              </el-select>
+              <el-select-load v-model="model.workShopId" :options="shops"  filterable clearable :page-sizes="20" placeholder="请选择门店" @change="workShopChange">
+              </el-select-load>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="群主部门：">
-            <el-form-grid size="small">
-              <el-select v-model="model.ownerName" placeholder="请选择" filterable style="float:left">
-                <el-option
-                  label="请选择"
-                  value="">
-                </el-option>
-              </el-select>
-            </el-form-grid>
+            <ns-droptree
+              ref="employeeDepartTree"
+              :lazy="true"
+              :load="loadDepartments"
+              :multiple="false"
+              v-model="departmentId"
+              clearable
+            />
           </el-form-item>
           <el-form-item label="群主：">
             <el-form-grid size="small">
-              <el-input v-model="input" placeholder="请输入群主姓名"></el-input>
+              <el-input v-model="model.ownerName" placeholder="请输入群主姓名" @blur="ownerNameChange(model.ownerName)"></el-input>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -142,11 +144,11 @@
               <el-table-column :show-overflow-tooltip="true" width="env==='kd'?170:100" type="default" prop="person_num"
                                :sortable="false" align="left">
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="workShopName"
+              <el-table-column :show-overflow-tooltip="true" width="160" prop="workShopName"
                                :sortable="false" align="left" v-if="env!=='kd'">
-                <template scope="scope">
-                  <span>{{scope.row.workShopName.join(',')}}</span>
-                </template>
+                <!-- <template scope="scope">
+                  <span>{{scope.row.workShopName.toString()}}</span>
+                </template> -->
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" width="50" type="default"
                                :sortable="false" align="left">
@@ -171,8 +173,7 @@
         <span class="demonstration" style="width:70px">单页显示：</span>
         <el-pagination class="template-table-pagination"
                       layout="sizes, prev, pager, next, jumper"
-                      :page-size="pagination.currSize"
-                      :page-sizes="sizeOpt"
+                      :page-sizes="pagination.sizeOpt"
                       :current-page="pagination.currPage"
                       :total="pagination.total"
                       @current-change="onPageChange"
@@ -191,7 +192,6 @@
 
 <script>
 import GroupSelectDialog from '../src/GroupSelectDialog'
-
 export default GroupSelectDialog
 </script>
 

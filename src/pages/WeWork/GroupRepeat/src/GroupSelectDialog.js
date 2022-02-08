@@ -1,3 +1,5 @@
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import ElSelectLoad from '@nascent/nui/lib/select-load'
 
 var tableMixin = {
   methods: {
@@ -47,27 +49,10 @@ var tableMixin = {
           that.$set(that.table, 'data', resp.result.data)
           that.$set(that.pagination, 'total', parseInt(resp.result.recordsTotal))
         } else {
-          that.$set(that.table, 'data', [
-            { chat_id: 'wraQfGDQAADv073g', 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            { chat_id: 'wraQfGDQAADv073gF3aX7LCq_y1snM-g', 'name': '222', 'owner_name': 'zhang1', person_num: 10, workShopName: ['梁小姐线下店', '梁小哥线下店', '渠道推广008'] }
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
-            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] }
-
-          ])
+          // that.$set(that.table, 'data', [
+          //   { chat_id: 'wraQfGDQAADv073g', 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+          //   { chat_id: 'wraQfGDQAADv073gF3aX7LCq_y1snM-g', 'name': '222', 'owner_name': 'zhang1', person_num: 10, workShopName: ['梁小姐线下店', '梁小哥线下店', '渠道推广008'] }
+          // ])
           that.$set(that.pagination, 'total', 0)
         }
       }).catch(() => {
@@ -88,6 +73,10 @@ var tableMixin = {
 }
 export default {
   name: 'GroupSelectDialog',
+  components: {
+    NsDroptree,
+    ElSelectLoad
+  },
   mixins: [tableMixin],
   data () {
     return {
@@ -108,13 +97,29 @@ export default {
         total: 0,
         currPage: 1,
         currSize: 10,
-        sizeOpt: [10, 20, 50, 100]
+        sizeOpt: [10, 20, 50]
       },
+      // 区域
+      areas: [],
+      areaTree: [],
+      shopAreaId: '',
+      // 门店
+      allShops: [],
+      shops: [],
+      // 部门
+      allDepartments: [],
+      departments: [],
+      departmentId: '',
+      url: this.$api.guide.chatRoomConfig.chatRoomCanJoinList,
       model: {
-        ChatID: '',
-        ownerName: '',
+        ChatID: '', // 群名称
+        ownerName: '', // 群主
         title: '',
         outerId: '',
+        workShopId: '',
+        departmentId: '',
+        shopAreaId: '',
+        name: '',
         cate: {
           text: '',
           value: ''
@@ -157,9 +162,13 @@ export default {
       default (data) {
         let transData = {}
         transData.chat_id = data.chat_id
+        transData.guide_id = data.guide_id
         transData.name = data.name
         transData.owner_name = data.owner_name
+        transData.owner_work_num = data.owner_work_num
         transData.person_num = data.person_num
+        transData.shop_id = data.shop_id
+        transData.workShopName = data.workShopName.toString()
         return transData
       }
     },
@@ -198,7 +207,7 @@ export default {
       // 表格是否渲染
       if (this.$refs.table) {
         for (let elem of this.table.data) {
-          if (unique[this.props.ChatID] === elem[this.props.ChatID] && unique[this.props.Name] === elem[this.props.Name]) {
+          if (unique[this.props.chat_id] === elem[this.props.chat_id] && unique[this.props.name] === elem[this.props.name]) {
             // 删除表格选中
             this.$refs.table.toggleRowSelection(elem, false)
             break
@@ -279,7 +288,6 @@ export default {
      * 表格勾选所有数据
      */
     onSelectAll: function (selects) {
-      console.log(selects)
       if (selects.length === 0) {
         for (var i = 0; i < this.table.data.length; i++) {
           // 选中表格某行
@@ -289,8 +297,6 @@ export default {
         for (let select of selects) {
           this.selectedData.push(this.transSelectedData(select))
         }
-        // this.selectedData = selects
-        console.log(this.selectedData)
         this.selectedData = this.uniqueArray(this.selectedData)
       }
     },
@@ -318,14 +324,13 @@ export default {
      * 搜索
      */
     onSearch: function () {
+      // alert('搜索')
       let searchMap = {
         ownerName: this.model.ownerName,
-        chatID: this.model.ChatID,
-        outerId: this.model.outerId,
-        minPrice: this.model.minPrice,
-        maxPrice: this.model.maxPrice,
-        cid: this.model.cate.value,
-        status: this.model.status
+        name: this.model.ChatID,
+        departmentId: this.departmentId.value,
+        workShopId: this.model.workShopId,
+        searchMode: this.searchMode
       }
       this.$set(this.table, 'searchMap', searchMap)
       this.pagination.currPage = 1
@@ -355,8 +360,8 @@ export default {
       // }
     },
     ownerNameChange: function (value) {
-      this.model.ChatID = ''
-      if (value === '不限') {
+      // this.model.ChatID = ''
+      if (value === '') {
         this.groupList = this.groupAllList
         return
       }
@@ -366,14 +371,17 @@ export default {
           return
         }
       }
+      this.onSearch()
     },
     groupChange: function (value) {
       if (value === '') {
-        this.model.ownerName = '不限'
+        this.model.ownerName = ''
         this.model.ChatID = ''
+        this.onSearch()
         return
       } else {
         this.model.ChatID = value
+        this.onSearch()
       }
       for (var j = 0; j < this.groupList.length; j++) {
         if (value === this.groupList[j].ChatID) {
@@ -396,12 +404,93 @@ export default {
             that.groupList = resp.result
           }
         }).catch(() => {
+          this.$notify.error('加载群名称列表失败')
         })
-      this.$http.fetch(that.$api.weWork.groupManager.getOwnerList, {}).then(() => {
+      // 群主列表
+      this.$http.fetch(that.$api.weWork.groupManager.getOwnerList, {}).then((resp) => {
         if (resp.success && resp.result.length > 0) {
           that.userList = resp.result
         }
-      }).catch(() => {})
+      }).catch(() => {
+        this.$notify.error('加载群主列表失败')
+      })
+    },
+    /**
+     * 获取区域树和门店列表
+     */
+    getAreasAndShops () {
+      this.$http.fetch(this.$api.core.sysShop.getShopTree)
+        .then((resp) => {
+          if (resp.result) {
+            this.areas = resp.result.shopAreaTree
+            this.allShops = resp.result.shopOptions
+            this.shops = resp.result.shopOptions
+          }
+        }).catch(() => {
+          this.$notify.error('加载下拉树、下拉框数据失败')
+        })
+    },
+    /**
+     * 获取部门树
+     */
+    getDepartmentTree () {
+      this.$http.fetch(this.$api.core.department.queryDepartmentTreeByYun)
+        .then((resp) => {
+          if (resp.result && resp.result.length > 0) {
+            this.allDepartments = resp.result
+            this.departments = resp.result
+          }
+        }).catch(() => {
+          vm.$notify.error('查询部门树失败')
+        })
+    },
+    /**
+     * 加载区域树数据
+     */
+    loadAreaTree (node, resolve) {
+      // console.log(this.areas)
+      if (node.level === 0) {
+        // 初次加载
+        const rootTree = []
+        for (let item of this.areas) {
+          let parentId = item.parentId // 每一项的父级id
+          let flag = false
+          for (let item of this.areas) {
+            if (parentId === item.id) {
+              flag = true
+              break
+            }
+          }
+          if (!flag) {
+            rootTree.push(item)
+          }
+        }
+        // console.log(rootTree)
+        return resolve(rootTree)
+      }
+
+      if (node.level >= 1) {
+        // 点击之后触发
+        const filter = this.areas.filter(data => parseInt(data.parentId) === parseInt(node.data.id))
+        return resolve(filter)
+      }
+    },
+    /**
+     * 加载部门
+     */
+    loadDepartments (node, resolve) {
+      // alert(node, resolve)
+      if (node.level === 0) { // 第一次调用
+        return resolve([{ id: 0, parentId: -1, code: 0, label: '全部', checked: false, showAdd: true, showEdit: true, showDelete: true }])
+      }
+      if (node.level >= 1) {
+        // 点击之后触发
+        let filter = this.allDepartments.filter(data => parseInt(data.parentId) === parseInt(node.data.id))
+        return resolve(filter)
+      }
+    },
+    workShopChange (value) {
+      this.onSearch()
     },
     /**
      * 返回数据
@@ -416,10 +505,38 @@ export default {
     },
     confirmData: function (val) {
       this.selectedData = JSON.parse(JSON.stringify(val))
+    },
+    shopAreaId: function (o1, o2) {
+      // alert(o1.value, o2.value)
+      let shopOptions = []
+      this.shopId = ''
+      this.model.shopAreaId = o1.value
+      if (!o1.value || o1.value !== o2.value) {
+        if (o1.value === 0) {
+          this.shops = this.allShops
+          return
+        }
+        let areaIdStr = '/' + o1.value + '/'
+        this.allShops.map(item => {
+          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
+            shopOptions.push(item)
+          }
+        })
+        this.shops = shopOptions
+      }
+    },
+    departmentId: function (v) {
+      this.onSearch()
     }
   },
   mounted: function () {
-    this.getAllUser()
+    if (this.env === 'kd') {
+      this.getAllUser()
+    } else {
+      this.getAreasAndShops()
+      this.getDepartmentTree()
+      // this.$searchAction$()
+    }
   },
   computed: {
     'limit': function () {

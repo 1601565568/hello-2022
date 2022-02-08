@@ -119,7 +119,7 @@ export default {
         },
         {
           'path': '/Social/WeComCustomerOperation/GroupRepeat',
-          'name': 'WeComExternalContactList',
+          'name': 'WeComCustomerOperationGroupRepeat',
           'title': '重复群统计',
           'component': () => import('@/pages/WeWork/GroupRepeat/index.vue')
         }
