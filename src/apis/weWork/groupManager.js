@@ -1,6 +1,7 @@
 export default {
+  // 群名称下拉列表
   getGroupList: {
-    url: '/userCenter/groupManager/queryGroupList',
+    url: '/wework/weworkRooms/name',
     method: 'post'
   },
   getGroupMemberList: {
@@ -37,7 +38,7 @@ export default {
     method: 'post'
   },
   // 群主下拉列表
-  getAllUser: {
+  getOwnerList: {
     url: '/wework/weworkRooms/owner',
     method: 'post'
   },

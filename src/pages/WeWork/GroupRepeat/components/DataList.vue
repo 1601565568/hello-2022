@@ -35,7 +35,7 @@
           >
             <el-table-column prop="name" label="群名称"> </el-table-column>
             <el-table-column prop="ownerName" label="群主"> </el-table-column>
-            <el-table-column prop="workShopName" label="工作门店"> </el-table-column>
+            <el-table-column prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
             <el-table-column prop="joinTime" label="入群时间"></el-table-column>
           </el-table>
         </template>
@@ -68,6 +68,10 @@ export default {
     userMessage: {
       type: Object,
       default: null
+    },
+    env: {
+      type: String,
+      default: ''
     }
   },
   methods: {

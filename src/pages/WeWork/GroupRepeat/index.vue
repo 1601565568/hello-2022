@@ -9,8 +9,13 @@
       <div style="fontSize:16px;marginTop:16px;fontWeight:bold">重复群统计 </div>
     </div>
     <div class="select-view">
-      <GroupSelectDialog class="el-inline-block" v-bind:value="this.selectedData" @childChange="parentChang"
-        ref="GroupSelectDialog"/>
+      <GroupSelectDialog
+        class="el-inline-block"
+        v-bind:value="this.selectedData"
+        @childChange="parentChang"
+        ref="GroupSelectDialog"
+        v-bind:env="this.env"
+        />
     </div>
     <div class="data-view">
       <page-table style="padding-top:0">
@@ -50,9 +55,9 @@
             class="label-dialog__pagination"
             :page-sizes="pagination.sizeOpts"
             :total="pagination.total"
-            :current-page.sync="pagination.page"
+            :current-page.sync="pagination.currentPage"
             :page-size="pagination.size"
-            layout="total, prev, pager, next"
+            layout="sizes, prev, pager, next, jumper"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           >
@@ -61,10 +66,12 @@
       </page-table>
     </div>
     <DataList
-    v-bind:dataList="this.dataList"
-    ref="datalist"
-    v-bind:detailTableLoading="this.detailTableLoading"
-    v-bind:userMessage="this.userMessage"/>
+      v-bind:dataList="this.dataList"
+      ref="datalist"
+      v-bind:detailTableLoading="this.detailTableLoading"
+      v-bind:userMessage="this.userMessage"
+      v-bind:env="this.env"
+      />
   </div>
 </template>
 
@@ -85,6 +92,7 @@ export default {
   },
   data () {
     return {
+      env: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       listData: [],
       // 列表页加载
       tableLoading: false,
@@ -93,19 +101,31 @@ export default {
       detailTableLoading: false,
       // 详情列表数据
       dataList: [],
+      searchMap: {
+        chatIds: '',
+        'leastRepeatedInNum': 2
+      },
       // 分页配置
       pagination: {
         size: 10,
-        sizeOpts: [10],
-        page: 1,
-        total: 4
+        sizeOpts: [10, 20, 50],
+        currentPage: 1,
+        total: 0
       },
       flag: false
     }
   },
   methods: {
-    handleCurrentChange () {},
-    handleSizeChange () {},
+    handleCurrentChange (val) {
+      this.pagination.currentPage = val
+      this.queryRepeatedInContactList()
+    },
+    // 表格条数改变
+    handleSizeChange (val) {
+      this.pagination.size = val
+      this.pagination.currentPage = 1
+      this.queryRepeatedInContactList()
+    },
     showMoreData (user) {
       this.$refs.datalist.openDeawer()
       this.queryRepeatedInContactDetailList(user.userId)
@@ -114,30 +134,30 @@ export default {
     selectOptionClick (val) {
       this.flag = val
     },
+    // 查找首页列表
     queryRepeatedInContactList () {
       let params = {
         'beanMap': {},
         'draw': 0,
-        'length': 10,
+        'length': this.pagination.size,
         'orderDir': '',
         'orderKey': '',
-        'searchMap': {
-          'chatIds': '',
-          'leastRepeatedInNum': 0
-        },
+        'searchMap': this.searchMap,
         'searchValue': '',
-        'start': 0
+        'start': (this.pagination.currentPage - 1) * this.pagination.size
       }
       let that = this
       that.tableLoading = true
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           this.listData = resp.result.data
+          this.pagination.total = resp.result.data.length
         }
       }).finally(() => {
         that.tableLoading = false
       })
     },
+    // 详情
     queryRepeatedInContactDetailList (detilUserId) {
       let params = {
         'beanMap': {},
@@ -160,9 +180,25 @@ export default {
       }).finally(() => {
         that.detailTableLoading = false
       })
+    },
+    parentChang (confirmData, searchMode) {
+      if (confirmData.length > 0) {
+        confirmData.map((item, index) => {
+          if (index === 0) {
+            this.searchMap.chatIds = item.chat_id
+          } else {
+            this.searchMap.chatIds += ',' + item.chat_id
+          }
+        })
+      } else {
+        this.searchMap.chatIds = ''
+      }
+      searchMode === 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
+      this.queryRepeatedInContactList()
     }
   },
   mounted: function () {
+    // alert(this.env)
     this.queryRepeatedInContactList()
   }
 }

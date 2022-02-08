@@ -48,8 +48,25 @@ var tableMixin = {
           that.$set(that.pagination, 'total', parseInt(resp.result.recordsTotal))
         } else {
           that.$set(that.table, 'data', [
-            { 'ChatID': 'wrbyPeBgAAgIbJ9mOTboM2O-YqLvqZ7Q', 'Name': '111', 'OwnerName': 'zhang' },
-            { 'ChatID': 'wrbyPeBgAAg', 'Name': '222', 'OwnerName': 'zhang1' }
+            { chat_id: 'wraQfGDQAADv073g', 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            { chat_id: 'wraQfGDQAADv073gF3aX7LCq_y1snM-g', 'name': '222', 'owner_name': 'zhang1', person_num: 10, workShopName: ['梁小姐线下店', '梁小哥线下店', '渠道推广008'] }
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
+            // { 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] }
+
           ])
           that.$set(that.pagination, 'total', 0)
         }
@@ -75,12 +92,6 @@ export default {
   data () {
     return {
       visible: false,
-      table1: {
-        data: [
-          { 'ChatID': 'wrbyPeBgAAgIbJ9mOTboM2O-YqLvqZ7Q', 'Name': '111', 'OwnerName': 'zhang' },
-          { 'ChatID': 'wrbyPeBgAAg', 'Name': '222', 'OwnerName': 'zhang1' }
-        ]
-      },
       table: {
         // 表格数据
         data: [],
@@ -96,7 +107,8 @@ export default {
         enable: true,
         total: 0,
         currPage: 1,
-        currSize: 10
+        currSize: 10,
+        sizeOpt: [10, 20, 50, 100]
       },
       model: {
         ChatID: '',
@@ -121,18 +133,22 @@ export default {
       wechatCustomers: [],
       groupAllList: [],
       groupList: [],
-      searchMode: 1,
-      userList: [{ UserID: 'all', Name: '不限' }],
+      searchMode: 2,
+      userList: [],
       tags: []
     }
   },
   props: {
+    env: {
+      type: String,
+      default: ''
+    },
     props: {
       type: Object,
       default: function () {
         return {
-          ChatID: 'ChatID',
-          Name: 'Name'
+          chat_id: 'chat_id',
+          name: 'name'
         }
       }
     },
@@ -140,9 +156,10 @@ export default {
       type: Function,
       default (data) {
         let transData = {}
-        transData.ChatID = data.ChatID
-        transData.Name = data.Name
-        transData.OwnerName = data.OwnerName
+        transData.chat_id = data.chat_id
+        transData.name = data.name
+        transData.owner_name = data.owner_name
+        transData.person_num = data.person_num
         return transData
       }
     },
@@ -194,7 +211,7 @@ export default {
       let result = []
       let hash = {}
       for (let elem of array) {
-        let uniqueKey = elem[this.props.ChatID] + '_' + elem[this.props.Name]
+        let uniqueKey = elem[this.props.chat_id] + '_' + elem[this.props.name]
         if (!hash[uniqueKey]) {
           result.push(elem)
           hash[uniqueKey] = true
@@ -217,18 +234,22 @@ export default {
     toggleSelection: function (selects, rows) {
       for (let row of rows) {
         for (let select of selects) {
-          if (row[this.props.ChatID] === select[this.props.ChatID] && row[this.props.Name] === select[this.props.Name]) {
+          if (row[this.props.chat_id] === select[this.props.chat_id] && row[this.props.name] === select[this.props.name]) {
             this.$refs.table.toggleRowSelection(row, true)
             break
           }
         }
       }
     },
+    handleSelectionChange (val) {
+      this.selectedData = val
+    },
     // 选中某行
     onSelectRow: function (selects, row) {
+      // console.log('选中某行', selects, row)
       var check = false
       for (let select of selects) {
-        if (select.ChatID === row.ChatID && select.Name === row.Name) {
+        if (select.chat_id === row.chat_id && select.name === row.name) {
           check = true
           break
         }
@@ -247,7 +268,7 @@ export default {
       } else {
         // 删除未勾选商品数据
         for (var j = 0; j < showSelectedList.length; j++) {
-          if (showSelectedList[j][this.props.ChatID] === row[this.props.ChatID] && showSelectedList[j][this.props.Name] === row[this.props.Name]) {
+          if (showSelectedList[j][this.props.chat_id] === row[this.props.chat_id] && showSelectedList[j][this.props.name] === row[this.props.name]) {
             this.onDelSelected('selectedData', j, showSelectedList[j])
             break
           }
@@ -258,6 +279,7 @@ export default {
      * 表格勾选所有数据
      */
     onSelectAll: function (selects) {
+      console.log(selects)
       if (selects.length === 0) {
         for (var i = 0; i < this.table.data.length; i++) {
           // 选中表格某行
@@ -267,6 +289,8 @@ export default {
         for (let select of selects) {
           this.selectedData.push(this.transSelectedData(select))
         }
+        // this.selectedData = selects
+        console.log(this.selectedData)
         this.selectedData = this.uniqueArray(this.selectedData)
       }
     },
@@ -321,14 +345,14 @@ export default {
      * 确认选择
      */
     onConfirm: function () {
-      if (this.selectedData.length > this.maxSelectCount) {
-        this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
-      } else {
-        this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
-        this.visible = false
-        this.callbackData()
-        this.onResetSearch()
-      }
+      // if (this.selectedData.length > this.maxSelectCount) {
+      //   this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
+      // } else {
+      this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
+      this.visible = false
+      this.callbackData()
+      this.onResetSearch()
+      // }
     },
     ownerNameChange: function (value) {
       this.model.ChatID = ''
@@ -364,18 +388,20 @@ export default {
     },
     getAllUser: function () {
       let that = this
-      this.$http.fetch(that.$api.weWork.groupManager.getAllUser,
+      // 群名称列表
+      this.$http.fetch(that.$api.weWork.groupManager.getGroupList,
         {})
         .then((resp) => {
-          if (resp.success) {
-            resp.result.length > 0 && resp.result.map((item) => {
-              that._data.userList.push(item)
-              that.groupAllList = that.groupAllList.concat(item.groupList)
-              that.groupList = that.groupAllList
-            })
+          if (resp.success && resp.result.length > 0) {
+            that.groupList = resp.result
           }
         }).catch(() => {
         })
+      this.$http.fetch(that.$api.weWork.groupManager.getOwnerList, {}).then(() => {
+        if (resp.success && resp.result.length > 0) {
+          that.userList = resp.result
+        }
+      }).catch(() => {})
     },
     /**
      * 返回数据

@@ -21,14 +21,10 @@
     <el-row class="tmp-choose__condition" :gutter="20" style="margin-top:24px!important">
       <el-col :span="24">
         <!-- 客道 -->
-        <!-- <el-form ref="form" :model="model" label-width="63px" :inline="true">
+        <el-form ref="form" :model="model" label-width="63px" :inline="true" v-if="env==='kd'">
           <el-form-item>
             <el-form-grid size="xmd">
               <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable @change="groupChange(model.ChatID)">
-                <el-option
-                  label="请选择群名称"
-                  value="">
-                </el-option>
                 <el-option
                   v-for="item in groupList"
                   :key="item.ChatID"
@@ -42,10 +38,6 @@
             <el-form-grid size="xmd">
               <el-select v-model="model.ownerName" placeholder="请选择群主" filterable @change="ownerNameChange(model.ownerName)">
                 <el-option
-                  label="请选择群主"
-                  value="">
-                </el-option>
-                <el-option
                   v-for="item in userList"
                   :key="item.UserID"
                   :label="item.Name"
@@ -54,9 +46,9 @@
               </el-select>
             </el-form-grid>
           </el-form-item>
-        </el-form> -->
+        </el-form>
         <!-- scrm -->
-        <el-form ref="form" :model="model" :inline="true">
+        <el-form ref="form" :model="model" :inline="true" v-else>
           <el-form-item label="群名称：">
             <el-form-grid size="small">
               <el-input v-model="input" placeholder="请输入群名称"></el-input>
@@ -99,24 +91,28 @@
     <el-row class="tmp-choose__condition" :gutter="20" style="margin-top:24px!important">
       <el-col :span="16" class="condition-left">
         <el-table ref="table"
+                  max-height="510"
                   :data="table.data" stripe
-                  @select="onSelectRow"
-                  @select-all="onSelectAll"
                   :key="pagination.currPage"
                   v-loading="tableLoading"
-                  :element-loading-text="$t('prompt.loading')">
+                  :element-loading-text="$t('prompt.loading')"
+                  @select="onSelectRow"
+                  @select-all="onSelectAll">
           <el-table-column type="selection" align="center"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="Name"
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="name"
                            label="群名称" :sortable="false" align="left">
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
+          <el-table-column :show-overflow-tooltip="true"  width="env==='kd'?170:120" type="default" prop="owner_name"
                            label="群主" :sortable="false" align="left">
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" width="100" type="default" prop="ChatID"
+          <el-table-column :show-overflow-tooltip="true" width="env==='kd'?170:100" type="default" prop="person_num"
                            label="群成员" :sortable="false" align="left">
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="ChatID"
-                           label="群主工作门店" :sortable="false" align="left">
+          <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="workShopName"
+                           label="群主工作门店" :sortable="false" align="left" v-if="env!=='kd'">
+            <template scope="scope">
+              <span>{{scope.row.workShopName.join(',')}}</span>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>
@@ -131,24 +127,28 @@
           </p>
           <div v-if="selectedData.length>0">
             <el-table
+                  max-height="470"
                   :data="selectedData" stripe
                   :key="pagination.currPage"
                   v-loading="tableLoading"
                   :element-loading-text="$t('prompt.loading')"
                   :show-header="false">
-              <el-table-column :show-overflow-tooltip="true" type="default" prop="Name"
+              <el-table-column :show-overflow-tooltip="true" type="default" prop="name"
                                :sortable="false" align="left">
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true"  width="120" type="default" prop="OwnerName"
+              <el-table-column :show-overflow-tooltip="true"  width="env==='kd'?170:120" type="default" prop="owner_name"
                                :sortable="false" align="left">
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" width="100" type="default" prop="ChatID"
+              <el-table-column :show-overflow-tooltip="true" width="env==='kd'?170:100" type="default" prop="person_num"
                                :sortable="false" align="left">
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="ChatID"
-                               :sortable="false" align="left">
+              <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="workShopName"
+                               :sortable="false" align="left" v-if="env!=='kd'">
+                <template scope="scope">
+                  <span>{{scope.row.workShopName.join(',')}}</span>
+                </template>
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" width="50" type="default" prop="ChatID"
+              <el-table-column :show-overflow-tooltip="true" width="50" type="default"
                                :sortable="false" align="left">
                 <template scope="scope">
                   <a @click="onDelSelected('selectedData',scope.$index,scope.row)" class="delete-icon">
@@ -172,10 +172,11 @@
         <el-pagination class="template-table-pagination"
                       layout="sizes, prev, pager, next, jumper"
                       :page-size="pagination.currSize"
-                      :page-sizes="[100, 200, 300, 400]"
+                      :page-sizes="sizeOpt"
                       :current-page="pagination.currPage"
                       :total="pagination.total"
                       @current-change="onPageChange"
+                      @size-change="onSizeChange"
                       style="width:1158px; boxShadow: none;">
         </el-pagination>
       </div>
@@ -206,6 +207,9 @@ export default GroupSelectDialog
   >>> .el-table__body tr{
     height: 48px;
     line-height: 48px;
+  }
+  >>> .el-scrollbar__wrap{
+    overflow: hidden;
   }
   .item-down {
     /* width: 171px; */
