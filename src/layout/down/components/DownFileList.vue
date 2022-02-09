@@ -109,7 +109,7 @@ export default {
       this.loadTableList()
     },
     loadTableList () {
-      this.$refs.downTableList.resetData()
+      // this.$refs.downTableList.resetData()
       this.$refs.downTableList.loadDetail(this.inputTitle, this.datePickerValue)
     },
     async exportIsSuccess (type) {

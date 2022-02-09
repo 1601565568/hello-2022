@@ -168,15 +168,14 @@ export default {
           endTime
         }
       }
-      if (this.downPagination.page === 0) {
-        this.listData = []
-        this.downPagination.total = 0
-      }
       const json = await this.$http.fetch(this.$api.guide.task.exportList, data)
       if (json.success) {
         const data = json.result.data || []
         this.listData = data
         this.downPagination.total = parseInt(json.result.recordsTotal)
+      } else {
+        this.listData = []
+        this.downPagination.total = 0
       }
     }
   }
@@ -192,9 +191,9 @@ export default {
 }
 .down-text {
   color: #0094fc;
+  cursor: pointer;
 }
 .down-name {
-  cursor: pointer;
   font-size: 14px;
 }
 .down-table-view {
