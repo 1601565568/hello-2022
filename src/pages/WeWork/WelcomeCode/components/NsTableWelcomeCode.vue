@@ -6,9 +6,9 @@
  * @LastEditTime: 2021-06-04 10:33:08
  -->
 <template>
-  <ns-page-table ref="mainTable">
+  <page-table title="欢迎语">
     <!-- 按钮 -->
-    <template slot="buttons">
+    <template slot="button">
       <ns-table-operate-button :buttons="_data._table.operate_buttons">
       </ns-table-operate-button>
     </template>
@@ -47,101 +47,162 @@
     </template> -->
 
     <!-- 高级搜索 -->
-    <template slot="advancedSearch">
-      <el-form
-        ref="table_filter_form"
-        :model="model"
-        label-width="100px"
-        :inline="true"
-        @submit.native.prevent
-      >
-        <el-form-item label="欢迎语内容：">
-          <el-form-grid size="xmd">
-            <el-input
-              style="width:180px"
-              autofocus="true"
-              v-model.trim="model.content"
-              placeholder="请输入欢迎语内容"
-              clearable
-            ></el-input>
-          </el-form-grid>
+    <template slot="search">
+      <el-form ref="table_filter_form"
+               :model="model"
+               :inline="true"
+               @submit.native.prevent
+               class='form-inline_top'>
+        <el-form-item>
+          <el-input v-model.trim="model.content"
+                    placeholder="请输入欢迎语内容"
+                    @keyup.enter.native="$searchAction$()">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="$searchAction$()"></Icon>
+          </el-input>
         </el-form-item>
-        <el-form-item label="附件类型：">
-          <el-form-grid size="xmd">
-            <el-select
-              v-model.trim="model.annexType"
-              placeholder="请选择"
-              clearable
-            >
-              <el-option
-                v-for="item in annexTypeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="`${item.value}`"
-              >
-              </el-option>
-            </el-select>
-          </el-form-grid>
+        <el-form-item label="附件类型："
+                      class='el-form__change'>
+          <el-select v-model.trim="model.annexType"
+                     placeholder="请选择"
+                     @change='$searchAction$()'
+                     clearable>
+            <el-option v-for="item in annexTypeOptions"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="`${item.value}`">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="选择店铺：" v-if="cloudPlatformType == 'ECRP'">
-          <ElFormGrid>
-            <NsShopDialog :auth="false" type="primary" btnTitle="选择店铺" v-model="model.shopIds"></NsShopDialog>
+        <el-form-item label="选择店铺："
+                      v-if="cloudPlatformType == 'ECRP'">
+          <!-- <ElFormGrid>
+            <NsShopDialog :auth="false"
+                          type="primary"
+                          btnTitle="选择店铺"
+                          v-model="model.shopIds"></NsShopDialog>
           </ElFormGrid>
           <ElFormGrid>
             已选择<span class="text-primary">{{model.shopIds? model.shopIds.length: 0}}</span>家店铺
-          </ElFormGrid>
+          </ElFormGrid> -->
+          <NsShopDialog :selfBtn='true'
+                        :appendToBody='true'
+                        :isButton="false"
+                        :auth="false"
+                        type="icon"
+                        btnTitle=""
+                        dialogTitle="选择店铺"
+                        v-model="model.shopIds"
+                        @input="handleChangeShop">
+            <template slot='btnIcon'>
+              <div class='self-btn'>
+                {{(model.shopIds&&model.shopIds.length)?`已选择${model.shopIds.length}个门店`:'全部'}}
+                <Icon type="shop"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsShopDialog>
         </el-form-item>
-        <el-form-item label="选择员工：">
+        <!-- <el-form-item label="选择员工：">
           <ElFormGrid>
             <NsGuideDialog :auth="false"
                            :guideUrl="this.$api.weWork.guide.findGuideList"
-                           type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
+                           type="primary"
+                           btnTitle="选择员工"
+                           dialogTitle="选择员工"
+                           v-model="model.guideIds"></NsGuideDialog>
           </ElFormGrid>
           <ElFormGrid>
             已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
           </ElFormGrid>
+        </el-form-item> -->
+        <el-form-item :label="cloudPlatformType == 'ECRP'?'选择员工：':'企业微信成员：'">
+          <NsGuideDialog :selfBtn='true'
+                         :appendToBody='true'
+                         :isButton="false"
+                         :auth="false"
+                         btnTitle=""
+                         dialogTitle="选择员工"
+                         v-model="model.guideIds"
+                         @input="handleChangeGuide"
+                         :isOpenDialogAfterRequest='false'
+                         v-if="cloudPlatformType == 'ECRP'">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="false"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="handleChangeGuide"
+                               :isOpenDialogAfterRequest='false'
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
         </el-form-item>
-        <el-form-item label="渠道：">
-          <el-form-grid size="xmd">
-            <el-input
-              style="width:180px"
-              v-model.trim="model.channelName"
-              placeholder="请输入渠道名称"
-              clearable
-            ></el-input>
-          </el-form-grid>
+        <el-form-item>
+          <!-- <el-input v-model.trim="model.channelName"
+                    placeholder="请输入渠道名称"
+                    @keyup.enter.native="$searchAction$()"
+                    clearable></el-input> -->
+          <el-input v-model="model.channelName"
+                    placeholder="请输入渠道名称"
+                    @keyup.enter.native="$searchAction$()">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="$searchAction$()"></Icon>
+          </el-input>
         </el-form-item>
-        <el-form-item label="门店：" v-if="cloudPlatformType == 'ECRP'">
-          <el-form-grid size="xmd">
-            <el-input
-              style="width:180px"
-              v-model.trim="model.shopName"
-              placeholder="请输入门店名称"
-              clearable
-            ></el-input>
-          </el-form-grid>
+
+        <el-form-item v-if="cloudPlatformType == 'ECRP'">
+          <el-input v-model.trim="model.shopName"
+                    placeholder="请输入门店名称"
+                    @keyup.enter.native="$searchAction$()"
+                    clearable></el-input>
+          <Icon type="ns-search"
+                slot="suffix"
+                class='search-icon'
+                @click="$searchAction$()"></Icon>
         </el-form-item>
       </el-form>
-      <div class="template-table__more-btn">
+      <!-- <div class="template-table__more-btn">
         <ns-button type="primary" @click.native.prevent="$searchAction$()">{{
           $t("operating.search")
         }}</ns-button>
         <ns-button @click.native.prevent="$resetInputAction$()">{{
           $t("operating.reset")
         }}</ns-button>
-      </div>
+      </div> -->
     </template>
 
     <template slot="table">
-      <el-table
-        ref="table"
-        :data="_data._table.data"
-        stripe
-        v-loading.lock="_data._table.loadingtable"
-        :element-loading-text="$t('prompt.loading')"
-        @sort-change="onSortChange"
-      >
-        <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="120">
+      <el-table ref="table"
+                :data="_data._table.data"
+                class="new-table_border"
+                v-loading.lock="_data._table.loadingtable"
+                :element-loading-text="$t('prompt.loading')"
+                @sort-change="onSortChange">
+        <el-table-column :show-overflow-tooltip="true"
+                         prop="title"
+                         align="left"
+                         min-width="120">
           <template slot="header">
             欢迎语名称
             <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
@@ -151,53 +212,61 @@
           <template slot-scope="scope">
             <span class="table-col--content">
               <!-- {{scope.row.content?scope.row.content:'-'}} -->
-              <EmojiText v-if='scope.row.title' :text='scope.row.title' type='list'/>
+              <EmojiText v-if='scope.row.title'
+                         :text='scope.row.title'
+                         type='list' />
               <span v-else>-</span>
-              <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
+              <ns-button v-if="scope.row.type === 9"
+                         type="primary"
+                         size="mini"
+                         round
+                         class="btn-append">
                 默认
               </ns-button>
             </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="120">
+        <el-table-column :show-overflow-tooltip="true"
+                         prop="title"
+                         align="left"
+                         min-width="120">
           <template slot="header">
             发送内容
           </template>
           <template slot-scope="scope">
             <span class="table-col--content">
               <!-- {{scope.row.content?scope.row.content:'-'}} -->
-              <EmojiText v-if='scope.row.content' :text='scope.row.content' type='list'/>
+              <EmojiText v-if='scope.row.content'
+                         :text='scope.row.content'
+                         type='list' />
               <span v-else>-</span>
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="annexList" label="附件">
+        <el-table-column prop="annexList"
+                         label="附件">
           <template slot-scope="scope">
-            <div class="message-icons-list" v-if="scope.row.annexType.length">
-              <el-tooltip
-                v-for="item in messageToolTipList(scope.row.annexType)"
-                :key="item.type"
-                class="message-icons-item"
-                :content="item.tip"
-                placement="top"
-              >
-                <Icon :type="item.icon" className="icon"/>
+            <div class="message-icons-list"
+                 v-if="scope.row.annexType.length">
+              <el-tooltip v-for="item in messageToolTipList(scope.row.annexType)"
+                          :key="item.type"
+                          class="message-icons-item"
+                          :content="item.tip"
+                          placement="top">
+                <Icon :type="item.icon"
+                      className="icon" />
               </el-tooltip>
             </div>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="scope"
-          min-width="80"
-          label="使用范围"
-          align="left"
-          >
+        <el-table-column prop="scope"
+                         min-width="80"
+                         label="使用范围"
+                         align="left">
           <template slot="header">
             使用范围
-            <el-tooltip
-              content="多个欢迎语情况下发送优先级：渠道欢迎语>员工欢迎语>门店欢迎语>默认欢迎语"
-            >
+            <el-tooltip content="多个欢迎语情况下发送优先级：渠道欢迎语>员工欢迎语>门店欢迎语>默认欢迎语">
               <Icon type="question-circle" />
             </el-tooltip>
           </template>
@@ -205,86 +274,72 @@
             <div v-if="scope.row.type === 9">
               <span style="color:#0091FA">全部员工</span>
             </div>
-            <div
-              v-else-if="
+            <div v-else-if="
                 scope.row.employeeCount <= 0 &&
                   scope.row.channelCount <= 0 &&
                   scope.row.shopCount <= 0
-              "
-            >
+              ">
               -
             </div>
             <div v-else>
-              <ns-button
-                v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ECRP' "
-                style="color:#0091FA"
-                @click="onShowShopScope(scope.row)"
-                type="text"
-                >{{ scope.row.shopCount }}家门店
+              <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ECRP' "
+                         style="color:#0091FA"
+                         @click="onShowShopScope(scope.row)"
+                         type="text">{{ scope.row.shopCount }}家门店
                 {{ scope.row.employeeCount > 0 ? "," : "" }}
               </ns-button>
-              <ns-button
-                style="color:#0091FA"
-                @click="onShowEmployeeScope(scope.row)"
-                v-if="scope.row.employeeCount > 0"
-                type="text"
-                >{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ECRP'? '员工':'成员'}}
+              <ns-button style="color:#0091FA"
+                         @click="onShowEmployeeScope(scope.row)"
+                         v-if="scope.row.employeeCount > 0"
+                         type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ECRP'? '员工':'成员'}}
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
-              <ns-button
-                v-if="scope.row.channelCount > 0"
-                style="color:#0091FA"
-                @click="onShowChannelScope(scope.row)"
-                type="text"
-                >{{ scope.row.channelCount }}个渠道
+              <ns-button v-if="scope.row.channelCount > 0"
+                         style="color:#0091FA"
+                         @click="onShowChannelScope(scope.row)"
+                         type="text">{{ scope.row.channelCount }}个渠道
               </ns-button>
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="updateTime"
-          label="更新时间"
-          align="center"
-          sortable="custom"
-        >
+        <el-table-column prop="updateTime"
+                         label="更新时间"
+                         align="center"
+                         sortable="custom">
         </el-table-column>
-        <el-table-column label="状态" align="center" min-width="30">
+        <el-table-column label="状态"
+                         align="center"
+                         min-width="30">
           <template slot-scope="{ row }">
-            <el-switch
-              style="cursor:pointer"
-              :disabled="
+            <el-switch style="cursor:pointer"
+                       :disabled="
                 row.type === 9 && String(row.account ? row.account : '') !== 'admin'
               "
-              :value="row.status"
-              :active-value="1"
-              :inactive-value="0"
-              :before-change="
+                       :value="row.status"
+                       :active-value="1"
+                       :inactive-value="0"
+                       :before-change="
                 (call, currVal) => {
                   if (row.type === 9 && String(row.account ? row.account : '') !== 'admin') {
                     return;
                   }
                   onStatusChange(call, currVal, row);
                 }
-              "
-            ></el-switch>
+              "></el-switch>
           </template>
         </el-table-column>
-        <el-table-column
-          :show-overflow-tooltip="true"
-          label="操作"
-          align="center"
-          width="160px"
-        >
+        <el-table-column :show-overflow-tooltip="true"
+                         label="操作"
+                         align="center"
+                         width="160px">
           <template slot-scope="scope">
-            <ns-table-column-operate-button
-              :buttons="
+            <ns-table-column-operate-button :buttons="
                 scope.row.type === 9 &&
                 String(scope.row.account ? scope.row.account : '') !== 'admin'
                   ? []
                   : _data._table.table_buttons
               "
-              :prop="scope"
-            >
+                                            :prop="scope">
             </ns-table-column-operate-button>
           </template>
         </el-table-column>
@@ -292,41 +347,41 @@
     </template>
     <!-- 分页 -->
     <template slot="pagination">
-      <el-pagination
-        v-if="_data._pagination.enable"
-        class="template-table-pagination"
-        :page-sizes="_data._pagination.sizeOpts"
-        :total="_data._pagination.total"
-        :current-page.sync="_data._pagination.page"
-        :page-size="_data._pagination.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="$sizeChange$"
-        @current-change="$pageChange$"
-      >
+      <el-pagination v-if="_data._pagination.enable"
+                     class="template-table-pagination"
+                     :page-sizes="_data._pagination.sizeOpts"
+                     :total="_data._pagination.total"
+                     :current-page.sync="_data._pagination.page"
+                     :page-size="_data._pagination.size"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     @size-change="$sizeChange$"
+                     @current-change="$pageChange$">
       </el-pagination>
     </template>
-  </ns-page-table>
+  </page-table>
 </template>
 
 <script>
 import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import NsShopDialog from '@/components/NsShopDialog'
 import EmojiText from '@/components/NewUi/EmojiText'
+import PageTable from '@/components/NewUi/PageTableMax'
 NsTableWelcomeCode.components = {
   NsGuideDialog,
   NsShopDialog,
-  EmojiText
+  EmojiText,
+  NsGuideWeChatDialog,
+  PageTable
 }
 export default NsTableWelcomeCode
 </script>
-<style scoped>
-@import "@theme/variables.pcss";
-
-.scope_row_count {
-  color: blue;
+<style scoped lang="scss">
+@import "./styles/reset.css";
+.search-icon {
+  font-size: 25px;
 }
-
 .tips {
   color: var(--theme-color-danger);
 }
@@ -366,7 +421,9 @@ export default NsTableWelcomeCode
   width: 48px;
   cursor: default;
 
-  &:active, &:hover, &:focus {
+  &:active,
+  &:hover,
+  &:focus {
     background: var(--theme-font-color-info);
     border: 1px solid var(--theme-font-color-info);
   }
@@ -385,7 +442,18 @@ export default NsTableWelcomeCode
 
   .icon {
     font-size: 16px;
-    color:#383838;
+    color: #383838;
+  }
+}
+.self-btn {
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color: #c0c4cc;
   }
 }
 </style>

@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-tabs */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { Object } from 'core-js'
 import store from 'store/dist/store.legacy.min.js'
@@ -324,12 +326,14 @@ export default {
      * 搜索员工
      */
     searchEmployee: function (pageNo) {
+	   // eslint-disable-next-line no-mixed-spaces-and-tabs
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
       let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
       this.setParam(param)
       // 请求获取员工数据
+
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
@@ -385,29 +389,6 @@ export default {
       param.switchAreaFlag = vm.switchAreaFlag
       if (vm.departData.name) {
         param.empName = vm.departData.name
-      }
-      if (vm.departData.job !== null) {
-        param.job = vm.departData.job
-      }
-      if (vm.departData.mobile) {
-        param.mobile = vm.departData.mobile
-      }
-      if (vm.departData.selectedDepart.value && parseInt(vm.departData.selectedDepart.value) > 0) {
-        let jointString = vm.jointDepartId(vm.departData.selectedDepart.value, vm.departData.allDepartments)
-        param.empDepar = jointString.join(',')
-      }
-      if (this.departData.shopId) {
-        param.shopId = this.departData.shopId
-      } else {
-        if (this.departData.shopArea && this.departData.shopArea.value) {
-          param.areaId = '-' + this.departData.shopArea.value + '-'
-        }
-      }
-      if (vm.departData.manualInputKey) {
-        param.manualInputKey = vm.departData.manualInputKey // 手动输入导入文件
-      }
-      if (this.$refs.import.model.redisKey !== '' && this.$refs.import.model.redisKey !== null) {
-        param.fileImportKey = vm.departData.fileImportKey // 表格导入文件
       }
       // if (vm.departData.fileImportKey) {
       //   param.fileImportKey = vm.departData.fileImportKey

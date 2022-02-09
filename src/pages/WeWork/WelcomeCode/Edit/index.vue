@@ -4,151 +4,194 @@
       <div class="common-header flex-box">
         <h3>{{$route.query.welcomeCodeUuid ? '编辑欢迎语' : '新增欢迎语'}}</h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel" size="large" @click="$router.go(-1)" :loading="loading">取消</ns-button>
-          <ns-button class="customer-btn_save" type="primary" size="large" @click="saveWelcome" :loading="loading">保存</ns-button>
+          <ns-button class="customer-btn_cancel"
+                     size="large"
+                     @click="$router.go(-1)"
+                     :loading="loading">取消</ns-button>
+          <ns-button class="customer-btn_save"
+                     type="primary"
+                     size="large"
+                     @click="saveWelcome"
+                     :loading="loading">保存</ns-button>
         </div>
       </div>
     </template>
     <template slot='content'>
-       <SimpleCollapse :title="'发布内容'">
-          <PhoneBox phoneTitle phoneBar="内容预览">
-            <template slot='collapse-left'>
-              <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="107px" label-position="left">
-                <div class="banner-tip">
-                  <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语<span v-if="cloudPlatformType == 'ECRP'">>店铺欢迎语</span>>默认欢迎语</span>
+      <SimpleCollapse :title="'发布内容'">
+        <PhoneBox phoneTitle
+                  phoneBar="内容预览">
+          <template slot='collapse-left'>
+            <el-form class="el-form-reset"
+                     size="medium"
+                     ref="ruleForm"
+                     :model="model"
+                     :rules="rules"
+                     label-width="107px"
+                     label-position="left">
+              <div class="banner-tip">
+                <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语<span v-if="cloudPlatformType == 'ECRP'">>店铺欢迎语</span>>默认欢迎语</span>
+              </div>
+              <el-form-item :rules="rules.name"
+                            required>
+                <template slot="label">
+                  <span>欢迎语名称</span>
+                  <el-tag v-if="model.type === 9"
+                          style="margin-left: 4px">默认</el-tag>
+                </template>
+                <div style="max-width:626px">
+                  <length-input v-model='model.title'
+                                placeholder="请输入欢迎语名称，长度20个字符以内"
+                                :length='25' />
                 </div>
-                <el-form-item :rules="rules.name" required>
-                  <template slot="label">
-                    <span>欢迎语名称</span>
-                    <el-tag v-if="model.type === 9" style="margin-left: 4px">默认</el-tag>
-                  </template>
-                  <div style="max-width:626px">
-                    <length-input v-model='model.title' placeholder="请输入欢迎语名称，长度20个字符以内" :length='25'/>
-                  </div>
-                </el-form-item>
-                <el-form-item prop="content" :rules="rules.content" required>
-                  <template slot="label">
-                    <span>发送内容</span>
-                  </template>
-                  <tag-area
-                    class="tag-area"
-                    v-model='model.content'
-                    tag="wise"
-                    ref="TagAreaText"
-                    :maxlength="1000"
-                    :showEmoji='true'
-                    :showTextEmoji='true'
-                    :tools='tools'
-                    @inputLength="tagAreaInputLength"
-                    placeholder="请输入欢迎语"
-                    emojiClass=''
-                  />
-                </el-form-item>
-                <el-form-item label="附件" prop="annexList">
-                  <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件</span>
-                  <MessageList
-                    :list.sync="model.annexList"
-                    @edit="editAnnexMessage"
-                    @delete="deleteAnnexMessage"
-                  />
-                  <el-popover
-                    placement="top-start"
-                    width="400"
-                    trigger="hover"
-                    :disabled="model.annexList.length >= 9"
-                  >
-                    <template slot="reference">
-                      <div class="add-material" v-if="model.annexList.length < 9">
-                        <Icon type="ns-add-border" class="icon"/>
-                        添加消息内容
-                      </div>
-                      <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
-                        <Icon type="ns-add-border" class="icon"/>
-                        添加消息内容
-                      </div>
-                    </template>
-                    <WechatMessageBar
-                      ref="WechatMessageBar"
-                      @addMessage="addAnnexMessage"
-                      @uploadVideoProgress="uploadProgress"
-                    />
-                  </el-popover>
-                </el-form-item>
-                <el-form-item label="使用范围">
-                  <template v-if="model.type === 9">
-                    <div>全部员工</div>
-                    <span class="add-tip label-gap">当员工未配置欢迎语时，将发送该默认欢迎语</span>
-                  </template>
-                  <template v-else>
-                    <div class="select-area" v-if="cloudPlatformType == 'ECRP'">
-                      <span class="select-title">选择店铺</span>
-                      <NsShopDialog
-                        :selfBtn='true'
-                        :appendToBody='true'
-                        :isButton="false"
-                        :auth="false"
-                        type="icon"
-                        btnTitle=""
-                        dialogTitle="选择店铺"
-                        v-model="model.shopIds"
-                      >
-                        <template slot='btnIcon'>
-                          <div class="select-tips">
-                            <span v-if="!model.shopIds.length" class="un-selected">请选择店铺</span>
-                            <span v-else class="selected">已选择{{model.shopIds.length}}个店铺</span>
-                            <Icon type="shop" class="icon"/>
-                          </div>
-                        </template>
-                      </NsShopDialog>
+              </el-form-item>
+              <el-form-item prop="content"
+                            :rules="rules.content"
+                            required>
+                <template slot="label">
+                  <span>发送内容</span>
+                </template>
+                <tag-area class="tag-area"
+                          v-model='model.content'
+                          tag="wise"
+                          ref="TagAreaText"
+                          :maxlength="1000"
+                          :showEmoji='true'
+                          :showTextEmoji='true'
+                          :tools='tools'
+                          @inputLength="tagAreaInputLength"
+                          placeholder="请输入欢迎语"
+                          emojiClass='' />
+              </el-form-item>
+              <el-form-item label="附件"
+                            prop="annexList">
+                <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件</span>
+                <MessageList :list.sync="model.annexList"
+                             @edit="editAnnexMessage"
+                             @delete="deleteAnnexMessage" />
+                <el-popover placement="top-start"
+                            width="400"
+                            trigger="hover"
+                            :disabled="model.annexList.length >= 9">
+                  <template slot="reference">
+                    <div class="add-material"
+                         v-if="model.annexList.length < 9">
+                      <Icon type="ns-add-border"
+                            class="icon" />
+                      添加消息内容
                     </div>
-                    <div class="select-area">
-                      <span class="select-title">选择员工</span>
-                      <NsGuideDialog
-                        :selfBtn='true'
-                        :appendToBody='true'
-                        :isButton="false"
-                        :showTitleTip='true'
-                        :auth="true"
-                        type="primary"
-                        btnTitle=""
-                        dialogTitle="选择员工"
-                        v-model="model.employeeIds"
-                      >
-                        <template slot='selfBtn'>
-                          <div class="select-tips">
-                            <span v-if="!model.employeeIds.length" class="un-selected">请选择员工</span>
-                            <span v-else class="selected">已选择{{model.employeeIds.length}}个员工</span>
-                            <Icon type="ns-people" class="icon"/>
-                          </div>
-                        </template>
-                      </NsGuideDialog>
+                    <div v-else
+                         class="add-material add-material-disabled"
+                         @click="$notify.error('附件已达上限（9个），不能再添加')">
+                      <Icon type="ns-add-border"
+                            class="icon" />
+                      添加消息内容
                     </div>
-                    <div class="select-area">
-                      <ChannelCodeDialog
-                        :visible.sync="channelCodeDialogVisible"
-                        @confirm="confirmChannelCodes"
-                        :content="model.channelCodes"
-                      />
-                      <span class="select-title">选择渠道</span>
-                        <div class="select-tips" @click="channelCodeDialogVisible = true">
-                          <span v-if="!model.channelCodes.length" class="un-selected">请选择渠道</span>
-                          <span v-else class="selected">已选择{{model.channelCodes.length}}个渠道</span>
-                          <Icon type="channel" class="icon"/>
+                  </template>
+                  <WechatMessageBar ref="WechatMessageBar"
+                                    @addMessage="addAnnexMessage"
+                                    @uploadVideoProgress="uploadProgress" />
+                </el-popover>
+              </el-form-item>
+              <el-form-item label="使用范围">
+                <template v-if="model.type === 9">
+                  <div>全部员工</div>
+                  <span class="add-tip label-gap">当员工未配置欢迎语时，将发送该默认欢迎语</span>
+                </template>
+                <template v-else>
+                  <div class="select-area"
+                       v-if="cloudPlatformType == 'ECRP'">
+                    <span class="select-title">选择店铺</span>
+                    <NsShopDialog :selfBtn='true'
+                                  :appendToBody='true'
+                                  :isButton="false"
+                                  :auth="false"
+                                  type="icon"
+                                  btnTitle=""
+                                  dialogTitle="选择店铺"
+                                  v-model="model.shopIds">
+                      <template slot='btnIcon'>
+                        <div class="select-tips">
+                          <span v-if="!model.shopIds.length"
+                                class="un-selected">请选择店铺</span>
+                          <span v-else
+                                class="selected">已选择{{model.shopIds.length}}个店铺</span>
+                          <Icon type="shop"
+                                class="icon" />
                         </div>
+                      </template>
+                    </NsShopDialog>
+                  </div>
+                  <div class="select-area">
+                    <span class="select-title">选择员工</span>
+                    <NsGuideDialog :selfBtn='true'
+                                   :appendToBody='true'
+                                   :isButton="false"
+                                   :showTitleTip='true'
+                                   :auth="true"
+                                   type="primary"
+                                   btnTitle=""
+                                   dialogTitle="选择员工"
+                                   v-model="model.employeeIds"
+                                   v-if="cloudPlatformType == 'ECRP'">
+                      <template slot='selfBtn'>
+                        <div class="select-tips">
+                          <span v-if="!model.employeeIds.length"
+                                class="un-selected">请选择员工</span>
+                          <span v-else
+                                class="selected">已选择{{model.employeeIds.length}}个员工</span>
+                          <Icon type="ns-people"
+                                class="icon" />
+                        </div>
+                      </template>
+                    </NsGuideDialog>
+                    <NsGuideWeChatDialog :selfBtn='true'
+                                         :appendToBody='true'
+                                         :isButton="false"
+                                         :showTitleTip='true'
+                                         :auth="true"
+                                         type="primary"
+                                         btnTitle=""
+                                         dialogTitle="选择员工"
+                                         v-model="model.employeeIds"
+                                         v-else>
+                      <template slot='selfBtn'>
+                        <div class="select-tips">
+                          <span v-if="!model.employeeIds.length"
+                                class="un-selected">请选择员工</span>
+                          <span v-else
+                                class="selected">已选择{{model.employeeIds.length}}个员工</span>
+                          <Icon type="ns-people"
+                                class="icon" />
+                        </div>
+                      </template>
+                    </NsGuideWeChatDialog>
+                  </div>
+                  <div class="select-area">
+                    <ChannelCodeDialog :visible.sync="channelCodeDialogVisible"
+                                       @confirm="confirmChannelCodes"
+                                       :content="model.channelCodes" />
+                    <span class="select-title">选择渠道</span>
+                    <div class="select-tips"
+                         @click="channelCodeDialogVisible = true">
+                      <span v-if="!model.channelCodes.length"
+                            class="un-selected">请选择渠道</span>
+                      <span v-else
+                            class="selected">已选择{{model.channelCodes.length}}个渠道</span>
+                      <Icon type="channel"
+                            class="icon" />
                     </div>
-                  </template>
-                </el-form-item>
-              </el-form>
-            </template>
-            <template slot="collapse-right">
-              <MessagePreviewPanel
-                class="message-preivew-panel"
-                :list="messageList"
-                :messageType="WelcomeMessageType"
-              />
-            </template>
-          </PhoneBox>
-       </SimpleCollapse>
+                  </div>
+                </template>
+              </el-form-item>
+            </el-form>
+          </template>
+          <template slot="collapse-right">
+            <MessagePreviewPanel class="message-preivew-panel"
+                                 :list="messageList"
+                                 :messageType="WelcomeMessageType" />
+          </template>
+        </PhoneBox>
+      </SimpleCollapse>
     </template>
   </PageEdit>
 </template>
@@ -159,6 +202,7 @@ import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import TagArea from '@/components/NewUi/TagArea'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import NsShopDialog from '@/components/NsShopDialog'
 import ChannelCodeDialog from './ChannelCodeDialog'
 import MessageList from './MessageList'
@@ -179,6 +223,7 @@ export default {
     MessageList,
     WechatMessageBar,
     MessagePreviewPanel,
+    NsGuideWeChatDialog,
     LengthInput
   },
   watch: {
@@ -196,7 +241,7 @@ export default {
   computed: {
     messageList () {
       if (this.model.content) {
-        return [ this.welcomeMessage, ...this.model.annexList ]
+        return [this.welcomeMessage, ...this.model.annexList]
       } else {
         return this.model.annexList
       }
@@ -209,6 +254,7 @@ export default {
       loading: false,
       welcomeInputLength: 0,
       welcomeMessage: undefined,
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         content: '',
         annexList: [
@@ -407,7 +453,7 @@ export default {
 .el-form-reset {
   .banner-tip {
     height: 54px;
-    background: #F2F9FE;
+    background: #f2f9fe;
     border-radius: 2px;
     .text {
       display: inline-block;
@@ -430,7 +476,7 @@ export default {
       margin-top: 11px;
       max-width: 617px;
       height: 64px;
-      background: #F5F5F5;
+      background: #f5f5f5;
       font-size: 14px;
       display: flex;
       align-items: center;
@@ -455,13 +501,13 @@ export default {
           line-height: 32px;
         }
         .un-selected {
-          color: #BFBFBF;
+          color: #bfbfbf;
         }
         .selected {
           color: #606266;
         }
         .icon {
-          color: #BFBFBF;
+          color: #bfbfbf;
           font-size: 14px;
           margin-right: 9px;
         }
@@ -478,18 +524,18 @@ export default {
       // justify-content: center;
       .icon {
         font-size: 13px;
-        color:#0091FA;
+        color: #0091fa;
         margin-right: 5px;
       }
     }
     .add-material-disabled {
-      color: #BFBFBF;
+      color: #bfbfbf;
       .icon {
-        color:#BFBFBF;
+        color: #bfbfbf;
       }
     }
     .add-tip::before {
-      content: '';
+      content: "";
       display: inline-block;
       background: #f2aa18;
       height: 8px;
