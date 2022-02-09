@@ -18,7 +18,7 @@
     <div class="nav-tool">
       <NavToolSlot/>
       <div class="nav-brand" v-if="isShowBrandSelect" >
-        <ElSelectLoad v-model="area.text" :props="props" :options="$store.state.user.areas" filterable @change="onHandleViewCommand"></ElSelectLoad>
+        <ElSelectLoad v-model="area.text" :props="props" :options="$store.state.user.areas" filterable @change="onHandleAreaCommand"></ElSelectLoad>
       </div>
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
@@ -160,6 +160,7 @@ export default {
      * @param command
      */
     onHandleAreaCommand: function (command) {
+      console.log(command, 'command')
       const that = this
       // 判断是否品牌视角有改变
       if (this.$store.state.user.area.id !== command) {

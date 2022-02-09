@@ -7,7 +7,8 @@ export default ($route) => {
   // 需显示区域选择的路由数组
   const showBrandSelectPathList = [
     '/Marketing/EnterpriseMessage',
-    '/Social/WeComCustomerOperation/GroupRepeat'
+    '/Social/WeComCustomerOperation/GroupRepeat',
+    '/Social/WeWorkGroup/GroupWelcomeCode'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1

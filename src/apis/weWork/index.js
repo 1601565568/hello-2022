@@ -17,6 +17,7 @@ import sop from './sop.js'
 import friendsCircle from './friendsCircle.js'
 import sessionStatistics from './sessionStatistics.js'
 import groupManager from './groupManager.js'
+import groupWelcomeCode from './groupWelcomeCode'
 export default {
   welcomeCode,
   behaviorData,
@@ -29,5 +30,6 @@ export default {
   sop,
   friendsCircle,
   sessionStatistics,
-  groupManager
+  groupManager,
+  groupWelcomeCode
 }

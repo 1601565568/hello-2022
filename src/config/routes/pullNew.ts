@@ -218,6 +218,12 @@ export default {
           'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/index.vue')
         },
         {
+          'path': '/Social/WeWorkGroup/GroupWelcomeCode/Edit',
+          'name': 'WeWorkGroupWelcomeCodeEdit',
+          'title': '新建群欢迎语',
+          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/Edit.vue')
+        },
+        {
           'path': '/Social/WeWorkGroup/chatRoomGroup',
           'name': 'chatRoomGroupAll',
           'title': '群聚合码',

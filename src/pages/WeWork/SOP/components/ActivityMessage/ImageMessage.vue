@@ -2,7 +2,7 @@
   <div class="image-message">
     <div class="image-area">
       <img
-        :src="content.mediaid"
+        :src="content[imageLabel]"
         @click="showPreview"
       >
       <span v-if="preview && total" class="image-total">{{previewList.length}}张</span>
@@ -35,6 +35,10 @@ export default {
     total: { // 是否显示总数统计
       type: Boolean,
       default: false
+    },
+    imageLabel: {
+      type: String,
+      default: 'mediaid'
     },
     previewList: {
       type: Array,
