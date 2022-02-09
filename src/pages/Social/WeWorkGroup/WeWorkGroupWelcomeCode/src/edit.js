@@ -31,7 +31,7 @@ export default {
     },
     // 获取返回附件列表
     proviewList (val) {
-      console.log(val, '附件列表')
+      // console.log(val, '附件列表')
       const arrayItem = val.length ? val[0] : {}
       this.list.splice(1, 1, arrayItem)
     },
