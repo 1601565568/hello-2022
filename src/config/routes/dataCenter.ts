@@ -1,7 +1,7 @@
 export default {
   path: '/DataCenter/DataCenterOption',
   name: 'DataCenter',
-  component: () => import('@layout/Default.vue'),
+  component: () => import('@/layout/Default.vue'),
   meta: {
     title: '数据中心',
     requiresAuth: true

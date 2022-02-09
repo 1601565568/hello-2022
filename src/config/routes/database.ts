@@ -1,7 +1,7 @@
 export default {
   'path': '/Database',
   'name': 'Database',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '工作台',
     'requiresAuth': true

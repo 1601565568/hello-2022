@@ -1,7 +1,7 @@
 export default {
   'path': '/Pull/PullNew',
   'name': 'PULL_NEW',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '获客引流',
     'requiresAuth': true
