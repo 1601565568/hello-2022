@@ -15,12 +15,20 @@
             <template slot='collapse-left'>
               <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="107px" label-position="left">
                 <div class="banner-tip">
-                  <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语>店铺欢迎语>默认欢迎语</span>
+                  <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语<span v-if="cloudPlatformType == 'ECRP'">>店铺欢迎语</span>>默认欢迎语</span>
                 </div>
+                <el-form-item :rules="rules.name" required>
+                  <template slot="label">
+                    <span>欢迎语名称</span>
+                    <el-tag v-if="model.type === 9" style="margin-left: 4px">默认</el-tag>
+                  </template>
+                  <div style="max-width:626px">
+                    <length-input v-model='model.title' placeholder="请输入欢迎语名称，长度20个字符以内" :length='25'/>
+                  </div>
+                </el-form-item>
                 <el-form-item prop="content" :rules="rules.content" required>
                   <template slot="label">
-                    <span>欢迎语</span>
-                    <el-tag v-if="model.type === 9" style="margin-left: 4px">默认</el-tag>
+                    <span>发送内容</span>
                   </template>
                   <tag-area
                     class="tag-area"
@@ -72,7 +80,7 @@
                     <span class="add-tip label-gap">当员工未配置欢迎语时，将发送该默认欢迎语</span>
                   </template>
                   <template v-else>
-                    <div class="select-area">
+                    <div class="select-area" v-if="cloudPlatformType == 'ECRP'">
                       <span class="select-title">选择店铺</span>
                       <NsShopDialog
                         :selfBtn='true'
@@ -157,6 +165,7 @@ import MessageList from './MessageList'
 import WechatMessageBar from './WechatMessageBar'
 import MessagePreviewPanel from './MessagePreviewPanel'
 import { WelcomeMessageType } from '../types'
+import LengthInput from '@/components/NewUi/LengthInput'
 
 export default {
   components: {
@@ -169,7 +178,8 @@ export default {
     ChannelCodeDialog,
     MessageList,
     WechatMessageBar,
-    MessagePreviewPanel
+    MessagePreviewPanel,
+    LengthInput
   },
   watch: {
     'model.content' () {
@@ -249,7 +259,10 @@ export default {
       },
       rules: {
         content: [
-          { required: true, message: '请输入欢迎语', trigger: ['blur'] }
+          { required: true, message: '请输入发送内容', trigger: ['blur'] }
+        ],
+        name: [
+          { required: true, message: '请输入欢迎语名称', trigger: ['blur'] }
         ]
       },
       // 欢迎语可插入标签

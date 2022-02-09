@@ -14,7 +14,7 @@
     </template>
 
     <!-- 简单搜索 -->
-    <template slot="searchSearch">
+    <!-- <template slot="searchSearch">
       <el-form
         @submit.native.prevent
         :model="quickSearchModel"
@@ -30,7 +30,6 @@
             @keyup.enter.native="$quickSearchAction$('content')"
             clearable
           />
-          <!--  -->
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn"
             >搜索</ns-button
           >
@@ -45,10 +44,10 @@
           </ns-button>
         </el-form-item>
       </el-form>
-    </template>
+    </template> -->
 
     <!-- 高级搜索 -->
-    <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+    <template slot="advancedSearch">
       <el-form
         ref="table_filter_form"
         :model="model"
@@ -84,7 +83,7 @@
             </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="选择店铺：">
+        <el-form-item label="选择店铺：" v-if="cloudPlatformType == 'ECRP'">
           <ElFormGrid>
             <NsShopDialog :auth="false" type="primary" btnTitle="选择店铺" v-model="model.shopIds"></NsShopDialog>
           </ElFormGrid>
@@ -112,7 +111,7 @@
             ></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="门店：">
+        <el-form-item label="门店：" v-if="cloudPlatformType == 'ECRP'">
           <el-form-grid size="xmd">
             <el-input
               style="width:180px"
@@ -144,7 +143,7 @@
       >
         <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="120">
           <template slot="header">
-            欢迎语
+            欢迎语名称
             <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
               <Icon type="question-circle" />
             </el-tooltip>
@@ -152,11 +151,23 @@
           <template slot-scope="scope">
             <span class="table-col--content">
               <!-- {{scope.row.content?scope.row.content:'-'}} -->
-              <EmojiText v-if='scope.row.content' :text='scope.row.content' type='list'/>
+              <EmojiText v-if='scope.row.title' :text='scope.row.title' type='list'/>
               <span v-else>-</span>
               <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
                 默认
               </ns-button>
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="120">
+          <template slot="header">
+            发送内容
+          </template>
+          <template slot-scope="scope">
+            <span class="table-col--content">
+              <!-- {{scope.row.content?scope.row.content:'-'}} -->
+              <EmojiText v-if='scope.row.content' :text='scope.row.content' type='list'/>
+              <span v-else>-</span>
             </span>
           </template>
         </el-table-column>
@@ -205,7 +216,7 @@
             </div>
             <div v-else>
               <ns-button
-                v-if="scope.row.shopCount > 0"
+                v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ECRP' "
                 style="color:#0091FA"
                 @click="onShowShopScope(scope.row)"
                 type="text"
@@ -217,7 +228,7 @@
                 @click="onShowEmployeeScope(scope.row)"
                 v-if="scope.row.employeeCount > 0"
                 type="text"
-                >{{ scope.row.employeeCount }}名员工
+                >{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ECRP'? '员工':'成员'}}
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
               <ns-button
