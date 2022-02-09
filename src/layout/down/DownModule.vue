@@ -5,6 +5,8 @@
       width="188"
       trigger="manual"
       v-model="visible"
+      popper-class="down-pop-view"
+      :append-to-body="false"
     >
       <div class="down-cover-view">
         <div>您有文件已生成，快去下载吧</div>
@@ -42,6 +44,7 @@ export default {
       handler () {
         this.activeName = this.$route.matched[0].name
         this.isShowAreaSelect = isShowArea(this.$route)
+        this.visible = false
       },
       immediate: true
     },
@@ -58,7 +61,7 @@ export default {
       iconRight: null,
       timer: null,
       showRed: false,
-      visible: false
+      visible: true
     }
   },
   mounted () {
@@ -178,5 +181,8 @@ export default {
     font-weight: 600;
     margin-bottom: 4px;
   }
+}
+.down-pop-view {
+  z-index: 2000;
 }
 </style>
