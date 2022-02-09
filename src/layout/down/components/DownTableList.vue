@@ -138,7 +138,6 @@ export default {
         page: 1,
         total: 0
       }
-      this.listData = []
     },
     handleSizeChange (size) {
       this.downPagination = {
