@@ -77,9 +77,9 @@ export default {
     async exportIsSuccess (type) {
       const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
       if (json.success) {
-        this.showRed = json.result === 1
+        this.showRed = json.result.redDot && json.result.redDot === '1'
         if (this.showRed) {
-          this.visible = true
+          this.visible = json.result.tips && json.result.tips === '1'
           setTimeout(() => {
             this.visible = false
           }, 5000)
