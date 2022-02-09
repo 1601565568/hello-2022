@@ -16,6 +16,7 @@ import weWorkRooms from './weWorkRooms.js'
 import sop from './sop.js'
 import friendsCircle from './friendsCircle.js'
 import sessionStatistics from './sessionStatistics.js'
+import groupWelcomeCode from './groupWelcomeCode'
 export default {
   welcomeCode,
   behaviorData,
@@ -27,5 +28,6 @@ export default {
   weWorkRooms,
   sop,
   friendsCircle,
-  sessionStatistics
+  sessionStatistics,
+  groupWelcomeCode
 }

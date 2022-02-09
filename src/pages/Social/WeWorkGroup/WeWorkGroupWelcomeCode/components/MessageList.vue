@@ -32,10 +32,10 @@
             </span>
           </div>
           <div class="message-operate">
-            <ns-button type="text" size="small" @click.stop="editMessage({ type, content }, key)" :disabled="isUploading">
+            <ns-button type="text" size="small" @click.stop="editMessage({ type, content }, key)" :disabled="isUploading || disabled">
               <span class="iconfont" :class="type == 1 || type == 2 ? 'icon-ns-deal1' : 'icon-zidingyibeifen'" style="font-size:20px;"></span>
             </ns-button>
-            <ns-button type="text" size="small" @click.stop="deleteMessage({ type, content },key)" :disabled="isUploading">
+            <ns-button type="text" size="small" @click.stop="deleteMessage({ type, content },key)" :disabled="isUploading || disabled">
               <span class="iconfont icon-ns-delete1" style="font-size:24px;"></span>
             </ns-button>
             <!-- <ns-button type="text" size="small" :disabled="isUploading">
@@ -67,6 +67,10 @@ export default {
       }
     },
     isUploading: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="library-image-form limit-scroll-view">
     <el-form ref="form" :model="model" :rules="rules" label-width="114px">
-      <el-form-item label="群欢迎语" required>
+      <el-form-item label="群欢迎语" prop="textContent">
         <div class="top-title-view">
           <tag-area
             class="tag-area"
@@ -10,6 +10,7 @@
             :showEmoji='true'
             :showTextEmoji='true'
             :tools='tools'
+            :disabled='disabled'
             ref="tagContent"
             className="tagContent"
             placeholder="可在此输入群欢迎语，限制长度在1500个字符以内"
@@ -26,13 +27,13 @@
             @edit="editAnnexMessage"
             @delete="deleteAnnexMessage"
             :isUploading.sync="isUploading"
-            @dragUploadList="dragUploadList"
+            :disabled="disabled"
           />
           <el-popover
             placement="top-start"
             width="320"
             trigger="hover"
-            :disabled="mediaList.length === 1"
+            :disabled="mediaList.length === 1 || disabled"
           >
             <template slot="reference">
               <div class="add-material" v-if="!mediaList.length">
@@ -72,21 +73,9 @@ export default {
     WechatMessageBar
   },
   props: {
-    isEdit: {
+    disabled: {
       type: Boolean,
       default: false
-    },
-    labelList: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    breadcrumb: {
-      type: Array,
-      default () {
-        return []
-      }
     },
     detail: {
       type: Object,
@@ -97,41 +86,13 @@ export default {
   },
   data: function () {
     return {
-      NsGuide2DialogVisible: false,
       loading: false,
-      wechatPageTypeList: [
-        { name: '商城主页面', id: 1 },
-        { name: '商品', id: 2 },
-        { name: '营销活动', id: 4 }
-      ],
-      wechatPageUrlList: [
-        { codeTargetName: '首页', codeTarget: '1' },
-        { codeTargetName: '分类', codeTarget: '2' },
-        { codeTargetName: '我的', codeTarget: '3' }
-      ],
       model: {
-        isDirectory: 0,
-        content: '',
-        subdivisionIds: null,
-        codeType: 2,
-        marketType: null,
-        codeModule: null,
-        extJson: '',
-        codeTarget: '',
-        codeTargetName: '',
-        mediaList: [],
-        materialScriptType: 1,
-        shelfType: 1,
-        endType: 1,
-        endTime: '',
-        shelfTime: '',
-        notifyState: 0,
-        notifyType: 1,
-        guideIdList: [],
-        notifyTime: ''
+        textContent: '',
+        mediaList: []
       },
       rules: {
-        content: [
+        textContent: [
           {
             required: true,
             message: '请输入群欢迎语',
@@ -146,24 +107,10 @@ export default {
         ]
         // mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }]
       },
-      mType: 1,
       imageNum: 1,
-      catalogue: [{ id: 0, name: '' }],
-      visible: false,
-      defaultImgUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
-      showEdit: false,
-      guideText: '',
-      drawer: false,
-      editIndex: 0,
-      showEidtImg: '',
       tools: [],
-      limitIndex: 0,
-      pitTitle: '',
       pitContent: '',
-      showMiniCode: false,
-      isUploading: false,
-      disabledPicType: true,
-      guideDatas: [] // 提醒设置，已选员工展示使用
+      isUploading: false
     }
   },
   computed: {
@@ -191,63 +138,52 @@ export default {
       handler (newVal) {
         this.$refs.form.validateField('mediaList')
         this.$emit('list', newVal)
-        const isSelect = (item) => item.type === 1
-        const index = newVal.findIndex(isSelect)
-        if (index === -1) {
-          this.disabledPicType = true
-          this.model.codeType = 2
-        } else {
-          this.disabledPicType = false
-        }
       },
       deep: true
     },
     detail: [
       function (newObj) {
-        const parentIds = newObj.parentPath.split('/')
-        const parentNames = newObj.parentPathName.split('/')
         const tempModel = { ...newObj }
-        // Object.keys(this.model).forEach(k => {
-        //   tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
-        //   // if (k === 'mediaList') {
-        //   //   tempModel[k] = tempModel[k].filter(v =>
-        //   //     /\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(v)
-        //   //   )
-        //   // }
-        // })
-        this.model = tempModel
-        // this.pitTitle = this.$refs.tagTitle.stringTohtml(this.model.name)
-        this.pitContent = this.$refs.tagContent.stringTohtml(this.model.content)
+        this.model.textContent = tempModel.textContent
+        let obj = {
+          type: tempModel.otherMsgType,
+          content: {}
+        }
+        if (obj.type + '' === '1') {
+          obj.content.image = tempModel.imageUrl
+        } else if (obj.type + '' === '2') {
+          obj.content.video = tempModel.videoUrl
+        } else if (obj.type + '' === '3') {
+          obj.content.desc = tempModel.linkDesc
+          obj.content.image = tempModel.linkPicUrl
+          obj.content.title = tempModel.linkTitle
+          obj.content.link = tempModel.linkUrl
+        } else if (obj.type + '' === '4') {
+          obj.content.appid = tempModel.miniProgramAppId
+          obj.content.path = tempModel.miniProgramPage
+          obj.content.image = tempModel.miniProgramPicUrl
+          obj.content.title = tempModel.miniProgramTitle
+        }
+        if (obj.type + '' === '0') {
+          this.model.mediaList = []
+        } else {
+          this.model.mediaList = [obj]
+        }
+        this.pitContent = this.$refs.tagContent.stringTohtml(this.model.textContent)
         this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
-        this.catalogue = parentIds.map((id, index) => ({
-          id: +id,
-          name: parentNames[index]
-        }))
-      },
-      async function getGuideList (newObj) {
-        const res = await this.$http.fetch(this.$api.core.sysUser.findByGuideIds, { userIds: newObj.guideIdList.slice(0, 5).join(',') })
-        this.guideDatas = res.result
       }
     ],
     pitContent (newObj) {
-      this.model.content = this.$refs.tagContent.htmlToString(newObj)
-      this.$emit('pitContent', this.model.content)
+      this.model.textContent = this.$refs.tagContent.htmlToString(newObj)
+      this.$emit('pitContent', this.model.textContent)
     }
   },
   methods: {
-    // 拖动事件处理
-    dragUploadList (list) {
-      this.model.mediaList = list
-    },
     // 上传进度
     uploadProgress (data) {
       if (data) {
         const percent = data.content.percent
         this.isUploading = percent !== '100.00'
-        // const deleteData = sessionStorage.getItem(data.content.uid)
-        // if (deleteData) {
-        //   return
-        // }
         // // 根据uid判断是否存在
         let isLargeNumber = (item) => item.content.uid === data.content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
@@ -262,25 +198,14 @@ export default {
       }
     },
     deleteAnnexMessage (context) {
-      // if (context.type === 2 && Number(context.content.percent) < 100) {
-      //   sessionStorage.setItem(context.content.uid, context.content.uid)
-      // }
       this.model.mediaList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
-      // let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
-      // let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-      // if (findEditIndex > -1) {
-      //   this.$notify.warning('视频资源上传中，请稍等')
-      // } else {
-      //   this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
-      // }
-      // this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
+      console.log(context, 'context新增消息')
       const { index, content, type, isDelete } = context
-      const deleteData = sessionStorage.getItem(content.uid)
       if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
         let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
@@ -299,60 +224,8 @@ export default {
         }
       }
     },
-    beforeAvatarUpload (file) {
-      // 图片格式判断
-      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
-        return false
-      }
-      // 图片大小判断
-      if (file.size / 1024 > 1024 * 2) {
-        this.$notify.warning('上传图片不得大于2MB')
-        return false
-      }
-    },
-    codeModuleChange (e) {
-      this.$set(this.model, 'codeTarget', '')
-      this.$set(this.model, 'codeTargetName', '')
-      if (e === 2) {
-        this.selectGoods()
-      } else if (e === 4) {
-        this.selectMarket()
-      }
-    },
-    codeTargetChange (e) {
-      let codeTargetObj = e ? this.wechatPageUrlList[Number(e) - 1] : {}
-      this.$set(this.model, 'codeTargetName', codeTargetObj.codeTargetName || '')
-    },
-    selectMarket () {
-      this.$nextTick(() => {
-        this.$refs.selectMarket.showToggle(this.model)
-      })
-    },
-    selectGoods () {
-      this.$nextTick(() => {
-        this.$refs.selectGoods.showToggle(this.model)
-      })
-    },
-    handleDown (e) {
-      if (e.keyCode === 13) {
-        e.preventDefault()
-        return false
-      }
-    },
-    selectMarketBack (obj) {
-      if (obj.activityId) {
-        this.$set(this.model, 'codeTarget', obj.activityId)
-        this.$set(this.model, 'codeTargetName', obj.activityName)
-        this.$set(this.model, 'marketType', obj.marketType)
-      } else if (obj.sysItemId) {
-        this.$set(this.model, 'codeTarget', obj.sysItemId)
-        this.$set(this.model, 'codeTargetName', obj.title)
-        this.$set(this.model, 'extJson', JSON.stringify({ mallId: obj.mallId, bankId: obj.bankId }))
-      }
-    },
-    onBack (isSave) {
-      this.$emit('back', isSave ? this.catalogue : null)
+    onBack () {
+      this.$emit('back')
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -362,71 +235,54 @@ export default {
       })
     },
     doSave () {
-      // 提醒设置更新
-      this.model.shelfTime = this.model.shelfType === 1 ? '' : this.model.shelfTime
-      this.model.endTime = this.model.endType === 1 ? '' : this.model.endTime
-      if (this.model.notifyState === 0) {
-        this.guideDatas = []
-        this.model = {
-          ...this.model,
-          notifyType: 1,
-          guideIdList: [],
-          notifyTime: ''
-        }
-      }
-
-      const params = { ...this.detail, ...this.model, mType: this.mType }
-      params.name = params.name.replace(/\s+/g, '')
-      const obj = this.$refs.tagContent.count
-      if (obj.num < 0) {
-        this.$notify.warning('推广文案' + obj.text)
+      if (this.loading) {
         return
       }
+      const params = { ...this.detail, ...this.model }
+      // params.name = params.name.replace(/\s+/g, '')
+      const obj = this.$refs.tagContent.count
+      if (obj.num < 0) {
+        this.$notify.warning('群欢迎语' + obj.text)
+        return
+      }
+      if (this.mediaList.length) {
+        const { content, type } = this.mediaList[0]
+        params.otherMsgType = type
+        if (type + '' === '1') {
+          params.imageUrl = content.image
+        } else if (type + '' === '2') {
+          params.videoUrl = content.video
+        } else if (type + '' === '3') {
+          params.linkDesc = content.desc
+          params.linkPicUrl = content.image
+          params.linkTitle = content.title
+          params.linkUrl = content.link
+        } else if (type + '' === '4') {
+          params.miniProgramAppId = content.appid
+          params.miniProgramPage = content.path
+          params.miniProgramPicUrl = content.image
+          params.miniProgramTitle = content.title
+        }
+      } else {
+        params.otherMsgType = 0
+      }
+
       // 控制图片数量
-      params.mediaList = this.mediaList
       let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
       let findEditIndex = this.mediaList.findIndex(isLargeNumber)
       if (findEditIndex > -1) {
         this.$notify.warning('视频资源上传中，无法保存')
         return false
       }
-      // 带码状态
-      if (params.codeTarget === '') {
-        params.codeType = 0
-      }
-      let flag = params.mediaList.length > 0 && params.mediaList.some(item => item.type === 1 || item.type === 0)
-      if (!flag && (params.codeType === 1)) {
-        this.$notify.warning('您未添加图片，暂无法植入二维码，请先添加图片')
-        return false
-      }
-      params.materialScriptType = 1
-      for (let i = 0; i < params.mediaList.length; i++) {
-        let item = params.mediaList[i]
-        if (item.type === 0) {
-          params.materialScriptType = 2
-          break
-        }
-      }
-      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
-      params.parentId = this.catalogue[this.catalogue.length - 1].id
 
-      if (!this.isEdit && this.model.notifyState === 1 && this.model.notifyType === 2) {
-        if (this.model.shelfType === 1 && new Date() > new Date(this.model.notifyTime)) {
-          // 立即上架
-          return this.$notify.warning('提醒时间需晚于当前时间')
-        }
-
-        if (this.model.shelfType === 0 && new Date(this.model.shelfTime) > new Date(this.model.notifyTime)) {
-          // 自定义上架时间
-          return this.$notify.warning('提醒时间需晚于素材上架时间')
-        }
-      }
+      params.textContent = this.$refs.tagContent.htmlToString(this.pitContent)
+      delete params.mediaList
 
       this.loading = true
       // 校验推广内容是否是纯空格 或换行
-      let tempContent = this.model.content
+      let tempContent = this.model.textContent
       this.$http
-        .fetch(this.$api.guide.materialEdit, params)
+        .fetch(this.$api.weWork.groupWelcomeCode.saveOrUpdate, params)
         .then(resp => {
           this.$notify.success('保存成功')
           this.onBack(true)
@@ -437,28 +293,10 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
-    loadCompanyPlan () {
-      this.$http
-        .fetch(this.$api.guide.queryCompanyPlan, {})
-        .then(resp => {
-          if (resp.success) {
-            let list = resp.result || []
-            for (const item of list) {
-              if (item.productCode === 'ecrp-wm') {
-                this.showMiniCode = true
-                break
-              }
-            }
-          }
-        })
-        .catch(resp => {})
-        .finally(() => {})
     }
   },
   mounted () {
-    this.loadCompanyPlan()
-    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '' }]
+    // this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '' }]
   }
 }
 </script>

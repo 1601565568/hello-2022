@@ -6,7 +6,7 @@
       </div>
       <div class="link-content">
         <span>{{content.desc}}</span>
-        <img :src="content[imageLabel]"/>
+        <img :src="content[imageLabel] || linkImage"/>
       </div>
       <div class="link-footer">
         <!-- <img src="" alt="">
@@ -38,7 +38,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
+    }
   },
   mounted () {},
   methods: {

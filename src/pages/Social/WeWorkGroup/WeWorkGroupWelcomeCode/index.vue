@@ -3,71 +3,76 @@
     <div class="head-router">群欢迎语</div>
     <div class="search-content">
       <div class="search-left">
-        <el-input class="serach-input" v-model="model.code" placeholder="请输入群欢迎语"  @keyup.enter.native="searchLogList">
+        <el-input class="serach-input" v-model="searchMap.textContent" placeholder="请输入群欢迎语"  @keyup.enter.native="searchLogList">
           <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
         </el-input>
-        <el-input class="serach-input" v-model="model.name" placeholder="请输入创建人姓名"  @keyup.enter.native="searchLogList">
+        <el-input class="serach-input" v-model="searchMap.createUserName" placeholder="请输入创建人姓名"  @keyup.enter.native="searchLogList">
           <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
         </el-input>
       </div>
       <NsButton type="primary" class="add-button" size="large" @click="newCode">新建</NsButton>
     </div>
     <el-scrollbar ref="fullScreen" class="card-content">
-      <div class="card-scroll">
-        <div class="card-item">
-          <div class="item-name">创建人姓名</div>
-          <div class="item-time">2010-02-17 12:33:44</div>
-          <div class="item-text">
-            <el-tooltip
-              :enterable="true"
-              popper-class="table-body__tooltip"
-            >
-              <div slot="content" v-html="strToRichText('这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样消息样消息样')" class="content-tooltip-view"></div>
-              <div class="showContent">
-                <EmojiText text='这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样消息样消息样' />
+      <div v-if="dataList.length" class="card-scroll">
+        <waterfall :col='waterCol' :data="dataList">
+          <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
+            <div class="item-name">{{item.createUserName}}</div>
+            <div class="item-time">{{item.createTime}}</div>
+            <div class="item-text">
+              <el-tooltip
+                :enterable="true"
+                popper-class="table-body__tooltip"
+              >
+                <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
+                <div class="showContent">
+                  <EmojiText :text='item.textContent' />
+                </div>
+              </el-tooltip>
+            </div>
+            <div class="item-image" v-if="item.otherMsgType + '' !== '0'">
+              <div v-if="item.otherMsgType + '' === '1'" class="image-block" @click="showPreview(item, 'img')">
+                <img :src="item.imageUrl + '?x-oss-process=image/resize,m_lfit,h_165,w_242'">
               </div>
-            </el-tooltip>
-          </div>
-          <div class="item-image">
-            <div class="image-block">
-              <!-- '+ ?x-oss-process=image/resize,m_lfit,h_165,w_242' -->
-              <img class="" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/test/202112/80000002/1@@f049f87f-3bf8-4ec7-b9db-754422a18f4f(2)@@eb4adcb1-a034-4d2b-8781-abfc6e3bb496.jpg?x-oss-process=image/resize,m_lfit,h_165,w_242" alt="">
-            </div>
-            <div v-if="false" class="video-block">
-              <img class="" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/test/202112/80000002/1@@f049f87f-3bf8-4ec7-b9db-754422a18f4f(2)@@eb4adcb1-a034-4d2b-8781-abfc6e3bb496.jpg?x-oss-process=image/resize,m_lfit,h_165,w_242" alt="">
-              <div class="video-mask">
-                <img src="../../../../assets/play-video.png" alt="">
+              <div v-if="item.otherMsgType + '' === '2'" class="video-block" @click="showPreview(item, 'video')">
+                <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_165,m_fast'">
+                <div class="video-mask">
+                  <img src="../../../../assets/play-video.png">
+                </div>
+              </div>
+              <div v-if="item.otherMsgType + '' === '3'" class="link-block">
+                <div class="link-title">{{item.linkTitle}}</div>
+                <div class="link-content">
+                  <div class="link-text">{{item.linkDesc}}</div>
+                  <img class="link-image" :src="item.linkPicUrl || linkImage">
+                </div>
+              </div>
+              <div v-if="item.otherMsgType + '' === '4'" class="mini-block">
+                <div class="mini-title">
+                  <div class="mini-title-circle"></div>
+                  <div class="mini-title-text">小程序名称</div>
+                </div>
+                <div class="mini-desc">{{item.miniProgramTitle}}</div>
+                <div class="mini-image">
+                  <img :src="item.miniProgramPicUrl + '?x-oss-process=image/resize,m_lfit,h_88,w_118'">
+                </div>
+                <div class="mini-bottom">
+                  <span class="iconfont icon-xiaochengxu2"></span>
+                  <div class="mini-bottom-name">小程序</div>
+                </div>
               </div>
             </div>
-            <div v-if="false" class="link-block">
-              <div class="link-title">分享邀好友，赢取橘朵PUCK15色飞鱼盘。画出梦幻氧气感，清冷梦幻氧气感，清冷</div>
-              <div class="link-content">
-                <div class="link-text">你好～恭喜你成功参与本次福利活动，分享下方海报，邀请5位好友扫码助力邀请5位好友扫码助力邀请5位好友扫码助力</div>
-                <img class="link-image" src="" alt="">
-              </div>
+            <div class="item-opt">
+              <span class="opt-btn" @click="editCode(item.uuid)">编辑</span>
+              <span class="opt-btn" @click="lookCode(item.uuid)">查看</span>
+              <span class="opt-btn" @click="deleteItem(item, index)">删除</span>
             </div>
           </div>
-          <div class="item-opt">
-            <span class="opt-btn">编辑</span>
-            <span class="opt-btn">查看</span>
-            <span class="opt-btn">删除</span>
-          </div>
-        </div>
-        <div class="card-item">
-          <div class="item-name">创建人姓名</div>
-          <div class="item-time">2010-02-17 12:33:44</div>
-          <div class="item-text">这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样式这是文本消息样消息样消息样</div>
-          <div class="item-image">
-            <div class="image-block">
-              <!-- '+ ?x-oss-process=image/resize,m_lfit,h_165,w_242' -->
-              <img class="" src="https://codoorcdn.oss-cn-hangzhou.aliyuncs.com/magic-cube/images/home/guess-answer.png?x-oss-process=image/resize,m_lfit,h_165,w_242" alt="">
-            </div>
-          </div>
-          <div class="item-opt">
-            <span class="opt-btn">编辑</span>
-            <span class="opt-btn">查看</span>
-            <span class="opt-btn">删除</span>
-          </div>
+        </waterfall>
+      </div>
+      <div v-else class="no-date-area">
+        <div class="no-data">
+          <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/component/mobile/no_data.png"/>
+          <span>没有数据哦~</span>
         </div>
       </div>
     </el-scrollbar>
@@ -83,47 +88,124 @@
     >
     </el-pagination>
     <preview ref="preview"></preview>
+    <el-dialog :visible.sync="escShow" width="30%">
+      <div class="tipsShowTitle" slot="title">确认删除？</div>
+      <div class="tipsShowContent">
+        <span class="ns-warm-cricle">!</span
+        >删除后不可恢复，请再次确定是否要删除
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="onEscCancel">取 消</ns-button>
+        <ns-button type="primary" @click="onEscConfirm">确 定</ns-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import EmojiText from '@/components/NewUi/EmojiText'
 import Preview from '@/components/NsPreview'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
-      model: {
-        code: '',
-        name: ''
-      },
+      waterCol: 2, // 瀑布流列数
       // 分页配置
       pagination: {
         size: 15,
         sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
-      }
+      },
+      searchMap: {
+        createUserName: '',
+        textContent: ''
+      },
+      escShow: false,
+      deteleIndex: 0, // 需要删除的索引值
+      deteleObj: {}, // 需要删除的对象
+      dataList: [],
+      linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
   components: { EmojiText, Preview },
+  computed: {},
+  created () {
+    this.setWaterCol()
+    this.searchLogList()
+    window.addEventListener('resize', this.setWaterCol)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.setWaterCol)
+  },
   methods: {
-    searchLogList () {},
-    /**
-     * 跳转新建群欢迎语
-     */
-    newCode () {
-      this.$router.push({ name: 'WeWorkGroupWelcomeCodeEdit', params: { type: 'add' } })
+    // 设置瀑布流容器列数
+    setWaterCol () {
+      this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64) / 290)
+    },
+    // 获取群欢迎语列表
+    searchLogList () {
+      const params = {
+        start: (this.pagination.page - 1) * this.pagination.size,
+        length: this.pagination.size,
+        searchMap: { ...this.searchMap }
+      }
+      this.$http.fetch(this.$api.weWork.groupWelcomeCode.getList, params).then(resp => {
+        this.dataList = resp.result.data || []
+        this.pagination.total = +resp.result.recordsTotal || 0
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('查询群欢迎语列表失败', resp))
+      }).finally(() => {
+      })
+    },
+    onEscCancel () {
+      this.escShow = false
+    },
+    onEscConfirm () {
+      this.escShow = false
+      this.deleteApi()
+    },
+    deleteItem (obj, idx) {
+      this.deteleIndex = idx
+      this.deteleObj = obj
+      this.escShow = true
     },
     /**
      * 图片、视频预览
      */
-    showPreview (current, row, data) {
-      let type = +row.type === 2 ? 'video' : 'img'
-      let item = data.mediaList[current]
-      let imgs = []
-      data.mediaList.forEach(item => {
-        imgs.push(item.type === 1 || item.type === 5 ? item.content.image : item.content.video)
+    showPreview (obj, type) {
+      let list = []
+      list.push(+obj.otherMsgType === 1 ? obj.imageUrl : obj.videoUrl)
+      this.$refs.preview.toggleShow(0, list, type)
+    },
+    // 删除群欢迎语接口
+    deleteApi () {
+      const params = {
+        uuid: this.deteleObj.uuid
+      }
+      this.$http.fetch(this.$api.weWork.groupWelcomeCode.deleteByUUID, params).then(resp => {
+        this.searchLogList()
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('删除群欢迎语失败', resp))
+      }).finally(() => {
       })
-      this.$refs.preview.toggleShow(current, imgs, type, true)
+    },
+    /**
+     * 跳转新建群欢迎语
+     */
+    newCode () {
+      this.$router.push({ name: 'WeWorkGroupWelcomeCodeEdit', query: { type: 'add' } })
+    },
+    /**
+     * 跳转编辑群欢迎语
+     */
+    editCode (id) {
+      this.$router.push({ name: 'WeWorkGroupWelcomeCodeEdit', query: { id, type: 'edit' } })
+    },
+    /**
+     * 跳转查看群欢迎语
+     */
+    lookCode (id) {
+      this.$router.push({ name: 'WeWorkGroupWelcomeCodeEdit', query: { id, type: 'look' } })
     },
     // 富文本转换
     strToRichText (text) {
@@ -150,14 +232,14 @@ export default {
         size,
         page: 1
       }
-      // this.reloadList()
+      this.searchLogList()
     },
     /**
      * 页码发生变化
      */
     handlePageChange (page) {
       this.pagination.page = page
-      // this.reloadList()
+      this.searchLogList()
     }
   }
 }
@@ -177,6 +259,9 @@ export default {
     .card-content{
       height: calc(100vh - var(--head-nav-height) - 31px - 48px - 16px - 64px - 16px - 38px);
     }
+    .no-date-area{
+      height: calc(100vh - var(--head-nav-height) - 31px - 48px - 16px - 64px - 16px - 38px - 64px);
+    }
   }
   @media screen and (max-width: 1625px) {
     .history-main {
@@ -184,6 +269,9 @@ export default {
     }
     .card-content{
       height: calc(100vh - var(--head-nav-height-s) - 31px - 48px - 16px - 64px - 16px - 38px);
+    }
+    .no-date-area{
+      height: calc(100vh - var(--head-nav-height-s) - 31px - 48px - 16px - 64px - 16px - 38px - 64px);
     }
   }
 </style>
@@ -246,6 +334,7 @@ export default {
     background: #F8F9FB;
     border-radius: 4px;
     margin-right: 16px;
+    margin-bottom: 16px;
     .item-name{
       font-size: 14px;
       color: #383838;
@@ -307,7 +396,9 @@ export default {
         box-sizing: border-box;
         .link-title{
           width: 100%;
+          margin-bottom: 4px;
           font-size: 12px;
+          line-height: 17px;
           color: #262626;
           font-weight: 500;
           text-overflow: -o-ellipsis-lastline;
@@ -324,8 +415,11 @@ export default {
           height: 58px;
           .link-text{
             width: 143px;
+            // line-height: 18px;
             margin-right: 8px;
-            font-size: 10px;
+            // font-size: 10px; 待处理，自动缩放最小字体
+            // transform: scale(0.83);
+            transform-origin: left;
             color: #8C8C8C;
             font-weight: 400;
             text-overflow: -o-ellipsis-lastline;
@@ -349,6 +443,7 @@ export default {
       .video-block{
         position: relative;
         display: inline-block;
+        cursor: pointer;
         .video-mask{
           position: absolute;
           top: 50%;
@@ -359,6 +454,71 @@ export default {
           img{
             width: 60px;
             height: 60px;
+          }
+        }
+      }
+      .mini-block{
+        width: 136px;
+        height: 165px;
+        background: #FFFFFF;
+        border: 0.5px solid #EEEEEE;
+        border-radius: 2px;
+        padding-top: 8px;
+        padding-left: 8px;
+        box-sizing: border-box;
+        .mini-title{
+          display: flex;
+          align-items: center;
+          width: 118px;
+          margin-bottom: 8px;
+          .mini-title-circle{
+            width: 11px;
+            height: 11px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            margin-right: 4px;
+          }
+          .mini-title-text{
+            font-size: 8px;
+            color: #909399;
+            letter-spacing: 0;
+            font-weight: 400;
+          }
+        }
+        .mini-desc{
+          width: 118px;
+          font-size: 8px;
+          color: #383838;
+          letter-spacing: 0;
+          font-weight: 400;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          word-break: break-all;
+          -webkit-box-orient: vertical;
+        }
+        .mini-image{
+          width: 118px;
+          height: 88px;
+          margin-bottom: 8px;
+        }
+        .mini-bottom{
+          display: flex;
+          align-items: center;
+          .icon-xiaochengxu2{
+            font-size: 5px;
+            color: #7586DB;
+            letter-spacing: 0;
+            font-weight: 400;
+          }
+          .mini-bottom-name{
+            font-size: 5px;
+            color: #909399;
+            letter-spacing: 0;
+            font-weight: 400;
           }
         }
       }
@@ -376,6 +536,58 @@ export default {
       font-weight: 400;
       cursor: pointer;
       margin-left: 8px;
+    }
+  }
+}
+.tipsShowTitle {
+  padding: 6px 3px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+.tipsShowContent {
+  padding: 16px 6px;
+  color: #595959;
+  font-size: 14px;
+}
+.ns-warm-cricle {
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  color: #fff;
+  margin-right: 10px;
+}
+::v-deep .el-dialog__footer {
+  padding: 16px !important;
+}
+// ::v-deep .el-scrollbar__view {
+//   min-height: 100%;
+// }
+.no-date-area {
+  width: 100%;
+  // height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .no-data {
+    height: 282px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    img {
+      width: 220px;
+      height: 220px;
+    }
+    span {
+      font-size: 14px;
+      color: #8C8C8C;
+      line-height: 22px;
     }
   }
 }

@@ -13,7 +13,8 @@ import InfiniteLoading from 'vue-infinite-loading'
 import * as allIcons from '@ant-design/icons'
 import * as allIconsPrivate from '../.temp/icons-pro'
 import Icon from '@nascent/icons-vue'
-
+// @ts-ignore
+import waterfall from 'vue-waterfall2'
 /**
  * 全局注册图标
  */
@@ -38,6 +39,7 @@ Vue.use(directivesPrivate)
  */
 Vue.use(Components)
 Vue.use(ComponentsPrivate)
+Vue.use(waterfall)
 const confInfiniteLoading: any = {
   slots: {
     spinner: '加载中…',

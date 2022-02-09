@@ -2,10 +2,10 @@
   <PageEdit class="group-welcome">
     <template slot="header">
       <div class="common-header flex-box">
-        <h3>{{isEdit ? '编辑群欢迎语' : '新建群欢迎语'}}</h3>
+        <h3>{{isEdit ? '编辑群欢迎语' : disabled ? '查看群欢迎语' : '新建群欢迎语'}}</h3>
         <div class="common-btn">
           <ns-button class="customer-btn_cancel" @click="onBack" size="large">取消</ns-button>
-          <ns-button class="customer-btn_save" @click='onSave' type="primary" size="large">保存</ns-button>
+          <ns-button class="customer-btn_save" v-if="!disabled" @click='onSave' type="primary" size="large">保存</ns-button>
         </div>
       </div>
     </template>
@@ -15,21 +15,15 @@
           <template slot='collapse-left'>
             <source-all
               ref='sourceAll'
-              :isEdit="isEdit"
+              :disabled="disabled"
               :detail="detail"
-              :labelList="labelList"
-              :breadcrumb="breadcrumb"
-              @toggleLabel="toggleLabel"
               @list='proviewList'
-              @title='proviewTitle'
-              @subdivision='proviewSubdivision'
               @pitContent='proviewPitContent'
-              @togglePreview="togglePreview"
               @back="gotoList"
             />
           </template>
           <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" miniAndLinkImageLabel="image" :list="list"/>
+            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
           </template>
         </PhoneBox>
       </SimpleCollapse>

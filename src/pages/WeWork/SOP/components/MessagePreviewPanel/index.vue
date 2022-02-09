@@ -23,6 +23,7 @@
           v-else-if="item.type === SOPActivityMessageType.Video"
           class="video-message"
           :content="item.content"
+          :videoLabel="videoLabel"
           :preview="true"
         />
         <NewsMessage
@@ -66,6 +67,11 @@ export default {
     },
     // 图片对象字段自定义
     imageLabel: {
+      type: String,
+      default: 'mediaid'
+    },
+    // 视频对象字段自定义
+    videoLabel: {
       type: String,
       default: 'mediaid'
     },
