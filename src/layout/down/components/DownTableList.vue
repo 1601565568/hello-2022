@@ -76,7 +76,9 @@ export default {
         page: 1,
         total: 0
       },
-      listData: []
+      listData: [],
+      searchName: null,
+      timeRange: []
     }
   },
   mounted () {
@@ -145,13 +147,15 @@ export default {
         size,
         page: 1
       }
-      this.loadDetail()
+      this.loadDetail(this.searchName, this.timeRange)
     },
     handleCurrentChange (page) {
       this.downPagination.page = page
-      this.loadDetail()
+      this.loadDetail(this.searchName, this.timeRange)
     },
     async loadDetail (searchName = null, timeRange = []) {
+      this.searchName = searchName
+      this.timeRange = timeRange
       const startTime =
         timeRange && timeRange.length >= 2 ? timeRange[0] + ' 00:00:00' : null
       const endTime =
