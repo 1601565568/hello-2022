@@ -1,6 +1,6 @@
 <template>
   <div class="add-material-bar">
-    <div v-if="pitBit" class="add-material-item" @click="addCustomImg">
+    <div v-if="pitBit && showPitBit" class="add-material-item" @click="addCustomImg">
       <!-- <Icon type="poster-1" class="icon" /> -->
       <img class="bitpit" src="@/assets/kwBig.png" alt="">
       <span class="item-tip">自建坑位</span>
@@ -18,7 +18,7 @@
         </div>
       </ImageMessage>
     </div>
-    <div v-if="pitBit" class="add-material-item" @click="showImageCode">
+    <div v-if="pitBit && showPitBit" class="add-material-item" @click="showImageCode">
       <i class="iconfont icon-fumatupian-copy icon" style="font-size:40px;"></i>
       <span class="item-tip">附码图片</span>
     </div>
@@ -117,6 +117,13 @@ export default {
     limitImage: {
       type: Number,
       default: 99999
+    },
+    // 群欢迎语中不需要自建坑位和附码图片
+    showPitBit: {
+      type: Boolean,
+      default () {
+        return true
+      }
     }
   },
   data () {
