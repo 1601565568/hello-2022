@@ -160,7 +160,6 @@ export default {
      * @param command
      */
     onHandleAreaCommand: function (command) {
-      console.log(command, 'command')
       const that = this
       // 判断是否品牌视角有改变
       if (this.$store.state.user.area.id !== command) {

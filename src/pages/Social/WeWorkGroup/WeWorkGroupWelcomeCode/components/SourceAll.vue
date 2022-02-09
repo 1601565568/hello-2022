@@ -204,7 +204,7 @@ export default {
       this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
     addAnnexMessage (context) {
-      console.log(context, 'context新增消息')
+      // console.log(context, 'context新增消息')
       const { index, content, type, isDelete } = context
       if (content.uid) {
         let isLargeNumber = (item) => item.content.uid === content.uid
