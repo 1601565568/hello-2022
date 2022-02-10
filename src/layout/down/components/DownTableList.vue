@@ -199,8 +199,11 @@ export default {
 .down-name {
   font-size: 14px;
 }
+.down-table {
+  margin-top: -5px;
+}
 .down-table-view {
-  max-height: 520px;
+  // max-height: 580px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;

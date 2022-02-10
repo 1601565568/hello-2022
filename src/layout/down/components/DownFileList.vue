@@ -6,7 +6,7 @@
     destroy-on-close
     append-to-body
     :modal="false"
-    size="720px"
+    size="750px"
   >
     <div class="down-view">
       <div class="close-view">
@@ -155,7 +155,7 @@ export default {
   }
 }
 .down-search {
-  height: 65px;
+  margin-top: 18px;
   display: flex;
   flex-direction: row;
   padding-left: 16px;
