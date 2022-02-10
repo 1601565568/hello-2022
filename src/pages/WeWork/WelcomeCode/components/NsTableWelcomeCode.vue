@@ -452,6 +452,7 @@ export default NsTableWelcomeCode
   justify-content: space-between;
   font-size: 14px;
   color: #606266;
+  margin-right: 8px;
   .guideIds-icon {
     color: #c0c4cc;
   }
