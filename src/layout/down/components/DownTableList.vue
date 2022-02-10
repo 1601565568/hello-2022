@@ -35,20 +35,6 @@
             </el-table>
           </div>
         </template>
-        <template slot="pagination">
-          <el-pagination
-            background
-            class="label-dialog__downPagination"
-            :page-sizes="downPagination.sizeOpts"
-            :total="downPagination.total"
-            :current-page.sync="downPagination.page"
-            :page-size="downPagination.size"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          >
-          </el-pagination>
-        </template>
       </page-table>
     </div>
     <div v-else>
@@ -133,27 +119,7 @@ export default {
       }
       return str
     },
-    resetData () {
-      this.downPagination = {
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      }
-    },
-    handleSizeChange (size) {
-      this.downPagination = {
-        ...this.downPagination,
-        size,
-        page: 1
-      }
-      this.loadDetail(this.searchName, this.timeRange)
-    },
-    handleCurrentChange (page) {
-      this.downPagination.page = page
-      this.loadDetail(this.searchName, this.timeRange)
-    },
-    async loadDetail (searchName = null, timeRange = []) {
+    async loadDetail (downPagination, searchName = null, timeRange = []) {
       this.searchName = searchName
       this.timeRange = timeRange
       const startTime =
@@ -161,10 +127,10 @@ export default {
       const endTime =
         timeRange && timeRange.length >= 2 ? timeRange[1] + ' 23:59:59' : null
       const fileName = searchName && searchName.length > 0 ? searchName : null
-      const start = (this.downPagination.page - 1) * this.downPagination.size
+      const start = (downPagination.page - 1) * downPagination.size
       const data = {
         start,
-        length: this.downPagination.size,
+        length: downPagination.size,
         searchMap: {
           fileName,
           startTime,
@@ -175,10 +141,11 @@ export default {
       if (json.success) {
         const data = json.result.data || []
         this.listData = data
-        this.downPagination.total = parseInt(json.result.recordsTotal)
+        const total = parseInt(json.result.recordsTotal) || 0
+        this.$emit('updatePageSize', total)
       } else {
         this.listData = []
-        this.downPagination.total = 0
+        this.$emit('updatePageSize', 0)
       }
     }
   }
@@ -203,7 +170,7 @@ export default {
   margin-top: -5px;
 }
 .down-table-view {
-  // max-height: 580px;
+  max-height: 670px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
