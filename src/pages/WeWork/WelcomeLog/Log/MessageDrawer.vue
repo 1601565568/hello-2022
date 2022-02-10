@@ -1,22 +1,18 @@
 <template>
-  <ElDrawer
-    size="378px"
-    class="drawer"
-    :modal="false"
-    :visible="visible"
-    direction="rtl"
-    @close="$emit('update:visible', false)"
-    @open="open"
-  >
+  <ElDrawer size="378px"
+            class="drawer"
+            :modal="false"
+            :visible="visible"
+            direction="rtl"
+            @close="$emit('update:visible', false)"
+            @open="open">
     <template slot="title">
       <h3 class="title">发送消息</h3>
     </template>
     <div class="group-container">
-      <MessagePreviewPanel
-        class="message-preivew-panel"
-        :avatar="false"
-        :list="model.contentList"
-      />
+      <MessagePreviewPanel class="message-preivew-panel"
+                           :avatar="false"
+                           :list="model.annexList" />
     </div>
   </ElDrawer>
 </template>
@@ -35,17 +31,20 @@ export default {
       type: Boolean,
       default: false
     },
-    activityId: Number
+    msgContent: {}
   },
   data () {
     return {
       model: {}
     }
   },
-  mounted () {},
+  mounted () { },
   methods: {
     open () {
-      this.getActivityDetailById(this.activityId)
+      //   this.model = JSON.parse(this.msgContent)
+      //   this.getActivityDetailById(this.activityId)
+      this.model = this.msgContent
+      console.log(this.model.annexList)
     },
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })

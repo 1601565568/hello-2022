@@ -259,43 +259,43 @@ export default {
     /**
      * 初始化部门树数据
      */
-    getDepartmentTree () {
-      let that = this
-      that.$http.fetch(that.$api.core.department.queryDepartmentTreeByYun)
-        .then((resp) => {
-          that.departData.departmentTree = resp.result
-          that.departData.allDepartments = resp.result
-        }).catch(() => {
-          vm.$notify.error('查询部门树失败')
-        })
-    },
+    // getDepartmentTree () {
+    //   let that = this
+    //   that.$http.fetch(that.$api.core.department.queryDepartmentTreeByYun)
+    //     .then((resp) => {
+    //       that.departData.departmentTree = resp.result
+    //       that.departData.allDepartments = resp.result
+    //     }).catch(() => {
+    //       vm.$notify.error('查询部门树失败')
+    //     })
+    // },
     /**
      * 获取门店区域，所有门店选项
      */
-    getShopAreaAndShop: function () {
-      let isId = ''
-      if (this.echoStore) {
-        isId = store.get('user_area').id
-      }
-      let that = this
-      that.$http.fetch(that.$api.core.sysShop.getShopTree)
-        .then((resp) => {
-          that.loading = false
-          that.shopAreaTree = resp.result.shopAreaTree
-          that.allShopOptions = resp.result.shopOptions
-          // that.shopOptions = resp.result.shopOptions
-          if (this.echoStore) {
-            that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(isId) > -1)
-          } else {
-            that.shopOptions = resp.result.shopOptions
-          }
-          this.$nextTick(() => {
-            this.requestLoaded = true
-          })
-        }).catch(() => {
-          that.$notify.error('加载下拉树、下拉框数据失败')
-        })
-    },
+    // getShopAreaAndShop: function () {
+    //   let isId = ''
+    //   if (this.echoStore) {
+    //     isId = store.get('user_area').id
+    //   }
+    //   let that = this
+    //   that.$http.fetch(that.$api.core.sysShop.getShopTree)
+    //     .then((resp) => {
+    //       that.loading = false
+    //       that.shopAreaTree = resp.result.shopAreaTree
+    //       that.allShopOptions = resp.result.shopOptions
+    //       // that.shopOptions = resp.result.shopOptions
+    //       if (this.echoStore) {
+    //         that.shopOptions = resp.result.shopOptions.filter(item => item.ext && item.ext.indexOf(isId) > -1)
+    //       } else {
+    //         that.shopOptions = resp.result.shopOptions
+    //       }
+    //       this.$nextTick(() => {
+    //         this.requestLoaded = true
+    //       })
+    //     }).catch(() => {
+    //       that.$notify.error('加载下拉树、下拉框数据失败')
+    //     })
+    // },
     /**
      * 重置搜索条件并搜索
      */
@@ -671,9 +671,9 @@ export default {
   mounted: function () {
     vm = this
     // 获取部门树
-    vm.getDepartmentTree()
+    // vm.getDepartmentTree()
     // 区域树
-    vm.getShopAreaAndShop()
+    // vm.getShopAreaAndShop()
   },
   created: function () {
   }

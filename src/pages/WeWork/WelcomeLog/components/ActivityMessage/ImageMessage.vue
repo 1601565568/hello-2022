@@ -1,13 +1,14 @@
 <template>
   <div class="image-message">
     <div class="image-area">
-      <img
-        :src="content.mediaid"
-        @click="showPreview"
-      >
-      <span v-if="preview && total" class="image-total">{{previewList.length}}张</span>
+      <img :src="content.mediaid"
+           @click="showPreview">
+      <span v-if="preview && total"
+            class="image-total">{{previewList.length}}张</span>
     </div>
-    <NsPreview v-if="preview" ref="NsPreview" :appendToBody="true"/>
+    <NsPreview v-if="preview"
+               ref="NsPreview"
+               :appendToBody="true" />
   </div>
 </template>
 
@@ -76,12 +77,11 @@ export default {
       bottom: 0;
       width: 36px;
       height: 24px;
-      background: rgba(0,0,0,0.65);
-      color: #FFFFFF;
+      background: rgba(0, 0, 0, 0.65);
+      color: #ffffff;
       text-align: center;
       line-height: 24px;
     }
   }
-
 }
 </style>

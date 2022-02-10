@@ -7,8 +7,8 @@
       <el-form :inline="true"
                class='form-inline_top'
                style="display: flex">
-        <el-form-item label="参与员工：">
-          <NsGuideDialog :selfBtn='true'
+        <el-form-item :label="cloudPlatformType == 'ECRP'?'选择员工：':'企业微信成员：'">
+          <!-- <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
                          :auth="false"
@@ -25,10 +25,46 @@
                       class='guideIds-icon'></Icon>
               </div>
             </template>
+          </NsGuideDialog> -->
+          <NsGuideDialog :selfBtn='true'
+                         :appendToBody='true'
+                         :isButton="false"
+                         :auth="false"
+                         btnTitle=""
+                         dialogTitle="选择员工"
+                         v-model="model.guideIds"
+                         @input="handleChangeGuide"
+                         :isOpenDialogAfterRequest='false'
+                         v-if="cloudPlatformType == 'ECRP'">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
           </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="false"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="handleChangeGuide"
+                               :isOpenDialogAfterRequest='false'
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="model.code"
+          <el-input v-model="model.customerName"
                     placeholder="请输入客户昵称"
                     @keyup.enter.native="searchLogList">
             <Icon type="ns-search"
@@ -38,7 +74,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="model.name"
+          <el-input v-model="model.title"
                     placeholder="请输入欢迎语名称"
                     @keyup.enter.native="searchLogList">
             <Icon type="ns-search"
@@ -59,8 +95,8 @@
                           :picker-options="pickerOptions"
                           @change="switchSearchDate"></el-date-picker>
         </el-form-item>
-        <el-form-item label="类型：">
-          <el-select v-model="model.type"
+        <el-form-item label="发送状态：">
+          <el-select v-model="model.status"
                      @change="fnEdit">
             <el-option v-for="item in statusOptionList"
                        :key="item.value"
@@ -77,40 +113,59 @@
       <el-table class="table-form_reset sendlog-table"
                 :row-style="tableRowClassName"
                 :data="activityList">
-        <el-table-column prop="code"
-                         label="编号"></el-table-column>
-        <el-table-column prop="name"
-                         label="名称"></el-table-column>
-        <el-table-column prop="sendTime"
-                         label="发送时间"></el-table-column>
-        <el-table-column prop="msgNum"
-                         label="发送消息">
+        <el-table-column prop="customerName"
+                         label="客户昵称"></el-table-column>
+        <el-table-column prop="title"
+                         label="欢迎语名称"></el-table-column>
+        <el-table-column prop="workerName"
+                         :label="cloudPlatformType=='ECRP'? '员工':'企业微信成员'"></el-table-column>
+        <el-table-column prop="workerId"
+                         label="工号"
+                         v-if="cloudPlatformType=='ECRP'"></el-table-column>
+        <el-table-column prop="workerId"
+                         label="工作门店"
+                         v-if="cloudPlatformType=='ECRP'">
           <template slot-scope="scope">
-            <NsButton type="text"
-                      @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.msgNum}}</NsButton>条
-          </template>
-        </el-table-column>
-        <el-table-column prop="sendType"
-                         label="发送消息类型">
-          <template slot-scope="scope">
-            <div class="message-icons-list">
-              <el-tooltip v-for="item in messageToolTipList(scope.row.contentList)"
-                          :key="item.type"
-                          class="message-icons-item"
-                          :content="item.tip"
-                          placement="top">
-                <Icon :type="item.icon"
-                      className="icon" />
-              </el-tooltip>
+            <div class="scope-name">
+              <div :class="'scope-name_text'">
+                {{scope.row.shopNames.join(',')}}
+              </div>
+              <el-popover placement="top-start"
+                          class="item"
+                          :title="`线下门店（${scope.row.shopNames.length}）`"
+                          width="200"
+                          trigger="hover"
+                          :content="scope.row.shopNames.join(',')">
+                <span class="scope-name_tip"
+                      slot="reference">共{{scope.row.shopNames.length}}个</span>
+              </el-popover>
+              <!-- <el-tooltip class="item" effect="light" :content="scope.row.shopNames.join(',')" placement="top" popper-class='max-popper'>
+                  <span class="scope-name_tip">共{{scope.row.shopNames.length}}个</span>
+                </el-tooltip> -->
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="chatroomNum"
-                         label="发送结果">
+        <el-table-column prop="msgTime"
+                         label="发送时间"></el-table-column>
+        <el-table-column prop="msgNum"
+                         label="发送内容">
           <template slot-scope="scope">
+            <!-- <NsButton type="text" @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.totalNum}}</NsButton>条 -->
             <NsButton type="text"
-                      @click="checkActivityGroup(scope.row.id, scope.$index)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
+                      @click="checkActivityMessage(scope.row.msgContent, scope.$index)">{{scope.row.totalNum}}</NsButton>条
           </template>
+        </el-table-column>
+        <el-table-column prop="sendType"
+                         label="发送状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.status==0"
+                    type="danger">发送失败</el-tag>
+            <el-tag v-if="scope.row.status==1"
+                    type="success">发送成功</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="resultDetail"
+                         label="发送详情">
         </el-table-column>
       </el-table>
       <el-pagination class="pagination"
@@ -129,7 +184,7 @@
                  :activityId="activeActivityId" />
     <!-- 发送消息列表Drawer -->
     <MessageDrawer :visible.sync="visibleMessageDrawer"
-                   :activityId="activeActivityId" />
+                   :msgContent="msgContent" />
   </div>
 </template>
 
@@ -139,6 +194,7 @@ import BaseContainer from '../components/BaseContainer'
 import GroupDrawer from './GroupDrawer.vue'
 import MessageDrawer from './MessageDrawer.vue'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import { SOPActivityMessageType, SOPExamineStatus, SOPMessageTypeToolTip } from '../types'
 import moment from 'moment'
 
@@ -147,7 +203,8 @@ export default {
     BaseContainer,
     GroupDrawer,
     MessageDrawer,
-    NsGuideDialog
+    NsGuideDialog,
+    NsGuideWeChatDialog
   },
   mixins: [tableMixin],
   watch: {
@@ -164,6 +221,7 @@ export default {
   },
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       loading: false,
       SOPActivityMessageType,
       visibleGroupDrawer: false,
@@ -175,14 +233,11 @@ export default {
         `${moment().format('yyyy-MM-DD')} 23:59:59`
       ],
       model: {
-        status: SOPExamineStatus.Succeed,
-        showSuccessNum: 1,
-        creatorName: '',
-        code: '',
-        name: '',
-        showDeleteData: true,
-        timeStart: `${moment().format('yyyy-MM-DD')} 00:00:00`,
-        timeEnd: `${moment().format('yyyy-MM-DD')} 23:59:59`
+        status: -1,
+        customerName: '',
+        title: '',
+        startTime: `${moment().format('yyyy-MM-DD')} 00:00:00`,
+        endTime: `${moment().format('yyyy-MM-DD')} 23:59:59`
       },
       activityList: [],
       pagination: {
@@ -194,6 +249,22 @@ export default {
         sizeChange: this.pageSizeChange.bind(this),
         pageChange: this.pageChange.bind(this)
       },
+      // 活动状态列表
+      statusOptionList: [
+        {
+          label: '全部',
+          value: -1
+        },
+        {
+          label: '发送失败',
+          value: 0
+        },
+        {
+          label: '发送成功',
+          value: 1
+        }
+      ],
+      msgContent: '',
       pickerOptions: {
         disabledDate: (time) => {
           // 半年前（180天） 至 今天
@@ -209,6 +280,9 @@ export default {
     this.getActivityList()
   },
   methods: {
+    fnEdit () {
+      this.getActivityList()
+    },
     clearActiveIndex (state) {
       window.console.log('哈哈哈', state)
       // this.visibleGroupDrawer = state
@@ -230,9 +304,10 @@ export default {
     /**
      * 查看发送的消息
      */
-    checkActivityMessage (id, index) {
+    checkActivityMessage (content, index) {
       this.activeIndex = index
-      this.activeActivityId = id
+      //   this.activeActivityId = id
+      this.msgContent = JSON.parse(content)
       this.visibleMessageDrawer = true
     },
     searchLogList () {
@@ -243,9 +318,13 @@ export default {
       this.pagination = { ...this.pagination, page: 1 }
       this.model = {
         ...this.model,
-        timeStart: `${this.searchDate[0]} 00:00:00`,
-        timeEnd: `${this.searchDate[1]} 23:59:59`
+        startTime: `${this.searchDate[0]} 00:00:00`,
+        endTime: `${this.searchDate[1]} 23:59:59`
       }
+      this.getActivityList()
+    },
+    handleChangeGuide (value) {
+      this.model.guideIds = this.model.guideIds.join(',')
       this.getActivityList()
     },
     pageSizeChange (size) {
@@ -259,47 +338,18 @@ export default {
     getActivityList () {
       this.loading = true
 
-      this.$http.fetch(this.$api.weWork.sop.list, {
+      this.$http.fetch(this.$api.weWork.log.list, {
         ...this.model,
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size
       })
         .then(resp => {
-          this.activityList = resp.result.list
-          this.pagination.total = resp.result.count
+          this.activityList = resp.result.data
+          this.pagination.total = resp.result.recordsTotal * 1
         }).catch((respErr) => {
           this.$notify.error('查询活动列表失败')
         }).finally(() => {
           this.loading = false
-        })
-    },
-    exportFile () {
-      if (!this.activityList.length) {
-        this.$notify.error('当前没有匹配的数据项')
-        return
-      }
-
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.getSendSucceedLog, {
-        code: this.model.code,
-        name: this.model.name,
-        timeStart: `${this.searchDate[0]} 00:00:00`,
-        timeEnd: `${this.searchDate[1]} 23:59:59`
-      })
-        .then((resp) => {
-          let url = window.URL.createObjectURL(new Blob([resp.data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-
-          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
-          link.setAttribute('download', fileName)
-
-          document.body.appendChild(link)
-          link.click()
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          this.$notify.error('导出报错，请联系管理员')
         })
     },
     tableRowClassName ({ row, rowIndex }) {
@@ -325,6 +375,18 @@ export default {
   .guideIds-icon {
     color: #c0c4cc;
   }
+  margin-right: 8px;
+}
+.scope-name_text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.scope-name_tip {
+  color: #0091fa;
 }
 .sendlog-container {
   width: 100%;
@@ -349,9 +411,6 @@ export default {
     align-items: center;
     background: #fff;
     .el-form-item {
-      .el-input {
-        width: 240px;
-      }
       .search-icon {
         font-size: 28px;
       }
@@ -368,6 +427,10 @@ export default {
   .sendlog-table-container {
     width: 100%;
     margin-top: 8px;
+    .el-tag.el-tag--success,
+    .el-tag.el-tag--danger {
+      color: #000000;
+    }
     .sendlog-table {
       width: calc(100% - 32px);
       margin: 0 auto;
