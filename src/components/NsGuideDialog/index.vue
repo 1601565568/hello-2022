@@ -81,6 +81,14 @@
                 <el-option label="导购" :value="0"></el-option>
               </el-select>
             </el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">员工状态：</div></el-form-grid>
+            <el-form-grid>
+              <el-select style="width:100px" v-model="departData.status" clearable >
+                <el-option label="全部" :value="3"></el-option>
+                <el-option label="在职" :value="1"></el-option>
+                <el-option label="离职" :value="2"></el-option>
+              </el-select>
+            </el-form-grid>
           </el-form-item>
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">员工姓名：</div></el-form-grid>
@@ -116,6 +124,11 @@
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="status" label="员工状态" align="left">
+                  <template slot-scope="scope">
+                    <span>{{scope.row.status === 1 ? '在职': '离职' }}</span>
+                  </template>
+                </ElTableColumn>
               </ElTable>
               <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
                             :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"

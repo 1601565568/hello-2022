@@ -121,7 +121,9 @@ export default {
         job: null,
         mobile: '',
         fileImportKey: '', // 文件导入
-        manualInputKey: '' // 手动输入导入
+        manualInputKey: '', // 手动输入导入
+        // 1启用 2离职 3全部
+        status: 3
       },
       // 门店区域树
       shopAreaTree: [],
@@ -178,6 +180,7 @@ export default {
         this.departData.name = ''
         this.departData.mobile = ''
         this.departData.job = null
+        this.departData.status = 3
         this.departData.selectedDepart = {}
         if (this.echoStore) {
           let areaData = store.get('user_area')
@@ -297,15 +300,16 @@ export default {
     /**
      * 重置搜索条件并搜索
      */
-    resetSearch () {
-      this.departData.name = ''
-      this.departData.mobile = ''
-      this.departData.job = ''
-      this.departData.selectedDepart = {}
-      this.departData.shopArea = {} // 选择的门店分类
-      this.departData.shopId = '' // 选择的门店
-      this.departData.fileImportKey = '' // 文件导入key
-      this.departData.manualInputKey = '' // 手动输入key
+    resetSearch: function () {
+      vm.departData.name = ''
+      vm.departData.mobile = ''
+      vm.departData.job = ''
+      vm.departData.status = 3
+      vm.departData.selectedDepart = {}
+      vm.departData.shopArea = {} // 选择的门店分类
+      vm.departData.shopId = '' // 选择的门店
+      vm.departData.fileImportKey = '' // 文件导入key
+      vm.departData.manualInputKey = '' // 手动输入key
       this.successCount = 0 // 已导入员工数量
       this.$refs.import.reset()
       this.searchEmployee(1)
@@ -388,6 +392,9 @@ export default {
       }
       if (this.departData.job !== null) {
         param.job = this.departData.job
+      }
+      if (this.departData.status !== null) {
+        param.status = this.departData.status
       }
       if (this.departData.mobile) {
         param.mobile = this.departData.mobile
