@@ -6,7 +6,7 @@
     destroy-on-close
     append-to-body
     :modal="false"
-    size="720px"
+    size="750px"
   >
     <div class="down-view">
       <div class="close-view">
@@ -50,7 +50,20 @@
           </el-date-picker>
         </div>
       </div>
-      <DownTableList ref="downTableList"/>
+      <DownTableList ref="downTableList" @updatePageSize="updatePageSize"/>
+      <div class="down-page-view">
+        <el-pagination
+          background
+          :page-sizes="downPagination.sizeOpts"
+          :total="downPagination.total"
+          :current-page.sync="downPagination.page"
+          :page-size="downPagination.size"
+          layout="total, prev, pager, next"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -85,10 +98,31 @@ export default {
             return time.getTime() < minTime || time.getTime() > maxTime
           }
         }
+      },
+      downPagination: {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
       }
     }
   },
   methods: {
+    updatePageSize (total) {
+      this.downPagination.total = total
+    },
+    handleSizeChange (size) {
+      this.downPagination = {
+        ...this.downPagination,
+        size,
+        page: 1
+      }
+      this.loadDetail()
+    },
+    handleCurrentChange (page) {
+      this.downPagination.page = page
+      this.loadDetail()
+    },
     dataPickerChange (e) {
       this.loadTableList()
     },
@@ -96,7 +130,7 @@ export default {
       this.drawer = false
       this.inputTitle = ''
       this.datePickerValue = []
-      this.$refs.downTableList.resetData()
+      this.resetData()
     },
     openDrawer () {
       this.drawer = true
@@ -109,8 +143,19 @@ export default {
       this.loadTableList()
     },
     loadTableList () {
-      this.$refs.downTableList.resetData()
-      this.$refs.downTableList.loadDetail(this.inputTitle, this.datePickerValue)
+      this.resetData()
+      this.loadDetail()
+    },
+    loadDetail () {
+      this.$refs.downTableList.loadDetail(this.downPagination, this.inputTitle, this.datePickerValue)
+    },
+    resetData () {
+      this.downPagination = {
+        size: 10,
+        sizeOpts: [5, 10, 15],
+        page: 1,
+        total: 0
+      }
     },
     async exportIsSuccess (type) {
       const json = await this.$http.fetch(this.$api.guide.task.isSuccess, { state: type })
@@ -125,6 +170,8 @@ export default {
 <style lang="scss" scoped>
 @import '@pages/WeWork/MaterialChat/styles/index.css';
 .down-view {
+  height: 100%;
+  position: relative;
   .close-view {
     height: 49px;
     display: flex;
@@ -153,9 +200,23 @@ export default {
     padding: 9px 16px;
     margin: 16px 16px 0 16px;
   }
+  .down-page-view {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding:  0 15px;
+    display: flex;
+    flex-direction: row-reverse;
+    >>> .el-pagination {
+      box-shadow: none;
+      text-align: left;
+    }
+  }
 }
 .down-search {
-  height: 65px;
+  margin-top: 18px;
   display: flex;
   flex-direction: row;
   padding-left: 16px;
