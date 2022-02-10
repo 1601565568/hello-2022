@@ -14,7 +14,7 @@
     </div>
     <el-scrollbar ref="fullScreen" class="card-content">
       <div v-if="dataList.length" class="card-scroll">
-        <waterfall :col='waterCol' :data="dataList">
+        <waterfall :col='waterCol' :data="dataList" ref="waterfall">
           <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
             <div class="item-name">{{item.createUserName}}</div>
             <div class="item-time">{{item.createTime}}</div>
@@ -151,6 +151,14 @@ export default {
       }
       this.$http.fetch(this.$api.weWork.groupWelcomeCode.getList, params).then(resp => {
         this.dataList = resp.result.data || []
+        this.$nextTick(() => {
+          if (this.$refs.waterfall) {
+            // console.log(this.$refs.waterfall, 'this.$refs.waterfall')
+            // console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
+            // this.$refs.waterfall.resize()
+            this.$waterfall.forceUpdate()
+          }
+        })
         this.pagination.total = +resp.result.recordsTotal || 0
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询群欢迎语列表失败', resp))
