@@ -55,7 +55,7 @@
             class="label-dialog__pagination"
             :page-sizes="pagination.sizeOpts"
             :total="pagination.total"
-            :current-page.sync="pagination.currentPage"
+            :current-page="pagination.currentPage"
             :page-size="pagination.size"
             layout="sizes, prev, pager, next, jumper"
             @size-change="handleSizeChange"
@@ -71,6 +71,7 @@
       v-bind:detailTableLoading="this.detailTableLoading"
       v-bind:userMessage="this.userMessage"
       v-bind:env="this.env"
+      @childFn="parentFn"
       />
   </div>
 </template>
@@ -101,6 +102,10 @@ export default {
       detailTableLoading: false,
       // 详情列表数据
       dataList: [],
+      // 详情页当前页面
+      detailCurrPage: 1,
+      // 详情页尺寸
+      detailSize: 10,
       searchMap: {
         chatIds: '',
         'leastRepeatedInNum': 2
@@ -116,6 +121,10 @@ export default {
     }
   },
   methods: {
+    // 详情页子组件数据
+    parentFn (currPage) {
+      this.detailCurrPage = currPage
+    },
     handleCurrentChange (val) {
       this.pagination.currentPage = val
       this.queryRepeatedInContactList()
@@ -150,8 +159,11 @@ export default {
       that.tableLoading = true
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
-          this.listData = resp.result.data
-          this.pagination.total = resp.result.data.length
+          that.listData = resp.result.data
+          that.pagination.total = resp.result.data.length
+        } else {
+          that.listData = []
+          that.pagination.total = 0
         }
       }).finally(() => {
         that.tableLoading = false
@@ -162,20 +174,22 @@ export default {
       let params = {
         'beanMap': {},
         'draw': 0,
-        'length': 10,
+        'length': this.detailSize,
         'orderDir': '',
         'orderKey': '',
         'searchMap': {
           'userId': detilUserId
         },
         'searchValue': '',
-        'start': 0
+        'start': (this.detailCurrPage - 1) * this.detailSize
       }
       let that = this
       this.detailTableLoading = true
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           that.dataList = resp.result.data
+        } else {
+          that.dataList = []
         }
       }).finally(() => {
         that.detailTableLoading = false
@@ -195,6 +209,11 @@ export default {
       }
       searchMode === 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
       this.queryRepeatedInContactList()
+    }
+  },
+  watch: {
+    detailCurrPage: function () {
+      this.queryRepeatedInContactDetailList()
     }
   },
   mounted: function () {

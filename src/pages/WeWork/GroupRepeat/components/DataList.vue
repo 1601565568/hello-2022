@@ -35,11 +35,24 @@
           >
             <el-table-column prop="name" label="群名称"> </el-table-column>
             <el-table-column prop="ownerName" label="群主"> </el-table-column>
-            <el-table-column prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
             <el-table-column prop="joinTime" label="入群时间"></el-table-column>
           </el-table>
         </template>
       </page-table>
+      <div class="detail-pagination">
+        <el-pagination
+          small
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="pagination.currPage"
+          :page-size="pagination.currSize"
+          layout="total, prev, pager, next"
+          :total="pagination.total"
+          style="boxShadow: none;">
+        </el-pagination>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -53,7 +66,12 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg'
+      userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg',
+      pagination: {
+        total: this.dataList.length,
+        currPage: 1,
+        currSize: 10
+      }
     }
   },
   props: {
@@ -75,6 +93,9 @@ export default {
     }
   },
   methods: {
+    handleCurrentChange (value) {
+      this.$emit('childFn', value)
+    },
     closeDeawer () {
       this.drawer = false
     },
@@ -242,5 +263,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.detail-pagination{
+  width: 720px;
+  height: 62px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-top: 1px solid #F0F0F0;
 }
 </style>
