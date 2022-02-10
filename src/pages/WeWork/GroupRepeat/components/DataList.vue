@@ -28,7 +28,7 @@
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table
-            :data="dataList"
+            :data="detailList"
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
             v-loading="detailTableLoading"
@@ -49,7 +49,7 @@
           :current-page.sync="pagination.currPage"
           :page-size="pagination.currSize"
           layout="total, prev, pager, next"
-          :total="detailTotal"
+          :total="pagination.detailTotal"
           style="boxShadow: none;">
         </el-pagination>
       </div>
@@ -66,21 +66,21 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
+      firstOpen: false,
       userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg',
       pagination: {
         currPage: 1,
-        currSize: 10
-      }
+        currSize: 10,
+        detailTotal: 0
+      },
+      detailList: [],
+      detailTableLoading: false
     }
   },
   props: {
     dataList: {
       type: Array,
       default: null
-    },
-    detailTableLoading: {
-      type: Boolean,
-      default: false
     },
     userMessage: {
       type: Object,
@@ -89,24 +89,65 @@ export default {
     env: {
       type: String,
       default: ''
-    },
-    detailTotal: {
-      type: Number,
-      default: 0
     }
+    // detailTotal: {
+    //   type: Number,
+    //   default: 0
+    // },
+    // detilUserId: {
+    //   type: String,
+    //   default: ''
+    // }
   },
   methods: {
     handleCurrentChange (value) {
-      this.$emit('childFn', value)
+      // this.$emit('childFn', value)
+      this.pagination.currPage = value
+      this.queryRepeatedInContactDetailList()
     },
     closeDeawer () {
+      // this.firstOpen = false
       this.drawer = false
+      // this.pagination.currPage = 1
     },
     openDeawer () {
       this.drawer = true
     },
     handleClose () {},
-    handleClick (tab, event) {}
+    handleClick (tab, event) {},
+    queryRepeatedInContactDetailList () {
+      let params = {
+        'beanMap': {},
+        'draw': 0,
+        'length': this.pagination.currSize,
+        'orderDir': '',
+        'orderKey': '',
+        'searchMap': {
+          'userId': this.userMessage.userId
+        },
+        'searchValue': '',
+        'start': (this.pagination.currPage - 1) * this.pagination.currSize
+      }
+      let that = this
+      this.detailTableLoading = true
+      this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
+        if (resp.success && resp.result.data.length > 0) {
+          that.detailList = resp.result.data
+          that.pagination.detailTotal = resp.result.recordsTotal * 1
+        } else {
+          that.detailList = []
+          that.pagination.detailTotal = 0
+        }
+      }).finally(() => {
+        that.detailTableLoading = false
+      })
+    }
+  },
+  watch: {
+    userMessage: function () {
+      this.pagination.currPage = 1
+      this.queryRepeatedInContactDetailList()
+    }
   }
 }
 </script>

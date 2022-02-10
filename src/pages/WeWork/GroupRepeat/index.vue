@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="padding: 16px;background: #fff;width:100%">
+    <div style="padding: 16px; background: #fff; margin: -10px -10px 0;">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/userCenter/customer/customerList'}">用户中心</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/userCenter/group/list'}">群管理</el-breadcrumb-item>
@@ -66,13 +66,9 @@
       </page-table>
     </div>
     <DataList
-      v-bind:dataList="this.dataList"
       ref="datalist"
-      v-bind:detailTableLoading="this.detailTableLoading"
       v-bind:userMessage="this.userMessage"
       v-bind:env="this.env"
-      v-bind:detailTotal="this.detailTotal"
-      @childFn="parentFn"
       />
   </div>
 </template>
@@ -99,16 +95,6 @@ export default {
       // 列表页加载
       tableLoading: false,
       userMessage: null,
-      // 详情列表页数据加载
-      detailTableLoading: false,
-      // 详情列表数据
-      dataList: [],
-      // 详情页当前页面
-      detailCurrPage: 1,
-      // 详情页尺寸
-      detailSize: 10,
-      // 详情页总条数
-      detailTotal: 0,
       searchMap: {
         chatIds: '',
         'leastRepeatedInNum': 2
@@ -125,9 +111,12 @@ export default {
   },
   methods: {
     // 详情页子组件数据
-    parentFn (currPage) {
-      this.detailCurrPage = currPage
-    },
+    // parentFn (currPage) {
+    //   this.detailCurrPage = currPage
+    //   if (currPage !== 1) {
+    //     this.queryRepeatedInContactDetailList()
+    //   }
+    // },
     handleCurrentChange (val) {
       this.pagination.currentPage = val
       this.queryRepeatedInContactList()
@@ -140,7 +129,6 @@ export default {
     },
     showMoreData (user) {
       this.$refs.datalist.openDeawer()
-      this.queryRepeatedInContactDetailList(user.userId)
       this.userMessage = user
     },
     selectOptionClick (val) {
@@ -181,34 +169,6 @@ export default {
         that.tableLoading = false
       })
     },
-    // 详情
-    queryRepeatedInContactDetailList (detilUserId) {
-      let params = {
-        'beanMap': {},
-        'draw': 0,
-        'length': this.detailSize,
-        'orderDir': '',
-        'orderKey': '',
-        'searchMap': {
-          'userId': detilUserId
-        },
-        'searchValue': '',
-        'start': (this.detailCurrPage - 1) * this.detailSize
-      }
-      let that = this
-      this.detailTableLoading = true
-      this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
-        if (resp.success && resp.result.data.length > 0) {
-          that.dataList = resp.result.data
-          that.detailTotal = resp.result.recordsTotal * 1
-        } else {
-          that.dataList = []
-          that.detailTotal = 0
-        }
-      }).finally(() => {
-        that.detailTableLoading = false
-      })
-    },
     parentChang (confirmData, searchMode) {
       if (confirmData.length > 0) {
         confirmData.map((item, index) => {
@@ -221,14 +181,16 @@ export default {
       } else {
         this.searchMap.chatIds = ''
       }
-      searchMode === 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
+      confirmData.length < 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
       this.queryRepeatedInContactList()
     }
   },
   watch: {
-    detailCurrPage: function () {
-      this.queryRepeatedInContactDetailList()
-    }
+    // detailCurrPage: function () {
+    //   if (!this.$refs.datalist.firstOpen) {
+    //     this.queryRepeatedInContactDetailList()
+    //   }
+    // }
   },
   mounted: function () {
     // alert(this.env)
@@ -256,7 +218,7 @@ export default {
   height: 64px;
   background-color: white;
   margin-bottom: 16px;
-  margin-top: 8px;
+  margin-top: 16px;
   border-radius: 4px;
   display: flex;
   align-items: center;

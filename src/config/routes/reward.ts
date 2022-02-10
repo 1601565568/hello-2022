@@ -71,6 +71,18 @@ export default {
           name: 'NoStatistical',
           title: '未执行统计',
           component: () => import('@/pages/WeWork/MaterialChat/noStatistical.vue')
+        },
+        {
+          'path': '/Marketing/SOP/SendLog',
+          'name': 'SOPLog',
+          'title': '社群日历发送日志',
+          'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
+        },
+        {
+          'path': '/WeWork/WelcomeLog/Log',
+          'name': 'WelcomeLog',
+          'title': '欢迎语日志',
+          'component': () => import('@/pages/WeWork/WelcomeLog/Log/index.vue')
         }
       ]
     },

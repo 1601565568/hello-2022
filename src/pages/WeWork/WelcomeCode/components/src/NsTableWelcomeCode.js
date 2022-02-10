@@ -1,3 +1,5 @@
+/* eslint-disable no-tabs */
+/* eslint-disable no-mixed-spaces-and-tabs */
 /*
  * @Descripttion: 智能欢迎语
  * @Author: yuye.huang
@@ -18,7 +20,7 @@ export default {
           this.$router.push({ path: '/WeWork/WelcomeCode/Edit' })
         },
         'icon': '',
-        'name': '新增欢迎语',
+        'name': '新建',
         'auth': ``,
         'visible': ``
       }
@@ -58,6 +60,7 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       url: this.$api.weWork.welcomeCode.findList,
       model: model,
       quickSearchModel: quickSearchModel,
@@ -97,6 +100,19 @@ export default {
   computed: {
   },
   methods: {
+    handleChangeGuide (value) {
+      this.changeSearchfrom({ guideIds: value })
+    },
+    handleChangeShop (value) {
+      this.changeSearchfrom({ shopIds: value })
+    },
+    changeSearchfrom (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+      this.$searchAction$()
+    },
+    handleSearch () {
+      this.changeSearchfrom({ name: this.seachVal })
+    },
     messageToolTipList (list) {
       return list.map(type => {
         return WelcomeMessageTypeTip[type] || []
