@@ -49,7 +49,7 @@
           :current-page.sync="pagination.currPage"
           :page-size="pagination.currSize"
           layout="total, prev, pager, next"
-          :total="pagination.total"
+          :total="detailTotal"
           style="boxShadow: none;">
         </el-pagination>
       </div>
@@ -68,7 +68,6 @@ export default {
       drawer: false,
       userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg',
       pagination: {
-        total: this.dataList.length,
         currPage: 1,
         currSize: 10
       }
@@ -90,6 +89,10 @@ export default {
     env: {
       type: String,
       default: ''
+    },
+    detailTotal: {
+      type: Number,
+      default: 0
     }
   },
   methods: {

@@ -71,6 +71,7 @@
       v-bind:detailTableLoading="this.detailTableLoading"
       v-bind:userMessage="this.userMessage"
       v-bind:env="this.env"
+      v-bind:detailTotal="this.detailTotal"
       @childFn="parentFn"
       />
   </div>
@@ -106,6 +107,8 @@ export default {
       detailCurrPage: 1,
       // 详情页尺寸
       detailSize: 10,
+      // 详情页总条数
+      detailTotal: 0,
       searchMap: {
         chatIds: '',
         'leastRepeatedInNum': 2
@@ -160,9 +163,18 @@ export default {
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           that.listData = resp.result.data
-          that.pagination.total = resp.result.data.length
+          that.pagination.total = resp.result.recordsTotal
         } else {
-          that.listData = []
+          that.listData = [
+            // {
+            //   avatar: 'http://wework.qpic.cn/bizmail/daEkUkxkVlyWaciaKYpuz2TMibZicXkiaVAYMPkNAwG514IR4UyNbyb1dg/0',
+            //   firstJoinTime: '2022-02-08 09:19:17',
+            //   gender: 2,
+            //   name: '黄宇业',
+            //   repeatedNum: '1',
+            //   userId: 'huangyuye01'
+            // }
+          ]
           that.pagination.total = 0
         }
       }).finally(() => {
@@ -188,8 +200,10 @@ export default {
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           that.dataList = resp.result.data
+          that.detailTotal = resp.result.recordsTotal
         } else {
           that.dataList = []
+          that.detailTotal = 0
         }
       }).finally(() => {
         that.detailTableLoading = false
