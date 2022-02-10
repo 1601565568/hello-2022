@@ -163,7 +163,7 @@ export default {
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           that.listData = resp.result.data
-          that.pagination.total = resp.result.recordsTotal
+          that.pagination.total = resp.result.recordsTotal * 1
         } else {
           that.listData = [
             // {
@@ -200,7 +200,7 @@ export default {
       this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
         if (resp.success && resp.result.data.length > 0) {
           that.dataList = resp.result.data
-          that.detailTotal = resp.result.recordsTotal
+          that.detailTotal = resp.result.recordsTotal * 1
         } else {
           that.dataList = []
           that.detailTotal = 0
