@@ -34,7 +34,7 @@
                 <img :src="item.imageUrl + '?x-oss-process=image/resize,m_lfit,h_165,w_242'">
               </div>
               <div v-if="item.otherMsgType + '' === '2'" class="video-block" @click="showPreview(item, 'video')">
-                <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_165,m_fast'">
+                <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_152,m_fast'">
                 <div class="video-mask">
                   <img src="../../../../assets/play-video.png">
                 </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="mini-desc">{{item.miniProgramTitle}}</div>
                 <div class="mini-image">
-                  <img :src="item.miniProgramPicUrl + '?x-oss-process=image/resize,m_lfit,h_88,w_118'">
+                  <img :src="item.miniProgramPicUrl">
                 </div>
                 <div class="mini-bottom">
                   <span class="iconfont icon-xiaochengxu2"></span>
@@ -91,8 +91,8 @@
     <el-dialog :visible.sync="escShow" width="30%">
       <div class="tipsShowTitle" slot="title">确认删除？</div>
       <div class="tipsShowContent">
-        <span class="ns-warm-cricle">!</span
-        >删除后不可恢复，请再次确定是否要删除
+        <span class="ns-warm-cricle">!</span>
+        删除后不可恢复，请再次确定是否要删除
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="onEscCancel">取 消</ns-button>
@@ -384,11 +384,10 @@ export default {
     }
     .item-image{
       width: 242px;
-      height: 165px;
       margin-bottom: 8px;
       .link-block{
         width: 242px;
-        height: 127px;
+        max-height: 127px;
         background: #FFFFFF;
         border: 0.5px solid #EEEEEE;
         border-radius: 4px;
@@ -439,14 +438,16 @@ export default {
       }
       .image-block{
         position: relative;
+        height: 165px;
       }
       .video-block{
         position: relative;
         display: inline-block;
+        height: 165px;
         cursor: pointer;
         .video-mask{
           position: absolute;
-          top: 50%;
+          top: calc(50% - 6.5px);
           left: 50%;
           width: 60px;
           height: 60px;
@@ -458,36 +459,35 @@ export default {
         }
       }
       .mini-block{
-        width: 136px;
-        height: 165px;
+        width: 162px;
+        max-height: 204px;
         background: #FFFFFF;
         border: 0.5px solid #EEEEEE;
         border-radius: 2px;
-        padding-top: 8px;
-        padding-left: 8px;
+        padding: 8px 8px 4px;
         box-sizing: border-box;
         .mini-title{
           display: flex;
           align-items: center;
-          width: 118px;
-          margin-bottom: 8px;
+          width: 144px;
+          margin-bottom: 4px;
           .mini-title-circle{
-            width: 11px;
-            height: 11px;
+            width: 14px;
+            height: 14px;
             background-color: #D9D9D9;
             border-radius: 50%;
             margin-right: 4px;
           }
           .mini-title-text{
-            font-size: 8px;
+            font-size: 12px;
             color: #909399;
             letter-spacing: 0;
             font-weight: 400;
           }
         }
         .mini-desc{
-          width: 118px;
-          font-size: 8px;
+          width: 144px;
+          font-size: 12px;
           color: #383838;
           letter-spacing: 0;
           font-weight: 400;
@@ -501,21 +501,27 @@ export default {
           -webkit-box-orient: vertical;
         }
         .mini-image{
-          width: 118px;
-          height: 88px;
+          width: 144px;
+          height: 107px;
           margin-bottom: 8px;
+          img{
+            width: 144px;
+            height: 107px;
+          }
         }
         .mini-bottom{
           display: flex;
           align-items: center;
+          border-top: 0.5px solid #EBEBEB;
+          padding-top: 4px;
           .icon-xiaochengxu2{
-            font-size: 5px;
+            font-size: 8px;
             color: #7586DB;
             letter-spacing: 0;
             font-weight: 400;
           }
           .mini-bottom-name{
-            font-size: 5px;
+            font-size: 12px;
             color: #909399;
             letter-spacing: 0;
             font-weight: 400;
