@@ -301,15 +301,15 @@ export default {
      * 重置搜索条件并搜索
      */
     resetSearch: function () {
-      vm.departData.name = ''
-      vm.departData.mobile = ''
-      vm.departData.job = ''
-      vm.departData.status = 3
-      vm.departData.selectedDepart = {}
-      vm.departData.shopArea = {} // 选择的门店分类
-      vm.departData.shopId = '' // 选择的门店
-      vm.departData.fileImportKey = '' // 文件导入key
-      vm.departData.manualInputKey = '' // 手动输入key
+      this.departData.name = ''
+      this.departData.mobile = ''
+      this.departData.job = ''
+      this.departData.status = 3
+      this.departData.selectedDepart = {}
+      this.departData.shopArea = {} // 选择的门店分类
+      this.departData.shopId = '' // 选择的门店
+      this.departData.fileImportKey = '' // 文件导入key
+      this.departData.manualInputKey = '' // 手动输入key
       this.successCount = 0 // 已导入员工数量
       this.$refs.import.reset()
       this.searchEmployee(1)
