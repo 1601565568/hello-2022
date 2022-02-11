@@ -168,7 +168,7 @@ export default {
 }
 .down-table {
   margin-top: 0px;
-  height: 500px;
+  height: 530px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
