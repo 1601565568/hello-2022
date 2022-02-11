@@ -38,4 +38,7 @@ export default Index
   @import "@theme/variables.pcss";
   @import "@components/NewUi/styles/reset.css";
   @import "./styles/reset.css";
+  .message-preivew-panel{
+    height: 513px;
+  }
 </style>
