@@ -99,7 +99,7 @@
                 </template>
                 <template v-else>
                   <div class="select-area"
-                       v-if="cloudPlatformType == 'ECRP'">
+                       v-if="cloudPlatformType == 'ecrp'">
                     <span class="select-title">选择店铺</span>
                     <NsShopDialog :selfBtn='true'
                                   :appendToBody='true'
@@ -132,7 +132,7 @@
                                    btnTitle=""
                                    dialogTitle="选择员工"
                                    v-model="model.employeeIds"
-                                   v-if="cloudPlatformType == 'ECRP'">
+                                   v-if="cloudPlatformType == 'ecrp'">
                       <template slot='selfBtn'>
                         <div class="select-tips">
                           <span v-if="!model.employeeIds.length"

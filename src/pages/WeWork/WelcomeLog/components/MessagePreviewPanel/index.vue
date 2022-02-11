@@ -1,38 +1,26 @@
 <template>
   <div class="message-panel">
-    <MessageItem
-      v-for="(item, index) in list"
-      :key="index"
-      :avatar="avatar"
-    >
-       <TextMessage
-        v-if="item.type === SOPActivityMessageType.Text"
-        class="text-message"
-        :content="item.content"
-      />
-      <ImageMessage
-        v-else-if="item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster"
-        class="image-message"
-        :content="item.content"
-        :preview="true"
-        :previewList="[item.content.mediaid]"
-      />
-      <VideoMessage
-        v-else-if="item.type === SOPActivityMessageType.Video"
-        class="video-message"
-        :content="item.content"
-        :preview="true"
-      />
-      <NewsMessage
-        v-else-if="item.type === SOPActivityMessageType.Link"
-        class="news-message"
-        :content="item.content"
-      />
-      <MiniProgramMessage
-        v-else-if="item.type === SOPActivityMessageType.MiniProgram"
-        class="mini-message"
-        :content="item.content"
-      />
+    <MessageItem v-for="(item, index) in list"
+                 :key="index"
+                 :avatar="avatar">
+      <TextMessage v-if="item.type === SOPActivityMessageType.Text"
+                   class="text-message"
+                   :content="item.content" />
+      <ImageMessage v-else-if="item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster"
+                    class="image-message"
+                    :content="item.content"
+                    :preview="true"
+                    :previewList="[item.content.mediaid]" />
+      <VideoMessage v-else-if="item.type === SOPActivityMessageType.Video"
+                    class="video-message"
+                    :content="item.content"
+                    :preview="true" />
+      <NewsMessage v-else-if="item.type === SOPActivityMessageType.Link"
+                   class="news-message"
+                   :content="item.content" />
+      <MiniProgramMessage v-else-if="item.type === SOPActivityMessageType.MiniProgram"
+                          class="mini-message"
+                          :content="item.content" />
     </MessageItem>
   </div>
 </template>
@@ -65,7 +53,12 @@ export default {
       SOPActivityMessageType: SOPActivityMessageType
     }
   },
-  mounted () {},
+  mounted () {
+    console.log(this.list)
+    console.log(this.SOPActivityMessageType)
+    console.log(this.SOPActivityMessageType.Image)
+    console.log(this.SOPActivityMessageType.Video)
+  },
   methods: {}
 }
 </script>
@@ -75,7 +68,7 @@ export default {
   overflow: auto;
   width: 320px;
   padding-top: 26px;
-  background: #F2F2F2;
+  background: #f2f2f2;
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
@@ -106,13 +99,12 @@ export default {
 
   .news-message {
     width: 175px;
-    border: 1px solid #EEEEEE;
+    border: 1px solid #eeeeee;
   }
 
   .mini-message {
     width: 140px;
-    border: 1px solid #EEEEEE;
+    border: 1px solid #eeeeee;
   }
-
 }
 </style>
