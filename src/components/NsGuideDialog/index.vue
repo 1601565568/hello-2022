@@ -202,7 +202,7 @@ export default index
     width: 141px;
     height: 27px;
     margin-left: 10px;
-    border-right: 1px solid #DCDFE6;;
+    /* border-right: 1px solid #DCDFE6;; */
   }
   > div + span {
     margin-left: var(--default-margin-small);
