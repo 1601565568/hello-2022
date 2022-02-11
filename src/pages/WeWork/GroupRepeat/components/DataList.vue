@@ -33,10 +33,10 @@
             :row-style="{ height: '48px' }"
             v-loading="detailTableLoading"
           >
-            <el-table-column prop="name" label="群名称"> </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="name" label="群名称"> </el-table-column>
             <el-table-column prop="ownerName" label="群主"> </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
-            <el-table-column prop="joinTime" label="入群时间"></el-table-column>
+            <el-table-column width="207" :show-overflow-tooltip="true" prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
+            <el-table-column prop="joinTime" label="入群时间" width="179"></el-table-column>
           </el-table>
         </template>
       </page-table>
@@ -153,6 +153,9 @@ export default {
 </script>
 <style scoped >
 @import '@components/NewUi/styles/reset.css';
+/* .el-table .cell.el-tooltip{
+  width: 187px;
+} */
 .el-tabs__item {
   font-size: 18px !important;
   padding: 10px 0 50px !important;

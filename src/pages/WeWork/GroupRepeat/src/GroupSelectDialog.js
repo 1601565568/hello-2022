@@ -367,37 +367,19 @@ export default {
     ownerNameChange: function (value) {
       // this.model.ChatID = ''
       if (value === '') {
-        this.groupList = this.groupAllList
-        return
-      }
-      for (var i = 0; i < this.userList.length; i++) {
-        if (value === this.userList[i].Name) {
-          this.groupList = this.userList[i].groupList
-          return
-        }
+        this.model.ownerName = ''
+      } else {
+        this.model.ownerName = value
       }
       this.onSearch()
     },
     groupChange: function (value) {
       if (value === '') {
-        this.model.ownerName = ''
         this.model.ChatID = ''
-        this.onSearch()
-        return
       } else {
         this.model.ChatID = value
-        this.onSearch()
       }
-      for (var j = 0; j < this.groupList.length; j++) {
-        if (value === this.groupList[j].ChatID) {
-          for (var i = 0; i < this.userList.length; i++) {
-            if (this.groupList[j].OwnerID === this.userList[i].UserID) {
-              this.model.ownerName = this.userList[i].Name
-              return
-            }
-          }
-        }
-      }
+      this.onSearch()
     },
     getAllUser: function () {
       let that = this
