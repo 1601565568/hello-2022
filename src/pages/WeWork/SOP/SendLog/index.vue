@@ -30,7 +30,7 @@
             ></el-date-picker>
         </el-form-item>
       </el-form>
-      <NsButton class="add-button" size="large" @click="exportFile">导出CSV文件</NsButton>
+      <NsButton class="add-button" size="large" @click="exportFile">导出文件</NsButton>
     </BaseContainer>
     <BaseContainer class="sendlog-table-container" v-loading="loading">
       <el-table
