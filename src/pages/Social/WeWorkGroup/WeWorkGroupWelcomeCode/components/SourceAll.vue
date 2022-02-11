@@ -36,7 +36,7 @@
             :disabled="mediaList.length === 1 || disabled"
           >
             <template slot="reference">
-              <div class="add-material" v-if="!mediaList.length">
+              <div class="add-material" v-if="!mediaList.length && !disabled">
                 <Icon type="ns-add-border" class="icon"/>
                 添加消息内容
               </div>

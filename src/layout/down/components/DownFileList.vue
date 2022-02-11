@@ -205,10 +205,11 @@ export default {
     bottom: 30px;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 2000;
     padding:  0 15px;
     display: flex;
     flex-direction: row-reverse;
+    background-color: white;
     >>> .el-pagination {
       box-shadow: none;
       text-align: left;
@@ -219,8 +220,9 @@ export default {
   margin-top: 18px;
   display: flex;
   flex-direction: row;
-  padding-left: 16px;
+  padding:  0 16px;
   align-items: center;
+  z-index: 1000;
 }
 .input-view {
   margin-right: 16px;

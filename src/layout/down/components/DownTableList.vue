@@ -167,10 +167,8 @@ export default {
   font-size: 14px;
 }
 .down-table {
-  margin-top: -5px;
-}
-.down-table-view {
-  max-height: 670px;
+  margin-top: 0px;
+  height: 530px;
   overflow: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
@@ -180,5 +178,7 @@ export default {
     width: 2px;
     height: 6px;
   }
+}
+.down-table-view {
 }
 </style>
