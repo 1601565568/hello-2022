@@ -247,8 +247,8 @@ export default {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 180,
-          right: 60
+          top: 135,
+          right: 40
         })
       }).catch((resp) => {
         this.$notify.error(resp.msg || '导出报错，请联系管理员')
