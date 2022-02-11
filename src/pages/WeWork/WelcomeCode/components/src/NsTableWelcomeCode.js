@@ -60,7 +60,8 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
-      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
+    //   cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
+	  cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       url: this.$api.weWork.welcomeCode.findList,
       model: model,
       quickSearchModel: quickSearchModel,

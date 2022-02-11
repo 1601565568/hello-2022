@@ -7,7 +7,7 @@
       <el-form :inline="true"
                class='form-inline_top'
                style="display: flex">
-        <el-form-item :label="cloudPlatformType == 'ECRP'?'选择员工：':'企业微信成员：'">
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'企业微信成员：'">
           <!-- <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
@@ -35,7 +35,7 @@
                          v-model="model.guideIds"
                          @input="handleChangeGuide"
                          :isOpenDialogAfterRequest='false'
-                         v-if="cloudPlatformType == 'ECRP'">
+                         v-if="cloudPlatformType == 'ecrp'">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -118,13 +118,13 @@
         <el-table-column prop="title"
                          label="欢迎语名称"></el-table-column>
         <el-table-column prop="workerName"
-                         :label="cloudPlatformType=='ECRP'? '员工':'企业微信成员'"></el-table-column>
+                         :label="cloudPlatformType=='ecrp'? '员工':'企业微信成员'"></el-table-column>
         <el-table-column prop="workerId"
                          label="工号"
-                         v-if="cloudPlatformType=='ECRP'"></el-table-column>
+                         v-if="cloudPlatformType=='ecrp'"></el-table-column>
         <el-table-column prop="workerId"
                          label="工作门店"
-                         v-if="cloudPlatformType=='ECRP'">
+                         v-if="cloudPlatformType=='ecrp'">
           <template slot-scope="scope">
             <div class="scope-name">
               <div :class="'scope-name_text'">
@@ -324,7 +324,7 @@ export default {
       this.getActivityList()
     },
     handleChangeGuide (value) {
-      this.model.guideIds = this.model.guideIds.join(',')
+      //   this.model.guideIds = this.model.guideIds.join(',')
       this.getActivityList()
     },
     pageSizeChange (size) {
