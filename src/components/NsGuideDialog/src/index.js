@@ -585,7 +585,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: this.auth, switchAreaFlag: this.switchAreaFlag, areaId: this.departData.shopArea.value }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: this.auth, switchAreaFlag: this.switchAreaFlag, areaId: this.departData.shopArea.value, status: 3 }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
