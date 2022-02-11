@@ -7,7 +7,8 @@
           {{selectedData.length > 0 ?'已选择'+selectedData.length + '个企微群': '选择企微群'}}
         </div>
         <div class="icon-view">
-          <Icon type="ns-arrow-drowdown" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/>
+          <span class="icon-association iconfont"></span>
+          <!-- <Icon type="association" :class="{ 'arrowTransform': !flag, 'arrowTransformReturn': flag}" style="color: #8C8C8C;"/> -->
         </div>
       </div>
   <!-- /end 选择商品结果列表 列表展开收缩切换结构-->

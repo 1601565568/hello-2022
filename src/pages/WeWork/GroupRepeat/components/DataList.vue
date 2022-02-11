@@ -28,18 +28,31 @@
       <page-table style="padding-top:0">
         <template slot="table">
           <el-table
-            :data="dataList"
+            :data="detailList"
             class="new-table_border drawer-table"
             :row-style="{ height: '48px' }"
             v-loading="detailTableLoading"
           >
-            <el-table-column prop="name" label="群名称"> </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="name" label="群名称"> </el-table-column>
             <el-table-column prop="ownerName" label="群主"> </el-table-column>
-            <el-table-column prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
-            <el-table-column prop="joinTime" label="入群时间"></el-table-column>
+            <el-table-column width="207" :show-overflow-tooltip="true" prop="workShopName" label="工作门店" v-if="env!=='kd'"> </el-table-column>
+            <el-table-column prop="joinTime" label="入群时间" width="179"></el-table-column>
           </el-table>
         </template>
       </page-table>
+      <div class="detail-pagination">
+        <el-pagination
+          small
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="pagination.currPage"
+          :page-size="pagination.currSize"
+          layout="total, prev, pager, next"
+          :total="pagination.detailTotal"
+          style="boxShadow: none;">
+        </el-pagination>
+      </div>
     </div>
   </el-drawer>
 </template>
@@ -53,17 +66,21 @@ export default {
     return {
       direction: 'rtl',
       drawer: false,
-      userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg'
+      firstOpen: false,
+      userImg: 'https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f9198618367adab4852e139289d4b31c8601e461.jpg',
+      pagination: {
+        currPage: 1,
+        currSize: 10,
+        detailTotal: 0
+      },
+      detailList: [],
+      detailTableLoading: false
     }
   },
   props: {
     dataList: {
       type: Array,
       default: null
-    },
-    detailTableLoading: {
-      type: Boolean,
-      default: false
     },
     userMessage: {
       type: Object,
@@ -73,21 +90,72 @@ export default {
       type: String,
       default: ''
     }
+    // detailTotal: {
+    //   type: Number,
+    //   default: 0
+    // },
+    // detilUserId: {
+    //   type: String,
+    //   default: ''
+    // }
   },
   methods: {
+    handleCurrentChange (value) {
+      // this.$emit('childFn', value)
+      this.pagination.currPage = value
+      this.queryRepeatedInContactDetailList()
+    },
     closeDeawer () {
+      // this.firstOpen = false
       this.drawer = false
+      // this.pagination.currPage = 1
     },
     openDeawer () {
       this.drawer = true
     },
     handleClose () {},
-    handleClick (tab, event) {}
+    handleClick (tab, event) {},
+    queryRepeatedInContactDetailList () {
+      let params = {
+        'beanMap': {},
+        'draw': 0,
+        'length': this.pagination.currSize,
+        'orderDir': '',
+        'orderKey': '',
+        'searchMap': {
+          'userId': this.userMessage.userId
+        },
+        'searchValue': '',
+        'start': (this.pagination.currPage - 1) * this.pagination.currSize
+      }
+      let that = this
+      this.detailTableLoading = true
+      this.$http.fetch(that.$api.weWork.groupManager.queryRepeatedInContactDetailList, params).then((resp) => {
+        if (resp.success && resp.result.data.length > 0) {
+          that.detailList = resp.result.data
+          that.pagination.detailTotal = resp.result.recordsTotal * 1
+        } else {
+          that.detailList = []
+          that.pagination.detailTotal = 0
+        }
+      }).finally(() => {
+        that.detailTableLoading = false
+      })
+    }
+  },
+  watch: {
+    userMessage: function () {
+      this.pagination.currPage = 1
+      this.queryRepeatedInContactDetailList()
+    }
   }
 }
 </script>
 <style scoped >
 @import '@components/NewUi/styles/reset.css';
+/* .el-table .cell.el-tooltip{
+  width: 187px;
+} */
 .el-tabs__item {
   font-size: 18px !important;
   padding: 10px 0 50px !important;
@@ -242,5 +310,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.detail-pagination{
+  width: 720px;
+  height: 62px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-top: 1px solid #F0F0F0;
 }
 </style>

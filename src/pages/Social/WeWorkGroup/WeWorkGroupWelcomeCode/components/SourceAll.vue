@@ -36,20 +36,24 @@
             :disabled="mediaList.length === 1 || disabled"
           >
             <template slot="reference">
-              <div class="add-material" v-if="!mediaList.length">
+              <div class="add-material" v-if="!mediaList.length && !disabled">
                 <Icon type="ns-add-border" class="icon"/>
                 添加消息内容
               </div>
-              <div v-else class="add-material add-material-disabled" @click="$notify.error('附件已达上限（1个），不能再添加')">
+              <div v-else-if="!disabled" class="add-material add-material-disabled" @click="$notify.error('附件已达上限（1个），不能再添加')">
+                <Icon type="ns-add-border" class="icon"/>
+                添加消息内容
+              </div>
+              <div v-else class="add-material add-material-disabled">
                 <Icon type="ns-add-border" class="icon"/>
                 添加消息内容
               </div>
             </template>
             <WechatMessageBar
               :pitBit='true'
-              :showPitBit="false"
+              :showPitBit='false'
               ref="WechatMessageBar"
-              :multipleImage='true'
+              :multipleImage='false'
               :limitImage='limitImage'
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"

@@ -53,6 +53,7 @@ var tableMixin = {
           //   { chat_id: 'wraQfGDQAADv073g', 'name': '111', 'owner_name': 'zhang', person_num: 3, workShopName: ['梁小姐线下店1', '梁小哥线下店1', '渠道推广'] },
           //   { chat_id: 'wraQfGDQAADv073gF3aX7LCq_y1snM-g', 'name': '222', 'owner_name': 'zhang1', person_num: 10, workShopName: ['梁小姐线下店', '梁小哥线下店', '渠道推广008'] }
           // ])
+          that.$set(that.table, 'data', [])
           that.$set(that.pagination, 'total', 0)
         }
       }).catch(() => {
@@ -353,46 +354,32 @@ export default {
       // if (this.selectedData.length > this.maxSelectCount) {
       //   this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
       // } else {
-      this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
-      this.visible = false
-      this.callbackData()
-      this.onResetSearch()
+      if (this.searchMode === 2 && this.selectedData.length < 2) {
+        this.$notify.warning('至少选择2个群聊')
+      } else {
+        this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
+        this.visible = false
+        this.callbackData()
+        this.onResetSearch()
+      }
       // }
     },
     ownerNameChange: function (value) {
       // this.model.ChatID = ''
       if (value === '') {
-        this.groupList = this.groupAllList
-        return
-      }
-      for (var i = 0; i < this.userList.length; i++) {
-        if (value === this.userList[i].Name) {
-          this.groupList = this.userList[i].groupList
-          return
-        }
+        this.model.ownerName = ''
+      } else {
+        this.model.ownerName = value
       }
       this.onSearch()
     },
     groupChange: function (value) {
       if (value === '') {
-        this.model.ownerName = ''
         this.model.ChatID = ''
-        this.onSearch()
-        return
       } else {
         this.model.ChatID = value
-        this.onSearch()
       }
-      for (var j = 0; j < this.groupList.length; j++) {
-        if (value === this.groupList[j].ChatID) {
-          for (var i = 0; i < this.userList.length; i++) {
-            if (this.groupList[j].OwnerID === this.userList[i].UserID) {
-              this.model.ownerName = this.userList[i].Name
-              return
-            }
-          }
-        }
-      }
+      this.onSearch()
     },
     getAllUser: function () {
       let that = this
