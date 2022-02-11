@@ -103,7 +103,7 @@
 import tableMixin from '@/mixins/table'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import NsGuideDialog from '../NsGuideDialog'
-
+import moment from 'moment'
 export default {
   mixins: [tableMixin],
   components: {
@@ -172,24 +172,16 @@ export default {
         this.$notify.error('当前没有匹配的数据项')
         return
       }
-
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.momentList.exportMomentTask, { searchMap: this.model })
-        .then((resp) => {
-          let url = window.URL.createObjectURL(new Blob([resp.data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-
-          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
-          link.setAttribute('download', fileName)
-
-          document.body.appendChild(link)
-          link.click()
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          this.$notify.error('导出报错，请联系管理员')
-        })
+      const params = {
+        ...this.model,
+        exportType: 2,
+        startTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('文件已导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }
