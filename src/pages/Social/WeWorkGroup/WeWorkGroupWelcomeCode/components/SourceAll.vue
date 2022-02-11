@@ -89,6 +89,18 @@ export default {
     }
   },
   data: function () {
+    const checkCode = (rule, value, callback) => {
+      let valus = this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerText
+      // console.log(rule, value, value.length, this.pitContent, valus.length, valus, '规则')
+      // console.log(this.model.textContent, 'this.model.textContent')
+      if (value === '') {
+        callback(new Error('请输入群欢迎语'))
+      } else if (valus.length > 1500) {
+        callback(new Error('限制长度在1500个字符以内'))
+      } else {
+        callback()
+      }
+    }
     return {
       loading: false,
       model: {
@@ -97,15 +109,13 @@ export default {
       },
       rules: {
         textContent: [
+          // {
+          //   required: true,
+          //   message: '请输入群欢迎语',
+          //   trigger: ['blur', 'change']
+          // },
           {
-            required: true,
-            message: '请输入群欢迎语',
-            trigger: ['blur', 'change']
-          },
-          {
-            min: 0,
-            max: 1500,
-            message: '限制长度在1500个字符以内',
+            validator: checkCode,
             trigger: ['blur', 'change']
           }
         ]

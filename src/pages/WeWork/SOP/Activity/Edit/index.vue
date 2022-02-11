@@ -496,7 +496,6 @@ export default {
      * 新增素材消息
      */
     addMessage (context) {
-      console.log(context, 'context')
       const { index, content, type, isDelete } = context
       const deleteData = sessionStorage.getItem(content.uid)
       if (deleteData && type === 2) {

@@ -13,7 +13,7 @@
       <NsButton type="primary" class="add-button" size="large" @click="newCode">新建</NsButton>
     </div>
     <el-scrollbar ref="fullScreen" class="card-content">
-      <div v-if="dataList.length" class="card-scroll">
+      <div v-if="showDatas" class="card-scroll">
         <waterfall :col='waterCol' :data="dataList" ref="waterfall">
           <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
             <div class="item-name">{{item.createUserName}}</div>
@@ -124,6 +124,7 @@ export default {
       deteleIndex: 0, // 需要删除的索引值
       deteleObj: {}, // 需要删除的对象
       dataList: [],
+      showDatas: true,
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
@@ -150,15 +151,34 @@ export default {
         searchMap: { ...this.searchMap }
       }
       this.$http.fetch(this.$api.weWork.groupWelcomeCode.getList, params).then(resp => {
-        this.dataList = resp.result.data || []
-        this.$nextTick(() => {
-          if (this.$refs.waterfall) {
-            // console.log(this.$refs.waterfall, 'this.$refs.waterfall')
-            // console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
-            // this.$refs.waterfall.resize()
-            this.$waterfall.forceUpdate()
-          }
-        })
+        this.dataList = []
+        setTimeout(() => {
+          this.dataList = resp.result.data
+          this.$nextTick(() => {
+            if (this.$refs.waterfall) {
+              // console.log(this.$refs.waterfall, 'this.$refs.waterfall')
+              // console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
+              // console.log(this.$refs.waterfall.loadedIndex, 'this.$refs.waterfall.loadedIndex')
+              // this.$refs.waterfall.resize()
+              this.$waterfall.forceUpdate()
+            }
+          })
+        }, 10)
+        if (!resp.result.data) {
+          this.showDatas = false
+        } else {
+          this.showDatas = true
+        }
+        // this.$nextTick(() => {
+        //   if (this.$refs.waterfall) {
+        //     console.log(this.$refs.waterfall, 'this.$refs.waterfall')
+        //     console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
+        //     console.log(this.$refs.waterfall.loadedIndex, 'this.$refs.waterfall.loadedIndex')
+        //     console.log(this.dataList, 'this.dataList')
+        //     // this.$refs.waterfall.resize()
+        //     this.$waterfall.forceUpdate()
+        //   }
+        // })
         this.pagination.total = +resp.result.recordsTotal || 0
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询群欢迎语列表失败', resp))
