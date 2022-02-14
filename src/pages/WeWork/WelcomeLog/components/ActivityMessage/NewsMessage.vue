@@ -2,11 +2,11 @@
   <div class="link-message">
     <div class="link-wrapper">
       <div class="link-title">
-        {{content.title}}
+        {{content.link.title}}
       </div>
       <div class="link-content">
-        <span>{{content.desc}}</span>
-        <img :src="content.imgUrl"/>
+        <span>{{content.link.desc}}</span>
+        <img :src="content.link.imgUrl" />
       </div>
       <div class="link-footer">
         <!-- <img src="" alt="">
@@ -36,7 +36,7 @@ export default {
   data () {
     return {}
   },
-  mounted () {},
+  mounted () { },
   methods: {
     showPreview () {
       this.$refs.NsPreview.toggleShow(1, this.srcList, 'img')

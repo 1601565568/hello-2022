@@ -9,6 +9,10 @@ export default {
   list: { // 日历列表数据
     url: '/wework/welcomecodemsglog/list',
     method: 'post'
+  },
+  findById: {
+    url: '/wework/welcomecodemsglog/queryMsgInfoById',
+    method: 'get'
   }
 
 }
