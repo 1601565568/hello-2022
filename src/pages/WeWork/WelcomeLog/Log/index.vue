@@ -7,25 +7,37 @@
       <el-form :inline="true"
                class='form-inline_top'
                style="display: flex">
+        <el-form-item label="">
+          <el-input v-model="model.customerName"
+                    placeholder="请输入客户昵称"
+                    @keyup.enter.native="searchLogList">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="searchLogList"></Icon>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input v-model="model.title"
+                    placeholder="请输入欢迎语名称"
+                    @keyup.enter.native="searchLogList">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="searchLogList"></Icon>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="发送状态：">
+          <el-select v-model="model.status"
+                     @change="fnEdit">
+            <el-option v-for="item in statusOptionList"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'企业微信成员：'">
-          <!-- <NsGuideDialog :selfBtn='true'
-                         :appendToBody='true'
-                         :isButton="false"
-                         :auth="false"
-                         type="primary"
-                         btnTitle=""
-                         dialogTitle="选择员工"
-                         v-model="model.guideIds"
-                         @input="handleChangeGuide"
-                         :isOpenDialogAfterRequest='false'>
-            <template slot='selfBtn'>
-              <div class='self-btn'>
-                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
-                <Icon type="geren"
-                      class='guideIds-icon'></Icon>
-              </div>
-            </template>
-          </NsGuideDialog> -->
           <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
@@ -64,26 +76,6 @@
           </NsGuideWeChatDialog>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="model.customerName"
-                    placeholder="请输入客户昵称"
-                    @keyup.enter.native="searchLogList">
-            <Icon type="ns-search"
-                  slot="suffix"
-                  class='search-icon'
-                  @click="searchLogList"></Icon>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="">
-          <el-input v-model="model.title"
-                    placeholder="请输入欢迎语名称"
-                    @keyup.enter.native="searchLogList">
-            <Icon type="ns-search"
-                  slot="suffix"
-                  class='search-icon'
-                  @click="searchLogList"></Icon>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="">
           <el-date-picker class="date-filter"
                           type="daterange"
                           v-model="searchDate"
@@ -94,16 +86,6 @@
                           :clearable="false"
                           :picker-options="pickerOptions"
                           @change="switchSearchDate"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="发送状态：">
-          <el-select v-model="model.status"
-                     @change="fnEdit">
-            <el-option v-for="item in statusOptionList"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
-          </el-select>
         </el-form-item>
       </el-form>
       <!-- <NsButton class="add-button" size="large" @click="exportFile">导出CSV文件</NsButton> -->
@@ -209,6 +191,10 @@ export default {
   },
   mixins: [tableMixin],
   watch: {
+    searchDate (newVal) {
+      const date = newVal || [null, null]
+      this.searchDateChange({ startTime: date[0], endTime: date[1] })
+    },
     visibleGroupDrawer (val) {
       if (!val) {
         this.activeIndex = -1
@@ -229,16 +215,13 @@ export default {
       visibleMessageDrawer: false,
       activeActivityId: 0,
       activeIndex: -1,
-      searchDate: [
-        `${moment().format('yyyy-MM-DD')} 00:00:00`,
-        `${moment().format('yyyy-MM-DD')} 23:59:59`
-      ],
+      searchDate: [],
       model: {
         status: -1,
         customerName: '',
         title: '',
-        startTime: `${moment().format('yyyy-MM-DD')} 00:00:00`,
-        endTime: `${moment().format('yyyy-MM-DD')} 23:59:59`
+        startTime: ``,
+        endTime: ``
       },
       activityList: [],
       pagination: {
@@ -265,22 +248,47 @@ export default {
           value: 1
         }
       ],
-      msgContent: '',
+
+      selectDate: '',
       pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
         disabledDate: (time) => {
-          // 半年前（180天） 至 今天
-          return (
-            time < Date.now() - 3600 * 1000 * 24 * 180 ||
-            time > Date.now()
-          )
+          if (this.selectDate !== '') {
+            const one = 6 * 24 * 3600 * 1000
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
         }
       }
     }
   },
   mounted () {
-    this.getActivityList()
+    this.$nextTick(() => {
+      this.getActivityList()
+    })
+  },
+  created () {
+    this.setTime()
   },
   methods: {
+    searchDateChange (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+    },
+    setTime () {
+      const end = new Date()
+      const start = new Date()
+      // 7天，需要特殊处理：+1000ms
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7 + 1000)
+      const startTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
+      const endTime = moment(end).format('YYYY-MM-DD HH:mm:ss')
+      this.searchDate = [startTime, endTime]
+    },
     fnEdit () {
       this.getActivityList()
     },
@@ -316,9 +324,7 @@ export default {
     switchSearchDate () {
       this.pagination = { ...this.pagination, page: 1 }
       this.model = {
-        ...this.model,
-        startTime: `${this.searchDate[0]} 00:00:00`,
-        endTime: `${this.searchDate[1]} 23:59:59`
+        ...this.model
       }
       this.getActivityList()
     },
