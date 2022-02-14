@@ -12,7 +12,7 @@
     <div class="group-container">
       <MessagePreviewPanel class="message-preivew-panel"
                            :avatar="false"
-                           :list="model.annexList" />
+                           :list="model.result" />
     </div>
   </ElDrawer>
 </template>
@@ -31,7 +31,7 @@ export default {
       type: Boolean,
       default: false
     },
-    msgContent: {}
+    activityId: Number
   },
   data () {
     return {
@@ -41,14 +41,12 @@ export default {
   mounted () { },
   methods: {
     open () {
-      //   this.model = JSON.parse(this.msgContent)
-      //   this.getActivityDetailById(this.activityId)
-      this.model = this.msgContent
+      this.getActivityDetailById(this.activityId)
     },
     getActivityDetailById (id) {
-      this.$http.fetch(this.$api.weWork.sop.findById, { id })
+      this.$http.fetch(this.$api.weWork.log.findById, { id })
         .then(resp => {
-          this.model = resp.result
+          this.model = resp
         }).catch(() => {
           this.$notify.error('获取活动详情失败9090')
         })

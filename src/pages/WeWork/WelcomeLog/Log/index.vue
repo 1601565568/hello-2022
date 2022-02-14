@@ -152,7 +152,7 @@
           <template slot-scope="scope">
             <!-- <NsButton type="text" @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.totalNum}}</NsButton>条 -->
             <NsButton type="text"
-                      @click="checkActivityMessage(scope.row.msgContent, scope.$index)">{{scope.row.totalNum}}</NsButton>条
+                      @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.totalNum}}</NsButton>条
           </template>
         </el-table-column>
         <el-table-column prop="sendType"
@@ -183,8 +183,9 @@
     <GroupDrawer :visible.sync="visibleGroupDrawer"
                  :activityId="activeActivityId" />
     <!-- 发送消息列表Drawer -->
+    <!-- 发送消息列表Drawer -->
     <MessageDrawer :visible.sync="visibleMessageDrawer"
-                   :msgContent="msgContent" />
+                   :activityId="activeActivityId" />
   </div>
 </template>
 
@@ -295,18 +296,17 @@ export default {
     /**
      * 查看活动的群
      */
-    checkActivityGroup (id, index) {
-      this.activeIndex = index
-      this.activeActivityId = id
-      this.visibleGroupDrawer = true
-    },
+    // checkActivityGroup (id, index) {
+    //   this.activeIndex = index
+    //   this.activeActivityId = id
+    //   this.visibleGroupDrawer = true
+    // },
     /**
      * 查看发送的消息
      */
-    checkActivityMessage (content, index) {
+    checkActivityMessage (id, index) {
       this.activeIndex = index
-      //   this.activeActivityId = id
-      this.msgContent = JSON.parse(content)
+      this.activeActivityId = id * 1
       this.visibleMessageDrawer = true
     },
     searchLogList () {
@@ -338,7 +338,7 @@ export default {
       this.loading = true
 
       this.$http.fetch(this.$api.weWork.log.list, {
-        ...this.model,
+        searchMap: { ...this.model },
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size
       })

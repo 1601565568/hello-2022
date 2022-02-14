@@ -1,7 +1,7 @@
 <template>
   <div class="image-message">
     <div class="image-area">
-      <img :src="content.image.mediaid"
+      <img :src="content.codePoster.mediaid"
            @click="showPreview">
       <span v-if="preview && total"
             class="image-total">{{previewList.length}}张</span>
@@ -24,7 +24,7 @@ export default {
       type: Object,
       default: function () {
         return {
-          type: 'image',
+          type: 'poster',
           mediaid: ''
         }
       }
