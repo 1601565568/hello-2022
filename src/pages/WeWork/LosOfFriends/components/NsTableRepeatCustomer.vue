@@ -64,7 +64,7 @@
             </div>
           </div>
         </el-form-item> -->
-        <el-form-item label="员工：" class="nsGuide" style="margin-left: 11px">
+        <el-form-item :label="cloudPlatformType==='kd'?'企业微信成员':'门店/员工'" class="nsGuide" style="margin-left: 11px">
           <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds">
             <template slot='selfBtn'>
               <div class='self-btn'>
@@ -119,7 +119,7 @@
       >
         <el-table-column prop="created" label="好友流失时间" align="left">
         </el-table-column>
-        <el-table-column label="员工所属门店" align="center">
+        <el-table-column label="员工所属门店" align="center" v-if="cloudPlatformType === 'ecrp'">
           <template slot-scope="scope">
             <el-tooltip
               placement="top-start"
