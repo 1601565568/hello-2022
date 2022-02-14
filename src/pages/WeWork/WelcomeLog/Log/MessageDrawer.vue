@@ -44,7 +44,7 @@ export default {
       //   this.model = JSON.parse(this.msgContent)
       //   this.getActivityDetailById(this.activityId)
       this.model = this.msgContent
-      console.log(this.model.annexList)
+      // console.log(this.model.annexList)
     },
     getActivityDetailById (id) {
       this.$http.fetch(this.$api.weWork.sop.findById, { id })

@@ -54,10 +54,10 @@ export default {
     }
   },
   mounted () {
-    console.log(this.list)
-    console.log(this.SOPActivityMessageType)
-    console.log(this.SOPActivityMessageType.Image)
-    console.log(this.SOPActivityMessageType.Video)
+    // console.log(this.list)
+    // console.log(this.SOPActivityMessageType)
+    // console.log(this.SOPActivityMessageType.Image)
+    // console.log(this.SOPActivityMessageType.Video)
   },
   methods: {}
 }
