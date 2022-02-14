@@ -181,7 +181,7 @@ export default {
       } else {
         this.searchMap.chatIds = ''
       }
-      confirmData.length < 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
+      searchMode === 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length > 2 ? confirmData.length : 2
       this.queryRepeatedInContactList()
     }
   },

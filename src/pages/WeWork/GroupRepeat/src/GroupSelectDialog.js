@@ -1,4 +1,4 @@
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../../../../components/NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 
 var tableMixin = {
@@ -325,7 +325,6 @@ export default {
      * 搜索
      */
     onSearch: function () {
-      // alert('搜索')
       let searchMap = {
         ownerName: this.model.ownerName,
         name: this.model.ChatID,
@@ -466,7 +465,6 @@ export default {
      * 加载部门
      */
     loadDepartments (node, resolve) {
-      // alert(node, resolve)
       if (node.level === 0) { // 第一次调用
         return resolve([{ id: 0, parentId: -1, code: 0, label: '全部', checked: false, showAdd: true, showEdit: true, showDelete: true }])
       }
@@ -494,7 +492,6 @@ export default {
       this.selectedData = JSON.parse(JSON.stringify(val))
     },
     shopAreaId: function (o1, o2) {
-      // alert(o1.value, o2.value)
       let shopOptions = []
       this.shopId = ''
       this.model.shopAreaId = o1.value
@@ -512,8 +509,11 @@ export default {
         this.shops = shopOptions
       }
     },
-    departmentId: function (v) {
-      this.onSearch()
+    departmentId: function (val) {
+      if (val.value !== this.model.departmentId) {
+        this.model.departmentId = val.value
+        this.onSearch()
+      }
     }
   },
   mounted: function () {
