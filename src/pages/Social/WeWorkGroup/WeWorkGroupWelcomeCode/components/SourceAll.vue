@@ -1,7 +1,7 @@
 <template>
   <div class="library-image-form limit-scroll-view">
     <el-form ref="form" :model="model" :rules="rules" label-width="114px">
-      <el-form-item label="群欢迎语" prop="textContent">
+      <el-form-item label="群欢迎语" prop="textContent" required>
         <div class="top-title-view">
           <tag-area
             class="tag-area"

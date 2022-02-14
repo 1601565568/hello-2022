@@ -14,9 +14,9 @@
     </div>
     <div ref="fullScreen" class="card-content">
       <div v-if="showDatas" class="card-scroll">
-        <waterfall :col='waterCol' :data="dataList" ref="waterfall">
-          <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
-            <div class="item-name">{{item.createUserName}}</div>
+        <waterfall :col='waterCol' :width="itemWidth" :gutterWidth="16" :data="dataList" ref="waterfall">
+          <div class="card-item" :style="{width: itemWidth + 'px'}" v-for="(item, index) in dataList" :key="item.uuid">
+            <div class="item-name">{{item.createUserName || '-'}}</div>
             <div class="item-time">{{item.createTime}}</div>
             <div class="item-text">
               <el-tooltip
@@ -25,7 +25,7 @@
               >
                 <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
                 <div class="showContent">
-                  <EmojiText :text='item.textContent' />
+                  <EmojiText :text='item.textContent' :emptySpecial="true" />
                 </div>
               </el-tooltip>
             </div>
@@ -109,6 +109,7 @@ export default {
   data () {
     return {
       waterCol: 2, // 瀑布流列数
+      itemWidth: 274, // 瀑布流宽度
       // 分页配置
       pagination: {
         size: 15,
@@ -129,7 +130,11 @@ export default {
     }
   },
   components: { EmojiText, Preview },
-  computed: {},
+  computed: {
+    // itemWidth () {
+    //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
+    // }
+  },
   created () {
     this.setWaterCol()
     this.searchLogList()
@@ -141,7 +146,16 @@ export default {
   methods: {
     // 设置瀑布流容器列数
     setWaterCol () {
-      this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64) / 290)
+      this.waterCol = 1
+      setTimeout(() => {
+        this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64) / 290)
+        this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
+        this.$nextTick(() => {
+          if (this.$refs.waterfall) {
+            this.$waterfall.forceUpdate()
+          }
+        })
+      }, 10)
     },
     // 获取群欢迎语列表
     searchLogList () {
@@ -238,7 +252,7 @@ export default {
     // 富文本转换
     strToRichText (text) {
       if (!text) {
-        return ''
+        return '-'
       }
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
@@ -356,13 +370,13 @@ export default {
     display: flex;
   }
   .card-item{
-    width: 274px;
+    min-width: 274px;
     // height: 325px;
     padding: 16px;
     box-sizing: border-box;
     background: #F8F9FB;
     border-radius: 4px;
-    margin-right: 16px;
+    // margin-right: 16px;
     margin-bottom: 16px;
     .item-name{
       font-size: 14px;
@@ -380,7 +394,7 @@ export default {
       margin: 4px 0 8px 0;
     }
     .item-text{
-      width: 242px;
+      width: 100%;
       margin-bottom: 8px;
       font-size: 12px;
       color: #383838;
