@@ -12,7 +12,7 @@
       </div>
       <NsButton type="primary" class="add-button" size="large" @click="newCode">新建</NsButton>
     </div>
-    <el-scrollbar ref="fullScreen" class="card-content">
+    <div ref="fullScreen" class="card-content">
       <div v-if="showDatas" class="card-scroll">
         <waterfall :col='waterCol' :data="dataList" ref="waterfall">
           <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
@@ -75,7 +75,7 @@
           <span>没有数据哦~</span>
         </div>
       </div>
-    </el-scrollbar>
+    </div>
     <el-pagination
       :page-sizes="pagination.sizeOpts"
       :total="pagination.total"
@@ -351,6 +351,7 @@ export default {
   box-sizing: border-box;
   background-color: #fff;
   border-bottom: 1px solid #F0F0F0;
+  overflow-y: auto;
   .card-scroll{
     display: flex;
   }
