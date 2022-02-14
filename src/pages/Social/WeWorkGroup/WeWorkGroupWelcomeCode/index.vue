@@ -164,7 +164,7 @@ export default {
             }
           })
         }, 10)
-        if (!resp.result.data) {
+        if (!resp.result.data.length) {
           this.showDatas = false
         } else {
           this.showDatas = true
