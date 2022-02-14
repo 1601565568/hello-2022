@@ -6,13 +6,15 @@
         <span>小程序名称</span>
       </div>
       <div class="miniprogram-title">
-        {{content.title}}
+        {{content.miniprogram.title}}
       </div>
       <div class="miniprogram-content">
-       <img :src="content.imgUrl" alt="">
+        <img :src="content.miniprogram.imgUrl"
+             alt="">
       </div>
       <div class="miniprogram-footer">
-        <Icon type="xiaochengxushouquan" className="icon"/>
+        <Icon type="xiaochengxushouquan"
+              className="icon" />
         <span>小程序</span>
       </div>
     </div>
@@ -39,7 +41,7 @@ export default {
   data () {
     return {}
   },
-  mounted () {},
+  mounted () { },
   methods: {}
 }
 </script>
@@ -65,14 +67,14 @@ export default {
         display: block;
         width: 12px;
         height: 12px;
-        background: #D9D9D9;
+        background: #d9d9d9;
         border-radius: 50%;
       }
       span {
         display: inline-block;
         margin-left: 4px;
         font-size: 12px;
-        color:#909399;
+        color: #909399;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -95,7 +97,7 @@ export default {
       height: 100%;
       display: flex;
       padding-bottom: 5px;
-      border-bottom: 1px solid #EEEEEE;
+      border-bottom: 1px solid #eeeeee;
 
       img {
         max-width: 100%;
@@ -113,11 +115,11 @@ export default {
 
       .icon {
         font-size: 12px;
-        color:#7586DB
+        color: #7586db;
       }
 
       span {
-        color:#909399;
+        color: #909399;
         margin-left: 3px;
         display: inline-block;
       }

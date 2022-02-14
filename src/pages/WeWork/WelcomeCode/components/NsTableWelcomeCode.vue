@@ -77,7 +77,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择店铺："
-                      v-if="cloudPlatformType == 'ECRP'">
+                      v-if="cloudPlatformType == 'ecrp'">
           <!-- <ElFormGrid>
             <NsShopDialog :auth="false"
                           type="primary"
@@ -118,7 +118,7 @@
             已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
           </ElFormGrid>
         </el-form-item> -->
-        <el-form-item :label="cloudPlatformType == 'ECRP'?'选择员工：':'企业微信成员：'">
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'企业微信成员：'">
           <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
@@ -128,7 +128,7 @@
                          v-model="model.guideIds"
                          @input="handleChangeGuide"
                          :isOpenDialogAfterRequest='false'
-                         v-if="cloudPlatformType == 'ECRP'">
+                         v-if="cloudPlatformType == 'ecrp'">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -171,7 +171,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item v-if="cloudPlatformType == 'ECRP'">
+        <el-form-item v-if="cloudPlatformType == 'ecrp'">
           <el-input v-model.trim="model.shopName"
                     placeholder="请输入门店名称"
                     @keyup.enter.native="$searchAction$()"
@@ -282,7 +282,7 @@
               -
             </div>
             <div v-else>
-              <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ECRP' "
+              <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ecrp' "
                          style="color:#0091FA"
                          @click="onShowShopScope(scope.row)"
                          type="text">{{ scope.row.shopCount }}家门店
@@ -291,7 +291,7 @@
               <ns-button style="color:#0091FA"
                          @click="onShowEmployeeScope(scope.row)"
                          v-if="scope.row.employeeCount > 0"
-                         type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ECRP'? '员工':'成员'}}
+                         type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ecrp'? '员工':'成员'}}
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
               <ns-button v-if="scope.row.channelCount > 0"

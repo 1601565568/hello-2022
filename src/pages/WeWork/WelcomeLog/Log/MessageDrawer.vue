@@ -1,22 +1,18 @@
 <template>
-  <ElDrawer
-    size="378px"
-    class="drawer"
-    :modal="false"
-    :visible="visible"
-    direction="rtl"
-    @close="$emit('update:visible', false)"
-    @open="open"
-  >
+  <ElDrawer size="378px"
+            class="drawer"
+            :modal="false"
+            :visible="visible"
+            direction="rtl"
+            @close="$emit('update:visible', false)"
+            @open="open">
     <template slot="title">
       <h3 class="title">发送消息</h3>
     </template>
     <div class="group-container">
-      <MessagePreviewPanel
-        class="message-preivew-panel"
-        :avatar="false"
-        :list="model.contentList"
-      />
+      <MessagePreviewPanel class="message-preivew-panel"
+                           :avatar="false"
+                           :list="model.result" />
     </div>
   </ElDrawer>
 </template>
@@ -42,15 +38,15 @@ export default {
       model: {}
     }
   },
-  mounted () {},
+  mounted () { },
   methods: {
     open () {
       this.getActivityDetailById(this.activityId)
     },
     getActivityDetailById (id) {
-      this.$http.fetch(this.$api.weWork.sop.findById, { id })
+      this.$http.fetch(this.$api.weWork.log.findById, { id })
         .then(resp => {
-          this.model = resp.result
+          this.model = resp
         }).catch(() => {
           this.$notify.error('获取活动详情失败9090')
         })
