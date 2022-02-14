@@ -813,6 +813,7 @@ export default {
   line-height: 32px;
   text-align: center;
   font-size: 14px;
+  cursor: pointer;
 }
 .date-view {
   margin-left: 16px;
