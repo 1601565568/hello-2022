@@ -19,6 +19,10 @@ export default {
         return ''
       },
       type: String
+    },
+    cloudPlatformType: {
+      type: String,
+      default: ''
     }
   },
   watch: {
@@ -77,6 +81,10 @@ export default {
         {
           value: '退群',
           label: '退群'
+        },
+        {
+          value: '删除群成员',
+          label: '删除群成员'
         }
       ], // 事件的下拉框
       datePickerValue: [],
