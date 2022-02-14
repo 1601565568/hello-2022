@@ -1,5 +1,5 @@
 <template>
-  <div class="w-textarea" ref="wTextarea">
+  <div class="w-textarea" :class="{'disabled-tag': disabled}" ref="wTextarea">
     <!-- 标签列表 start -->
     <div class="w-textarea_tools" v-if="tools.length > 0">
       <div class="w-textarea_tools_left">
@@ -624,6 +624,13 @@ $textColor: #595959;
 .emoji-icon {
   font-size: 20px;
   color: #0091FA;
+}
+.disabled-tag{
+  background: #F5F5F5;
+  color: #bfbfbf !important;
+  .emoji-icon {
+    color: #bfbfbf;
+  }
 }
 .w-textarea_input:empty:before{
   content: attr(placeholder);

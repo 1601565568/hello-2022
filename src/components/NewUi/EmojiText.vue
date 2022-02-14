@@ -19,6 +19,10 @@ export default {
     type: {
       default: 'detail'
     },
+    emptySpecial: {
+      type: Boolean,
+      default: false
+    },
     emojiList: {
       type: Array,
       default () {
@@ -32,6 +36,9 @@ export default {
         const preRegexp = this.type === 'list' ? new RegExp('\\[', 'g') : new RegExp('\\{' + this.pre + '\\[', 'g')
         const afterRegexp = this.type === 'list' ? new RegExp(']', 'g') : new RegExp(']}', 'g')
         this.html = newVal.replace(preRegexp, '<img src="https://kedaocdn.oss-cn-zhangjiakou.aliyuncs.com/ecrm/wxemoji/v1/').replace(afterRegexp, '.png" />')
+        if (this.emptySpecial && !newVal) {
+          this.html = '-'
+        }
       },
       immediate: true
     }
