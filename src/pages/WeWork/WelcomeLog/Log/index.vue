@@ -284,7 +284,6 @@ export default {
       this.getActivityList()
     },
     clearActiveIndex (state) {
-      window.console.log('哈哈哈', state)
       // this.visibleGroupDrawer = state
     },
     messageToolTipList (list) {
