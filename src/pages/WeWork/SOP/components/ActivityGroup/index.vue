@@ -9,7 +9,7 @@
         <span>发送结果</span>
         <span>{{successTotal}}/{{_data._pagination.total}}个群</span>
       </div>
-      <NsButton class="export-button" size="medium" @click="exportFile">导出CSV文件</NsButton>
+      <NsButton class="export-button" size="medium" @click="exportFile">导出文件</NsButton>
     </div>
     <div class="new-table group-table">
       <el-table
@@ -88,7 +88,8 @@ export default {
       }
     },
     activityId: Number,
-    reload: Boolean
+    reload: Boolean,
+    activityCode: String
   },
   watch: {
     reload (newVal, oldVal) {
@@ -140,27 +141,17 @@ export default {
         this.$notify.error('当前没有匹配的数据项')
         return
       }
-
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.getLogForChatRoom, {
+      const params = {
         id: this.activityId,
-        showSuccessField: this.type === 'log' ? 1 : 0
+        showSuccessField: this.type === 'log' ? 1 : 0,
+        exportType: 5,
+        code: this.activityCode
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('文件以导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
       })
-        .then((resp) => {
-          let url = window.URL.createObjectURL(new Blob([resp.data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-
-          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
-          link.setAttribute('download', fileName)
-
-          document.body.appendChild(link)
-          link.click()
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          this.$notify.error('导出报错，请联系管理员')
-        })
     }
   }
 }

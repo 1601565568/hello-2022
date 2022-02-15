@@ -63,7 +63,7 @@
         </el-table-column>
         <el-table-column prop="chatroomNum" label="发送结果">
           <template slot-scope="scope">
-            <NsButton type="text" @click="checkActivityGroup(scope.row.id, scope.$index)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
+            <NsButton type="text" @click="checkActivityGroup(scope.row.id, scope.$index, scope.row.code)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
           </template>
         </el-table-column>
       </el-table>
@@ -84,6 +84,7 @@
     <GroupDrawer
       :visible.sync="visibleGroupDrawer"
       :activityId="activeActivityId"
+      :activityCode="activeActivityCode"
     />
     <!-- 发送消息列表Drawer -->
     <MessageDrawer
@@ -160,7 +161,8 @@ export default {
             time > Date.now()
           )
         }
-      }
+      },
+      activeActivityCode: null
     }
   },
   mounted () {
@@ -180,9 +182,10 @@ export default {
     /**
      * 查看活动的群
      */
-    checkActivityGroup (id, index) {
+    checkActivityGroup (id, index, code) {
       this.activeIndex = index
       this.activeActivityId = id
+      this.activeActivityCode = code
       this.visibleGroupDrawer = true
     },
     /**
