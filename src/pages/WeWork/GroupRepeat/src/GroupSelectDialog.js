@@ -31,8 +31,13 @@ var tableMixin = {
       if (this.notBrand) {
         searchParams.searchMap.notBrand = this.notBrand
       }
-      searchParams.searchMap.name = this.model.ChatID
-      searchParams.searchMap.ownerName = this.model.ownerName
+      if (this.env === 'kd') {
+        searchParams.searchMap.chatId = this.model.ChatID
+        searchParams.searchMap.owner = this.model.ownerName
+      } else {
+        searchParams.searchMap.name = this.model.ChatID
+        searchParams.searchMap.ownerName = this.model.ownerName
+      }
       let params = Object.assign({}, this.limit, this.table.order, searchParams)
       this.queryTable(params)
     },
@@ -326,21 +331,29 @@ export default {
      */
     onSearch: function () {
       let searchMap = null
-      if (this.model.workShopId) {
+      if (this.env === 'kd') {
         searchMap = {
-          ownerName: this.model.ownerName,
-          name: this.model.ChatID,
-          departmentId: this.model.departmentId,
-          workShopId: this.model.workShopId.toString(),
+          chatId: this.model.ownerName,
+          owner: this.model.ChatID,
           searchMode: this.searchMode
         }
       } else {
-        searchMap = {
-          ownerName: this.model.ownerName,
-          name: this.model.ChatID,
-          departmentId: this.model.departmentId,
-          searchMode: this.searchMode,
-          shopAreaId: this.model.shopAreaId
+        if (this.model.workShopId && this.model.workShopId.length !== 0) {
+          searchMap = {
+            ownerName: this.model.ownerName,
+            name: this.model.ChatID,
+            departmentId: this.model.departmentId,
+            workShopId: this.model.workShopId.toString(),
+            searchMode: this.searchMode
+          }
+        } else {
+          searchMap = {
+            ownerName: this.model.ownerName,
+            name: this.model.ChatID,
+            departmentId: this.model.departmentId,
+            searchMode: this.searchMode,
+            shopAreaId: this.model.shopAreaId
+          }
         }
       }
       this.$set(this.table, 'searchMap', searchMap)
