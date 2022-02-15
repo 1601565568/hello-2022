@@ -140,7 +140,6 @@ export default {
     this.setWaterCol()
     this.searchLogList()
     window.addEventListener('resize', this.setWaterCol)
-    console.log(window.navigator.userAgent, 'window.navigator.userAgent')
     this.isMac = window.navigator.userAgent.toLowerCase().includes('mac')
   },
   beforeDestroy () {
