@@ -1,39 +1,54 @@
 <template>
   <div>
     <!-- 主列表 -->
-    <ns-table-welcome-code ref='table' @onRedactFun='onRedactFun'
-      @onShowEmployeeScope='onShowEmployeeScope' @onShowChannelScope='onShowChannelScope' @onShowShopScope='onShowShopScope' ></ns-table-welcome-code>
+    <ns-table-welcome-code ref='table'
+                           @onRedactFun='onRedactFun'
+                           @onShowEmployeeScope='onShowEmployeeScope'
+                           @onShowChannelScope='onShowChannelScope'
+                           @onShowShopScope='onShowShopScope'></ns-table-welcome-code>
     <!-- 使用员工 -->
-    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
-      @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
-        title="使用员工"
-        width="720px">
-      <ns-table-employee-scope ref='employeeTable' :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
-      <div slot="footer" class="dialog-footer">
+    <el-dialog ref="employeeDialog"
+               :visible.sync="nsTableEmployeeScopeModel.visible"
+               @open='onOpenEmployeeDialog()'
+               @closed='onCloseEmployeeDialog()'
+               :title="variableName('使用')"
+               width="720px">
+      <ns-table-employee-scope ref='employeeTable'
+                               :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
+      <div slot="footer"
+           class="dialog-footer">
         <ns-button @click="nsTableEmployeeScopeModel.visible = false">关闭</ns-button>
       </div>
     </el-dialog>
     <!-- 使用门店 -->
-    <el-dialog ref="shopDialog" :visible.sync="nsTableShopScopeModel.visible"
-               @open='onOpenShopDialog()' @closed='onCloseShopDialog()'
+    <el-dialog ref="shopDialog"
+               :visible.sync="nsTableShopScopeModel.visible"
+               @open='onOpenShopDialog()'
+               @closed='onCloseShopDialog()'
                title="使用门店"
                width="720px">
-      <ns-table-shop-scope ref='shopTable' :data="nsTableShopScopeModel"></ns-table-shop-scope>
-      <div slot="footer" class="dialog-footer">
+      <ns-table-shop-scope ref='shopTable'
+                           :data="nsTableShopScopeModel"></ns-table-shop-scope>
+      <div slot="footer"
+           class="dialog-footer">
         <ns-button @click="nsTableShopScopeModel.visible = false">关闭</ns-button>
       </div>
     </el-dialog>
     <!-- 使用门店 -->
-        <!-- 使用渠道 -->
+    <!-- 使用渠道 -->
     <el-dialog :visible.sync="channelScopeModel.visible"
-            title="使用渠道"
-            width="400px">
-      <el-table :data="channelList" stripe
-        v-loading.lock="channelScopeModel.loadingtable"
-        :element-loading-text="$t('prompt.loading')">
-        <el-table-column property="label" label="渠道名称" align="left"></el-table-column>
+               title="使用渠道"
+               width="400px">
+      <el-table :data="channelList"
+                stripe
+                v-loading.lock="channelScopeModel.loadingtable"
+                :element-loading-text="$t('prompt.loading')">
+        <el-table-column property="label"
+                         label="渠道名称"
+                         align="left"></el-table-column>
       </el-table>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+           class="dialog-footer">
         <ns-button @click="onCloseChannelDialog">关闭</ns-button>
       </div>
     </el-dialog>
@@ -74,7 +89,14 @@ export default {
       channelScopeModel: channelScopeModel,
       nsTableShopScopeModel: nsTableShopScopeModel,
       channelList: [],
-      shopList: []
+      shopList: [],
+      variableName: (str = '') => {
+        if (this.cloudPlatformType === 'ecrp') {
+          return str + '员工'
+        } else {
+          return str + '成员'
+        }
+      }
     }
   },
   methods: {

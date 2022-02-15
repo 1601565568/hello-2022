@@ -193,7 +193,7 @@ export default {
   watch: {
     searchDate (newVal) {
       const date = newVal || [null, null]
-      this.searchDateChange({ startTime: date[0], endTime: date[1] })
+      this.searchDateChange({ startTime: `${moment(date[0]).format('yyyy-MM-DD')} 00:00:00`, endTime: `${moment(date[1]).format('yyyy-MM-DD')} 23:59:59` })
     },
     visibleGroupDrawer (val) {
       if (!val) {
@@ -329,6 +329,7 @@ export default {
       this.getActivityList()
     },
     handleChangeGuide (value) {
+      this.pagination = { ...this.pagination, page: 1 }
       //   this.model.guideIds = this.model.guideIds.join(',')
       this.getActivityList()
     },

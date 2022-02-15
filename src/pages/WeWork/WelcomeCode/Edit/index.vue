@@ -29,18 +29,19 @@
                      label-width="107px"
                      label-position="left">
               <div class="banner-tip">
-                <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语<span v-if="cloudPlatformType == 'ECRP'">>店铺欢迎语</span>>默认欢迎语</span>
+                <span class="text">当{{variableName()}}有多个欢迎语时，发送优先级为渠道欢迎语>{{variableName()}}欢迎语<span v-if="cloudPlatformType == 'ecrp'">>店铺欢迎语>默认欢迎语</span></span>
               </div>
-              <el-form-item :rules="rules.name"
+              <el-form-item prop="title"
+                            :rules="rules.title"
                             required>
                 <template slot="label">
                   <span>欢迎语名称</span>
-                  <el-tag v-if="model.type === 9"
+                  <el-tag v-if="model.type === 9 && cloudPlatformType == 'ecrp'"
                           style="margin-left: 4px">默认</el-tag>
                 </template>
                 <div style="max-width:626px">
                   <length-input v-model='model.title'
-                                placeholder="请输入欢迎语名称，长度20个字符以内"
+                                placeholder="请输入欢迎语名称"
                                 :length='25' />
                 </div>
               </el-form-item>
@@ -69,7 +70,6 @@
                              @edit="editAnnexMessage"
                              @delete="deleteAnnexMessage" />
                 <el-popover placement="top-start"
-                            width="400"
                             trigger="hover"
                             :disabled="model.annexList.length >= 9">
                   <template slot="reference">
@@ -93,9 +93,9 @@
                 </el-popover>
               </el-form-item>
               <el-form-item label="使用范围">
-                <template v-if="model.type === 9">
-                  <div>全部员工</div>
-                  <span class="add-tip label-gap">当员工未配置欢迎语时，将发送该默认欢迎语</span>
+                <template v-if="model.type === 9 && cloudPlatformType == 'ecrp' ">
+                  <div>全部{{variableName()}}</div>
+                  <span class="add-tip label-gap">当{{variableName()}}未配置欢迎语时，将发送该默认欢迎语</span>
                 </template>
                 <template v-else>
                   <div class="select-area"
@@ -122,7 +122,7 @@
                     </NsShopDialog>
                   </div>
                   <div class="select-area">
-                    <span class="select-title">选择员工</span>
+                    <span class="select-title">选择{{variableName()}}</span>
                     <NsGuideDialog :selfBtn='true'
                                    :appendToBody='true'
                                    :isButton="false"
@@ -130,15 +130,15 @@
                                    :auth="true"
                                    type="primary"
                                    btnTitle=""
-                                   dialogTitle="选择员工"
+                                   :dialogTitle="variableName('选择')"
                                    v-model="model.employeeIds"
                                    v-if="cloudPlatformType == 'ecrp'">
                       <template slot='selfBtn'>
                         <div class="select-tips">
                           <span v-if="!model.employeeIds.length"
-                                class="un-selected">请选择员工</span>
+                                class="un-selected">请选择{{variableName()}}</span>
                           <span v-else
-                                class="selected">已选择{{model.employeeIds.length}}个员工</span>
+                                class="selected">已选择{{model.employeeIds.length}}个{{variableName()}}</span>
                           <Icon type="ns-people"
                                 class="icon" />
                         </div>
@@ -151,15 +151,15 @@
                                          :auth="true"
                                          type="primary"
                                          btnTitle=""
-                                         dialogTitle="选择员工"
+                                         :dialogTitle="variableName('选择')"
                                          v-model="model.employeeIds"
                                          v-else>
                       <template slot='selfBtn'>
                         <div class="select-tips">
                           <span v-if="!model.employeeIds.length"
-                                class="un-selected">请选择员工</span>
+                                class="un-selected">请选择{{variableName()}}</span>
                           <span v-else
-                                class="selected">已选择{{model.employeeIds.length}}个员工</span>
+                                class="selected">已选择{{model.employeeIds.length}}个{{variableName()}}</span>
                           <Icon type="ns-people"
                                 class="icon" />
                         </div>
@@ -210,7 +210,24 @@ import WechatMessageBar from './WechatMessageBar'
 import MessagePreviewPanel from './MessagePreviewPanel'
 import { WelcomeMessageType } from '../types'
 import LengthInput from '@/components/NewUi/LengthInput'
-
+const title = (rule, value, callback) => {
+  if (value.length > 25) {
+    callback(new Error('欢迎语名称最多25个字'))
+  } else if (value.trim().length === 0) {
+    callback(new Error('欢迎语名称不能为空'))
+  } else {
+    callback()
+  }
+}
+const content = (rule, value, callback) => {
+  if (value.length > 1000) {
+    callback(new Error('欢迎语最多1000个字'))
+  } else if (value.trim().length === 0) {
+    callback(new Error('欢迎语不能为空'))
+  } else {
+    callback()
+  }
+}
 export default {
   components: {
     PageEdit,
@@ -255,6 +272,13 @@ export default {
       welcomeInputLength: 0,
       welcomeMessage: undefined,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
+      variableName: (str = '') => {
+        if (this.cloudPlatformType === 'ecrp') {
+          return str + '员工'
+        } else {
+          return str + '成员'
+        }
+      },
       model: {
         content: '',
         annexList: [
@@ -305,10 +329,12 @@ export default {
       },
       rules: {
         content: [
-          { required: true, message: '请输入发送内容', trigger: ['blur'] }
+          { required: true, message: '请输入发送内容', trigger: ['blur', 'change'] },
+          { validator: content, trigger: ['blur', 'change'] }
         ],
-        name: [
-          { required: true, message: '请输入欢迎语名称', trigger: ['blur'] }
+        title: [
+          { required: true, message: '请输入欢迎语名称', trigger: ['blur', 'change'] },
+          { validator: title, trigger: ['blur', 'change'] }
         ]
       },
       // 欢迎语可插入标签
