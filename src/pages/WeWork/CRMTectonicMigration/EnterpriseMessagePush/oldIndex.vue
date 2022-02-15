@@ -1,40 +1,328 @@
 <template>
-  <PageEdit class="friend-marketing">
-    <template slot="header">
-      <div class="common-header flex-box">
-        <h3>{{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销</h3>
-        <div class="common-btn">
-          <ns-button class="customer-btn_cancel" @click="cancel" size="large">取消</ns-button>
-          <ns-button class="customer-btn_save"  :disabled="isUpdate" :loading="loading" @click='save' type="primary" size="large">保存</ns-button>
-        </div>
+  <div v-if="!isError">
+    <div class="page-title">
+      {{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销
+    </div>
+    <ElScrollbar ref="fullScreen">
+      <ElForm label-width="100px" ref="formName" :model="model" :rules="rules">
+      <div class="message-container">
+        <ElCard shadow="never">
+          <div slot="header">基本信息</div>
+          <div>
+              <ElFormItem label="活动名称：" prop="name">
+                <ElFormGrid size="xlg">
+                  <ElInput
+                    :disabled="isUpdate"
+                    type="text"
+                    placeholder="请输入活动名称"
+                    v-model="model.name"
+                    maxlength="30"
+                    show-word-limit
+                  />
+                </ElFormGrid>
+              </ElFormItem>
+              <ElFormItem label="选择营销人群：" required>
+                <ElFormGrid>
+                  <!--<NsButton type="text" @click="openMarking()">+选择营销人群</NsButton>-->
+                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
+                </ElFormGrid>
+                <ElFormGrid>
+                  已选择<span class="text-primary">{{employeeSelectData.data? employeeSelectData.data.length: 0}}</span>{{employeeSelectData.type == 'employee'? '个员工全部好友': '个客户分群'}}
+                </ElFormGrid>
+              </ElFormItem>
+              <ElFormItem label="发送方式：" required>
+                <ElFormGrid>
+                  <ElRadioGroup :disabled="isUpdate" v-model="model.executeMode" @change="changeExec">
+                    <ElRadio :label="1">立即发送</ElRadio>
+                    <ElRadio :label="2">定时发送</ElRadio>
+                  </ElRadioGroup>
+                </ElFormGrid>
+                <ElFormGrid class="text-secondary">设置任务发送的时间</ElFormGrid>
+              </ElFormItem>
+              <ElFormItem label="执行时间：" v-if="model.executeMode== 2" prop="executeTime">
+                <ElFormGrid size="xmd">
+                  <el-date-picker
+                    :disabled="isUpdate"
+                    v-model="model.executeTime"
+                    type="datetime"
+                    placeholder="选择日期时间">
+                  </el-date-picker>
+                </ElFormGrid>
+                <ElFormGrid size="xmd">
+                </ElFormGrid>
+              </ElFormItem>
+          </div>
+        </ElCard>
+        <ElCard shadow="never" class="message-container__card">
+          <div slot="header">发布设置</div>
+          <div class="message-composition">
+            <div class="message-composition__left">
+                <ElFormItem prop="textarea">
+                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="400" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' @input='setView' :showEmoji='true' :showTextEmoji='true'/>
+                  <!-- <ElFormGrid>
+                    <el-input
+                      :disabled="isUpdate"
+                      type="textarea"
+                      :rows="6"
+                      placeholder="请输入内容"
+                      @blur="setView"
+                      v-model="model.textarea" maxlength="400" style="width: 600px;">
+                    </el-input>
+                  </ElFormGrid> -->
+                </ElFormItem>
+                <ElFormItem>
+                  <ElFormGrid>
+                    <ElPopover trigger="hover" v-if="!isUpdate && !show">
+                      <div class="message-prompt">
+                      <div class="message-prompt__mass" @click="setType()">
+                        <ElUpload ref="upload"
+                                  :action="this.$api.core.sgUploadFile('activityPic')"
+                                  :show-file-list="false"
+                                  :on-success="uploadSuccess"
+                                  :before-upload="beforeAvatarUpload"
+                                  accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
+                          <Icon type="picture" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">图片</div>
+                        </ElUpload>
+                      </div>
+                      <div class="message-prompt__mass" style="display: inline-block;" @click="openPic">
+                          <Icon type="picture" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">图文</div>
+                      </div>
+                      <div class="message-prompt__mass" style="display: inline-block;" @click="openMiniPro">
+                          <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
+                      </div>
+                        <!--<div class="message-prompt__mass">
+                          <Icon type="link" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">链接</div>
+                        </div>
+                        <div class="message-prompt__mass" @click="dialogVisibleLink = true">
+                          <Icon type="applet" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">小程序</div>
+                        </div>-->
+                      </div>
+                      <NsButton :disabled="isUpdate" type="text" slot="reference">+添加图片/图文/小程序</NsButton>
+                     </ElPopover>
+                    <div v-if="show">
+                      <ElUpload ref="upload"
+                                :action="this.$api.core.sgUploadFile('activityPic')"
+                                :show-file-list="false"
+                                :on-success="uploadSuccess"
+                                :before-upload="beforeAvatarUpload"
+                                accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG" v-if="model.type === 1" style="display: inline-block;">
+                        <NsButton :disabled="isUpdate" type="text">图片</NsButton>
+                      </ElUpload>
+                      <NsButton :disabled="isUpdate" type="text" @click="openPic" v-if="model.type === 2" style="display: inline-block;">图文</NsButton>
+                      <NsButton :disabled="isUpdate" type="text" @click="openMiniPro" v-if="model.type === 3" style="display: inline-block;">小程序</NsButton>
+                      <NsButton :disabled="isUpdate" type="text">
+                        <Icon type="close-circle"  theme="outlined"  @click="clear"/>
+                      </NsButton>
+                    </div>
+                  </ElFormGrid>
+                </ElFormItem>
+            </div>
+            <div class="message-composition__right">
+              <contentPreview  ref="preview"/>
+            </div>
+          </div>
+        </ElCard>
       </div>
-    </template>
-    <template slot='content'>
-      <SimpleCollapse class="group-simple" :title="'发布设置'">
-        <PhoneBox phoneTitle :showPhoneHead="true">
-          <template slot='collapse-left'>
-            <!-- <source-all
-              ref='sourceAll'
-              :disabled="disabled"
-              :detail="detail"
-              @list='proviewList'
-              @pitContent='proviewPitContent'
-              @back="gotoList"
-            /> -->
-          </template>
-          <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
-          </template>
-        </PhoneBox>
-      </SimpleCollapse>
-    </template>
-  </PageEdit>
+      </ElForm>
+    </ElScrollbar>
+    <div class="form-save__unique">
+      <NsSave  @click="save" :disabled="isUpdate" :loading="loading"/>
+      <NsButton @click="cancel">{{$t('operating.cancel')}}</NsButton>
+    </div>
+    <el-dialog title="选择营销人群" :visible.sync="visible" :show-scroll-x="false"
+               :close-on-click-modal = "false" :before-close="onMarkingClose" width="700px" height="400px">
+      <el-form>
+        <el-form-item>
+          <el-tabs v-model="model.customerType" @tab-click="change">
+            <el-tab-pane label="客户分群" name="1"></el-tab-pane>
+            <el-tab-pane label="员工全部好友" name="2"></el-tab-pane>
+          </el-tabs>
+        </el-form-item>
+        <el-form-item>
+          <ElRow :gutter="10" class="code-container">
+            <ElCol :span="12" class="code-container__item">
+              <div class="code-title">可选{{model.customerType == '1'? '分组': '好友'}}</div>
+              <ElInput
+                :placeholder="model.customerType == '1'? '请输入分组人群': '请输入好友员工'"
+                suffix-icon="el-icon-search"
+                v-model="select" class="code-space">
+              </ElInput>
+              <ElScrollbar>
+                <ElTree
+                  :data="selectData"
+                  ref="selectTree"
+                  show-checkbox
+                  :filter-node-method="selectFilterNode"
+                  node-key="id"
+                  default-expand-all
+                  :default-checked-keys="selectKeys"
+                  @check="check"
+                  :props="leftDefaultProps" class="code-space">
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>{{ data.children ? '/' + data.children.length : '' }}</span>
+            </span>
+                </ElTree>
+              </ElScrollbar>
+            </ElCol>
+            <ElCol :span="12" class="code-container__item">
+              <div class="code-title">已选{{model.customerType == '1'? '个分组': '个好友'}}</div>
+              <ElInput
+                :placeholder="model.customerType == '1'? '请输入分组人群': '请输入好友员工'"
+                suffix-icon="el-icon-search"
+                v-model="selected" class="code-space">
+              </ElInput>
+              <ElScrollbar>
+                <ElTree
+                  :data="selectedData"
+                  ref="selectedTree"
+                  :filter-node-method="selectedFilterNode"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space">
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>
+                <ns-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+                  <Icon type="delete" className="code-delete"/>
+                </ns-button>
+              </span>
+            </span>
+                </ElTree>
+              </ElScrollbar>
+            </ElCol>
+          </ElRow>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="onMarkingClose()">{{$t('operating.cancel')}}</ns-button>
+        <ns-save @click="onMarkingSave()"></ns-save>
+      </div>
+    </el-dialog>
+    <!-- 图文 start -->
+    <ElDialog
+      width="500px"
+      height="265px"
+      title="图文"
+      :visible.sync="picVisible"
+      :show-scroll-x=false :before-close="cancelPic">
+      <div class="margin-lr-small">
+        <ElForm ref="picForm" :model="pic" :rules="picRules">
+          <ElFormItem label="图片标题：" required label-width="100px" prop="title">
+            <ElFormGrid size="lg">
+            <ElInput
+              type="text"
+              placeholder="请输入图文标题"
+              v-model="pic.title"
+            />
+            </ElFormGrid>
+          </ElFormItem>
+          <ElFormItem label="图文描述：" required  label-width="100px" prop="desc">
+            <ElFormGrid size="lg">
+            <ElInput
+              type="textarea"
+              row="3"
+              placeholder="请输入图文描述"
+              v-model="pic.desc"
+            />
+            </ElFormGrid>
+          </ElFormItem>
+          <ElFormItem label="封面图：" required  label-width="100px" prop="pic" >
+            <ElFormGrid>
+            <ElUpload
+              :action="this.$api.core.sgUploadFile('activityPic')"
+              :show-file-list="false"
+              :on-success="uploadSuccess"
+              :before-upload="beforeAvatarUpload" accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
+              <img v-if="pic.pic" :src="pic.pic" style="height: 30px; width: 30px">
+              <Icon type="plus" style="height: 30px; width: 30px" v-else/>
+            </ElUpload>
+            </ElFormGrid>
+          </ElFormItem>
+          <ElFormItem label="图文链接：" required label-width="100px" prop="url">
+            <ElFormGrid size="lg">
+              <ElInput
+                type="text"
+                placeholder="请输入图文链接"
+                v-model="pic.url"
+              />
+            </ElFormGrid>
+          </ElFormItem>
+        </ElForm>
+      </div>
+      <span slot="footer">
+        <NsButton @click="cancelPic">{{$t('operating.cancel')}}</NsButton>
+        <NsSave @click="savePic"/>
+      </span>
+    </ElDialog>
+    <!-- 图文 end -->
+    <!-- 小程序 start-->
+    <ElDialog
+      width="500px"
+      title="小程序"
+      :visible.sync="miniProVisible"
+      :show-scroll-x=false :before-close="cancelMiniPro">
+      <div class="margin-lr-small">
+        <ElForm ref="miniProForm" :model="miniPro" :rules="miniProRules">
+          <ElFormItem label="小程序标题：" required label-width="100px" prop="title">
+            <ElInput
+              type="text"
+              placeholder="请输入小程序标题"
+              v-model="miniPro.title"
+            />
+          </ElFormItem>
+          <ElFormItem label="小程序appid：" required label-width="100px" prop="appid">
+            <ElInput
+              type="text"
+              placeholder="请输入小程序appid"
+              v-model="miniPro.appid"
+            />
+          </ElFormItem>
+          <ElFormItem label="小程序路径：" required  label-width="100px" prop="appPath">
+            <ElInput
+              type="text"
+              placeholder="请输入小程序路径"
+              v-model="miniPro.appPath"
+            />
+          </ElFormItem>
+          <ElFormItem label-width="100px">
+            <el-form-grid size="xmd">
+              <a href="https://jingyan.baidu.com/article/f3ad7d0f4c39aa09c3345bf1.html" target="_blank">如何获取路径</a>
+            </el-form-grid>
+          </ElFormItem>
+          <ElFormItem label="封面图：" required  label-width="100px" prop="pic" class="el-form-validate__unHide">
+            <ElFormGrid>
+              <ElUpload
+                :action="this.$api.core.sgUploadFile('activityPic')"
+                :show-file-list="false"
+                :on-success="uploadSuccess"
+                :before-upload="beforeAvatarUpload" accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
+                <img v-if="miniPro.pic" :src="miniPro.pic" style="height: 30px; width: 30px">
+                <Icon type="plus" style="height: 30px; width: 30px" v-else/>
+              </ElUpload>
+            </ElFormGrid>
+          </ElFormItem>
+        </ElForm>
+      </div>
+      <span slot="footer">
+        <NsButton @click="cancelMiniPro">{{$t('operating.cancel')}}</NsButton>
+        <NsSave @click="saveMiniPro"/>
+      </span>
+    </ElDialog>
+    <!-- 小程序 end-->
+  </div>
+  <div v-else>
+    <ns-no-data>{{$t('prompt.noData')}}</ns-no-data>
+  </div>
 </template>
 <script>
-import PageEdit from '@/components/NewUi/PageEdit'
-import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
-import PhoneBox from '@/components/NewUi/PhoneBox'
-
 import ElCard from '@nascent/nui/lib/card'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
@@ -48,15 +336,11 @@ let vm
 export default {
   mixins: [scrollHeight, tableMixin],
   components: {
-    PageEdit,
-    SimpleCollapse,
-    PhoneBox
-
-    // ElCard,
-    // contentPreview,
-    // NsEmployeeOrCustGroupDialog,
-    // ElUpload,
-    // TagArea
+    ElCard,
+    contentPreview,
+    NsEmployeeOrCustGroupDialog,
+    ElUpload,
+    TagArea
   },
   data () {
     return {
@@ -726,7 +1010,6 @@ export default {
 
 <style scoped>
   @import "@theme/variables.pcss";
-  @import "@components/NewUi/styles/reset.css";
 
   @component-namespace message {
     @b container {
