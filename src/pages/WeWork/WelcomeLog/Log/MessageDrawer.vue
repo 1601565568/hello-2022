@@ -41,6 +41,7 @@ export default {
   mounted () { },
   methods: {
     open () {
+      this.model = {}
       this.getActivityDetailById(this.activityId)
     },
     getActivityDetailById (id) {

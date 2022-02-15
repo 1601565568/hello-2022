@@ -1,6 +1,7 @@
 <template>
   <div class="text-message">
-    <EmojiText :text='htmlContent' />
+    <EmojiText :text='htmlContent'
+               type='list' />
   </div>
 </template>
 
