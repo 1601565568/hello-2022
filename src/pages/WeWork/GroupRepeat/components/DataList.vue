@@ -204,8 +204,8 @@ export default {
 }
 .close-icon {
   margin-left: 16px;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 .drawer-showinfo {
   font-size: 14px;
