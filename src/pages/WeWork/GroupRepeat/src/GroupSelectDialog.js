@@ -31,7 +31,7 @@ var tableMixin = {
       if (this.notBrand) {
         searchParams.searchMap.notBrand = this.notBrand
       }
-      searchParams.searchMap.chatId = this.model.ChatID
+      searchParams.searchMap.name = this.model.ChatID
       searchParams.searchMap.ownerName = this.model.ownerName
       let params = Object.assign({}, this.limit, this.table.order, searchParams)
       this.queryTable(params)
@@ -325,12 +325,23 @@ export default {
      * 搜索
      */
     onSearch: function () {
-      let searchMap = {
-        ownerName: this.model.ownerName,
-        name: this.model.ChatID,
-        departmentId: this.departmentId.value,
-        workShopId: this.model.workShopId,
-        searchMode: this.searchMode
+      let searchMap = null
+      if (this.model.workShopId) {
+        searchMap = {
+          ownerName: this.model.ownerName,
+          name: this.model.ChatID,
+          departmentId: this.model.departmentId,
+          workShopId: this.model.workShopId.toString(),
+          searchMode: this.searchMode
+        }
+      } else {
+        searchMap = {
+          ownerName: this.model.ownerName,
+          name: this.model.ChatID,
+          departmentId: this.model.departmentId,
+          searchMode: this.searchMode,
+          shopAreaId: this.model.shopAreaId
+        }
       }
       this.$set(this.table, 'searchMap', searchMap)
       this.pagination.currPage = 1
@@ -494,7 +505,7 @@ export default {
     shopAreaId: function (o1, o2) {
       let shopOptions = []
       this.shopId = ''
-      this.model.shopAreaId = o1.value
+      // this.model.shopAreaId = o1.value
       if (!o1.value || o1.value !== o2.value) {
         if (o1.value === 0) {
           this.shops = this.allShops
@@ -507,6 +518,11 @@ export default {
           }
         })
         this.shops = shopOptions
+        this.model.workShopId = ''
+      }
+      if (o1.value !== this.model.shopAreaId) {
+        this.model.shopAreaId = o1.value
+        this.onSearch()
       }
     },
     departmentId: function (val) {

@@ -25,7 +25,7 @@
         <el-form ref="form" :model="model" label-width="63px" :inline="true" v-if="env==='kd'">
           <el-form-item>
             <el-form-grid size="xmd">
-              <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable @change="groupChange(model.ChatID)">
+              <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable clearable @change="groupChange(model.ChatID)">
                 <el-option
                   v-for="item in groupList"
                   :key="item.label"
@@ -37,7 +37,7 @@
           </el-form-item>
           <el-form-item>
             <el-form-grid size="xmd">
-              <el-select v-model="model.ownerName" placeholder="请选择群主" filterable @change="ownerNameChange(model.ownerName)">
+              <el-select v-model="model.ownerName" placeholder="请选择群主" filterable clearable @change="ownerNameChange(model.ownerName)">
                 <el-option
                   v-for="item in userList"
                   :key="item.label"
@@ -69,8 +69,29 @@
               />
             </el-form-grid>
             <el-form-grid size="small">
-              <el-select-load v-model="model.workShopId" :options="shops"  filterable clearable :page-sizes="20" placeholder="请选择门店" @change="workShopChange">
-              </el-select-load>
+              <!-- <el-select-load v-model="model.workShopId" :options="shops"  filterable clearable :page-sizes="20" placeholder="请选择门店" @change="workShopChange">
+              </el-select-load> -->
+              <el-select
+                v-model="model.workShopId"
+                multiple
+                filterable
+                allow-create
+                default-first-option
+                :reserve-keyword="false"
+                placeholder="请选择门店"
+                :collapse-tags="true"
+                clearable
+                @change="workShopChange"
+              >
+                <el-option
+                  v-for="item in shops"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  style="width:150px"
+                >
+                </el-option>
+              </el-select>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="群主部门：">
@@ -211,6 +232,9 @@ export default GroupSelectDialog
   }
   >>> .el-scrollbar__wrap{
     overflow: hidden;
+  }
+  >>> .template-table-pagination .el-input .el-input__inner{
+    text-align: center !important;
   }
   .item-down {
     /* width: 171px; */

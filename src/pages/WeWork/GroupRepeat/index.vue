@@ -2,8 +2,8 @@
   <div>
     <div style="padding: 16px; background: #fff; margin: -10px -10px 0;">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/userCenter/customer/customerList'}">用户中心</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/userCenter/group/list'}">群管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">用户中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/RoomList'}">群管理</el-breadcrumb-item>
         <el-breadcrumb-item>重复群统计</el-breadcrumb-item>
       </el-breadcrumb>
       <div style="fontSize:16px;marginTop:16px;fontWeight:bold">重复群统计 </div>
@@ -60,6 +60,7 @@
             layout="sizes, prev, pager, next, jumper"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="marginTop:14.5px"
           >
           </el-pagination>
         </template>
@@ -213,6 +214,9 @@ export default {
   font-size: 14px;
   color: #0094fc;
   font-weight: 400;
+}
+>>> .label-dialog__pagination .el-input .el-input__inner{
+  text-align: center !important;
 }
 .select-view{
   height: 64px;
