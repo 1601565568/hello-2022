@@ -108,6 +108,7 @@ import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
+      isMac: false, // 判断是mac还是ios
       waterCol: 2, // 瀑布流列数
       itemWidth: 274, // 瀑布流宽度
       // 分页配置
@@ -139,6 +140,8 @@ export default {
     this.setWaterCol()
     this.searchLogList()
     window.addEventListener('resize', this.setWaterCol)
+    console.log(window.navigator.userAgent, 'window.navigator.userAgent')
+    this.isMac = window.navigator.userAgent.toLowerCase().includes('mac')
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setWaterCol)
@@ -148,8 +151,9 @@ export default {
     setWaterCol () {
       this.waterCol = 1
       setTimeout(() => {
-        this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64) / 290)
-        this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
+        // 210是左边菜单 10是右margin, 64是内容左右padding，17是windows下滚动条宽度
+        this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17)) / 290)
+        this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17) - (this.waterCol - 1) * 16) / this.waterCol)
         this.$nextTick(() => {
           if (this.$refs.waterfall) {
             this.$waterfall.forceUpdate()
