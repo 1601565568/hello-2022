@@ -1,4 +1,4 @@
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../../../../components/NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 
 var tableMixin = {
@@ -31,7 +31,7 @@ var tableMixin = {
       if (this.notBrand) {
         searchParams.searchMap.notBrand = this.notBrand
       }
-      searchParams.searchMap.chatId = this.model.ChatID
+      searchParams.searchMap.name = this.model.ChatID
       searchParams.searchMap.ownerName = this.model.ownerName
       let params = Object.assign({}, this.limit, this.table.order, searchParams)
       this.queryTable(params)
@@ -325,13 +325,23 @@ export default {
      * 搜索
      */
     onSearch: function () {
-      // alert('搜索')
-      let searchMap = {
-        ownerName: this.model.ownerName,
-        name: this.model.ChatID,
-        departmentId: this.departmentId.value,
-        workShopId: this.model.workShopId,
-        searchMode: this.searchMode
+      let searchMap = null
+      if (this.model.workShopId) {
+        searchMap = {
+          ownerName: this.model.ownerName,
+          name: this.model.ChatID,
+          departmentId: this.model.departmentId,
+          workShopId: this.model.workShopId.toString(),
+          searchMode: this.searchMode
+        }
+      } else {
+        searchMap = {
+          ownerName: this.model.ownerName,
+          name: this.model.ChatID,
+          departmentId: this.model.departmentId,
+          searchMode: this.searchMode,
+          shopAreaId: this.model.shopAreaId
+        }
       }
       this.$set(this.table, 'searchMap', searchMap)
       this.pagination.currPage = 1
@@ -466,7 +476,6 @@ export default {
      * 加载部门
      */
     loadDepartments (node, resolve) {
-      // alert(node, resolve)
       if (node.level === 0) { // 第一次调用
         return resolve([{ id: 0, parentId: -1, code: 0, label: '全部', checked: false, showAdd: true, showEdit: true, showDelete: true }])
       }
@@ -494,10 +503,9 @@ export default {
       this.selectedData = JSON.parse(JSON.stringify(val))
     },
     shopAreaId: function (o1, o2) {
-      // alert(o1.value, o2.value)
       let shopOptions = []
       this.shopId = ''
-      this.model.shopAreaId = o1.value
+      // this.model.shopAreaId = o1.value
       if (!o1.value || o1.value !== o2.value) {
         if (o1.value === 0) {
           this.shops = this.allShops
@@ -510,10 +518,18 @@ export default {
           }
         })
         this.shops = shopOptions
+        this.model.workShopId = ''
+      }
+      if (o1.value !== this.model.shopAreaId) {
+        this.model.shopAreaId = o1.value
+        this.onSearch()
       }
     },
-    departmentId: function (v) {
-      this.onSearch()
+    departmentId: function (val) {
+      if (val.value !== this.model.departmentId) {
+        this.model.departmentId = val.value
+        this.onSearch()
+      }
     }
   },
   mounted: function () {
