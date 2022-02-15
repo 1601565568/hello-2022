@@ -31,7 +31,7 @@
             </div>
             <div class="item-image" v-if="item.otherMsgType + '' !== '0'">
               <div v-if="item.otherMsgType + '' === '1'" class="image-block" @click="showPreview(item, 'img')">
-                <img :src="item.imageUrl + '?x-oss-process=image/resize,m_lfit,h_165,w_242'">
+                <img :src="item.imageUrl">
               </div>
               <div v-if="item.otherMsgType + '' === '2'" class="video-block" @click="showPreview(item, 'video')">
                 <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_152,m_fast'">
@@ -482,12 +482,19 @@ export default {
       .image-block{
         position: relative;
         height: 165px;
+        img{
+          max-height: 165px;
+          max-width: 242px;
+        }
       }
       .video-block{
         position: relative;
         display: inline-block;
         height: 165px;
         cursor: pointer;
+        // img{
+        //   height: 165px;
+        // }
         .video-mask{
           position: absolute;
           top: calc(50% - 6.5px);
