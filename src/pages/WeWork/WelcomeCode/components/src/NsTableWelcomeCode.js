@@ -70,6 +70,13 @@ export default {
         operate_buttons: operateButtons,
         loadingtable: false
       },
+	  variableName: (str = '') => {
+        if (this.cloudPlatformType === 'ecrp') {
+          return str + '员工'
+        } else {
+          return str + '成员'
+        }
+      },
       // 附带内容类型
       annexTypeOptions: [
         {

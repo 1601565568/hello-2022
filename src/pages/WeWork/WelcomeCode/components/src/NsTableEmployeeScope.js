@@ -1,3 +1,5 @@
+/* eslint-disable no-tabs */
+/* eslint-disable no-mixed-spaces-and-tabs */
 /*
  * @Descripttion: 使用员工组件
  * @Author: yuye.huang
@@ -31,7 +33,8 @@ export default {
         quickSearchMap: {}
       },
       model: model,
-      url: this.$api.weWork.welcomeCode.findWelcomeCodeEmployeeList
+      url: this.$api.weWork.welcomeCode.findWelcomeCodeEmployeeList,
+	  cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
     }
   },
   mounted () {

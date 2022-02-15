@@ -12,13 +12,13 @@
                       :content="item.content"
                       :preview="true"
                       :imageLabel="imageLabel"
-                      :previewList="[item.content[imageLabel]]" />
+                      :previewList="[item.content.image.mediaid]" />
         <CodePosterImage v-else-if="item.type === SOPActivityMessageType.Poster"
                          class="image-message"
                          :content="item.content"
                          :preview="true"
                          :imageLabel="imageLabel"
-                         :previewList="[item.content[imageLabel]]" />
+                         :previewList="[item.content.image.mediaid]" />
         <VideoMessage v-else-if="item.type === SOPActivityMessageType.Video"
                       class="video-message"
                       :content="item.content"
