@@ -148,7 +148,7 @@ export default {
         code: this.activityCode
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
-        this.$notify.success('文件以导入下载中心')
+        this.$notify.success('文件已导入下载中心')
       }).catch((resp) => {
         this.$notify.error(resp.msg || '导出报错，请联系管理员')
       })
