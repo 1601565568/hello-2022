@@ -16,8 +16,9 @@
       <el-form
         :model="model"
         :inline="true"
+        class='form-inline_top'
       >
-        <el-form-item label="时间：">
+        <el-form-item label="时间：" class='el-form__change'>
             <!-- <el-date-picker
               v-model="model.timeRange"
               type="datetimerange"
@@ -64,8 +65,8 @@
             </div>
           </div>
         </el-form-item> -->
-        <el-form-item :label="cloudPlatformType==='kd'?'企业微信成员':'门店/员工'" class="nsGuide" style="margin-left: 11px">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds">
+        <el-form-item :label="cloudPlatformType==='kd'?'企业微信成员':'门店/员工:'" class="nsGuide" style="margin-left: 11px">
+          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="guideIdsChange">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -74,13 +75,14 @@
             </template>
           </NsGuideDialog>
         </el-form-item>
-        <el-form-item label="事件：" style="margin-left: 16px">
+        <el-form-item label="事件：" style="margin-left: 16px" class='el-form__change'>
           <div class="item-select">
             <el-select
               clearable
               v-model="model.searchEventType"
               :default-first-option="true"
               @change="owenerChange"
+              style="width: 120px"
             >
               <el-option
                 v-for="item in chatRoomOwner"
@@ -97,15 +99,17 @@
             <el-input
               autofocus="true"
               v-model.trim="model.searchGName"
-              placeholder="请输入导购/群名"
-              clearable
+              :placeholder="cloudPlatformType==='kd' ? '请输入成员/群名' : '请输入导购/群名'"
+              style="width: 152px"
+              @blur="chatChange"
             ></el-input>
+            <Icon type="search" style="color: #C0C4CC;"></Icon>
           </div>
         </el-form-item>
-        <div class="template-table__more-btn">
+        <!-- <div class="template-table__more-btn">
           <ns-button type="primary" @click.native.prevent="searchAction">搜索</ns-button>
           <ns-button @click.native.prevent="resetInputAction">重置</ns-button>
-        </div>
+        </div> -->
         <ns-button @click="() => {this.$emit('Reminder')}" class="dri_t">提醒设置</ns-button>
         <ns-button @click="openFile" class="dri_t ari">导出文件</ns-button>
       </el-form>
@@ -310,7 +314,7 @@ export default NsTableRepeatCustomer
 }
 .self-btn {
   max-width: 150px;
-  min-width: 80px;
+  min-width: 53px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -321,10 +325,33 @@ export default NsTableRepeatCustomer
   }
 }
 .nsGuide >>> .el-form-item__content {
-  border: 1px solid rgb(217, 217, 217);
+  /* border: 1px solid rgb(217, 217, 217); */
   height: 32px;
   line-height: 32px;
   margin-left: 11px;
-  padding: 0 12px;
+  /* padding: 0 12px; */
+}
+.form-inline_top {
+  .el-form-item {
+    border: 1px solid #D9D9D9;
+    padding: 1px 8px;
+    margin-right: 16px !important;
+    margin-bottom: 8px;
+    height: 35px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    >>> .el-input__inner {
+      border: none;
+      font-size: 14px;
+      min-width: 90px;
+      max-width: 300px;
+    }
+    >>> .el-input__suffix:before {
+      display: none;
+    }
+  }
+  .date-view .el-input__inner{
+    border: none;
+  }
 }
 </style>
