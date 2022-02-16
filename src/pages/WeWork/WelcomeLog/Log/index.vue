@@ -290,6 +290,7 @@ export default {
       this.searchDate = [startTime, endTime]
     },
     fnEdit () {
+      this.pagination = { ...this.pagination, page: 1 }
       this.getActivityList()
     },
     clearActiveIndex (state) {
