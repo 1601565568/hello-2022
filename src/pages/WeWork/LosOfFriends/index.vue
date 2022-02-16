@@ -7,8 +7,16 @@
  -->
 <template>
   <div>
+    <div style="padding: 16px; background: #fff; margin: -10px -10px 0;marginBottom:16px">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">用户中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">好友管理</el-breadcrumb-item>
+        <el-breadcrumb-item>好友流失提醒</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div style="fontSize:16px;marginTop:16px;fontWeight:bold">好友流失提醒 </div>
+    </div>
     <div class="box">
-      <div class="template-page__row-left">
+      <div class="template-page__row-left" v-if="cloudPlatformType !== 'kd'">
           <AreaTree v-model='areaId' />
       </div>
       <!-- 主列表 -->
@@ -126,6 +134,8 @@
 </template>
 
 <script>
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsTableRepeatCustomer from './components/NsTableRepeatCustomer.vue'
 import AreaTree from '@/components/NewUi/AreaTree'
@@ -135,7 +145,9 @@ export default {
   name: 'welcomeCodeList',
   components: {
     NsTableRepeatCustomer,
-    AreaTree
+    AreaTree,
+    ElBreadcrumb,
+    ElBreadcrumbItem
   },
   data () {
     return {
@@ -330,6 +342,7 @@ export default {
     height: 100vh;
   }
   .template-page__row-right{
+    height: 100vh;
     overflow-x: hidden;
     margin-left: 16px;
     width:calc(100vw - 527px)

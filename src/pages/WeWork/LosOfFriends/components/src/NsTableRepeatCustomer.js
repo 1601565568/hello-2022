@@ -197,6 +197,13 @@ export default {
      * @param {Object}
      */
     owenerChange (val) {
+      this.searchAction()
+    },
+    chatChange () {
+      this.searchAction()
+    },
+    guideIdsChange () {
+      this.searchAction()
     },
     /**
      * @msg:  从后台获取数据,重新排序
@@ -232,6 +239,7 @@ export default {
       // this.datePickerValue = [startTime, endTime]
       this.model.startTime = this.datePickerArr[0]
       this.model.endTime = this.datePickerArr[1]
+      this.searchAction()
     },
     count (time1, time2) {
       let date1 = new Date(time1)
