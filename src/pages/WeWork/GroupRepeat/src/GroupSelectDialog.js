@@ -116,7 +116,7 @@ export default {
       allDepartments: [],
       departments: [],
       departmentId: '',
-      url: this.$api.guide.chatRoomConfig.chatRoomCanJoinList,
+      // url: this.$api.guide.chatRoomConfig.chatRoomCanJoinList,
       model: {
         ChatID: '', // 群名称
         ownerName: '', // 群主
@@ -171,10 +171,10 @@ export default {
         transData.guide_id = data.guide_id
         transData.name = data.name
         transData.owner_name = data.owner_name
-        transData.owner_work_num = data.owner_work_num
+        // transData.owner_work_num = data.owner_work_num
         transData.person_num = data.person_num
         transData.shop_id = data.shop_id
-        transData.workShopName = data.workShopName.toString()
+        transData.workShopName = this.env === 'kd' ? '' : data.workShopName.toString()
         return transData
       }
     },
