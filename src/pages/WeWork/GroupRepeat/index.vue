@@ -11,7 +11,6 @@
     <div class="select-view">
       <GroupSelectDialog
         class="el-inline-block"
-        v-bind:value="this.selectedData"
         @childChange="parentChang"
         ref="GroupSelectDialog"
         v-bind:env="this.env"
@@ -34,7 +33,7 @@
             <el-table-column prop="name" label="昵称" > </el-table-column>
             <el-table-column prop="gender" label="性别" >
               <template slot-scope="scope">
-                <span>{{ scope.row.gender === 0 ? '女' : '男' }}</span>
+                <span>{{ scope.row.gender === 2 ? '女' : scope.row.gender === 1 ? '男' : '未知' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="repeatedNum" label="所属群" >

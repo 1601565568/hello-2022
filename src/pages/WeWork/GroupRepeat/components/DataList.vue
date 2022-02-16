@@ -7,7 +7,7 @@
     :with-header="false"
     :modal="false"
   >
-    <div>
+    <div v-if="userMessage">
       <div class="close-view">
         <Icon type="close" class="close-icon" @click="closeDeawer" />
       </div>
@@ -15,14 +15,14 @@
       <div class="user-info-view">
         <div class="user-img">
           <img :src="userMessage.avatar" class="user-img-rad"/>
-          <div class="sex-view">
+          <div class="sex-view" v-if="userMessage.gender!==0">
             <Icon type="ns-boy" style="color: #1890FF;" v-if="userMessage.gender === 1"/>
-            <Icon type="ns-girl" style="color: #F75961;" v-if="userMessage.gender === 0"/>
+            <Icon type="ns-girl" style="color: #F75961;" v-if="userMessage.gender === 2"/>
           </div>
         </div>
         <div class="user-info">
           <div class="user-info-text">昵称：{{userMessage.name}}</div>
-          <div class="user-info-text">性别：{{userMessage.gender === 0 ? '女' : '男'}}</div>
+          <div class="user-info-text">性别：{{userMessage.gender === 2 ? '女' : userMessage.gender === 1 ? '男' : '未知'}}</div>
         </div>
       </div>
       <page-table style="padding-top:0">
@@ -44,7 +44,6 @@
         <el-pagination
           small
           background
-          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="pagination.currPage"
           :page-size="pagination.currSize"
