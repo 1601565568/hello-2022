@@ -28,7 +28,7 @@
               <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable clearable @change="groupChange(model.ChatID)">
                 <el-option
                   v-for="item in groupList"
-                  :key="item.label"
+                  :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -40,7 +40,7 @@
               <el-select v-model="model.ownerName" placeholder="请选择群主" filterable clearable @change="ownerNameChange(model.ownerName)">
                 <el-option
                   v-for="item in userList"
-                  :key="item.label"
+                  :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
