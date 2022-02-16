@@ -27,8 +27,8 @@
             <el-form-grid size="xmd">
               <el-select v-model="model.ChatID" placeholder="请选择群名称" filterable clearable @change="groupChange(model.ChatID)">
                 <el-option
-                  v-for="item in groupList"
-                  :key="item.value"
+                  v-for="(item, index) in groupList"
+                  :key="index"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -39,8 +39,8 @@
             <el-form-grid size="xmd">
               <el-select v-model="model.ownerName" placeholder="请选择群主" filterable clearable @change="ownerNameChange(model.ownerName)">
                 <el-option
-                  v-for="item in userList"
-                  :key="item.value"
+                  v-for="(item, index) in userList"
+                  :key="index"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
