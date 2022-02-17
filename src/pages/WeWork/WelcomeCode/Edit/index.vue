@@ -148,6 +148,7 @@
                                          :appendToBody='true'
                                          :isButton="false"
                                          :showTitleTip='true'
+                                         :switchAreaFlag="1"
                                          :auth="true"
                                          type="primary"
                                          btnTitle=""
