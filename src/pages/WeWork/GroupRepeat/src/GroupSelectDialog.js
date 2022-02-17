@@ -174,7 +174,7 @@ export default {
         // transData.owner_work_num = data.owner_work_num
         transData.person_num = data.person_num
         transData.shop_id = data.shop_id
-        transData.workShopName = this.env === 'kd' ? '' : data.workShopName.toString()
+        transData.workShopName = this.env === 'kd' ? '' : data.workShopName ? data.workShopName.toString() : ''
         return transData
       }
     },
