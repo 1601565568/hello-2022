@@ -24,7 +24,7 @@
         <ns-table-repeat-customer :cloudPlatformType='cloudPlatformType' :areaIds='areaId' ref='table' @Reminder="Reminder"></ns-table-repeat-customer>
       </div>
     </div>
-    <el-dialog custom-class='losOfriend' width="1000px" :modal-append-to-body='true' :append-to-body='true' @close='formCancel' :visible="hotVisible">
+    <el-dialog custom-class='losOfriend' width="758px" :modal-append-to-body='true' :append-to-body='true' @close='formCancel' :visible="hotVisible">
       <div slot="title" class="dialog-title">
         <span class="title-text">提醒设置</span>
         <span class="title-text1">固定时间提醒设置保存后隔日生效</span>
@@ -246,7 +246,7 @@ export default {
       let res = await this.$http.fetch(this.$api.weWork.weWorkCustomer.findDefaultTask)
       if (!res.success) return
       // eslint-disable-next-line camelcase
-      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time } = res.result
+      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time, del_group_send_time } = res.result
       this.id = id
       Object.assign(this.form, {
         // eslint-disable-next-line camelcase
@@ -260,7 +260,7 @@ export default {
         delGuideSendTime: fnTime(del_guide_send_time), // 被删好友时间设置
         delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
         delChatSendTime: fnTime(del_chat_send_time), // 好友退群时间设置
-        delGroupSendTime: fnTime(del_chat_send_time) // 删除群成员时间设置
+        delGroupSendTime: fnTime(del_group_send_time) // 删除群成员时间设置
       })
       // 被删好友数据
       Object.assign(this.delGuideNotifyObj, {
@@ -298,7 +298,7 @@ export default {
         delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : null,
         delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : '',
         delGroupMembersNotify: delGroupMembersNotify ? delGroupMembersNotify ? 1 : 0 : null,
-        delGroupSendTime: delGroupSendTime ? '2099-01-01 ' + delGroupSendTime : ''
+        delGroupSendTime: delGroupMembersNotify ? '2099-01-01 ' + delGroupSendTime : ''
       })
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -325,6 +325,15 @@ export default {
 }
 .losOfriend{
   border-radius: 4px;
+}
+>>> .formLos .el-input.el-input--small .el-input__inner{
+  height: 40px;
+}
+>>> .formLos .el-input__suffix{
+  height: 38px;
+}
+>>> .formLos .el-form-item.is-success .el-input__inner{
+  border-color: #D9D9D9;
 }
 >>> .el-switch.is-checked .el-switch__core{
   border-color: #0091FA;;
