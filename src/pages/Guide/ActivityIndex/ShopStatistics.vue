@@ -791,26 +791,48 @@ export default {
       this.loadListFun()
     },
     exportExcel () {
-      var url = API_ROOT + '/guide/shopperf/exportExcel'
-      var form = document.createElement('form')
-      if (this.searchform.type === '2') {
-        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
-      } else {
-        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+      // var url = API_ROOT + '/guide/shopperf/exportExcel'
+      // var form = document.createElement('form')
+      // if (this.searchform.type === '2') {
+      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
+      // } else {
+      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+      // }
+      // if (this.searchform.area.length > 0) {
+      //   form.appendChild(this.generateHideElement('province', this.searchform.area[0]))
+      //   form.appendChild(this.generateHideElement('city', this.searchform.area[1]))
+      //   form.appendChild(this.generateHideElement('district', this.searchform.area[2]))
+      // }
+      // form.appendChild(this.generateHideElement('shopType', this.searchform.shopType))
+      // form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
+      // form.appendChild(this.generateHideElement('type', this.searchform.type))
+      // form.appendChild(this.generateHideElement('shopStatus', this.searchform.shopStatus))
+      // form.setAttribute('action', url)
+      // form.setAttribute('method', 'post')
+      // document.body.appendChild(form)
+      // form.submit()
+      const params = {
+        shopType: this.searchform.shopType,
+        shopName: this.searchform.shopName,
+        type: this.searchform.type,
+        shopStatus: this.searchform.shopStatus,
+        exportType: 8
       }
       if (this.searchform.area.length > 0) {
-        form.appendChild(this.generateHideElement('province', this.searchform.area[0]))
-        form.appendChild(this.generateHideElement('city', this.searchform.area[1]))
-        form.appendChild(this.generateHideElement('district', this.searchform.area[2]))
+        params.province = this.searchform.area[0]
+        params.city = this.searchform.area[1]
+        params.district = this.searchform.area[2]
       }
-      form.appendChild(this.generateHideElement('shopType', this.searchform.shopType))
-      form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
-      form.appendChild(this.generateHideElement('type', this.searchform.type))
-      form.appendChild(this.generateHideElement('shopStatus', this.searchform.shopStatus))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      if (this.searchform.type === '2') {
+        params.date = moment(this.searchform.date).format('YYYY-MM-DD')
+      } else {
+        params.date = moment(this.searchform.date).format('YYYY-MM')
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('文件已导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')

@@ -770,13 +770,51 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return false
       }
-
-      var url = API_ROOT + '/guide/guideperf/exportExcel'
-      var form = document.createElement('form')
+      // var url = API_ROOT + '/guide/guideperf/exportExcel'
+      // var form = document.createElement('form')
+      // if (this.searchform.type === '2') {
+      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
+      // } else if (this.searchform.type === '1') {
+      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+      // } else if (this.searchform.type === '3') {
+      //   if (this.searchform.dateRange == null && this.searchform.dateRange.length < 1) {
+      //     this.$notify.error('请选择时间段')
+      //     return
+      //   }
+      //   let dateDiff = this.getDateDiff(this.searchform.dateRange[0], this.searchform.dateRange[1], 'day')
+      //   if (dateDiff > 180) {
+      //     this.$notify.error('查询时间间隔不能大于180天')
+      //     this.loading = false
+      //     return false
+      //   }
+      //   form.appendChild(this.generateHideElement('startDate', moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')))
+      //   form.appendChild(this.generateHideElement('endDate', moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')))
+      // }
+      // if (this.searchform.guideId.length > 0) {
+      //   form.appendChild(this.generateHideElement('guideIds', this.searchform.guideId))
+      // }
+      // form.appendChild(this.generateHideElement('type', this.searchform.type))
+      // form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
+      // form.appendChild(this.generateHideElement('name', this.searchform.name))
+      // form.appendChild(this.generateHideElement('workId', this.searchform.workId))
+      // form.setAttribute('action', url)
+      // form.setAttribute('method', 'post')
+      // document.body.appendChild(form)
+      // form.submit()
+      const params = {
+        type: this.searchform.type,
+        shopName: this.searchform.shopName,
+        name: this.searchform.name,
+        workId: this.searchform.workId,
+        exportType: 7
+      }
+      if (this.searchform.guideId.length > 0) {
+        params.guideIds = this.searchform.guideId
+      }
       if (this.searchform.type === '2') {
-        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
+        params.date = moment(this.searchform.date).format('YYYY-MM-DD')
       } else if (this.searchform.type === '1') {
-        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+        params.date = moment(this.searchform.date).format('YYYY-MM')
       } else if (this.searchform.type === '3') {
         if (this.searchform.dateRange == null && this.searchform.dateRange.length < 1) {
           this.$notify.error('请选择时间段')
@@ -788,20 +826,14 @@ export default {
           this.loading = false
           return false
         }
-        form.appendChild(this.generateHideElement('startDate', moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')))
-        form.appendChild(this.generateHideElement('endDate', moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')))
+        params.startDate = moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')
+        params.endDate = moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')
       }
-      if (this.searchform.guideId.length > 0) {
-        form.appendChild(this.generateHideElement('guideIds', this.searchform.guideId))
-      }
-      form.appendChild(this.generateHideElement('type', this.searchform.type))
-      form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
-      form.appendChild(this.generateHideElement('name', this.searchform.name))
-      form.appendChild(this.generateHideElement('workId', this.searchform.workId))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('文件已导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
