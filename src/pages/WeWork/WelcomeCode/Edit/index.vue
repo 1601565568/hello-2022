@@ -2,184 +2,266 @@
   <PageEdit>
     <template slot="header">
       <div class="common-header flex-box">
-        <h3>{{$route.query.welcomeCodeUuid ? '编辑欢迎语' : '新增欢迎语'}}</h3>
+        <h3>
+          {{ $route.query.welcomeCodeUuid ? "编辑欢迎语" : "新增欢迎语" }}
+        </h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel"
-                     size="large"
-                     @click="$router.go(-1)"
-                     :loading="loading">取消</ns-button>
-          <ns-button class="customer-btn_save"
-                     type="primary"
-                     size="large"
-                     @click="saveWelcome"
-                     :loading="loading">保存</ns-button>
+          <ns-button
+            class="customer-btn_cancel"
+            size="large"
+            @click="$router.go(-1)"
+            :loading="loading"
+          >取消</ns-button>
+          <ns-button
+            class="customer-btn_save"
+            type="primary"
+            size="large"
+            @click="saveWelcome"
+            :loading="loading"
+          >保存</ns-button>
         </div>
       </div>
     </template>
-    <template slot='content'>
+    <template slot="content">
       <SimpleCollapse :title="'发布内容'">
-        <PhoneBox phoneTitle
-                  phoneBar="内容预览">
-          <template slot='collapse-left'>
-            <el-form class="el-form-reset"
-                     size="medium"
-                     ref="ruleForm"
-                     :model="model"
-                     :rules="rules"
-                     label-width="107px"
-                     label-position="left">
+        <PhoneBox
+          phoneTitle
+          phoneBar="内容预览"
+        >
+          <template slot="collapse-left">
+            <el-form
+              class="el-form-reset"
+              size="medium"
+              ref="ruleForm"
+              :model="model"
+              :rules="rules"
+              label-width="107px"
+              label-position="left"
+            >
               <div class="banner-tip">
-                <span class="text">当{{variableName()}}有多个欢迎语时，发送优先级为渠道欢迎语>{{variableName()}}欢迎语<span v-if="cloudPlatformType == 'ecrp'">>店铺欢迎语>默认欢迎语</span></span>
+                <span class="text">当{{
+                    variableName()
+                  }}有多个欢迎语时，发送优先级为渠道欢迎语>{{
+                    variableName()
+                  }}欢迎语<span v-if="cloudPlatformType == 'ecrp'">>店铺欢迎语>默认欢迎语</span></span>
               </div>
-              <el-form-item prop="title"
-                            :rules="rules.title"
-                            required>
+              <el-form-item
+                prop="title"
+                :rules="rules.title"
+                required
+              >
                 <template slot="label">
                   <span>欢迎语名称</span>
-                  <el-tag v-if="model.type === 9 && cloudPlatformType == 'ecrp'"
-                          style="margin-left: 4px">默认</el-tag>
+                  <el-tag
+                    v-if="model.type === 9 && cloudPlatformType == 'ecrp'"
+                    style="margin-left: 4px"
+                  >默认</el-tag>
                 </template>
-                <div style="max-width:626px">
-                  <length-input v-model='model.title'
-                                placeholder="请输入欢迎语名称"
-                                :length='25' />
+                <div style="max-width: 626px">
+                  <length-input
+                    v-model="model.title"
+                    placeholder="请输入欢迎语名称"
+                    :length="25"
+                  />
                 </div>
               </el-form-item>
-              <el-form-item prop="content"
-                            :rules="rules.content"
-                            required>
+              <el-form-item
+                prop="content"
+                :rules="rules.content"
+                required
+              >
                 <template slot="label">
                   <span>发送内容</span>
                 </template>
-                <tag-area class="tag-area"
-                          v-model='model.content'
-                          tag="wise"
-                          ref="TagAreaText"
-                          :maxlength="1000"
-                          :showEmoji='true'
-                          :showTextEmoji='true'
-                          :tools='tools'
-                          @inputLength="tagAreaInputLength"
-                          placeholder="请输入欢迎语"
-                          emojiClass='' />
+                <tag-area
+                  class="tag-area"
+                  v-model="model.content"
+                  tag="wise"
+                  ref="TagAreaText"
+                  :maxlength="1000"
+                  :showEmoji="true"
+                  :showTextEmoji="true"
+                  :tools="tools"
+                  @inputLength="tagAreaInputLength"
+                  placeholder="请输入欢迎语"
+                  emojiClass=""
+                />
               </el-form-item>
-              <el-form-item label="附件"
-                            prop="annexList">
+              <el-form-item
+                label="附件"
+                prop="annexList"
+              >
                 <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；最多可添加9个附件</span>
-                <MessageList :list.sync="model.annexList"
-                             @edit="editAnnexMessage"
-                             @delete="deleteAnnexMessage" />
-                <el-popover placement="top-start"
-                            trigger="hover"
-                            :disabled="model.annexList.length >= 9">
+                <MessageList
+                  :list.sync="model.annexList"
+                  @edit="editAnnexMessage"
+                  @delete="deleteAnnexMessage"
+                />
+                <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :disabled="model.annexList.length >= 9"
+                >
                   <template slot="reference">
-                    <div class="add-material"
-                         v-if="model.annexList.length < 9">
-                      <Icon type="ns-add-border"
-                            class="icon" />
+                    <div
+                      class="add-material"
+                      v-if="model.annexList.length < 9"
+                    >
+                      <Icon
+                        type="ns-add-border"
+                        class="icon"
+                      />
                       添加消息内容
                     </div>
-                    <div v-else
-                         class="add-material add-material-disabled"
-                         @click="$notify.error('附件已达上限（9个），不能再添加')">
-                      <Icon type="ns-add-border"
-                            class="icon" />
+                    <div
+                      v-else
+                      class="add-material add-material-disabled"
+                      @click="$notify.error('附件已达上限（9个），不能再添加')"
+                    >
+                      <Icon
+                        type="ns-add-border"
+                        class="icon"
+                      />
                       添加消息内容
                     </div>
                   </template>
-                  <WechatMessageBar ref="WechatMessageBar"
-                                    @addMessage="addAnnexMessage"
-                                    @uploadVideoProgress="uploadProgress" />
+                  <WechatMessageBar
+                    ref="WechatMessageBar"
+                    @addMessage="addAnnexMessage"
+                    @uploadVideoProgress="uploadProgress"
+                  />
                 </el-popover>
               </el-form-item>
               <el-form-item label="使用范围">
-                <template v-if="model.type === 9 && cloudPlatformType == 'ecrp' ">
-                  <div>全部{{variableName()}}</div>
-                  <span class="add-tip label-gap">当{{variableName()}}未配置欢迎语时，将发送该默认欢迎语</span>
+                <template v-if="model.type === 9 && cloudPlatformType == 'ecrp'">
+                  <div>全部{{ variableName() }}</div>
+                  <span class="add-tip label-gap">当{{
+                      variableName()
+                    }}未配置欢迎语时，将发送该默认欢迎语</span>
                 </template>
                 <template v-else>
-                  <div class="select-area"
-                       v-if="cloudPlatformType == 'ecrp'">
+                  <div
+                    class="select-area"
+                    v-if="cloudPlatformType == 'ecrp'"
+                  >
                     <span class="select-title">选择店铺</span>
-                    <NsShopDialog :selfBtn='true'
-                                  :appendToBody='true'
-                                  :isButton="false"
-                                  :auth="false"
-                                  type="icon"
-                                  btnTitle=""
-                                  dialogTitle="选择店铺"
-                                  v-model="model.shopIds">
-                      <template slot='btnIcon'>
+                    <NsShopDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :auth="false"
+                      type="icon"
+                      btnTitle=""
+                      dialogTitle="选择店铺"
+                      v-model="model.shopIds"
+                    >
+                      <template slot="btnIcon">
                         <div class="select-tips">
-                          <span v-if="!model.shopIds.length"
-                                class="un-selected">请选择店铺</span>
-                          <span v-else
-                                class="selected">已选择{{model.shopIds.length}}个店铺</span>
-                          <Icon type="shop"
-                                class="icon" />
+                          <span
+                            v-if="!model.shopIds.length"
+                            class="un-selected"
+                          >请选择店铺</span>
+                          <span
+                            v-else
+                            class="selected"
+                          >已选择{{ model.shopIds.length }}个店铺</span>
+                          <Icon
+                            type="shop"
+                            class="icon"
+                          />
                         </div>
                       </template>
                     </NsShopDialog>
                   </div>
                   <div class="select-area">
-                    <span class="select-title">选择{{variableName()}}</span>
-                    <NsGuideDialog :selfBtn='true'
-                                   :appendToBody='true'
-                                   :isButton="false"
-                                   :showTitleTip='true'
-                                   :auth="true"
-                                   type="primary"
-                                   btnTitle=""
-                                   :dialogTitle="variableName('选择')"
-                                   v-model="model.employeeIds"
-                                   v-if="cloudPlatformType == 'ecrp'">
-                      <template slot='selfBtn'>
+                    <span class="select-title">选择{{ variableName() }}</span>
+                    <NsGuideDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :showTitleTip="true"
+                      :auth="true"
+                      type="primary"
+                      btnTitle=""
+                      :dialogTitle="variableName('选择')"
+                      v-model="model.employeeIds"
+                      v-if="cloudPlatformType == 'ecrp'"
+                    >
+                      <template slot="selfBtn">
                         <div class="select-tips">
-                          <span v-if="!model.employeeIds.length"
-                                class="un-selected">请选择{{variableName()}}</span>
-                          <span v-else
-                                class="selected">已选择{{model.employeeIds.length}}个{{variableName()}}</span>
-                          <Icon type="ns-people"
-                                class="icon" />
+                          <span
+                            v-if="!model.employeeIds.length"
+                            class="un-selected"
+                          >请选择{{ variableName() }}</span>
+                          <span
+                            v-else
+                            class="selected"
+                          >已选择{{ model.employeeIds.length }}个{{
+                              variableName()
+                            }}</span>
+                          <Icon
+                            type="ns-people"
+                            class="icon"
+                          />
                         </div>
                       </template>
                     </NsGuideDialog>
-                    <NsGuideWeChatDialog :selfBtn='true'
-                                         :appendToBody='true'
-                                         :isButton="false"
-                                         :showTitleTip='true'
-                                         :switchAreaFlag="1"
-                                         :auth="true"
-                                         type="primary"
-                                         btnTitle=""
-                                         :dialogTitle="variableName('选择')"
-                                         v-model="model.employeeIds"
-                                         v-else>
-                      <template slot='selfBtn'>
+                    <NsGuideWeChatDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :showTitleTip="true"
+                      :switchAreaFlag="1"
+                      :auth="true"
+                      type="primary"
+                      btnTitle=""
+                      :dialogTitle="variableName('选择')"
+                      v-model="model.employeeIds"
+                      v-else
+                    >
+                      <template slot="selfBtn">
                         <div class="select-tips">
-                          <span v-if="!model.employeeIds.length"
-                                class="un-selected">请选择{{variableName()}}</span>
-                          <span v-else
-                                class="selected">已选择{{model.employeeIds.length}}个{{variableName()}}</span>
-                          <Icon type="ns-people"
-                                class="icon" />
+                          <span
+                            v-if="!model.employeeIds.length"
+                            class="un-selected"
+                          >请选择{{ variableName() }}</span>
+                          <span
+                            v-else
+                            class="selected"
+                          >已选择{{ model.employeeIds.length }}个{{
+                              variableName()
+                            }}</span>
+                          <Icon
+                            type="ns-people"
+                            class="icon"
+                          />
                         </div>
                       </template>
                     </NsGuideWeChatDialog>
                   </div>
                   <div class="select-area">
-                    <ChannelCodeDialog :visible.sync="channelCodeDialogVisible"
-                                       @confirm="confirmChannelCodes"
-                                       :content="model.channelCodes" />
+                    <ChannelCodeDialog
+                      :visible.sync="channelCodeDialogVisible"
+                      @confirm="confirmChannelCodes"
+                      :content="model.channelCodes"
+                    />
                     <span class="select-title">选择渠道</span>
-                    <div class="select-tips"
-                         @click="channelCodeDialogVisible = true">
-                      <span v-if="!model.channelCodes.length"
-                            class="un-selected">请选择渠道</span>
-                      <span v-else
-                            class="selected">已选择{{model.channelCodes.length}}个渠道</span>
-                      <Icon type="channel"
-                            class="icon" />
+                    <div
+                      class="select-tips"
+                      @click="channelCodeDialogVisible = true"
+                    >
+                      <span
+                        v-if="!model.channelCodes.length"
+                        class="un-selected"
+                      >请选择渠道</span>
+                      <span
+                        v-else
+                        class="selected"
+                      >已选择{{ model.channelCodes.length }}个渠道</span>
+                      <Icon
+                        type="channel"
+                        class="icon"
+                      />
                     </div>
                   </div>
                 </template>
@@ -187,9 +269,11 @@
             </el-form>
           </template>
           <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel"
-                                 :list="messageList"
-                                 :messageType="WelcomeMessageType" />
+            <MessagePreviewPanel
+              class="message-preivew-panel"
+              :list="messageList"
+              :messageType="WelcomeMessageType"
+            />
           </template>
         </PhoneBox>
       </SimpleCollapse>
@@ -249,7 +333,10 @@ export default {
       this.welcomeMessage = {
         type: WelcomeMessageType.Text, // 文本消息即欢迎语，默认显示处理
         content: {
-          content: this.$refs.TagAreaText.htmlToString(this.model.content, false),
+          content: this.$refs.TagAreaText.htmlToString(
+            this.model.content,
+            false
+          ),
           htmlContent: this.model.content,
           textContent: this.$refs.TagAreaText.htmlToText(this.model.content)
         }
@@ -272,7 +359,9 @@ export default {
       loading: false,
       welcomeInputLength: 0,
       welcomeMessage: undefined,
-      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
+      cloudPlatformType:
+        this.$store.state.user.remumber.remumber_login_info.productConfig
+          .cloudPlatformType, // 平台判断
       variableName: (str = '') => {
         if (this.cloudPlatformType === 'ecrp') {
           return str + '员工'
@@ -330,23 +419,68 @@ export default {
       },
       rules: {
         content: [
-          { required: true, message: '请输入发送内容', trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: '请输入发送内容',
+            trigger: ['blur', 'change']
+          },
           { validator: content, trigger: ['blur', 'change'] }
         ],
         title: [
-          { required: true, message: '请输入欢迎语名称', trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: '请输入欢迎语名称',
+            trigger: ['blur', 'change']
+          },
           { validator: title, trigger: ['blur', 'change'] }
         ]
       },
       // 欢迎语可插入标签
       tools: [
-        { type: 'tag', text: '企业微信员工姓名', id: '{EmployeeNick}', value: '员工姓名' },
-        { type: 'tag', text: '客户微信昵称', id: '{CustomerNick}', value: '客户昵称' },
-        { type: 'tag', text: '企业微信员工别名', id: '{WeworkNickName}', value: '员工别名' }
+        {
+          type: 'tag',
+          text: `企业微信员工姓名`,
+          id: '{EmployeeNick}',
+          value: '员工姓名'
+        },
+        {
+          type: 'tag',
+          text: '客户微信昵称',
+          id: '{CustomerNick}',
+          value: '客户昵称'
+        },
+        {
+          type: 'tag',
+          text: '企业微信员工别名',
+          id: '{WeworkNickName}',
+          value: '员工别名'
+        }
       ]
     }
   },
   mounted () {
+    if (this.cloudPlatformType !== 'ecrp') {
+      this.tools = [
+        {
+          type: 'tag',
+          text: `企业微信成员姓名`,
+          id: '{EmployeeNick}',
+          value: '成员姓名'
+        },
+        {
+          type: 'tag',
+          text: '客户微信昵称',
+          id: '{CustomerNick}',
+          value: '客户昵称'
+        },
+        {
+          type: 'tag',
+          text: '企业微信成员别名',
+          id: '{WeworkNickName}',
+          value: '成员别名'
+        }
+      ]
+    }
     this.getWelcomeCode()
   },
   methods: {
@@ -407,7 +541,8 @@ export default {
       // this.model.annexList.splice(context.index, 1)
     },
     editAnnexMessage (context) {
-      let isLargeNumber = (item) => item.type === 2 && !item.content.video.includes('http')
+      let isLargeNumber = (item) =>
+        item.type === 2 && !item.content.video.includes('http')
       let findEditIndex = this.model.annexList.findIndex(isLargeNumber)
       if (findEditIndex > -1) {
         this.$notify.warning('视频资源上传中，请稍等')
@@ -424,22 +559,32 @@ export default {
     getWelcomeCode () {
       const welcomeCodeUuid = this.$route.query.welcomeCodeUuid
       if (welcomeCodeUuid) {
-        this.$http.fetch(this.$api.weWork.welcomeCode.getWelcomeCode, {
-          welcomeCodeUuid: welcomeCodeUuid
-        })
-          .then(resp => {
+        this.$http
+          .fetch(this.$api.weWork.welcomeCode.getWelcomeCode, {
+            welcomeCodeUuid: welcomeCodeUuid
+          })
+          .then((resp) => {
             this.model = {
               ...resp.result,
-              content: this.$refs.TagAreaText.stringTohtml(resp.result.content, false)
+              content: this.$refs.TagAreaText.stringTohtml(
+                resp.result.content,
+                false
+              )
             }
-            this.$refs.TagAreaText.$refs[this.$refs.TagAreaText.className].innerHTML = this.model.content
-          }).catch(resp => {
+            // eslint-disable-next-line standard/computed-property-even-spacing
+            this.$refs.TagAreaText.$refs[
+              this.$refs.TagAreaText.className
+            ].innerHTML = this.model.content
+          })
+          .catch((resp) => {
             this.$notify.error(resp.msg)
           })
       }
     },
     saveWelcome () {
-      let findEditIndex = this.model.annexList.findIndex((item) => item.type === 5 && !item.content.video.includes('http'))
+      let findEditIndex = this.model.annexList.findIndex(
+        (item) => item.type === 5 && !item.content.video.includes('http')
+      )
       if (findEditIndex > -1) {
         this.$notify.warning('视频资源上传中，无法保存')
         return false
@@ -447,11 +592,15 @@ export default {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
-          this.$http.fetch(this.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, {
-            ...this.model,
-            content: this.$refs.TagAreaText.htmlToString(this.model.content, false)
-          })
-            .then(resp => {
+          this.$http
+            .fetch(this.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, {
+              ...this.model,
+              content: this.$refs.TagAreaText.htmlToString(
+                this.model.content,
+                false
+              )
+            })
+            .then((resp) => {
               if (resp.success) {
                 this.$notify.success('保存成功')
                 this.$router.push({
@@ -461,9 +610,11 @@ export default {
               } else {
                 this.$notify.error('欢迎语保存失败')
               }
-            }).catch((respErr) => {
+            })
+            .catch((respErr) => {
               this.$notify.error('欢迎语保存失败')
-            }).finally(() => {
+            })
+            .finally(() => {
               this.loading = false
             })
         }

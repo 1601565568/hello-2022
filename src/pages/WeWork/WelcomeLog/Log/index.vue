@@ -60,6 +60,7 @@
                                :appendToBody='true'
                                :isButton="false"
                                :auth="true"
+                               :switchAreaFlag="1"
                                btnTitle=""
                                dialogTitle="选择企业微信成员"
                                v-model="model.guideIds"

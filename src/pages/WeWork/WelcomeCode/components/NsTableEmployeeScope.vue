@@ -60,6 +60,7 @@
         <el-table-column prop="shopNames"
                          label="工作门店"
                          align="left"
+                         v-if="cloudPlatformType == 'ecrp'"
                          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="status"

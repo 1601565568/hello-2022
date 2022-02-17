@@ -34,7 +34,7 @@
                      placeholder="请选择"
                      @change='$searchAction$()'
                      clearable>
-            <el-option v-for="item in annexTypeOptions"
+            <el-option v-for="item in annexTypeOptions()"
                        :key="item.value"
                        :label="item.label"
                        :value="`${item.value}`">
