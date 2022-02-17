@@ -7,7 +7,7 @@
             @close="$emit('update:visible', false)"
             @open="open">
     <template slot="title">
-      <h3 class="title">发送消息</h3>
+      <h3 class="title">发送内容</h3>
     </template>
     <div class="group-container">
       <MessagePreviewPanel class="message-preivew-panel"

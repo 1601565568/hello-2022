@@ -75,7 +75,7 @@
             </template>
           </NsGuideWeChatDialog>
         </el-form-item>
-        <el-form-item label="">
+        <el-form-item label="发送时间：">
           <el-date-picker class="date-filter"
                           type="daterange"
                           v-model="searchDate"
@@ -84,6 +84,7 @@
                           start-placeholder="开始日期"
                           end-placeholder="结束日期"
                           :clearable="false"
+                          align="right"
                           :picker-options="pickerOptions"
                           @change="switchSearchDate"></el-date-picker>
         </el-form-item>
@@ -103,8 +104,12 @@
                          :label="cloudPlatformType=='ecrp'? '员工':'企业微信成员'"></el-table-column>
         <el-table-column prop="workerId"
                          label="工号"
-                         v-if="cloudPlatformType=='ecrp'"></el-table-column>
-        <el-table-column prop="workerId"
+                         v-if="cloudPlatformType=='ecrp'">
+          <template slot-scope="scope">
+            {{scope.row.workerId ? scope.row.workerId : '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="shopNames"
                          label="工作门店"
                          v-if="cloudPlatformType=='ecrp'">
           <template slot-scope="scope">
