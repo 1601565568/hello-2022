@@ -77,7 +77,7 @@
                 filterable
                 allow-create
                 default-first-option
-                :reserve-keyword="false"
+                :reserve-keyword="true"
                 placeholder="请选择门店"
                 :collapse-tags="true"
                 clearable
@@ -135,7 +135,7 @@
           <el-table-column :show-overflow-tooltip="true" width="160" type="default" prop="workShopName"
                            label="群主工作门店" :sortable="false" align="left" v-if="env!=='kd'">
             <template scope="scope">
-              <span>{{scope.row.workShopName.join(',')}}</span>
+              <span>{{scope.row.workShopName ? scope.row.workShopName.join(',') : ''}}</span>
             </template>
           </el-table-column>
         </el-table>
