@@ -14,8 +14,8 @@
     </div>
     <div ref="fullScreen" class="card-content">
       <div v-if="showDatas" class="card-scroll">
-        <waterfall :col='waterCol' :width="itemWidth" :gutterWidth="16" :data="dataList" ref="waterfall">
-          <div class="card-item" :style="{width: itemWidth + 'px'}" v-for="(item, index) in dataList" :key="item.uuid">
+        <waterfall :col='waterCol' :gutterWidth="16" :data="dataList" ref="waterfall">
+          <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
             <div class="item-name">{{item.createUserName || '-'}}</div>
             <div class="item-time">{{item.createTime}}</div>
             <div class="item-text">
@@ -148,17 +148,17 @@ export default {
   methods: {
     // 设置瀑布流容器列数
     setWaterCol () {
-      this.waterCol = 1
-      setTimeout(() => {
-        // 210是左边菜单 10是右margin, 64是内容左右padding，17是windows下滚动条宽度
-        this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17)) / 290)
-        this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17) - (this.waterCol - 1) * 16) / this.waterCol)
-        this.$nextTick(() => {
-          if (this.$refs.waterfall) {
-            this.$waterfall.forceUpdate()
-          }
-        })
-      }, 10)
+      // this.waterCol = 1
+      this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17)) / 290)
+      // setTimeout(() => {
+      //   // 210是左边菜单 10是右margin, 64是内容左右padding，17是windows下滚动条宽度
+      //   this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17) - (this.waterCol - 1) * 16) / this.waterCol)
+      //   this.$nextTick(() => {
+      //     if (this.$refs.waterfall) {
+      //       // this.$waterfall.forceUpdate()
+      //     }
+      //   })
+      // }, 10)
     },
     // 获取群欢迎语列表
     searchLogList () {
@@ -364,13 +364,22 @@ export default {
 }
 .card-content{
   width: 100%;
-  padding: 32px;
+  padding: 32px 24px;
   box-sizing: border-box;
   background-color: #fff;
   border-bottom: 1px solid #F0F0F0;
   overflow-y: auto;
   .card-scroll{
     display: flex;
+    // .vue-waterfall-column{
+    //   margin-right: 16px;
+    // }
+    // .vue-waterfall-column:last-child{
+    //    margin-right: 0px;
+    //   .card-item{
+    //     margin-right: 0px;
+    //   }
+    // }
   }
   .card-item{
     min-width: 274px;
@@ -379,7 +388,8 @@ export default {
     box-sizing: border-box;
     background: #F8F9FB;
     border-radius: 4px;
-    // margin-right: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
     margin-bottom: 16px;
     .item-name{
       font-size: 14px;
