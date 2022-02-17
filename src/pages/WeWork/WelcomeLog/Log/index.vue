@@ -41,7 +41,7 @@
           <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
-                         :auth="false"
+                         :auth="true"
                          btnTitle=""
                          dialogTitle="选择员工"
                          v-model="model.guideIds"
@@ -59,7 +59,8 @@
           <NsGuideWeChatDialog :selfBtn='true'
                                :appendToBody='true'
                                :isButton="false"
-                               :auth="false"
+                               :auth="true"
+                               :switchAreaFlag="1"
                                btnTitle=""
                                dialogTitle="选择企业微信成员"
                                v-model="model.guideIds"
