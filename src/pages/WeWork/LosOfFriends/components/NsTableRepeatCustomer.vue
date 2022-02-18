@@ -70,7 +70,8 @@
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
-                <Icon type="geren" class='guideIds-icon'></Icon>
+                <!-- <Icon type="geren" class='xuanzeyuangong2x'></Icon> -->
+                <span class="icon-xuanzeyuangong2x iconfont"></span>
               </div>
             </template>
           </NsGuideDialog>
@@ -320,9 +321,6 @@ export default NsTableRepeatCustomer
   justify-content: space-between;
   font-size: 14px;
   color: #606266;
-  .guideIds-icon {
-    color:#C0C4CC;
-  }
 }
 .nsGuide >>> .el-form-item__content {
   /* border: 1px solid rgb(217, 217, 217); */
