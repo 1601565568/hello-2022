@@ -1,11 +1,11 @@
 <template>
   <div>
-    <template v-if="textButton">
+    <!-- <template v-if="textButton">
       <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     </template>
     <template v-else>
       <NsButton type="primary" @click="onDialogOpen" class="margin-lr-small"><i class="bui-select-employee"></i>{{btnTitle}}</NsButton>
-    </template>
+    </template> -->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false" class="g-wrapper"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="960px">
       <div>

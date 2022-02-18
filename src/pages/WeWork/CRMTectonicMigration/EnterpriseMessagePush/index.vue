@@ -4,29 +4,66 @@
       <div class="common-header flex-box">
         <h3>{{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销</h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel" @click="cancel" size="large">取消</ns-button>
+          <ns-button class="customer-btn_cancel" @click="$router.go(-1)" size="large">取消</ns-button>
           <ns-button class="customer-btn_save"  :disabled="isUpdate" :loading="loading" @click='save' type="primary" size="large">保存</ns-button>
         </div>
       </div>
     </template>
     <template slot='content'>
-      <SimpleCollapse class="group-simple" :title="'发布设置'">
-        <PhoneBox phoneTitle :showPhoneHead="true">
-          <template slot='collapse-left'>
-            <!-- <source-all
-              ref='sourceAll'
-              :disabled="disabled"
-              :detail="detail"
-              @list='proviewList'
-              @pitContent='proviewPitContent'
-              @back="gotoList"
-            /> -->
-          </template>
-          <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
-          </template>
-        </PhoneBox>
-      </SimpleCollapse>
+      <el-form class="normal-from el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="100px" label-position="left">
+        <SimpleCollapse :title="'基本信息'" class="content">
+          <el-form-item class="larger-item" label="活动名称" prop="name" required>
+            <el-input v-model="model.name" placeholder="请输入活动名称" class="el-input" show-word-limit :maxlength="30"></el-input>
+          </el-form-item>
+          <el-form-item class="larger-item" label="选择营销人群" prop="chatRoomIdList" required>
+            <div class="select-area">
+              <div
+                class="select-tips"
+                @click="openECDialog"
+              >
+                <el-input placeholder="请选择好友" :value="selectedTip" readonly>
+                  <!-- <Icon type="geren" class="icon" slot="suffix"></Icon> -->
+                  <Icon type='icon-ns-people' class='icon' slot="suffix"/>
+                </el-input>
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item class="form-slot" prop="executeMode" required style="padding-bottom: 24px">
+            <span class="form-item-slot" slot="label">
+              发送方式
+              <el-tooltip
+                class="message-icons-item"
+                content="设置任务发送的时间"
+                placement="top"
+              >
+                <Icon type="ns-help" className="icon"/>
+              </el-tooltip></span>
+            <el-radio-group v-model="model.executeMode">
+              <el-radio :label="0">立即发送</el-radio>
+              <el-radio :label="1">定时发送</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </SimpleCollapse>
+        <SimpleCollapse :title="'发布设置'">
+          <PhoneBox phoneTitle :showPhoneHead="true">
+            <template slot='collapse-left'>
+              <!-- <source-all
+                ref='sourceAll'
+                :disabled="disabled"
+                :detail="detail"
+                @list='proviewList'
+                @pitContent='proviewPitContent'
+                @back="gotoList"
+              /> -->
+            </template>
+            <template slot="collapse-right">
+              <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
+            </template>
+          </PhoneBox>
+        </SimpleCollapse>
+      </el-form>
+      <!-- 选择营销人群组件 -->
+      <NsEmployeeOrCustGroupDialog ref="nsEmployeeOrCustGroupDialog" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
     </template>
   </PageEdit>
 </template>
@@ -50,13 +87,22 @@ export default {
   components: {
     PageEdit,
     SimpleCollapse,
-    PhoneBox
+    PhoneBox,
 
     // ElCard,
     // contentPreview,
-    // NsEmployeeOrCustGroupDialog,
+    NsEmployeeOrCustGroupDialog
     // ElUpload,
     // TagArea
+  },
+  computed: {
+    selectedTip () {
+      if (this.employeeSelectData.data.length) {
+        return `已选择${this.employeeSelectData.data.length}${this.employeeSelectData.type === 'employee' ? '个员工全部好友' : '个客户分群'}`
+      } else {
+        return ''
+      }
+    }
   },
   data () {
     return {
@@ -240,6 +286,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * 打开选择营销人群组件
+     */
+    openECDialog () {
+      this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
+    },
     setView () {
       const data = []
       if (vm.model.textarea) {
@@ -724,228 +776,42 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import "@theme/variables.pcss";
-  @import "@components/NewUi/styles/reset.css";
-
-  @component-namespace message {
-    @b container {
-      >>> .el-card {
-        border: none;
-        border-radius: var(--default-radius-mini);
+<style lang="scss" scoped>
+// @import "@theme/variables.pcss";
+@import "@components/NewUi/styles/reset.css";
+.friend-marketing{
+  .el-form-reset{
+    .el-form-item {
+      .el-input{
+        width: 626px;
+        height: 32px;
       }
-      @e card {
-        margin-top: var(--default-margin-base);
-        border: none;
-        border-radius: var(--default-radius-mini);
-      }
-    }
-    @b composition {
-      display: flex;
-      @e left {
-        width: 68%;
-      }
-      @e right {
-        flex-shrink: 0;
-        margin: 0 auto;
-        >>> .el-scrollbar__wrap {
-          height: 410px;
-          padding-bottom: 20px;
+      ::v-deep .el-input__suffix{
+        height: 30px;
+        line-height: 30px;
+        &.el-input__suffix:before{
+          display: none;
         }
       }
     }
-  }
-  /* 页面结构标题样式 start*/
-  .page-title {
-    font-size: var(--default-font-size-base);
-    padding-bottom: var(--default-padding-larger);
-    font-weight: bold;
-  }
-  /* 页面结构标题样式 end*/
-
-  /* 底部按钮样式 start*/
-  .form-save__unique {
-    padding: var(--default-padding-small) 0 var(--default-padding-small) 121px;
-    border-top: 1px solid var(--theme-base-border-color-primary);
-    background-color: var(--theme-color-white);
-    border-bottom-left-radius: var(--default-radius-mini);
-    border-bottom-right-radius: var(--default-radius-mini);
-  }
-  /* 底部按钮样式 end*/
-
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
-  }
-  /* 卡片样式 end*/
-
-  /** start 选择员工*/
-  @component-namespace code {
-    @b container {
-      padding: 0 var(--default-padding-small);
-      @e item {
-        >>> .el-scrollbar__wrap {
-          height: 200px;
+    .select-area {
+      width: 626px;
+      .select-tips {
+        .icon {
+          color: #BFBFBF;
+          font-size: 24px;
+          margin-top: 4px;
+          margin-right: 4px;
         }
       }
     }
-    @b title {
-      font-weight: bold;
-      line-height: 30px;
-      background: var(--theme-bg-color-base);
-      padding: 0 8px;
-      border-radius: var(--default-radius-mini);
+    .form-slot{
     }
-    @b delete {
-      margin-left: var(--default-margin-small);
-    }
-    @b space {
-      margin-top: var(--default-margin-base);
-    }
-    @b detail {
-      display: flex;
-      align-items: center;
-      @e text {
-        max-width: 188px;
-        margin-right: var(--default-margin-small);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
+    .form-item-slot{
+      display: inline-block;
+      height: 32px;
+      line-height: 32px;
     }
   }
-  /** end 选择员工*/
-
-  @component-namespace message {
-    @b detail {
-      padding: 20px 20px 0;
-      margin-bottom: 20px;
-      border: 1px dashed var(--theme-base-border-color-primary);
-      border-radius: 6px;
-      @e btn {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        >>> .el-tag {
-          cursor: text;
-        }
-      }
-      @e table {
-        margin-top: var(--default-margin-larger);
-      }
-      >>> .ElImage {
-        background-color: unset;
-      }
-    }
-    @b item {
-      display: flex;
-      align-items: center;
-      @m title {
-        line-height: 18px;
-      }
-      @m image {
-        margin: 7px 0;
-      }
-      @m add {
-        line-height: 60px;
-        height: 60px;
-      }
-      @m opposite {
-        width: 76px;
-        height: 46px;
-        position: relative;
-      }
-      @e broadcast {
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 8px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, .4);
-        border-radius: 50%;
-      }
-    }
-    @b circle {
-      width: 0;
-      height: 0;
-      border-width: 4px;
-      border-style: solid;
-      border-color: transparent transparent transparent var(--theme-color-white);
-    }
-    @b prompt {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: var(--default-margin-larger) 0;
-      @e mass {
-        text-align: center;
-        padding: var(--default-padding-larger) 25px;
-        cursor: pointer;
-        border-right: 1px solid var(--theme-base-border-color-primary);
-      &:hover {
-        .message-hovericolor {
-          color: var(--theme-color-primary);
-        }
-      }
-    &:last-child {
-       border-right: 0;
-     }
-      @m topspace {
-        margin-top: var(--default-margin-small);
-      }
-    }
-    >>> .el-popover {
-      padding: 0;
-    }
-  }
-  @b headling {
-    font-weight: bold;
-    padding: 0 var(--default-padding-larger);
-    background: var(--theme-bg-color-base);
-    border-radius: var(--default-radius-mini);
-  }
-  @b upload {
-    >>> .el-upload {
-      width: 100px;
-      height: 100px;
-      position: relative;
-      border: 1px solid var(--theme-base-border-color-primary);
-      border-radius: var(--default-radius-mini);
-  &:hover {
-     border-color: var(--theme-color-primary-light);
-   }
-  }
-  @e tip {
-    font-size: var(--default-font-size-large);
-    color: var(--theme-base-border-color-primary);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-  }
-  @e avatar {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -1px;
-    left: -1px;
-  }
-  }
-  @b videodialog {
-    >>>> .el-dialog__headerbtn {
-      display: none;
-    }
-    >>> .el-dialog__body {
-      padding: 20px 0 0 0;
-    }
-  }
-  @b spacelarger {
-    margin-top: var(--default-margin-larger);
-  }
-  }
+}
 </style>
