@@ -76,13 +76,13 @@
               选择的员工可以在企微侧边栏使用该裂变大师活动
             </div>
             <span class="form-item_toptext__length"
-              >已选<span>{{ model.guideIds.length }}</span
+              >已选<span :class="[btnNext==='QA'?numberQA:number]">{{ model.guideIds.length }}</span
               >人</span
             >
           </div>
         </el-form-item>
         <el-form-item label="有效时间" required prop="validTimeType" class='larger-item'>
-          <div class="form-item_toptext">
+          <div class="form-item_toptext" :class="[btnNext==='QA'?radioQA:radio]">
             <el-radio
               v-model="model.validTimeType"
               :label="1"
@@ -131,7 +131,7 @@
         </el-form-item>
       </el-form>
       <div class='costomcode-footer'>
-        <div class='btn current' @click="handleSubmit">下一步</div>
+        <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
       </div>
     </template>
   </Box>
@@ -175,7 +175,14 @@ export default {
           { validator: validTimeEndFunc, trigger: ['blur', 'change'] }
         ]
       },
-      pickerOptions: this.endDateDisable()
+      pickerOptions: this.endDateDisable(),
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      radioQA: 'radioQA',
+      radio: 'radio',
+      numberQA: 'numberQA',
+      number: 'number'
     }
   },
   props: ['data', 'isStating'],
@@ -262,9 +269,6 @@ export default {
     font-size: 12px;
     color: rgba(0,0,0,0.45);
     line-height: 20px;
-    span {
-      color: #0091fa;
-    }
   }
   >>> .el-radio {
     line-height: 21px;
@@ -361,5 +365,41 @@ export default {
     border-color: #F56C6C !important;
   }
 }
-
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcode-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+.radioQA>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #0091FA;
+}
+.number{
+  color: #0091FA;
+}
+.numberQA{
+  color: #2153D4;
+}
 </style>

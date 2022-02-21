@@ -17,13 +17,13 @@
         <el-select v-model="model.subdivisionIds" placeholder="请选择" filterable style="width: 540px" multiple :collapse-tags="true" :clearable="false">
           <el-option v-for="item in labelList" :key="item.subdivisionId" :label="item.subdivisionName" :value="item.subdivisionId"> </el-option>
         </el-select>
-        <span class="library-icon__extra icon-plus" @click="toggleLabel">
+        <span class="library-icon__extra icon-plus" @click="toggleLabel" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
           <Icon type="plus" />
           <span>添加标签</span>
         </span>
       </el-form-item>
       <el-form-item label="上架时间：" required>
-        <el-radio-group v-model="model.shelfType">
+        <el-radio-group v-model="model.shelfType"  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
           <el-radio :label=1>立即上架</el-radio>
           <el-radio :label=0>自定义</el-radio>
         </el-radio-group>
@@ -44,7 +44,7 @@
         </div>
       </el-form-item>
       <el-form-item label="下架时间：" required>
-        <el-radio-group v-model="model.endType">
+        <el-radio-group v-model="model.endType"  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
           <el-radio :label=1>永久有效</el-radio>
           <el-radio :label=0>自定义</el-radio>
         </el-radio-group>
@@ -78,6 +78,7 @@
             placeholder="可在此输入推广文案，限制长度在1348个字符以内"
             tag="wise"
             emojiClass=''
+            :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"
           />
         </div>
       </el-form-item>
@@ -99,7 +100,7 @@
             :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
           >
             <template slot="reference">
-              <div class="add-material" v-if="imageNum===8?mediaList.length < 8:mediaList.length < 9">
+              <div class="add-material" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" v-if="imageNum===8?mediaList.length < 8:mediaList.length < 9">
                 <Icon type="ns-add-border" class="icon"/>
                 添加消息内容
               </div>
@@ -423,7 +424,10 @@ export default {
       showMiniCode: false,
       isUploading: false,
       disabledPicType: true,
-      guideDatas: [] // 提醒设置，已选员工展示使用
+      guideDatas: [], // 提醒设置，已选员工展示使用
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {
@@ -1216,6 +1220,19 @@ export default {
   margin-left: 8px;
   display: inline-block;
 }
+.fuscousQA{
+  color: #1965FF;
+  font-size: 14px;
+  margin-left: 8px;
+  display: inline-block;
+}
+.fuscousIcon{
+  color: #0094FC;
+  font-size: 14px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
 .add-material {
   margin-top: 16px;
   font-size: 14px;
@@ -1343,5 +1360,36 @@ export default {
   font-size: 12px;
   color: #0392FB;
   text-align: center;
+}
+.fuscousIcon {
+  color: #0091FA;
+  .icon{
+  color:#0091FA;
+}
+}
+.fuscousQA {
+  color: #1965FF;
+  .icon{
+  color:#1965FF;
+}
+
+}
+</style>
+<style scoped>
+.fuscousIcon>>>.el-radio__input.is-checked .el-radio__inner{
+border-color: #0091FA;
+    background: #0091FA;
+}
+.fuscousQA>>>.el-radio__input.is-checked .el-radio__inner{
+border-color: #1965FF;
+    background: #1965FF;
+}
+.fuscousQA >>>.emoji-icon{
+color: #1965FF;
+font-size: 20px;
+}
+.fuscousIcon >>> .emoji-icon{
+color: #0091FA;
+font-size: 20px;
 }
 </style>

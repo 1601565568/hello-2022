@@ -2,7 +2,7 @@
   <div class='customCode-content_box'>
     <PhoneBox phoneTitle=''>
       <template slot='collapse-left'>
-        <div class="form-item_tip">
+        <div class="form-item_tip" :class="[btnNext==='QA'?fuscousQA:fuscousIcon]">
           裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加员工企业微信。
         </div>
         <el-form
@@ -15,14 +15,14 @@
         >
           <el-form-item label="上传海报" prop="content">
             <div class='item-box'>
-              <div class='updata-box'>
+              <div class='updata-box' :class="[btnNext==='QA'? updataQA : updata]">
                 <SimpleUpload :maxWidth="750" :maxHeight="1334" :maxSize="2" scaleTip='1' v-model='model.backgroundPic' :isNeedCrop='true'  :showPont='false' :drag='false'/>
                 <div class='updata-option'>
                   <ns-button type='text' class="remind-text" @click="showDefCard('backgroundPic',defBgImg)">恢复默认图片</ns-button>
                   <div class="qrcode-bottom-view">
                     建议：750*1334像素，小于2M，jpg、png、jpeg格式
                     <el-tooltip effect='light' popper-class='popperClass' placement="right-end">
-                      <span type='text' class='safe-btn'>
+                      <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                         查看示例
                       </span>
                       <template slot='content'>
@@ -37,7 +37,7 @@
           <el-form-item label="裂变大师信息" >
             <div class='item-box'>
               <div class="poster-set_content">
-                <div class="row-view">显示裂变大师头像、昵称：
+                <div class="row-view" :class="[btnNext==='QA'?radioQA:radio]">显示裂变大师头像、昵称：
                   <el-radio
                     v-model="model.headPortrait"
                     :label="1"
@@ -51,14 +51,14 @@
                   >不显示
                   </el-radio>
                 </div>
-                <div class="row-view" style="height:60px;">
+                <div class="row-view" style="height:60px;" >
                   <span>昵称颜色：</span>
                   <el-color-picker
                     v-model="model.nickColour"
                     :disabled="isStating"
                   ></el-color-picker>
                 </div>
-                <div class="row-view">
+                <div class="row-view" :class="[btnNext==='QA'?radioQA:radio]">
                   <span>头像框样式：</span>
                   <el-radio
                     v-model="model.headPortraitShape"
@@ -73,7 +73,7 @@
                   >圆形
                   </el-radio>
                 </div>
-                <div class="row-view">
+                <div class="row-view" :class="[btnNext==='QA'?radioQA:radio]">
                   <span>排版样式：</span>
                     <el-radio
                       v-model="model.headerType"
@@ -93,14 +93,14 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item">
+          <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item" :class="[btnNext==='QA'?radioQA:radio]">
             <el-radio-group v-model="model.qrCodeType">
               <el-radio :label="0">单员工二维码</el-radio>
               <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
                 员工二维码：用户扫码后将添加分享员工为好友
                 <el-tooltip  placement="top" popper-class='popperClass'>
-                  <span type='text' class='safe-btn'>
+                  <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </span>
                   <template slot='content'>
@@ -114,7 +114,7 @@
                 <span>
                   员工聚合码：用户扫码后将添第一步（活动信息）中参加活动的员工中任一员工为好友，参与员工超过100人时，无法使用聚合码（仅可使用单员工二维码）
                   <el-tooltip  placement="top" popper-class='popperClass'>
-                  <span type='text' class='safe-btn'>
+                  <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </span>
                   <template slot='content'>
@@ -175,7 +175,7 @@
     </PhoneBox>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，页面装修</div>
-      <div class='btn current' @click="handleSubmit">下一步</div>
+      <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
   </div>
 </template>
@@ -216,7 +216,18 @@ export default {
       loading: false,
       demoImg,
       defBgImg,
-      codeDisabled: false // 禁用聚合二维码
+      codeDisabled: false, // 禁用聚合二维码
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      updata: 'updata',
+      updataQA: 'updataQA',
+      btnSafeQA: 'btnSafeQA',
+      btnSafe: 'btnSafe',
+      radio: 'radiobox',
+      radioQA: 'radioboxQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: ['data', 'isStating', 'selectedGuideNum'],
@@ -387,5 +398,56 @@ export default {
   >>> .el-radio {
     margin-right: 4px;
   }
+}
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcode-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+.updataQA >>> .updata-option .remind-text{
+   color: #2153D4;
+    font-weight: 400;
+}
+.updata >>> .updata-option .remind-text{
+   color: #0392FB;
+    font-weight: 400;
+}
+.btnSafeQA{
+  color: #2153D4;
+}
+.btnSafe{
+  color: #0091FA;
+}
+.radiobox >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+.radiobox >>>.el-radio__input.is-checked + .el-radio__label{
+  color:#41a2e8;
+}
+.radioboxQA >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.radioboxQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color:#2153D4 ;
+}
+.fuscousQA{
+  background-color: rgba(237,242,252,100%);
+}
+.fuscousIcon {
+  background-color: rgba(237,242,252);
 }
 </style>

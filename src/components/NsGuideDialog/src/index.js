@@ -140,7 +140,10 @@ export default {
       },
       isCheckAll: false,
       loading: true,
-      requestLoaded: false // 区域树是否加载完成
+      requestLoaded: false, // 区域树是否加载完成
+      isChooseC: process.env.VUE_APP_THEME,
+      chooseQA: 'template-search__chooesQA',
+      choose: 'template-search__chooes'
     }
   },
   computed: {},
@@ -169,6 +172,7 @@ export default {
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
+      console.log(process.env.VUE_APP_THEME)
       if (this.isOpenDialogAfterRequest && !this.requestLoaded) {
         return
       }

@@ -18,7 +18,12 @@ export default {
       loading: false,
       model: defModel,
       title: '新建群聚合码',
-      configId: ''
+      configId: '',
+      messageQA: process.env.VUE_APP_THEME,
+      messageIconQA: 'form-tipsQA',
+      messageIcon: 'form-tips',
+      radiobox: 'radiobox',
+      radioboxQA: 'radioboxQA'
     }
   },
   mounted () {

@@ -95,6 +95,7 @@ export default index
       cursor: pointer;
     }
   }
+
   /*@component-namespace form {*/
   /*  margin-top: 30px;*/
   /*  background-color: red;*/

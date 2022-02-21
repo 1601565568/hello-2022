@@ -11,10 +11,10 @@
     <template slot='content'>
       <div class='container'>
         <div class='min-width_container'>
-          <div class='customecode-step antd-step'>
+          <div class='customecode-step antd-step' :class="[stepName==='QA'?stepIconQA:stepIcon]">
             <el-steps :active="stepId" finish-status="success">
               <template v-for="item in STEP_LIST">
-                <el-step :key="item.id" :title="item.name"></el-step>
+                <el-step :key="item.id" :title="item.name" :class="[stepName==='QA'?stepIconQA:stepIcon]"></el-step>
               </template>
             </el-steps>
           </div>
@@ -81,7 +81,10 @@ export default {
         start: 0,
         length: 200
       },
-      selectedGuideNum: 0 // 已选择员工个数
+      selectedGuideNum: 0, // 已选择员工个数
+      stepName: process.env.VUE_APP_THEME,
+      stepIconQA: 'stepIconQA',
+      stepIcon: 'stepIcon'
     }
   },
   computed: {
@@ -311,6 +314,17 @@ export default {
       font-weight: 500;
       color: rgba(0,0,0,0.85);
     }
+  }
+  >>> .stepIconQA{
+    .el-step__head.is-process {
+      color: #fff;
+      border-color:#2153D4 ;
+      .el-step__icon {
+        background-color: #2153D4;
+      }
+    }
+  }
+  >>> .stepIcon{
     .el-step__head.is-process {
       color: #fff;
       border-color:#0091FA ;
@@ -319,5 +333,19 @@ export default {
       }
     }
   }
+}
+.stepIconQA >>>.el-step .el-step__head.is-success{
+     color: #2153D4;
+    border-color: #2153D4;
+}
+.stepIcon >>>.el-step .el-step__head.is-success{
+    color: #0091FA;
+    border-color: #0091FA;
+}
+.stepIconQA >>> .el-step .is-success .el-step__line{
+  background: #2153D4;
+}
+.stepIcon >>>.el-step .is-success .el-step__line{
+    background: #0091FA;
 }
 </style>

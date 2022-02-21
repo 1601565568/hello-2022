@@ -37,7 +37,7 @@
                     <img :src="noDraggableIcon" />
                   </div>
                   <span>{{ item.settingName }}</span>
-                  <div class="switch" @click="onclick(item.settingCode)">
+                  <div class="switch" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" @click="onclick(item.settingCode)" >
                     <el-switch
                       :value="formatStatus(item.status)"
                       active-color="#0091FA"
@@ -178,5 +178,15 @@ export default PageContentRight
   &:hover .noEdit {
     opacity: 0.85;
   }
+}
+</style>
+<style scoped>
+.fuscousQA>>>.el-switch.is-checked .el-switch__core{
+  background-color: #2153D4!important;
+    border-color: #2153D4!important;
+}
+.fuscousIcon>>>.el-switch.is-checked .el-switch__core{
+  background-color: #0091fa!important;
+    border-color: #0091fa!important;
 }
 </style>

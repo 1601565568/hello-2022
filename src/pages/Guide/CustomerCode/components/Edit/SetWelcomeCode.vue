@@ -2,7 +2,7 @@
   <div class='customCode-content_box'>
     <Box>
       <template slot='collapse-left'>
-        <div class="form-item_tip">
+        <div class="form-item_tip" :class="[btnNext==='QA'?fuscousQA:fuscousIcon]">
           通过裂变海报添加的好友，会收到欢迎语和活动链接。好友进入活动链接后，可分享裂变海报邀请好友。
         </div>
         <el-form
@@ -36,6 +36,7 @@
               :showTextEmoji="true"
               :isShowDefault="true"
               @showDefaultText="showDefaultText"
+              :class="[btnNext==='QA'?tagTextQA:tagText]"
             />
           </el-form-item>
           <el-form-item
@@ -58,7 +59,7 @@
                 />
               </el-form-item>
               <el-form-item prop="cardCoverPic">
-                <div class='updata-box'>
+                <div class='updata-box' :class="[btnNext==='QA'?tagTextQA:tagText]">
                   <SimpleUpload :scale='1' :maxSize="2" scaleTip='1' v-model='model.cardCoverPic' :isNeedCrop='true' :drag='false'/>
                   <div class='updata-option'>
                     <ns-button type='text' class="remind-text" @click="showDefCard">恢复默认图片</ns-button>
@@ -78,7 +79,7 @@
     </Box>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，设置裂变海报</div>
-      <div class='btn current' @click="handleSubmit">下一步</div>
+      <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
   </div>
 </template>
@@ -113,7 +114,14 @@ export default {
       },
       tools: Tools,
       validates,
-      activityIntroductionLength: 0
+      activityIntroductionLength: 0,
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      tagText: 'tagText',
+      tagTextQA: 'tagTextQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: ['data', 'isStating'],
@@ -213,5 +221,51 @@ export default {
     margin-right: 4px;
   }
 }
-
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcode-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+.tagTextQA >>> wise{
+  color: #2153D4;
+}
+.tagText >>> wise{
+  color: #26a2ff;
+}
+.tagTextQA >>> .show-default-text{
+  color: #2153D4;
+}
+.tagText >>> .show-default-text{
+  color: #26a2ff;
+}
+.tagTextQA >>> .emoji-icon{
+  color: #2153D4;
+}
+.tagText >>> .emoji-icon{
+  color: #26a2ff;
+}
+.tagTextQA >>> .updata-option .remind-text{
+  color: #2153D4;
+}
+.tagText >>> .updata-option .remind-text{
+  color: #26a2ff;
+}
+.fuscousQA{
+  background-color: rgba(237,242,252,100%);
+}
+.fuscousIcon{
+  background-color: rgba(237,242,252);
+}
 </style>

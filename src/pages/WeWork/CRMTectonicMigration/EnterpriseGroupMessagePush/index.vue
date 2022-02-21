@@ -31,7 +31,7 @@
               </ElFormItem>
               <ElFormItem label="发送方式：" required>
                 <ElFormGrid>
-                  <ElRadioGroup v-model="model.executeMode" @change="changeExec">
+                  <ElRadioGroup v-model="model.executeMode" @change="changeExec" :class="[radioIcon==='QA'?radioQA:radio]">
                     <ElRadio :label="1">立即发送</ElRadio>
                     <ElRadio :label="2">定时发送</ElRadio>
                   </ElRadioGroup>
@@ -58,7 +58,7 @@
             <div class="message-composition__left">
               <ElForm label-width="0px" ref="formPush" :model="model" :rules="rules" :disabled="isUpdate">
                 <ElFormItem prop="textarea">
-                  <tag-area :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="1000" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' :showEmoji='true' :showTextEmoji='true' @input='setView'/>
+                  <tag-area :class="[radioIcon==='QA'? tagTextQA: tagText]" :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="1000" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' :showEmoji='true' :showTextEmoji='true' @input='setView'/>
                   <!-- <ElFormGrid>
                     <el-input
                       type="textarea"
@@ -463,7 +463,12 @@ export default {
       },
       // 保存的选择群信息
       roomSelectedData: [],
-      inputLength: 0
+      inputLength: 0,
+      radioIcon: process.env.VUE_APP_THEME,
+      radio: 'radio',
+      radioQA: 'radioQA',
+      tagText: 'tagText',
+      tagTextQA: 'tagTextQA'
     }
   },
   created: function () {
@@ -1103,4 +1108,24 @@ export default {
     margin-top: var(--default-margin-larger);
   }
   }
+.radioQA>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.radio>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #0091FA;
+}
+ .tagTextQA>>> .emoji-icon{
+  color: #2153D4;
+}
+ .tagText >>> .emoji-icon{
+  color: #0091FA;
+}
 </style>

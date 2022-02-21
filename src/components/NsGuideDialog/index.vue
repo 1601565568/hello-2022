@@ -25,7 +25,7 @@
 -->
 <template>
   <div>
-    <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()">
+    <div :class="[isChooseC==='QA'?chooseQA:choose]" v-if="!isButton" :type="type" @click="onDialogOpen()">
       <template v-if="selfBtn">
         <!-- 需要接口返回后才展示点击按钮 start -->
         <template v-if='isOpenDialogAfterRequest'>
@@ -93,11 +93,11 @@
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;">导入员工：</div></el-form-grid>
             <el-form-grid>
-              <div class="template-search__box">
+              <div class="template-search__box" >
                 <span>
                   已导入{{successCount}}个员工
                 </span>
-                <div style="float: right;"><NsImportDialog ref="import" @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
+                <div style="float: right;" :class="[isChooseC==='QA'? chooseQA :choose]"><NsImportDialog ref="import" @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
               </div>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
@@ -177,6 +177,20 @@ export default index
     color: #0392FB;
     text-align: center;
   }
+  .template-search__chooesQA {
+    cursor: pointer;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
+    font-size: 12px;
+    text-align: center;
+    color: #2153D4;
+  }
+  .template-search__chooesQA >>>.btn-import{
+    cursor: pointer;
+    min-width: 40px;
+    font-size: 12px;
+    color: #2153D4;
+    text-align: center;
+  }
   .template-search__box {
     width: 182px;
     height: 28px;
@@ -194,13 +208,6 @@ export default index
   > div + span {
     margin-left: var(--default-margin-small);
   }
-  }
-  .template-search__chooes{
-    cursor: pointer;
-    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
-    font-size: 12px;
-    color: #0392FB;
-    text-align: center;
   }
   @component-namespace code {
     @b container {
