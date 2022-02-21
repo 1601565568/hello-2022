@@ -1,10 +1,18 @@
 <template>
   <div>
-    <page-table :title='title' :headerTip='headerTip'>
+    <page-table :title='title' :headerTip='headerTip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="参与门店：">
+            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择员工" v-model="model.shopIdList" @input="handleChangeShop">
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </NsShopDialog> -->
             <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
               <template slot='btnIcon'>
                 <div class='self-btn'>
@@ -59,7 +67,7 @@
               width='90px'
               label="参与门店">
               <template slot-scope="scope">
-                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
+                <span class="scope-name_tip" :class="[messageQA==='QA'?messageIconQA:messageIcon]"  slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
               </template>
             </el-table-column>
             <el-table-column
@@ -96,10 +104,11 @@
             <el-table-column
               width='100px'
               align='center'
-              label="二维码">
+              label="二维码"
+              >
               <template slot-scope="scope">
-                <div class="scope-name scope-name_num box-padding">
-                  <Icon type="icon-erweima" className="message-upload__tip" @click='handlePreviewQrcode(scope.row)'/>
+                <div class="scope-name scope-name_num box-padding" >
+                  <Icon type="icon-erweima" :class="[messageQA==='QA'?messageIconQA:messageIcon]" @click='handlePreviewQrcode(scope.row)'/>
                 </div>
               </template>
             </el-table-column>
@@ -109,7 +118,7 @@
               label="海报">
               <template slot-scope="scope">
                 <div class="scope-name scope-name_num box-padding">
-                  <Icon type="ns-file-picture" className="message-upload__tip" @click='handlePreviewPoster(scope.row)'/>
+                  <Icon type="ns-file-picture" :class="[messageQA==='QA'?messageIconQA:messageIcon]" @click='handlePreviewPoster(scope.row)'/>
                 </div>
               </template>
             </el-table-column>
@@ -154,7 +163,7 @@
       </div>
       <ShopList v-if='drawer' :guid='dialogData.guid' :type='type' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
-    <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody content='活动链接可用于投放在各个渠道'/>
+    <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody content='该链接为聚合码H5，可投放公众号等'/>
   </div>
 </template>
 <script>
@@ -163,9 +172,10 @@ import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PreviewPoster from '../../../components/PreviewPoster'
 import ShopList from '../../components/ShopList'
+import NsShopDialog from '@/components/NsShopDialog'
 import shopSelect from '../../../components/selectShops'
 Index.components = {
-  PageTable, ElDrawer, PreviewPoster, ShopList, shopSelect
+  PageTable, ElDrawer, PreviewPoster, ShopList, NsShopDialog, shopSelect
 }
 export default Index
 </script>
@@ -240,4 +250,28 @@ export default Index
       cursor: pointer;
     }
   }
+</style>
+<style scoped>
+.message-upload__tip {
+    color: #0091FA;
+    cursor: pointer;
+  }
+.message-upload__tip  {
+    color: #0C4CFF;
+    cursor: pointer;
+}
+.scope_tipQA{
+    cursor: pointer;
+    color: #0C4CFF;
+}
+.scope_tip{
+    color: #0091FA;
+    cursor: pointer;
+}
+.fuscousQA>>>.header-tip__content{
+  background: rgba(237,242,252, 100%);
+}
+.fuscousIcon>>>.header-tip__content{
+  background: rgba(237,242,252);
+}
 </style>

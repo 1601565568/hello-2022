@@ -15,7 +15,7 @@
         class="larger-item"
       >
         <div class='item-box'>
-          <div class="form-item_tip">
+          <div class="form-item_tip" :class="[btnNext==='QA'?fuscousQA:fuscousIcon]">
             活动开始后，统计方式将不可修改，请谨慎选择
           </div>
           <el-form-item
@@ -24,13 +24,13 @@
             prop="distinctType"
             class="larger-item"
           >
-            <el-radio-group v-model="model.distinctType" :disabled="isStating">
+            <el-radio-group v-model="model.distinctType" :disabled="isStating" :class="[btnNext==='QA'?radioQA:radio]">
               <el-radio :label="0">不去重</el-radio>
               <div class="qrcode-bottom-view">
                 <span class="remind-view"></span>
                 {{DEDUP_WAY[0].text}}
                 <el-tooltip  placement="top" popper-class='popperClass'>
-                  <ns-button type='text' class='safe-btn'>
+                  <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </ns-button>
                   <template slot='content'>
@@ -43,7 +43,7 @@
                 <span class="remind-view"></span>
                 {{DEDUP_WAY[1].text}}
                 <el-tooltip  placement="top" popper-class='popperClass'>
-                  <ns-button type='text' class='safe-btn'>
+                  <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </ns-button>
                   <template slot='content'>
@@ -56,7 +56,7 @@
                 <span class="remind-view"></span>
                 {{DEDUP_WAY[2].text}}
                 <el-tooltip  placement="top" popper-class='popperClass'>
-                  <ns-button type='text' class='safe-btn'>
+                  <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </ns-button>
                   <template slot='content'>
@@ -71,13 +71,14 @@
             required
             prop="unfriendDeduction"
             class="larger-item"
+            :class="[btnNext==='QA'?stateQA:stateIcon]"
           >
             <el-switch v-model="model.unfriendDeduction" :active-value='1' :inactive-value='0'  :disabled="isStating"/>
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
               开启此功能后，活动周期内，解除好友关系时，扣除裂变好友数
               <el-tooltip  placement="top" popper-class='popperClass'>
-                <ns-button type='text' class='safe-btn'>
+                <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                   示例说明
                 </ns-button>
                 <template slot='content'>
@@ -102,7 +103,7 @@
               <span class="remind-view"></span>
               添加导购为好友后，需要保持一定时间的好友关系，才会计为裂变成功，0表示添加即时生效
               <el-tooltip  placement="top" popper-class='popperClass'>
-                <ns-button type='text' class='safe-btn'>
+                <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                   示例说明
                 </ns-button>
                 <template slot='content'>
@@ -116,13 +117,14 @@
             required
             prop="repeatParticipation"
             class="larger-item"
+            :class="[btnNext==='QA'?stateQA:stateIcon]"
           >
             <el-switch :disabled="isStating" v-model="model.repeatParticipation"  :active-value='0' :inactive-value='1'/>
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
               关闭此功能后，单个活动内，不允许成为多位员工的裂变大师
               <el-tooltip  placement="top" popper-class='popperClass'>
-                <ns-button type='text' class='safe-btn'>
+                <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                   示例说明
                 </ns-button>
                 <template slot='content'>
@@ -194,7 +196,7 @@
     </el-form>
     <div class='costomcode-footer'>
       <div class='btn' @click="handlePrev">上一步，配置欢迎语</div>
-      <ns-button class='btn current' @click="handleSubmit" :loading='loading'>保存</ns-button>
+      <ns-button class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit" :loading='loading'>保存</ns-button>
     </div>
     <NsAddTagDialog
       :visible.sync="NsAddTagDialogVisible"
@@ -255,7 +257,18 @@ export default {
         receiveRewardsTags: { tip: '通过裂变活动领取奖励打标签', stairPrefix: '领取奖励', isNeedJudgeIsOpnePrize: true }
       },
       isOpnePrize: true,
-      loading: false
+      loading: false,
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      radio: 'radiobox',
+      radioQA: 'radioboxQA',
+      btnSafeQA: 'btnSafeQA',
+      btnSafe: 'btnSafe',
+      stateQA: 'stateQA',
+      stateIcon: 'stateIcon',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: ['data', 'isStating', 'isEdit', 'ladderRewardList'],
@@ -450,9 +463,63 @@ export default {
     }
   }
 }
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcode-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
 </style>
 <style scoped>
 .normal-from .low-bottom >>> .el-form-item {
   margin-bottom: 16px;
+}
+.radiobox >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+.radiobox >>>.el-radio__input.is-checked + .el-radio__label{
+  color:#41a2e8;
+}
+.radioboxQA >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.radioboxQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color:#2153D4 ;
+}
+.btnSafeQA{
+  color: #2153D4;
+}
+.btnSafe{
+  color: #0091FA;
+}
+.stateQA >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: #2153D4;
+  background-color: #2153D4;
+}
+.stateIcon >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+.fuscousQA{
+  background-color: rgba(237,242,252,100%);
+}
+.fuscousIcon{
+  background-color: rgba(237,242,252);
 }
 </style>

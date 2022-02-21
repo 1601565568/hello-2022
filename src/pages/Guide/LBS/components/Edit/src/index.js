@@ -93,7 +93,14 @@ export default {
       ],
       validateActivityIntroduction,
       loadOver: false, // 保存是否加载完成
-      isStating: false // 是否正在进行中
+      isStating: false, // 是否正在进行中
+      messageQA: process.env.VUE_APP_THEME,
+      messageIconQA: 'scope_tipQA',
+      messageIcon: 'scope_tip',
+      radiobox: 'radiobox',
+      radioboxQA: 'radioboxQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: {

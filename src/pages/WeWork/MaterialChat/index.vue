@@ -6,16 +6,13 @@
           素材库累计数据
           <span class="sub-title">（数据统计至昨日）</span>
         </div>
-        <div class="unDoneData"
-             @click="lookNoStatistical">查看未执行统计</div>
+        <div class="unDoneData" @click="lookNoStatistical">查看未执行统计</div>
       </div>
       <div class="data-view">
         <el-row :gutter="15">
           <template v-for="item in dataList">
-            <el-col :key="item.name"
-                    :span="6">
-              <div class="base-cell"
-                   :class="item.claseName">
+            <el-col :key="item.name" :span="6">
+              <div class="base-cell" :class="item.claseName">
                 <div class="text">{{ item.name }}</div>
                 <div class="subTitle">昨日次数</div>
                 <div class="number">{{ item.yesterdayNum }}</div>
@@ -31,111 +28,113 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <div class="day-view">
-              <span :class="
+            <div class="day-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+              <span
+                :class="
                   showTodaySelect
                     ? selectToday
                       ? 'base-text-select'
                       : ''
                     : 'base-un-active'
                 "
-                    class="base-text"
-                    @click="selectTodayClick('seven')">近7天</span>
-              <span :class="
+                class="base-text"
+                @click="selectTodayClick('seven')"
+                >近7天</span
+              >
+              <span
+                :class="
                   showTodaySelect
                     ? selectToday
                       ? ''
                       : 'base-text-select'
                     : 'base-un-active'
                 "
-                    class="base-text"
-                    @click="selectTodayClick('thirty')">近30天</span>
+                class="base-text"
+                @click="selectTodayClick('thirty')"
+                >近30天</span
+              >
             </div>
             <div class="date-view">
-              <el-date-picker v-model="datePickerValue"
-                              type="daterange"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              end-placeholder="结束日期"
-                              align="center"
-                              @change="datePickerChange"
-                              value-format="yyyy-MM-dd"
-                              :picker-options="pickerOptions">
+              <el-date-picker
+                v-model="datePickerValue"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="center"
+                @change="datePickerChange"
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerOptions"
+              >
               </el-date-picker>
             </div>
           </div>
-          <div class="drawer-output"
-               @click="outputClick">
-            导出文件
+          <div class="drawer-output" @click="outputClick">
+            导出CSV文件
           </div>
         </div>
         <div class="title">数据分析</div>
-        <div v-if="echartList.length"
-             class="charts-view">
+        <div v-if="echartList.length" class="charts-view">
           <NsEcharts :options="option" />
         </div>
-        <div v-else
-             class="no-echart-list-view">
-          <img src="@/assets/no-data.png"
-               alt="暂无数据" />
+        <div v-else class="no-echart-list-view">
+          <img src="@/assets/no-data.png" alt="暂无数据" />
         </div>
       </div>
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
-        <el-tabs v-model="activeName"
-                 @tab-click="handleClick">
-          <div class="remind-data-view">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+        <el-tabs v-model="activeName" @tab-click="handleClick" >
+          <div class="remind-data-view" :class="[fuscous==='QA'?remindQA:remind]">
             <div v-if="activeName === 'second'">
               统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
             </div>
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
-          <el-tab-pane label="按日期统计"
-                       name="first">
+          <el-tab-pane label="按日期统计" name="first" >
             <div v-if="listDate.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
-                  <el-table :data="listDate"
-                            class="new-table_border drawer-table"
-                            :row-style="{ height: '48px' }">
-                    <el-table-column prop="trackTime"
-                                     label="日期">
+                  <el-table
+                    :data="listDate"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="trackTime" label="日期">
                     </el-table-column>
-                    <el-table-column prop="nowSendSum"
-                                     label="发送次数">
+                    <el-table-column prop="nowSendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="nowDownloadSum"
-                                     label="下载次数">
+                    <el-table-column prop="nowDownloadSum" label="下载次数">
                     </el-table-column>
-                    <el-table-column prop="nowCompletionSum"
-                                     label="补全次数">
+                    <el-table-column prop="nowCompletionSum" label="补全次数">
                     </el-table-column>
-                    <el-table-column prop="nowFriendsCircleSum"
-                                     label="朋友圈发送次数">
+                    <el-table-column prop="nowFriendsCircleSum" label="朋友圈发送次数">
                     </el-table-column>
-                    <el-table-column prop="title"
-                                     width="125px"
-                                     label="操作">
+                    <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
-                        <ns-button type="text"
-                                   class="select-button"
-                                   @click="showMoreToDate(scope.row)">查看明细</ns-button>
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToDate(scope.row)"
+                          >查看明细</ns-button
+                        >
                       </template>
                     </el-table-column>
                   </el-table>
                 </template>
                 <template slot="pagination">
-                  <el-pagination background
-                                 class="label-dialog__pagination"
-                                 :page-sizes="paginationToDate.sizeOpts"
-                                 :total="paginationToDate.total"
-                                 :current-page.sync="paginationToDate.page"
-                                 :page-size="paginationToDate.size"
-                                 layout="total, sizes, prev, pager, next, jumper"
-                                 @size-change="handleSizeChangeForDate"
-                                 @current-change="handleCurrentChangeForDate">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToDate.sizeOpts"
+                    :total="paginationToDate.total"
+                    :current-page.sync="paginationToDate.page"
+                    :page-size="paginationToDate.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForDate"
+                    @current-change="handleCurrentChangeForDate"
+                  >
                   </el-pagination>
                 </template>
               </page-table>
@@ -144,75 +143,81 @@
               <NoData />
             </div>
           </el-tab-pane>
-          <el-tab-pane label="按素材统计"
-                       name="second">
-            <div class="no-input-view"
-                 style="width:200px;padding:16px 0 0 16px">
-              <el-input placeholder="请输入素材标题 "
-                        size="medium"
-                        v-model="materialTitle">
-                <Icon type="ns-search"
-                      slot="suffix"
-                      style="font-size: 30px;"
-                      @click="handleCurrentChangeForPerson(1)"></Icon>
+          <el-tab-pane label="按素材统计" name="second">
+            <div class="no-input-view" style="width:200px;padding:16px 0 0 16px">
+              <el-input placeholder="请输入素材标题 " size="medium" v-model="materialTitle">
+                <Icon
+                  type="ns-search"
+                  slot="suffix"
+                  style="font-size: 30px;"
+                  @click="handleCurrentChangeForPerson(1)"
+                ></Icon>
               </el-input>
             </div>
             <div v-if="listMaterial.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
-                  <el-table :data="listMaterial"
-                            class="new-table_border drawer-table"
-                            :row-style="{ height: '48px' }">
-                    <el-table-column prop="materialTitle"
-                                     label="素材标题">
+                  <el-table
+                    :data="listMaterial"
+                    class="new-table_border drawer-table"
+                    :row-style="{ height: '48px' }"
+                  >
+                    <el-table-column prop="materialTitle" label="素材标题">
                       <template slot-scope="scope">
-                        <el-popover placement="top-start"
-                                    width="300"
-                                    trigger="hover"
-                                    :disabled="scope.row.materialTitle.length <= 15">
+                        <el-popover
+                          placement="top-start"
+                          width="300"
+                          trigger="hover"
+                          :disabled="scope.row.materialTitle.length <= 15"
+                        >
                           <div>{{ scope.row.materialTitle }}</div>
-                          <span slot="reference"
-                                v-if="scope.row.materialTitle.length <= 15">{{ scope.row.materialTitle }}</span>
-                          <span slot="reference"
-                                v-if="scope.row.materialTitle.length > 15">{{
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length <= 15"
+                            >{{ scope.row.materialTitle }}</span
+                          >
+                          <span
+                            slot="reference"
+                            v-if="scope.row.materialTitle.length > 15"
+                            >{{
                               scope.row.materialTitle.substr(0, 15) + '...'
-                            }}</span>
+                            }}</span
+                          >
                         </el-popover>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="sendSum"
-                                     label="发送次数">
+                    <el-table-column prop="sendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="downloadSum"
-                                     label="下载次数">
+                    <el-table-column prop="downloadSum" label="下载次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum"
-                                     label="补全次数">
+                    <el-table-column prop="completionSum" label="补全次数">
                     </el-table-column>
-                    <el-table-column prop="friendsCircleSum"
-                                     label="朋友圈发送次数">
+                    <el-table-column prop="friendsCircleSum" label="朋友圈发送次数">
                     </el-table-column>
-                    <el-table-column prop="title"
-                                     width="125px"
-                                     label="操作">
+                    <el-table-column prop="title" width="125px" label="操作">
                       <template slot-scope="scope">
-                        <ns-button type="text"
-                                   class="select-button"
-                                   @click="showMoreToPerson(scope.row)">查看明细</ns-button>
+                        <ns-button
+                          type="text"
+                          class="select-button"
+                          @click="showMoreToPerson(scope.row)"
+                          >查看明细</ns-button
+                        >
                       </template>
                     </el-table-column>
                   </el-table>
                 </template>
                 <template slot="pagination">
-                  <el-pagination background
-                                 class="label-dialog__pagination"
-                                 :page-sizes="paginationToPerson.sizeOpts"
-                                 :total="paginationToPerson.total"
-                                 :current-page.sync="paginationToPerson.page"
-                                 :page-size="paginationToPerson.size"
-                                 layout="total, sizes, prev, pager, next, jumper"
-                                 @size-change="handleSizeChangeForPerson"
-                                 @current-change="handleCurrentChangeForPerson">
+                  <el-pagination
+                    background
+                    class="label-dialog__pagination"
+                    :page-sizes="paginationToPerson.sizeOpts"
+                    :total="paginationToPerson.total"
+                    :current-page.sync="paginationToPerson.page"
+                    :page-size="paginationToPerson.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChangeForPerson"
+                    @current-change="handleCurrentChangeForPerson"
+                  >
                   </el-pagination>
                 </template>
               </page-table>
@@ -358,7 +363,12 @@ export default {
       startTime: '',
       endTime: '',
       datePickerValue: [],
-      materialTitle: ''
+      materialTitle: '',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon',
+      remind: 'remind',
+      remindQA: 'remindQA'
     }
   },
   methods: {
@@ -468,7 +478,7 @@ export default {
         path: '/Social/OperationData/NoStatistical'
       })
     },
-    handleClick () { },
+    handleClick () {},
     showMoreToDate (row) {
       this.$refs.timeList.openDeawer(row)
     },
@@ -494,8 +504,8 @@ export default {
             this.dataList[3].yesterdayNum = json.nowFriendsCircleSum || 0
           }
         })
-        .catch(resp => { })
-        .finally(() => { })
+        .catch(resp => {})
+        .finally(() => {})
     },
     loadDateList () {
       const parms = {
@@ -520,8 +530,8 @@ export default {
             this.paginationToDate.total = parseInt(json.recordsTotal)
           }
         })
-        .catch(resp => { })
-        .finally(() => { })
+        .catch(resp => {})
+        .finally(() => {})
     },
     loadMaterialList () {
       const parms = {
@@ -548,8 +558,8 @@ export default {
             this.paginationToPerson.total = parseInt(json.recordsTotal)
           }
         })
-        .catch(resp => { })
-        .finally(() => { })
+        .catch(resp => {})
+        .finally(() => {})
     },
     loadChartData () {
       const parms = {
@@ -631,8 +641,8 @@ export default {
             ]
           }
         })
-        .catch(resp => { })
-        .finally(() => { })
+        .catch(resp => {})
+        .finally(() => {})
     }
   },
   mounted () {
@@ -646,8 +656,8 @@ export default {
 </script>
 
 <style scoped>
-@import "@components/NewUi/styles/reset.css";
-@import "./styles/index.css";
+@import '@components/NewUi/styles/reset.css';
+@import './styles/index.css';
 .material-data {
   background-color: white;
   /* width: 1206px; */
@@ -700,7 +710,7 @@ export default {
     }
     .subTitle {
       font-size: 12px;
-      color: #ffffff;
+      color: #FFFFFF;
     }
     .text {
       font-size: 16px;
@@ -711,16 +721,16 @@ export default {
     }
   }
   .one {
-    background-image: linear-gradient(270deg, #a0e35e 0%, #67c230 100%);
+    background-image: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
   }
   .two {
-    background-image: linear-gradient(269deg, #4eb3fc 0%, #0091fa 100%);
+    background-image: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
   }
   .three {
-    background-image: linear-gradient(270deg, #f7bd5b 0%, #f49f10 100%);
+    background-image: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
   }
   .four {
-    background-image: linear-gradient(269deg, #8b4efc 0%, #6a00fa 100%);
+    background-image: linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%);
   }
 }
 .material-show {
@@ -839,5 +849,29 @@ export default {
   margin: 0 auto;
   width: 320px;
   height: 220px;
+}
+.fuscousQA .base-text-select{
+  color: #0C4CFF;
+}
+.fuscousIcon .base-text-select{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__item.is-active{
+  color: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__item.is-active{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__active-bar{
+  background: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__active-bar{
+  background: #0091fa;
+}
+.remindQA {
+  background: rgba(237,242,252, 100%)!important;
+}
+.remind {
+  background: rgba(237,242,252)!important;
 }
 </style>

@@ -30,7 +30,7 @@
         >
           <template slot="collapse-left">
             <el-form
-              class="el-form-reset"
+              class="el-form-reset" :class="[btnTag==='QA'? tagTextQA : tagText]"
               size="medium"
               ref="ruleForm"
               :model="model"
@@ -84,7 +84,7 @@
                   :tools="tools"
                   @inputLength="tagAreaInputLength"
                   placeholder="请输入欢迎语"
-                  emojiClass=""
+                  emojiClass="" :class="[btnTag==='QA'? tagTextQA : tagText]"
                 />
               </el-form-item>
               <el-form-item
@@ -346,7 +346,7 @@ export default {
   computed: {
     messageList () {
       if (this.model.content) {
-        return [this.welcomeMessage, ...this.model.annexList]
+        return [ this.welcomeMessage, ...this.model.annexList ]
       } else {
         return this.model.annexList
       }
@@ -455,7 +455,10 @@ export default {
           id: '{WeworkNickName}',
           value: '员工别名'
         }
-      ]
+      ],
+      btnTag: process.env.VUE_APP_THEME,
+      tagTextQA: 'tagTextQA',
+      tagText: 'tagText'
     }
   },
   mounted () {
@@ -631,7 +634,7 @@ export default {
 .el-form-reset {
   .banner-tip {
     height: 54px;
-    background: #f2f9fe;
+    background: #F2F9FE;
     border-radius: 2px;
     .text {
       display: inline-block;
@@ -654,7 +657,7 @@ export default {
       margin-top: 11px;
       max-width: 617px;
       height: 64px;
-      background: #f5f5f5;
+      background: #F5F5F5;
       font-size: 14px;
       display: flex;
       align-items: center;
@@ -679,13 +682,13 @@ export default {
           line-height: 32px;
         }
         .un-selected {
-          color: #bfbfbf;
+          color: #BFBFBF;
         }
         .selected {
           color: #606266;
         }
         .icon {
-          color: #bfbfbf;
+          color: #BFBFBF;
           font-size: 14px;
           margin-right: 9px;
         }
@@ -702,18 +705,18 @@ export default {
       // justify-content: center;
       .icon {
         font-size: 13px;
-        color: #0091fa;
+        color:#0091FA;
         margin-right: 5px;
       }
     }
     .add-material-disabled {
-      color: #bfbfbf;
+      color: #BFBFBF;
       .icon {
-        color: #bfbfbf;
+        color:#BFBFBF;
       }
     }
     .add-tip::before {
-      content: "";
+      content: '';
       display: inline-block;
       background: #f2aa18;
       height: 8px;
@@ -727,5 +730,31 @@ export default {
 .message-preivew-panel {
   overflow: auto;
   height: 515px;
+}
+</style>
+<style scoped>
+.tagTextQA >>> .emoji-icon{
+  color: #2153D4;
+}
+.tagText >>> .emoji-icon{
+  color: #26a2ff;
+}
+.tagTextQA >>> wise{
+  color: #2153D4;
+}
+.tagText >>> wise{
+  color: #26a2ff;
+}
+.tagTextQA >>>.el-form-item .add-material .icon{
+  color: #2153D4;
+}
+.tagText >>>.el-form-item .add-material .icon{
+  color: #26a2ff;
+}
+.tagTextQA>>>.banner-tip{
+  background-color: rgba(237,242,252,100%);
+}
+.tagText >>>.banner-tip{
+  background-color: rgba(237,242,252);
 }
 </style>

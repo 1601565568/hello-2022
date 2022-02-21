@@ -13,6 +13,7 @@
         label="奖品设置"
         prop="name"
         class="larger-item"
+        :class="[btnNext==='QA'?stateQA:stateIcon]"
       >
         <el-switch v-model="model.isOpnePrize" :disabled="isEdit"/>
       </el-form-item>
@@ -256,7 +257,7 @@
           <span class="remind-view"></span>
           若打开则允许用户领取多阶梯奖励，若关闭则领取一次后不可再领取其他奖励
           <el-tooltip  placement="top" popper-class='popperClass'>
-            <ns-button type='text' class='safe-btn'>
+            <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
               示例说明
             </ns-button>
             <template slot='content'>
@@ -268,22 +269,22 @@
         </div>
       </el-form-item>
       <el-form-item v-if='model.isOpnePrize'>
-        <div class='swicth-item'>
+        <div class='swicth-item' :class="[btnNext==='QA'?stateQA:stateIcon]">
           <span>仅会员可领取奖励</span>
           <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
         </div>
         <div class="qrcode-bottom-view" v-if='model.isOnlyReceiveByMember'>
           <span class="remind-view"></span>
           设置入会链接
-          <ns-button type='text' class='safe-btn' @click='handleGoSet'>
+          <ns-button type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]" @click='handleGoSet'>
             去设置
           </ns-button>
         </div>
       </el-form-item>
     </el-form>
     <div class='costomcode-footer'>
-      <div class='btn' @click="handlePrev">上一步，基础信息</div>
-      <div class='btn current' @click="handleSubmit">下一步</div>
+      <div class="btn" @click="handlePrev">上一步，基础信息</div>
+      <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
     <el-dialog title="选择红包"
@@ -373,7 +374,14 @@ export default {
       couponVisible: false,
       chooseItem: {}, // 如果红包记录选择的那项
       chooseIndex: -1, // 选择的下标
-      maxLength: 5 // 阶梯奖励最大数
+      maxLength: 5, // 阶梯奖励最大数
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      stateQA: 'stateQA',
+      stateIcon: 'stateIcon',
+      btnSafeQA: 'btnSafeQA',
+      btnSafe: 'btnSafe'
     }
   },
   props: ['data', 'isStating', 'isEdit'],
@@ -708,5 +716,38 @@ export default {
 }
 .border-round.el-table  {
   overflow: visible;
+}
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcode-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+.stateQA >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: #2153D4;
+  background-color: #2153D4;
+}
+.stateIcon >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+.btnSafeQA{
+  color: #2153D4;
+}
+.btnSafe{
+  color: #0091FA;
 }
 </style>

@@ -88,7 +88,10 @@ export default {
             }
           }
         ]
-      }
+      },
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
 

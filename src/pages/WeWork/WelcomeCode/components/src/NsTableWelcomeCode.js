@@ -81,33 +81,33 @@ export default {
         }
       },
       // 附带内容类型
-      annexTypeOptions: () => {
-        let arr = [
-          {
-            value: WelcomeMessageType.Image,
-            label: '图片'
-          },
-          {
-            value: WelcomeMessageType.Video,
-            label: '视频'
-          },
-          {
-            value: WelcomeMessageType.Link,
-            label: '链接'
-          },
-          {
-            value: WelcomeMessageType.MiniProgram,
-            label: '小程序'
-          }
-        ]
-        if (this.cloudPlatformType === 'ecrp') {
-          arr.push({
-            value: WelcomeMessageType.Poster,
-            label: '二维码海报'
-          })
+      annexTypeOptions: [
+        {
+          value: WelcomeMessageType.Image,
+          label: '图片'
+        },
+        {
+          value: WelcomeMessageType.Video,
+          label: '视频'
+        },
+        {
+          value: WelcomeMessageType.Link,
+          label: '链接'
+        },
+        {
+          value: WelcomeMessageType.MiniProgram,
+          label: '小程序'
+        },
+        {
+          value: WelcomeMessageType.Poster,
+          label: '二维码海报'
         }
-        return arr
-      }
+      ],
+      employees: process.env.VUE_APP_THEME,
+      employeeQA: 'employeeQA',
+      employeeScope: 'employee',
+      stateQA: 'elStateQA',
+      elState: 'elState'
     }
   },
   mounted () {
