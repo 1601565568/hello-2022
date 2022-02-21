@@ -7,6 +7,7 @@ export default {
       qychat2,
       qychat3,
       data: [],
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         appDomain: '',
         filename: '',
