@@ -246,7 +246,7 @@ export default {
       let res = await this.$http.fetch(this.$api.weWork.weWorkCustomer.findDefaultTask)
       if (!res.success) return
       // eslint-disable-next-line camelcase
-      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time, del_group_send_time } = res.result
+      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_group_members_notify, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time, del_group_send_time } = res.result
       this.id = id
       Object.assign(this.form, {
         // eslint-disable-next-line camelcase
@@ -256,7 +256,7 @@ export default {
         // eslint-disable-next-line camelcase
         delChatRunType: del_chat_run_type !== undefined,
         // eslint-disable-next-line camelcase
-        delGroupMembersNotify: del_chat_run_type !== undefined,
+        delGroupMembersNotify: del_group_members_notify === 1,
         delGuideSendTime: fnTime(del_guide_send_time), // 被删好友时间设置
         delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
         delChatSendTime: fnTime(del_chat_send_time), // 好友退群时间设置
@@ -297,7 +297,7 @@ export default {
         delChatNotify: delChatRunType ? 2 : '', // 退群写死
         delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : null,
         delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : '',
-        delGroupMembersNotify: delGroupMembersNotify ? delGroupMembersNotify ? 1 : 0 : null,
+        delGroupMembersNotify: delGroupMembersNotify ? delGroupMembersNotify ? 1 : 0 : 0,
         delGroupSendTime: delGroupMembersNotify ? '2099-01-01 ' + delGroupSendTime : ''
       })
       this.$refs[formName].validate(async (valid) => {
