@@ -132,7 +132,7 @@ export default {
     },
     async getList () {
       let maps = Object.assign({}, this.model)
-      if (this.cloudPlatformType !== 'kd') {
+      if (this.cloudPlatformType === 'kd') {
         maps = JSON.parse(JSON.stringify(maps).replace(/guideIds/g, 'userIds'))
       }
       maps.startTime = maps.startTime + ' 00:00:00'
