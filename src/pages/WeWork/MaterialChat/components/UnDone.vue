@@ -257,24 +257,6 @@ export default {
       }).catch((resp) => {
         this.$notify.error(resp.msg || '导出报错，请联系管理员')
       })
-      // this.$notify.info('导出中，请稍后片刻')
-      // this.$http.fetch(this.$api.guide.exportExcelByNoCompleteByMaterial, param)
-      //   .then((resp) => {
-      //     this.$notify.success('下载完成')
-      //   }).catch((resp) => {
-      //     if (!resp.size === 0) {
-      //       this.$notify.error('导出报错，请联系管理员')
-      //     } else {
-      //       let url = window.URL.createObjectURL(new Blob([resp]))
-      //       let link = document.createElement('a')
-      //       link.style.display = 'none'
-      //       link.href = url
-      //       const fileName = `${this.item.materialTitle}统计.CSV`
-      //       link.setAttribute('download', fileName)
-      //       document.body.appendChild(link)
-      //       link.click()
-      //     }
-      //   })
     },
     loadDetail () {
       const parms = {

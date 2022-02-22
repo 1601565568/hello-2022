@@ -142,7 +142,8 @@ export default {
     },
     outputCsvFile () {
       const params = {
-        exportType: 11
+        exportType: 11,
+        startTime: moment().format('YYYY-MM-DD HH:mm:ss')
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
