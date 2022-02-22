@@ -49,7 +49,7 @@
               </el-form-item>
             </el-form>
           </div>
-          <ns-button size='large' type='primary' style='margin-right:16px;' @click='handleExport'>导出CSV文件</ns-button>
+          <ns-button size='large' type='primary' style='margin-right:16px;' @click='handleExport'>导出文件</ns-button>
         </div>
         <div class="select-data-view">
           <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -248,26 +248,33 @@ export default {
       const param = {
         eventType: this.eventType,
         guideIdsStr: this.guideIdsStr,
-        materialId: this.item.materialId
+        materialId: this.item.materialId,
+        exportType: 12,
+        materialTitle: this.item.materialTitle || ''
       }
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.exportExcelByNoCompleteByMaterial, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            const fileName = `${this.item.materialTitle}统计.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      this.$http.fetch(this.$api.guide.task.exportExcel, param).then((resp) => {
+        this.$notify.success('文件已导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+      // this.$notify.info('导出中，请稍后片刻')
+      // this.$http.fetch(this.$api.guide.exportExcelByNoCompleteByMaterial, param)
+      //   .then((resp) => {
+      //     this.$notify.success('下载完成')
+      //   }).catch((resp) => {
+      //     if (!resp.size === 0) {
+      //       this.$notify.error('导出报错，请联系管理员')
+      //     } else {
+      //       let url = window.URL.createObjectURL(new Blob([resp]))
+      //       let link = document.createElement('a')
+      //       link.style.display = 'none'
+      //       link.href = url
+      //       const fileName = `${this.item.materialTitle}统计.CSV`
+      //       link.setAttribute('download', fileName)
+      //       document.body.appendChild(link)
+      //       link.click()
+      //     }
+      //   })
     },
     loadDetail () {
       const parms = {
