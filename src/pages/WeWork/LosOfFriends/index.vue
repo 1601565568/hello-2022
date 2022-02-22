@@ -288,10 +288,10 @@ export default {
       const { delGuideNotify, delFriendNotify, delChatRunType, delGuideSendTime, delFriendSendTime, delChatSendTime, delGroupMembersNotify, delGroupSendTime } = this.form
       let subObj = Object.assign({}, {
         id: this.id || null,
-        delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : null, // 删除好友 通知店长
+        delGuideNotify: delGuideNotify ? (this.cloudPlatformType === 'kd' ? '2' : checkboxGroup.join(',')) : null, // 删除好友 通知店长
         delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : null, // 删除好友 提醒时间 0提醒 1固定时间
         delGuideSendTime: delGuideNotify ? (+delGuideRunType === 1 ? '2099-01-01 ' + delGuideSendTime : '') : '', // 被删好友时间设置（固定时间）
-        delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : null, // 删除好友 通知店长
+        delFriendNotify: delFriendNotify ? this.cloudPlatformType === 'kd' ? '2' : checkboxGroups.join(',') : null, // 删除好友 通知店长
         delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : null, // 删除好友 提醒时间
         delFriendSendTime: delFriendNotify ? (+delFriendRunType === 1 ? '2099-01-01 ' + delFriendSendTime : '') : '', // 被删好友时间设置（固定时间）
         delChatNotify: delChatRunType ? 2 : '', // 退群写死
