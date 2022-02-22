@@ -65,16 +65,42 @@
             </div>
           </div>
         </el-form-item> -->
-        <el-form-item :label="cloudPlatformType==='kd'?'企业微信成员':'门店/员工:'" class="nsGuide" style="margin-left: 11px">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="guideIdsChange">
+        <el-form-item :label="cloudPlatformType==='kd'?'企业微信成员:':'门店/员工:'" class="nsGuide" style="margin-left: 11px">
+          <NsGuideDialog :selfBtn='true'
+                          :appendToBody='true'
+                          :isButton="false"
+                          :auth="false"
+                          type="primary"
+                          btnTitle=""
+                          dialogTitle="选择员工"
+                          v-model="model.guideIds"
+                          @input="guideIdsChange"
+                          v-if="cloudPlatformType !== 'kd'">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
                 <!-- <Icon type="geren" class='xuanzeyuangong2x'></Icon> -->
-                <span class="icon-xuanzeyuangong2x iconfont"></span>
+                <span class="icon-xuanzeyuangong2x iconfont" style="marginLeft: 5px"></span>
               </div>
             </template>
           </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="false"
+                               type="primary"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="guideIdsChange"
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <span class="icon-xuanzeyuangong2x iconfont" style="marginLeft: 5px"></span>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
         </el-form-item>
         <el-form-item label="事件：" style="margin-left: 16px" class='el-form__change'>
           <div class="item-select">
@@ -98,7 +124,6 @@
         <el-form-item  style="margin-left: 16px">
           <div class="item-input">
             <el-input
-              autofocus="true"
               v-model.trim="model.searchGName"
               :placeholder="cloudPlatformType==='kd' ? '请输入成员/群名' : '请输入导购/群名'"
               style="width: 152px"
@@ -168,8 +193,10 @@
 <script>
 import NsTableRepeatCustomer from './src/NsTableRepeatCustomer.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 NsTableRepeatCustomer.components = {
-  NsGuideDialog
+  NsGuideDialog,
+  NsGuideWeChatDialog
 }
 export default NsTableRepeatCustomer
 </script>
