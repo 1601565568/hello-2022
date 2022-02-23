@@ -7,7 +7,7 @@
   <div class="template-table__bar">
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-          <el-col :span="2"><ns-button type="primary"  class="searchbtn" @click="exportExcel">导出</ns-button></el-col>
+          <el-col :span="2"><ns-button type="primary"  class="searchbtn" id="topSearchbtn" @click="exportExcel">导出</ns-button></el-col>
           <el-col :span="22">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
@@ -805,8 +805,14 @@ export default {
         params.startDate = moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')
         params.endDate = moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')
       }
+      const ball = document.getElementById('topSearchbtn').getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
-        this.$notify.success('文件已导入下载中心')
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 70,
+          right: document.body.clientWidth - ball.left - ball.width
+        })
       }).catch((resp) => {
         this.$notify.error(resp.msg || '导出报错，请联系管理员')
       })
