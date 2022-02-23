@@ -6,14 +6,14 @@
           <tag-area
             class="tag-area"
             v-model='pitContent'
-            :maxlength="1500"
+            :maxlength="500"
             :showEmoji='true'
             :showTextEmoji='true'
             :tools='tools'
             :disabled='disabled'
             ref="tagContent"
             className="tagContent"
-            placeholder="可在此输入群欢迎语，限制长度在1500个字符以内"
+            placeholder="可在此输入群欢迎语，限制长度在500个字符以内"
             tag="wise"
             emojiClass=''
           />
@@ -52,6 +52,7 @@
             <WechatMessageBar
               :pitBit='true'
               :showPitBit='false'
+              :needLink="false"
               ref="WechatMessageBar"
               :multipleImage='false'
               :limitImage='limitImage'
@@ -95,8 +96,8 @@ export default {
       // console.log(this.model.textContent, 'this.model.textContent')
       if (value === '') {
         callback(new Error('请输入群欢迎语'))
-      } else if (valus.length > 1500) {
-        callback(new Error('限制长度在1500个字符以内'))
+      } else if (valus.length > 500) {
+        callback(new Error('限制长度在500个字符以内'))
       } else {
         callback()
       }
@@ -122,7 +123,9 @@ export default {
         // mediaList: [{ required: true, message: '请添加附件', trigger: 'change' }]
       },
       imageNum: 1,
-      tools: [],
+      tools: [
+        { type: 'tag', text: '客户微信昵称', id: 'CustomerNick', value: '客户昵称' }
+      ],
       pitContent: '',
       isUploading: false
     }
@@ -190,6 +193,7 @@ export default {
     pitContent (newObj) {
       this.model.textContent = this.$refs.tagContent.htmlToString(newObj)
       this.$emit('pitContent', this.model.textContent)
+      this.$refs.form.clearValidate()
     }
   },
   methods: {
@@ -293,7 +297,6 @@ export default {
       delete params.mediaList
 
       this.loading = true
-      // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.textContent
       this.$http
         .fetch(this.$api.weWork.groupWelcomeCode.saveOrUpdate, params)
@@ -362,7 +365,7 @@ export default {
 }
 .top-title-view {
   width: 100%;
-  height: 144px;
+  /* height: 144px; */
 }
 .guide-text {
   height: 22px;
