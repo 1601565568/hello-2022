@@ -51,6 +51,7 @@
       :visible.sync="visibleLinkMessageDialog"
       @update:visible="linkMsg = null"
       @confirm="addMessage"
+      :needLink="needLink"
     />
     <!-- 小程序消息 -->
     <MiniProgramMessageDialog
@@ -58,6 +59,7 @@
       :visible.sync="visibleMiniProgramMessageDialog"
       @update:visible="miniProgramMsg = null"
       @confirm="addMessage"
+      :needLink="needLink"
     />
     <!-- 海报消息 -->
     <PosterMessageDialog
@@ -120,6 +122,13 @@ export default {
     },
     // 群欢迎语中不需要自建坑位和附码图片
     showPitBit: {
+      type: Boolean,
+      default () {
+        return true
+      }
+    },
+    // 是否需要开启占位符
+    needLink: {
       type: Boolean,
       default () {
         return true
