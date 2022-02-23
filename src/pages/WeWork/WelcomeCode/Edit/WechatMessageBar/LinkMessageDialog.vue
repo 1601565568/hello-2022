@@ -440,7 +440,7 @@ export default {
     }
   },
   mounted () {
-    // this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     if (!this.needLink) {
       this.placeholderLink = []
     }
