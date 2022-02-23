@@ -58,15 +58,21 @@
       <span class="item-tip">二维码海报</span>
     </div>
     <!-- 链接消息 -->
-    <LinkMessageDialog :content="linkMsg ? linkMsg.content : null"
-                       :visible.sync="visibleLinkMessageDialog"
-                       @update:visible="linkMsg = null"
-                       @confirm="addMessage" />
+    <LinkMessageDialog
+      :content="linkMsg ? linkMsg.content : null"
+      :visible.sync="visibleLinkMessageDialog"
+      @update:visible="linkMsg = null"
+      @confirm="addMessage"
+      :needLink="needLink"
+    />
     <!-- 小程序消息 -->
-    <MiniProgramMessageDialog :content="miniProgramMsg ? miniProgramMsg.content : null"
-                              :visible.sync="visibleMiniProgramMessageDialog"
-                              @update:visible="miniProgramMsg = null"
-                              @confirm="addMessage" />
+    <MiniProgramMessageDialog
+      :content="miniProgramMsg ? miniProgramMsg.content : null"
+      :visible.sync="visibleMiniProgramMessageDialog"
+      @update:visible="miniProgramMsg = null"
+      @confirm="addMessage"
+      :needLink="needLink"
+    />
     <!-- 海报消息 -->
     <PosterMessageDialog @confirm="addMessage"
                          :content="posterMsg ? posterMsg.content : null"
@@ -122,6 +128,13 @@ export default {
     },
     // 群欢迎语中不需要自建坑位和附码图片
     showPitBit: {
+      type: Boolean,
+      default () {
+        return true
+      }
+    },
+    // 是否需要开启占位符
+    needLink: {
       type: Boolean,
       default () {
         return true
