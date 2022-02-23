@@ -49,7 +49,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="发放人：" class='el-form__change'>
+          <!-- <el-form-item label="发放人：" class='el-form__change'>
             <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{changeSearchfrom({guideIds:value})}">
               <template slot='selfBtn'>
                 <div class='self-btn'>
@@ -58,7 +58,46 @@
                 </div>
               </template>
             </NsGuideDialog>
-          </el-form-item>
+          </el-form-item> -->
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'发放人：':'发放成员：'" class='el-form__change'>
+          <NsGuideDialog :selfBtn='true'
+                         :appendToBody='true'
+                         :isButton="false"
+                         :auth="true"
+                         btnTitle=""
+                         :dialogTitle="选择员工"
+                         v-model="model.guideIds"
+                         @input="(value)=>{changeSearchfrom({guideIds:value})}"
+                         :isOpenDialogAfterRequest='false'
+                         v-if="cloudPlatformType == 'ecrp'">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="true"
+                               :switchAreaFlag="1"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="(value)=>{changeSearchfrom({guideIds:value})}"
+                               :isOpenDialogAfterRequest='false'
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
+        </el-form-item>
           <el-form-item label="">
             <el-input v-model.trim="model.customerNick" placeholder="请输入客户昵称"  @keyup.enter.native="changeSearchfrom" style='width:228px;'>
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="changeSearchfrom"></Icon>
@@ -119,11 +158,11 @@
             </el-table-column>
             <el-table-column
               prop="sendName"
-              label="发放人">
+              :label="cloudPlatformType==='ecrp'?'发放人':'发放成员'">
             </el-table-column>
             <el-table-column
               prop="workNumber"
-              label="工号">
+              label="工号" v-if="cloudPlatformType==='ecrp'">
               <template slot-scope="scope">
                 {{scope.row.workNumber || '-'}}
               </template>
@@ -131,7 +170,7 @@
             <el-table-column
               prop="shopNames"
               show-overflow-tooltip
-              label="工作门店">
+              label="工作门店" v-if="cloudPlatformType==='ecrp'">
             </el-table-column>
           </el-table>
         </template>
@@ -158,8 +197,9 @@
 import Index from './src/index'
 import PageTable from '@/components/NewUi/PageTablePro'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 Index.components = {
-  PageTable, NsGuideDialog
+  PageTable, NsGuideDialog, NsGuideWeChatDialog
 }
 export default Index
 </script>

@@ -22,7 +22,7 @@
             </template>
           </NsGuideDialog>
         </el-form-item> -->
-        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'企业微信成员：'" class='el-form__change no-margin has-left'>
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'选择企业微信成员：'" class='el-form__change no-margin has-left'>
           <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
