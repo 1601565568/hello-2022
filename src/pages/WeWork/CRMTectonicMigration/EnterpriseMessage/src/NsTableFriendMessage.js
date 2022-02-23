@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
+import PageTable from '@/components/NewUi/PageTable'
 
 let vm
 export default {
@@ -241,25 +242,43 @@ export default {
     }
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
-    $handleParams: function (param) {
-      if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
-        param.searchMap.createStartTime = param.searchMap.createTime[0]
-        param.searchMap.createEndTime = param.searchMap.createTime[1]
-      }
-      if (param.searchMap && param.searchMap.execTime && param.searchMap.execTime.length > 0) {
-        param.searchMap.execStartTime = param.searchMap.execTime[0]
-        param.searchMap.execEndTime = param.searchMap.execTime[1]
-      }
-      delete param.searchMap.execTime
-      delete param.searchMap.createTime
-      param.searchMap.type = 4
-      return param
+    getCreateTime (value) {
+      this.model.createStartTime = value[0]
+      this.model.createEndTime = value[1]
+      this.$searchAction$()
     },
-    onHandleSelectChange: function (val) {
-      this.$set(this, 'selectRows', val)
+    getExecTime (value) {
+      this.model.execStartTime = value[0]
+      this.model.execEndTime = value[1]
+      this.$searchAction$()
+    },
+    changeSearchfrom (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+      this.$searchAction$()
+    },
+    // $handleParams: function (param) {
+    //   if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
+    //     param.searchMap.createStartTime = param.searchMap.createTime[0]
+    //     param.searchMap.createEndTime = param.searchMap.createTime[1]
+    //   }
+    //   if (param.searchMap && param.searchMap.execTime && param.searchMap.execTime.length > 0) {
+    //     param.searchMap.execStartTime = param.searchMap.execTime[0]
+    //     param.searchMap.execEndTime = param.searchMap.execTime[1]
+    //   }
+    //   delete param.searchMap.execTime
+    //   delete param.searchMap.createTime
+    //   param.searchMap.type = 4
+    //   return param
+    // },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     },
     onSearch () {
       this.$searchAction$()
