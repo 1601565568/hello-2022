@@ -178,7 +178,9 @@ export default {
             operateId,
             operateName,
             shopId,
-            exportType: 16
+            exportType: 16,
+            startTime: time[0] || '',
+            endTime: time[1] || ''
           }
           this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
             this.$store.dispatch({
@@ -190,24 +192,6 @@ export default {
           }).catch((resp) => {
             this.$notify.error(resp.msg || '导出报错，请联系管理员')
           })
-          // var url = API_ROOT + '/core/findExcelLoginLog'
-          // var form = document.createElement('form')
-          // form.appendChild(
-          //   _this.generateHideElement('validTime', time)
-          // )
-          // form.appendChild(
-          //   _this.generateHideElement('accountType', accountType)
-          // )
-          // form.appendChild(
-          //   _this.generateHideElement('operateId', operateId)
-          // )
-          // form.appendChild(_this.generateHideElement('operateName', operateName))
-          // form.appendChild(_this.generateHideElement('shopId', shopId))
-          // form.setAttribute('action', url)
-          // form.setAttribute('method', 'get')
-          // document.body.appendChild(form)
-          // form.submit()
-          // _this.$notify.info('导出中请稍后')
         } else {
           _this.$notify.info('数据量过大.请改变筛选条件')
         }
