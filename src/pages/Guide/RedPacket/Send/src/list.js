@@ -16,9 +16,10 @@ export default {
   mounted () {
     this.$reload()
     // let iframe = document.getElementById('linkedFrame')
-    // iframe.contentWindow.username = 'zhangsan'
     // console.log(iframe.contentWindow, 789)
-
+    // function getChild (data) {
+    //   console.log('获取到子组件数据', data)
+    // }
     // contentWindow
   },
   methods: {
