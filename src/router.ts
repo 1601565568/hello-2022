@@ -4,7 +4,7 @@ import store from '@/store'
 import routes from '@/config/routes'
 import Http from '@nascent/ecrp-ecrm/src/extends/http'
 import loaderNoCacheClose from '@nascent/ecrp-ecrm/src/utils/loaderNoCacheClose'
-
+import { V2_URL } from './utils/globalConstants'
 Vue.use(Router)
 
 const router = new Router({
@@ -114,6 +114,11 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   // 上报页面停留时间
   try {
+    // 处理V2跳转到V3的逻辑
+    if (V2_URL.get(to.path)) {
+      window.history.pushState({}, '', '/v3' + V2_URL.get(to.path))
+      window.location.reload()
+    }
     // @ts-ignore
     const time = performance.now() - window[`__temp__data__${from.name}`]
     if (!isNaN(time)) {
