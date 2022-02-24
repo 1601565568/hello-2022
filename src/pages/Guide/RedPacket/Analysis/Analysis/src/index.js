@@ -145,10 +145,7 @@ export default {
           }
         }
       },
-      activeName: 'date',
-      fuscous: process.env.VUE_APP_THEME,
-      fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      activeName: 'date'
     }
   },
   mixins: [tableMixin, redpacketTable],
@@ -186,6 +183,22 @@ export default {
     this.$reload()
   },
   methods: {
+    handleExcelExport (model) {
+      const params = {
+        ...model,
+        exportType: 13
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 380,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    },
     /**
      * 设置图表默认数据
      * @return {*}

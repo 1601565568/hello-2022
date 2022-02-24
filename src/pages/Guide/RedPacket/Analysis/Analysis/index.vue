@@ -31,7 +31,8 @@
     <div class='analysis-content form-inline_top'>
       <div class='flex-box align-top'>
         <DatePickerBar :clear='false' ref='datePickerBar' :dateList='dateList' :defaultPickDay='defaultPickDay' @change='handleChangeDate' :pickerOptions='pickerOptions'/>
-        <ns-button @click='handleExport(model)'>导出文件</ns-button>
+        <!-- <ns-button @click='handleExport(model)'>导出文件</ns-button> -->
+        <ns-button @click='handleExcelExport(model)'>导出文件</ns-button>
       </div>
     <!-- </div>
     <div class='analysis-content'> -->
@@ -40,7 +41,7 @@
       </div> -->
       <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
       <h3 class='double-title'>数据报表</h3>
-      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+      <div class="select-data-view">
         <el-tabs v-model="activeName">
           <el-tab-pane label="按日期统计" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>
@@ -131,23 +132,5 @@ Index.components = {
 }
 .analysis-content >>> .date-picker-bar {
   margin-left: 0;
-}
-.fuscousQA .base-text-select{
-  color: #0C4CFF;
-}
-.fuscousIcon .base-text-select{
-  color: #0091fa;
-}
-.fuscousQA >>> .el-tabs__item.is-active{
-  color: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__item.is-active{
-  color: #0091fa;
-}
-.fuscousQA >>> .el-tabs__active-bar{
-  background: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__active-bar{
-  background: #0091fa;
 }
 </style>
