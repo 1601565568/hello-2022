@@ -117,7 +117,7 @@ router.afterEach((to, from) => {
     // 处理V2跳转到V3的逻辑
     if (V2_URL.get(to.path)) {
       // window.location.replace('https://www.baidu.com/')
-      router.push(V2_URL.get(to.path))
+      window.location.replace(window.location.origin + V2_URL.get(to.path))
       return
     }
     // @ts-ignore
