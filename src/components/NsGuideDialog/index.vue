@@ -51,7 +51,7 @@
       <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}
     </NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1200px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  v-if='showTitleTip' content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -79,6 +79,14 @@
                 <el-option label="全部" :value=null></el-option>
                 <el-option label="店长" :value="1"></el-option>
                 <el-option label="导购" :value="0"></el-option>
+              </el-select>
+            </el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">员工状态：</div></el-form-grid>
+            <el-form-grid>
+              <el-select style="width:100px" v-model="departData.status" clearable >
+                <el-option label="全部" :value="3"></el-option>
+                <el-option label="在职" :value="1"></el-option>
+                <el-option label="离职" :value="2"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
@@ -116,6 +124,11 @@
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="status" label="员工状态" align="left">
+                  <template slot-scope="scope">
+                    <span>{{scope.row.status === 1 ? '在职': '离职' }}</span>
+                  </template>
+                </ElTableColumn>
               </ElTable>
               <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
                             :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
@@ -189,7 +202,7 @@ export default index
     width: 141px;
     height: 27px;
     margin-left: 10px;
-    border-right: 1px solid #DCDFE6;;
+    /* border-right: 1px solid #DCDFE6;; */
   }
   > div + span {
     margin-left: var(--default-margin-small);
