@@ -115,7 +115,7 @@ router.afterEach((to, from) => {
   if (V2_URL.get(to.path)) {
     // window.history.pushState({}, '', V2_URL.get(to.path))
     // window.location.reload()
-    window.location.replace(window.location.host + V2_URL.get(to.path))
+    window.location.replace(window.location.origin + V2_URL.get(to.path))
     return
   }
   // 上报页面停留时间
