@@ -1,0 +1,4 @@
+diff a/src/router.ts b/src/router.ts	(rejected hunks)
+@@ -58 +58 @@ router.beforeEach((to, from, next) => {
+-    window.location.replace(window.location.origin + V2_URL.get(to.path));
++    window.location.replace(window.location.origin + V2_URL.get(to.path))
