@@ -55,7 +55,7 @@ const auth = (to: Route) => {
 router.beforeEach((to, from, next) => {
   if (V2_URL.get(to.path)) {
     // window.location.replace('https://www.baidu.com/')
-    router.push(V2_URL.get(to.path))
+    window.location.replace(window.location.origin + V2_URL.get(to.path))
     return
   }
   // 清除上一页面未完成的http请求
