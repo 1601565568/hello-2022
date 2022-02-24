@@ -6,9 +6,9 @@
 // 相对应的路由
 const V2_URL = new Map()
 // 聚合码
-V2_URL.set('/Guide/SgPersonalQrcode/List', '/demo/').set(
+V2_URL.set('/Guide/SgPersonalQrcode/List', '/v3/friendsDrainage/demo').set(
   '/WeWork/WelcomeCode/WelcomeCodeList',
-  '/Welcome/'
+  '/v3/friendsDrainage/Welcome'
 )
 // // 通过value取出key
 // const getKey = (value: string) => {
