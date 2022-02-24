@@ -54,7 +54,6 @@ const auth = (to: Route) => {
 
 router.beforeEach((to, from, next) => {
   if (V2_URL.get(to.path)) {
-    console.log(V2_URL.get(to.path), '789')
     // window.location.replace('https://www.baidu.com/')
     router.push(V2_URL.get(to.path))
     return
