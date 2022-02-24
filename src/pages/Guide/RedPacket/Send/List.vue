@@ -1,5 +1,5 @@
 <template>
-    <iframe id='linkedFrame' hight='auto' width='100%' :src='iframeUrl' frameborder='0' scrolling='auto' onload='this.height=1000'></iframe>
+    <iframe id='linkedFrame' hight='auto' width='100%' src='https://sandbox-sg-v6.vecrp.com/v3/friendsDrainage/demo' frameborder='0' scrolling='auto' onload='this.height=1000'></iframe>
 </template>
 <script>
 import Index from './src/list'
