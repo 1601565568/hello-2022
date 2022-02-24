@@ -163,7 +163,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column label="员工/群名" prop="gName" align="center">
+        <el-table-column :label="cloudPlatformType==='kd' ? '成员/群名' : '员工/群名'" prop="gName" align="center">
         </el-table-column>
         <el-table-column label="客户名称" prop="cName" align="center">
         </el-table-column>
