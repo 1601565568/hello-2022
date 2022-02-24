@@ -441,13 +441,13 @@ export default {
         this.endTime = this.today
       }
       let arrList = this.guideIds.length > 0 ? this.guideIds : []
-      const params = {
+      const param = {
         guideIds: arrList.join(','),
         endTime: this.endTime,
         startTime: this.startTime,
         exportType: 10
       }
-      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+      this.$http.fetch(this.$api.guide.task.exportExcel, param).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
