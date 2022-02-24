@@ -112,13 +112,15 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
+  if (V2_URL.get(to.path)) {
+    // window.history.pushState({}, '', V2_URL.get(to.path))
+    // window.location.reload()
+    window.location.replace(window.location.host + V2_URL.get(to.path))
+    return
+  }
   // 上报页面停留时间
   try {
     // 处理V2跳转到V3的逻辑
-    if (V2_URL.get(to.path)) {
-      window.history.pushState({}, '', '/v3' + V2_URL.get(to.path))
-      window.location.reload()
-    }
     // @ts-ignore
     const time = performance.now() - window[`__temp__data__${from.name}`]
     if (!isNaN(time)) {
