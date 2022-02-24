@@ -7,17 +7,26 @@ export default {
       model: {
         guideIds: [] // 员工筛选
       },
+      iframeUrl: 'https://sandbox-sg-v6.vecrp.com/v3/friendsDrainage/demo',
       chooseItem: {}, // 员工展示弹框的请求数据
       visible: false,
-      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit',
-      state: process.env.VUE_APP_THEME,
-      stateQA: 'stateQA',
-      stateIcon: 'stateIcon'
+      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit'
     }
   },
   mixins: [tableMixin, redpacketTable],
   mounted () {
     this.$reload()
+  },
+  watch: {
+    iframeUrl: {
+      handler (newVal) {
+        let iframe = document.getElementById('linkedFrame')
+        iframe.onload = function () {
+          console.log('页面跳转')
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     /**

@@ -115,11 +115,11 @@ router.afterEach((to, from) => {
   // 上报页面停留时间
   try {
     // 处理V2跳转到V3的逻辑
-    if (V2_URL.get(to.path)) {
-      // window.location.replace('https://www.baidu.com/')
-      window.location.replace(window.location.origin + V2_URL.get(to.path))
-      return
-    }
+    // if (V2_URL.get(to.path)) {
+    //   // window.location.replace('https://www.baidu.com/')
+    //   window.location.replace(window.location.origin + V2_URL.get(to.path))
+    //   return
+    // }
     // @ts-ignore
     const time = performance.now() - window[`__temp__data__${from.name}`]
     if (!isNaN(time)) {
