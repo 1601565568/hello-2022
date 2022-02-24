@@ -58,7 +58,7 @@
               </template>
           </div>
         </el-form-item>
-        <el-form-item label="导购删除好友时" prop="delFriendNotify">
+        <el-form-item :label="cloudPlatformType==='kd'? '成员删除好友时': '导购删除好友时'" prop="delFriendNotify">
            <div class="switch_t">
             <el-switch
               inactive-color="#8C8C8C"
