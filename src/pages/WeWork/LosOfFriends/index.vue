@@ -7,28 +7,38 @@
  -->
 <template>
   <div>
+    <div style="padding: 16px; background: #fff; margin: -10px -10px 0;marginBottom:16px">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">用户中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">好友管理</el-breadcrumb-item>
+        <el-breadcrumb-item>好友流失提醒</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div style="fontSize:16px;marginTop:16px;fontWeight:bold">好友流失提醒 </div>
+    </div>
     <div class="box">
-      <div class="template-page__row-left">
+      <div class="template-page__row-left" v-if="cloudPlatformType !== 'kd'">
           <AreaTree v-model='areaId' />
       </div>
       <!-- 主列表 -->
       <div class="template-page__row-right">
-        <ns-table-repeat-customer :areaIds='areaId' ref='table' @Reminder="Reminder"></ns-table-repeat-customer>
+        <ns-table-repeat-customer :cloudPlatformType='cloudPlatformType' :areaIds='areaId' ref='table' @Reminder="Reminder"></ns-table-repeat-customer>
       </div>
     </div>
-    <el-dialog custom-class='losOfriend' width="1000px" :modal-append-to-body='true' :append-to-body='true' @close='formCancel' :visible="hotVisible">
+    <el-dialog custom-class='losOfriend' width="758px" :modal-append-to-body='true' :append-to-body='true' @close='formCancel' :visible="hotVisible">
       <div slot="title" class="dialog-title">
         <span class="title-text">提醒设置</span>
         <span class="title-text1">固定时间提醒设置保存后隔日生效</span>
       </div>
       <el-form :rules="rules" ref="ruleForm" class="formLos" :model="form">
-        <el-form-item label="导购被删除好友时" prop="delGuideNotify">
+        <el-form-item :label="cloudPlatformType==='kd'? '成员被删除好友时': '导购被删除好友时'" prop="delGuideNotify">
           <div class="switch_t">
             <el-switch
               inactive-color="#8C8C8C"
-              v-model="form.delGuideNotify"></el-switch><span class="switch_btn">{{form.delGuideNotify? '通知': '不通知'}}</span>
+              v-model="form.delGuideNotify"></el-switch>
+              <span class="switch_btn">{{form.delGuideNotify? '通知': '不通知'}}</span>
+              <span class="switch_txt" v-if="cloudPlatformType === 'kd'"><i></i>成员被删除好友时通知给成员</span>
               <template v-if="form.delGuideNotify">
-                <el-checkbox-group :min='1' style="display: inline-block" v-model="delGuideNotifyObj.checkboxGroup" size="small">
+                <el-checkbox-group v-if="cloudPlatformType === 'ecrp'" :min='1' style="display: inline-block" v-model="delGuideNotifyObj.checkboxGroup" size="small">
                   <el-checkbox label="0">通知店长</el-checkbox>
                   <el-checkbox label="1">通知导购</el-checkbox>
                 </el-checkbox-group>
@@ -52,9 +62,11 @@
            <div class="switch_t">
             <el-switch
               inactive-color="#8C8C8C"
-              v-model="form.delFriendNotify"></el-switch><span class="switch_btn">{{form.delFriendNotify? '通知': '不通知'}}</span>
+              v-model="form.delFriendNotify"></el-switch>
+              <span class="switch_btn">{{form.delFriendNotify? '通知': '不通知'}}</span>
+              <span class="switch_txt" v-if="cloudPlatformType === 'kd'"><i></i>成员被删除好友时通知给成员</span>
               <template v-if="form.delFriendNotify">
-                <el-checkbox-group :min='1' style="display: inline-block" v-model="delFriendNotifyObj.checkboxGroup" size="small">
+                <el-checkbox-group v-if="cloudPlatformType === 'ecrp'" :min='1' style="display: inline-block" v-model="delFriendNotifyObj.checkboxGroup" size="small">
                   <el-checkbox label="0">通知店长</el-checkbox>
                   <el-checkbox label="1">通知导购</el-checkbox>
                 </el-checkbox-group>
@@ -93,6 +105,25 @@
             </template>
           </div>
         </el-form-item>
+        <el-form-item label="删除群成员" prop="delGroupMembersNotify">
+           <div class="switch_t">
+            <el-switch
+            inactive-color="#8C8C8C" v-model="form.delGroupMembersNotify"></el-switch>
+            <span class="switch_btn switch_open_btn">{{form.delGroupMembersNotify? '通知': '不通知'}}</span>
+            <span class="switch_txt"><i></i>删除群成员时通知给群主</span>
+            <template v-if="form.delGroupMembersNotify">
+              <div class="swich_open">
+                <el-form-item class="txt open_txt" prop="delGroupSendTime">提醒时间</el-form-item>
+                <el-time-picker
+                  v-model="form.delGroupSendTime"
+                  value-format='HH:mm:ss'
+                  placeholder="请选择时间">
+                </el-time-picker>
+              </div>
+              <div class="switch_txt v_t"><i></i>统计昨日数据，合并提醒</div>
+            </template>
+          </div>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="formCancel" style="margin-right: 16px">取消</ns-button>
@@ -103,6 +134,8 @@
 </template>
 
 <script>
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsTableRepeatCustomer from './components/NsTableRepeatCustomer.vue'
 import AreaTree from '@/components/NewUi/AreaTree'
@@ -112,10 +145,13 @@ export default {
   name: 'welcomeCodeList',
   components: {
     NsTableRepeatCustomer,
-    AreaTree
+    AreaTree,
+    ElBreadcrumb,
+    ElBreadcrumbItem
   },
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       id: '', // 如果是详情就有id
       areaId: '',
       hotVisible: false,
@@ -123,9 +159,11 @@ export default {
         delGuideNotify: false, // 被删好友
         delFriendNotify: false, // 删除好友
         delChatRunType: false, // 好友退群
+        delGroupMembersNotify: false, // 删除群成员
         delGuideSendTime: '', // 被删好友时间设置
         delFriendSendTime: '', // 删除好友时间设置
-        delChatSendTime: '' // 好友退群时间设置
+        delChatSendTime: '', // 好友退群时间设置
+        delGroupSendTime: '' // 删除群成员时间设置
       },
       // 被删好友数据
       delGuideNotifyObj: {
@@ -148,6 +186,9 @@ export default {
         delChatRunType: [
           { required: true, message: '请设置提醒时间', trigger: 'change' }
         ],
+        delGroupMembersNotify: [
+          { required: true, message: '请设置提醒时间', trigger: 'change' }
+        ],
         delGuideSendTime: [
           { required: true, message: '请设置提醒时间', trigger: 'change' }
         ],
@@ -155,6 +196,9 @@ export default {
           { required: true, message: '请设置提醒时间', trigger: 'change' }
         ],
         delFriendSendTime: [
+          { required: true, message: '请设置提醒时间', trigger: 'change' }
+        ],
+        delGroupSendTime: [
           { required: true, message: '请设置提醒时间', trigger: 'change' }
         ]
       }
@@ -173,9 +217,11 @@ export default {
         delGuideNotify: false,
         delFriendNotify: false,
         delChatRunType: false,
+        delGroupMembersNotify: false,
         delGuideSendTime: '',
         delFriendSendTime: '',
-        delChatSendTime: ''
+        delChatSendTime: '',
+        delGroupSendTime: ''
       }
       // 被删好友数据
       this.delGuideNotifyObj = {
@@ -200,7 +246,7 @@ export default {
       let res = await this.$http.fetch(this.$api.weWork.weWorkCustomer.findDefaultTask)
       if (!res.success) return
       // eslint-disable-next-line camelcase
-      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time } = res.result
+      const { id, del_guide_notify, del_guide_run_type, del_friend_notify, del_friend_run_type, del_group_members_notify, del_chat_run_type, del_chat_send_time, del_friend_send_time, del_guide_send_time, del_group_send_time } = res.result
       this.id = id
       Object.assign(this.form, {
         // eslint-disable-next-line camelcase
@@ -209,9 +255,12 @@ export default {
         delFriendNotify: del_friend_run_type !== undefined,
         // eslint-disable-next-line camelcase
         delChatRunType: del_chat_run_type !== undefined,
+        // eslint-disable-next-line camelcase
+        delGroupMembersNotify: del_group_members_notify === 1,
         delGuideSendTime: fnTime(del_guide_send_time), // 被删好友时间设置
         delFriendSendTime: fnTime(del_friend_send_time), // 删除好友时间设置
-        delChatSendTime: fnTime(del_chat_send_time) // 好友退群时间设置
+        delChatSendTime: fnTime(del_chat_send_time), // 好友退群时间设置
+        delGroupSendTime: fnTime(del_group_send_time) // 删除群成员时间设置
       })
       // 被删好友数据
       Object.assign(this.delGuideNotifyObj, {
@@ -236,18 +285,20 @@ export default {
       const { delGuideRunType, checkboxGroup } = this.delGuideNotifyObj
       // 删除好友
       const { delFriendRunType, checkboxGroup: checkboxGroups } = this.delFriendNotifyObj
-      const { delGuideNotify, delFriendNotify, delChatRunType, delGuideSendTime, delFriendSendTime, delChatSendTime } = this.form
+      const { delGuideNotify, delFriendNotify, delChatRunType, delGuideSendTime, delFriendSendTime, delChatSendTime, delGroupMembersNotify, delGroupSendTime } = this.form
       let subObj = Object.assign({}, {
         id: this.id || null,
-        delGuideNotify: delGuideNotify ? checkboxGroup.join(',') : null, // 删除好友 通知店长
+        delGuideNotify: delGuideNotify ? (this.cloudPlatformType === 'kd' ? '2' : checkboxGroup.join(',')) : null, // 删除好友 通知店长
         delGuideRunType: delGuideNotify ? +delGuideRunType ? 1 : 0 : null, // 删除好友 提醒时间 0提醒 1固定时间
         delGuideSendTime: delGuideNotify ? (+delGuideRunType === 1 ? '2099-01-01 ' + delGuideSendTime : '') : '', // 被删好友时间设置（固定时间）
-        delFriendNotify: delFriendNotify ? checkboxGroups.join(',') : null, // 删除好友 通知店长
+        delFriendNotify: delFriendNotify ? this.cloudPlatformType === 'kd' ? '2' : checkboxGroups.join(',') : null, // 删除好友 通知店长
         delFriendRunType: delFriendNotify ? +delFriendRunType ? 1 : 0 : null, // 删除好友 提醒时间
         delFriendSendTime: delFriendNotify ? (+delFriendRunType === 1 ? '2099-01-01 ' + delFriendSendTime : '') : '', // 被删好友时间设置（固定时间）
         delChatNotify: delChatRunType ? 2 : '', // 退群写死
         delChatRunType: delChatRunType ? delChatRunType ? 1 : 0 : null,
-        delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : ''
+        delChatSendTime: delChatRunType ? '2099-01-01 ' + delChatSendTime : '',
+        delGroupMembersNotify: delGroupMembersNotify ? delGroupMembersNotify ? 1 : 0 : 0,
+        delGroupSendTime: delGroupMembersNotify ? '2099-01-01 ' + delGroupSendTime : ''
       })
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -275,6 +326,15 @@ export default {
 .losOfriend{
   border-radius: 4px;
 }
+>>> .formLos .el-input.el-input--small .el-input__inner{
+  height: 40px;
+}
+>>> .formLos .el-input__suffix{
+  height: 38px;
+}
+>>> .formLos .el-form-item.is-success .el-input__inner{
+  border-color: #D9D9D9;
+}
 >>> .el-switch.is-checked .el-switch__core{
   border-color: #0091FA;;
   background-color: #0091FA;;
@@ -291,6 +351,7 @@ export default {
     height: 100vh;
   }
   .template-page__row-right{
+    height: 100vh;
     overflow-x: hidden;
     margin-left: 16px;
     width:calc(100vw - 527px)

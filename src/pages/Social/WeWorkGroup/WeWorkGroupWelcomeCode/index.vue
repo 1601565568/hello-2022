@@ -96,7 +96,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="onEscCancel">取 消</ns-button>
-        <ns-button type="primary" @click="onEscConfirm">确 定</ns-button>
+        <ns-button type="primary" @click="onEscConfirm">删除</ns-button>
       </span>
     </el-dialog>
   </div>
@@ -329,6 +329,7 @@ export default {
   background: #fff;
   font-size: 16px;
   color: #262626;
+  font-weight: bold;
 }
 .search-content{
   width: 100%;

@@ -19,6 +19,10 @@ export default {
         return ''
       },
       type: String
+    },
+    cloudPlatformType: {
+      type: String,
+      default: ''
     }
   },
   watch: {
@@ -77,6 +81,10 @@ export default {
         {
           value: '退群',
           label: '退群'
+        },
+        {
+          value: '删除群成员',
+          label: '删除群成员'
         }
       ], // 事件的下拉框
       datePickerValue: [],
@@ -103,10 +111,7 @@ export default {
         'endTime': moment()
           .subtract('days', 0)
           .format('YYYY-MM-DD')
-      },
-      fuscous: process.env.VUE_APP_THEME,
-      fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      }
       // quickSearchModel: quickSearchModel,
       // _table: {
       //   loadingtable: false
@@ -114,7 +119,7 @@ export default {
     }
   },
   mounted () {
-    // this.init()
+    this.init()
   },
   computed: {
   },
@@ -127,6 +132,9 @@ export default {
     },
     async getList () {
       let maps = Object.assign({}, this.model)
+      if (this.cloudPlatformType === 'kd') {
+        maps = JSON.parse(JSON.stringify(maps).replace(/guideIds/g, 'userIds'))
+      }
       maps.startTime = maps.startTime + ' 00:00:00'
       maps.endTime = maps.endTime + ' 23:59:59'
       let params = {
@@ -192,7 +200,13 @@ export default {
      * @param {Object}
      */
     owenerChange (val) {
-      // console.log(val, 78455)
+      this.searchAction()
+    },
+    chatChange () {
+      this.searchAction()
+    },
+    guideIdsChange () {
+      this.searchAction()
     },
     /**
      * @msg:  从后台获取数据,重新排序
@@ -228,6 +242,7 @@ export default {
       // this.datePickerValue = [startTime, endTime]
       this.model.startTime = this.datePickerArr[0]
       this.model.endTime = this.datePickerArr[1]
+      this.searchAction()
     },
     count (time1, time2) {
       let date1 = new Date(time1)

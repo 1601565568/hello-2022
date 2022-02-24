@@ -12,7 +12,7 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <div class="day-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+            <div class="day-view">
               <span
                 :class="
                   showTodaySelect
@@ -78,7 +78,7 @@
           </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="outputCsvFile" @click="outputCsvFile">
-            导出CSV文件
+            导出文件
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+      <div class="select-data-view">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="按日期显示" name="first">
             <page-table style="padding-top:0">
@@ -325,10 +325,7 @@ export default {
       lart30: '',
       guideIds: [],
       datePickerArr: [],
-      showTodaySelect: true,
-      fuscous: process.env.VUE_APP_THEME,
-      fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      showTodaySelect: true
     }
   },
   computed: {
@@ -444,32 +441,22 @@ export default {
         this.endTime = this.today
       }
       let arrList = this.guideIds.length > 0 ? this.guideIds : []
-      const parms = {
+      const param = {
         guideIds: arrList.join(','),
         endTime: this.endTime,
-        startTime: this.startTime
+        startTime: this.startTime,
+        exportType: 10
       }
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.session_list_export, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      this.$http.fetch(this.$api.guide.task.exportExcel, param).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 330,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群会话统计' + this.startTime.replaceAll('-', '') + '-' + this.endTime.replaceAll('-', '') + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     lookNoStatistical () {
       this.$router.push({
@@ -911,25 +898,5 @@ export default {
   .guideIds-icon {
     color: #c0c4cc;
   }
-}
-.fuscousQA .base-text-select{
-  color: #0C4CFF;
-}
-.fuscousIcon .base-text-select{
-  color: #0091fa;
-}
-</style>
-<style scoped>
-.fuscousQA >>> .el-tabs__item.is-active{
-  color: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__item.is-active{
-  color: #0091fa;
-}
-.fuscousQA >>> .el-tabs__active-bar{
-  background: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__active-bar{
-  background: #0091fa;
 }
 </style>

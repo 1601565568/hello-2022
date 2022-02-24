@@ -48,5 +48,23 @@ export default {
       const date = newVal || [null, null]
       this.changeSearchfrom({ startTime: date[0], endTime: date[1] })
     }
+  },
+  methods: {
+    handleExcelExport (model) {
+      const params = {
+        ...model,
+        exportType: 14
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 180,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    }
   }
 }
