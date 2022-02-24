@@ -53,11 +53,6 @@ const auth = (to: Route) => {
 }
 
 router.beforeEach((to, from, next) => {
-  if (V2_URL.get(to.path)) {
-    // window.location.replace('https://www.baidu.com/')
-    router.push(V2_URL.get(to.path))
-    return
-  }
   // 清除上一页面未完成的http请求
   Http.cancel()
   // 判断是否有权限进行路由，无权限跳转至 401
@@ -120,6 +115,11 @@ router.afterEach((to, from) => {
   // 上报页面停留时间
   try {
     // 处理V2跳转到V3的逻辑
+    if (V2_URL.get(to.path)) {
+      // window.location.replace('https://www.baidu.com/')
+      router.push(V2_URL.get(to.path))
+      return
+    }
     // @ts-ignore
     const time = performance.now() - window[`__temp__data__${from.name}`]
     if (!isNaN(time)) {
