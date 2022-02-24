@@ -121,7 +121,9 @@ export default {
         job: null,
         mobile: '',
         fileImportKey: '', // 文件导入
-        manualInputKey: '' // 手动输入导入
+        manualInputKey: '', // 手动输入导入
+        // 1启用 2离职 3全部
+        status: 3
       },
       // 门店区域树
       shopAreaTree: [],
@@ -178,6 +180,7 @@ export default {
         this.departData.name = ''
         this.departData.mobile = ''
         this.departData.job = null
+        this.departData.status = 3
         this.departData.selectedDepart = {}
         if (this.echoStore) {
           let areaData = store.get('user_area')
@@ -301,6 +304,7 @@ export default {
       vm.departData.name = ''
       vm.departData.mobile = ''
       vm.departData.job = ''
+      vm.departData.status = 3
       vm.departData.selectedDepart = {}
       vm.departData.shopArea = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
@@ -388,6 +392,9 @@ export default {
       }
       if (vm.departData.job !== null) {
         param.job = vm.departData.job
+      }
+      if (vm.departData.status !== null) {
+        param.status = vm.departData.status
       }
       if (vm.departData.mobile) {
         param.mobile = vm.departData.mobile
@@ -578,7 +585,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value, status: this.departData.status }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
