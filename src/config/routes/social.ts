@@ -1,3 +1,4 @@
+import iframe from '@/components/Iframe/index.vue'
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
@@ -109,8 +110,8 @@ export default {
             {
               'path': '/Social/SocialOperation/RedPacket/Send/List',
               'name': 'redPacketSendList',
-              'title': '发红包',
-              'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
+              'title': '发红包'
+              // 'iframeComponent': iframe
             },
             {
               'path': '/Social/SocialOperation/RedPacket/Send/Edit',

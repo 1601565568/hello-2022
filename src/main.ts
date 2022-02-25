@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import * as Sentry from '@sentry/browser'
-import App from '@nascent/ecrp-ecrm/src/App.vue'
+import App from './App.vue'
 // import router from '@nascent/ecrp-ecrm/src/router'
 import router from './router'
 import store from './store'
@@ -60,6 +60,7 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 //     next()
 //   }
 // })
+
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
   next()
