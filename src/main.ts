@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import * as Sentry from '@sentry/browser'
-import App from './App.vue'
+import App from '@nascent/ecrp-ecrm/src/App.vue'
+// import App from '@nascent/ecrp-ecrm/src/App.vue'
 // import router from '@nascent/ecrp-ecrm/src/router'
 import router from './router'
 import store from './store'
@@ -16,6 +17,8 @@ import '@theme/NuiJs/index.scss'
 import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
+import '@/components/iframe/index.vue'
+
 import '@/assets/fonts/iconfont.css'
 LOG.init({
   imgUrl: window.g_config.imgUrl,
