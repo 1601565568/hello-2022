@@ -1,10 +1,5 @@
 import printReportShow from '@/components/iframe/index.vue'
 
-const Singer = (resolve: any) => {
-  import('@/components/iframe/index.vue').then((module) => {
-    resolve(module)
-  })
-}
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
@@ -119,8 +114,8 @@ export default {
               'title': '发红包',
               // 'iframeComponent': iframe
               // 'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
-              // 'component': () => import('@/components/iframe/index.vue')
-              'iframeComponent': printReportShow
+              'iframeComponent': () => import('@/components/Iframes/index.vue')
+              // 'iframeComponent': printReportShow
             },
             {
               'path': '/Social/SocialOperation/RedPacket/Send/Edit',

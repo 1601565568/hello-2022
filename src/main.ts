@@ -17,7 +17,6 @@ import '@theme/NuiJs/index.scss'
 import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
-import '@/components/iframe/index.vue'
 
 import '@/assets/fonts/iconfont.css'
 LOG.init({
