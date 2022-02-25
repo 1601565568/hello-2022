@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import $ from 'jquery'
+import PageTable from '@/components/NewUi/PageTablePro'
 
 let vm
 export default {
@@ -22,15 +23,15 @@ export default {
     const tableButtons = []
 
     const operateButtons = [
-      {
-        func: function () {
-          this.$router.go(-1)
-        },
-        icon: '',
-        type: 'default',
-        name: '返回',
-        visible: ''
-      },
+      // {
+      //   func: function () {
+      //     this.$router.go(-1)
+      //   },
+      //   icon: '',
+      //   type: 'default',
+      //   name: '返回',
+      //   visible: ''
+      // },
       {
         func: function () {
           this.$parent.$searchAction$()
@@ -111,7 +112,8 @@ export default {
     vm.getTotal()
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
     employeeList () {
@@ -158,6 +160,12 @@ export default {
     },
     onSearch () {
       this.$searchAction$()
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     }
   }
 }

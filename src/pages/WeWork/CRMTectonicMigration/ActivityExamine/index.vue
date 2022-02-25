@@ -1,7 +1,19 @@
 <template>
   <div class="template-page">
     <ns-table-activity-examine ref="table" @showAudit="showAudit"></ns-table-activity-examine>
-    <el-dialog title="审核活动" :visible.sync="visible"
+    <!-- 审核好友营销活动drawer -->
+    <CheckActivityDrawer
+      :visible.sync="visible"
+      :activityId="activityId"
+      @examine="examineActivity"
+    />
+    <!-- 审核Dialog -->
+    <ExamineActivityDialog
+      :visible.sync="visibleExamineDialog"
+      :activityId="activityId"
+      @confirm="confirmExamineActivity"
+    />
+    <!-- <el-dialog title="审核活动" :visible.sync="visible"
                v-loading = "loading"
                element-loading-background="rgba(0, 0, 0, 0.11)"
                element-loading-text="数据加载中..."
@@ -59,15 +71,19 @@
         <ns-button @click="onCloseDialog">{{$t('operating.cancel')}}</ns-button>
         <ns-save @click="onSaveAuditInfo" ></ns-save>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
 import index from './src'
 import NsTableActivityExamine from './NsTableActivityExamine'
+import CheckActivityDrawer from './components/CheckActivityDrawer.vue'
+import ExamineActivityDialog from './components/ExamineActivityDialog.vue'
 index.components = {
-  NsTableActivityExamine
+  NsTableActivityExamine,
+  CheckActivityDrawer,
+  ExamineActivityDialog
 }
 export default index
 </script>

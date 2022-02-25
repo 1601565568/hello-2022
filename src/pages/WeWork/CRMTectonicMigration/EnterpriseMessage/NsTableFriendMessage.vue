@@ -1,19 +1,23 @@
 <template>
   <div>
-    <div class="head-router">好友营销</div>
-    <page-table :searchCol="24">
+    <page-table :searchCol="24" :diyTitle="true">
+      <template slot="title">
+        <div class="head-router">
+          <span>好友营销</span>
+        </div>
+      </template>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <el-input v-model.trim="model.name" placeholder="请输入活动名称"  @keyup.enter.native="onSearch">
+            <el-input v-model.trim="model.name" placeholder="请输入活动名称" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
             </el-input>
           </el-form-item>
-          <el-form-item>
-            <ns-select v-model="model.creater"  filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+          <el-form-item label="创建人：">
+            <ns-select v-model="model.employeeId" @input="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
           </el-form-item>
-          <el-form-item>
-            <ns-select v-model="model.status"  filterable clearable :url="$api.marketing.weworkMarketing.getActivityStatus"/>
+          <el-form-item label="活动状态：">
+            <ns-select v-model="model.status" @input="getStatus" filterable clearable :url="$api.marketing.weworkMarketing.getActivityStatus"/>
           </el-form-item>
           <el-form-item label="创建时间：" class='el-form__change'>
             <el-date-picker
@@ -54,7 +58,7 @@
                   @sort-change="$orderChange$" :row-style="tableRowClassName">
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="planName"
+            prop="name"
             label="活动名称">
           </el-table-column>
 
@@ -80,7 +84,7 @@
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="executeTime"
+            prop="sendTime"
             label="执行时间"
             sortable="2" :width="200">
             <template slot="header">
@@ -91,8 +95,8 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <template v-if="scope.row.executeTime">
-                {{scope.row.executeTime}}
+              <template v-if="scope.row.sendTime">
+                {{scope.row.sendTime}}
               </template>
               <template v-else>-</template>
             </template>
@@ -120,25 +124,28 @@
             prop="status"
             label="活动状态">
             <template slot-scope="scope">
+              <!-- 已执行 -->
               <template v-if="scope.row.planStatus === 6">
-                {{scope.row.status}}（已执行{{scope.row.successNum}}个,失败{{scope.row.failNum}}个）
+                {{getStatusName(scope.row.status)}}（已执行{{scope.row.successNum}}个,失败{{scope.row.failNum}}个）
               </template>
+              <!-- 审核失败 -->
               <template v-else-if="scope.row.planStatus === 3">
-                {{scope.row.status}}
+                {{getStatusName(scope.row.status)}}
                 <el-tooltip placement="top" effect="light" stype="">
                   <Icon type="question-circle" theme="outlined" className="text-primary"/>
-                  <div slot="content">{{scope.row.failReason}}</div>
+                  <div slot="content">{{scope.row.reviewRemark}}</div>
                 </el-tooltip>
               </template>
+              <!-- 已终止 -->
               <template v-else-if="scope.row.planStatus === 7">
-                {{scope.row.status}}
-                <el-tooltip placement="top" effect="light" stype="">
+                {{getStatusName(scope.row.status)}}（已执行{{scope.row.successNum}}个,失败{{scope.row.failNum}}个）
+                <!-- <el-tooltip placement="top" effect="light" stype="">
                   <Icon type="question-circle" theme="outlined" className="text-primary"/>
                   <div slot="content">{{scope.row.remark}}</div>
-                </el-tooltip>
+                </el-tooltip> -->
               </template>
               <template v-else>
-                {{scope.row.status}}
+                {{getStatusName(scope.row.status)}}
               </template>
             </template>
           </el-table-column>
@@ -356,6 +363,83 @@
       </template> -->
       <!-- 分页-结束 -->
     <!-- </ns-page-table> -->
+    <el-dialog :visible.sync="showTableDialog" width="67%">
+      <div class="table-title" slot="title">{{showStaff ? '已选择员工' : '已选择分群'}}</div>
+      <div>
+        <div>
+          <el-input v-if="showStaff" v-model="staffName" class="input-search" placeholder="请输入员工姓名" @keyup.enter.native="getTableList">
+            <Icon type="ns-search" slot="suffix" class='search-icon' @click="getTableList"></Icon>
+          </el-input>
+          <el-input v-else v-model="groupName" class="input-search" placeholder="请输入分群名称" @keyup.enter.native="getTableList">
+            <Icon type="ns-search" slot="suffix" class='search-icon' @click="getTableList"></Icon>
+          </el-input>
+        </div>
+        <template>
+          <el-table ref="table" :data="tableDialogData" class="new-table_border"
+                    v-loading.lock="tableDialogLoading" :element-loading-text="$t('prompt.loading')"
+                    :row-style="tableRowClassName">
+            <template v-if="showStaff">
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="planName"
+                label="员工姓名">
+              </el-table-column>
+
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="createTime"
+                label="工号">
+              </el-table-column>
+
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="userName"
+                label="工作门店">
+              </el-table-column>
+
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="userName"
+                label="在职状态">
+              </el-table-column>
+            </template>
+            <template v-else>
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="userName"
+                label="分群名称">
+              </el-table-column>
+
+              <el-table-column
+                :show-overflow-tooltip="true"
+                prop="userName"
+                label="分群人数">
+              </el-table-column>
+            </template>
+
+          </el-table>
+        </template>
+        <template>
+          <el-pagination class="template-table__pagination"
+                        :page-sizes="paginationDialog.sizeOpts" :total="paginationDialog.total"
+                        :current-page="paginationDialog.page" :page-size="paginationDialog.size"
+                        :layout="true? 'total, sizes, prev, pager, next, jumper':'total'" @size-change="dialogSizeChange"
+                        @current-change="dialogPageChange">
+          </el-pagination>
+        </template>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="showDialog" width="30%">
+      <div class="tipsShowTitle" slot="title">{{dialogTitle}}</div>
+      <div class="tipsShowContent">
+        <span class="ns-warm-cricle">!</span>
+        {{dialogContent}}
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="onEscCancel">取 消</ns-button>
+        <ns-button type="primary" @click="onEscConfirm">确定</ns-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -366,17 +450,68 @@ export default NsTableFriendMessage
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/reset.css";
-.head-router{
-  margin: -10px -10px 16px;
-  padding-left: 16px;
-  height: 48px;
-  line-height: 48px;
-  background: #fff;
-  font-size: 16px;
-  color: #262626;
-}
+@import "@/components/NewUi/styles/reset.css";
 ::v-deep .btn-content{
   min-width: 70px;
+}
+::v-deep .el-dialog__header{
+  padding: 16px !important;
+}
+::v-deep .el-dialog__body{
+  padding: 0 16px 14px;
+}
+.table-title{
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #303133;
+  line-height: 24px;
+  font-weight: 500;
+}
+::v-deep .input-search{
+  width: 240px;
+  height: 32px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  line-height: 32px;
+  .el-input__suffix::before{
+    display: none;
+  }
+  .el-input__inner {
+    font-size: 13px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .search-icon{
+    margin-top: 2px;
+  }
+}
+.tipsShowTitle {
+  // padding: 6px 3px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+.tipsShowContent {
+  padding: 16px 6px 0px;
+  color: #595959;
+  font-size: 14px;
+}
+.ns-warm-cricle {
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  color: #fff;
+  margin-right: 10px;
+}
+::v-deep .el-dialog__footer {
+  padding: 16px !important;
+}
+.search-icon {
+  font-size: 27px;
+  // margin-top: 2px;
 }
 </style>

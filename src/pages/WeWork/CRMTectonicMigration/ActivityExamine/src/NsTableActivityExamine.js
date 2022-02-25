@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import { pickerOptions } from '../../EnterpriseGroupMessage/src/common'
+import PageTable from '@/components/NewUi/PageTablePro'
 
 let vm
 export default {
@@ -148,14 +149,17 @@ export default {
     }
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
-    $handleParams: function (param) {
-      if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
-        param.searchMap.createStartTime = param.searchMap.createTime[0]
-        param.searchMap.createEndTime = param.searchMap.createTime[1]
-      }
+    getCreater (value) {
+      this.$searchAction$()
+    },
+    // 弹框事件处理 end
+    getCreateTime (value) {
+      this.model.createStartTime = value[0]
+      this.model.createEndTime = value[1]
       let type = '1'
       switch (this.$route.path) {
         case '/GroupExamine': type = '2'; break
@@ -168,13 +172,38 @@ export default {
       delete param.searchMap.execTime
       delete param.searchMap.createTime
       param.searchMap.status = 2
-      return param
+      this.$searchAction$()
     },
+    // $handleParams: function (param) {
+    //   if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
+    //     param.searchMap.createStartTime = param.searchMap.createTime[0]
+    //     param.searchMap.createEndTime = param.searchMap.createTime[1]
+    //   }
+    //   let type = '1'
+    //   switch (this.$route.path) {
+    //     case '/GroupExamine': type = '2'; break
+    //     case '/CircleExamine': type = '3'; break
+    //     case '/EnterpriseExamine': type = '4'; break
+    //     case '/EnterpriseGroupExamine': type = '5'; break
+    //     default: break
+    //   }
+    //   param.searchMap.type = type
+    //   delete param.searchMap.execTime
+    //   delete param.searchMap.createTime
+    //   param.searchMap.status = 2
+    //   return param
+    // },
     onHandleSelectChange: function (val) {
       this.$set(this, 'selectRows', val)
     },
     onSearch () {
       this.$searchAction$()
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     },
     onShowAudit (planId) {
       if (!planId) {

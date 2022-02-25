@@ -11,8 +11,9 @@ export default {
     url: '/wework/marketing/getWxStatus',
     method: 'get'
   },
+  // 好友营销列表
   queryTable: {
-    url: '/wework/marketing/queryTable',
+    url: '/wework/groupMessage/friend',
     method: 'post'
   },
   getSubdivisionList: {
@@ -35,8 +36,14 @@ export default {
     url: '/wework/marketing/queryEmployeeWechatInfoList',
     method: 'get'
   },
-  saveOrUpdateEnterprise: {
-    url: '/wework/marketing/saveOrUpdateEnterprise',
+  // 保存新建群发消息
+  saveEnterprise: {
+    url: '/wework/groupMessage/create',
+    method: 'post'
+  },
+  // 保存编辑群发消息
+  updateEnterprise: {
+    url: '/wework/groupMessage/update',
     method: 'post'
   },
   saveOrUpdateEnterprise4Room: {
@@ -55,9 +62,10 @@ export default {
     url: '/wework/marketing/queryChatRoomLeadersByActivityId',
     method: 'get'
   },
+  // 好友营销列表删除
   deleteWxActivity: {
-    url: '/wework/marketing/deleteWxActivity',
-    method: 'get'
+    url: '/wework/groupMessage/delete',
+    method: 'post'
   },
   queryTotal: {
     url: '/wework/marketing/queryTotal',

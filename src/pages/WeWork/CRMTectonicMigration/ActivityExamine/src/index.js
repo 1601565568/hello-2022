@@ -4,7 +4,9 @@ export default {
   mixins: [formMixin],
   data: function () {
     return {
-      visible: false,
+      activityId: 0, // 点中审核的id
+      visibleExamineDialog: false, // 审核dialog
+      visible: true,
       loading: false,
       audioModel: {
         planId: '',
@@ -37,10 +39,29 @@ export default {
   },
   watch: {},
   methods: {
+    /**
+     * 审核活动
+     */
+    examineActivity (id) {
+      this.activityId = id
+      this.visibleExamineDialog = true
+    },
+    async confirmExamineActivity (context) {
+      try {
+        const resp = await this.$http.fetch(this.$api.weWork.sop.updateStatus, context)
+        this.$message.success('审核完成')
+      } catch (respErr) {
+        this.$message.error('审核失败')
+      } finally {
+        this.visibleCheckActivityDrawer = false
+        this.$emit('change')
+      }
+    },
     showAudit (planId) {
       if (!planId) {
         return false
       }
+      this.activityId = planId
       this.visible = true
       const that = this
       this.loading = true

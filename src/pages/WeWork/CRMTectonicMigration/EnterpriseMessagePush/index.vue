@@ -145,6 +145,7 @@ import NsEmployeeOrCustGroupDialog from '@/components/NsEmployeeOrCustGroupDialo
 import TagArea, { toolFn } from '@/components/NewUi/TagArea'
 import MessageList from './components/MessageList'
 import WechatMessageBar from './components/WechatMessageBar/index'
+import MessagePreviewPanel from '@/pages/WeWork/SOP/components/MessagePreviewPanel/index.vue'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
@@ -159,7 +160,8 @@ export default {
     // ElUpload,
     TagArea,
     MessageList,
-    WechatMessageBar
+    WechatMessageBar,
+    MessagePreviewPanel
   },
   computed: {
     selectedTip () {
@@ -176,6 +178,7 @@ export default {
   },
   data () {
     return {
+      list: [], // 预览数组
       disabled: false, // 设置附件禁用
       isUploading: false, // 附件上传中标识
       imageNum: 9, // 允许图片张数
@@ -192,7 +195,8 @@ export default {
         executeMode: 1,
         executeTime: '',
         textarea: '',
-        type: ''
+        type: '',
+        mediaList: []
       },
       copyType: '',
       rules: {
@@ -231,115 +235,18 @@ export default {
           }
         ]
       },
-      picRules: {
-        title: [
-          { required: true, message: '请输入图片标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
-        ],
-        desc: [
-          { required: true, message: '请输入图文描述', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: ['blur', 'change'] }
-        ],
-        pic: [
-          { required: true, message: '请选择封面图', trigger: ['blur', 'change'] },
-          {
-            validator: (rule, value, callback) => {
-              if (value) {
-                callback()
-              } else {
-                callback(new Error('请选择封面图'))
-              }
-            },
-            trigger: 'blur'
-          }],
-        url: [
-          { required: true, message: '请输入图文链接', trigger: ['blur', 'change'] }
-        ]
-      },
-      miniProRules: {
-        appid: [
-          { required: true, message: '请输入小程序appid', trigger: ['blur', 'change'] },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
-        ],
-        appPath: [
-          { required: true, message: '请输入小程序路径', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: ['blur', 'change'] }
-        ],
-        title: [
-          { required: true, message: '请输入小程序标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 60, message: '长度在 1 到 60 个字符', trigger: ['blur', 'change'] }
-        ],
-        pic: [
-          { required: true, message: '请选择封面图', trigger: ['blur', 'change'] },
-          {
-            validator: (rule, value, callback) => {
-              if (value) {
-                callback()
-              } else {
-                callback(new Error('请选择封面图'))
-              }
-            },
-            trigger: 'blur'
-          }]
-      },
-      picVisible: false,
-      miniProVisible: false,
-      show: false,
       employeeSelectData: {
         data: [],
         type: 'employee'
       },
-      pic: {
-        title: '',
-        desc: '',
-        url: '',
-        pic: '',
-        code: ''
-      },
-      miniPro: {
-        appid: '',
-        appPath: '',
-        appPathBak: '',
-        title: '',
-        desc: '',
-        pic: '',
-        code: ''
-      },
-      copyPic: {},
-      copyMiniPro: {},
       picUrl: '',
       code: '',
-      treeDefaultSetting: { id: 'id', pId: 'pId', children: 'children', extData: { showCheckbox: false, showIcon: false, showAddIcon: false, showEditIcon: false, showDeleteIcon: false } },
-      visible: false,
-      dataList: [{ key: 2, label: '全部平台' }, {
-        key: 1,
-        label: '天猫'
-      }],
-      transTitle: ['可选分群', '已选分群'],
-      // 左边树数据
-      selectData: [],
-      selectEmpData: [],
-      selectSubData: [],
-      // 左边树默认绑定数据
-      leftDefaultProps: {
-        children: 'children',
-        label: 'label'
-      },
-      copySelectKeys: [],
-      copySelectedData: [],
-      copyCustomerType: '',
-      // 右边树数据
-      selectedData: [],
-      // 右边输入框绑定值
-      select: '',
-      selected: '',
-      selectKeys: [],
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 69 // 底部按钮的高度39 + 30顶部设置小程序积分体系的高度
       },
-      inputLength: 0
+      inputLength: 0 // 文案输入字符数
     }
   },
   created: function () {
@@ -348,16 +255,16 @@ export default {
   },
   mounted () {
     // this.initSubTree()
-    this.initEmpTree()
-    this.verifyProductToCRM()
+    // this.initEmpTree()
+    // this.verifyProductToCRM()
   },
   watch: {
-    selected (val) {
-      this.$refs.selectedTree.filter(val)
-    },
-    select (val) {
-      this.$refs.selectTree.filter(val)
-    }
+    // selected (val) {
+    //   this.$refs.selectedTree.filter(val)
+    // },
+    // select (val) {
+    //   this.$refs.selectTree.filter(val)
+    // }
   },
   methods: {
     /**
@@ -370,96 +277,21 @@ export default {
       const data = []
       if (vm.model.textarea) {
         data.push({
-          type: 1,
+          type: 0,
           msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
         })
       }
-      switch (vm.model.type) {
-        case 1: {
-          data.push({
-            type: 2,
-            pic: vm.picUrl
-          })
-          break
-        }
-        case 2: {
-          const picData = {
-            type: 3
-          }
-          Object.assign(picData, vm.pic)
-          data.push(picData)
-          break
-        }
-        case 3: {
-          const picData = {
-            type: 4
-          }
-          Object.assign(picData, vm.miniPro)
-          data.push(picData)
-          break
-        }
-        default:
-      }
-      this.$refs.preview.massData = data
+      // this.$refs.preview.massData = data
     },
     clear () {
       vm.model.type = ''
       vm.setView()
       vm.show = false
     },
-    openPic () {
-      this.copyPic = JSON.parse(JSON.stringify(this.pic))
-      vm.picVisible = true
-      vm.copyType = vm.model.type
-      vm.model.type = 2
-    },
-    openMiniPro () {
-      this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
-      vm.miniProVisible = true
-      vm.copyType = vm.model.type
-      vm.model.type = 3
-    },
-    cancelPic () {
-      vm.model.type = vm.copyType
-      vm.$refs.picForm.resetFields()
-      this.pic = JSON.parse(JSON.stringify(this.copyPic))
-      vm.picVisible = false
-    },
-    cancelMiniPro () {
-      vm.model.type = vm.copyType
-      vm.$refs.miniProForm.resetFields()
-      this.miniPro = JSON.parse(JSON.stringify(this.copyMiniPro))
-      vm.miniProVisible = false
-    },
-    savePic () {
-      vm.$refs.picForm.validate((valid) => {
-        if (valid) {
-          this.copyPic = JSON.parse(JSON.stringify(this.pic))
-          vm.model.type = 2
-          vm.show = true
-          vm.setView()
-          vm.picVisible = false
-        } else {
-          return false
-        }
-      })
-    },
     changeInputLength (length) {
       this.inputLength = length
     },
-    saveMiniPro () {
-      vm.$refs.miniProForm.validate((valid) => {
-        if (valid) {
-          this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
-          vm.model.type = 3
-          vm.show = true
-          vm.setView()
-          vm.miniProVisible = false
-        } else {
-          return false
-        }
-      })
-    },
+    // 切换发送方式
     changeExec () {
       this.model.executeTime = ''
     },
@@ -553,60 +385,62 @@ export default {
           }).finally(() => {})
       }
     },
-    change (tab) {
-      if (tab.name === '1') {
-        vm.selectData = vm.selectSubData
-      } else {
-        vm.selectData = vm.selectEmpData
-      }
-      vm.model.customerType = tab.name
-      this.$refs.selectTree.getCheckedNodes().splice(0, this.$refs.selectTree.getCheckedNodes().length)
-      this.selectedData = []
-      this.selectKeys = []
-    },
-    initSubTree: function () {
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          $.each(resp.result, function (index, element) {
-            serverData.push({
-              id: element.id,
-              pId: element.parent_id,
-              label: element.subdivision_name,
-              isRoot: false,
-              disabled: element.is_category === 1
-            })
-          })
-          this.selectSubData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-          vm.selectData = vm.selectSubData
-        }).catch(() => {
-          that.$notify.error('客户分群加载失败！')
-        })
-    },
-    initEmpTree: function () {
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryDeptAndEmpl, { isEnterprise: true })
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          $.each(resp.result, function (index, element) {
-            serverData.push({
-              id: element.id,
-              pId: element.parentId,
-              label: element.name,
-              isRoot: false,
-              disabled: element.type === 1
-            })
-          })
-          this.selectEmpData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-        }).catch(() => {
-          that.$notify.error('员工加载失败！')
-        })
-    },
+    // change (tab) {
+    //   if (tab.name === '1') {
+    //     vm.selectData = vm.selectSubData
+    //   } else {
+    //     vm.selectData = vm.selectEmpData
+    //   }
+    //   vm.model.customerType = tab.name
+    //   this.$refs.selectTree.getCheckedNodes().splice(0, this.$refs.selectTree.getCheckedNodes().length)
+    //   this.selectedData = []
+    //   this.selectKeys = []
+    // },
+    // initSubTree: function () {
+    //   const that = this
+    //   // 分群类别加载
+    //   this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
+    //     .then(resp => {
+    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+    //       $.each(resp.result, function (index, element) {
+    //         serverData.push({
+    //           id: element.id,
+    //           pId: element.parent_id,
+    //           label: element.subdivision_name,
+    //           isRoot: false,
+    //           disabled: element.is_category === 1
+    //         })
+    //       })
+    //       this.selectSubData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
+    //       vm.selectData = vm.selectSubData
+    //     }).catch(() => {
+    //       that.$notify.error('客户分群加载失败！')
+    //     })
+    // },
+    // initEmpTree: function () {
+    //   const that = this
+    //   // 分群类别加载
+    //   this.$http.fetch(this.$api.marketing.weworkMarketing.queryDeptAndEmpl, { isEnterprise: true })
+    //     .then(resp => {
+    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+    //       $.each(resp.result, function (index, element) {
+    //         serverData.push({
+    //           id: element.id,
+    //           pId: element.parentId,
+    //           label: element.name,
+    //           isRoot: false,
+    //           disabled: element.type === 1
+    //         })
+    //       })
+    //       this.selectEmpData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
+    //     }).catch(() => {
+    //       that.$notify.error('员工加载失败！')
+    //     })
+    // },
+
+    // Todo 待清理，看一下有无作用
     initCrmData () {
       const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
       this.onlyOne = crm === '1' ? '' : 'employee'
@@ -617,66 +451,8 @@ export default {
         return
       }
       this.initCrmData()
-      // const that = this
-      // // 分群类别加载
-      // this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
-      //   .then(resp => {
-      //     // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-      //     const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-      //     if (resp.result) {
-      //       that.onlyOne = ''
-      //     }
-      //   }).catch(() => {
-      //     that.$notify.error('验证产品方案失败！')
-      //   })
-      // that.onlyOne = 'employee'
     },
-    //  树方法
-    _nodeChildren: function (setting, node, newChildren) { // 私有方法，children 键处理
-      if (!node) {
-        return null
-      }
-      const key = setting.children
-      if (typeof newChildren !== 'undefined') {
-        node[key] = newChildren
-      }
-      return node[key]
-    },
-    transformToTreeFormat: function (sNodes, setting) { // 将数据转换为树的children 结构，并且加上自己的配置数据，用来扩展el-tree功能
-      if (setting !== undefined && typeof (setting) === 'object') {
-        this.treeDefaultSetting = $.extend(this.treeDefaultSetting, setting)
-      }
-      let i, l
-      const key = this.treeDefaultSetting.id
-      const parentKey = this.treeDefaultSetting.pId
-      if (!key || key === '' || !sNodes) { return [] }
-      if ($.isArray(sNodes)) {
-        const r = []
-        const tmpMap = {}
-        for (i = 0, l = sNodes.length; i < l; i++) {
-          const tempExtData = $.extend({}, this.treeDefaultSetting.extData)
-          sNodes[i].extData = tempExtData
-          tmpMap[sNodes[i][key]] = sNodes[i]
-        }
-        for (i = 0, l = sNodes.length; i < l; i++) {
-          const p = tmpMap[sNodes[i][parentKey]]
-          if (p && sNodes[i][key] !== sNodes[i][parentKey]) {
-            let children = this._nodeChildren(this.treeDefaultSetting, p)
-            if (!children) {
-              children = this._nodeChildren(this.treeDefaultSetting, p, [])
-            }
-            children.push(sNodes[i])
-          } else {
-            r.push(sNodes[i])
-          }
-        }
-        return r
-      } else {
-        const tempExtData = $.extend({}, this.treeDefaultSetting.extData)
-        sNodes.extData = tempExtData
-        return [sNodes]
-      }
-    },
+
     save () {
       this.$refs.formName.validate((valid) => {
         if (!valid) {
@@ -720,7 +496,7 @@ export default {
         target.customerType = 1
         target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
       }
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.saveEnterprise, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()
@@ -734,84 +510,53 @@ export default {
     cancel () {
       vm.$router.push({ path: '/Marketing/EnterpriseMessage' })
     },
-    selectedFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
+    // 附件处理 start
+    // 编辑附件列表
+    editAnnexMessage (context) {
+      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
     },
-    selectFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
+    // 删除附件
+    deleteAnnexMessage (context) {
+      this.model.mediaList.splice(context.index, 1)
     },
-    check () {
-      vm.setSelectedData()
+    // 新增附件
+    addAnnexMessage (context) {
+      // console.log(context, 'context新增消息')
+      const { index, content, type, isDelete } = context
+      if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.mediaList, findEditIndex, context)
+        }
+      } else if (index > -1) {
+        // 编辑消息
+        this.$set(this.model.mediaList, index, context)
+      } else {
+        // 新增消息
+        if (this.model.mediaList.length < 9) {
+          this.model.mediaList.push(context)
+        } else {
+          this.$notify.error('附件已达上限（9个），不能再添加')
+        }
+      }
     },
-    setSelectedData () {
-      this.selectedData = []
-      const data = this.$refs.selectTree.getCheckedNodes()
+    // 上传进度
+    uploadProgress (data) {
       if (data) {
-        for (const dataParent of data) {
-          if (!dataParent.disabled) {
-            this.selectedData.push(dataParent)
-          }
-        }
-      }
-      return this.selectedData
-    },
-    openMarking () {
-      vm.visible = true
-      this.$nextTick(function () {
-        this.copySelectedData = JSON.parse(JSON.stringify(vm.setSelectedData()))
-      })
-      vm.copyCustomerType = this.model.customerType
-    },
-    onMarkingClose () {
-      this.$nextTick(() => {
-        this.selectedData = this.copySelectedData
-        this.model.customerType = vm.copyCustomerType
-        if (this.selectedData.length > 0) {
-          this.$refs.selectTree.setCheckedKeys([])
-          const data = this.selectedData.map(value => { return value.id })
-          this.$refs.selectTree.setCheckedKeys(data)
-          this.selectKeys = data
+        const percent = data.content.percent
+        this.isUploading = percent !== '100.00'
+        // // 根据uid判断是否存在
+        let isLargeNumber = (item) => item.content.uid === data.content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.mediaList.length
+          let objData = { ...data, uid: data.content.uid }
+          this.model.mediaList.push(objData)
         } else {
-          this.$refs.selectTree.setCheckedKeys([])
+          this.model.mediaList.splice(findEditIndex, 1, data)
         }
-      })
-      vm.visible = false
-    },
-    onMarkingSave () {
-      if (this.selectedData.length > 0) {
-        if (vm.model.marketingType === 1) {
-          this.copySelectedData = this.selectedData
-          this.copyCustomerType = vm.model.customerType
-          const data = this.selectedData.map(value => {
-            return value.id
-          })
-          this.selectKeys = data
-        } else {
-          this.copySelectedData = JSON.parse(JSON.stringify(vm.selectedData))
-        }
-        vm.visible = false
-      } else {
-        this.$notify.warning('请选择人群')
-      }
-    },
-    // 删除右边的树子节点数据
-    remove (node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
-      const nodes = this.$refs.selectTree.getCheckedNodes()
-      const nodeIndex = nodes.findIndex(d => d.id === data.id)
-      nodes.splice(nodeIndex, 1)
-      for (const i in nodes) {
-        if (nodes[i].children) {
-          nodes.splice(i, 1)
-        }
-      }
-      if (nodes.length > 0) {
-        this.$refs.selectTree.setCheckedNodes(nodes)
-      } else {
-        this.$refs.selectTree.setCheckedKeys([])
       }
     }
   }
