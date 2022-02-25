@@ -1,10 +1,5 @@
 import printReportShow from '@/components/iframe/index.vue'
 
-const Singer = (resolve: any) => {
-  import('@/components/iframe/index.vue').then((module) => {
-    resolve(module)
-  })
-}
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
