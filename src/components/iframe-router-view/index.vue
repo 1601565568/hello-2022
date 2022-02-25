@@ -6,7 +6,12 @@
       <router-view></router-view>
     </keep-alive>
     <!-- iframe页 -->
-    <iframe v-show="$route.path === '/Social/SocialOperation/RedPacket/Send/List'" id='linkedFrame' hight='auto' width='100%' src='https://sandbox-sg-v6.vecrp.com/v3/friendsDrainage/demo/' frameborder='0' scrolling='auto' onload='this.height=1000'></iframe>
+    <component
+      v-for="item in hasOpenComponentsArr"
+      :key="item.name"
+      :is="item.name"
+      v-show="$route.path === item.path"
+    ></component>
   </div>
 </template>
 
@@ -19,6 +24,8 @@ import Vue from 'vue/dist/vue.js'
 //   v-show="$route.path === item.path"
 // ></component>
 // @nascent/ecrp-ecrm/src/App.vue
+// <iframe id='linkedFrame' v-show="$route.path === '/Social/SocialOperation/RedPacket/Send/List'" hight='auto' width='100%' src='http://localhost:8025/v3/friendsDrainage/demo/' frameborder='0' scrolling='auto' onload='this.height=1000'></iframe>
+
 export default {
   created () {
     // 设置iframe页的数组对象
@@ -64,9 +71,9 @@ export default {
       let iframeArr = routes.filter(item => item.iframeComponent)
       return iframeArr.map(item => {
         return {
-          name: name,
+          name: item.name,
           path: item.path,
-          hasOpen: false, // 是否打开过，默认false
+          hasOpen: true, // 是否打开过，默认false
           component: item.iframeComponent // 组件文件的引用
         }
       })
