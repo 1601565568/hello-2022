@@ -264,15 +264,17 @@ export default {
       })
       // 被删好友数据
       Object.assign(this.delGuideNotifyObj, {
-        delGuideRunType: String(del_guide_run_type),
         // eslint-disable-next-line camelcase
-        checkboxGroup: del_guide_notify.split(',')
+        delGuideRunType: del_guide_run_type ? String(del_guide_run_type) : this.delGuideNotifyObj.delGuideRunType,
+        // eslint-disable-next-line camelcase
+        checkboxGroup: del_guide_notify ? del_guide_notify.split(',') : this.delGuideNotifyObj.checkboxGroup
       })
       // 删除好友
       Object.assign(this.delFriendNotifyObj, {
-        delFriendRunType: String(del_friend_run_type),
         // eslint-disable-next-line camelcase
-        checkboxGroup: del_friend_notify.split(',')
+        delFriendRunType: del_friend_run_type ? String(del_friend_run_type) : this.delFriendNotifyObj.delFriendRunType,
+        // eslint-disable-next-line camelcase
+        checkboxGroup: del_friend_notify ? del_friend_notify.split(',') : this.delFriendNotifyObj.checkboxGroup
       })
     },
     // 提醒设置取消
