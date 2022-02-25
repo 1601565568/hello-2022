@@ -268,32 +268,46 @@ export default {
         return
       }
       this.outputClickState = false
-      const csvStartTime = this.model.TheDate[0].replace(/-/g, '')
-      const csvEndTime = this.model.TheDate[1].replace(/-/g, '')
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkCustomer.export, that.$generateParams$())
-        .then(resp => {
-          that.outputClickState = true
-          that.$notify.success('下载完成')
+      const params = {
+        ...this.$generateParams$(),
+        exportType: 17
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 720,
+          right: 60
         })
-        .catch(resp => {
-          that.outputClickState = true
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let fileName =
-              '好友分析' + csvStartTime + '-' + csvEndTime + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+      // const csvStartTime = this.model.TheDate[0].replace(/-/g, '')
+      // const csvEndTime = this.model.TheDate[1].replace(/-/g, '')
+      // let that = this
+      // that.$notify.info('导出中，请稍后片刻')
+      // this.$http
+      //   .fetch(this.$api.weWork.weWorkCustomer.export, that.$generateParams$())
+      //   .then(resp => {
+      //     that.outputClickState = true
+      //     that.$notify.success('下载完成')
+      //   })
+      //   .catch(resp => {
+      //     that.outputClickState = true
+      //     if (!resp.size === 0) {
+      //       that.$notify.error('导出报错，请联系管理员')
+      //     } else {
+      //       let url = window.URL.createObjectURL(new Blob([resp]))
+      //       let link = document.createElement('a')
+      //       link.style.display = 'none'
+      //       link.href = url
+      //       let fileName =
+      //         '好友分析' + csvStartTime + '-' + csvEndTime + '.csv'
+      //       link.setAttribute('download', fileName)
+      //       document.body.appendChild(link)
+      //       link.click()
+      //     }
+      //   })
     },
     getDate: function (date) {
       let year = date.getFullYear()
