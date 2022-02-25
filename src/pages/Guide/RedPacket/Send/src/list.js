@@ -9,18 +9,15 @@ export default {
       },
       chooseItem: {}, // 员工展示弹框的请求数据
       visible: false,
-      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit'
+      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit',
+      state: process.env.VUE_APP_THEME,
+      stateQA: 'stateQA',
+      stateIcon: 'stateIcon'
     }
   },
   mixins: [tableMixin, redpacketTable],
   mounted () {
     this.$reload()
-    // let iframe = document.getElementById('linkedFrame')
-    // console.log(iframe.contentWindow, 789)
-    // function getChild (data) {
-    //   console.log('获取到子组件数据', data)
-    // }
-    // contentWindow
   },
   methods: {
     /**
