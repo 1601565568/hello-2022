@@ -114,8 +114,8 @@ export default {
               'title': '发红包',
               // 'iframeComponent': iframe
               // 'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
-              // 'component': () => import('@/components/iframe/index.vue')
-              'iframeComponent': printReportShow
+              'iframeComponent': () => import('@/components/Iframes/index.vue')
+              // 'iframeComponent': printReportShow
             },
             {
               'path': '/Social/SocialOperation/RedPacket/Send/Edit',
