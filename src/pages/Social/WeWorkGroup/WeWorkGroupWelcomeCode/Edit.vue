@@ -23,7 +23,7 @@
             />
           </template>
           <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
+            <MessagePreviewPanel class="message-preivew-panel" :hasBracket="false" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
           </template>
         </PhoneBox>
       </SimpleCollapse>
