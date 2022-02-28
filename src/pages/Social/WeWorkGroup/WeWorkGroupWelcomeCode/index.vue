@@ -25,7 +25,7 @@
               >
                 <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
                 <div class="showContent">
-                  <EmojiText :text='item.textContent' :emptySpecial="true" />
+                  <EmojiText :hasBracket="false" :text='item.textContent' :emptySpecial="true" />
                 </div>
               </el-tooltip>
             </div>

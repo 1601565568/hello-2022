@@ -10,6 +10,7 @@
           v-if="item.type === SOPActivityMessageType.Text"
           class="text-message"
           :content="item.content"
+          :hasBracket="hasBracket"
         />
         <ImageMessage
           v-else-if="item.type === SOPActivityMessageType.Image || item.type === SOPActivityMessageType.Poster"
@@ -79,6 +80,13 @@ export default {
     miniAndLinkImageLabel: {
       type: String,
       default: 'imgUrl'
+    },
+    // 是否有括号包裹
+    hasBracket: {
+      type: Boolean,
+      default () {
+        return true
+      }
     }
   },
   data () {
