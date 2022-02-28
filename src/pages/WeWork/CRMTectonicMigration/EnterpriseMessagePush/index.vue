@@ -171,6 +171,21 @@ export default {
         return ''
       }
     },
+    // 展示的素材列表处理
+    mediaList: {
+      get () {
+        return this.model.mediaList.slice(0, this.imageNum)
+      },
+      set (v) {
+        let arr = []
+        for (const item of v) {
+          if (item) {
+            arr.push(item)
+          }
+        }
+        this.model.mediaList = arr
+      }
+    },
     // 图片多选时，判断还能选择的张数
     limitImage () {
       return this.imageNum - this.mediaList.length
@@ -182,7 +197,6 @@ export default {
       disabled: false, // 设置附件禁用
       isUploading: false, // 附件上传中标识
       imageNum: 9, // 允许图片张数
-      mediaList: [], // 附件媒体
       isError: false,
       isUpdate: false,
       loading: false,
@@ -521,15 +535,15 @@ export default {
     },
     // 新增附件
     addAnnexMessage (context) {
-      // console.log(context, 'context新增消息')
+      console.log(context, 'context新增消息')
       const { index, content, type, isDelete } = context
-      if (content.uid) {
-        let isLargeNumber = (item) => item.content.uid === content.uid
-        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-        if (findEditIndex > -1) {
-          this.$set(this.model.mediaList, findEditIndex, context)
-        }
-      } else if (index > -1) {
+      // if (content.uid) {
+      //   let isLargeNumber = (item) => item.content.uid === content.uid
+      //   let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+      //   if (findEditIndex > -1) {
+      //     this.$set(this.model.mediaList, findEditIndex, context)
+      //   }
+      if (index > -1) {
         // 编辑消息
         this.$set(this.model.mediaList, index, context)
       } else {

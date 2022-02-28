@@ -2,7 +2,7 @@
  * 欢迎语附件消息类型
  */
 export enum WelcomeMessageType {
-  Image,
+  Image = 1,
   Link,
   MiniProgram,
   Poster,
