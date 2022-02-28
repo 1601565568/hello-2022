@@ -136,7 +136,7 @@ export default {
     //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
     // }
   },
-  created () {
+  mounted () {
     this.setWaterCol()
     this.searchLogList()
     window.addEventListener('resize', this.setWaterCol)

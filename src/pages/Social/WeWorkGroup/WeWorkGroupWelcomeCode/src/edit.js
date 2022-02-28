@@ -64,7 +64,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     let { type, id } = this.$route.query
     this.type = type
     if (type === 'edit') {
