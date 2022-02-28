@@ -186,12 +186,12 @@ export default {
         } else {
           this.model.mediaList = [obj]
         }
-        this.pitContent = this.$refs.tagContent.stringTohtml(this.model.textContent)
+        this.pitContent = this.$refs.tagContent.stringTohtml(this.model.textContent, false)
         this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.pitContent
       }
     ],
     pitContent (newObj) {
-      this.model.textContent = this.$refs.tagContent.htmlToString(newObj)
+      this.model.textContent = this.$refs.tagContent.htmlToString(newObj, false)
       this.$emit('pitContent', this.model.textContent)
       this.$refs.form.clearValidate()
     }
@@ -293,7 +293,7 @@ export default {
         return false
       }
 
-      params.textContent = this.$refs.tagContent.htmlToString(this.pitContent)
+      params.textContent = this.$refs.tagContent.htmlToString(this.pitContent, false)
       delete params.mediaList
 
       this.loading = true
