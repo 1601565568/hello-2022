@@ -26,7 +26,8 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              taskId: obj.row.id
+              id: obj.row.id,
+              openType: 'edit'
             }
           })
         },
@@ -82,8 +83,8 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              taskId: obj.row.id,
-              openType: 'view'
+              id: obj.row.id,
+              openType: 'look'
             }
           })
         },
@@ -97,8 +98,8 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              openType: 'copy',
-              taskId: obj.row.id
+              id: obj.row.id,
+              openType: 'copy'
             }
           })
         },
@@ -168,7 +169,13 @@ export default {
     const operateButtons = [
       {
         func: function () {
-          vm.$router.push({ path: '/Marketing/EnterpriseMessagePush' })
+          vm.$router.push({
+            path: '/Marketing/EnterpriseMessagePush',
+            query: {
+              id: obj.row.id,
+              openType: 'add'
+            }
+          })
         },
         icon: '$.noop',
         name: '新增',

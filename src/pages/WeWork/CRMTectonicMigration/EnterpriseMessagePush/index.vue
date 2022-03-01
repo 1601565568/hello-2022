@@ -84,20 +84,20 @@
                     @edit="editAnnexMessage"
                     @delete="deleteAnnexMessage"
                     :isUploading.sync="isUploading"
-                    :disabled="disabled"
+                    :disabled="isUpdate"
                   />
                   <el-popover
                     placement="top-start"
                     width="320"
                     trigger="hover"
-                    :disabled="!(mediaList.length < 9) || disabled"
+                    :disabled="!(mediaList.length < 9) || isUpdate"
                   >
                     <template slot="reference">
-                      <div class="add-material" v-if="!mediaList.length && !disabled">
+                      <div class="add-material" v-if="mediaList.length < 9 && !isUpdate">
                         <Icon type="ns-add-border" class="icon"/>
                         添加消息内容
                       </div>
-                      <div v-else-if="!disabled" class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
+                      <div v-else-if="!isUpdate" class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
                         <Icon type="ns-add-border" class="icon"/>
                         添加消息内容
                       </div>
@@ -119,7 +119,7 @@
               </el-form-item>
             </template>
             <template slot="collapse-right">
-              <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
+              <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
             </template>
           </PhoneBox>
         </SimpleCollapse>
@@ -171,6 +171,20 @@ export default {
         return ''
       }
     },
+    preList () {
+      let array = []
+      array = (this.model.mediaList.slice(0, this.imageNum))
+      if (this.model.textarea) {
+        array.unshift({
+          type: 0,
+          content: {
+            type: 'text',
+            textContent: this.$refs.testText.htmlToString(this.model.textarea, false)
+          }
+        })
+      }
+      return array
+    },
     // 展示的素材列表处理
     mediaList: {
       get () {
@@ -179,7 +193,7 @@ export default {
       set (v) {
         let arr = []
         for (const item of v) {
-          if (item) {
+          if (item && item.type !== 0) {
             arr.push(item)
           }
         }
@@ -193,7 +207,7 @@ export default {
   },
   data () {
     return {
-      list: [], // 预览数组
+      // preList: [], // 预览数组
       disabled: false, // 设置附件禁用
       isUploading: false, // 附件上传中标识
       imageNum: 9, // 允许图片张数
@@ -265,9 +279,21 @@ export default {
   },
   created: function () {
     vm = this
-    vm.init()
+    // vm.init()
   },
   mounted () {
+    let { openType, id } = this.$route.query
+    this.openType = openType
+    if (openType === 'edit') {
+      // this.isEdit = true
+      // this.getDetail(id)
+    } else if (openType === 'look') {
+      this.isUpdate = true
+      // this.getDetail(id)
+    } else if (openType === 'copy') {
+      // this.isUpdate = true
+      // this.getDetail(id)
+    }
     // this.initSubTree()
     // this.initEmpTree()
     // this.verifyProductToCRM()
@@ -288,13 +314,23 @@ export default {
       this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
     },
     setView () {
-      const data = []
-      if (vm.model.textarea) {
-        data.push({
-          type: 0,
-          msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
-        })
-      }
+      // if (vm.model.textarea) {
+      //   if (this.mediaList[0].type === 0) {
+      //     this.mediaList[0].content.textContent = this.$refs.testText.htmlToString(this.model.textarea, false)
+      //   } else {
+      //     this.mediaList.unshift({
+      //       type: 0,
+      //       content: {
+      //         type: 'text',
+      //         textContent: this.$refs.testText.htmlToString(this.model.textarea, false)
+      //       }
+      //     })
+      //   }
+      // data.push({
+      //   type: 0,
+      //   msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
+      // })
+      // }
       // this.$refs.preview.massData = data
     },
     clear () {
