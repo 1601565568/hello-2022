@@ -25,7 +25,7 @@
               >
                 <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
                 <div class="showContent">
-                  <EmojiText :text='item.textContent' :emptySpecial="true" />
+                  <EmojiText :hasBracket="false" :text='item.textContent' :emptySpecial="true" />
                 </div>
               </el-tooltip>
             </div>
@@ -136,11 +136,11 @@ export default {
     //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
     // }
   },
-  created () {
+  mounted () {
+    this.isMac = window.navigator.userAgent.toLowerCase().includes('mac')
     this.setWaterCol()
     this.searchLogList()
     window.addEventListener('resize', this.setWaterCol)
-    this.isMac = window.navigator.userAgent.toLowerCase().includes('mac')
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setWaterCol)
