@@ -112,10 +112,8 @@ export default {
               'path': '/Social/SocialOperation/RedPacket/Send/List',
               'name': 'f1',
               'title': '发红包',
-              // 'iframeComponent': iframe
-              // 'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
-              'iframeComponent': () => import('@/components/Iframes/index.vue')
-              // 'iframeComponent': printReportShow
+              'component': () => import('@/pages/Guide/RedPacket/Send/List.vue')
+              // 'iframeComponent': () => import('@/components/Iframes/index.vue')
             },
             {
               'path': '/Social/SocialOperation/RedPacket/Send/Edit',
