@@ -172,7 +172,6 @@ export default {
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
-      console.log(process.env.VUE_APP_THEME)
       if (this.isOpenDialogAfterRequest && !this.requestLoaded) {
         return
       }
