@@ -25,7 +25,7 @@ export const thirdRouter:THIRD_ROUTER = {
   '/Social/WeComCustomerOperation/RepeatCustomer': setPortals(),
   '/Social/WeComCustomerOperation/RoomList': setPortals(),
   '/Guide/SgPersonalQrcode/List': setPortals(),
-  //   '/WeWork/WelcomeCode/WelcomeCodeList': setPortals(),
+  '/WeWork/WelcomeCode/WelcomeCodeList': setPortals(),
   '/Social/SocialOperation/CustomerCode/List': setPortals(),
   '/Guide/LBS/Friends/Index': setPortals(),
   '/Guide/LBS/Group/Index': setPortals(),
