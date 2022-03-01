@@ -16,6 +16,21 @@
         <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
           <Icon type="ns-search" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
         </el-input>
+        <div class="adder-date">
+          <span>添加时间：</span>
+          <el-date-picker
+            v-model="seachDate"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            align="right"
+            style="border: none"
+          >
+          </el-date-picker>
+        </div>
       </div>
       <div>
         <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
@@ -123,8 +138,11 @@ export default {
         guid: this.$route.params.guid,
         guideIds: [],
         employeeName: '',
-        createTimeOrderStr: 'desc'
-      }
+        createTimeOrderStr: 'desc',
+        startTime: '',
+        endTime: ''
+      },
+      seachDate: []
     }
   },
   mounted () {
@@ -206,6 +224,18 @@ export default {
           }
         })
     }
+  },
+  watch: {
+    seachDate (val) {
+      if (val) {
+        this.model.startTime = val[0]
+        this.model.endTime = val[1]
+      } else {
+        this.model.startTime = ''
+        this.model.endTime = ''
+      }
+      this.searchform()
+    }
   }
 }
 </script>
@@ -271,6 +301,20 @@ export default {
     }
     .export-cvs-btn {
       margin-right: 16px
+    }
+    .adder-date{
+      height: 32px;
+      width: 450px;
+      border: 1px solid #D9D9D9;
+      border-radius: 4px;
+      margin: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span{
+        width: 80px;
+        margin: 0 8px;
+      }
     }
   }
 

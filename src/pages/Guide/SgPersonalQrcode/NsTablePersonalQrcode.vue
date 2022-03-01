@@ -82,6 +82,21 @@
               </el-select>
             </el-form-grid>
           </el-form-item>
+          <el-form-item label="好友验证：">
+            <el-form-grid>
+              <el-select placeholder="全部" v-model="model.isvalidate" clearable @clear="setJobNull">
+                <el-option value="" label="全部" />
+                <el-option
+                  label="开"
+                  value="1"
+                ></el-option>
+                <el-option
+                  label="关"
+                  value="2"
+                ></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
         </el-form>
 
         <div class="template-table__more-btn">
@@ -120,6 +135,11 @@
               </template>
             </el-table-column>
           </div>
+          <el-table-column prop="personnels" label="好友验证" align="center">
+            <template slot-scope="scope">
+              {{scope.row.isvalidate === 1 ? '开' : '关'}}
+            </template>
+          </el-table-column>
           <el-table-column prop="num" v-if="memberManagePlan == 2" label="扫描次数" align="center" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.num?scope.row.num:'0' }}
@@ -128,6 +148,11 @@
           <el-table-column prop="creatorName" label="创建人" align="center" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.creatorName?scope.row.creatorName:'-' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="personnels" label="创建时间" align="center" width="160">
+            <template slot-scope="scope">
+              {{scope.row.create_time}}
             </template>
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="center" min-width="100">
