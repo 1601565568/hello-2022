@@ -14,7 +14,7 @@
     </div>
     <div ref="fullScreen" class="card-content">
       <div v-if="showDatas" class="card-scroll">
-        <!-- <waterfall :col='waterCol' :gutterWidth="16" :data="dataList" ref="waterfall">
+        <waterfall :col='waterCol' :gutterWidth="16" :data="dataList" ref="waterfall">
           <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
             <div class="item-name">{{item.createUserName || '-'}}</div>
             <div class="item-time">{{item.createTime}}</div>
@@ -67,7 +67,7 @@
               <span class="opt-btn" @click="deleteItem(item, index)">删除</span>
             </div>
           </div>
-        </waterfall> -->
+        </waterfall>
       </div>
       <div v-else class="no-date-area">
         <div class="no-data">
@@ -130,10 +130,7 @@ export default {
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
-  components: {
-    // EmojiText,
-    Preview
-  },
+  components: { EmojiText, Preview },
   computed: {
     // itemWidth () {
     //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
