@@ -65,7 +65,7 @@ export default {
         image: '',
         createTime: '',
         showType: 1,
-        isvalidate: 1,
+        isvalidate: true,
         keyword: null,
         channel_code: null,
         child_qrcodes: [],
@@ -260,6 +260,7 @@ export default {
       }
       that.personalQrcode.personnelIds = personalIds.join(',')
       that.personalQrcode.child_qrcodes = JSON.stringify(that.tableData)
+      that.personalQrcode.isvalidate = that.personalQrcode.isvalidate ? 1 : 2
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })

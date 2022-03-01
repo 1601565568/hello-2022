@@ -84,6 +84,17 @@
                 </ElTable>
               </div>
             </ElFormItem>
+            <el-form-item label="好友验证">
+              <el-form-grid size="small">
+                <el-form-item prop="sex">
+                  <el-switch v-model="personalQrcode.isvalidate" />
+                </el-form-item>
+              </el-form-grid>
+              <div class="sub-title" style="color: #595959;">
+                <span class="yellow-point" style="background: #F2AA18;display: inline-block;height: 8px;width: 8px;border-radius: 50%;margin-right: 8px;"></span>
+                开启后，无需好友验证即可添加好友
+              </div>
+            </el-form-item>
             <el-form-item label="渠道设置：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <el-form-grid>
                 <el-select v-model="personalQrcode.channel_code" filterable placeholder="请选择">
