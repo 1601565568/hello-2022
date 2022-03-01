@@ -4,7 +4,7 @@
       <div class="common-header flex-box">
         <h3>{{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销</h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel" @click="$router.go(-1)" size="large">取消</ns-button>
+          <ns-button class="customer-btn_cancel" @click="cancel" size="large">取消</ns-button>
           <ns-button class="customer-btn_save"  :disabled="isUpdate" :loading="loading" @click='save' type="primary" size="large">保存</ns-button>
         </div>
       </div>
@@ -88,7 +88,6 @@
                   />
                   <el-popover
                     placement="top-start"
-                    width="320"
                     trigger="hover"
                     :disabled="!(mediaList.length < 9) || isUpdate"
                   >
@@ -107,8 +106,6 @@
                       </div>
                     </template>
                     <WechatMessageBar
-                      :pitBit='true'
-                      :showPitBit='false'
                       ref="WechatMessageBar"
                       :multipleImage='false'
                       :limitImage='limitImage'
@@ -119,7 +116,7 @@
               </el-form-item>
             </template>
             <template slot="collapse-right">
-              <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
+              <MessagePreviewPanel :hasBracket="false" class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
             </template>
           </PhoneBox>
         </SimpleCollapse>
@@ -558,7 +555,7 @@ export default {
         })
     },
     cancel () {
-      vm.$router.push({ path: '/Marketing/EnterpriseMessage' })
+      vm.$router.replace({ path: '/Marketing/EnterpriseMessage' })
     },
     // 附件处理 start
     // 编辑附件列表
@@ -573,13 +570,13 @@ export default {
     addAnnexMessage (context) {
       console.log(context, 'context新增消息')
       const { index, content, type, isDelete } = context
-      // if (content.uid) {
-      //   let isLargeNumber = (item) => item.content.uid === content.uid
-      //   let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
-      //   if (findEditIndex > -1) {
-      //     this.$set(this.model.mediaList, findEditIndex, context)
-      //   }
-      if (index > -1) {
+      if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.mediaList, findEditIndex, context)
+        }
+      } else if (index > -1) {
         // 编辑消息
         this.$set(this.model.mediaList, index, context)
       } else {

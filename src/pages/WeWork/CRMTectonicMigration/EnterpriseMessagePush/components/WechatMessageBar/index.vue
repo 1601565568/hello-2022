@@ -1,10 +1,5 @@
 <template>
   <div class="add-material-bar">
-    <div v-if="pitBit && showPitBit" class="add-material-item" @click="addCustomImg">
-      <!-- <Icon type="poster-1" class="icon" /> -->
-      <img class="bitpit" src="@/assets/kwBig.png" alt="">
-      <span class="item-tip">自建坑位</span>
-    </div>
     <div class="add-material-item">
       <ImageMessage
         @confirm="addMessage"
@@ -17,10 +12,6 @@
           <span class="item-tip">图片</span>
         </div>
       </ImageMessage>
-    </div>
-    <div v-if="pitBit && showPitBit" class="add-material-item" @click="showImageCode">
-      <i class="iconfont icon-fumatupian-copy icon" style="font-size:40px;"></i>
-      <span class="item-tip">附码图片</span>
     </div>
     <div class="add-material-item">
       <VideoMessage
@@ -41,7 +32,7 @@
       <Icon type="xiaochengxushouquan" class="icon"/>
       <span class="item-tip">小程序</span>
     </div>
-    <div v-if="!pitBit" class="add-material-item" @click="visiblePosterMessageDialog = true">
+    <div class="add-material-item" @click="visiblePosterMessageDialog = true">
       <Icon type="poster-1" class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
@@ -66,18 +57,6 @@
       :visible.sync="visiblePosterMessageDialog"
       @update:visible="posterMsg = null"
     />
-    <!-- 自建坑位消息 -->
-    <PitbitMessageDialog
-      ref='pitbit'
-      @confirm="addMessage"
-      :content="pitbitMsg ? pitbitMsg.content : null"
-      :visible.sync="visiblePitbitMessageDialog"
-      @update:visible="pitbitMsg = null"
-    />
-    <ImageCode
-      @confirm="addMessage"
-      ref='imagecode'
-    />
   </div>
 </template>
 
@@ -89,25 +68,15 @@ import VideoMessage from './VideoMessage'
 import LinkMessageDialog from './LinkMessageDialog'
 import MiniProgramMessageDialog from './MiniProgramMessageDialog'
 import PosterMessageDialog from './PosterMessageDialog'
-import PitbitMessageDialog from './PitbitMessageDialog'
-import ImageCode from './ImageCode'
 export default {
   components: {
     ImageMessage,
     VideoMessage,
     LinkMessageDialog,
     MiniProgramMessageDialog,
-    PosterMessageDialog,
-    PitbitMessageDialog,
-    ImageCode
+    PosterMessageDialog
   },
   props: {
-    pitBit: {
-      type: Boolean,
-      default () {
-        return false
-      }
-    },
     // 是否支持多选图片
     multipleImage: {
       type: Boolean,
@@ -117,13 +86,6 @@ export default {
     limitImage: {
       type: Number,
       default: 99999
-    },
-    // 群欢迎语中不需要自建坑位和附码图片
-    showPitBit: {
-      type: Boolean,
-      default () {
-        return true
-      }
     }
   },
   data () {
@@ -131,7 +93,6 @@ export default {
       visibleLinkMessageDialog: false,
       visibleMiniProgramMessageDialog: false,
       visiblePosterMessageDialog: false,
-      visiblePitbitMessageDialog: false,
       textMsg: null, // { index, content }
       imageMsg: null,
       videoMsg: null,
@@ -144,41 +105,20 @@ export default {
     }
   },
   methods: {
-    handleImageCode () {
-    },
-    showImageCode (val) {
-      this.$refs.imagecode.showImageCode()
-      // this.visibleImageCodeDialog = val
-    },
     uploadImageProgress (message) {
       let msg = {}
       if (this.imageMsg) msg = this.imageMsg
-      this.$emit('uploadImageProgress', { type: 1, ...msg, content: message.content })
+      this.$emit('uploadImageProgress', { type: WelcomeMessageType.Image, ...msg, content: message.content })
     },
     uploadVideoProgress (message) {
       let msg = {}
-      let type
       if (this.videoMsg) msg = this.videoMsg
-      if (this.pitBit) {
-        type = 2
-      } else {
-        type = 5
-      }
-      this.$emit('uploadVideoProgress', { type, ...msg, content: message.content })
-    },
-    messageLimit () {
-      this.$message.error('最多添加10条消息')
+      this.$emit('uploadVideoProgress', { type: WelcomeMessageType.Video, ...msg, content: message.content })
     },
     addVideoMessage (message) {
       let msg = {}
       if (this.videoMsg) msg = this.videoMsg
-      let type
-      if (this.pitBit) {
-        type = 2
-      } else {
-        type = 5
-      }
-      this.$emit('addMessage', { ...msg, type, content: message.content })
+      this.$emit('addMessage', { ...msg, type: WelcomeMessageType.Video, content: message.content })
       if (this.videoMsg) this.videoMsg = null
     },
     addMessage (message) {
@@ -188,35 +128,30 @@ export default {
       if (this.linkMsg) msg = this.linkMsg
       if (this.miniProgramMsg) msg = this.miniProgramMsg
       if (this.posterMsg) msg = this.posterMsg
-      if (this.pitbitMsg) msg = this.pitbitMsg
-      if (this.imageCodeMsg) msg = this.imageCodeMsg
       // 新增时，添加sop活动类型
       let type
-      if (msg.type === undefined && !this.pitBit) {
+      if (msg.type === undefined) {
         type = this.getWelcomeMessageType(message.type)
       }
-      if (this.pitBit) {
-        if (message.type === 'pitbit') {
-          type = 0
-        } else if (message.type === 'image') {
-          type = 1
-        } else if (message.type === 'video') {
-          type = 2
-        } else if (message.type === 'link') {
-          type = 3
-        } else if (message.type === 'miniprogram') {
-          type = 4
-        } else if (message.type === 'imagecode') {
-          type = 5
-        }
-      }
+      // if (this.pitBit) {
+      //   if (message.type === 'pitbit') {
+      //     type = 0
+      //   } else if (message.type === 'image') {
+      //     type = 1
+      //   } else if (message.type === 'video') {
+      //     type = 2
+      //   } else if (message.type === 'link') {
+      //     type = 3
+      //   } else if (message.type === 'miniprogram') {
+      //     type = 4
+      //   } else if (message.type === 'imagecode') {
+      //     type = 5
+      //   }
+      // }
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null
       // if (this.videoMsg) this.videoMsg = null
-    },
-    addCustomImg () {
-      this.visiblePitbitMessageDialog = true
     },
     /**
      * 通过编辑消息打开素材消息的dialog
@@ -244,30 +179,6 @@ export default {
         case tType.Poster:
           this.posterMsg = context
           this.visiblePosterMessageDialog = true
-          break
-        case tType.Pitbit:
-          this.pitbitMsg = context
-          this.visiblePitbitMessageDialog = true
-          break
-        case tType.ImageCode:
-          this.imageCodeMsg = context
-          this.$refs.imagecode.showImageCode(context)
-          break
-        default:
-          break
-      }
-    },
-
-    // 替代写入数据的方法 已不用了
-    setMessageByEdit (context, booleans = false) {
-      const { type, index, content } = context
-      let tType = WelcomeMessageType
-      switch (type) {
-        case tType.Image:
-          this.imageMsg = context
-          break
-        case tType.Video:
-          this.videoMsg = context
           break
         default:
           break
