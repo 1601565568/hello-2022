@@ -108,8 +108,8 @@ export default {
     this.model = { id: this.activityId }
 
     this.searchForm()
-    console.log(this.url, 'url')
-    console.log(this.$api.weWork.sop.getChatRoomInfoList, 'url11')
+    // console.log(this.url, 'url')
+    // console.log(this.$api.weWork.sop.getChatRoomInfoList, 'url11')
   },
   methods: {
     searchForm () {
