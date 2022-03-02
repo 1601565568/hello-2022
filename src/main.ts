@@ -45,6 +45,7 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 const qaDocs = ''
 Vue.prototype.$isQa = process.env.VUE_APP_THEME === 'QA'
 Vue.prototype.$qaDocs = qaDocs
+Vue.prototype.$isShowDocs = process.env.VUE_APP_THEME !== 'QA' || qaDocs.length > 0
 // 和三方需求功能相同所以隐藏
 // router.beforeEach(async (to:any, from, next) => {
 //   if (interceptRouter.includes(to.name)) {

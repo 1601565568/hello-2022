@@ -5,7 +5,7 @@
         <img :src="BeforeStartImg" alt="开启前引导图" class="history-start__img">
         <div class="history-start__btn">
           <ns-button size="medium"  @click="onOpenUrl('create')">新建内容</ns-button>
-          <ns-button size="medium"  @click="onOpenUrl('view')" v-show="!$isQa || $qaDocs">查看教程</ns-button>
+          <ns-button size="medium"  @click="onOpenUrl('view')" v-show="$isShowDocs">查看教程</ns-button>
         </div>
       </div>
     </div>
