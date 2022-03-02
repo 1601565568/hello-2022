@@ -21,15 +21,7 @@
           <el-input ref="quickText"
                     style="width: 180px; margin-right:5px"
                     v-model="model.employeeName"
-                    placeholder="请输入员工姓名"
-                    v-if="cloudPlatformType == 'ecrp'"
-                    @keyup.enter.native="$quickSearchAction$('employeeName')"
-                    clearable />
-          <el-input ref="quickText"
-                    style="width: 180px; margin-right:5px"
-                    v-model="model.employeeName"
-                    placeholder="请输入成员姓名"
-                    v-if="cloudPlatformType == 'kd'"
+                    :placeholder="cloudPlatformType == 'ecrp'?'请输入员工姓名':'请输入成员姓名'"
                     @keyup.enter.native="$quickSearchAction$('employeeName')"
                     clearable />
           <ns-button type="primary"
