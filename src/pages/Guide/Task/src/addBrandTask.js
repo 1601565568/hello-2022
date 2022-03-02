@@ -463,6 +463,8 @@ export default {
               this.model.materialType = obj.materialType
               this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
               this.disabled = true
+              this.selectMaterial = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
+              this.selectMaterial.content = obj.materialTitle
             }
             if (obj.state === 1) {
               this.canNotEdit = true
