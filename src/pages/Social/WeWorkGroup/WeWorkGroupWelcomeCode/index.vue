@@ -12,11 +12,11 @@
       </div>
       <NsButton type="primary" class="add-button" size="large" @click="newCode">新建</NsButton>
     </div>
-    <el-scrollbar ref="fullScreen" class="card-content">
-      <div v-if="dataList.length" class="card-scroll">
-        <waterfall :col='waterCol' :data="dataList" ref="waterfall">
+    <div ref="fullScreen" class="card-content">
+      <div v-if="showDatas" class="card-scroll">
+        <waterfall :col='waterCol' :gutterWidth="16" :data="dataList" ref="waterfall">
           <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
-            <div class="item-name">{{item.createUserName}}</div>
+            <div class="item-name">{{item.createUserName || '-'}}</div>
             <div class="item-time">{{item.createTime}}</div>
             <div class="item-text">
               <el-tooltip
@@ -25,13 +25,13 @@
               >
                 <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
                 <div class="showContent">
-                  <EmojiText :text='item.textContent' />
+                  <EmojiText :hasBracket="false" :text='item.textContent' :emptySpecial="true" />
                 </div>
               </el-tooltip>
             </div>
             <div class="item-image" v-if="item.otherMsgType + '' !== '0'">
               <div v-if="item.otherMsgType + '' === '1'" class="image-block" @click="showPreview(item, 'img')">
-                <img :src="item.imageUrl + '?x-oss-process=image/resize,m_lfit,h_165,w_242'">
+                <img :src="item.imageUrl">
               </div>
               <div v-if="item.otherMsgType + '' === '2'" class="video-block" @click="showPreview(item, 'video')">
                 <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_152,m_fast'">
@@ -75,7 +75,7 @@
           <span>没有数据哦~</span>
         </div>
       </div>
-    </el-scrollbar>
+    </div>
     <el-pagination
       :page-sizes="pagination.sizeOpts"
       :total="pagination.total"
@@ -96,7 +96,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="onEscCancel">取 消</ns-button>
-        <ns-button type="primary" @click="onEscConfirm">确 定</ns-button>
+        <ns-button type="primary" @click="onEscConfirm">删除</ns-button>
       </span>
     </el-dialog>
   </div>
@@ -108,7 +108,9 @@ import { getErrorMsg } from '@/utils/toast'
 export default {
   data () {
     return {
+      isMac: false, // 判断是mac还是ios
       waterCol: 2, // 瀑布流列数
+      itemWidth: 274, // 瀑布流宽度
       // 分页配置
       pagination: {
         size: 15,
@@ -124,12 +126,18 @@ export default {
       deteleIndex: 0, // 需要删除的索引值
       deteleObj: {}, // 需要删除的对象
       dataList: [],
+      showDatas: true,
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
   components: { EmojiText, Preview },
-  computed: {},
-  created () {
+  computed: {
+    // itemWidth () {
+    //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
+    // }
+  },
+  mounted () {
+    this.isMac = window.navigator.userAgent.toLowerCase().includes('mac')
     this.setWaterCol()
     this.searchLogList()
     window.addEventListener('resize', this.setWaterCol)
@@ -140,7 +148,17 @@ export default {
   methods: {
     // 设置瀑布流容器列数
     setWaterCol () {
-      this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64) / 290)
+      // this.waterCol = 1
+      this.waterCol = Math.floor((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17)) / 290)
+      // setTimeout(() => {
+      //   // 210是左边菜单 10是右margin, 64是内容左右padding，17是windows下滚动条宽度
+      //   this.itemWidth = ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.isMac ? 0 : 17) - (this.waterCol - 1) * 16) / this.waterCol)
+      //   this.$nextTick(() => {
+      //     if (this.$refs.waterfall) {
+      //       // this.$waterfall.forceUpdate()
+      //     }
+      //   })
+      // }, 10)
     },
     // 获取群欢迎语列表
     searchLogList () {
@@ -150,15 +168,34 @@ export default {
         searchMap: { ...this.searchMap }
       }
       this.$http.fetch(this.$api.weWork.groupWelcomeCode.getList, params).then(resp => {
-        this.dataList = resp.result.data || []
-        this.$nextTick(() => {
-          if (this.$refs.waterfall) {
-            // console.log(this.$refs.waterfall, 'this.$refs.waterfall')
-            // console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
-            // this.$refs.waterfall.resize()
-            this.$waterfall.forceUpdate()
-          }
-        })
+        this.dataList = []
+        setTimeout(() => {
+          this.dataList = resp.result.data
+          this.$nextTick(() => {
+            if (this.$refs.waterfall) {
+              // console.log(this.$refs.waterfall, 'this.$refs.waterfall')
+              // console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
+              // console.log(this.$refs.waterfall.loadedIndex, 'this.$refs.waterfall.loadedIndex')
+              // this.$refs.waterfall.resize()
+              this.$waterfall.forceUpdate()
+            }
+          })
+        }, 10)
+        if (!resp.result.data.length) {
+          this.showDatas = false
+        } else {
+          this.showDatas = true
+        }
+        // this.$nextTick(() => {
+        //   if (this.$refs.waterfall) {
+        //     console.log(this.$refs.waterfall, 'this.$refs.waterfall')
+        //     console.log(this.$refs.waterfall.data, 'this.$refs.waterfall.data')
+        //     console.log(this.$refs.waterfall.loadedIndex, 'this.$refs.waterfall.loadedIndex')
+        //     console.log(this.dataList, 'this.dataList')
+        //     // this.$refs.waterfall.resize()
+        //     this.$waterfall.forceUpdate()
+        //   }
+        // })
         this.pagination.total = +resp.result.recordsTotal || 0
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询群欢迎语列表失败', resp))
@@ -218,7 +255,7 @@ export default {
     // 富文本转换
     strToRichText (text) {
       if (!text) {
-        return ''
+        return '-'
       }
       const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
@@ -292,6 +329,7 @@ export default {
   background: #fff;
   font-size: 16px;
   color: #262626;
+  font-weight: bold;
 }
 .search-content{
   width: 100%;
@@ -327,21 +365,32 @@ export default {
 }
 .card-content{
   width: 100%;
-  padding: 32px;
+  padding: 32px 24px;
   box-sizing: border-box;
   background-color: #fff;
   border-bottom: 1px solid #F0F0F0;
+  overflow-y: auto;
   .card-scroll{
     display: flex;
+    // .vue-waterfall-column{
+    //   margin-right: 16px;
+    // }
+    // .vue-waterfall-column:last-child{
+    //    margin-right: 0px;
+    //   .card-item{
+    //     margin-right: 0px;
+    //   }
+    // }
   }
   .card-item{
-    width: 274px;
+    min-width: 274px;
     // height: 325px;
     padding: 16px;
     box-sizing: border-box;
     background: #F8F9FB;
     border-radius: 4px;
-    margin-right: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
     margin-bottom: 16px;
     .item-name{
       font-size: 14px;
@@ -359,7 +408,7 @@ export default {
       margin: 4px 0 8px 0;
     }
     .item-text{
-      width: 242px;
+      width: 100%;
       margin-bottom: 8px;
       font-size: 12px;
       color: #383838;
@@ -447,12 +496,19 @@ export default {
       .image-block{
         position: relative;
         height: 165px;
+        img{
+          max-height: 165px;
+          max-width: 242px;
+        }
       }
       .video-block{
         position: relative;
         display: inline-block;
         height: 165px;
         cursor: pointer;
+        // img{
+        //   height: 165px;
+        // }
         .video-mask{
           position: absolute;
           top: calc(50% - 6.5px);

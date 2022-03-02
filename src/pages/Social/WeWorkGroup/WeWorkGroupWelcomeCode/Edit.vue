@@ -23,7 +23,7 @@
             />
           </template>
           <template slot="collapse-right">
-            <MessagePreviewPanel class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
+            <MessagePreviewPanel class="message-preivew-panel" :hasBracket="false" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="list"/>
           </template>
         </PhoneBox>
       </SimpleCollapse>
@@ -38,4 +38,7 @@ export default Index
   @import "@theme/variables.pcss";
   @import "@components/NewUi/styles/reset.css";
   @import "./styles/reset.css";
+  .message-preivew-panel{
+    height: 513px;
+  }
 </style>

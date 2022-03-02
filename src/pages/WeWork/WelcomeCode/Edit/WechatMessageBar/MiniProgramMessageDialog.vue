@@ -239,6 +239,11 @@ export default {
           path: ''
         }
       }
+    },
+    // 是否需要开启占位符
+    needLink: {
+      type: Boolean,
+      dafault: true
     }
   },
   computed: {
@@ -353,8 +358,8 @@ export default {
     }
   },
   mounted () {
-    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
-    if (this.cloudPlatformType === 'kd') {
+    // this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    if (!this.needLink) {
       this.placeholderLink = []
     }
   },
