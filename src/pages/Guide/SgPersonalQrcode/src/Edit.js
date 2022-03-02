@@ -8,6 +8,7 @@ export default {
   mixins: [tableMixin, scrollHeight],
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
