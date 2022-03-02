@@ -2,8 +2,8 @@
   <div>
     <div style="padding: 16px; background: #fff; margin: -10px -10px 0;">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/userCenter/customer/customerList'}">用户中心</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/userCenter/group/list'}">群管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/ExternalContactList'}">用户中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Social/WeComCustomerOperation/RoomList'}">群管理</el-breadcrumb-item>
         <el-breadcrumb-item>重复群统计</el-breadcrumb-item>
       </el-breadcrumb>
       <div style="fontSize:16px;marginTop:16px;fontWeight:bold">重复群统计 </div>
@@ -11,7 +11,6 @@
     <div class="select-view">
       <GroupSelectDialog
         class="el-inline-block"
-        v-bind:value="this.selectedData"
         @childChange="parentChang"
         ref="GroupSelectDialog"
         v-bind:env="this.env"
@@ -34,7 +33,7 @@
             <el-table-column prop="name" label="昵称" > </el-table-column>
             <el-table-column prop="gender" label="性别" >
               <template slot-scope="scope">
-                <span>{{ scope.row.gender === 0 ? '女' : '男' }}</span>
+                <span>{{ scope.row.gender === 2 ? '女' : scope.row.gender === 1 ? '男' : '未知' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="repeatedNum" label="所属群" >
@@ -60,6 +59,7 @@
             layout="sizes, prev, pager, next, jumper"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="marginTop:14.5px"
           >
           </el-pagination>
         </template>
@@ -181,7 +181,7 @@ export default {
       } else {
         this.searchMap.chatIds = ''
       }
-      confirmData.length < 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length
+      searchMode === 2 ? this.searchMap.leastRepeatedInNum = 2 : this.searchMap.leastRepeatedInNum = confirmData.length > 2 ? confirmData.length : 2
       this.queryRepeatedInContactList()
     }
   },
@@ -213,6 +213,9 @@ export default {
   font-size: 14px;
   color: #0094fc;
   font-weight: 400;
+}
+>>> .label-dialog__pagination .el-input .el-input__inner{
+  text-align: center !important;
 }
 .select-view{
   height: 64px;
