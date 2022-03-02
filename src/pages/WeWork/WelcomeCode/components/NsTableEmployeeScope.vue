@@ -40,14 +40,8 @@
                 v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')">
         <el-table-column prop="employeeName"
-                         label="员工姓名"
-                         align="left"
-                         v-if="cloudPlatformType == 'ecrp'">
-        </el-table-column>
-        <el-table-column prop="employeeName"
-                         label="成员姓名"
-                         align="left"
-                         v-if="cloudPlatformType == 'kd'">
+                         :label="cloudPlatformType == 'ecrp'?'员工':'成员'+'姓名'"
+                         align="left">
         </el-table-column>
         <el-table-column prop="shopNames"
                          label="工作门店"
