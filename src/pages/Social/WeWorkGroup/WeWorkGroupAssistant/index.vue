@@ -5,7 +5,7 @@
         <img :src="BeforeStartImg" alt="开启前引导图" class="history-start__img">
         <div class="history-start__btn">
           <ns-button size="medium" @click="createAutoReplay">创建自动回复</ns-button>
-          <ns-button size="medium" @click="GoUseTutorial" v-show="$qaDocs">查看教程</ns-button>
+          <ns-button size="medium" @click="GoUseTutorial" v-show="!$isQa || $qaDocs">查看教程</ns-button>
         </div>
       </div>
     </div>
