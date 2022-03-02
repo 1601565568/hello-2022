@@ -5,7 +5,7 @@
         <img :src="BeforeStartImg" alt="开启前引导图" class="history-start__img">
         <div class="history-start__btn">
           <ns-button size="medium"  @click="onOpenUrl('create')">新建内容</ns-button>
-          <ns-button size="medium"  @click="onOpenUrl('view')">查看教程</ns-button>
+          <ns-button size="medium"  @click="onOpenUrl('view')" v-show="$qaDocs">查看教程</ns-button>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ export default {
       if (type === 'create') {
         url = 'https://work.weixin.qq.com/wework_admin/frame#customer/moments/create'
       } else if (type === 'view') {
-        url = 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2493'
+        url = this.$isQa ? this.$qaDocs : 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2493'
       }
       window.open(url, type)
     }

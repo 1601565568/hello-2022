@@ -5,7 +5,7 @@
         <img :src="BeforeStartImg" alt="开启前引导图" class="history-start__img">
         <div class="history-start__btn">
           <ns-button size="medium" @click="createAutoReplay">创建自动回复</ns-button>
-          <ns-button size="medium" @click="GoUseTutorial">查看教程</ns-button>
+          <ns-button size="medium" @click="GoUseTutorial" v-show="$qaDocs">查看教程</ns-button>
         </div>
       </div>
     </div>
@@ -25,7 +25,8 @@ export default {
       window.open('https://work.weixin.qq.com/wework_admin/frame#customer/autoReply')
     },
     GoUseTutorial () {
-      window.open('https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2492')
+      const url = this.$isQa ? this.$qaDocs : 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2492'
+      window.open(url)
     }
   }
 }

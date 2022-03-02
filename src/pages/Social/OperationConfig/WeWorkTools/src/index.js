@@ -48,7 +48,8 @@ export default {
       })
     },
     handleLocation (url) {
-      window.open(URL[url])
+      const openUrl = this.$isQa ? this.$qaDocs : URL[url]
+      window.open(openUrl)
     },
     // 上传之前钩子
     beforeUpload (file) {

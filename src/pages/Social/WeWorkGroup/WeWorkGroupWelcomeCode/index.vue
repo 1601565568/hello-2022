@@ -1,78 +1,11 @@
 <template>
   <div class="history-main">
-    <div class="head-router">群欢迎语</div>
-    <div class="search-content">
-      <div class="search-left">
-        <el-input class="serach-input" v-model="searchMap.textContent" placeholder="请输入群欢迎语"  @keyup.enter.native="searchLogList">
-          <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
-        </el-input>
-        <el-input class="serach-input" v-model="searchMap.createUserName" placeholder="请输入创建人姓名"  @keyup.enter.native="searchLogList">
-          <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
-        </el-input>
-      </div>
-      <NsButton type="primary" class="add-button" size="large" @click="newCode">新建</NsButton>
-    </div>
-    <div ref="fullScreen" class="card-content">
-      <div v-if="showDatas" class="card-scroll">
-        <waterfall :col='waterCol' :gutterWidth="16" :data="dataList" ref="waterfall">
-          <div class="card-item" v-for="(item, index) in dataList" :key="item.uuid">
-            <div class="item-name">{{item.createUserName || '-'}}</div>
-            <div class="item-time">{{item.createTime}}</div>
-            <div class="item-text">
-              <el-tooltip
-                :enterable="true"
-                popper-class="table-body__tooltip"
-              >
-                <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
-                <div class="showContent">
-                  <EmojiText :hasBracket="false" :text='item.textContent' :emptySpecial="true" />
-                </div>
-              </el-tooltip>
-            </div>
-            <div class="item-image" v-if="item.otherMsgType + '' !== '0'">
-              <div v-if="item.otherMsgType + '' === '1'" class="image-block" @click="showPreview(item, 'img')">
-                <img :src="item.imageUrl">
-              </div>
-              <div v-if="item.otherMsgType + '' === '2'" class="video-block" @click="showPreview(item, 'video')">
-                <img :src="item.videoUrl + '?x-oss-process=video/snapshot,t_0000,f_jpg,w_242,h_152,m_fast'">
-                <div class="video-mask">
-                  <img src="../../../../assets/play-video.png">
-                </div>
-              </div>
-              <div v-if="item.otherMsgType + '' === '3'" class="link-block">
-                <div class="link-title">{{item.linkTitle}}</div>
-                <div class="link-content">
-                  <div class="link-text">{{item.linkDesc}}</div>
-                  <img class="link-image" :src="item.linkPicUrl || linkImage">
-                </div>
-              </div>
-              <div v-if="item.otherMsgType + '' === '4'" class="mini-block">
-                <div class="mini-title">
-                  <div class="mini-title-circle"></div>
-                  <div class="mini-title-text">小程序名称</div>
-                </div>
-                <div class="mini-desc">{{item.miniProgramTitle}}</div>
-                <div class="mini-image">
-                  <img :src="item.miniProgramPicUrl">
-                </div>
-                <div class="mini-bottom">
-                  <span class="iconfont icon-xiaochengxu2"></span>
-                  <div class="mini-bottom-name">小程序</div>
-                </div>
-              </div>
-            </div>
-            <div class="item-opt">
-              <span class="opt-btn" @click="editCode(item.uuid)">编辑</span>
-              <span class="opt-btn" @click="lookCode(item.uuid)">查看</span>
-              <span class="opt-btn" @click="deleteItem(item, index)">删除</span>
-            </div>
-          </div>
-        </waterfall>
-      </div>
-      <div v-else class="no-date-area">
-        <div class="no-data">
-          <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/component/mobile/no_data.png"/>
-          <span>没有数据哦~</span>
+    <div class="history-start">
+      <div class="history-start__container">
+        <img :src="BeforeStartImg" alt="开启前引导图" class="history-start__img">
+        <div class="history-start__btn">
+          <ns-button size="medium" @click="GoToMaterialManagement">素材库管理</ns-button>
+          <ns-button size="medium" @click="GoUseTutorial" v-show="$qaDocs">查看教程</ns-button>
         </div>
       </div>
     </div>
@@ -102,7 +35,6 @@
   </div>
 </template>
 <script>
-import EmojiText from '@/components/NewUi/EmojiText'
 import Preview from '@/components/NsPreview'
 import { getErrorMsg } from '@/utils/toast'
 export default {
@@ -130,7 +62,7 @@ export default {
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
-  components: { EmojiText, Preview },
+  components: { Preview },
   computed: {
     // itemWidth () {
     //   return ((document.documentElement.clientWidth - 210 - 10 - 64 - (this.waterCol - 1) * 16) / this.waterCol)
@@ -279,12 +211,9 @@ export default {
       }
       this.searchLogList()
     },
-    /**
-     * 页码发生变化
-     */
-    handlePageChange (page) {
-      this.pagination.page = page
-      this.searchLogList()
+    GoUseTutorial () {
+      const url = this.$isQa ? this.$qaDocs : 'https://oa.nascent.cn/zhiku/detail?parent_ids=null30,45,487,&id=2494'
+      window.open(url)
     }
   }
 }
