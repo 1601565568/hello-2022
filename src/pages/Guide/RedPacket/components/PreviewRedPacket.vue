@@ -1,6 +1,6 @@
 <template>
   <div class='packet-content'>
-    <RedPacket v-if='!$slots.default' :bgHasFont='true' :bgImage='bgImage' :bagTip='bagTip' @click.native="handleOpen"/>
+    <RedPacket v-if='!$slots.default' :bgHasFont='true' :bgImage='bgImage' :bagTip='bagTip' @click.native="handleOpen" :bagName="bagName"/>
     <span @click="handleOpen"><slot></slot></span>
     <el-drawer
       title="红包封面预览"
@@ -11,10 +11,10 @@
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
       <h3 class='drawer-title'>红包封面预览</h3>
-      <div class='packet-box'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' /></div>
+      <div class='packet-box'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="bagName"/></div>
     </el-drawer>
     <el-dialog title="封面预览" :visible.sync="visible" :append-to-body='true'>
-      <div class='packet-box bottom'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' /></div>
+      <div class='packet-box bottom'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="bagName"/></div>
     </el-dialog>
   </div>
 </template>
@@ -24,6 +24,7 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 export default {
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       drawer: false,
       visible: false
     }
@@ -36,12 +37,18 @@ export default {
       default: ''
     },
     bgHasFont: {
-      default: true
+      default: false
     },
     previewType: {
       default: 'drawer'
+    },
+    bagName: {
+      default: ''
     }
   },
+  //   mounted () {
+  //     console.log(this.bgImage)
+  //   },
   components: { RedPacket, ElDrawer },
   methods: {
     handleOpen () {

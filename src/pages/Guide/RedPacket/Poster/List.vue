@@ -34,7 +34,7 @@
               label="红包封面">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagName="cloudPlatformType==='ecrp'?'员工':'成员'+'姓名发出的红包'" /></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab" v-if='scope.row.isDefault'>
                     默认
