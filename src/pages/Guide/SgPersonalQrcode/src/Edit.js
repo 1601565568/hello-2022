@@ -163,7 +163,8 @@ export default {
           poster_background_url: data.result.poster_background_url || '',
           qrcode_size: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
           qrcode_x: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
-          qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
+          qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349,
+          isvalidate: data.result.isvalidate === 1
         }
         this.showPosterQrcode = true
         if (data.result.type === 1) {
