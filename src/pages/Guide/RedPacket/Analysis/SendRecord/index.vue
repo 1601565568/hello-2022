@@ -39,7 +39,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="发放人：">
+            <!-- <el-form-item label="发放人：">
               <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="(value)=>{changeSearchfrom({guideIds:value})}">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
@@ -48,8 +48,47 @@
                   </div>
                 </template>
               </NsGuideDialog>
-            </el-form-item>
-            <el-form-item label="发送时间：" class='el-form__change'>
+            </el-form-item> -->
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'发放人：':'发放成员：'">
+          <NsGuideDialog :selfBtn='true'
+                         :appendToBody='true'
+                         :isButton="false"
+                         :auth="true"
+                         btnTitle=""
+                         :dialogTitle="选择员工"
+                         v-model="model.guideIds"
+                         @input="(value)=>{changeSearchfrom({guideIds:value})}"
+                         :isOpenDialogAfterRequest='false'
+                         v-if="cloudPlatformType == 'ecrp'">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="true"
+                               :switchAreaFlag="1"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="(value)=>{changeSearchfrom({guideIds:value})}"
+                               :isOpenDialogAfterRequest='false'
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
+        </el-form-item>
+            <el-form-item label="有效期：" class='el-form__change'>
               <el-date-picker
                 v-model="seachDate"
                 type="datetimerange"
@@ -81,11 +120,11 @@
         style="width: 100%">
         <el-table-column
           prop="sendName"
-          label="发放人">
+          :label="cloudPlatformType == 'ecrp'?'发放人':'发放成员'">
         </el-table-column>
         <el-table-column
           prop="workNumber"
-          label="工号">
+          label="工号" v-if="cloudPlatformType==='ecrp'">
           <template slot-scope="scope">
             {{scope.row.workNumber || '-'}}
           </template>
@@ -93,7 +132,7 @@
         <el-table-column
           prop="shopNames"
           show-overflow-tooltip
-          label="工作门店">
+          label="工作门店" v-if="cloudPlatformType==='ecrp'">
         </el-table-column>
         <el-table-column
           prop="state"
@@ -182,9 +221,10 @@ import DetailDrawer from '../components/DetailDrawer'
 import DatePickerBar from '@/components/NewUi/DatePickerBar'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ElDrawer from '@nascent/nui/lib/drawer'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 export default Index
 Index.components = {
-  ColorfulDisplay, DatePickerBar, NsGuideDialog, ElDrawer, DetailDrawer
+  ColorfulDisplay, DatePickerBar, NsGuideDialog, ElDrawer, DetailDrawer, NsGuideWeChatDialog
 }
 </script>
 <style lang="scss" scoped>

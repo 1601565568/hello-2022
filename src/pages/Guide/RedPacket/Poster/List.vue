@@ -34,7 +34,7 @@
               label="红包封面">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagName="cloudPlatformType==='ecrp'?'员工':'成员'+'姓名发出的红包'" /></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab" v-if='scope.row.isDefault'>
                     默认
@@ -64,7 +64,7 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='handleChangeState(scope.row.id,scope.row.isDefault)'
-                  :value="scope.row.isDefault" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+                  :value="scope.row.isDefault">
                 </el-switch>
               </template>
             </el-table-column>
@@ -131,15 +131,5 @@ export default Index
 .scope-img {
   width: 38.66px;
   margin-right: 15.67px;
-}
-</style>
-<style scoped>
-.fuscousQA.is-checked >>> .el-switch__core {
-  border-color: #0C4CFF;
-    background-color: #0C4CFF;
-}
-.fuscousIcon.is-checked >>>.el-switch__core {
-  border-color: #41a2e8;
-    background-color: #41a2e8;
 }
 </style>

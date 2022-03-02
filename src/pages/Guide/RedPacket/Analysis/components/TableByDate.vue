@@ -18,7 +18,7 @@
         </el-table-column>
         <el-table-column
           prop="guideSendMoney"
-          label="员工转出金额（元）">
+          :label="cloudPlatformType==='ecrp'?'员工':'成员'+'转出金额（元）'">
           <template slot-scope="scope">
             {{scope.row.guideSendMoney/100 | moneyStr}}
           </template>
@@ -50,7 +50,8 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   data () {
     return {
-      model: this.data
+      model: this.data,
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
     }
   },
   components: { PageTable },
