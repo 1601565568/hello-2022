@@ -15,6 +15,7 @@ export default {
       }
     }
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() < new Date(new Date().toLocaleDateString())

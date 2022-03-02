@@ -180,7 +180,7 @@
             </el-form-item>
             <el-form-item label='红包祝福语' prop='benediction' class='larger-item'>
               <length-input type="textarea" v-model='model.benediction' placeholder="恭喜发财，大吉大利" :length='25'/>
-              <el-checkbox  v-if='model.launchType !== activityPost' v-model="model.customizeType">允许员工自定义红包祝福语</el-checkbox>
+              <el-checkbox  v-if='model.launchType !== activityPost' v-model="model.customizeType">允许{{cloudPlatformType==='ecrp'?'员工':'成员'}}自定义红包祝福语</el-checkbox>
             </el-form-item>
             <el-form-item label='红包封面' prop='coverId' class='larger-item'>
               <template slot='label' class='larger-item_icon'>
