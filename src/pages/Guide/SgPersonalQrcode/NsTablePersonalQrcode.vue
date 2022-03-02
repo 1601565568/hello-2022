@@ -34,7 +34,7 @@
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+        <el-form ref="table_filter_form" :model="model" label-width="100px" :inline="true">
           <el-form-item label="聚合码名称：">
             <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="请输入聚合二维码名称" clearable></el-input>
           </el-form-item>
