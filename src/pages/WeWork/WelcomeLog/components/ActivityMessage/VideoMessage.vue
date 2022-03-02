@@ -2,24 +2,27 @@
   <div class="video-message">
     <div class="video-area">
       <div v-if="videoThumbUrl.includes('http')">
-        <img
-          :src="videoThumbUrl"
-        >
-        <div class="video-mask" @click="showPreview">
+        <img :src="videoThumbUrl">
+        <div class="video-mask"
+             @click="showPreview">
           <div class="play-icon">
-            <Icon class="icon" type="begin" />
+            <Icon class="icon"
+                  type="begin" />
           </div>
         </div>
       </div>
       <div v-else>
         <div class="video-default">
           <div class="play-icon">
-            <Icon class="icon" type="begin" />
+            <Icon class="icon"
+                  type="begin" />
           </div>
         </div>
       </div>
     </div>
-    <NsPreview v-if="preview" ref="NsPreview" :appendToBody="true"/>
+    <NsPreview v-if="preview"
+               ref="NsPreview"
+               :appendToBody="true" />
   </div>
 </template>
 
@@ -53,13 +56,13 @@ export default {
   },
   computed: {
     videoThumbUrl () {
-      return `${this.content.mediaid}?x-oss-process=video/snapshot,t_0000,f_jpg,w_300,h_200,m_fast`
+      return `${this.content.video.mediaid}?x-oss-process=video/snapshot,t_0000,f_jpg,w_300,h_200,m_fast`
     }
   },
   methods: {
     showPreview () {
       if (this.preview) {
-        this.$refs.NsPreview.toggleShow(0, [this.content.mediaid], 'video')
+        this.$refs.NsPreview.toggleShow(0, [this.content.video.mediaid], 'video')
       }
     }
   }
@@ -86,8 +89,8 @@ export default {
       bottom: 0;
       width: 36px;
       height: 24px;
-      background: rgba(0,0,0,0.65);
-      color: #FFFFFF;
+      background: rgba(0, 0, 0, 0.65);
+      color: #ffffff;
       text-align: center;
       line-height: 24px;
     }
@@ -103,7 +106,7 @@ export default {
       .play-icon {
         text-align: center;
         padding-left: 2px;
-        color: #FFFFFF;
+        color: #ffffff;
         width: calc(60 / 242 * 100%);
         height: calc(60 / 161 * 100%);
         border-radius: 50%;

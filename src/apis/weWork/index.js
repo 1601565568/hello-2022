@@ -14,6 +14,7 @@ import topicAnalysis from './topicAnalysis'
 import externalContact from './externalContact.js'
 import weWorkRooms from './weWorkRooms.js'
 import sop from './sop.js'
+import log from './log.js'
 import friendsCircle from './friendsCircle.js'
 import sessionStatistics from './sessionStatistics.js'
 import groupManager from './groupManager.js'
@@ -28,6 +29,7 @@ export default {
   externalContact,
   weWorkRooms,
   sop,
+  log,
   friendsCircle,
   sessionStatistics,
   groupManager,

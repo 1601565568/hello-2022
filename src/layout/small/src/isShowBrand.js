@@ -8,7 +8,9 @@ export default ($route) => {
   const showBrandSelectPathList = [
     '/Marketing/EnterpriseMessage',
     '/Social/WeComCustomerOperation/GroupRepeat',
-    '/Social/WeWorkGroup/GroupWelcomeCode'
+    '/Social/WeWorkGroup/GroupWelcomeCode',
+    '/WeWork/WelcomeLog/Log',
+    '/WeWork/WelcomeCode/WelcomeCodeList'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1

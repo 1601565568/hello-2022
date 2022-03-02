@@ -12,41 +12,6 @@
       <ns-table-operate-button :buttons="_data._table.operate_buttons">
       </ns-table-operate-button>
     </template>
-
-    <!-- 简单搜索 -->
-    <!-- <template slot="searchSearch">
-      <el-form
-        @submit.native.prevent
-        :model="quickSearchModel"
-        class="pull-right"
-        :inline="true"
-      >
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input
-            ref="quickText"
-            v-model="model.content"
-            placeholder="请输入欢迎语内容"
-            style="width: 180px"
-            @keyup.enter.native="$quickSearchAction$('content')"
-            clearable
-          />
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn"
-            >搜索</ns-button
-          >
-          <ns-button @click="$resetInputAction$()" class="resetbtn"
-            >重置</ns-button
-          >
-        </el-form-item>
-        <el-form-item>
-          <ns-button type="text" @click.native.prevent="$handleTabClick">
-            {{ collapseText }}
-            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'" />
-          </ns-button>
-        </el-form-item>
-      </el-form>
-    </template> -->
-
-    <!-- 高级搜索 -->
     <template slot="search">
       <el-form ref="table_filter_form"
                :model="model"
@@ -69,7 +34,7 @@
                      placeholder="请选择"
                      @change='$searchAction$()'
                      clearable>
-            <el-option v-for="item in annexTypeOptions"
+            <el-option v-for="item in annexTypeOptions()"
                        :key="item.value"
                        :label="item.label"
                        :value="`${item.value}`">
@@ -77,16 +42,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择店铺："
-                      v-if="cloudPlatformType == 'ECRP'">
-          <!-- <ElFormGrid>
-            <NsShopDialog :auth="false"
-                          type="primary"
-                          btnTitle="选择店铺"
-                          v-model="model.shopIds"></NsShopDialog>
-          </ElFormGrid>
-          <ElFormGrid>
-            已选择<span class="text-primary">{{model.shopIds? model.shopIds.length: 0}}</span>家店铺
-          </ElFormGrid> -->
+                      v-if="cloudPlatformType == 'ecrp'">
           <NsShopDialog :selfBtn='true'
                         :appendToBody='true'
                         :isButton="false"
@@ -118,17 +74,17 @@
             已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
           </ElFormGrid>
         </el-form-item> -->
-        <el-form-item :label="cloudPlatformType == 'ECRP'?'选择员工：':'企业微信成员：'">
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'企业微信成员：'">
           <NsGuideDialog :selfBtn='true'
                          :appendToBody='true'
                          :isButton="false"
-                         :auth="false"
+                         :auth="true"
                          btnTitle=""
-                         dialogTitle="选择员工"
+                         :dialogTitle="选择员工"
                          v-model="model.guideIds"
                          @input="handleChangeGuide"
                          :isOpenDialogAfterRequest='false'
-                         v-if="cloudPlatformType == 'ECRP'">
+                         v-if="cloudPlatformType == 'ecrp'">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
@@ -140,7 +96,8 @@
           <NsGuideWeChatDialog :selfBtn='true'
                                :appendToBody='true'
                                :isButton="false"
-                               :auth="false"
+                               :auth="true"
+                               :switchAreaFlag="1"
                                btnTitle=""
                                dialogTitle="选择企业微信成员"
                                v-model="model.guideIds"
@@ -149,7 +106,7 @@
                                v-else>
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
                 <Icon type="geren"
                       class='guideIds-icon'></Icon>
               </div>
@@ -157,10 +114,6 @@
           </NsGuideWeChatDialog>
         </el-form-item>
         <el-form-item>
-          <!-- <el-input v-model.trim="model.channelName"
-                    placeholder="请输入渠道名称"
-                    @keyup.enter.native="$searchAction$()"
-                    clearable></el-input> -->
           <el-input v-model="model.channelName"
                     placeholder="请输入渠道名称"
                     @keyup.enter.native="$searchAction$()">
@@ -171,7 +124,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item v-if="cloudPlatformType == 'ECRP'">
+        <el-form-item v-if="cloudPlatformType == 'ecrp'">
           <el-input v-model.trim="model.shopName"
                     placeholder="请输入门店名称"
                     @keyup.enter.native="$searchAction$()"
@@ -182,14 +135,6 @@
                 @click="$searchAction$()"></Icon>
         </el-form-item>
       </el-form>
-      <!-- <div class="template-table__more-btn">
-        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{
-          $t("operating.search")
-        }}</ns-button>
-        <ns-button @click.native.prevent="$resetInputAction$()">{{
-          $t("operating.reset")
-        }}</ns-button>
-      </div> -->
     </template>
 
     <template slot="table">
@@ -205,7 +150,8 @@
                          min-width="120">
           <template slot="header">
             欢迎语名称
-            <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
+            <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语"
+                        v-if="cloudPlatformType == 'ecrp'">
               <Icon type="question-circle" />
             </el-tooltip>
           </template>
@@ -266,13 +212,18 @@
                          align="left">
           <template slot="header">
             使用范围
-            <el-tooltip content="多个欢迎语情况下发送优先级：渠道欢迎语>员工欢迎语>门店欢迎语>默认欢迎语">
+            <el-tooltip v-if="cloudPlatformType == 'ecrp'"
+                        content="多个欢迎语情况下发送优先级：渠道欢迎语>员工欢迎语>店铺欢迎语>默认欢迎语">
+              <Icon type="question-circle" />
+            </el-tooltip>
+            <el-tooltip v-if="cloudPlatformType == 'kd'"
+                        content="多个欢迎语情况下发送优先级：渠道欢迎语>成员欢迎语">
               <Icon type="question-circle" />
             </el-tooltip>
           </template>
           <template slot-scope="scope">
             <div v-if="scope.row.type === 9">
-              <span style="color:#0091FA">全部员工</span>
+              <span style="color:#0091FA">全部{{variableName()}}</span>
             </div>
             <div v-else-if="
                 scope.row.employeeCount <= 0 &&
@@ -282,7 +233,7 @@
               -
             </div>
             <div v-else>
-              <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ECRP' "
+              <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ecrp' "
                          style="color:#0091FA"
                          @click="onShowShopScope(scope.row)"
                          type="text">{{ scope.row.shopCount }}家门店
@@ -291,7 +242,7 @@
               <ns-button style="color:#0091FA"
                          @click="onShowEmployeeScope(scope.row)"
                          v-if="scope.row.employeeCount > 0"
-                         type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ECRP'? '员工':'成员'}}
+                         type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ecrp'? '员工':'成员'}}
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
               <ns-button v-if="scope.row.channelCount > 0"

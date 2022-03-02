@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  name: 'PageTablePro',
+  name: 'PageTableProMax',
   props: {
     headerTip: {
       default: false

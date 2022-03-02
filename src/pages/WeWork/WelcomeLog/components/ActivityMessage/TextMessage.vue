@@ -1,6 +1,7 @@
 <template>
   <div class="text-message">
-    <EmojiText :text='htmlContent' />
+    <EmojiText :text='htmlContent'
+               type='list' />
   </div>
 </template>
 
@@ -51,7 +52,7 @@ export default {
       //   imgDom.innerText = item
       //   return imgDom.outerHTML
       // })
-      this.htmlContent = this.content.textContent
+      this.htmlContent = this.content.text.textContent
     },
     tag2Html () {
       const strRegex = /{(?!\[)(.+?)(?!\])}/g
@@ -71,7 +72,7 @@ export default {
 </script>
 <style>
 .text-message-tag {
-  color:#26a2ff;
+  color: #26a2ff;
   cursor: default;
   margin: 0 1px;
 }
