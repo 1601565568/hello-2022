@@ -1,3 +1,5 @@
+import store from '@/store'
+const cloudPlatformType = store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
 // 红包类型相关
 export const normalRed = 1 // 普通红包
 export const luckyRed = 2 // 拼手气红包
@@ -26,7 +28,7 @@ export const staffPost = 1 // 员工发放
 export const activityPost = 2 // 活动发放
 export const setTypeList = [ // 红包投放类型列表
   {
-    label: '员工发放',
+    label: cloudPlatformType === 'ecrp' ? '员工发放' : '成员发放',
     value: staffPost
   },
   {
@@ -35,7 +37,7 @@ export const setTypeList = [ // 红包投放类型列表
   }
 ]
 export const setTypeMap = { // 红包投放类型列表
-  [staffPost]: '员工发放',
+  [staffPost]: cloudPlatformType === 'ecrp' ? '员工发放' : '成员发放',
   [activityPost]: '活动发放'
 }
 // 时间相关
