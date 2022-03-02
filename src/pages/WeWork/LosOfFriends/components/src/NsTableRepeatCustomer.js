@@ -174,12 +174,14 @@ export default {
     sizeChange (val) {
       this.page = 1
       this.pageSize = val
-      this.init()
+      // this.init()
+      this.getList()
     },
     // 翻页
     pageChange (val) {
       this.page = val
-      this.init()
+      // this.init()
+      this.getList()
     },
     dealTime () {
       this.today = moment()
