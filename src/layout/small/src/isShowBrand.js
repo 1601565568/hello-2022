@@ -16,9 +16,7 @@ export default ($route) => {
     '/Social/SocialOperation/RedPacket/Analysis',
     '/Social/SocialOperation/RedPacket/ReceiveRecord',
     '/Social/SocialOperation/RedPacket/SendRecord',
-    '/Guide/SgPersonalQrcode/List',
-    '/Guide/SgPersonalQrcode/List/Edit',
-    '/Guide/SgPersonalQrcode/List/ActivityEffect'
+    '/Guide/SgPersonalQrcode/List'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
