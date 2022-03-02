@@ -240,6 +240,3 @@ export default List
     }
   }
 </style>
-<style lang="scss" scoped>
-
-</style>

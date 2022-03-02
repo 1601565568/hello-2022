@@ -1,83 +1,85 @@
 <template>
   <div class="add-material-bar">
-    <div v-if="pitBit" class="add-material-item" @click="addCustomImg">
+    <div v-if="pitBit && showPitBit"
+         class="add-material-item"
+         @click="addCustomImg">
       <!-- <Icon type="poster-1" class="icon" /> -->
-      <img class="bitpit" src="@/assets/kwBig.png" alt="">
+      <img class="bitpit"
+           src="@/assets/kwBig.png"
+           alt="">
       <span class="item-tip">自建坑位</span>
     </div>
     <div class="add-material-item">
-      <ImageMessage
-        @confirm="addMessage"
-        :multiple='multipleImage'
-        :limit='limitImage'
-      >
-        <div class="add-material-item" ref="ImageMessage">
-          <Icon type="tupianbeifen-4" class="icon" />
+      <ImageMessage @confirm="addMessage"
+                    :multiple='multipleImage'
+                    :limit='limitImage'>
+        <div class="add-material-item"
+             ref="ImageMessage">
+          <Icon type="tupianbeifen-4"
+                class="icon" />
           <i class="iconfont icon-tupianbeifen5 icon"></i>
           <span class="item-tip">图片</span>
         </div>
       </ImageMessage>
     </div>
-    <div v-if="pitBit" class="add-material-item" @click="showImageCode">
-      <i class="iconfont icon-fumatupian-copy icon" style="font-size:40px;"></i>
+    <div v-if="pitBit && showPitBit"
+         class="add-material-item"
+         @click="showImageCode">
+      <i class="iconfont icon-fumatupian-copy icon"
+         style="font-size:40px;"></i>
       <span class="item-tip">附码图片</span>
     </div>
     <div class="add-material-item">
-      <VideoMessage
-        @confirm="addVideoMessage"
-        @uploadProgress="uploadVideoProgress"
-      >
-        <div class="add-material-item" ref="VideoMessage">
+      <VideoMessage @confirm="addVideoMessage"
+                    @uploadProgress="uploadVideoProgress">
+        <div class="add-material-item"
+             ref="VideoMessage">
           <i class="iconfont icon-shipinbeifen4 icon"></i>
           <span class="item-tip">视频</span>
         </div>
       </VideoMessage>
     </div>
-    <div class="add-material-item" @click="visibleLinkMessageDialog = true">
+    <div class="add-material-item"
+         @click="visibleLinkMessageDialog = true">
       <i class="iconfont icon-lianjie icon"></i>
       <span class="item-tip">链接</span>
     </div>
-    <div class="add-material-item" @click="visibleMiniProgramMessageDialog = true">
-      <Icon type="xiaochengxushouquan" class="icon"/>
+    <div class="add-material-item"
+         @click="visibleMiniProgramMessageDialog = true">
+      <Icon type="xiaochengxushouquan"
+            class="icon" />
       <span class="item-tip">小程序</span>
     </div>
-    <div v-if="!pitBit" class="add-material-item" @click="visiblePosterMessageDialog = true">
-      <Icon type="poster-1" class="icon" />
+    <div v-if="!pitBit&& cloudPlatformType=='ecrp'"
+         class="add-material-item"
+         @click="visiblePosterMessageDialog = true">
+      <Icon type="poster-1"
+            class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
     <!-- 链接消息 -->
-    <LinkMessageDialog
-      :content="linkMsg ? linkMsg.content : null"
-      :visible.sync="visibleLinkMessageDialog"
-      @update:visible="linkMsg = null"
-      @confirm="addMessage"
-    />
+    <LinkMessageDialog :content="linkMsg ? linkMsg.content : null"
+                       :visible.sync="visibleLinkMessageDialog"
+                       @update:visible="linkMsg = null"
+                       @confirm="addMessage" />
     <!-- 小程序消息 -->
-    <MiniProgramMessageDialog
-      :content="miniProgramMsg ? miniProgramMsg.content : null"
-      :visible.sync="visibleMiniProgramMessageDialog"
-      @update:visible="miniProgramMsg = null"
-      @confirm="addMessage"
-    />
+    <MiniProgramMessageDialog :content="miniProgramMsg ? miniProgramMsg.content : null"
+                              :visible.sync="visibleMiniProgramMessageDialog"
+                              @update:visible="miniProgramMsg = null"
+                              @confirm="addMessage" />
     <!-- 海报消息 -->
-    <PosterMessageDialog
-      @confirm="addMessage"
-      :content="posterMsg ? posterMsg.content : null"
-      :visible.sync="visiblePosterMessageDialog"
-      @update:visible="posterMsg = null"
-    />
+    <PosterMessageDialog @confirm="addMessage"
+                         :content="posterMsg ? posterMsg.content : null"
+                         :visible.sync="visiblePosterMessageDialog"
+                         @update:visible="posterMsg = null" />
     <!-- 自建坑位消息 -->
-    <PitbitMessageDialog
-      ref='pitbit'
-      @confirm="addMessage"
-      :content="pitbitMsg ? pitbitMsg.content : null"
-      :visible.sync="visiblePitbitMessageDialog"
-      @update:visible="pitbitMsg = null"
-    />
-    <ImageCode
-      @confirm="addMessage"
-      ref='imagecode'
-    />
+    <PitbitMessageDialog ref='pitbit'
+                         @confirm="addMessage"
+                         :content="pitbitMsg ? pitbitMsg.content : null"
+                         :visible.sync="visiblePitbitMessageDialog"
+                         @update:visible="pitbitMsg = null" />
+    <ImageCode @confirm="addMessage"
+               ref='imagecode' />
   </div>
 </template>
 
@@ -117,6 +119,13 @@ export default {
     limitImage: {
       type: Number,
       default: 99999
+    },
+    // 群欢迎语中不需要自建坑位和附码图片
+    showPitBit: {
+      type: Boolean,
+      default () {
+        return true
+      }
     }
   },
   data () {
@@ -133,7 +142,9 @@ export default {
       posterMsg: null,
       pitbitMsg: null,
       imageCodeMsg: null,
-      visibleImageCodeDialog: false
+      visibleImageCodeDialog: false,
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
+
     }
   },
   methods: {
@@ -293,7 +304,7 @@ export default {
   display: flex;
   flex-direction: row;
   // height: 92px;
-  .bitpit{
+  .bitpit {
     width: 40px;
     height: 40px;
   }
@@ -309,7 +320,7 @@ export default {
       font-size: 40px;
       color: #000;
       height: 40px;
-      &:before{
+      &:before {
         vertical-align: top;
         line-height: 40px;
       }

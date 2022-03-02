@@ -268,6 +268,7 @@ export default {
     }
 
     return {
+      cloudPlatformType: '',
       brandDialogVisible: false,
       defaultModel: {
         appid: '', // 小程序的appid
@@ -351,7 +352,12 @@ export default {
       linkLength: 0
     }
   },
-  mounted () {},
+  mounted () {
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    if (this.cloudPlatformType === 'kd') {
+      this.placeholderLink = []
+    }
+  },
   methods: {
     changeUploadFile () {
       this.$refs.drapUpload.loadUploadView()

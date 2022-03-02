@@ -62,6 +62,7 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 // })
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
+  next()
   if (thirdRouter[to.path]) {
     if (!store.state.companyPlan.isLoad) {
       await store.dispatch('companyPlan/getCompanyPlan')
