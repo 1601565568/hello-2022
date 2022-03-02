@@ -1,3 +1,6 @@
+/* eslint-disable space-before-blocks */
+/* eslint-disable no-tabs */
+/* eslint-disable no-mixed-spaces-and-tabs */
 /*
  * @Descripttion: 智能欢迎语
  * @Author: yuye.huang
@@ -13,44 +16,45 @@ export default {
   data: function () {
     const operateButtons = [
       {
-        'func': function () {
+        func: function () {
           // this.onAddFun()
           this.$router.push({ path: '/WeWork/WelcomeCode/Edit' })
         },
-        'icon': '',
-        'name': '新增欢迎语',
-        'auth': ``,
-        'visible': ``
+        icon: '',
+        name: '新建',
+        auth: ``,
+        visible: ``
       }
     ]
     let tableButtons = [
       {
-        'func': function (scope) {
+        func: function (scope) {
           this.$emit('onRedactFun', scope.row)
         },
-        'icon': '',
-        'name': '编辑',
-        'auth': ``,
-        'visible': ``
-      }, {
-        'func': function (scope) {
+        icon: '',
+        name: '编辑',
+        auth: ``,
+        visible: ``
+      },
+      {
+        func: function (scope) {
           this.onDeleteFun(scope.row)
         },
-        'icon': '',
-        'name': '删除',
-        'auth': ``,
-        'visible': 'scope.row.type !== 9'
+        icon: '',
+        name: '删除',
+        auth: ``,
+        visible: 'scope.row.type !== 9'
       }
     ]
     let quickSearchModel = {}
     let searchModel = {
-      'content': '',
-      'employeeName': '',
-      'channelName': '',
-      'shopName': '',
-      'annexType': '',
-      'orderKey': 'updateTime',
-      'order': 'descending',
+      content: '',
+      employeeName: '',
+      channelName: '',
+      shopName: '',
+      annexType: '',
+      orderKey: 'updateTime',
+      order: 'descending',
       // 员工组建 员工值
       guideIds: [],
       // 店铺组件 店铺值
@@ -58,6 +62,9 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
+      //   cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info
+        .productConfig.cloudPlatformType, // 平台判断
       url: this.$api.weWork.welcomeCode.findList,
       model: model,
       quickSearchModel: quickSearchModel,
@@ -66,37 +73,61 @@ export default {
         operate_buttons: operateButtons,
         loadingtable: false
       },
-      // 附带内容类型
-      annexTypeOptions: [
-        {
-          value: WelcomeMessageType.Image,
-          label: '图片'
-        },
-        {
-          value: WelcomeMessageType.Video,
-          label: '视频'
-        },
-        {
-          value: WelcomeMessageType.Link,
-          label: '链接'
-        },
-        {
-          value: WelcomeMessageType.MiniProgram,
-          label: '小程序'
-        },
-        {
-          value: WelcomeMessageType.Poster,
-          label: '二维码海报'
+      variableName: (str = '') => {
+        if (this.cloudPlatformType === 'ecrp') {
+          return str + '员工'
+        } else {
+          return str + '成员'
         }
-      ]
+      },
+      // 附带内容类型
+      annexTypeOptions: () => {
+        let arr = [
+          {
+            value: WelcomeMessageType.Image,
+            label: '图片'
+          },
+          {
+            value: WelcomeMessageType.Video,
+            label: '视频'
+          },
+          {
+            value: WelcomeMessageType.Link,
+            label: '链接'
+          },
+          {
+            value: WelcomeMessageType.MiniProgram,
+            label: '小程序'
+          }
+        ]
+        if (this.cloudPlatformType === 'ecrp') {
+          arr.push({
+            value: WelcomeMessageType.Poster,
+            label: '二维码海报'
+          })
+        }
+        return arr
+      }
     }
   },
   mounted () {
     this.$reload()
   },
-  computed: {
-  },
+  computed: {},
   methods: {
+    handleChangeGuide (value) {
+      this.changeSearchfrom({ guideIds: value })
+    },
+    handleChangeShop (value) {
+      this.changeSearchfrom({ shopIds: value })
+    },
+    changeSearchfrom (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+      this.$searchAction$()
+    },
+    handleSearch () {
+      this.changeSearchfrom({ name: this.seachVal })
+    },
     messageToolTipList (list) {
       return list.map(type => {
         return WelcomeMessageTypeTip[type] || []
@@ -138,26 +169,31 @@ export default {
      */
     onDeleteFun (data) {
       let _this = this
-      _this.$confirm('请确认是否进行删除操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let param = {}
-        param.welcomeCodeUuid = data.welcomeCodeUuid
-        _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
-          if (resp.success) {
-            _this.$notify.success('删除成功')
-            _this.$nextTick(() => {
-              _this.$reload()
-            })
-          } else {
-            _this.$notify.success(resp.msg)
-          }
-        }).catch((resp) => {
-          _this.$notify.error(resp.msg)
+      _this
+        .$confirm('请确认是否进行删除操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
-      })
+        .then(() => {
+          let param = {}
+          param.welcomeCodeUuid = data.welcomeCodeUuid
+          _this.$http
+            .fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param)
+            .then(resp => {
+              if (resp.success) {
+                _this.$notify.success('删除成功')
+                _this.$nextTick(() => {
+                  _this.$reload()
+                })
+              } else {
+                _this.$notify.success(resp.msg)
+              }
+            })
+            .catch(resp => {
+              _this.$notify.error(resp.msg)
+            })
+        })
 
       this.$emit('onDeleteFun', data)
     },
@@ -175,18 +211,25 @@ export default {
       } else if (currVal === 0) {
         status = 1
       }
-      that.$http.fetch(that.$api.weChat.welcomes.setWelcomeCodeStatus, { uuid: row.welcomeCodeUuid, status: status, plan: 1 }).then(resp => {
-        if (resp.success) {
-          that.$notify.success('修改成功')
-          that.$nextTick(() => {
-            that.$reload()
-          })
-        } else {
+      that.$http
+        .fetch(that.$api.weChat.welcomes.setWelcomeCodeStatus, {
+          uuid: row.welcomeCodeUuid,
+          status: status,
+          plan: 1
+        })
+        .then(resp => {
+          if (resp.success) {
+            that.$notify.success('修改成功')
+            that.$nextTick(() => {
+              that.$reload()
+            })
+          } else {
+            that.$notify.error(resp.msg)
+          }
+        })
+        .catch(resp => {
           that.$notify.error(resp.msg)
-        }
-      }).catch((resp) => {
-        that.$notify.error(resp.msg)
-      })
+        })
     }
   }
 }
