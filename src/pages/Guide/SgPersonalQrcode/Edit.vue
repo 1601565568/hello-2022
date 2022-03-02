@@ -27,7 +27,7 @@
               <el-form-grid size="small">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.type" @change="checkChange()">
-                    <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
+                    <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName === '员工' && cloudPlatformType === 'kd' ? '成员' : typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-form-grid>
@@ -37,10 +37,25 @@
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
               <el-form-grid v-if="personalQrcode.type === 0">
-                <NsGuideDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsGuideDialog>
+                <NsGuideDialog v-if="cloudPlatformType !== 'kd'" btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsGuideDialog>
+                <NsGuideWeChatDialog :selfBtn='true'
+                                    :appendToBody='true'
+                                    :isButton="false"
+                                    :auth="false"
+                                    type="primary"
+                                    btnTitle=""
+                                    dialogTitle="选择企业微信成员"
+                                    v-model="employeeSelectData"
+                                    v-else>
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                    +选择企业微信成员
+                    </div>
+                  </template>
+                </NsGuideWeChatDialog>
               </el-form-grid>
               <ElFormGrid v-if="personalQrcode.type === 0">
-                已选择<span class="text-primary">{{employeeSelectData.length}}</span>个员工
+                已选择<span class="text-primary">{{employeeSelectData.length}}</span>个{{cloudPlatformType ==='kd' ? '成员' : '员工'}}
               </ElFormGrid>
             </el-form-item>
             <ElFormItem :rules="rules">
@@ -84,7 +99,7 @@
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="好友验证">
+            <el-form-item label="好友验证" v-if="personalQrcode.type == 0">
               <el-form-grid size="small">
                 <el-form-item prop="sex">
                   <el-switch v-model="personalQrcode.isvalidate" />
@@ -255,6 +270,7 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import AddTagsDialog from './components/AddTagsDialog/index.vue'
 import PosterPreviewPanel from './components/PosterPreviewPanel'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 
 Edit.components = {
   index,
@@ -263,7 +279,8 @@ Edit.components = {
   NsGuideDialog,
   AddTagsDialog,
   PosterPreviewPanel,
-  DrapUpload
+  DrapUpload,
+  NsGuideWeChatDialog
 }
 export default Edit
 </script>
