@@ -180,7 +180,8 @@ function core (wpo, root, conf, name) {
         times: params.times ? params.times : 1,
         sendType: model.type || '',
         // _t: ~new Date() + (count++).toString(),
-        tag: wpo.config.tag && (safetyCall(wpo.config.tag, [], wpo.config.tag + '') || '')
+        tag: wpo.config.tag && (safetyCall(wpo.config.tag, [], wpo.config.tag + '') || ''),
+        ...appTrackOptions
       }, params) // 最后一次尝试补齐spm值
 
       if (!obj.spm) {
@@ -1198,9 +1199,9 @@ var install = function install (win, name) {
   exec()
 }
 
+var appTrackOptions = {}
 var index = {
   init: function init (conf, root) {
-    console.log('lai le')
     var name = conf.name || 'logger' // 定义挂载对象 如空 使用 window
 
     if (!root) {
@@ -1221,8 +1222,10 @@ var index = {
       root[name] = window[name]
       root[name].setConfig = window[name].setConfig
     }
+  },
+  customConfig: function customConfig(options) {
+    appTrackOptions = options
   }
 }
-
 
 module.exports = index;

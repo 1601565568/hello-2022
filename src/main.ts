@@ -26,7 +26,8 @@ appTrack.init({
   spmId: window.g_config.spmId,
   fetch: false, // 关闭 fetch，使用img src 方式上报
   report: window.g_config.report,
-  startTime: window.g_config.startTime // 自定义测速类页面统计起始时间
+  startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
+  userInfo: store.state.user
 })
 
 if (window.g_config.sentry.report === true) {
