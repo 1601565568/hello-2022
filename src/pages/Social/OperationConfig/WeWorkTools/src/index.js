@@ -49,7 +49,10 @@ export default {
       })
     },
     handleLocation (url) {
-      const openUrl = this.$isQa ? this.$qaDocs : URL[url]
+      let openUrl = URL[url]
+      if (url === 'WEB_DESCRIBE_URL' || url === 'FILE_DESCRIBE_URL' || url === 'SIDE_DESCRIBE_URL' || url === 'DIY_DESCRIBE_URL') {
+        openUrl = this.$isQa ? this.$qaDocs : URL[url]
+      }
       window.open(openUrl)
     },
     // 上传之前钩子
