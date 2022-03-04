@@ -175,7 +175,7 @@ function core (wpo, root, conf, name) {
       obj = core.extend({
         uid: uid,
         userNick: wpo.getNick(),
-        appType: process.env.VUE_APP_THEME,
+        type: process.env.VUE_APP_THEME,
         nodeEnv: process.env.NODE_ENV,
         times: params.times ? params.times : 1,
         sendType: model.type || '',
@@ -339,7 +339,7 @@ function core (wpo, root, conf, name) {
     },
 
     /**
-     * 发送请求
+     * 发送请求 
      *
      * @param params
      */
