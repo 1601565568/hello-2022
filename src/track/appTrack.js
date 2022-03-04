@@ -175,10 +175,10 @@ function core (wpo, root, conf, name) {
       obj = core.extend({
         uid: uid,
         userNick: wpo.getNick(),
-        type: process.env.VUE_APP_THEME,
+        appType: process.env.VUE_APP_THEME,
         nodeEnv: process.env.NODE_ENV,
         times: params.times ? params.times : 1,
-        sendType: model.type || '',
+        type: model.type || '',
         // _t: ~new Date() + (count++).toString(),
         tag: wpo.config.tag && (safetyCall(wpo.config.tag, [], wpo.config.tag + '') || ''),
         ...appTrackOptions
@@ -339,7 +339,7 @@ function core (wpo, root, conf, name) {
     },
 
     /**
-     * 发送请求 
+     * 发送请求
      *
      * @param params
      */
