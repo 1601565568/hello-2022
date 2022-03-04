@@ -244,10 +244,10 @@
         </div> -->
       </el-form-item>
       <el-form-item  v-if='model.isOpnePrize' label="领奖规则" prop="guideIds" class="larger-item">
-        <div class='swicth-item'>
+        <div class='swicth-item' :class="[btnNext==='QA'?stateQA:stateIcon]">
           <span>允许奖品叠加领取</span>
           <template v-if='model.prizeRuleList && model.prizeRuleList.length > 1'>
-            <el-switch v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating"/>
+            <el-switch  v-model="model.prizeLadderRule" :active-value='1' :inactive-value='0' :disabled="isStating" />
           </template>
           <template v-else>
             <el-switch :value='false' :disabled='true' />
@@ -282,7 +282,7 @@
         </div>
       </el-form-item>
     </el-form>
-    <div class='costomcode-footer'>
+    <div :class="[btnNext !=='QA'? foot: footQA]">
       <div class="btn" @click="handlePrev">上一步，基础信息</div>
       <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
@@ -381,7 +381,9 @@ export default {
       stateQA: 'stateQA',
       stateIcon: 'stateIcon',
       btnSafeQA: 'btnSafeQA',
-      btnSafe: 'btnSafe'
+      btnSafe: 'btnSafe',
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer'
     }
   },
   props: ['data', 'isStating', 'isEdit'],
@@ -722,7 +724,8 @@ export default {
   color: #FFFFFF;
   border: 1px solid #0091FA;
 }
-.costomcode-footer .btnQA.current{
+
+.costomcodeQA-footer .btnQA.current{
   background-color: #2153D4;
   color: #FFFFFF;
   width: 160PX;

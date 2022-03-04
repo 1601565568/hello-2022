@@ -37,7 +37,7 @@
           </el-form-item>
           <div style="position: relative">
             <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
-              <el-radio-group v-model="model.sendType">
+              <el-radio-group v-model="model.sendType" :class="[ENV === 'QA'? colorQA:colorNormal ]" >
                 <el-radio :label="0">
                   立即发送
                   <el-tooltip
@@ -67,7 +67,7 @@
         <SimpleCollapse :title="'发布内容'">
           <PhoneBox>
             <template slot='collapse-left'>
-              <el-form-item label="素材" prop="contentList" required>
+              <el-form-item label="素材" prop="contentList" required :class="[ENV === 'QA'? colorQA:colorNormal ]">
                 <el-popover
                   placement="top-start"
                   width="480"
@@ -76,11 +76,11 @@
                 >
                   <template slot="reference">
                     <div v-if="model.contentList.length < 10" class="add-material">
-                      <Icon type="ns-add-border" class="icon"/>
+                      <Icon type="ns-add-border" :class="[ENV === 'QA'? iconQA:iconNormal ]" class="icon"/>
                       添加消息内容
                     </div>
                     <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
-                      <Icon type="ns-add-border" class="icon"/>
+                      <Icon type="ns-add-border" :class="[ENV === 'QA'? iconQA:iconNormal ]" class="icon"/>
                       添加消息内容
                     </div>
                   </template>
@@ -359,7 +359,12 @@ export default {
           }
         ]
       },
-      isCopy: false
+      isCopy: false,
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal',
+      iconNormal: 'iconNormal',
+      iconQA: 'iconQA'
     }
   },
   async mounted () {
@@ -542,13 +547,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .send-sort {
   padding: 0 20px;
 }
 .first-line {
   display: flex;
   justify-content: flex-end;
+}
+.colorQA >>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+    background: #2153D4;
+}
+.colorQA >>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
 }
 </style>
 
@@ -614,8 +626,13 @@ export default {
       // justify-content: center;
       .icon {
         font-size: 13px;
-        color:#0091FA;
         margin-right: 5px;
+      }
+      .iconNormal{
+        color:#0091FA;
+      }
+      .iconQA{
+        color: #2153D4;
       }
     }
 

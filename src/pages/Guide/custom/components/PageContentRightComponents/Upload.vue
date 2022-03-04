@@ -3,7 +3,7 @@
     <el-form>
       <div class="upload">
         <div class="upload-title">上传图片</div>
-        <el-radio-group v-model="data.type">
+        <el-radio-group v-model="data.type" :class="[ENV === 'QA'? colorQA:colorNormal]">
           <el-radio :label="1">单行大图</el-radio>
           <el-radio :label="2">轮播图片</el-radio>
         </el-radio-group>
@@ -46,7 +46,7 @@
             <div class="upload-table__list__pic">
               <img class="pic" :src="item" />
             </div>
-            <div class="upload-table__list__icon">
+            <div class="upload-table__list__icon" :class="[ENV === 'QA'? colorQA:colorNormal]"  >
               <span v-if="index !== 0"
                 ><i
                   class="el-icon-download list__icon-top"
@@ -95,7 +95,7 @@
           </div>
           <h3>样式设计</h3>
           <el-form-item label="透明度" style="margin-right: 10px;">
-            <div class="sliderinput">
+            <div :class="[ENV === 'QA' ? 'sliderinputQA':'sliderinput']">
               <slider-input v-model="data.transparency" :max="100" :step="1"
                 >个单位</slider-input
               >
@@ -106,7 +106,7 @@
             label="播放间隔"
             style="margin-right: 10px;"
           >
-            <div class="sliderinput">
+            <div  :class="[ENV === 'QA' ? 'sliderinputQA':'sliderinput']">
               <slider-input v-model="data.interval" :max="10" :step="1"
                 >秒</slider-input
               >
@@ -149,7 +149,10 @@ export default {
     return {
       data: JSON.parse(JSON.stringify(this.childrenEditData)),
       delPicShow: false,
-      delIndex: 0
+      delIndex: 0,
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal'
     }
   },
   watch: {
@@ -229,11 +232,12 @@ export default {
   }
 }
 </script>
-<style>
+<style >
 /* upload */
 .custom-upload .el-upload--text {
   width: 100%;
 }
+
 .custom-upload .el-upload-dragger {
   width: 100%;
   height: 40px;
@@ -265,6 +269,7 @@ export default {
 .PageContentRightupload {
   color: #262626;
 }
+
 .upload-title {
   height: 40px;
   line-height: 40px;
@@ -353,7 +358,8 @@ h3 {
 .slider-input {
   height: 28px;
 }
-.sliderinput {
+
+.sliderinput, .sliderinputQA  {
   padding-left: 70px;
 }
 .del-pic-list {
@@ -376,5 +382,20 @@ h3 {
 }
 .upload-demo:hover .el-upload__text {
   color: #0091fa;
+}
+</style>
+<style scoped>
+.colorQA >>> .el-radio__input.is-checked .el-radio__inner{
+  background: #2153D4;
+    border-color: #2153D4;
+}
+.colorQA{
+  color: #2153D4!important;
+}
+.colorNormal{
+  color: #0091fa!important;
+}
+.sliderinputQA >>> .el-slider__bar{
+  background-color:#2153D4!important ;
 }
 </style>

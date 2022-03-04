@@ -51,6 +51,7 @@
       <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}
     </NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
+
                :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
@@ -59,7 +60,7 @@
         </el-tooltip>
       </div>
       <div>
-        <el-form>
+        <el-form >
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
@@ -112,7 +113,7 @@
           <!-- <el-row :gutter="24"> -->
             <el-col :span="12">
               <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
-                <ElTableColumn type="selection" width="55"></ElTableColumn>
+                <ElTableColumn  type="selection" width="55"></ElTableColumn>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
@@ -191,6 +192,9 @@ export default index
     color: #2153D4;
     text-align: center;
   }
+   .template-search__chooesQA >>>.el-checkbox__input.is-checked .el-checkbox__inner{
+      color: #2153D4;
+   }
   .template-search__box {
     width: 182px;
     height: 28px;

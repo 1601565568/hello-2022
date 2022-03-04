@@ -229,7 +229,7 @@
         <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = "tab"+id}' :isOpnePrize='isOpnePrize'/>
       </template>
     </Box>
-    <div class='costomcode-footer'>
+    <div :class="[btnNext !=='QA'? foot: footQA]">
       <div class="btn" @click="handlePrev">上一步，奖品设置</div>
       <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
@@ -277,7 +277,9 @@ export default {
       updata: 'updata',
       updataQA: 'updataQA',
       tagText: 'tagText',
-      tagTextQA: 'tagTextQA'
+      tagTextQA: 'tagTextQA',
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer'
     }
   },
   props: ['data', 'isStating', 'validTimeType', 'ladderRewardList'],
@@ -625,7 +627,7 @@ export default {
   color: #FFFFFF;
   border: 1px solid #0091FA;
 }
-.costomcode-footer .btnQA.current{
+.costomcodeQA-footer .btnQA.current{
   background-color: #2153D4;
   color: #FFFFFF;
   width: 160PX;
