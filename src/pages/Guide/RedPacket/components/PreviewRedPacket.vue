@@ -11,10 +11,10 @@
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
       <h3 class='drawer-title'>红包封面预览</h3>
-      <div class='packet-box'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="bagName"/></div>
+      <div class='packet-box'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="cloudPlatformType==='ecrp'?'员工姓名发出的红包':'成员姓名发出的红包'"/></div>
     </el-drawer>
     <el-dialog title="封面预览" :visible.sync="visible" :append-to-body='true'>
-      <div class='packet-box bottom'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="bagName"/></div>
+      <div class='packet-box bottom'><RedPacket :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' :bagName="cloudPlatformType==='ecrp'?'员工姓名发出的红包':'成员姓名发出的红包'"/></div>
     </el-dialog>
   </div>
 </template>
@@ -46,9 +46,6 @@ export default {
       default: ''
     }
   },
-  //   mounted () {
-  //     console.log(this.bgImage)
-  //   },
   components: { RedPacket, ElDrawer },
   methods: {
     handleOpen () {
