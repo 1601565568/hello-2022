@@ -76,7 +76,7 @@
               label="红包名称">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction'/></div>
                   <div class="scope-title_tab">
                     {{scope.row.name}}
                   </div>

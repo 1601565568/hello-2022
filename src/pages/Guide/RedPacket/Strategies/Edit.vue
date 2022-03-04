@@ -190,7 +190,7 @@
                 </el-tooltip>
               </template>
               <div class='poster-container'>
-                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction' :bgHasFont='false'/></div>
+                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction'/></div>
                 <ns-button type='text' class='choose-poster' @click='handleChangePoster'>选择封面</ns-button>
               </div>
             </el-form-item>
