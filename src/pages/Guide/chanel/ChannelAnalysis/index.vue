@@ -87,7 +87,7 @@
           <el-table-column prop="beDeletedCount" label="被删除人数" sortable="beDeletedCount">
             <template slot="header">
               被删除人数
-              <el-tooltip class="help" content="筛选时间内，此渠道添加的好友主动删除导购的好友数（会进行以下场景排重仅计算为1：发生多次删除）">
+              <el-tooltip class="help" :content="`筛选时间内，此渠道添加的好友主动删除${cloudPlatformType === 'ecrp' ? '导购' : '成员'}的好友数（会进行以下场景排重仅计算为1：发生多次删除）`">
                 <Icon type="ns-help"/>
               </el-tooltip>
             </template>
