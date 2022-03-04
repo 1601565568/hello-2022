@@ -1,6 +1,6 @@
 <template>
   <div class="PageContentRight">
-    <div class="form-item_tip">
+    <div :class="[fuscous==='QA'? 'form-item_tipQA':'form-item_tip']">
       小程序页面将根据下面排序顺序显示
     </div>
     <el-collapse
@@ -37,7 +37,7 @@
                     <img :src="noDraggableIcon" />
                   </div>
                   <span>{{ item.settingName }}</span>
-                  <div class="switch" @click="onclick(item.settingCode)">
+                  <div class="switch" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" @click="onclick(item.settingCode)" >
                     <el-switch
                       :value="formatStatus(item.status)"
                       active-color="#0091FA"
@@ -95,6 +95,7 @@ PageContentRight.components = {
 }
 export default PageContentRight
 </script>
+
 <style>
 .common-collapse
   /deep/
@@ -122,13 +123,16 @@ export default PageContentRight
 .editWarpper {
   padding: 16px;
 }
-.form-item_tip {
+.form-item_tip,.form-item_tipQA {
   background: #f2f9fe;
   border-radius: 2px;
   padding: 9px 16px;
   font-size: 14px;
   color: #595959;
   line-height: 22px;
+}
+.form-item_tipQA{
+background: #EBF2FD!important;
 }
 .draggableIcon {
   position: absolute;
@@ -178,5 +182,15 @@ export default PageContentRight
   &:hover .noEdit {
     opacity: 0.85;
   }
+}
+</style>
+<style scoped>
+.fuscousQA>>>.el-switch.is-checked .el-switch__core{
+  background-color: #2153D4!important;
+    border-color: #2153D4!important;
+}
+.fuscousIcon>>>.el-switch.is-checked .el-switch__core{
+  background-color: #0091fa!important;
+    border-color: #0091fa!important;
 }
 </style>

@@ -29,7 +29,10 @@ export default {
       btnLoad: false,
       listPath: '/Social/SocialOperation/RedPacket/Send/List',
       submitApi: this.$api.guide.redpacket.createSend,
-      chooseItem: {} // 选择策略对象，回显
+      chooseItem: {}, // 选择策略对象，回显
+      radioIcon: process.env.VUE_APP_THEME,
+      radiobox: 'radiobox',
+      radioboxQA: 'radioboxQA'
     }
   },
   methods: {

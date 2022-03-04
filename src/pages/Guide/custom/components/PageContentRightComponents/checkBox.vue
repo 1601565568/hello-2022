@@ -1,5 +1,5 @@
 <template>
-  <div class="pageRightEdit">
+  <div class="pageRightEdit" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
     <div class="checkboxWarpper">
       <el-checkbox
         class="checkbox checkboxAll"
@@ -57,7 +57,10 @@ export default {
     return {
       data: JSON.parse(JSON.stringify(this.childrenEditData)),
       checkAll: false,
-      isIndeterminate: false
+      isIndeterminate: false,
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   watch: {
@@ -175,5 +178,13 @@ export default {
 .question-circle {
   color: #8c8c8c;
   margin-left: 10px;
+}
+.fuscousQA >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #2153D4;
+    border-color: #2153D4;
+}
+.fuscousIcon >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #0091fa;
+    border-color: #0091fa;
 }
 </style>

@@ -7,7 +7,7 @@
         <!-- 会员招募码配置开始 -->
         <div class="form-grid">
           <div class="form-grid__title">
-            <div class="bluepillar"></div>
+            <div :class="[bluePillar==='QA'?bluePillarQA:bluepill]"></div>
             {{ title }}
           </div>
           <div class="form-grid__content">
@@ -24,7 +24,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="聚合码类型" required>
-              <el-form-grid size="small">
+              <el-form-grid size="small" :class="[bluePillar==='QA'?gridQA:gridChecks]" >
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.type" @change="checkChange()">
                     <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
@@ -391,6 +391,12 @@ export default Edit
     margin-right: var(--default-margin-small);
     background-color: #0091FA;
   }
+  .bluepillarQA {
+    width: 4px;
+    height: 12px;
+    margin-right: var(--default-margin-small);
+    background-color: #0C4CFF;
+  }
   .form-save__unique {
     padding: var(--default-padding-small) 0 var(--default-padding-small) 61px;
     border-top: 1px solid var(--theme-base-border-color-primary);
@@ -404,6 +410,20 @@ export default Edit
   .form-grid {
     border-radius: var(--default-radius-mini);
   }
+  .el-radiobox .is-checked >>>  .el-radio__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+  .el-radioboxQA .is-checked >>> .el-radio__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.el-radiobox .is-checked >>> .el-radio__label{
+  color:#41a2e8;
+}
+  .el-radioboxQA .is-checked >>> .el-radio__label{
+  color:#2153D4 ;
+}
 
   @component-namespace code {
     @b container {

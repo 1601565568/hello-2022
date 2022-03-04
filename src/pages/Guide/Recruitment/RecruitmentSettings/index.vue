@@ -6,11 +6,11 @@
         <ns-button class='common-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
       </div>
     </div>
-    <div class='recruitment-container'>
+    <div class='recruitment-container' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
       <h1 class='recruitment-title'>
         导购招募码（获取位置：导购小程序-会员招募）
       </h1>
-      <div class='recruitment-tip'>
+      <div class='recruitment-tip' >
         可根据自身需求自定义导购招募流程
       </div>
       <div>
@@ -23,6 +23,7 @@
                 v-model="model.mpFollowState"
                 :active-value="1"
                 :inactive-value="0"
+                :class="[fuscous==='QA'?switchQA:switchs]"
               >
               </el-switch>
               <ns-button type="text" class='preview-btn' @click='handlePreview'>预览</ns-button>
@@ -31,11 +32,11 @@
         </template>
       </div>
     </div>
-    <div class='recruitment-container'>
+    <div class='recruitment-container' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
       <h1 class='recruitment-title'>
         招募通知（通知节点：招募会员成功）
       </h1>
-      <div class='recruitment-tip'>
+      <div class='recruitment-tip' >
         招募会员成功后，会根据以下配置发送通知
       </div>
       <div v-for="(item, index) in noticeList" :key="index">
@@ -47,12 +48,13 @@
             :active-value="1"
             :inactive-value="0"
             @change="(state) => changeState(item.key, state)"
+            :class="[fuscous==='QA'?switchQA:switchs]"
           >
           </el-switch>
           <ns-button type="text" class='preview-btn' @click='handlePreviewNotice(item.key)'>预览</ns-button>
         </div>
         <div style="margin-left: 26px">
-          <div class='step-content' v-show="model[item.key].state">
+          <div class='step-content' v-show="model[item.key].state" :class="[fuscous==='QA'?radioQA:radio]">
             <span class='step-content_name'>自定义选择通知内容：</span>
             <div style="margin-top: 4px;">
               <el-checkbox
@@ -151,4 +153,32 @@ export default Index
     width: 400px;
     object-fit: contain;
   }
+  .switch.is-checked >>>.el-switch__core{
+    border-color: #41a2e8;
+    background-color: #41a2e8;
+  }
+  .switchQA.is-checked >>>.el-switch__core{
+    border-color: #0C4CFF;
+    background-color: #0C4CFF;
+  }
+.radioQA>>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-checkbox__input.is-checked + .el-checkbox__label{
+  color: #2153D4;
+}
+.radio>>> .el-checkbox__input.is-checked + .el-checkbox__label{
+  color: #0091FA;
+}
+.fuscousQA .recruitment-tip{
+  background: rgba(237,242,252, 100%);
+}
+.fuscousIcon .recruitment-tip{
+  background: rgba(237,242,252);
+}
 </style>

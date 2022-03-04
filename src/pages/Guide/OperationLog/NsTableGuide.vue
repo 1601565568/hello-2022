@@ -167,7 +167,7 @@
           </el-table-column>
           <el-table-column prop="status" :show-overflow-tooltip="true" label="修改内容" align="center" width="80">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="viewDetails(scope.row)" type="text">
+              <ns-button :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" v-if="scope.row.status !== 2" @click="viewDetails(scope.row)" type="text">
                 查看详情
               </ns-button>
             </template>
@@ -233,4 +233,10 @@ export default guide
   .template-table__bar {
      padding-top: 0;
    }
+.fuscousQA {
+  color: #0C4CFF;
+}
+.fuscousIcon {
+  color: #0091fa;
+}
 </style>

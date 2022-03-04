@@ -127,7 +127,10 @@ export default {
         address: '地区'
       }],
       disabled: false,
-      isCrm: false
+      isCrm: false,
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {
