@@ -112,7 +112,7 @@
         <div>
           <!-- <el-row :gutter="24"> -->
             <el-col :span="12">
-              <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
+              <ElTable :class="[isChooseC === 'QA' && 'selectQA']" v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
                 <ElTableColumn  type="selection" width="55"></ElTableColumn>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
@@ -247,7 +247,14 @@ export default index
       }
     }
   }
-
+  .selectQA >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+     background: #2153D4;
+    border-color: #2153D4;
+  }
+  .selectQA >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+       background: #2153D4;
+    border-color: #2153D4;
+  }
   >>> .el-table th.el-table-column--selection>.cell {
     padding: 0 14px;
   }

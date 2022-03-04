@@ -67,7 +67,7 @@
         <SimpleCollapse :title="'发布内容'">
           <PhoneBox>
             <template slot='collapse-left'>
-              <el-form-item label="素材" prop="contentList" required :class="[ENV === 'QA'? colorQA:colorNormal ]">
+              <el-form-item label="素材" prop="contentList" required >
                 <el-popover
                   placement="top-start"
                   width="480"
