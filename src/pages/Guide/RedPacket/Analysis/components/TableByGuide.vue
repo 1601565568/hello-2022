@@ -13,7 +13,7 @@
           prop="wokerNumber"
           label="工号">
           <template slot-scope="scope">
-            {{scope.row.workNumber || '-'}}
+            {{scope.row.wokerNumber || '-'}}
           </template>
         </el-table-column>
         <el-table-column
