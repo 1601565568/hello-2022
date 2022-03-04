@@ -117,7 +117,7 @@ export default {
       if (!text) {
         return text
       }
-      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      const preRegexp = new RegExp('\\{' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
       const str = text
         .replace(
