@@ -1,6 +1,8 @@
 import { getErrorMsg } from '@/utils/toast'
 import guidePng from '../images/guide.png'
 import shopPng from '../images/shop.png'
+import guideQA from '../images/guideQA.jpg'
+import shopQA from '../images/shopQA.jpg'
 
 export default {
   data () {
@@ -34,6 +36,7 @@ export default {
       ],
       noHaveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingHave.png',
       haveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingNo.png',
+      haveImgQA: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingHaveQA.png',
       previewVisin: false,
       previewNoticeVisin: false,
       noticeImg: '',
@@ -61,6 +64,9 @@ export default {
   },
   computed: {
     showImg () {
+      if (this.$isQa) {
+        return this.model.mpFollowState ? this.haveImgQA : this.noHaveImg
+      }
       return this.model.mpFollowState ? this.haveImg : this.noHaveImg
     }
   },
@@ -80,8 +86,12 @@ export default {
     },
     handlePreviewNotice (key) {
       this.previewNoticeVisin = true
-      if (key === 'guideMsgCfg') this.noticeImg = guidePng
-      if (key === 'shopManageMsgCfg') this.noticeImg = shopPng
+      if (key === 'guideMsgCfg') {
+        this.noticeImg = this.$isQa ? guideQA : guidePng
+      }
+      if (key === 'shopManageMsgCfg') {
+        this.noticeImg = this.$isQa ? shopQA : shopPng
+      }
     },
     changeState (key, state) {
       // const reset = (val) => {
