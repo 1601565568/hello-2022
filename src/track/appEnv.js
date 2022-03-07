@@ -6,7 +6,7 @@ const map = new Map([
   ['sg-v6.eifini.com', 'eifini'],
   ['scrmsdg.peaksport.com', 'peak']
 ])
-
+// 详情区分各个环境标识
 function getWebDev () {
   const originURL = window.location.host || ''
   if (map.has(originURL)) {
@@ -15,6 +15,7 @@ function getWebDev () {
   return 'localhost'
 }
 
+// 只区分 测试 预发布 SAAS 标识
 function getAppEnv () {
   const appEnv = getWebDev()
   if (appEnv === 'qa' || appEnv === 'eifini' || appEnv === 'peak') {
