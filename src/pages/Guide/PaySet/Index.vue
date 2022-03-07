@@ -5,7 +5,7 @@
         <div class='common-header flex-box'>
           <h3>支付配置</h3>
           <div class='common-btn'>
-            <ns-button class='customer-btn_save' type="text" size='large' @click='jumpGuide(1)'>如何进行支付配置？</ns-button>
+            <ns-button class='customer-btn_save' type="text" size='large' @click='jumpGuide(1)' v-show="$isShowDocs">如何进行支付配置？</ns-button>
             <ns-button class='customer-btn_save' type="primary" size='large' @click='handleAdd'>新增授权</ns-button>
           </div>
         </div>
