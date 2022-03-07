@@ -187,4 +187,8 @@ export default {
   background-color: #0091fa;
     border-color: #0091fa;
 }
+.fuscousQA >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #2153D4;
+    border-color: #2153D4;
+}
 </style>
