@@ -18,7 +18,7 @@
           <Icon type="question-circle" class="ml5"/>
         </el-tooltip>
       </div>
-      <el-scrollbar ref="fullScreen">
+      <el-scrollbar ref="fullScreen" :class="[ENV === 'QA' && 'colorQA']">
         <ns-tree
           ref="categoryTree"
           draggable
@@ -278,6 +278,9 @@ export default List
 </script>
 <style scoped>
 @import "@theme/variables.pcss";
+.colorQA >>> .custom-tree-node:hover {
+  color: #2153D4;
+}
 .topHid {
   visibility: hidden;
 }
