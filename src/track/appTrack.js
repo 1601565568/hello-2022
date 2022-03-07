@@ -177,6 +177,7 @@ function core (wpo, root, conf, name) {
         uid: uid,
         userNick: wpo.getNick(),
         appType: appEnv.getWebDev(),
+        appEnv: appEnv.getAppEnv(),
         nodeEnv: process.env.NODE_ENV,
         times: params.times ? params.times : 1,
         type: model.type || '',
