@@ -183,8 +183,8 @@ export default {
   background: rgba(237, 242, 252, 1);
 }
 .colorQA >>> .el-radio__input.is-checked .el-radio__inner{
-  border-color: rgb(0, 145, 250);
-  background-color: rgb(0, 145, 250);
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
 }
  .colorQA >>> .el-radio__input.is-checked + .el-radio__label{
    color: #2153D4;
