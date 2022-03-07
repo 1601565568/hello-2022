@@ -15,6 +15,15 @@ function getWebDev () {
   return 'localhost'
 }
 
+function getAppEnv () {
+  const appEnv = getWebDev()
+  if (appEnv === 'qa' || appEnv === 'eifini' || appEnv === 'peak') {
+    return 'saas'
+  }
+  return appEnv
+}
+
 module.exports = {
-  getWebDev
+  getWebDev,
+  getAppEnv
 }
