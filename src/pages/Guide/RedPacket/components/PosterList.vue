@@ -24,6 +24,7 @@
             height='400px'
             :data="_data._table.data"
             class="new-table_border"
+            :class="[ENV === 'QA' && 'styQA']"
             style="width: 100%">
             <el-table-column
               prop="name"
@@ -81,6 +82,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   data () {
     return {
+      ENV: process.env.VUE_APP_THEME,
       model: {
         name: '',
         operatorName: ''
@@ -149,4 +151,13 @@ export default {
   padding: 0;
   margin: 0;
 }
+</style>
+<style scoped>
+  .styQA >>> .el-radio__input.is-checked .el-radio__inner{
+      border-color: #2153D4;
+  background-color: #2153D4;
+  }
+  .styQA >>> .scope-title_tab{
+    color: #2153D4;
+  }
 </style>

@@ -132,7 +132,7 @@ export default PageContentRight
   line-height: 22px;
 }
 .form-item_tipQA{
-background: #EBF2FD!important;
+background: rgba(237, 242, 252, 1)!important;
 }
 .draggableIcon {
   position: absolute;

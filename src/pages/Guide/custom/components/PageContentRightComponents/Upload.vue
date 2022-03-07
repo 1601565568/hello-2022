@@ -10,6 +10,7 @@
         <div class="custom-upload" v-if="data.image && data.image.length < 9">
           <el-upload
             class="upload-demo"
+            :class="[ENV ==='QA' && 'styQA']"
             drag
             :action="$api.core.sgUploadFile('test')"
             accept=".jpg,.jpeg,.png"
@@ -385,6 +386,9 @@ h3 {
 }
 </style>
 <style scoped>
+.styQA >>> .el-upload__text:hover{
+  color: #2153D4;
+}
 .colorQA >>> .el-radio__input.is-checked .el-radio__inner{
   background: #2153D4;
     border-color: #2153D4;
