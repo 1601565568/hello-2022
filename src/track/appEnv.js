@@ -8,7 +8,7 @@ const map = new Map([
 ])
 
 function getWebDev () {
-  const originURL = 'sandbox-sg-v6.vecrp.com'
+  const originURL = window.location.host || ''
   if (map.has(originURL)) {
     return map.get(originURL)
   }
