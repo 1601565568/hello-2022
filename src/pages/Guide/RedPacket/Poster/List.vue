@@ -33,7 +33,7 @@
               prop="name"
               label="红包封面">
               <template slot-scope="scope">
-                <div class="scope-title">
+                <div class="scope-title" :class="[ fuscous=== 'QA' && 'styQA']">
                   <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab" v-if='scope.row.isDefault'>
@@ -134,6 +134,9 @@ export default Index
 }
 </style>
 <style scoped>
+.styQA >>> .scope-title_tab{
+  color: #2153D4;
+}
 .fuscousQA.is-checked >>> .el-switch__core {
   border-color: #0C4CFF;
     background-color: #0C4CFF;

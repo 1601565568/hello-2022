@@ -215,7 +215,7 @@
       </el-form-item> -->
       <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
         <template v-if="disabledPicType">
-          <el-radio-group v-model="model.codeType">
+          <el-radio-group v-model="model.codeType" :class="[ENV === 'QA' && 'radioQA']">
             <el-radio :label="1" :disabled="true">图片上植入小程序码 </el-radio>
             <el-radio :label="2">单独增加一张小程序码图 </el-radio>
           </el-radio-group>
@@ -932,6 +932,10 @@ export default {
 }
 .QAbg >>> .el-radio__input.is-checked .el-radio__inner{
   border-color: #2153D4;
+  background-color: #2153D4;
+}
+.radioQA >>> .el-radio__input.is-checked .el-radio__inner{
+   border-color: #2153D4;
   background-color: #2153D4;
 }
 .limit-scroll-view {
