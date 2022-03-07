@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :visible="visible"
-    width="1100px"
+    width="1250px"
     :modal-append-to-body='appendToBody'
     :append-to-body='appendToBody'
     :before-close="close"
@@ -54,6 +54,13 @@
             <el-option label="导购" :value="0"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="员工状态：">
+          <el-select v-model="model.status" clearable >
+            <el-option label="全部" :value="3"></el-option>
+            <el-option label="在职" :value="1"></el-option>
+            <el-option label="离职" :value="2"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="员工姓名：">
           <el-input :maxlength="20" v-model="model.empName"/>
         </el-form-item>
@@ -79,6 +86,11 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="name" label="员工姓名" align="left"/>
             <el-table-column :show-overflow-tooltip="true" prop="shopNames" label="工作门店" align="left"/>
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="status" label="员工状态" align="left">
+              <template slot-scope="scope">
+                <span>{{scope.row.status === 1 ? '在职': '离职' }}</span>
+              </template>
+            </el-table-column>
           </el-table>
           <el-pagination
             v-if="_data._pagination.enable"
@@ -218,7 +230,8 @@ export default {
         // userIds: '', // 员工guideId集合
         switchAreaFlag: 0, // 标识是否支持区域切换 1：支持 0：不支持
         fileImportKey: '', // 文件导入的解析结果映射 redisKey
-        manualInputKey: '' // 手工输入的解析结果映射 redisKey
+        manualInputKey: '', // 手工输入的解析结果映射 redisKey
+        status: 3
       }
     }
   },
@@ -302,7 +315,8 @@ export default {
         shopId: '',
         switchAreaFlag: 0,
         fileImportKey: '',
-        manualInputKey: ''
+        manualInputKey: '',
+        status: 3
       }
     },
     // 勾选一个

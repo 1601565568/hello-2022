@@ -466,6 +466,9 @@ export default {
               this.model.materialType = obj.materialType
               this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
               this.disabled = true
+              const editModel = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
+              this.selectMaterial.content = obj.materialContent || ''
+              this.selectMaterial.mediaList = editModel.imageList || []
             }
             if (obj.state === 1) {
               this.canNotEdit = true

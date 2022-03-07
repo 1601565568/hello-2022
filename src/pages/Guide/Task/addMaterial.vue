@@ -114,7 +114,10 @@ export default {
       return ''
     },
     strToRichText (text) {
-      const preRegexp = new RegExp('\\{' + 'EMOJI_' + '\\[', 'g')
+      if (!text) {
+        return text
+      }
+      const preRegexp = new RegExp('\\{' + '\\[', 'g')
       const afterRegexp = new RegExp(']}', 'g')
       const str = text
         .replace(
