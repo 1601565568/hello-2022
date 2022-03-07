@@ -1,7 +1,7 @@
 <template>
   <div class='strategies-container' v-loading='!loaded'>
-    <div class='blue-tip' v-if='isFormCustomCode'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的活动发放红包</div>
-    <div class='blue-tip' v-else>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
+    <div class='blue-tip' :class="[ENV === 'QA' && 'colorQAB']" v-if='isFormCustomCode'>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的活动发放红包</div>
+    <div class='blue-tip' :class="[ENV === 'QA' && 'colorQAB']" v-else>Tips：可选红包为在“内容管理->红包工具->红包策略”已开启的红包</div>
     <div class='dialog'>
       <div class='dialog-list'>
         <el-input v-model="model.name" placeholder="请输入红包名称"  @keyup.enter.native="handleSearch">
@@ -9,7 +9,7 @@
         </el-input>
         <el-scrollbar v-if='_data._table.data && _data._table.data.length' Zref="fullScreen" style='min-height:400px;height:400px'>
           <template v-for='item in _data._table.data'>
-            <div :key='item.id' class='radio-item'>
+            <div :key='item.id' class='radio-item' :class="[ENV === 'QA' && 'colorQA']">
               <el-radio :value="checkItem.id" :label="item.id" @change='handleChangeCheckItem(item)'>{{item.name}}</el-radio>
             </div>
           </template>
@@ -56,6 +56,7 @@ import { redpacketTypeMap, normalRed, luckyRed, diyRed, timeTypeForever } from '
 export default {
   data () {
     return {
+      ENV: process.env.VUE_APP_THEME,
       url: this.$api.guide.redpacket.getStrategiesList,
       model: {
         name: '',
@@ -178,6 +179,16 @@ export default {
 }
 </style>
 <style scoped>
+.strategies-container >>> .colorQAB {
+  background: rgba(237, 242, 252, 1);
+}
+.colorQA >>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+ .colorQA >>> .el-radio__input.is-checked + .el-radio__label{
+   color: #2153D4;
+ }
 .radio-item >>> .el-radio__label {
   font-size: 14px;
   font-weight: 400;
