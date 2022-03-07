@@ -39,7 +39,7 @@ export default {
         {
           'path': '/Guide/SgPersonalQrcode/List',
           'name': 'AutoPass',
-          'title': '聚合二维码',
+          'title': '聚合码',
           'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'SgPersonalQrcode'
@@ -47,7 +47,7 @@ export default {
           'children': [
             {
               'path': '/Guide/SgPersonalQrcode/List',
-              'name': 'SgPersonalQrcode',
+              'name': 'f1',
               'title': '聚合二维码',
               'iframeComponent': () => import('@/components/Iframes/SgPersonalQrcode.vue')
               // 'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
@@ -92,7 +92,7 @@ export default {
         {
           'path': '/WeWork/WelcomeCode/WelcomeCodeList',
           'name': 'WelcomeCodeList',
-          'title': '智能欢迎语(企微)',
+          'title': '欢迎语',
           'component': () => import('@layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WelcomeCodeList'
@@ -100,9 +100,10 @@ export default {
           'children': [
             {
               'path': '/WeWork/WelcomeCode/WelcomeCodeList',
-              'iframeComponent': () => import('@/components/Iframes/WelcomeCodeList.vue'),
-              'name': 'WelcomeCodeList',
-              'title': '智能欢迎语(企微)'
+              // 'name': 'WelcomeCodeList',
+              'name': 'f2',
+              'title': '智能欢迎语(企微)',
+              'iframeComponent': () => import('@/components/Iframes/WelcomeCodeList.vue')
               // 'component': () => import('@/pages/WeWork/WelcomeCode/List.vue')
             },
             {
