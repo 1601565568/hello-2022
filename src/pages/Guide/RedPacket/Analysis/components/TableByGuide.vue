@@ -10,10 +10,10 @@
           label="员工">
         </el-table-column>
         <el-table-column
-          prop="wokerNumber"
+          prop="workNumber"
           label="工号">
           <template slot-scope="scope">
-            {{scope.row.wokerNumber || '-'}}
+            {{scope.row.workNumber || '-'}}
           </template>
         </el-table-column>
         <el-table-column
