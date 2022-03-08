@@ -205,8 +205,8 @@ export default {
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
       this.personalQrcode.qrcodeSize = info.size
-      this.personalQrcode.qrcodeX = info.x
-      this.personalQrcode.qrcodeY = info.y
+      this.personalQrcode.qrcode_x = info.x
+      this.personalQrcode.qrcode_y = info.y
     },
     switchTagDialog (state) { // 选择标签
       this.addTagDialogVisible = state
