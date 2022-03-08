@@ -29,7 +29,7 @@
               <span class='choose-redpact' v-if='chooseItem.name'>{{chooseItem.name}}</span><ns-button type='text' @click="hanleChoose">选择红包</ns-button>
             </el-form-item>
             <el-form-item label='使用范围' required prop='useType' class='larger-item'>
-              <el-radio-group v-model="model.useType">
+              <el-radio-group v-model="model.useType" :class="[radioIcon==='QA'?radioboxQA:radiobox]">
                 <el-radio :label="1">全部员工</el-radio>
                 <el-radio :label="2">按店铺</el-radio>
                 <el-radio :label="3">按员工</el-radio>
@@ -215,4 +215,20 @@ export default Index
       margin: 0 8px 0 28px;
     }
   }
+</style>
+<style scoped>
+.radiobox >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+.radiobox >>>.el-radio__input.is-checked + .el-radio__label{
+  color:#41a2e8;
+}
+.radioboxQA >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.radioboxQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color:#2153D4 ;
+}
 </style>

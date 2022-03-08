@@ -9,7 +9,7 @@
           <div class="scroll-view">
             <div class="base-view" v-if="info.length>0">
               <img class="head-view" src="@/assets/default-avatar.png"/>
-              <div class="welcome-info-view" v-html="info"></div>
+              <div class="welcome-info-view" :class="[ENV==='QA'?styleQA:styleNormal]"  v-html="info"></div>
             </div>
             <div class="base-view">
               <img class="head-view" src="@/assets/default-avatar.png"/>
@@ -59,6 +59,9 @@ export default {
   },
   data () {
     return {
+      ENV: process.env.VUE_APP_THEME,
+      styleQA: 'styleQA',
+      styleNormal: 'styleNormal',
       showTitle: '',
       defurl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
@@ -66,7 +69,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.welcome-info-view {
+.styleQA, .styleNormal{
   padding: 8px;
   font-size: 12px;
   color: #262626;
@@ -78,11 +81,21 @@ export default {
   border-radius: 3px;
   white-space: pre-wrap;
   wise {
-    color: #26a2ff;
     padding: 0 1px;
     white-space: nowrap;
     cursor: default;
     -webkit-user-modify: read-only !important;
+  }
+}
+.styleNormal  {
+  wise{
+    color: #26a2ff;
+  }
+
+}
+.styleQA{
+ wise{
+    color: #2153D4;
   }
 }
 </style>

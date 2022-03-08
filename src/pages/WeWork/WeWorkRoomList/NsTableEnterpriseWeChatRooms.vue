@@ -50,7 +50,7 @@
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="searchAction()">{{$t('operating.search')}}</ns-button>
-          <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
+          <ns-button @click="resetInputAction()">{{$t('operating.reset')}}</ns-button>
         </div>
       </template>
       <!-- 高级搜索-结束 -->

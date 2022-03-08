@@ -86,7 +86,10 @@ export default {
       },
       memberManagePlan: 1,
       shopSelectUrl: this.$api.guide.shop.findBrandShopList,
-      shopSelectOptions: []
+      shopSelectOptions: [],
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
 
