@@ -13,7 +13,7 @@
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称">
+            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称/别名">
               <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('externalName')"/>
             </el-input>
           </el-form-item>
@@ -54,13 +54,47 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="昵称：">
+          <el-form-item label="昵称/备注名：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model.trim="model.externalName">
               </el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="添加好友：" prop="time">
+          <el-form-item label="企业标签：">
+            <ns-select v-model="model.tag" filterable clearable :props="propsSet" :url="$api.marketing.weworkMarketing.getEmployee" />
+          </el-form-item>
+          <el-form-item label="性别：">
+            <el-select
+              v-model="model.sexy"
+              placeholder="请选择"
+              clearable
+            >
+              <el-option label="全部" value="0"></el-option>
+              <el-option label="男" value="1"></el-option>
+              <el-option label="女" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="来源：">
+            <el-select
+              v-model="model.source"
+              placeholder="请选择来源"
+              clearable
+            >
+              <el-option
+                v-for="(item, index) in sourceList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="手机号：">
+            <el-form-grid size="xmd">
+              <el-input  type="text" v-model.trim="model.mobileNum">
+              </el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="添加时间：" prop="time">
             <el-form-grid>
               <ns-datetime  v-model="model.addTime"></ns-datetime>
             </el-form-grid>
@@ -92,8 +126,15 @@
               </div>
             </template>
           </el-table-column>
+          <!-- Todo -->
+          <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" type="default" prop="sex"
+                           label="绑定店铺" :sortable="false" align="center">
+            <template slot-scope="scope">
+              {{scope.row.sex ? scope.row.sex : '-'}}
+            </template>
+          </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="external_name"
-                           label="昵称" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
+                           label="昵称/备注名" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
             <template slot-scope="scope">
               <ns-wechat-emoji :data="scope.row.external_name ? scope.row.external_name : '-'"></ns-wechat-emoji>
             </template>
@@ -103,6 +144,10 @@
             <template slot-scope="scope">
               {{scope.row.sex === 2 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
             </template>
+          </el-table-column>
+          <!-- Todo -->
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="mobileNum"
+                           label="备注手机号">
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
                            label="所属员工"  align="center">
@@ -142,6 +187,13 @@
               <template v-else>
                 -
               </template>
+            </template>
+          </el-table-column>
+          <!-- Todo -->
+          <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" type="default" prop="sex"
+                           label="最后沟通时间" :sortable="false" align="center">
+            <template slot-scope="scope">
+              {{scope.row.sex ? scope.row.sex : '-'}}
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100">

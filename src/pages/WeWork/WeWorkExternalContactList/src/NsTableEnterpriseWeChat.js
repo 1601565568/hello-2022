@@ -55,6 +55,9 @@ export default {
         externalName: '',
         addFriendChannel: '',
         addTime: [],
+        mobileNum: '',
+        sexy: '',
+        tag: '',
         areaId: this.$store.state.user.area.id
       }, {})
 
@@ -76,6 +79,11 @@ export default {
     })
 
     return {
+      propsSet: {
+        label: 'label',
+        value: 'value',
+        disabled: 'disabled'
+      },
       model: model,
       synButton: true,
       synFriend: true,
@@ -92,6 +100,20 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
+      sourceList: [
+        { id: 0, name: '未知来源' },
+        { id: 1, name: '扫描二维码' },
+        { id: 2, name: '搜索手机号' },
+        { id: 3, name: '名片分享' },
+        { id: 4, name: '群聊' },
+        { id: 5, name: '手机通讯录' },
+        { id: 6, name: '微信联系人' },
+        { id: 7, name: '来自微信的添加好友申请' },
+        { id: 8, name: '安装第三方应用时自动添加的客服人员' },
+        { id: 9, name: '搜索邮箱' },
+        { id: 201, name: '内部成员共享' },
+        { id: 202, name: '管理员/负责人分配 ' }
+      ],
       addWay: {
         '0': '未知来源',
         '1': '扫描二维码',
@@ -121,7 +143,8 @@ export default {
       _queryConfig: {
         expand: false
       },
-      userDetails: {}
+      userDetails: {},
+      cloudPlatformType: '' // 判断客道、ecrp环境
     }
   },
   mounted: function () {
@@ -132,6 +155,7 @@ export default {
       this.reload()
     }
     this.initSynButton()
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
   },
   components: {
     ElSelectLoad,
