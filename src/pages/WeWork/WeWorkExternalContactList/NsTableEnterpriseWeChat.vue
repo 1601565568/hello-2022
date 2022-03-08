@@ -13,7 +13,7 @@
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称/别名">
+            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称/备注名">
               <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('externalName')"/>
             </el-input>
           </el-form-item>
@@ -32,11 +32,11 @@
         <el-form ref="table_filter_form" label-width="80px" class="surround-btn"
                  :model="model" :rules="rules" :inline="true">
           <!--导购员工组件-->
-          <el-form-item label="选择员工：">
+          <el-form-item :label="`${cloudPlatformType === 'kd' ? '所属员工：' : '所属成员:'}`">
             <div class="template-search__box">
-            <span v-if="employees&&employees.length>0">
-                已选择{{employees.length}}个
-            </span>
+              <span v-if="employees&&employees.length>0">
+                  已选择{{employees.length}}个
+              </span>
               <span v-else>全部</span>
               <div style="float: right;">
                 <NsGuideDialog
@@ -50,11 +50,31 @@
                   btnTitle="选择"
                   dialogTitle="选择员工"
                   v-model="employees"
+                  v-if="cloudPlatformType === 'ecrp'"
                 ></NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='false'
+                  :appendToBody='false'
+                  :isButton="false"
+                  :auth="true"
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择成员"
+                  v-model="employees"
+                  v-else>
+                  <!-- <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                      <Icon type="geren"
+                            class='guideIds-icon'></Icon>
+                    </div>
+                  </template> -->
+                </NsGuideWeChatDialog>
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="昵称/备注名：">
+          <el-form-item label="昵称/备注名：" label-width="100px">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model.trim="model.externalName">
               </el-input>
@@ -250,11 +270,13 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import NSUserDetails from '@/components/NSUserDetails'
 import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 NsTableEnterpriseWeChat.components = {
   NsGuideDialog,
   NsWechatEmoji,
   NsDatetime,
-  NSUserDetails
+  NSUserDetails,
+  NsGuideWeChatDialog
 }
 export default NsTableEnterpriseWeChat
 </script>
