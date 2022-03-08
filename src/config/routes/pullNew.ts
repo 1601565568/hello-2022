@@ -49,8 +49,8 @@ export default {
               'path': '/Guide/SgPersonalQrcode/List',
               'name': 'f1',
               'title': '聚合二维码',
-              'iframeComponent': () => import('@/components/Iframes/SgPersonalQrcode.vue')
-              // 'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+              // 'iframeComponent': () => import('@/components/Iframes/SgPersonalQrcode.vue')
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
             },
             {
               'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
