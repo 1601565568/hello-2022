@@ -204,7 +204,7 @@ export default {
   },
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
-      this.personalQrcode.qrcodeSize = info.size
+      this.personalQrcode.qrcode_size = info.size
       this.personalQrcode.qrcode_x = info.x
       this.personalQrcode.qrcode_y = info.y
     },
