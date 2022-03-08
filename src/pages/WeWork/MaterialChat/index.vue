@@ -28,7 +28,7 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <div class="day-view">
+            <div class="day-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
               <span
                 :class="
                   showTodaySelect
@@ -84,15 +84,15 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <div class="remind-data-view">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+        <el-tabs v-model="activeName" @tab-click="handleClick" >
+          <div class="remind-data-view" :class="[fuscous==='QA'?remindQA:remind]">
             <div v-if="activeName === 'second'">
               统计范围：{{ startTime || '-' }}至{{ endTime || '-' }}
             </div>
             <div>一条素材包括多项可发送元素时，每次发送都会记一次发送次数</div>
           </div>
-          <el-tab-pane label="按日期统计" name="first">
+          <el-tab-pane label="按日期统计" name="first" >
             <div v-if="listDate.length > 0">
               <page-table style="padding-top:0">
                 <template slot="table">
@@ -363,7 +363,12 @@ export default {
       startTime: '',
       endTime: '',
       datePickerValue: [],
-      materialTitle: ''
+      materialTitle: '',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon',
+      remind: 'remind',
+      remindQA: 'remindQA'
     }
   },
   methods: {
@@ -857,5 +862,29 @@ export default {
   margin: 0 auto;
   width: 320px;
   height: 220px;
+}
+.fuscousQA .base-text-select{
+  color: #0C4CFF;
+}
+.fuscousIcon .base-text-select{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__item.is-active{
+  color: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__item.is-active{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__active-bar{
+  background: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__active-bar{
+  background: #0091fa;
+}
+.remindQA {
+  background: rgba(237,242,252, 100%)!important;
+}
+.remind {
+  background: rgba(237,242,252)!important;
 }
 </style>

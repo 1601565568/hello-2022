@@ -1,5 +1,6 @@
 /* eslint-disable */
 'use strict'
+const appEnv = require('./appEnv')
 
 function _typeof (obj) {
   if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
@@ -175,7 +176,8 @@ function core (wpo, root, conf, name) {
       obj = core.extend({
         uid: uid,
         userNick: wpo.getNick(),
-        appType: process.env.VUE_APP_THEME,
+        appType: appEnv.getWebDev(),
+        appEnv: appEnv.getAppEnv(),
         nodeEnv: process.env.NODE_ENV,
         times: params.times ? params.times : 1,
         type: model.type || '',

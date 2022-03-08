@@ -192,7 +192,7 @@
           </template>
           <template slot-scope="scope">
             <div v-if="scope.row.type === 9">
-              <span style="color:#0091FA">全部员工</span>
+              <span :class="[employees==='QA'?employeeQA:employeeScope]">全部员工</span>
             </div>
             <div
               v-else-if="
@@ -206,14 +206,14 @@
             <div v-else>
               <ns-button
                 v-if="scope.row.shopCount > 0"
-                style="color:#0091FA"
+                :class="[employees==='QA'?employeeQA:employeeScope]"
                 @click="onShowShopScope(scope.row)"
                 type="text"
                 >{{ scope.row.shopCount }}家门店
                 {{ scope.row.employeeCount > 0 ? "," : "" }}
               </ns-button>
               <ns-button
-                style="color:#0091FA"
+               :class="[employees==='QA'?employeeQA:employeeScope]"
                 @click="onShowEmployeeScope(scope.row)"
                 v-if="scope.row.employeeCount > 0"
                 type="text"
@@ -222,7 +222,7 @@
               </ns-button>
               <ns-button
                 v-if="scope.row.channelCount > 0"
-                style="color:#0091FA"
+               :class="[employees==='QA'?employeeQA:employeeScope]"
                 @click="onShowChannelScope(scope.row)"
                 type="text"
                 >{{ scope.row.channelCount }}个渠道
@@ -237,9 +237,10 @@
           sortable="custom"
         >
         </el-table-column>
-        <el-table-column label="状态" align="center" min-width="30">
-          <template slot-scope="{ row }">
+        <el-table-column label="状态" align="center" min-width="30" >
+          <template slot-scope="{ row }" >
             <el-switch
+              :class="[employees==='QA'?stateQA:elState]"
               style="cursor:pointer"
               :disabled="
                 row.type === 9 && String(row.account ? row.account : '') !== 'admin'
@@ -376,5 +377,19 @@ export default NsTableWelcomeCode
     font-size: 16px;
     color:#383838;
   }
+}
+.employee{
+  color: #0091FA;
+}
+.employeeQA{
+  color: #2153D4;
+}
+.elState.is-checked >>>  .el-switch__core{
+    border-color: #41a2e8;
+    background-color: #41a2e8;
+}
+.elStateQA.is-checked >>>  .el-switch__core{
+    border-color: #2153D4;
+    background-color: #2153D4;
 }
 </style>

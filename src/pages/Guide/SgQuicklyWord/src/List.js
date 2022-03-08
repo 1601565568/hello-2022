@@ -12,6 +12,7 @@ export default {
   mixins: [tableMixin, scrollHeight],
   data: function () {
     return {
+      ENV: process.env.VUE_APP_THEME,
       /* 左侧页面滚动区域 */
       scrollBarDeploy: [
         {

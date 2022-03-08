@@ -39,8 +39,8 @@
               <!-- 配色方案 end-->
               <template v-for='item in model.eidtList'>
                 <div :key='item.itemCode' class='itemCode'>
-                  <div class="edit-view" @click="onShowEdit(item.itemCode,item.status)">
-                    <div>{{ item.itemName }}</div>
+                  <div class="edit-view" :class="[btnNext==='QA'? stateQA : stateIcon]" @click="onShowEdit(item.itemCode,item.status)">
+                    <div >{{ item.itemName }}</div>
                     <!-- 时间类型为所有时间，按钮禁用 start-->
                     <template v-if="item.itemCode ==='countdown' && validTimeType === 0">
                       <el-tooltip :content="item.id==='friend'?inviteFriendTip:item.tip" placement="top" popper-class='popperClass'>
@@ -66,7 +66,7 @@
                     <!-- 主图模块 start-->
                     <div v-if='item.itemCode === "banner"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
-                        <div class='updata-box'>
+                        <div class='updata-box' :class="[btnNext==='QA'? updataQA : updata]">
                           <SimpleUpload v-model='model.bannerUrl' :maxSize="2" :drag='false'/>
                           <div class='updata-option'>
                             <ns-button type='text' class="remind-text" @click="showDefCard('bannerUrl',defBanner)">恢复默认图片</ns-button>
@@ -79,7 +79,7 @@
                     </div>
                     <!-- 主图模块 end-->
                     <!-- 活动奖品 start-->
-                    <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container customCode-tab'>
+                    <div v-if='item.itemCode === "reward" && isOpnePrize' class='colle-container customCode-tab' :class="[btnNext==='QA'?tagTextQA:tagText]">
                       <el-tabs v-model="tabAvtive" type="card" @tab-click="handleChangeTab(item.itemCode,item.status)">
                         <template v-for='(item,index) in model.activeInfoList'>
                           <el-tab-pane :key='item.prizeGrade' :label="`阶梯${['零','一', '二', '三', '四', '五' ][item.prizeGrade]}·${item.recruitment}人`" :name="`tab${item.prizeGrade}`">
@@ -130,10 +130,10 @@
                                   @input='(e)=>{handleChangePrize(e,index,"goodsDes")}'
                                 />
                               </el-form-item>
-                              <el-form-item :prop="'activeInfoList.' + index + '.image'" label-width="0">
-                                <div class='updata-box'>
+                              <el-form-item  :prop="'activeInfoList.' + index + '.image'" label-width="0">
+                                <div  class='updata-box' :class="[btnNext==='QA'? updataQA : updata]">
                                   <SimpleUpload  :scale='1' scaleTip='1'  :isNeedCrop='true'  :maxSize="2"  :value='item.image' :drag='false' @input='(e)=>{handleChangePrize(e,index,"image")}' />
-                                  <div class='updata-option'>
+                                  <div class='updata-option' >
                                     <ns-button type='text' class="remind-text" @click="showDefCardByImage(index)">恢复默认图片</ns-button>
                                     <div class="qrcode-bottom-view">
                                        建议：比例为1:1，小于2M，jpg、png、jpeg格式
@@ -173,6 +173,7 @@
                           { validator: validates.validateActivityIntroductionLeast.bind(this,activityIntroductionLength), message: '请输入活动规则', trigger: ['blur', 'change'] },
                           { validator: validates.validateActivityIntroduction.bind(this,activityIntroductionLength), message: '活动规则最多1000个字', trigger: ['blur', 'change'] }
                         ]"
+                        :class="[btnNext==='QA'?tagTextQA:tagText]"
                       >
                         <tag-area
                           v-model="model.rules"
@@ -190,7 +191,7 @@
                     <!-- 注册会员 start-->
                     <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
-                        <div class='updata-box'>
+                        <div class='updata-box' :class="[btnNext==='QA'? updataQA : updata]">
                           <SimpleUpload :maxSize="2" v-model='model.regUrl' :drag='false' />
                           <div class='updata-option'>
                             <ns-button type='text' class="remind-text" @click="showDefCard('regUrl',defRegUrl)">恢复默认图片</ns-button>
@@ -228,9 +229,9 @@
         <ActivePhone :pageObj="{}" :showColor="model.showColor" :eidtList="model.eidtList" :model="model" :validTimeType='validTimeType' ref="activePhone" :activeId='tabAvtive' @onChangeActiveId='(id)=>{tabAvtive = "tab"+id}' :isOpnePrize='isOpnePrize'/>
       </template>
     </Box>
-    <div class='costomcode-footer'>
-      <div class='btn' @click="handlePrev">上一步，奖品设置</div>
-      <div class='btn current' @click="handleSubmit">下一步</div>
+    <div :class="[btnNext !=='QA'? foot: footQA]">
+      <div class="btn" @click="handlePrev">上一步，奖品设置</div>
+      <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
   </div>
 </template>
@@ -267,7 +268,18 @@ export default {
       defBanner,
       defRegUrl,
       tabAvtive: 'tab1',
-      isOpnePrize: true // 是否开启奖励
+      isOpnePrize: true, // 是否开启奖励
+      btnNext: process.env.VUE_APP_THEME,
+      btnQA: 'btnQA',
+      btn: 'btn',
+      stateQA: 'stateQA',
+      stateIcon: 'stateIcon',
+      updata: 'updata',
+      updataQA: 'updataQA',
+      tagText: 'tagText',
+      tagTextQA: 'tagTextQA',
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer'
     }
   },
   props: ['data', 'isStating', 'validTimeType', 'ladderRewardList'],
@@ -609,5 +621,54 @@ export default {
       color: #0094FC;
     }
   }
+}
+.costomcode-footer .current{
+  background-color: #0091FA;
+  color: #FFFFFF;
+  border: 1px solid #0091FA;
+}
+.costomcodeQA-footer .btnQA.current{
+  background-color: #2153D4;
+  color: #FFFFFF;
+  width: 160PX;
+  height: 40px;
+  border: 1px solid #2153D4;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+.stateQA >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: #2153D4!important;
+  background-color: #2153D4!important;
+}
+.stateIcon >>>.el-switch.is-checked .el-switch__core{
+  width: 40px;
+  border-color: rgb(0, 145, 250)!important;
+  background-color: rgb(0, 145, 250)!important;
+}
+.updataQA >>> .updata-option .remind-text{
+   color: #2153D4;
+    font-weight: 400;
+}
+.updata >>> .updata-option .remind-text{
+   color: #0392FB;
+    font-weight: 400;
+}
+.tagTextQA >>> .emoji-icon{
+  color: #2153D4;
+}
+.tagText >>> .emoji-icon{
+  color: #26a2ff;
+}
+.tagTextQA >>> .el-tabs__item.is-active{
+    font-weight: 600;
+    color: #2153D4;
+}
+.tagText >>>.el-tabs__item.is-active{
+    font-weight: 600;
+    color: #0094FC;
 }
 </style>

@@ -21,15 +21,16 @@
             v-for="item in dateList"
             :key="item.day"
             class="date-list-item"
-            :class="{ 'date-list-item_active': day === item.day }"
+            :class="{ 'date-list-item_active': day === item.day,'colorQAB': ENV === 'QA' && day === item.day,'colorNormalB':ENV !== 'QA' && day === item.day }"
+
             @click="chooseDay(item.day)"
           >
             <div class="date-item_time">
               <span>{{item.day}}</span>
               <span>{{item.weekday}}</span>
             </div>
-            <div class="date-item_today-icon" v-if="today === item.date">今天</div>
-            <div class="date-item_activity-count">{{item.count}}</div>
+            <div :class="[ENV === 'QA'? colorQA:colorNormal]" class="today" v-if="today === item.date">今天</div>
+            <div :class="[ENV === 'QA'? colorQAF:colorNormalF]" class="date-item_activity-count">{{item.count}}</div>
           </li>
         </ul>
       </ElScrollbar>
@@ -51,7 +52,12 @@ export default {
       month: moment(),
       day: 0,
       today: moment().format('yyyy-MM-DD'),
-      dateList: []
+      dateList: [],
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal',
+      colorQAF: 'colorQAF',
+      colorNormalF: 'colorNormalF'
     }
   },
   async mounted () {
@@ -211,31 +217,45 @@ export default {
           }
         }
       }
-      .date-item_today-icon {
+      .today {
         position: absolute;
         left: 68px;
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        background:  #0392FB;
         color: #fff;
         font-weight: 500;
         font-size: 12px;
         line-height: 34px;
         text-align: center;
       }
+      .colorNormal{
+       background:  #0392FB;
+      }
+      .colorQA{
+        background: #2153D4;
+      }
+         .colorNormalF{
+       color:  #0392FB;
+      }
+      .colorQAF{
+        color: #2153D4;
+      }
       .date-item_activity-count {
         margin-left: 90px;
-        color: #0392FB;
         font-size: 14px;
         width: 45px;
         text-align: right;
       }
     }
-
+          .colorNormalB{
+         border-right: 2px solid #0392FB;
+      }
+      .colorQAB{
+          border-right: 2px solid #2153D4;
+      }
     .date-list-item_active {
       background: #F8F9FB;
-      border-right: 2px solid #0392FB;
     }
   }
 }

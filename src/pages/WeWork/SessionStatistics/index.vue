@@ -24,7 +24,7 @@
         <div class="chat-select">
           <div class="xxxx">
             <div class="left-select">
-              <div class="day-view">
+              <div class="day-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                 <span
                   :class="
                     showTodaySelect
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div class="title">数据分析</div>
-        <div v-if="echartList.length" class="charts-view">
+        <div v-if="echartList.length" class="charts-view" >
           <NsEcharts :options="option" />
         </div>
         <div class="no-data" v-else>
@@ -92,8 +92,8 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+        <el-tabs v-model="activeName" @tab-click="handleClick" >
           <el-tab-pane label="按日期显示" name="first">
             <page-table style="padding-top:0">
               <template slot="table">
@@ -274,7 +274,10 @@ export default {
       endTime: '',
       guideIds: [],
       outputClickState: true,
-      datePickerValue: []
+      datePickerValue: [],
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   methods: {
@@ -789,5 +792,23 @@ export default {
 .xxxx {
   display: flex;
   align-items: center;
+}
+.fuscousQA .base-text-select{
+  color: #0C4CFF;
+}
+.fuscousIcon .base-text-select{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__item.is-active{
+  color: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__item.is-active{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__active-bar{
+  background: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__active-bar{
+  background: #0091fa;
 }
 </style>

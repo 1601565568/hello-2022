@@ -53,47 +53,103 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入活动名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入活动名称',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 1,
+            max: 20,
+            message: '长度在1-20个字符',
+            trigger: ['blur', 'change']
+          }
         ],
         shopIdList: [
-          { required: true, message: '请选择参加门店', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请选择参加门店',
+            trigger: ['blur', 'change']
+          }
         ],
         time: [
-          { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: '请选择有效日期',
+            trigger: ['blur', 'change']
+          },
           { validator: checkTime, trigger: ['blur', 'change'] }
         ],
         activityPoster: [
-          { required: true, message: '请选择活动海报', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请选择活动海报',
+            trigger: ['blur', 'change']
+          }
         ],
         welcomePoster: [
           { required: true, message: '请选择海报', trigger: ['blur', 'change'] }
         ],
         roomRule: [
-          { required: true, message: '请输入群名称规则', trigger: ['blur', 'change'] },
-          { min: 1, max: 50, message: '长度在1-50个字符', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入群名称规则',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 1,
+            max: 50,
+            message: '长度在1-50个字符',
+            trigger: ['blur', 'change']
+          }
         ],
         qrcodePoster: [
-          { required: true, message: '请上传海报背景', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请上传海报背景',
+            trigger: ['blur', 'change']
+          }
         ],
         qrcodeType: [
-          { required: true, message: '请选择聚合码设置', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请选择聚合码设置',
+            trigger: ['blur', 'change']
+          }
         ],
         roomBaseId: [
-          { validator: validateNumber.bind(this, 1, 100), trigger: ['blur', 'change'] }
+          {
+            validator: validateNumber.bind(this, 1, 100),
+            trigger: ['blur', 'change']
+          }
         ],
         roomUserNum: [
-          { validator: validateNumber.bind(this, 1, 200), trigger: ['blur', 'change'] }
+          {
+            validator: validateNumber.bind(this, 1, 200),
+            trigger: ['blur', 'change']
+          }
         ]
       },
       btnLoad: false,
       roomBaseNameLength: 0,
       tools: [
-        { type: 'tag', text: '门店名称', id: 'LBS_SHOP_NAME', value: '门店名称' }
+        {
+          type: 'tag',
+          text: '门店名称',
+          id: 'LBS_SHOP_NAME',
+          value: '门店名称'
+        }
       ],
       validateActivityIntroduction,
       loadOver: false, // 保存是否加载完成
-      isStating: false // 是否正在进行中
+      isStating: false, // 是否正在进行中
+      messageQA: process.env.VUE_APP_THEME,
+      messageIconQA: 'scope_tipQA',
+      messageIcon: 'scope_tip',
+      radiobox: 'radiobox',
+      radioboxQA: 'radioboxQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: {
