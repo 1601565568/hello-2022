@@ -158,7 +158,10 @@ export default {
           value: '2',
           label: '升序'
         }
-      ]
+      ],
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
 

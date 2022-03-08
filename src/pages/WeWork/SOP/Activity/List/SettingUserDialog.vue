@@ -14,9 +14,11 @@
       <el-form-item label="选择人员">
         <el-radio-group v-model="type">
           <el-radio
+          :class="[ENV === 'QA'? colorQA:colorNormal ]"
             v-for="item in authTypeOptions"
             :key="item.label"
             :label="item.label"
+
           >
             {{item.name}}
           </el-radio>
@@ -125,7 +127,10 @@ export default {
       setFailedInfo: {
         taskNames: [],
         guideNames: []
-      }
+      },
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal'
     }
   },
   methods: {
@@ -200,7 +205,15 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+  .colorQA >>>.el-radio__input.is-checked + .el-radio__label{
+    color: #2153D4;
+  }
+  .colorQA >>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #2153D4;
+    background: #2153D4;
+  }
+</style>
 <style lang="scss" scoped>
 @import "./styles/reset.css";
 .title {

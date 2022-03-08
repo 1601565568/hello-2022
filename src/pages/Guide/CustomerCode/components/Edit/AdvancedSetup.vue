@@ -194,7 +194,7 @@
         </div>
       </el-form-item>
     </el-form>
-    <div class='costomcode-footer'>
+    <div :class="[btnNext !=='QA'? foot: footQA]">
       <div class='btn' @click="handlePrev">上一步，配置欢迎语</div>
       <ns-button class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit" :loading='loading'>保存</ns-button>
     </div>
@@ -261,6 +261,8 @@ export default {
       btnNext: process.env.VUE_APP_THEME,
       btnQA: 'btnQA',
       btn: 'btn',
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer',
       radio: 'radiobox',
       radioQA: 'radioboxQA',
       btnSafeQA: 'btnSafeQA',
@@ -468,7 +470,7 @@ export default {
   color: #FFFFFF;
   border: 1px solid #0091FA;
 }
-.costomcode-footer .btnQA.current{
+.costomcodeQA-footer .btnQA.current{
   background-color: #2153D4;
   color: #FFFFFF;
   width: 160PX;

@@ -423,9 +423,20 @@ img {
 // }
 </style>
 <style scoped>
+.fuscousQA >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #2153D4;
+    border-color: #2153D4;
+}
+.fuscousQA >>> .addMenu:hover{
+   border: 1px dashed #2153D4;
+    color: #2153D4
+}
 .fuscousQA >>> .el-checkbox__input.is-checked .el-checkbox__inner{
   background-color: #2153D4;
     border-color: #2153D4;
+}
+.fuscousQA >>> .addMenu:hover .el-icon-plus{
+   color: #2153D4!important
 }
 .fuscousIcon >>> .el-checkbox__input.is-checked .el-checkbox__inner{
   background-color: #0091fa;

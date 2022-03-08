@@ -77,7 +77,7 @@
         <Welcome :url="model.cardCoverPic" :title="model.cardTitle" :detail="model.cardCopywriting" :info="model.activityIntroduction"/>
       </template>
     </Box>
-    <div class='costomcode-footer'>
+    <div :class="[btnNext !=='QA'? foot: footQA]">
       <div class='btn' @click="handlePrev">上一步，设置裂变海报</div>
       <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
     </div>
@@ -121,7 +121,9 @@ export default {
       tagText: 'tagText',
       tagTextQA: 'tagTextQA',
       fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      fuscousIcon: 'fuscousIcon',
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer'
     }
   },
   props: ['data', 'isStating'],
@@ -226,7 +228,7 @@ export default {
   color: #FFFFFF;
   border: 1px solid #0091FA;
 }
-.costomcode-footer .btnQA.current{
+.costomcodeQA-footer .btnQA.current{
   background-color: #2153D4;
   color: #FFFFFF;
   width: 160PX;

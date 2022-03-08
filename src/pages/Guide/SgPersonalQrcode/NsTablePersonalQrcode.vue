@@ -157,14 +157,14 @@
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="center" min-width="100">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA; font-size:20px;" size="mini" @click="qrcodeLink(scope.row)" type="text">
+              <ns-button  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" size="mini" @click="qrcodeLink(scope.row)" type="text">
                 <Icon type="erweima"/>
               </ns-button>
             </template>
           </el-table-column>
           <el-table-column v-if="memberManagePlan == 1" prop="poster" label="海报" align="center" min-width="100">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA; font-size:20px;" size="mini" @click="posterLink(scope.row)" type="text">
+              <ns-button :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" size="mini" @click="posterLink(scope.row)" type="text">
               <Icon type="tupian"/>
               </ns-button>
             </template>
@@ -248,5 +248,12 @@ export default personalQrcode
   .resetbtn {
     margin-left: var(--default-margin-larger);
   }
-
+  .fuscousIcon{
+   color:#0091FA;
+    font-size:20px;
+  }
+  .fuscousQA{
+    color: #2153D4;
+    font-size:20px;
+  }
 </style>

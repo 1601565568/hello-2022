@@ -215,7 +215,7 @@
       </el-form-item> -->
       <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
         <template v-if="disabledPicType">
-          <el-radio-group v-model="model.codeType">
+          <el-radio-group v-model="model.codeType" :class="[ENV === 'QA' && 'radioQA']">
             <el-radio :label="1" :disabled="true">图片上植入小程序码 </el-radio>
             <el-radio :label="2">单独增加一张小程序码图 </el-radio>
           </el-radio-group>
@@ -231,7 +231,7 @@
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button :style='catalogueStr ? "margin-left: 12px" : ""' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
-      <el-form-item class="remind-setting" label="提醒设置：">
+      <el-form-item class="remind-setting" label="提醒设置：" :class="[ENV === 'QA' && 'bgQA']">
         <el-switch
           :active-value="1"
           :inactive-value="0"
@@ -244,20 +244,20 @@
           <html-area style="position:relative;height: 32px;max-width: 540px">
             <div class="employee-list">
               <span class="selected-tip">
-                已选择<span class="selected-count">{{ model.guideIdList.length }}</span>人
+                已选择<span class="selected-count" :class="[ENV === 'QA' && 'colorQA']" >{{ model.guideIdList.length }}</span>人
               </span>
               <template v-if="guideDatas.length">
                 <div class="employee-list_item" v-for="item in guideDatas" :key="item.id">
                   {{ item.name }}
                 </div>
               </template>
-              <p v-else class="employee-text">
+              <p v-else class="employee-text" >
                 请选择员工
               </p>
               <span v-if="model.guideIdList.length > 5">...</span>
             </div>
             <template slot="suffix">
-              <div class="employee-suffix">
+              <div class="employee-suffix" :class="[ENV === 'QA' && 'colorQA']">
                 <NsGuideV2Dialog
                   :visible.sync="NsGuide2DialogVisible"
                   :appendToBody="true"
@@ -270,7 +270,7 @@
             </template>
           </html-area>
         </el-form-item>
-        <el-form-item label-width="106px" label="通知时间">
+        <el-form-item label-width="106px" label="通知时间" :class="[ENV === 'QA' && 'QAbg']">
           <el-radio-group v-model="model.notifyType">
             <el-radio :label="1">上架即通知</el-radio>
             <el-radio :label="2">自定义通知时间</el-radio>
@@ -356,6 +356,7 @@ export default {
   },
   data: function () {
     return {
+      ENV: process.env.VUE_APP_THEME,
       NsGuide2DialogVisible: false,
       loading: false,
       wechatPageTypeList: [
@@ -922,6 +923,21 @@ export default {
 <style scoped>
 /* @import '@theme/variables.pcss'; */
 @import '../styles/image.css';
+.bgQA >>> .el-switch.is-checked .el-switch__core{
+   border-color: #2153D4;
+  background-color: #2153D4;
+}
+.colorQA{
+   color: #2153D4!important;
+}
+.QAbg >>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background-color: #2153D4;
+}
+.radioQA >>> .el-radio__input.is-checked .el-radio__inner{
+   border-color: #2153D4;
+  background-color: #2153D4;
+}
 .limit-scroll-view {
   max-height: 750px;
   overflow: scroll;

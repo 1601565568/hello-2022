@@ -204,8 +204,8 @@ export default {
     },
     onChangeItem (shopId) {
       this.$queryList$(this.$generateParams$()).then(() => {
-        const item = this._data._table.data.find(item => item.shopId)
-        const index = this._data._table.data.findIndex(item => item.shopId)
+        const item = this._data._table.data.find(item => item.shopId === shopId)
+        const index = this._data._table.data.findIndex(item => item.shopId === shopId)
         this.handleDetail(item, index)
       })
     }
