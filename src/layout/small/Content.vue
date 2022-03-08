@@ -47,7 +47,7 @@ export default {
 
   @component-namespace layout {
     @b content {
-      margin-left: calc(var(--content-margin) + var(--menu-second-width));
+      margin-left: 200px;
       padding-top: calc(var(--content-padding) + var(--head-nav-height));
       @e main {
         height: 100%;
