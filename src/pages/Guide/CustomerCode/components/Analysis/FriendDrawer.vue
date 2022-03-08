@@ -72,7 +72,6 @@
                   <div class='content-item' @click='handleNext'>下一个{{nextName}}<i class="el-icon-arrow-right"></i></div>
                 </div>
                 <el-pagination v-if="_data._pagination.enable"
-                              style='width:300px'
                               class="template-table__pagination"
                               :page-sizes="_data._pagination.sizeOpts"
                               :total="_data._pagination.total"
