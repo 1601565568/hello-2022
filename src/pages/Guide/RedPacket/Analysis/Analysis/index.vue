@@ -40,7 +40,7 @@
       </div> -->
       <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
       <h3 class='double-title'>数据报表</h3>
-      <div class="select-data-view">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
         <el-tabs v-model="activeName">
           <el-tab-pane label="按日期统计" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>
@@ -131,5 +131,23 @@ Index.components = {
 }
 .analysis-content >>> .date-picker-bar {
   margin-left: 0;
+}
+.fuscousQA .base-text-select{
+  color: #0C4CFF;
+}
+.fuscousIcon .base-text-select{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__item.is-active{
+  color: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__item.is-active{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__active-bar{
+  background: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__active-bar{
+  background: #0091fa;
 }
 </style>

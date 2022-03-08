@@ -47,7 +47,10 @@ export default {
       },
       isQY: true, // 是否是企微
       isLoading: false,
-      brandDialogVisible: false // 选择品牌模态框
+      brandDialogVisible: false, // 选择品牌模态框
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mounted () {

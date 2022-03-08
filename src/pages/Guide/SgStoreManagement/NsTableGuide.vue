@@ -20,6 +20,7 @@
             :default-expanded-keys="[model.areaId]"
             :filter-node-method="onFilterNode"
             @node-click="onClickNode"
+            :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"
           >
             <span
               class="filter-tree-node"
@@ -183,7 +184,8 @@
                         class="item"
                         :title="`所在区域（${scope.row.areaNames.length}）`"
                         trigger="hover"
-                        :content="scope.row.areaNames.join('；')">
+                        :content="scope.row.areaNames.join('；')"
+                        :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                         <span class="scope-name_tip" slot="reference">共{{scope.row.areaNames.length}}个</span>
                         <div style="max-width: 400px">
                           {{scope.row.areaNames.join('；')}}
@@ -373,5 +375,31 @@ export default guide
     color: #0091FA;
     display: block;
     min-width: 55px;
+  }
+.fuscousQA > .el-tree-node.is-current > .el-tree-node__content{
+  color: #0C4CFF;
+}
+.fuscousIcon > .el-tree-node.is-current > .el-tree-node__content{
+ color: #0091fa;
+}
+.fuscousQA >>>.scope-name_tip{
+  color: #0C4CFF;
+}
+.fuscousIcon >>>.scope-name_tip{
+  color: #0091fa;
+}
+.fuscousQA >>>.el-tree-node__content:hover{
+  color: #2153D4;
+}
+.fuscousIcon >>>.el-tree-node__content:hover{
+  color: #1a9cfb;
+}
+.fuscousIcon>>>.filter-tree-node > .icon {
+    color:#0091fa;
+    font-size: 14px
+  }
+.fuscousQA>>>.filter-tree-node > .icon {
+      color: #0C4CFF;
+    font-size: 14px
   }
 </style>

@@ -91,7 +91,16 @@ export default {
       areaTree: [],
       selectItem: {
         label: ''
-      }
+      },
+      chooesQA: process.env.VUE_APP_THEME,
+      filter: 'filter-area',
+      filterQA: 'filter-areaQA',
+      selects: 'selected-area',
+      selectQA: 'selected-areaQA',
+      checkQA: 'checkQA',
+      checks: 'checks',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {

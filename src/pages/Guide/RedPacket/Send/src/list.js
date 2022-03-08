@@ -9,7 +9,10 @@ export default {
       },
       chooseItem: {}, // 员工展示弹框的请求数据
       visible: false,
-      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit'
+      detailPath: '/Social/SocialOperation/RedPacket/Send/Edit',
+      state: process.env.VUE_APP_THEME,
+      stateQA: 'stateQA',
+      stateIcon: 'stateIcon'
     }
   },
   mixins: [tableMixin, redpacketTable],

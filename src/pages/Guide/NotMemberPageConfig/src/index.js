@@ -154,9 +154,13 @@ export default {
           value: '时间戳'
         }
       ],
-      presetLink: [] // 系统链接数组
-      // linkModelFileList: [],
-      // appModelFileList: []
+      presetLink: [], // 系统链接数组 // linkModelFileList: [],// appModelFileList: []
+      radioBOX: process.env.VUE_APP_THEME,
+      radio: 'radio',
+      radioQA: 'radioQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
+
     }
   },
   mounted () {

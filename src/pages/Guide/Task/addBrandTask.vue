@@ -84,7 +84,7 @@
               </ElFormItem>
               <ElFormItem label='执行次数' prop='runType' required>
                 <ElRadioGroup v-model='model.runType'
-                  :disabled='canNotEdit'>
+                  :disabled='canNotEdit' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                   <ElRadio :label='0'>单次执行</ElRadio>
                   <ElRadio :label='1'>每日执行</ElRadio>
                 </ElRadioGroup>
@@ -96,7 +96,7 @@
             <ElCollapseItem title='任务内容' name='2'>
               <ElFormItem label='任务类型'>
                 <ElRadioGroup v-model='model.type'
-                  :disabled='canNotEdit'>
+                  :disabled='canNotEdit' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                   <ElRadio :label='0'>营销任务</ElRadio>
                   <ElRadio :label='1'>回访任务</ElRadio>
                   <ElRadio :label='3'>日常任务</ElRadio>
@@ -104,7 +104,7 @@
                 </ElRadioGroup>
               </ElFormItem>
               <ElFormItem label='执行门店'>
-                <ElRadioGroup v-model='model.shopRangeType'>
+                <ElRadioGroup v-model='model.shopRangeType' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                   <ElRadio :label='0'>全部门店</ElRadio>
                   <ElRadio :label='1'>指定门店</ElRadio>
                 </ElRadioGroup>
@@ -657,5 +657,18 @@ export default addBrandTask
 
   /* line-height: 22px; */
 }
-
+.fuscousQA >>>.el-radio__input.is-checked + .el-radio__label{
+   color: #2153D4;
+}
+.fuscousIcon >>>.el-radio__input.is-checked + .el-radio__label{
+   color: #41a2e8;
+}
+.fuscousQA >>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #2153D4;
+    background: #2153D4;
+}
+.fuscousIcon >>>.el-radio__input.is-checked .el-radio__inner{
+    background: #41a2e8;
+    border-color: #41a2e8;
+}
 </style>

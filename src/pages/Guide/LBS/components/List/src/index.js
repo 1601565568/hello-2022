@@ -84,7 +84,12 @@ export default {
         guid: '', // 选择活动id
         type: '' // 弹框类型 预览海报 poster 预览二维码qrcode
       },
-      activeIndex: -1
+      activeIndex: -1,
+      messageQA: process.env.VUE_APP_THEME,
+      messageIconQA: 'scope_tipQA',
+      messageIcon: 'scope_tip',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: {

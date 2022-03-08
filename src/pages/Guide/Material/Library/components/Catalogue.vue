@@ -10,7 +10,7 @@
             v-for="item in folderList"
             :key="item.id"
           >
-            <div class="catalogue-folders__item--info" @click="onEnter(item)">
+            <div class="catalogue-folders__item--info" @click="onEnter(item)" :class="[catelogue==='QA'?catelogueQA:catelogueIcon]">
               <div class="catalogue-folders__item--iconview">
                 <Icon
                   type="wenjianjia-new"
@@ -81,7 +81,7 @@
                     item.sourceName || '-'
                   }}</span>
                 </el-tooltip>
-                <div>
+                <div >
                   <el-switch
                     v-model="item.currentStatus"
                     class="tablescope"
@@ -92,6 +92,7 @@
                     active-value="1"
                     inactive-value="2"
                     @change="currentStatusChange(item)"
+                    :class="[catelogue==='QA'?catelogueQA:catelogueIcon]"
                   ></el-switch>
                 </div>
               </div>
@@ -283,6 +284,7 @@
             <div
               class="catalogue-materials__item--btns"
               v-if="item.materialScriptType === 2"
+              :class="[catelogue==='QA'?catelogueQA:catelogueIcon]"
             >
               <span
                 class="catalogue-materials__item--btn"
@@ -293,7 +295,7 @@
                 {{ btn.name }}
               </span>
             </div>
-            <div v-else class="catalogue-materials__item--btns">
+            <div v-else class="catalogue-materials__item--btns" :class="[catelogue==='QA'?catelogueQA:catelogueIcon]">
               <span
                 class="catalogue-materials__item--btn"
                 v-for="btn in operate_buttons.slice(0, 3)"
@@ -385,7 +387,10 @@ export default {
       linkImage: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg',
       defaultImgUrl:
         'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/image/material/custom-edit.png',
-      selectStatus: '1'
+      selectStatus: '1',
+      catelogue: process.env.VUE_APP_THEME,
+      catelogueIcon: 'cateLogue',
+      catelogueQA: 'cateLogueQA'
     }
   },
   watch: {
@@ -1047,4 +1052,30 @@ export default {
     text-overflow: ellipsis;
   }
 }
+.cateLogue >>> .catalogue-folders__item--icon{
+  margin-top: 15px;
+    font-size: 48px;
+    color: #0392fb;
+}
+.cateLogueQA >>>.catalogue-folders__item--icon{
+  margin-top: 15px;
+    font-size: 48px;
+    color: #0C4CFF;
+}
+.cateLogue.is-checked >>>.el-switch__core{
+  border-color: rgb(0, 145, 250)!important;
+  background-color: rgb(0, 145, 250)!important;
+}
+.cateLogueQA.is-checked >>>.el-switch__core{
+  border-color: #2153D4!important;
+  background-color: #2153D4!important;
+}
+
+.cateLogueQA >>>.catalogue-materials__item--btn{
+  color: #2153D4;
+}
+.cateLogue>>>.catalogue-materials__item--btn{
+  color: rgb(0, 145, 250);
+}
+
 </style>
