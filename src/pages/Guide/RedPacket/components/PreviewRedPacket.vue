@@ -1,6 +1,6 @@
 <template>
   <div class='packet-content'>
-    <RedPacket v-if='!$slots.default' :bgHasFont='true' :bgImage='bgImage' :bagTip='bagTip' @click.native="handleOpen" :bagName="bagName"/>
+    <RedPacket v-if='!$slots.default' :bgHasFont='bgHasFont' :bgImage='bgImage' :bagTip='bagTip' @click.native="handleOpen" :bagName="cloudPlatformType==='ecrp'?'员工姓名发出的红包':'成员姓名发出的红包'"/>
     <span @click="handleOpen"><slot></slot></span>
     <el-drawer
       title="红包封面预览"
