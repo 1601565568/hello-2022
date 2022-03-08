@@ -306,6 +306,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   .pagecontent-left {
+    flex-shrink:0;
     width: 223px;
     height: 32px;
     border: 1px solid #D9D9D9;
@@ -325,6 +326,7 @@ export default {
       background-color: #E8E8E8;
     }
     .content-item {
+      flex-shrink:0;
       width: 50%;
       font-size: 14px;
       color: #595959;
