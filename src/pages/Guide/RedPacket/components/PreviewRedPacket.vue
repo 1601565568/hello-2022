@@ -46,9 +46,6 @@ export default {
       default: ''
     }
   },
-  mounted () {
-    console.log(this.$slots)
-  },
   components: { RedPacket, ElDrawer },
   methods: {
     handleOpen () {
