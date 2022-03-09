@@ -69,7 +69,10 @@ export default {
       CheckTagList: [],
       // 侧边栏信息
       itemDate: {},
-      activeIndex: -1
+      activeIndex: -1,
+      scopeName: process.env.VUE_APP_THEME,
+      nameText: 'scope-name_text',
+      nameTextQA: 'scope-name_textQA'
     }
   },
   mixins: [tableMixin],

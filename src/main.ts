@@ -17,13 +17,15 @@ import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
-LOG.init({
+const appTrack = require('./track/appTrack.js')
+appTrack.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
   spmId: window.g_config.spmId,
   fetch: false, // 关闭 fetch，使用img src 方式上报
   report: window.g_config.report,
-  startTime: window.g_config.startTime // 自定义测速类页面统计起始时间
+  startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
+  userInfo: store.state.user
 })
 
 if (window.g_config.sentry.report === true) {

@@ -22,7 +22,7 @@
       :current-node-key="currentArea.id"
       @node-click="selectAreaNode"
     >
-      <span class="area-tree-node" slot-scope="{ node,data }">
+      <span class="area-tree-node" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" slot-scope="{ node,data }">
         <el-radio :value="currentArea.id" :label="data.id">
           <Icon class="area-node-icon" type="cate" />
           <span class="area-node-title">{{ node.label }}</span>
@@ -61,7 +61,10 @@ export default {
     return {
       scrollTop: 0,
       filterText: '',
-      currentArea: { id: -1, label: '' }
+      currentArea: { id: -1, label: '' },
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   watch: {
@@ -117,5 +120,27 @@ export default {
       font-size: 14px;
     }
   }
+}
+</style>
+<style scoped>
+.fuscousQA >>>.el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.fuscousIcon >>>.el-radio__input.is-checked + .el-radio__label{
+  color: #41a2e8;
+}
+.fuscousQA >>>.area-node-icon{
+  color: #2153D4!important;
+}
+.fuscousIcon >>>.area-node-icon{
+  color: #41a2e8!important;
+}
+.fuscousIcon>>>.el-radio__input.is-checked .el-radio__inner{
+  border-color: #41a2e8;
+    background: #41a2e8;
+}
+.fuscousQA>>>.el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+    background: #2153D4;
 }
 </style>

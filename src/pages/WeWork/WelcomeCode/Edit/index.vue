@@ -13,7 +13,7 @@
        <SimpleCollapse :title="'发布内容'">
           <PhoneBox phoneTitle phoneBar="内容预览">
             <template slot='collapse-left'>
-              <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="107px" label-position="left">
+              <el-form class="el-form-reset" :class="[btnTag==='QA'? tagTextQA : tagText]" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="107px" label-position="left">
                 <div class="banner-tip">
                   <span class="text">当员工有多个欢迎语时，发送优先级为渠道欢迎语>员工欢迎语>店铺欢迎语>默认欢迎语</span>
                 </div>
@@ -34,6 +34,7 @@
                     @inputLength="tagAreaInputLength"
                     placeholder="请输入欢迎语"
                     emojiClass=''
+                    :class="[btnTag==='QA'? tagTextQA : tagText]"
                   />
                 </el-form-item>
                 <el-form-item label="附件" prop="annexList">
@@ -50,7 +51,7 @@
                     :disabled="model.annexList.length >= 9"
                   >
                     <template slot="reference">
-                      <div class="add-material" v-if="model.annexList.length < 9">
+                      <div class="add-material"  v-if="model.annexList.length < 9">
                         <Icon type="ns-add-border" class="icon"/>
                         添加消息内容
                       </div>
@@ -257,7 +258,10 @@ export default {
         { type: 'tag', text: '企业微信员工姓名', id: '{EmployeeNick}', value: '员工姓名' },
         { type: 'tag', text: '客户微信昵称', id: '{CustomerNick}', value: '客户昵称' },
         { type: 'tag', text: '企业微信员工别名', id: '{WeworkNickName}', value: '员工别名' }
-      ]
+      ],
+      btnTag: process.env.VUE_APP_THEME,
+      tagTextQA: 'tagTextQA',
+      tagText: 'tagText'
     }
   },
   mounted () {
@@ -490,5 +494,31 @@ export default {
 .message-preivew-panel {
   overflow: auto;
   height: 515px;
+}
+</style>
+<style scoped>
+.tagTextQA >>> .emoji-icon{
+  color: #2153D4;
+}
+.tagText >>> .emoji-icon{
+  color: #26a2ff;
+}
+.tagTextQA >>> wise{
+  color: #2153D4;
+}
+.tagText >>> wise{
+  color: #26a2ff;
+}
+.tagTextQA >>>.el-form-item .add-material .icon{
+  color: #2153D4;
+}
+.tagText >>>.el-form-item .add-material .icon{
+  color: #26a2ff;
+}
+.tagTextQA>>>.banner-tip{
+  background-color: rgba(237,242,252,100%);
+}
+.tagText >>>.banner-tip{
+  background-color: rgba(237,242,252);
 }
 </style>

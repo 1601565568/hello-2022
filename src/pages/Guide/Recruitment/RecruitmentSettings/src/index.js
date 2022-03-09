@@ -59,7 +59,14 @@ export default {
           mobile: 0,
           shopName: 0
         }
-      }
+      },
+      fuscous: process.env.VUE_APP_THEME,
+      switchs: 'switch',
+      switchQA: 'switchQA',
+      radio: 'radio',
+      radioQA: 'radioQA',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {

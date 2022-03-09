@@ -106,7 +106,7 @@
           <ns-button type="primary" @click.native.prevent="searchAction">搜索</ns-button>
           <ns-button @click.native.prevent="resetInputAction">重置</ns-button>
         </div>
-        <ns-button @click="() => {this.$emit('Reminder')}" class="dri_t">提醒设置</ns-button>
+        <ns-button @click="() => {this.$emit('Reminder')}" class="dri_t" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">提醒设置</ns-button>
         <ns-button @click="openFile" class="dri_t ari">导出文件</ns-button>
       </el-form>
     </template>
@@ -326,5 +326,11 @@ export default NsTableRepeatCustomer
   line-height: 32px;
   margin-left: 11px;
   padding: 0 12px;
+}
+.fuscousQA{
+ background: #2153D4;
+}
+.fuscousIcon{
+  background: #0094FC;
 }
 </style>

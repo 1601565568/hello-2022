@@ -88,11 +88,12 @@
             </el-table-column>
             <el-table-column
               align='center'
-              label="状态">
+              label="状态"
+              >
               <template slot-scope="scope">
                 <el-switch
                   @change='handleChangeState(scope.row.settingId,scope.row.state)'
-                  :value="scope.row.state === 1">
+                  :value="scope.row.state === 1" :class="[state==='QA'?stateQA:stateIcon]">
                 </el-switch>
               </template>
             </el-table-column>
@@ -172,4 +173,14 @@ export default Index
       content:'...'
     }
   }
+</style>
+<style scoped>
+.stateQA.is-checked >>> .el-switch__core{
+  border-color: #2153D4;
+  background-color: #2153D4;
+}
+.stateIcon.is-checked >>>.el-switch__core{
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
 </style>
