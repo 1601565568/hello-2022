@@ -97,6 +97,7 @@
                 <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
               </div>
               <el-pagination v-if="_data._pagination.enable"
+                              pager-count='4'
                               class="template-table__pagination"
                               :page-sizes="_data._pagination.sizeOpts"
                               :total="_data._pagination.total"
@@ -305,6 +306,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   .pagecontent-left {
+    flex-shrink: 0;
     width: 223px;
     height: 32px;
     border: 1px solid #D9D9D9;
