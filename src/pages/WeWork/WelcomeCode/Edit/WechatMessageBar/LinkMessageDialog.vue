@@ -34,10 +34,10 @@
           :rules="rules"
         >
           <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
-          <el-form-item label="跳转链接" v-if="cloudPlatformType === 'ecrp'" prop="custom" label-width="110px" required>
-            <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange">
-              <el-radio :label="1">自定义链接</el-radio>
-              <el-radio :label="2">系统预置链接</el-radio>
+          <el-form-item label="跳转链接" prop="custom" label-width="110px" required >
+            <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange" >
+              <el-radio :label="1"  :class="[ENV === 'QA'&& 'stylesQA']" >自定义链接</el-radio>
+              <el-radio :label="2"  :class="[ENV === 'QA'&& 'stylesQA']">系统预置链接</el-radio>
             </el-radio-group>
             <div v-if="defaultModel.custom === 2" style="display:inline-block;">
               <div class="run-link-view">
@@ -160,8 +160,8 @@
             </div>
             <div v-if="defaultModel.custom === 2" class="remind-text-view" style="margin-top:4px;">
               以下信息可在：获客引流/会员引流/招募页面配置的导购招募页面设置编辑修改
-              <span class="edit-link-text" @click="toEditLinkPage">编辑招募信息&nbsp;&nbsp;</span>
-              <span class="edit-link-text" @click="reloadLink">刷新</span>
+              <span class="edit-link-text" :class="[ENV === 'QA' && 'colorQA']" @click="toEditLinkPage">编辑招募信息&nbsp;&nbsp;</span>
+              <span class="edit-link-text" :class="[ENV === 'QA' && 'colorQA']" @click="reloadLink">刷新</span>
             </div>
           </el-form-item>
           <!-- <el-form-item
@@ -340,6 +340,7 @@ export default {
   data () {
     return {
       cloudPlatformType: '',
+      ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       uploadUrl: this.$api.core.sgUploadFile('message'),
       disabled: false,
@@ -599,6 +600,13 @@ export default {
 <style scoped>
 @import "@theme/variables.pcss";
 @import "./styles/link.css";
+.colorQA {
+  color: #2153D4!important;
+}
+.stylesQA >>> .el-radio__input.is-checked .el-radio__inner{
+border-color: #2153D4;
+  background-color: #2153D4;
+}
 .edit-link-text {
   color:#0094FC;
   cursor: pointer;

@@ -130,7 +130,7 @@
           </div>
         </el-form-item>
       </el-form>
-      <div class='costomcode-footer'>
+      <div :class="[btnNext !=='QA'? foot: footQA]">
         <div class='current' :class="[btnNext==='QA'?btnQA:btn]" @click="handleSubmit">下一步</div>
       </div>
     </template>
@@ -177,12 +177,15 @@ export default {
       },
       pickerOptions: this.endDateDisable(),
       btnNext: process.env.VUE_APP_THEME,
+      foot: 'costomcode-footer',
+      footQA: 'costomcodeQA-footer',
       btnQA: 'btnQA',
       btn: 'btn',
       radioQA: 'radioQA',
       radio: 'radio',
       numberQA: 'numberQA',
       number: 'number'
+
     }
   },
   props: ['data', 'isStating'],
@@ -370,7 +373,7 @@ export default {
   color: #FFFFFF;
   border: 1px solid #0091FA;
 }
-.costomcode-footer .btnQA.current{
+.costomcodeQA-footer .btnQA.current{
   background-color: #2153D4;
   color: #FFFFFF;
   width: 160PX;
