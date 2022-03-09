@@ -155,6 +155,12 @@ export default {
 /* .el-table .cell.el-tooltip{
   width: 187px;
 } */
+.el-table::before {
+  height: 0px;
+}
+>>>.el-drawer.rtl {
+  overflow: scroll !important;
+}
 .el-tabs__item {
   font-size: 18px !important;
   padding: 10px 0 50px !important;
@@ -313,8 +319,8 @@ export default {
 .detail-pagination{
   width: 720px;
   height: 62px;
-  position: fixed;
-  bottom: 0;
+  /* position: fixed;
+  bottom: 0; */
   display: flex;
   justify-content: end;
   align-items: center;
