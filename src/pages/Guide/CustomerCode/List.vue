@@ -79,7 +79,7 @@
                     width="200"
                     trigger="hover"
                     :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
-                    <span class="scope-name_tip" slot="reference">共{{scope.row.guideCount}}个</span>
+                    <span :class="[scopeName==='QA'?nameTextQA:nameText]" slot="reference">共{{scope.row.guideCount}}个</span>
                   </el-popover>
                 </div>
               </template>
@@ -206,6 +206,18 @@ export default List
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    &.more:after {
+      content:'...'
+    }
+  }
+    .scope-name_textQA {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    color: #2153D4;
     &.more:after {
       content:'...'
     }

@@ -107,7 +107,12 @@ export default {
           })
         }
         return arr
-      }
+      },
+      employees: process.env.VUE_APP_THEME,
+      employeeQA: 'employeeQA',
+      employeeScope: 'employee',
+      stateQA: 'elStateQA',
+      elState: 'elState'
     }
   },
   mounted () {

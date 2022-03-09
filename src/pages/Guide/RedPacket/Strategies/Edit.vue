@@ -39,7 +39,7 @@
                   <p class='prompt-text' v-if='model.redpackType === luckyRed'><span class='yellow-point'></span>拼手气红包仅可在群聊中使用</p>
                 </el-form-item>
                 <el-form-item label='发放类型' required prop='launchType' class='larger-item'>
-                  <el-radio-group v-model="model.launchType">
+                  <el-radio-group v-model="model.launchType" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                     <template v-for='item in setTypeList'>
                       <el-radio v-if='item.value === staffPost || model.redpackType === normalRed' :label="item.value" :key='item.value'>{{item.label}}</el-radio>
                     </template>
@@ -73,7 +73,7 @@
                 <length-input v-model='model.name' placeholder="请输入红包名称" :length='10' />
               </el-form-item>
               <el-form-item label='有效期' required class='larger-item'>
-                <el-radio-group v-model="model.timeType">
+                <el-radio-group v-model="model.timeType" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                   <template v-for='item in timeTypeList'>
                     <el-radio :label="item.value" :key='item.value' @change="resetValite('timeItem')">{{item.nick}}</el-radio>
                   </template>
@@ -102,7 +102,7 @@
               </el-form-item>
               <el-form-item v-if='model.launchType !== activityPost' label='单人单日发放个数上限（个）' required class='larger-item'>
                 <div class='form-item_toptext'>
-                  <el-radio-group v-model="model.limitType"  @change="resetValite('limitTypeItem')">
+                  <el-radio-group v-model="model.limitType"  @change="resetValite('limitTypeItem')" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                     <el-radio :label="1">有限<el-tooltip content="达到上限后，不能再发送此红包"  placement="top">
                         <Icon type="question-circle" class='question-circle' />
                       </el-tooltip></el-radio>
@@ -368,5 +368,19 @@ export default Index
   >>> .el-form-item__label:before {
     display: none !important ;
   }
+}
+.fuscousQA >>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #2153D4;
+    background: #2153D4;
+}
+.fuscousIcon>>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #41a2e8;
+    background: #41a2e8;
+}
+.fuscousIcon>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #41a2e8;
+}
+.fuscousQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
 }
 </style>
