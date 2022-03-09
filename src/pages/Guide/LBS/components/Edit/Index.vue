@@ -47,7 +47,7 @@
               </html-area>
             </el-form-item>
             <el-form-item label='有效时间' required prop='timeType'>
-              <div class='form-item_toptext'>
+              <div class='form-item_toptext' :class="[messageQA==='QA'?radioboxQA:radiobox]">
                 <el-radio v-model="model.timeType" :label="1" :disabled='isStating'>固定时间</el-radio>
                 <el-radio v-model="model.timeType" :label="2" :disabled='isStating'>永久有效</el-radio>
               </div>
@@ -131,7 +131,7 @@
             <template slot='collapse-left'>
               <!-- 群聚合码设置 start -->
               <template v-if='type === "Group"'>
-                <div class='form-item_tip'>
+                <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
                   消费者进入此活动页面后，根据定位位置自动推荐最近门店的群聚合码，客户可扫码入群<br />
                   群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）
                 </div>
@@ -213,7 +213,7 @@
               <!-- 群聚合码设置 end -->
               <!-- 好友聚合码设置 start -->
               <template v-if='type === "Friends"'>
-                <div class='form-item_tip'>
+                <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
                   消费者进入此活动页面后，根据定位位置自动推荐最近门店的企微聚合码，客户可扫码添加企业员工为好友
                 </div>
                 <div class='step-content'>
@@ -228,7 +228,7 @@
                     </el-tooltip>
                   </div>
                 </div>
-                <el-form-item label='聚合码设置' required prop='qrcodeType'  class='larger-item'>
+                <el-form-item label='聚合码设置' required prop='qrcodeType'  class='larger-item' :class="[messageQA==='QA'?radioboxQA:radiobox]">
                   <el-radio-group v-model="model.qrcodeType">
                     <el-radio :label="1">门店全部员工</el-radio>
                     <el-radio :label="2">仅店长</el-radio>
@@ -569,5 +569,25 @@ export default Index
 }
 .form-item_time >>> .el-form-grid--xmd {
   width: 220px;
+}
+.radiobox >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+.radiobox >>>.el-radio__input.is-checked + .el-radio__label{
+  color:#41a2e8;
+}
+.radioboxQA >>> .el-radio__input.is-checked .el-radio__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.radioboxQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color:#2153D4 ;
+}
+.fuscousQA{
+  background: rgba(237,242,252, 100%);
+}
+.fuscousIcon{
+  background: rgba(237,242,252);
 }
 </style>

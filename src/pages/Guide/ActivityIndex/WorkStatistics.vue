@@ -196,7 +196,7 @@
       <el-table-column label="姓名" prop="name">
         <template slot-scope="scope">
           <p v-if="scope.row.status == 2">
-            {{scope.row.name }} <span v-if="scope.row.sameFlag === 1 && scope.row.work_number">({{scope.row.work_number}})</span> <span class="text-error">(已离职)</span>
+            {{scope.row.name }} <span v-if="scope.row.sameFlag === 1 && scope.row.work_number">({{scope.row.work_number}})</span> <span class="text-error"></span>
           </p>
 <!--          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null || (scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0)">-->
           <p v-else-if="scope.row.gsShopId != null && scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0">
@@ -283,12 +283,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="销售额(元)/销售指标(元)/完成率"
+        label="成单导购销售额(元)/销售指标(元)/完成率"
         align="right"
-        width="250"
+        width="280"
       >
         <template slot="header">
-          销售额(元)/销售指标(元)/完成率
+          成单导购销售额(元)/销售指标(元)/完成率
           <el-tooltip content="此员工为成单导购的订单金额减去退款金额（不限制下单门店为该门店）">
             <Icon type="question-circle"/>
           </el-tooltip>
@@ -299,6 +299,17 @@
           <span v-else>{{$numeral(scope.row.sellQuota).format('0,0.00')}}</span>
           </span>/<span>{{scope.row.sellCompleteRate || '-'}}</span>
       </template>
+      </el-table-column>
+      <el-table-column label="专属导购销售额（元）" prop="sellPrice" width="150" align="right">
+        <template slot="header">
+          专属导购销售额(元)
+          <el-tooltip content="专属导购为此导购且专属门店为此门店的订单">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
+        <template slot-scope="scope">
+          <span>{{scope.row.exclusiveGuideMonery || '-'}}</span>
+        </template>
       </el-table-column>
       <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
         <template slot="header">
@@ -409,6 +420,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="时间" ></el-table-column>
+              <el-table-column prop="commissionType" label="提成类型">
+                <template slot-scope="scope">
+                  <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="reward" label="提成"   align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
@@ -464,6 +480,11 @@
               </el-table-column>
               <el-table-column prop="tradeId" label="关联订单号"></el-table-column>
               <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="commissionType" label="提成类型">
+                <template slot-scope="scope">
+                  <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="reward" label="提成" align="right" width="140px">
                 <template slot-scope="scope">
                   {{'¥'+scope.row.reward}}
@@ -545,7 +566,7 @@ import listPageMixin from '@/mixins/listPage'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
-
+import { commissionTypeText } from './src/until.js'
 export default {
   mixins: [listPageMixin],
   components: { NsGuideDialog },
@@ -625,6 +646,9 @@ export default {
     this.loadListFun()
   },
   methods: {
+    commissionTypeText (type) {
+      return commissionTypeText(type)
+    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null
@@ -827,6 +851,9 @@ export default {
         _this.searchObj.searchMap.date = moment(_this.searchform.date).format('YYYY-MM')
       }
       const negative = this.activeName === 'first' ? 0 : 1
+      // searchform.type searchform.dateRange
+      const startDate = this.searchform.type === '3' && this.searchform.dateRange ? moment(this.searchform.dateRange[0]).format('YYYY-MM-DD') : ''
+      const endDate = this.searchform.type === '3' && this.searchform.dateRange ? moment(this.searchform.dateRange[1]).format('YYYY-MM-DD') : ''
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
         length: _this.pagination1.size,
@@ -840,7 +867,9 @@ export default {
           rewardType: _this.type,
           date: _this.searchObj.searchMap.date,
           negative,
-          outRefundId: _this.outRefundId
+          outRefundId: _this.outRefundId,
+          startDate,
+          endDate
         }
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {

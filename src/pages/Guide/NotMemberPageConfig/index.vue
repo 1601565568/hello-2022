@@ -18,7 +18,7 @@
           <div class="nonMember-config__left">
             <div class="nonMember-config__head">配置功能</div>
             <div class="nonMember-config__left-content">
-              <div class="nonMember-config__left-content-otherInfo">
+              <div class="nonMember-config__left-content-otherInfo" :class="[radioBOX==='QA'?fuscousQA:fuscousIcon]">
                 <h5 class="content-otherInfo__head">功能介绍</h5>
                 <p>
                   1、好友聊天窗口，好友是会员时，直接进入会员详情；好友不是会员时，可发放配置的招募链接
@@ -34,7 +34,7 @@
               >
                 <el-form-item label="发送招募链接">
                   <div class="ml">
-                    <el-switch v-model="model.memberShowSwitch" />
+                    <el-switch v-model="model.memberShowSwitch" :class="[radioBOX==='QA'?radioQA:radio]" />
                   </div>
                   <div class="ml">
                     <span class="nonMember-config__left-content-tip"
@@ -50,6 +50,7 @@
                     <el-radio-group
                       v-model="model.recruitLinkType"
                       @change="handleChange"
+                      :class="[radioBOX==='QA'?radioQA:radio]"
                     >
                       <el-radio :label="1">系统预置链接</el-radio>
                       <el-radio :label="2">自定义链接</el-radio>
@@ -87,6 +88,7 @@
                           <el-radio-group
                             v-model="model.linkType"
                             @change="handleChange"
+                            :class="[radioBOX==='QA'?radioQA:radio]"
                           >
                             <el-radio :label="1">h5</el-radio>
                             <el-radio :label="2">小程序</el-radio>
@@ -594,5 +596,35 @@ export default Index
 .qwTip {
   display: flex;
   justify-content: space-between;
+}
+</style>
+<style scoped>
+.radioQA.is-checked >>>.el-switch__core{
+   border-color: #2153D4;
+  background: #2153D4;
+}
+.radio.is-checked >>>.el-switch__core{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.radio>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #0091FA;
+}
+.fuscousQA {
+  background: rgba(237,242,252, 100%)!important;
+}
+.fuscousIcon {
+  background: rgba(237,242,252)!important;
 }
 </style>

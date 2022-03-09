@@ -145,7 +145,10 @@ export default {
           }
         }
       },
-      activeName: 'date'
+      activeName: 'date',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mixins: [tableMixin, redpacketTable],

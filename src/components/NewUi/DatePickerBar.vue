@@ -3,7 +3,7 @@
   <el-form :inline="true" class="date-picker-bar">
     <el-radio-group class="alalysis-radio" v-model="analysisDateField" @change="switchSearchDate">
       <template v-for='item in dateList'>
-        <el-radio :label="item.label" border :key='item.label'>{{item.value}}</el-radio>
+        <el-radio :label="item.label" border :key='item.label' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">{{item.value}}</el-radio>
       </template>
       <!-- <el-radio :label="1" border>全部</el-radio>
       <el-radio :label="2" border>近7天</el-radio>
@@ -90,7 +90,10 @@ export default {
   data () {
     return {
       analysisDateField: 1,
-      searchDate: []
+      searchDate: [],
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   created () {
@@ -163,5 +166,13 @@ export default {
     height: 20px;
     border-left: 1px solid #e8e8e8;
   }
+}
+</style>
+<style scoped>
+.fuscousQA >>>.el-radio__input.is-checked + .el-radio__label{
+  color: #0C4CFF;
+}
+.fuscousIcon >>>.el-radio__input.is-checked + .el-radio__label{
+  color: #41a2e8;
 }
 </style>

@@ -18,7 +18,7 @@
     <div class="nav-tool">
       <NavToolSlot/>
       <div class="nav-brand" v-if="isShowBrandSelect" >
-        <ElSelectLoad v-model="area.text" :props="props" :options="$store.state.user.areas" filterable @change="onHandleViewCommand"></ElSelectLoad>
+        <ElSelectLoad v-model="area.text" :props="props" :options="$store.state.user.areas" filterable @change="onHandleAreaCommand"></ElSelectLoad>
       </div>
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
@@ -117,7 +117,6 @@ export default {
      */
     setDialogInfo (cmditem) {
       if (!cmditem) {
-        // console.log('test')
         this.$message('菜单选项缺少command属性')
         return
       }
@@ -167,9 +166,20 @@ export default {
           that.$store.state.user.areas.forEach(item => {
             // 判断是否相等
             if (item.areaId === command) {
-              const area = {
-                text: '',
+              let area = {
+                text: item.areaName,
                 value: item.areaId
+              }
+              if (that.cloudPlatformType === 'kd') {
+                area = {
+                  text: item.areaName,
+                  value: item.areaId
+                }
+              } else {
+                area = {
+                  text: '',
+                  value: item.areaId
+                }
               }
               // 视角切换接口
               that.changeArea({ id: item.areaId, name: item.areaName, areaType: item.areaType }).then(() => {

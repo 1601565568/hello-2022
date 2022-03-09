@@ -22,7 +22,10 @@ export default {
       dialogVisible: false,
       dialogData: {},
       downloadSrc: '', // 要下载的图片
-      path: '' // 路由判断区分个号和企微
+      path: '', // 路由判断区分个号和企微
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mixins: [tableMixin],
