@@ -135,7 +135,7 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column type="selection" align="center">
           </el-table-column>
-          <el-table-column type="default" prop="head_img"
+          <el-table-column prop="head_img"
                            label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false">
             <template slot-scope="scope">
               <div v-if="!scope.row.head_img">
@@ -147,33 +147,34 @@
             </template>
           </el-table-column>
           <!-- Todo -->
-          <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" type="default" prop="sex"
+          <!-- <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" prop="shopName"
                            label="绑定店铺" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.sex ? scope.row.sex : '-'}}
             </template>
-          </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="external_name"
+          </el-table-column> -->
+          <el-table-column :show-overflow-tooltip="true" prop="external_name"
                            label="昵称/备注名" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
             <template slot-scope="scope">
               <ns-wechat-emoji :data="scope.row.external_name ? scope.row.external_name : '-'"></ns-wechat-emoji>
+              <ns-wechat-emoji :data="scope.row.remark ? '/' + scope.row.remark : ''"></ns-wechat-emoji>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="sex"
+          <el-table-column :show-overflow-tooltip="true" prop="sex"
                            label="性别" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.sex === 2 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
             </template>
           </el-table-column>
           <!-- Todo -->
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="mobileNum"
+          <!-- <el-table-column :show-overflow-tooltip="true" prop="remarkMobile"
                            label="备注手机号">
+          </el-table-column> -->
+          <el-table-column :show-overflow-tooltip="true" prop="guideName"
+                           :label="cloudPlatformType === 'ecrp' ? '所属员工' : '所属成员'"  align="center">
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
-                           label="所属员工"  align="center">
-          </el-table-column>
-          <el-table-column type="default" prop="add_time"
-                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" align="left">
+          <el-table-column prop="add_time"
+                           label="添加时间" dbcolumn="add_time" column="add_time" sortable="add_time" align="left">
             <template slot-scope="scope">
               <div v-if="scope.row.add_time">
                 {{scope.row.add_time.substring(0,10)}}<br/>
@@ -181,14 +182,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="addWay"
+          <el-table-column :show-overflow-tooltip="true" prop="addWay"
                            label="来源" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.addWay ? addWay[scope.row.addWay] ? addWay[scope.row.addWay] : '未知' : '未知'}}
             </template>
           </el-table-column>
-          <el-table-column type="default" prop="group_tags" width="400"
-                           label="企业标签" dbcolumn="group_tags" column="group_tags" align="left">
+          <el-table-column prop="group_tags" width="300"
+                           label="企业标签">
             <template slot-scope="scope">
               <div v-if="scope.row.group_tags" class="group-tags-container">
                 <div class="group-tags">
@@ -210,12 +211,12 @@
             </template>
           </el-table-column>
           <!-- Todo -->
-          <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" type="default" prop="sex"
+          <!-- <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" prop="lastChatTime"
                            label="最后沟通时间" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.sex ? scope.row.sex : '-'}}
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100">
             <template slot-scope="scope">
               <ns-table-column-operate-button :buttons="_data._table.table_buttons"
@@ -261,6 +262,7 @@
       </span>
     </el-dialog>
     <NSUserDetails ref="NSUserDetails" :userDetails="userDetails"/>
+    <NsFriendDetail ref="NsFriendDetail" :visible="false" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
@@ -271,12 +273,14 @@ import NSUserDetails from '@/components/NSUserDetails'
 import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import NsFriendDetail from '@/components/NsFriendDetail'
 NsTableEnterpriseWeChat.components = {
   NsGuideDialog,
   NsWechatEmoji,
   NsDatetime,
   NSUserDetails,
-  NsGuideWeChatDialog
+  NsGuideWeChatDialog,
+  NsFriendDetail
 }
 export default NsTableEnterpriseWeChat
 </script>
@@ -308,7 +312,7 @@ export default NsTableEnterpriseWeChat
   display: flex;
   align-items: center;
   .group-tags {
-    max-width: 400px;
+    max-width: 300px;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
@@ -316,6 +320,9 @@ export default NsTableEnterpriseWeChat
     .tag-item {
       margin-right: 5px;
       cursor: default;
+      background: #E6F2FF;
+      border: 1px solid rgba(189,220,255,1);
+      border-radius: 2px;
     }
     .tool-tip {
       display: inline-block;
@@ -323,6 +330,7 @@ export default NsTableEnterpriseWeChat
       overflow: hidden;
       text-overflow: ellipsis;
       flex-shrink: 0;
+      color: rgba(0,0,0,0.85);
     }
   }
   .etc {

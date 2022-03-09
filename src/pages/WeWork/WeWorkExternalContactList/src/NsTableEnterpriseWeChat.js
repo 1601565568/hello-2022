@@ -28,8 +28,8 @@ export default {
           // this.$parent.$refs.detail.onOpenDetail(obj.row.sys_customer_id)
           this.onUserDetail(obj.row)
         },
-        icon: '$.noop',
-        name: '\u8be6\u60c5',
+        // icon: '$.noop',
+        name: '详情',
         auth: '',
         visible: ''
       }
@@ -357,6 +357,7 @@ export default {
     },
     // 查询外部联系人详情，根据shopId和unionId查询
     onUserDetail (val) {
+      // console.log(val, '打开')
       this.$refs.NSUserDetails.showDetailDialog(val)
     }
   }
