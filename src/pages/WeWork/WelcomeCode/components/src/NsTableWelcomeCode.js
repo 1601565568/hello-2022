@@ -88,7 +88,12 @@ export default {
           value: WelcomeMessageType.Poster,
           label: '二维码海报'
         }
-      ]
+      ],
+      employees: process.env.VUE_APP_THEME,
+      employeeQA: 'employeeQA',
+      employeeScope: 'employee',
+      stateQA: 'elStateQA',
+      elState: 'elState'
     }
   },
   mounted () {

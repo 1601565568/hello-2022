@@ -5,7 +5,7 @@
         <div class='common-header flex-box'>
           <h3>支付配置</h3>
           <div class='common-btn'>
-            <ns-button class='customer-btn_save' type="text" size='large' @click='jumpGuide(1)'>如何进行支付配置？</ns-button>
+            <ns-button class='customer-btn_save' type="text" size='large' @click='jumpGuide(1)' v-show="$isShowDocs">如何进行支付配置？</ns-button>
             <ns-button class='customer-btn_save' type="primary" size='large' @click='handleAdd'>新增授权</ns-button>
           </div>
         </div>
@@ -53,7 +53,7 @@
       <el-form v-if='visible' class='drawer-form' :model="drawerData" ref="form" label-width="95px" :rules="rules">
         <el-form-item label="支付商户号" prop='mchid' required>
           <LengthInput v-model="drawerData.mchid" placeholder="请输入支付商户号" :length='32'></LengthInput>
-          <div class='label-tip'>
+          <div class='label-tip' v-show="$isShowDocs">
             <span class='label-point'></span>
             <span class='label-text'>如何获取支付商户号</span>
             <ns-button type='text' @click='jumpGuide(1)'>立即查看</ns-button>
@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item label="API密钥" prop='key' required>
           <LengthInput v-model="drawerData.key" placeholder="请输入API密钥" :length='32' type='password'></LengthInput>
-          <div class='label-tip'>
+          <div class='label-tip' v-show="$isShowDocs">
             <span class='label-point'></span>
             <span class='label-text'>如何获取API密钥</span>
             <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
@@ -87,7 +87,7 @@
               </a>
             </div>
           </div>
-          <div class='label-tip'>
+          <div class='label-tip' v-show="$isShowDocs">
             <span class='label-point'></span>
             <span class='label-text'>如何获取API证书</span>
             <ns-button type='text' @click='jumpGuide(2)'>立即查看</ns-button>
@@ -114,7 +114,7 @@
               :value="item.appId">
             </el-option>
           </el-select>
-          <div class='label-tip'>
+          <div class='label-tip' v-show="$isShowDocs">
             <span class='label-point'></span>
             <span class='label-text'>如何关联公众号</span>
             <ns-button type='text'  @click='jumpGuide(4)'>立即查看</ns-button>

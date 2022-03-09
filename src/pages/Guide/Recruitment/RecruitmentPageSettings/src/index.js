@@ -68,7 +68,12 @@ export default {
         ]
       },
       btnLoad: false,
-      defaultImg: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/system/19EA3131-0D46-40C3-95FE-D9C4FD6AEA51.png'
+      defaultImg: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/system/19EA3131-0D46-40C3-95FE-D9C4FD6AEA51.png',
+      resetQA: process.env.VUE_APP_THEME,
+      resetImgQA: 'reset_imgQA',
+      reserImg: 'reset_img',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   methods: {
