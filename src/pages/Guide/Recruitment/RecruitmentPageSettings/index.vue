@@ -74,7 +74,7 @@
             <el-form-item label='背景图' required prop='rgBackground'>
               <drap-upload :showFooter='false' tip='请上传格式为jpg、png、jpeg格式图片，图片尺寸为750*1334，大小不超过10M' v-model='model.rgBackground' :maxWidth='750' :maxHeight='1334' :maxSize='10'  :isNeedCrop='true'>
               </drap-upload>
-              <div class="reset_img" @click='restoreDef'>恢复默认海报图</div>
+              <div :class="[resetQA==='QA'?resetImgQA:reserImg]" @click='restoreDef'>恢复默认海报图</div>
             </el-form-item>
             <el-form-item label='按钮颜色' required prop='rgButtonColor'>
                 <ElColor-picker v-model="model.rgButtonColor" size="medium" title="用于颜色选择，可在取色板中，鼠标点击取色"/>
@@ -91,7 +91,7 @@
             <el-form-item label='会员规则' required prop='rgMemberRuleUrl'>
               <plain-upload :file_list='model.ruleList' :maxSize='10' @onRemove='rgMemberRuleOnRemove' @onSuccess='rgMemberRuleSuccess'></plain-upload>
             </el-form-item>
-            <div class="u_text">支持上传其他协议，可上传多个文件，上传后协议名称显示为文件名称</div>
+            <div class="u_text" :class="[resetQA==='QA'?fuscousQA:fuscousIcon]">支持上传其他协议，可上传多个文件，上传后协议名称显示为文件名称</div>
             <el-form-item label='其他协议'>
               <plain-upload :file_list='model.rgOtherProtocol' :limits='100' :maxSize='10' @onRemove='rgOtherProtocolRemove' @onSuccess='rgOtherProtocolSuccess'></plain-upload>
             </el-form-item>
@@ -170,6 +170,15 @@ export default Index
     height: 22px;
     font-size: 14px;
     color: #0392FB;
+    line-height: 22px;
+    font-weight: 400;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+  .reset_imgQA{
+    height: 22px;
+    font-size: 14px;
+    color: #0C4CFF;
     line-height: 22px;
     font-weight: 400;
     margin-top: 8px;
@@ -313,5 +322,12 @@ export default Index
         line-height: 20px;
       }
     }
-
+</style>
+<style scoped>
+.fuscousQA{
+  background: rgba(237,242,252, 100%);
+}
+.fuscousIcon{
+  background: rgba(237,242,252);
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-textarea" ref="wTextarea">
+  <div class="w-textarea" :class="{'disabled-tag': disabled, 'w-textareaQA': fuscous ==='QA', 'w-textarea': fuscous !=='QA' }" ref="wTextarea">
     <!-- 标签列表 start -->
     <div class="w-textarea_tools" v-if="tools.length > 0">
       <div class="w-textarea_tools_left">
@@ -55,7 +55,7 @@
       <!-- 图片表情 start -->
       <div class="w-textarea_tools__emoji" v-if="showEmoji">
         <el-popover width="447" trigger="hover">
-          <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon"/></i>
+          <i slot="reference"><Icon type="icon-smilebeifen-2" class="emoji-icon" :class="[fuscous!=='QA' ? 'colorNormal' : 'colorQA']" /></i>
           <!-- 可通过 emojiList 传入自定义的图标列表 -->
           <emotion @emotion="addEmotion" :height="200" ref="emotion" />
         </el-popover>
@@ -64,7 +64,7 @@
       <!-- 字体表情 start -->
       <div class="w-textarea_tools__emoji emoji-text" v-if="showTextEmoji">
         <el-popover trigger="hover">
-          <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon"/></i>
+          <i slot="reference"><Icon type="icon-smilebeifen-3" class="emoji-icon" :class="[fuscous!=='QA' ? 'colorNormal' : 'colorQA']" /></i>
           <!-- 可通过 emojiList 传入自定义的图标列表 -->
           <VEmojiPicker :pack="pack" @select="selectEmoji" />
         </el-popover>
@@ -78,6 +78,7 @@ import Emotion from '@nascent/ecrp-ecrm/src/components/Emotion/index'
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
 export const toolFn = {
+
   getEmijoList () {
     return ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '囧', '抓狂', '吐', '偷笑', '愉快', '白眼', '傲慢', '困', '惊恐', '流汗', '憨笑', '悠闲', '奋斗', '咒骂', '疑问', '嘘', '晕', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '可怜', '菜刀', '西瓜', '啤酒', '咖啡', '猪头', '玫瑰', '凋谢', '嘴唇', '爱心', '心碎', '蛋糕', '炸弹', '便便', '月亮', '太阳', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', 'OK', '跳跳', '发抖', '怄火', '转圈', '笑脸', '生病', '破涕为笑', '吐舌', '脸红', '恐惧', '失望', '无语', '嘿哈', '捂脸', '奸笑', '机智', '皱眉', '耶', '吃瓜', '加油', '汗', '天啊', 'Emm', '社会社会', '旺柴', '好的', '打脸', '加油加油', '哇', '翻白眼', '666', '让我看看', '叹气', '苦涩', '裂开', '鬼魂', '合十', '强壮', '庆祝', '礼物', '红包', '發', 'Blessing']
   },
@@ -92,7 +93,18 @@ export const toolFn = {
   htmlToString (html, hasBracket = true) {
     const pre = hasBracket ? '{' : ''
     const after = hasBracket ? '}' : ''
-    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    html = html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    if (this.tagSpecialHandle) {
+      let { tools = [] } = this
+      tools.map(item => {
+        const regexp = new RegExp(item.id, 'g')
+        html = html.replace(
+          regexp,
+          `{${item.id}}`
+        )
+      })
+    }
+    return html
   },
   // 替换标签成文字
   htmlToText (html) {
@@ -127,7 +139,7 @@ export const toolFn = {
       })
     }
     tools.map(item => {
-      const regexp = new RegExp(pre + item.id + after, 'g')
+      const regexp = this.tagSpecialHandle ? new RegExp('{' + item.id + '}', 'g') : new RegExp(pre + item.id + after, 'g')
       string = string.replace(
         regexp,
         `<wise id="${toolFn.getGuid()}" class="${item.id}">${item.value}</wise>`
@@ -168,6 +180,11 @@ export default {
   name: 'wTextarea',
   data () {
     return {
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'w-textareaQA',
+      fuscousIcon: 'w-textarea',
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal',
       // 记录currentText以计算长度
       currentText: this.value,
       // 为input区域生成随机id，当在页面上有多个组件时，用于监听光标的变化
@@ -249,6 +266,11 @@ export default {
       default: 'EMOJI_'
     },
     isShowDefault: {
+      type: Boolean,
+      default: false
+    },
+    // 在htmlToString方法中是否需要对标签和表情做区别处理，false则不保留标签{}，反之保留
+    tagSpecialHandle: {
       type: Boolean,
       default: false
     }
@@ -479,13 +501,14 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="scss">
 // 给标签默认样式，不可scoped
-.w-textarea {
+.w-textarea, .w-textareaQA {
   wise {
-    color: #26a2ff;
+
     padding: 0 1px;
     white-space: nowrap;
     cursor: default;
@@ -496,14 +519,29 @@ export default {
     background: #dcdfe6;
   }
 }
+.w-textarea {
+  wise{
+    color: #26a2ff;
+  }
+}
+.w-textareaQA{
+  wise {
+    color: #2153D4;
+  }
+}
+.colorQA {
+  color: #2153D4;
+}
+.colorNormal {
+  color: #26a2ff;
+}
 </style>
 
 <style lang="scss" scoped>
 $borderColor: #d9d9d9;
 $bgColor: #f5f5f5;
 $textColor: #595959;
-
-.w-textarea {
+.w-textarea, .w-textareaQA {
   width: 100%;
   box-sizing: border-box;
   border-radius: 4px;
@@ -623,7 +661,13 @@ $textColor: #595959;
 }
 .emoji-icon {
   font-size: 20px;
-  color: #0091FA;
+}
+.disabled-tag{
+  background: #F5F5F5;
+  color: #bfbfbf !important;
+  .emoji-icon {
+    color: #bfbfbf;
+  }
 }
 .w-textarea_input:empty:before{
   content: attr(placeholder);

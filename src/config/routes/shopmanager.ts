@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/SgGuide/List',
   'name': 'SHOP_MANAGER',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '门店管理',
     'requiresAuth': true

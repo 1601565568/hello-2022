@@ -49,17 +49,22 @@ export default {
       default: function () {
         return []
       }
+    },
+    // 视频地址字段
+    videoLabel: {
+      type: String,
+      default: 'mediaid'
     }
   },
   computed: {
     videoThumbUrl () {
-      return `${this.content.mediaid}?x-oss-process=video/snapshot,t_0000,f_jpg,w_300,h_200,m_fast`
+      return `${this.content[this.$props.videoLabel]}?x-oss-process=video/snapshot,t_0000,f_jpg,w_300,h_200,m_fast`
     }
   },
   methods: {
     showPreview () {
       if (this.preview) {
-        this.$refs.NsPreview.toggleShow(0, [this.content.mediaid], 'video')
+        this.$refs.NsPreview.toggleShow(0, [this.content[this.$props.videoLabel]], 'video')
       }
     }
   }

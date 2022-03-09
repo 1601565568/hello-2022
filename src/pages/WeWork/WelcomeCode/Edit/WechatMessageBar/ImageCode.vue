@@ -25,7 +25,7 @@
             <div class="mini-view">
               <div style="color:#8C8C8C;">请先授权要选择的小程序，授权成功点击“刷新”获取</div>
               <div>
-                <span @click="toBlackPage('howAuth')">如何授权&nbsp;</span>
+                <span @click="toBlackPage('howAuth')" v-show="$isShowDocs">如何授权&nbsp;</span>
                 <span @click="toBlackPage('toAuth')">&nbsp;去授权</span>
                 <span @click="refreshAppId">&nbsp;刷新</span>
               </div>
@@ -72,7 +72,7 @@
                 </el-input>
               </el-form-item>
               <div class="show-path-url-view" style="margin-top:-10px">
-                <span class="item-view" @click="toBlackPage('howGetPage')">如何获取路径</span>
+                <span class="item-view" @click="toBlackPage('howGetPage')" v-show="$isShowDocs">如何获取路径</span>
                 <el-popover
                   placement="bottom"
                   trigger="hover"
@@ -464,7 +464,11 @@ export default {
       }
     },
     toBlackPage (key) {
-      window.open(this.urlObj[key], '_blank')
+      let url = this.urlObj[key]
+      if (key === 'howAuth' || key === 'howGetPage') {
+        url = this.$isQa ? this.$qaDocs : this.urlObj[key]
+      }
+      window.open(url, '_blank')
     },
     initData () {
       this.saveLoad = false

@@ -150,7 +150,7 @@
       </template>
     </ns-page-table>
     <el-card shadow="never" class="card-body--no-padding">
-      <div slot="header" class="card-header clearfix">
+      <div slot="header" class="card-header clearfix"  :class="[bases==='QA'? eltabQA:eltab]">
         <span class="float-left" style="margin-right: 20px">数据报表</span>
         <el-radio-group v-model="tableRadios" @change="changeListDataType" class="float-left">
           <el-radio :label="1">按日期展示</el-radio>
@@ -384,5 +384,19 @@ export default TableAnalysis
   padding-left: var(--default-margin-larger);
   padding-right: var(--default-margin-larger);
 }
+}
+.elTab >>> .el-radio__input.is-checked .el-radio__inner{
+    border-color: #41a2e8;
+    background: #41a2e8;
+}
+.elTabQA >>> .el-radio__input.is-checked .el-radio__inner{
+    border-color: #2153D4;
+    background: #2153D4;
+}
+.elTab>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #41a2e8;
+}
+.elTabQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
 }
 </style>

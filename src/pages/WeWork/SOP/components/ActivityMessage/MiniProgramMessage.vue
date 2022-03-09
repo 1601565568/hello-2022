@@ -9,7 +9,7 @@
         {{content.title}}
       </div>
       <div class="miniprogram-content">
-       <img :src="content.imgUrl" alt="">
+       <img :src="content[imageLabel]" alt="">
       </div>
       <div class="miniprogram-footer">
         <Icon type="xiaochengxushouquan" className="icon"/>
@@ -34,6 +34,10 @@ export default {
           page: ''
         }
       }
+    },
+    imageLabel: {
+      type: String,
+      default: 'imgUrl'
     }
   },
   data () {

@@ -11472,6 +11472,11 @@ regenerator-runtime@^0.11.0:
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052481783&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
 
+regenerator-runtime@^0.13.1:
+  version "0.13.9"
+  resolved "https://registry.npmmirror.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
+  integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+
 regenerator-runtime@^0.13.4:
   version "0.13.5"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.13.5.tgz?cache=0&sync_timestamp=1584052481783&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
@@ -13742,6 +13747,14 @@ vue-ueditor-wrap@^2.4.4:
   version "2.4.4"
   resolved "https://registry.npm.taobao.org/vue-ueditor-wrap/download/vue-ueditor-wrap-2.4.4.tgz#178bbc60ba9938a831e67df6b578ce08ca6b3823"
   integrity sha1-F4u8YLqZOKgx5n32tXjOCMprOCM=
+
+vue-waterfall2@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npmmirror.com/vue-waterfall2/-/vue-waterfall2-1.10.1.tgz#c8fdcbf77f56d44bd1e5bad4a551960e6a22eff8"
+  integrity sha512-qVHuGMjU7440n0kUHxouSJGuhlFCi4EcA4UhwF3GPxLsWgZxAeE803m+HYssMuhO9Nma222TFhEqwXslhrg2tg==
+  dependencies:
+    babel-runtime "^6.26.0"
+    regenerator-runtime "^0.13.1"
 
 vue@^2.5.13, vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"

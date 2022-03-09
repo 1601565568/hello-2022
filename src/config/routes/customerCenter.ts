@@ -1,7 +1,7 @@
 export default {
   'path': '/Customer/CustomerCenter',
   'name': 'CUSTOMER_CENTER',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '用户中心',
     'requiresAuth': true
@@ -119,7 +119,7 @@ export default {
         },
         {
           'path': '/Social/WeComCustomerOperation/GroupRepeat',
-          'name': 'WeComExternalContactList',
+          'name': 'WeComCustomerOperationGroupRepeat',
           'title': '重复群统计',
           'component': () => import('@/pages/WeWork/GroupRepeat/index.vue')
         }

@@ -1,7 +1,7 @@
 export default {
   path: '/ThirdAuth',
   name: 'SocialOperation',
-  component: () => import('@layout/Default.vue'),
+  component: () => import('@/layout/Default.vue'),
   meta: { requiresAuth: true },
   redirect: {
     path: '/ThirdAuth/Content'
