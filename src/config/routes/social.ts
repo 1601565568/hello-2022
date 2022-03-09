@@ -1,7 +1,7 @@
 export default {
   'path': '/Social/SocialOperation',
   'name': 'SocialOperation',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '社群营销',
     'requiresAuth': true

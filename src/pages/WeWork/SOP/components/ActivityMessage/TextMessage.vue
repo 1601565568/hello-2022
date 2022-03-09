@@ -1,6 +1,6 @@
 <template>
   <div class="text-message">
-    <EmojiText :text='htmlContent' />
+    <EmojiText :text='htmlContent' :hasBracket="hasBracket" />
   </div>
 </template>
 
@@ -20,6 +20,13 @@ export default {
           htmlContent: '',
           textContent: ''
         }
+      }
+    },
+    // 是否有括号包裹
+    hasBracket: {
+      type: Boolean,
+      default () {
+        return true
       }
     }
   },

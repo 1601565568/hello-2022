@@ -1,0 +1,119 @@
+>>> .el-select .el-tag__close.el-icon-close{
+  display: none;
+}
+
+
+.cus-diglog-view >>> .w-textarea_input {
+  min-height: 141px;
+}
+
+.cus-diglog-view >>> .el-dialog {
+  padding: 8px;
+}
+.cus-diglog-view >>> .el-dialog__title {
+  font-weight: 500;
+  font-size: 16px;
+  height: 36px;
+  line-height:36px;
+}
+
+.top-title-view >>> .w-textarea_input {
+  min-height: 114px;
+  max-height: 114px;
+  overflow: auto;
+}
+
+.top-title-view >>> .w-textarea_input::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.top-title-view >>> .w-textarea_input::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #9093994d;
+}
+
+.cus-guide-info >>> .el-dialog {
+  padding: 4px;
+}
+.cus-guide-info >>> .el-dialog__title {
+  font-weight: 500;
+  font-size: 16px;
+  height: 26px;
+  line-height:26px;
+} 
+
+.show-uploader-view >>> .el-upload--picture-card{
+  border-radius: 4px;
+  background-color: white;
+  width:114px;
+  height:100%;
+  line-height: 114px;
+}
+.top-input-view >>> .el-input--small {
+  font-size: 14px;
+  color: #BFBFBF;
+}
+
+.top-input-view >>> .el-textarea input::-moz-input-placeholder {
+  color:#BFBFBF;
+}
+.top-input-view >>> .el-textarea__inner::-webkit-input-placeholder {
+  color:#BFBFBF;
+}
+.input_textarea >>>.el-textarea__inner{
+  width: 540px;
+  font-size: 14px;
+}
+
+.select-time-view >>> .el-date-editor.el-input {
+  width: 425px;
+  height: 32px;
+}
+.select-time-view >>> .el-input__suffix {
+  height: 32px;
+}
+
+>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+
+>>> .el-radio__input.is-checked + .el-radio__label{
+  color:#606266;
+}
+
+>>> .el-radio__label, .el-checkbox__label{
+  color:#606266;
+}
+
+.library-image-form {
+  >>> .el-form-item--small.el-form-item  {
+    margin-bottom: 24px;
+  }
+  >>> .w-textarea{
+    margin-bottom: 0;
+  }
+  >>> .el-form-item--small .el-form-item__label {
+    padding-right: 36px;
+    font-size: 14px;
+  }
+  >>> .el-radio__input.is-checked + .el-radio__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  >>> .el-radio__label, .el-checkbox__label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+
+.run-item-select >>> .el-input.el-input--small .el-input__inner {
+  font-size: 14px;
+  border: none;
+  width: 80px;
+}
+
+.run-item-select >>> .el-input__suffix .el-input__icon.el-select__caret {
+  display: none;
+}

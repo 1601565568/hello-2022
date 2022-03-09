@@ -309,6 +309,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否需要开启占位符
+    needLink: {
+      type: Boolean,
+      dafault: true
+    },
     content: {
       type: Object,
       default: function () {
@@ -334,6 +339,7 @@ export default {
   },
   data () {
     return {
+      cloudPlatformType: '',
       ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       uploadUrl: this.$api.core.sgUploadFile('message'),
@@ -435,6 +441,10 @@ export default {
     }
   },
   mounted () {
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    if (!this.needLink) {
+      this.placeholderLink = []
+    }
   },
   methods: {
     changeUploadFile () {

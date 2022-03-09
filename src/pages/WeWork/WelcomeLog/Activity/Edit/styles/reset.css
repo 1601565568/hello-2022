@@ -1,0 +1,19 @@
+.el-form-reset {
+  >>> .el-form-item {
+    font-size: 14px;
+    .el-form-item__label {
+      font-size: 14px;
+      margin-right: 36px;
+    }
+    .el-form-item__error {
+      margin-left: 36px;
+    }
+    
+    .el-radio__label {
+      font-size: 14px;
+    }
+    .el-input__suffix:before {
+      display: none;
+    }
+  } 
+}

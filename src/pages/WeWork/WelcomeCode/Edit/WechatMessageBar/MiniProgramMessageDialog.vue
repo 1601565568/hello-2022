@@ -239,6 +239,11 @@ export default {
           path: ''
         }
       }
+    },
+    // 是否需要开启占位符
+    needLink: {
+      type: Boolean,
+      dafault: true
     }
   },
   computed: {
@@ -268,6 +273,7 @@ export default {
     }
 
     return {
+      cloudPlatformType: '',
       ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       defaultModel: {
@@ -352,7 +358,12 @@ export default {
       linkLength: 0
     }
   },
-  mounted () {},
+  mounted () {
+    // this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    if (!this.needLink) {
+      this.placeholderLink = []
+    }
+  },
   methods: {
     changeUploadFile () {
       this.$refs.drapUpload.loadUploadView()
@@ -393,7 +404,7 @@ export default {
     open () {
       this.initData()
       if (this.content !== null) {
-        this.defaultModel = this.content
+        this.defaultModel = { ...this.content }
         this.$nextTick(() => {
           this.defaultModel.path = this.$refs.tagContent.stringTohtml(this.defaultModel.path)
           this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.path

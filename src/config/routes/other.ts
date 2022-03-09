@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Others',
   'name': 'SG_OTHERS',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '其他',
     'requiresAuth': true

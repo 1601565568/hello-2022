@@ -1,5 +1,5 @@
 <template>
-  <div  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" ref="wTextarea">
+  <div class="w-textarea" :class="{'disabled-tag': disabled, 'w-textareaQA': fuscous ==='QA', 'w-textarea': fuscous !=='QA' }" ref="wTextarea">
     <!-- 标签列表 start -->
     <div class="w-textarea_tools" v-if="tools.length > 0">
       <div class="w-textarea_tools_left">
@@ -93,7 +93,18 @@ export const toolFn = {
   htmlToString (html, hasBracket = true) {
     const pre = hasBracket ? '{' : ''
     const after = hasBracket ? '}' : ''
-    return html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    html = html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    if (this.tagSpecialHandle) {
+      let { tools = [] } = this
+      tools.map(item => {
+        const regexp = new RegExp(item.id, 'g')
+        html = html.replace(
+          regexp,
+          `{${item.id}}`
+        )
+      })
+    }
+    return html
   },
   // 替换标签成文字
   htmlToText (html) {
@@ -128,7 +139,7 @@ export const toolFn = {
       })
     }
     tools.map(item => {
-      const regexp = new RegExp(pre + item.id + after, 'g')
+      const regexp = this.tagSpecialHandle ? new RegExp('{' + item.id + '}', 'g') : new RegExp(pre + item.id + after, 'g')
       string = string.replace(
         regexp,
         `<wise id="${toolFn.getGuid()}" class="${item.id}">${item.value}</wise>`
@@ -255,6 +266,11 @@ export default {
       default: 'EMOJI_'
     },
     isShowDefault: {
+      type: Boolean,
+      default: false
+    },
+    // 在htmlToString方法中是否需要对标签和表情做区别处理，false则不保留标签{}，反之保留
+    tagSpecialHandle: {
       type: Boolean,
       default: false
     }
@@ -645,6 +661,13 @@ $textColor: #595959;
 }
 .emoji-icon {
   font-size: 20px;
+}
+.disabled-tag{
+  background: #F5F5F5;
+  color: #bfbfbf !important;
+  .emoji-icon {
+    color: #bfbfbf;
+  }
 }
 .w-textarea_input:empty:before{
   content: attr(placeholder);

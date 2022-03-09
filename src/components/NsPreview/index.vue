@@ -10,7 +10,7 @@
       <div class="preview-dialog__wrapper">
         <div class="preview-dialog__content">
           <img v-if="type === 'img'" :src="list.length ? list[current] : ''" alt="">
-          <video v-else ref="videoPlayer" :src="list[current]" controls>
+          <video v-if="type === 'video' && visible" ref="videoPlayer" :src="list[current]" controls>
             您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
           </video>
         </div>

@@ -73,6 +73,7 @@ export default {
           // 拓展字段
           productConfig: {
             ...productConfig,
+            cloudPlatformType: (res.data.result.cloudPlatformType).toLowerCase(), // 判断是客道还是ecrp登录 [kd,ecrp]
             wxPlan: res.data.result.wxPlan,
             user,
             viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
