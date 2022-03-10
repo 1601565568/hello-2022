@@ -168,7 +168,10 @@ export default index
   padding: 0 10px;
 }
 /* 去掉更换导购列表弹框单选组多余数字 */
-.customerManage,.customerManageQA >>> .el-radio__label {
+.customerManage >>> .el-radio__label {
+  display: none !important;
+}
+.customerManageQA >>> .el-radio__label {
   display: none !important;
 }
 .customerManageQA >>> .el-radio__input.is-checked .el-radio__inner{
