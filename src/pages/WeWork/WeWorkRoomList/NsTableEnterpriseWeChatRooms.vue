@@ -2,7 +2,7 @@
   <div>
     <ns-page-table @edit="$emit('edit')" @add="$emit('add')" @batch-edit="$emit('batch-edit')" :colButton="6">
       <template slot="buttons">
-        <ns-button type="primary" :disabled="synButton" @click="exportList()">导出</ns-button>
+        <ns-button type="primary" :disabled="synButton" @click="exportList()" id="topSearchbtn">导出</ns-button>
       </template>
       <!-- 简单搜索 -->
       <!-- el-form 需添加 @submit.native.prevent 配置 -->

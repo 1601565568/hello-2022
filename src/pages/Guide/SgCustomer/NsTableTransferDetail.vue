@@ -502,32 +502,20 @@ export default {
         this.$notify.info('仅支持导出30天以内的数据')
         return
       }
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.guide.exportTaskDetailList, this.searchData)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const params = {
+        ...this.searchData,
+        exportType: 19
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 150,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let timeStr = ''
-            if (this.searchData.transferStartTime && this.searchData.transferEndTime) {
-              timeStr = this.searchData.transferStartTime + '-' + this.searchData.transferEndTime
-            }
-            let fileName = '转移明细数据统计' + timeStr + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     dataPickerChange (e) {
       if (this.datePickerValue == null) {

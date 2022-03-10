@@ -152,29 +152,21 @@ export default {
         this.$notify.info('正在导出中，请不要重复操作')
         return
       }
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.export, that.$generateParams$())
-        .then(resp => {
-          that.synButton = false
-          that.$notify.success('下载完成')
+      const params = {
+        ...this.$generateParams$(),
+        exportType: 20
+      }
+      const ball = document.getElementById('topSearchbtn').getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 70,
+          right: document.body.clientWidth - ball.left - ball.width
         })
-        .catch(resp => {
-          that.synButton = false
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let fileName = '群列表.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     /**
      * 参数设置

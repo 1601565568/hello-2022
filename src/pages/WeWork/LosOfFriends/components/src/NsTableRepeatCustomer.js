@@ -260,27 +260,6 @@ export default {
       }).catch((resp) => {
         this.$notify.error(resp.msg || '导出报错，请联系管理员')
       })
-      // let that = this
-      // that.$notify.info('导出中，请稍后片刻')
-      // this.$http
-      //   .fetch(this.$api.weWork.weWorkCustomer.exportLossFriendsList, parms)
-      //   .then(resp => {
-      //     that.$notify.success('下载完成')
-      //   })
-      //   .catch(resp => {
-      //     if (!resp.size === 0) {
-      //       that.$notify.error('导出报错，请联系管理员')
-      //     } else {
-      //       let url = window.URL.createObjectURL(new Blob([resp]))
-      //       let link = document.createElement('a')
-      //       link.style.display = 'none'
-      //       link.href = url
-      //       let fileName = '好友流失提醒' + this.model.startTime.replaceAll('-', '') + '-' + this.model.endTime.replaceAll('-', '') + '.xlsx'
-      //       link.setAttribute('download', fileName)
-      //       document.body.appendChild(link)
-      //       link.click()
-      //     }
-      //   })
     }
   }
 }
