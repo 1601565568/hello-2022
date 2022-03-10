@@ -358,7 +358,8 @@ export default {
     // 查询外部联系人详情，根据shopId和unionId查询
     onUserDetail (val) {
       // console.log(val, '打开')
-      this.$refs.NSUserDetails.showDetailDialog(val)
+      this.$refs.NsFriendDetail.showDetailDialog(val)
+      // this.$refs.NSUserDetails.showDetailDialog(val)
     }
   }
 }
