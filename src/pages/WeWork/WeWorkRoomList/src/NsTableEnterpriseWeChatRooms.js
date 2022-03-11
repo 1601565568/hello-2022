@@ -152,8 +152,9 @@ export default {
         this.$notify.info('正在导出中，请不要重复操作')
         return
       }
+      const searchMap = this.$generateParams$().searchMap || {}
       const params = {
-        ...this.$generateParams$(),
+        ...searchMap,
         exportType: 20
       }
       const ball = document.getElementById('topSearchbtn').getBoundingClientRect()

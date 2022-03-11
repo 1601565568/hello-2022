@@ -245,8 +245,8 @@ export default {
       maps.startTime = maps.startTime + ' 00:00:00'
       maps.endTime = maps.endTime + ' 23:59:59'
       const parms = {
+        ...maps,
         length: this.pageSize,
-        searchMap: maps,
         start: (this.page - 1) * this.pageSize,
         exportType: 18
       }

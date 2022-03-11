@@ -263,8 +263,9 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
+      const searchMap = this.$generateParams$().searchMap || {}
       const params = {
-        ...this.$generateParams$(),
+        ...searchMap,
         exportType: 17
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
