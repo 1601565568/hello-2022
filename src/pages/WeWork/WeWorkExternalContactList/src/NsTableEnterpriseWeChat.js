@@ -206,7 +206,7 @@ export default {
         }).finally(() => {})
     },
 
-    // 查询企业标签列表
+    // 查询好友同步情况
     initSynButton: function () {
       let that = this
       that.$http.fetch(that.$api.core.group.getGroupConfig)
@@ -220,7 +220,7 @@ export default {
           }
         })
     },
-    // 查询企业标签列表
+    // 好友同步
     synFriends: function () {
       let that = this
       if (that.synButton || !that.synFriend) {

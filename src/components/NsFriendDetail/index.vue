@@ -13,14 +13,16 @@
         <div class="head-wechat">
           <div class="head-left">
             <img class="head-img" :src="friendInfo.avatar">
-            <span class="iconfont head-sex" :class="isMan ? 'icon-nan' : 'icon-nv'"></span>
+            <span v-if="isMan + '' !== '0'" class="iconfont head-sex" :class="isMan + '' === '1' ? 'icon-nan' : 'icon-nv'"></span>
           </div>
           <div class="head-right">
             <div class="name-info"><span class="name">{{friendInfo.name}}</span><span class="source" :class="isWx ? 'isWx' : 'isQyVx'">{{isWx ? '@微信' : '@' + friendInfo.corpName}}</span></div>
             <div class="job-info">
               <span v-if="!isWx" class="job-name">{{friendInfo.position}}</span>
-              <span class="vip-info" :class="isVip ? 'vip-block' : 'non-vip'">{{isVip ? '会员' : '非会员'}}</span>
-              <span v-if="isVip" class="vip-detail" @click="showVipDetail">查看会员详情</span>
+              <template v-if="cloudPlatformType === 'ecrp'">
+                <span class="vip-info" :class="isVip ? 'vip-block' : 'non-vip'">{{isVip ? '会员' : '非会员'}}</span>
+                <span v-if="isVip" class="vip-detail" @click="showVipDetail">查看会员详情</span>
+              </template>
             </div>
           </div>
         </div>

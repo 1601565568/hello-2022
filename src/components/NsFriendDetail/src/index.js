@@ -103,7 +103,7 @@ export default {
     async showDetailDialog (val) {
       this.shopId = val.shopId
       this.unionId = val.unionid
-      this.userId = val.userId
+      this.userId = val.externalUserId
       this.visible = true
       this.getFriendDetail(1)
     },
@@ -117,6 +117,7 @@ export default {
      * 好友详情
      */
     getFriendDetail: function (pageNo) {
+      this.tableLoading = true
 	   // eslint-disable-next-line no-mixed-spaces-and-tabs
       this.pagination4Emp.page = pageNo
       let param = { userId: this.userId, start: pageNo, length: this.pagination4Emp.size }
@@ -125,14 +126,14 @@ export default {
       this.$http.fetch(this.detailUrl, param)
         .then(resp => {
           if (resp.success && resp.result != null) {
-            let data = resp.result.data
+            let data = resp.result
             this.friendInfo = data
-            this.isMan = data.gender + '' === '1'
+            this.isMan = data.gender
             this.isVip = data.Member
             this.isWx = data.type + '' === '1'
           }
-          if (resp.result && resp.result.data.customerGuideDTOS && resp.result.data.customerGuideDTOS.length > 0) {
-            this.friendData = JSON.parse(JSON.stringify(resp.result.data.customerGuideDTOS))
+          if (resp.result && resp.result.customerGuideDTOS && resp.result.customerGuideDTOS.length > 0) {
+            this.friendData = JSON.parse(JSON.stringify(resp.result.customerGuideDTOS))
           }
           if (resp.result.recordsTotal) {
             this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
