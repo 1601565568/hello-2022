@@ -190,7 +190,8 @@ export default {
       const searchMap = param.searchMap || {}
       const params = {
         ...searchMap,
-        exportType: 23
+        exportType: 23,
+        name: this.$route.params.name
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
