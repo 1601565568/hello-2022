@@ -404,7 +404,7 @@ export default {
     open () {
       this.initData()
       if (this.content !== null) {
-        this.defaultModel = this.content
+        this.defaultModel = { ...this.content }
         this.$nextTick(() => {
           this.defaultModel.path = this.$refs.tagContent.stringTohtml(this.defaultModel.path)
           this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.path

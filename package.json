@@ -12,6 +12,7 @@
     "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "upDateOss": "node ./node_modules/@nascent/ecrp-ecrm/build/upLoadFolderToOss.js"
