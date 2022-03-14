@@ -153,7 +153,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="resultDetail"
-                         label="发送详情">
+                         label="失败原因">
         </el-table-column>
       </el-table>
       <el-pagination class="pagination"

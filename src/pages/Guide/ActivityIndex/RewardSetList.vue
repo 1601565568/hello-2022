@@ -47,11 +47,12 @@
       tooltip-effect="dark"
       stripe
       style="width: 100%"
-      @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange"
+      :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
       <el-table-column
         :selectable="selectable"
         type="selection"
-        align="center" :width="50">
+        align="center" :width="50" >
       </el-table-column>
       <el-table-column
         label="门店名称"
@@ -164,7 +165,10 @@ export default {
         type: 0, // 销售指标
         year: '2018', // 年份,
         selectedArr: []
-      }
+      },
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   created: function () { // 获取当前年份---默认加载当前年
@@ -253,4 +257,12 @@ export default {
   .resetbtn {
     margin-left: 9px;
   }
+.fuscousQA >>>.el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #41a2e8;
+    border-color: #41a2e8;
+}
+.fuscousQA >>>.el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #0C4CFF;
+    border-color: #0C4CFF;
+}
 </style>

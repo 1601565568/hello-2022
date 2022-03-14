@@ -21,15 +21,7 @@
           <el-input ref="quickText"
                     style="width: 180px; margin-right:5px"
                     v-model="model.employeeName"
-                    placeholder="请输入员工姓名"
-                    v-if="cloudPlatformType == 'ecrp'"
-                    @keyup.enter.native="$quickSearchAction$('employeeName')"
-                    clearable />
-          <el-input ref="quickText"
-                    style="width: 180px; margin-right:5px"
-                    v-model="model.employeeName"
-                    placeholder="请输入成员姓名"
-                    v-if="cloudPlatformType == 'kd'"
+                    :placeholder="cloudPlatformType == 'ecrp'?'请输入员工姓名':'请输入成员姓名'"
                     @keyup.enter.native="$quickSearchAction$('employeeName')"
                     clearable />
           <ns-button type="primary"
@@ -48,14 +40,8 @@
                 v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')">
         <el-table-column prop="employeeName"
-                         label="员工姓名"
-                         align="left"
-                         v-if="cloudPlatformType == 'ecrp'">
-        </el-table-column>
-        <el-table-column prop="employeeName"
-                         label="成员姓名"
-                         align="left"
-                         v-if="cloudPlatformType == 'kd'">
+                         :label="cloudPlatformType == 'ecrp'?'员工':'成员'+'姓名'"
+                         align="left">
         </el-table-column>
         <el-table-column prop="shopNames"
                          label="工作门店"

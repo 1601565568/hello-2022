@@ -1,6 +1,7 @@
 import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 import store from '@/store'
 import LocalStorage from 'store/dist/store.legacy.min.js'
+const appTrack = require('../../track/appTrack.js')
 const treeFn = (err, rows) => {
   if (err) { throw err }
   // get all data
@@ -128,6 +129,7 @@ export default {
         // CRM购买方案. 暂时方案
         const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? '1' : '0'
         localStorage.setItem('USER_LOCAL_COMPANY_PLAN', companyPlan)
+        appTrack.customConfig(user)
         resolve(res.data.result)
       } else {
         reject(res.data)

@@ -67,7 +67,7 @@ export default {
         compress(file, {
           type,
           options: {
-            quality: 0.4
+            quality: 0.6
           }
         }, file.name).then((res) => {
           resolve(res)
