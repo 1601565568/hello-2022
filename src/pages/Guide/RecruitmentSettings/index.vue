@@ -5,7 +5,7 @@
         <div class="recruit-title">导购招募配置</div>
         <div class="recruit-content">
           <div class="recruit-content__caption">导购招募奖励计算设置</div>
-          <ElRadioGroup v-model="model.secruitment_type" class="recruit-content__radiogroup">
+          <ElRadioGroup v-model="model.secruitment_type" class="recruit-content__radiogroup" :class="[radioBOX==='QA'?radioQA:radio]">
             <ElForm>
               <ElFormItem v-for="item in radioList" :key="item.id" class="option">
                 <ElRadio  :label="item.value">{{item.label}}</ElRadio>
@@ -161,4 +161,18 @@ export default index
     border-bottom-left-radius: var(--default-radius-mini);
     border-bottom-right-radius: var(--default-radius-mini);
   }
+  .radioQA>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.radio>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #0091FA;
+}
 </style>

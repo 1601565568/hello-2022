@@ -36,7 +36,10 @@ export default {
           explain: '导购招募为首次在微信平台注册入会成功，则计算导购招募奖励',
           example: '例如：会员在天猫店铺已入会，但是未在微信平台开卡。此时导购再次招募，会计算导购招募奖励'
         }
-      ]
+      ],
+      radioBOX: process.env.VUE_APP_THEME,
+      radio: 'radio',
+      radioQA: 'radioQA'
     }
   },
   mounted: function () {

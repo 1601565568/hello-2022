@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width="100px" :rules="rules" :model="model" ref="ruleForm">
+  <el-form label-width="100px" :rules="rules" :model="model" ref="ruleForm" :class="[ENV==='QA' && 'styQA']">
     <el-form-item label="菜单名称：" prop="name">
       <el-input
         maxlength="4"
@@ -30,7 +30,7 @@
         >
       </div>
     </el-form-item>
-    <el-form-item label="跳转页面：" class="jumpToPage">
+    <el-form-item label="跳转页面：" class="jumpToPage" >
       <el-radio v-model="model.type" :label="1">第三方小程序</el-radio>
       <el-radio v-model="model.type" :label="2"
         >当前小程序</el-radio
@@ -102,6 +102,7 @@ export default {
   },
   data () {
     return {
+      ENV: process.env.VUE_APP_THEME,
       model: {},
       validates,
       pageUrlLength: 0,
@@ -228,7 +229,7 @@ export default {
   border-radius: 4px;
 }
 .avatar-uploader-icon:hover {
-  border-color: #409eff !important;
+  border-color: #409eff ;
 }
 .avatar {
   width: 50px;
@@ -273,4 +274,16 @@ export default {
   font-size: 14px !important;
   color: #303133 !important;
 }
+</style>
+<style scoped>
+.styQA >>> .avatar-uploader-icon:hover{
+    border-color:#2153D4!important ;
+}
+  .styQA >>> .el-radio__input.is-checked .el-radio__inner{
+      border-color: #2153D4;
+  background-color: #2153D4;
+  }
+  .styQA >>> .form-item_exmple {
+    color:#2153D4 ;
+  }
 </style>

@@ -457,7 +457,8 @@ export default {
     },
     // 活动效果
     onShowEffectAnalysisFun (row) {
-      this.$router.push(`/Guide/SgPersonalQrcode/List/ActivityEffect/${row.guid}/${row.name}`)
+      const name = row.name && row.name.includes('/') ? encodeURIComponent(row.name) : row.name
+      this.$router.push(`/Guide/SgPersonalQrcode/List/ActivityEffect/${row.guid}/${name || ''}`)
     },
     qrcodeLink (row) { // 聚合二维码
       this.row = row

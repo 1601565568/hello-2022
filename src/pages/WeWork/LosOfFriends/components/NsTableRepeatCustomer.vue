@@ -379,4 +379,10 @@ export default NsTableRepeatCustomer
     border: none;
   }
 }
+.fuscousQA{
+ background: #2153D4;
+}
+.fuscousIcon{
+  background: #0094FC;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="pageRightEdit">
+  <div class="pageRightEdit" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
     <div class="checkboxWarpper">
       <el-checkbox
         class="checkbox checkboxAll"
@@ -167,7 +167,10 @@ export default {
       editMenuShowModal: false, // 编辑菜单
       index: 0, // 编辑状态下记录点击的下标
       delIndex: null, // 删除记录点击下标
-      addMenuData: {}
+      addMenuData: {},
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   watch: {
@@ -308,8 +311,8 @@ export default {
 </script>
 <style>
 .pageRightEdit .el-checkbox__input.is-checked .el-checkbox__inner {
-  background-color: #0091fa;
-  border-color: #0091fa;
+    background-color: #0091fa;
+    border-color: #0091fa;
 }
 .pageRightEdit .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #0091fa;
@@ -418,4 +421,25 @@ img {
 //   color: #fff;
 //   margin-right: 10px;
 // }
+</style>
+<style scoped>
+.fuscousQA >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #2153D4;
+    border-color: #2153D4;
+}
+.fuscousQA >>> .addMenu:hover{
+   border: 1px dashed #2153D4;
+    color: #2153D4
+}
+.fuscousQA >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #2153D4;
+    border-color: #2153D4;
+}
+.fuscousQA >>> .addMenu:hover .el-icon-plus{
+   color: #2153D4!important
+}
+.fuscousIcon >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #0091fa;
+    border-color: #0091fa;
+}
 </style>

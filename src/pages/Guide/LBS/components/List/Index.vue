@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table :title='title' :headerTip='headerTip'>
+    <page-table :title='title' :headerTip='headerTip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
       <!-- 搜索 start -->
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
@@ -67,7 +67,7 @@
               width='90px'
               label="参与门店">
               <template slot-scope="scope">
-                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
+                <span class="scope-name_tip" :class="[messageQA==='QA'?messageIconQA:messageIcon]"  slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
               </template>
             </el-table-column>
             <el-table-column
@@ -104,10 +104,11 @@
             <el-table-column
               width='100px'
               align='center'
-              label="二维码">
+              label="二维码"
+              >
               <template slot-scope="scope">
-                <div class="scope-name scope-name_num box-padding">
-                  <Icon type="icon-erweima" className="message-upload__tip" @click='handlePreviewQrcode(scope.row)'/>
+                <div class="scope-name scope-name_num box-padding" >
+                  <Icon type="icon-erweima" :class="[messageQA==='QA'?messageIconQA:messageIcon]" @click='handlePreviewQrcode(scope.row)'/>
                 </div>
               </template>
             </el-table-column>
@@ -117,7 +118,7 @@
               label="海报">
               <template slot-scope="scope">
                 <div class="scope-name scope-name_num box-padding">
-                  <Icon type="ns-file-picture" className="message-upload__tip" @click='handlePreviewPoster(scope.row)'/>
+                  <Icon type="ns-file-picture" :class="[messageQA==='QA'?messageIconQA:messageIcon]" @click='handlePreviewPoster(scope.row)'/>
                 </div>
               </template>
             </el-table-column>
@@ -249,4 +250,28 @@ export default Index
       cursor: pointer;
     }
   }
+</style>
+<style scoped>
+.message-upload__tip {
+    color: #0091FA;
+    cursor: pointer;
+  }
+.message-upload__tip  {
+    color: #0C4CFF;
+    cursor: pointer;
+}
+.scope_tipQA{
+    cursor: pointer;
+    color: #0C4CFF;
+}
+.scope_tip{
+    color: #0091FA;
+    cursor: pointer;
+}
+.fuscousQA>>>.header-tip__content{
+  background: rgba(237,242,252, 100%);
+}
+.fuscousIcon>>>.header-tip__content{
+  background: rgba(237,242,252);
+}
 </style>

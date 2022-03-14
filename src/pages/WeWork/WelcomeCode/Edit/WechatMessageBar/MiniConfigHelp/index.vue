@@ -1,5 +1,5 @@
 <template>
-  <div class="tips">
+  <div class="tips" :class="[ENV === 'QA' && 'colorQA']">
     <!-- <div > -->
     <span class="text desc" @click="show = true">配置说明</span>
     <span class="text desc" @click="goQw()">去配置</span>
@@ -19,7 +19,8 @@
 export default {
   data () {
     return {
-      show: false
+      show: false,
+      ENV: process.env.VUE_APP_THEME
     }
   },
   methods: {
@@ -30,6 +31,9 @@ export default {
 }
 </script>
 <style scoped>
+.colorQA >>>  .text{
+  color: #2153D4!important;
+}
 .tips {
   display: inline-block;
 }

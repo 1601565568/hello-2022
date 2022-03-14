@@ -116,7 +116,12 @@ export default {
       tagId2TagGroupId: {}, // 已选择标签id映射标签组id
       saveLoading: false,
       showPosterQrcode: false,
-      uploadPosterFileList: []
+      uploadPosterFileList: [],
+      bluePillar: process.env.VUE_APP_THEME,
+      bluePillarQA: 'bluepillarQA',
+      bluepill: 'bluepillar',
+      gridQA: 'el-radioboxQA',
+      gridChecks: 'el-radiobox'
     }
   },
   computed: {
