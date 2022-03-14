@@ -1,19 +1,25 @@
 <template>
     <div>
-        <NavHead @area-change="onReload"/>
+        <NavHeadQa v-if="$isQa" @area-change="onReload"/>
+        <NavHead v-else @area-change="onReload"/>
         <router-view v-if="isReload"/>
-        <Footer />
+        <FooterQa v-if="$isQa" />
+        <Footer v-else />
     </div>
 </template>
 
 <script>
 import NavHead from './NavHead'
+import NavHeadQa from '@nascent/ecrp-ecrm/src/layout/QA/NavHead'
+import FooterQa from '@nascent/ecrp-ecrm/src/layout/QA/Footer'
 import isRefresh from '@nascent/ecrp-ecrm/src/utils/isRefresh'
 import Footer from '@nascent/ecrp-ecrm/src/layout/small/Footer'
 
 export default {
   components: {
     NavHead,
+    NavHeadQa,
+    FooterQa,
     Footer
   },
   data () {

@@ -10,7 +10,14 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/GroupRepeat',
     '/Social/WeWorkGroup/GroupWelcomeCode',
     '/WeWork/WelcomeLog/Log',
-    '/WeWork/WelcomeCode/WelcomeCodeList'
+    '/WeWork/WelcomeCode/WelcomeCodeList',
+    '/Social/OperationConfig',
+    '/Social/SocialOperation/RedPacket/Analysis',
+    '/Social/SocialOperation/RedPacket/ReceiveRecord',
+    '/Social/SocialOperation/RedPacket/SendRecord',
+    '/Guide/chanel/chanel',
+    '/Social/WeComCustomerOperation/LosOfFriends'
+
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1

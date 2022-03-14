@@ -4,6 +4,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         endTime: '',
         payConfigId: null,
@@ -175,6 +176,10 @@ export default {
     }
   },
   mounted () {
+    if (this.cloudPlatformType === 'kd') {
+      this.dataList[2].nick = '成员转出金额（元）'
+      this.saleOption.legend.data[2].name = '成员转出金额'
+    }
     this.$store.dispatch('pay/getWxpayList')
     // 日期默认近7天，设置第一次请求数据
     this.changeDate(this.$refs.datePickerBar.getDuringDateArray(7))
@@ -191,6 +196,7 @@ export default {
      * @return {*}
      */
     setDefaultChartData () {
+      let name = this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
       return [
         {
           name: '今日转出金额',
@@ -198,7 +204,7 @@ export default {
           data: []
         },
         {
-          name: '员工转出金额',
+          name: `${name}转出金额`,
           type: 'line',
           data: []
         },
