@@ -12,7 +12,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="选择员工：" class='el-form__change no-margin has-left'>
+        <!-- <el-form-item label="选择员工：" class='el-form__change no-margin has-left'>
           <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
@@ -21,6 +21,45 @@
               </div>
             </template>
           </NsGuideDialog>
+        </el-form-item> -->
+        <el-form-item :label="cloudPlatformType == 'ecrp'?'选择员工：':'选择企业微信成员：'" class='el-form__change no-margin has-left'>
+          <NsGuideDialog :selfBtn='true'
+                         :appendToBody='true'
+                         :isButton="false"
+                         :auth="true"
+                         btnTitle=""
+                         :dialogTitle="选择员工"
+                         v-model="model.guideIds"
+                         @input="handleChangeGuide"
+                         :isOpenDialogAfterRequest='false'
+                         v-if="cloudPlatformType == 'ecrp'">
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                               :appendToBody='true'
+                               :isButton="false"
+                               :auth="true"
+                               :switchAreaFlag="1"
+                               btnTitle=""
+                               dialogTitle="选择企业微信成员"
+                               v-model="model.guideIds"
+                               @input="handleChangeGuide"
+                               :isOpenDialogAfterRequest='false'
+                               v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                <Icon type="geren"
+                      class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
         </el-form-item>
       </el-form>
     </div>
@@ -45,7 +84,7 @@
           <el-tab-pane label="按日期统计" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>
           </el-tab-pane>
-          <el-tab-pane label="按员工统计" name="guide">
+          <el-tab-pane :label="cloudPlatformType==='ecrp'?'按员工统计':'按企业微信成员'" name="guide">
             <TableByGuide ref='TableByGuide' :url='urlByGuide' :data='model'/>
           </el-tab-pane>
         </el-tabs>
@@ -61,9 +100,10 @@ import TableByGuide from '../components/TableByGuide'
 import DatePickerBar from '@/components/NewUi/DatePickerBar'
 import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 export default Index
 Index.components = {
-  ColorfulDisplay, DatePickerBar, businessEcharts, NsGuideDialog, TableByDate, TableByGuide
+  ColorfulDisplay, DatePickerBar, businessEcharts, NsGuideDialog, TableByDate, TableByGuide, NsGuideWeChatDialog
 }
 </script>
 <style lang="scss" scoped>
@@ -131,23 +171,5 @@ Index.components = {
 }
 .analysis-content >>> .date-picker-bar {
   margin-left: 0;
-}
-.fuscousQA .base-text-select{
-  color: #0C4CFF;
-}
-.fuscousIcon .base-text-select{
-  color: #0091fa;
-}
-.fuscousQA >>> .el-tabs__item.is-active{
-  color: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__item.is-active{
-  color: #0091fa;
-}
-.fuscousQA >>> .el-tabs__active-bar{
-  background: #0C4CFF;
-}
-.fuscousIcon >>> .el-tabs__active-bar{
-  background: #0091fa;
 }
 </style>
