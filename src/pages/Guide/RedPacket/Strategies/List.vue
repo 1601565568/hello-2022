@@ -76,7 +76,7 @@
               label="红包名称">
               <template slot-scope="scope">
                 <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction'/></div>
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bagTip='scope.row.benediction' :bgHasFont='false'/></div>
                   <div class="scope-title_tab">
                     {{scope.row.name}}
                   </div>
@@ -134,6 +134,7 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='(value)=>{handleChangeState(scope.row.id,scope.row.state)}'
+                  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"
                   :value="scope.row.state === normalType">
                 </el-switch>
               </template>
@@ -200,5 +201,15 @@ export default Index
     font-size: 14px;
     margin-left: 16px;
   }
+}
+</style>
+<style scoped>
+.fuscousIcon.is-checked >>>.el-switch__core{
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+.fuscousQA.is-checked >>>.el-switch__core{
+  border-color: #2153D4;
+  background-color: #2153D4;
 }
 </style>

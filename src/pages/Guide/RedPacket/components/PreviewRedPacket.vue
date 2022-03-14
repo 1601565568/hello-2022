@@ -37,13 +37,10 @@ export default {
       default: ''
     },
     bgHasFont: {
-      default: false
+      default: true
     },
     previewType: {
       default: 'drawer'
-    },
-    bagName: {
-      default: ''
     }
   },
   components: { RedPacket, ElDrawer },

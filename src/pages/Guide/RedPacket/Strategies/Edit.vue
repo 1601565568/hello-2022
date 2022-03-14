@@ -39,7 +39,7 @@
                   <p class='prompt-text' v-if='model.redpackType === luckyRed'><span class='yellow-point'></span>拼手气红包仅可在群聊中使用</p>
                 </el-form-item>
                 <el-form-item label='发放类型' required prop='launchType' class='larger-item'>
-                  <el-radio-group v-model="model.launchType">
+                  <el-radio-group v-model="model.launchType" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                     <template v-for='item in setTypeList'>
                       <el-radio v-if='item.value === staffPost || model.redpackType === normalRed' :label="item.value" :key='item.value'>{{item.label}}</el-radio>
                     </template>
@@ -190,7 +190,7 @@
                 </el-tooltip>
               </template>
               <div class='poster-container'>
-                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction'/></div>
+                <div class='poster-img'><PreviewRedPacket :bgImage='posterInfo.background' :bagTip='model.benediction' :bgHasFont='false'/></div>
                 <ns-button type='text' class='choose-poster' @click='handleChangePoster'>选择封面</ns-button>
               </div>
             </el-form-item>
@@ -368,5 +368,19 @@ export default Index
   >>> .el-form-item__label:before {
     display: none !important ;
   }
+}
+.fuscousQA >>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #2153D4;
+    background: #2153D4;
+}
+.fuscousIcon>>>.el-radio__input.is-checked .el-radio__inner{
+    border-color: #41a2e8;
+    background: #41a2e8;
+}
+.fuscousIcon>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #41a2e8;
+}
+.fuscousQA>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
 }
 </style>

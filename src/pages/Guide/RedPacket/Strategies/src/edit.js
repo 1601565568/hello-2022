@@ -85,7 +85,10 @@ export default {
       fangRedpact,
       baguser,
       listPath: '/Social/SocialOperation/RedPacket/Strategies/List',
-      submitApi: this.$api.guide.redpacket.createStrategies
+      submitApi: this.$api.guide.redpacket.createStrategies,
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {
