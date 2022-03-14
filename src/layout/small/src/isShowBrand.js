@@ -11,6 +11,7 @@ export default ($route) => {
     '/Social/WeWorkGroup/GroupWelcomeCode',
     '/WeWork/WelcomeLog/Log',
     '/WeWork/WelcomeCode/WelcomeCodeList',
+    '/Guide/chanel/chanel',
     '/Social/WeComCustomerOperation/LosOfFriends'
 
   ]
