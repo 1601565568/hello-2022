@@ -21,7 +21,7 @@
               </drap-upload>
             </el-form-item>
             <el-form-item label='二维码' required class='larger-item'>
-              <el-radio-group v-model="model.type">
+              <el-radio-group v-model="model.type" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                 <el-radio :label="1">公众号</el-radio>
               </el-radio-group>
               <div class="qrcode-content">
@@ -59,7 +59,7 @@
                       </template>
                     </el-popover> -->
                   </div>
-                  <tag-area v-model='model.sceneStr' tag="wise" ref="tagAreaText" :maxlength="64" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
+                  <tag-area v-model='model.sceneStr' tag="wise" ref="tagAreaText" :maxlength="64" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength' :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"/>
                 </el-form-item>
               </div>
               <!-- 选择品牌Dialog -->
@@ -172,5 +172,27 @@ export default Edit
     color: #0068B3;
     cursor: pointer;
   }
+}
+</style>
+<style scoped>
+.fuscousQA>>>.el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background-color: #2153D4;
+}
+.fuscousIcon>>>.el-radio__input.is-checked .el-radio__inner{
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+.fuscousQA>>>.el-radio__input.is-checked + .el-radio__label{
+color: #2153D4;
+}
+.fuscousIcon>>>.el-radio__input.is-checked + .el-radio__label{
+color: rgb(0, 145, 250);
+}
+.fuscousQA >>> wise{
+  color: #2153D4;
+}
+.fuscousIcon >>> wise{
+  color: rgb(0, 145, 250);
 }
 </style>

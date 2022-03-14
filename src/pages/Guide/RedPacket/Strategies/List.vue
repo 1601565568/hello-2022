@@ -134,7 +134,7 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='(value)=>{handleChangeState(scope.row.id,scope.row.state)}'
-                  :value="scope.row.state === normalType">
+                  :value="scope.row.state === normalType" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                 </el-switch>
               </template>
             </el-table-column>
@@ -200,5 +200,15 @@ export default Index
     font-size: 14px;
     margin-left: 16px;
   }
+}
+</style>
+<style scoped>
+.fuscousIcon.is-checked >>>.el-switch__core{
+  border-color: rgb(0, 145, 250);
+  background-color: rgb(0, 145, 250);
+}
+.fuscousQA.is-checked >>>.el-switch__core{
+  border-color: #2153D4;
+  background-color: #2153D4;
 }
 </style>

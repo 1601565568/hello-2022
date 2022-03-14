@@ -25,7 +25,7 @@
 -->
 <template>
   <div>
-    <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()">
+    <div :class="[isChooseC==='QA'?chooseQA:choose]" v-if="!isButton" :type="type" @click="onDialogOpen()">
       <template v-if="selfBtn">
         <!-- 需要接口返回后才展示点击按钮 start -->
         <template v-if='isOpenDialogAfterRequest'>
@@ -51,7 +51,7 @@
       <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}
     </NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1200px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  v-if='showTitleTip' content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -59,7 +59,7 @@
         </el-tooltip>
       </div>
       <div>
-        <el-form>
+        <el-form >
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
@@ -81,6 +81,14 @@
                 <el-option label="导购" :value="0"></el-option>
               </el-select>
             </el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">员工状态：</div></el-form-grid>
+            <el-form-grid>
+              <el-select style="width:100px" v-model="departData.status" clearable >
+                <el-option label="全部" :value="3"></el-option>
+                <el-option label="在职" :value="1"></el-option>
+                <el-option label="离职" :value="2"></el-option>
+              </el-select>
+            </el-form-grid>
           </el-form-item>
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">员工姓名：</div></el-form-grid>
@@ -93,11 +101,11 @@
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;">导入员工：</div></el-form-grid>
             <el-form-grid>
-              <div class="template-search__box">
+              <div class="template-search__box" >
                 <span>
                   已导入{{successCount}}个员工
                 </span>
-                <div style="float: right;"><NsImportDialog ref="import" @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
+                <div style="float: right;" :class="[isChooseC==='QA'? chooseQA :choose]"><NsImportDialog ref="import" @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
               </div>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
@@ -111,11 +119,16 @@
         <div>
           <!-- <el-row :gutter="24"> -->
             <el-col :span="12">
-              <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
-                <ElTableColumn type="selection" width="55"></ElTableColumn>
+              <ElTable :class="[isChooseC === 'QA' && 'selectQA']" v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
+                <ElTableColumn  type="selection" width="55"></ElTableColumn>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
                 <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="status" label="员工状态" align="left">
+                  <template slot-scope="scope">
+                    <span>{{scope.row.status === 1 ? '在职': '离职' }}</span>
+                  </template>
+                </ElTableColumn>
               </ElTable>
               <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
                             :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
@@ -177,6 +190,23 @@ export default index
     color: #0392FB;
     text-align: center;
   }
+  .template-search__chooesQA {
+    cursor: pointer;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
+    font-size: 12px;
+    text-align: center;
+    color: #2153D4;
+  }
+  .template-search__chooesQA >>>.btn-import{
+    cursor: pointer;
+    min-width: 40px;
+    font-size: 12px;
+    color: #2153D4;
+    text-align: center;
+  }
+   .template-search__chooesQA >>>.el-checkbox__input.is-checked .el-checkbox__inner{
+      color: #2153D4;
+   }
   .template-search__box {
     width: 182px;
     height: 28px;
@@ -189,18 +219,11 @@ export default index
     width: 141px;
     height: 27px;
     margin-left: 10px;
-    border-right: 1px solid #DCDFE6;;
+    /* border-right: 1px solid #DCDFE6;; */
   }
   > div + span {
     margin-left: var(--default-margin-small);
   }
-  }
-  .template-search__chooes{
-    cursor: pointer;
-    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
-    font-size: 12px;
-    color: #0392FB;
-    text-align: center;
   }
   @component-namespace code {
     @b container {
@@ -236,7 +259,14 @@ export default index
       }
     }
   }
-
+  .selectQA >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+     background: #2153D4;
+    border-color: #2153D4;
+  }
+  .selectQA >>> .el-checkbox__input.is-checked .el-checkbox__inner{
+       background: #2153D4;
+    border-color: #2153D4;
+  }
   >>> .el-table th.el-table-column--selection>.cell {
     padding: 0 14px;
   }

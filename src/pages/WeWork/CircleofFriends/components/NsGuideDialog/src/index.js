@@ -500,7 +500,7 @@ export default {
           return
         } else {
           // 左边列表全部勾选
-          this.employeeData.forEach(function (item) {
+          this.employeeData.forEach((item) => {
             if (allEmployeeMap[item.id]) {
               this.$refs.employeeTable.toggleRowSelection(item, true)
             }
