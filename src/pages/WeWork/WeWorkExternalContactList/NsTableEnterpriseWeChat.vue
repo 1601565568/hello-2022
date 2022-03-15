@@ -196,7 +196,7 @@
                   <el-tag class="tag-item"
                       v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i)"
                       :key="index">
-                    <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
+                    <el-tooltip placement="top-start" :content="tag" effect="light" :disabled="tag.length < 10">
                       <span class="tool-tip">{{tag}}</span>
                     </el-tooltip>
                   </el-tag>
@@ -316,6 +316,7 @@ export default NsTableEnterpriseWeChat
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
+    height: 24px;
     /* text-overflow: ellipsis; */
     .tag-item {
       margin-right: 5px;
@@ -335,6 +336,13 @@ export default NsTableEnterpriseWeChat
   }
   .etc {
     flex-shrink: 0;
+    margin-left: 3px;
   }
+}
+::v-deep .el-tooltip__popper.is-light{
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.12);
+  border-radius: 2px;
+  border: none;
 }
 </style>

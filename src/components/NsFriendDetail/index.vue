@@ -16,7 +16,7 @@
             <span v-if="isMan + '' !== '0'" class="iconfont head-sex" :class="isMan + '' === '1' ? 'icon-nan' : 'icon-nv'"></span>
           </div>
           <div class="head-right">
-            <div class="name-info"><span class="name">{{friendInfo.name}}</span><span class="source" :class="isWx ? 'isWx' : 'isQyVx'">{{isWx ? '@微信' : '@' + friendInfo.corpName}}</span></div>
+            <div class="name-info"><span class="name">{{friendInfo.name}}</span><span class="source" :class="isWx ? 'isWx' : 'isQyVx'">{{isWx ? '@微信' : friendInfo.corpName ? '@' + friendInfo.corpName : ''}}</span></div>
             <div class="job-info">
               <span v-if="!isWx" class="job-name">{{friendInfo.position}}</span>
               <template v-if="cloudPlatformType === 'ecrp'">
@@ -62,10 +62,10 @@
                 <div v-if="scope.row.remarkMobile">
                   <div class="group-tags">
                     <el-tag class="tag-item"
-                        v-for="(tag, index) in scope.row.remarkMobile.split('|').filter(i => i)"
+                        v-for="(num, index) in scope.row.remarkMobile.split('|').filter(i => i)"
                         :key="index">
-                      <el-tooltip placement="top" :content="tag" effect="light">
-                        <span class="tool-tip">{{tag}}{{index + 1 === scope.row.remarkMobile.split('|').filter(i => i).length ? '' : '、'}}</span>
+                      <el-tooltip placement="top" :content="num" effect="light">
+                        <span class="tool-tip">{{num}}{{index + 1 === scope.row.remarkMobile.split('|').filter(i => i).length ? '' : '、'}}</span>
                       </el-tooltip>
                     </el-tag>
                   </div>
@@ -93,17 +93,26 @@
                             label="企业标签">
               <template slot-scope="scope">
                 <div v-if="scope.row.groupTags" class="detail-tags-container">
-                  <div class="group-tags">
-                    <el-tag class="tag-item"
-                        v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
-                        :key="index">
-                      <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
-                        <span class="tool-tip">{{tag}}</span>
-                      </el-tooltip>
-                    </el-tag>
-                  </div>
-                  <span class="etc" v-if="scope.row.groupTags.length > 20">
-                    等{{scope.row.groupTags.split('|').filter(i => i).length}}个标签
+                  <el-tooltip placement="top-start" effect="light" popper-class="tooltip-content" :disabled="scope.row.groupTags.length < 12">
+                    <div slot="content" class="tooltip-tags">
+                      <div class="tag-item"
+                          v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
+                          :key="index">
+                          <span class="tool-tip">{{tag}}</span>
+                      </div>
+                    </div>
+                    <div class="group-tags">
+                      <el-tag class="tag-item"
+                          v-for="(tag, index) in scope.row.groupTags.split('|').filter(i => i)"
+                          :key="index">
+                        <!-- <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10"> -->
+                          <span class="tool-tip">{{tag}}</span>
+                        <!-- </el-tooltip> -->
+                      </el-tag>
+                    </div>
+                  </el-tooltip>
+                  <span class="etc" v-if="scope.row.groupTags.length > 12">
+                    …{{scope.row.groupTags.split('|').filter(i => i).length}}个
                   </span>
                 </div>
                 <template v-else>
@@ -271,6 +280,7 @@ export default index
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
+    height: 24px;
     /* text-overflow: ellipsis; */
     .tag-item {
       margin-right: 5px;
@@ -290,6 +300,48 @@ export default index
   }
   .etc {
     flex-shrink: 0;
+    height: 24px;
+    line-height: 22px;
+    margin-left: 4px;
+    padding: 0 8px;
+    background: #F5F5F5;
+    border-radius: 2px;
+  }
+}
+// ::v-deep .el-tooltip__popper{
+//   background: #FFFFFF;
+//   box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.12);
+//   border-radius: 2px;
+//   border: none;
+// }
+.tooltip-content{
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.12);
+  border-radius: 2px;
+  border: none !important;
+  .tooltip-tags{
+    max-width: 376px;
+    // overflow: hidden;
+    // display: inline-block;
+    // white-space: nowrap;
+    /* text-overflow: ellipsis; */
+    .tag-item {
+      display: inline-block;
+      margin-right: 5px;
+      padding: 2px 8px;
+      cursor: default;
+      background: #E6F2FF;
+      border: 1px solid rgba(189,220,255,1);
+      border-radius: 2px;
+    }
+    .tool-tip {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+      color: rgba(0,0,0,0.85);
+    }
   }
 }
 </style>
