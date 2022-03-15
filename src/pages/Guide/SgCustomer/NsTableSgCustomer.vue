@@ -43,11 +43,11 @@
         <el-form-item label="转移类型：" prop="transferType">
           <el-form-grid size="xmd" >
             <el-select  v-model="model.transferType" filterable clearable placeholder="请选择转移方式">
-              <el-option label="后台客户列表转移" value="0"></el-option>
-              <el-option label="员工更换门店" value="1"></el-option>
-              <el-option label="员工离职" value="2"></el-option>
-              <el-option label="店长会员转移" value="3"></el-option>
-              <el-option label="商城会员自主转移" value="4"></el-option>
+              <el-option label="后台客户列表转移" :value="0"></el-option>
+              <el-option label="员工更换门店" :value="1"></el-option>
+              <el-option label="员工离职" :value="2"></el-option>
+              <el-option label="店长会员转移" :value="3"></el-option>
+              <el-option label="商城会员自主转移" :value="4"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
