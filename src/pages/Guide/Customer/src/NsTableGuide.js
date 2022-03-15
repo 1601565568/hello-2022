@@ -193,7 +193,7 @@ export default {
             h('div', { style: 'width: 520px' }, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
             h('div', { style: 'font-size:14px; color: rgba(0, 0, 0, 0.45); margin-top: 8px' }, ` 选择的会员范围与筛选条件无关`)
           ]),
-          confirmButtonText: '确定',
+          confirmButtonText: '继续',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
