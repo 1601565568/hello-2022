@@ -177,7 +177,32 @@ export default {
         this.$notify.error('请选择要更换导购的会员')
         return
       }
-      this.handleChange(type)
+      const checkAll = this.checkAll
+      const isIndeterminate = this.isIndeterminate
+      let name = this.selectItem.label || ''
+      const children = this.selectItem.children || []
+      if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
+        name = name.substring(0, name.indexOf('('))
+      }
+      const typeName = children.length > 0 ? '门店' : '导购'
+      if (checkAll && !isIndeterminate) {
+        const h = this.$createElement
+        this.$confirm('提示信息', {
+          title: '提示信息',
+          message: h('div', null, [
+            h('div', { style: 'width: 520px' }, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
+            h('div', { style: 'font-size:14px; color: rgba(0, 0, 0, 0.45); margin-top: 8px' }, ` 选择的会员范围与筛选条件无关`)
+          ]),
+          confirmButtonText: '继续',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.handleChange(type)
+        }).catch(() => {
+        })
+      } else {
+        this.handleChange(type)
+      }
     },
     handleChange (type) {
       if (type === 'shop') {
@@ -526,30 +551,6 @@ export default {
         this.$refs.table.clearSelection()
       }
       this.isIndeterminate = false
-      // 提示
-      const checkAll = this.checkAll
-      const isIndeterminate = this.isIndeterminate
-      let name = this.selectItem.label || ''
-      const children = this.selectItem.children || []
-      if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
-        name = name.substring(0, name.indexOf('('))
-      }
-      const typeName = children.length > 0 ? '门店' : '导购'
-      if (checkAll && !isIndeterminate) {
-        const h = this.$createElement
-        this.$confirm('提示信息', {
-          title: '提示信息',
-          message: h('div', null, [
-            h('div', { style: 'width: 520px' }, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
-            h('div', { style: 'font-size:14px; color: rgba(0, 0, 0, 0.45); margin-top: 8px' }, ` 选择的会员范围与筛选条件无关`)
-          ]),
-          confirmButtonText: '继续',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-        }).catch(() => {
-        })
-      }
     },
     // table表格勾选全部
     hanledSelecAllChange (val) {
