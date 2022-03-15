@@ -180,10 +180,11 @@ export default {
       const checkAll = this.checkAll
       const isIndeterminate = this.isIndeterminate
       let name = this.selectItem.label || ''
+      const children = this.selectItem.children || []
       if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
         name = name.substring(0, name.indexOf('('))
       }
-      const typeName = type === 'shop' ? '门店' : '导购'
+      const typeName = children.length > 0 ? '门店' : '导购'
       if (checkAll && !isIndeterminate) {
         const h = this.$createElement
         this.$confirm('提示信息', {
