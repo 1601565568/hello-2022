@@ -60,15 +60,13 @@
                            label="备注手机号">
               <template slot-scope="scope">
                 <div v-if="scope.row.remarkMobile">
-                  <div class="group-tags">
-                    <el-tag class="tag-item"
-                        v-for="(num, index) in scope.row.remarkMobile.split('|').filter(i => i)"
-                        :key="index">
-                      <el-tooltip placement="top" :content="num" effect="light">
-                        <span class="tool-tip">{{num}}{{index + 1 === scope.row.remarkMobile.split('|').filter(i => i).length ? '' : '、'}}</span>
-                      </el-tooltip>
-                    </el-tag>
-                  </div>
+                  <span class="tag-item"
+                      v-for="(num, index) in scope.row.remarkMobile.split('|').filter(i => i)"
+                      :key="index">
+                    <el-tooltip placement="top" :content="num" effect="light">
+                      <span class="tool-tip">{{num}}{{index + 1 === scope.row.remarkMobile.split('|').filter(i => i).length ? '' : '、'}}</span>
+                    </el-tooltip>
+                  </span>
                 </div>
                 <template v-else>
                   -
