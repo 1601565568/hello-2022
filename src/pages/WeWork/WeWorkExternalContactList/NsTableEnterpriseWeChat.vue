@@ -13,7 +13,7 @@
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称">
+            <el-input ref="quickText" v-model.trim="quickSearchModel.externalName" placeholder="请输入昵称/备注名">
               <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('externalName')"/>
             </el-input>
           </el-form-item>
@@ -32,11 +32,11 @@
         <el-form ref="table_filter_form" label-width="80px" class="surround-btn"
                  :model="model" :rules="rules" :inline="true">
           <!--导购员工组件-->
-          <el-form-item label="选择员工：">
+          <el-form-item :label="`${cloudPlatformType === 'kd' ? '所属员工：' : '所属成员:'}`">
             <div class="template-search__box">
-            <span v-if="employees&&employees.length>0">
-                已选择{{employees.length}}个
-            </span>
+              <span v-if="employees&&employees.length>0">
+                  已选择{{employees.length}}个
+              </span>
               <span v-else>全部</span>
               <div style="float: right;">
                 <NsGuideDialog
@@ -50,17 +50,71 @@
                   btnTitle="选择"
                   dialogTitle="选择员工"
                   v-model="employees"
+                  v-if="cloudPlatformType === 'ecrp'"
                 ></NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='false'
+                  :appendToBody='false'
+                  :isButton="false"
+                  :auth="true"
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择成员"
+                  v-model="employees"
+                  v-else>
+                  <!-- <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                      <Icon type="geren"
+                            class='guideIds-icon'></Icon>
+                    </div>
+                  </template> -->
+                </NsGuideWeChatDialog>
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="昵称：">
+          <el-form-item label="昵称/备注名：" label-width="100px">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model.trim="model.externalName">
               </el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="添加好友：" prop="time">
+          <el-form-item label="企业标签：">
+            <ns-select v-model="model.tag" filterable clearable :props="propsSet" :url="$api.marketing.weworkMarketing.getEmployee" />
+          </el-form-item>
+          <el-form-item label="性别：">
+            <el-select
+              v-model="model.sexy"
+              placeholder="请选择"
+              clearable
+            >
+              <el-option label="全部" value="0"></el-option>
+              <el-option label="男" value="1"></el-option>
+              <el-option label="女" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="来源：">
+            <el-select
+              v-model="model.source"
+              placeholder="请选择来源"
+              clearable
+            >
+              <el-option
+                v-for="(item, index) in sourceList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="手机号：">
+            <el-form-grid size="xmd">
+              <el-input  type="text" v-model.trim="model.mobileNum">
+              </el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="添加时间：" prop="time">
             <el-form-grid>
               <ns-datetime  v-model="model.addTime"></ns-datetime>
             </el-form-grid>
@@ -81,7 +135,7 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column type="selection" align="center">
           </el-table-column>
-          <el-table-column type="default" prop="head_img"
+          <el-table-column prop="head_img"
                            label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false">
             <template slot-scope="scope">
               <div v-if="!scope.row.head_img">
@@ -92,23 +146,35 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="external_name"
-                           label="昵称" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
+          <!-- Todo -->
+          <!-- <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" prop="shopName"
+                           label="绑定店铺" :sortable="false" align="center">
+            <template slot-scope="scope">
+              {{scope.row.sex ? scope.row.sex : '-'}}
+            </template>
+          </el-table-column> -->
+          <el-table-column :show-overflow-tooltip="true" prop="external_name"
+                           label="昵称/备注名" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
             <template slot-scope="scope">
               <ns-wechat-emoji :data="scope.row.external_name ? scope.row.external_name : '-'"></ns-wechat-emoji>
+              <ns-wechat-emoji :data="scope.row.remark ? '/' + scope.row.remark : ''"></ns-wechat-emoji>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="sex"
+          <el-table-column :show-overflow-tooltip="true" prop="sex"
                            label="性别" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.sex === 2 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
-                           label="所属员工"  align="center">
+          <!-- Todo -->
+          <!-- <el-table-column :show-overflow-tooltip="true" prop="remarkMobile"
+                           label="备注手机号">
+          </el-table-column> -->
+          <el-table-column :show-overflow-tooltip="true" prop="guideName"
+                           :label="cloudPlatformType === 'ecrp' ? '所属员工' : '所属成员'"  align="center">
           </el-table-column>
-          <el-table-column type="default" prop="add_time"
-                           label="添加好友时间" dbcolumn="add_time" column="add_time" sortable="add_time" align="left">
+          <el-table-column prop="add_time"
+                           label="添加时间" dbcolumn="add_time" column="add_time" sortable="add_time" align="left">
             <template slot-scope="scope">
               <div v-if="scope.row.add_time">
                 {{scope.row.add_time.substring(0,10)}}<br/>
@@ -116,21 +182,21 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="addWay"
+          <el-table-column :show-overflow-tooltip="true" prop="addWay"
                            label="来源" :sortable="false" align="center">
             <template slot-scope="scope">
               {{scope.row.addWay ? addWay[scope.row.addWay] ? addWay[scope.row.addWay] : '未知' : '未知'}}
             </template>
           </el-table-column>
-          <el-table-column type="default" prop="group_tags" width="400"
-                           label="企业标签" dbcolumn="group_tags" column="group_tags" align="left">
+          <el-table-column prop="group_tags" width="300"
+                           label="企业标签">
             <template slot-scope="scope">
               <div v-if="scope.row.group_tags" class="group-tags-container">
                 <div class="group-tags">
                   <el-tag class="tag-item"
                       v-for="(tag, index) in scope.row.group_tags.split('|').filter(i => i)"
                       :key="index">
-                    <el-tooltip placement="top" :content="tag" effect="light" :disabled="tag.length < 10">
+                    <el-tooltip placement="top-start" :content="tag" effect="light" :disabled="tag.length < 10">
                       <span class="tool-tip">{{tag}}</span>
                     </el-tooltip>
                   </el-tag>
@@ -144,6 +210,13 @@
               </template>
             </template>
           </el-table-column>
+          <!-- Todo -->
+          <!-- <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" prop="lastChatTime"
+                           label="最后沟通时间" :sortable="false" align="center">
+            <template slot-scope="scope">
+              {{scope.row.sex ? scope.row.sex : '-'}}
+            </template>
+          </el-table-column> -->
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100">
             <template slot-scope="scope">
               <ns-table-column-operate-button :buttons="_data._table.table_buttons"
@@ -188,7 +261,8 @@
         <ns-button type="primary" @click="saveBatchMarking">保存</ns-button>
       </span>
     </el-dialog>
-    <NSUserDetails ref="NSUserDetails" :userDetails="userDetails"/>
+    <NSUserDetails v-if="cloudPlatformType === 'ecrp'" ref="NSUserDetails" :userDetails="userDetails"/>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
@@ -198,11 +272,15 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import NSUserDetails from '@/components/NSUserDetails'
 import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import NsFriendDetail from '@/components/NsFriendDetail'
 NsTableEnterpriseWeChat.components = {
   NsGuideDialog,
   NsWechatEmoji,
   NsDatetime,
-  NSUserDetails
+  NSUserDetails,
+  NsGuideWeChatDialog,
+  NsFriendDetail
 }
 export default NsTableEnterpriseWeChat
 </script>
@@ -234,14 +312,18 @@ export default NsTableEnterpriseWeChat
   display: flex;
   align-items: center;
   .group-tags {
-    max-width: 400px;
+    max-width: 300px;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
+    height: 24px;
     /* text-overflow: ellipsis; */
     .tag-item {
       margin-right: 5px;
       cursor: default;
+      background: #E6F2FF;
+      border: 1px solid rgba(189,220,255,1);
+      border-radius: 2px;
     }
     .tool-tip {
       display: inline-block;
@@ -249,10 +331,18 @@ export default NsTableEnterpriseWeChat
       overflow: hidden;
       text-overflow: ellipsis;
       flex-shrink: 0;
+      color: rgba(0,0,0,0.85);
     }
   }
   .etc {
     flex-shrink: 0;
+    margin-left: 3px;
   }
+}
+::v-deep .el-tooltip__popper.is-light{
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.12);
+  border-radius: 2px;
+  border: none;
 }
 </style>

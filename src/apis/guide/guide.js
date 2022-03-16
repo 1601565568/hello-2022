@@ -170,6 +170,10 @@ export default {
     url: '/guide/customer/saveTag',
     method: 'post'
   },
+  getCustomerDetail: {// 好友列表中获取好友详情
+    url: '/guide/customer/getCustomerDetail',
+    method: 'post'
+  },
   findGuideNewWorkNumAndPrefix: {
     url: '/guide/guide/findGuideNewWorkNumAndPrefix',
     method: 'get'
