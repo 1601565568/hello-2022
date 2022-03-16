@@ -80,8 +80,8 @@ export default {
 
     return {
       propsSet: {
-        label: 'label',
-        value: 'value',
+        label: 'tag_name',
+        value: 'tag_id',
         disabled: 'disabled'
       },
       model: model,
@@ -144,6 +144,7 @@ export default {
         expand: false
       },
       userDetails: {},
+      selectParams: { isTagGroup: 0 },
       cloudPlatformType: '' // 判断客道、ecrp环境
     }
   },
