@@ -18,11 +18,11 @@ export default {
       }
     },
     // 开启关闭弹框
-    visible: {
-      default: function () {
-        return false
-      }
-    },
+    // visible: {
+    //   default: function () {
+    //     return false
+    //   }
+    // },
     // 判断平台类型
     cloudPlatformType: {
       type: String,
@@ -92,7 +92,8 @@ export default {
         sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
-      }
+      },
+      visible: false
     }
   },
   computed: {},
@@ -108,7 +109,7 @@ export default {
       this.getFriendDetail(1)
     },
     showVipDetail () {
-      this.$refs.NSUserDetails.showDetailDialog({
+      this.$emit('showVip', {
         shopId: this.shopId,
         unionId: this.unionId
       })
@@ -129,7 +130,7 @@ export default {
             let data = resp.result
             this.friendInfo = data
             this.isMan = data.gender
-            this.isVip = data.Member
+            this.isVip = data.member
             this.isWx = data.type + '' === '1'
           }
           if (resp.result && resp.result.customerGuideDTOS && resp.result.customerGuideDTOS.length > 0) {

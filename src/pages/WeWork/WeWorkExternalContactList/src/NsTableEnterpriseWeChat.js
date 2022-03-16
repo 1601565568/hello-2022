@@ -360,6 +360,9 @@ export default {
       // console.log(val, '打开')
       this.$refs.NsFriendDetail.showDetailDialog(val)
       // this.$refs.NSUserDetails.showDetailDialog(val)
+    },
+    showVip (val) {
+      this.$refs.NSUserDetails.showDetailDialog(val)
     }
   }
 }

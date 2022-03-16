@@ -262,7 +262,7 @@
       </span>
     </el-dialog>
     <NSUserDetails v-if="cloudPlatformType === 'ecrp'" ref="NSUserDetails" :userDetails="userDetails"/>
-    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType"/>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType" @showVip="showVip"/>
   </div>
 </template>
 
