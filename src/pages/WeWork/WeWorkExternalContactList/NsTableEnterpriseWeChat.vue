@@ -167,9 +167,23 @@
             </template>
           </el-table-column>
           <!-- Todo -->
-          <!-- <el-table-column :show-overflow-tooltip="true" prop="remarkMobile"
+          <el-table-column :show-overflow-tooltip="true" prop="remarkMobile"
                            label="备注手机号">
-          </el-table-column> -->
+            <template slot-scope="scope">
+              <div v-if="scope.row.remarkMobile">
+                <span class="tag-item"
+                    v-for="(num, index) in scope.row.remarkMobile.split('|').filter(i => i)"
+                    :key="index">
+                  <el-tooltip placement="top" :content="num" effect="light">
+                    <span class="tool-tip">{{num}}{{index + 1 === scope.row.remarkMobile.split('|').filter(i => i).length ? '' : '、'}}</span>
+                  </el-tooltip>
+                </span>
+              </div>
+              <template v-else>
+                -
+              </template>
+            </template>
+          </el-table-column>
           <el-table-column :show-overflow-tooltip="true" prop="guideName"
                            :label="cloudPlatformType === 'ecrp' ? '所属员工' : '所属成员'"  align="center">
           </el-table-column>
