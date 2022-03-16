@@ -265,7 +265,7 @@ export default {
       }
       const sendParams = {
         ...params.searchMap,
-        erportType: 26
+        exportType: 26
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
         this.$store.dispatch({

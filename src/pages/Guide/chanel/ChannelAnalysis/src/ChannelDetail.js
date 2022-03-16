@@ -59,26 +59,22 @@ export default {
       }
 
       let param = this.$generateParams$()
-
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.channel.exportChannelAnalysisDailyListExcel, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-
-            const fileName = `${this.exportPrefixName}分析统计${this.exportTime}.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
+      const sendParams = {
+        ...param.searchMap,
+        orderDir: param.orderDir,
+        orderKey: param.orderKey,
+        exportType: 34
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 160,
+          right: 60
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }
