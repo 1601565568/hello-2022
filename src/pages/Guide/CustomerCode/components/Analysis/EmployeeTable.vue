@@ -172,48 +172,30 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
-      if (!this.employeeListExportState) {
-        this.$notify.info('正在导出中，请不要重复操作')
-        return
-      }
+      // if (!this.employeeListExportState) {
+      //   this.$notify.info('正在导出中，请不要重复操作')
+      //   return
+      // }
       let params = this.$generateParams$()
       if (!this.model.timeStart && !this.model.timeEnd) {
         params.searchMap.timeStart = this.validTimeStart
         params.searchMap.timeEnd = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       }
       this.employeeListExportState = false
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.customerCode.employeeListExport, params)
-        .then(resp => {
-          that.employeeListExportState = true
-          that.$notify.success('下载完成')
+      const sendParams = {
+        ...params.searchMap,
+        exportType: 24
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 300,
+          right: 60
         })
-        .catch(resp => {
-          that.employeeListExportState = true
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-
-            let time = ''
-            if (params.searchMap.timeStart && params.searchMap.timeEnd) {
-              const csvStartTime = params.searchMap.timeStart.substring(0, 10).replace(/-/g, '')
-              const csvEndTime = params.searchMap.timeEnd.substring(0, 10).replace(/-/g, '')
-              time = csvStartTime + '-' + csvEndTime
-            } else {
-              time = '全部'
-            }
-            let fileName = '参与活动员工总数明细' + time + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     // 排序
     handleSort (data) {
