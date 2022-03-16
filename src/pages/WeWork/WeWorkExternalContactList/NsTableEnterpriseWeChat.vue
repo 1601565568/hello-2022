@@ -89,14 +89,14 @@
               placeholder="请选择"
               clearable
             >
-              <el-option label="全部" value="0"></el-option>
+              <el-option label="未知" value="0"></el-option>
               <el-option label="男" value="1"></el-option>
               <el-option label="女" value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="来源：">
             <el-select
-              v-model="model.source"
+              v-model="model.addFriendChannel"
               placeholder="请选择来源"
               clearable
             >
