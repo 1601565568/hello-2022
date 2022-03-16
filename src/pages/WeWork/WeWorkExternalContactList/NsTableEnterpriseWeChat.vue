@@ -81,7 +81,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="企业标签：">
-            <ns-select v-model="model.tag" filterable clearable :props="propsSet" :url="$api.marketing.weworkMarketing.getEmployee" />
+            <ns-select v-model="model.tag" filterable clearable :props="propsSet" :params="selectParams" :url="$api.weWork.externalContact.queryCorpTagList" />
           </el-form-item>
           <el-form-item label="性别：">
             <el-select
