@@ -426,7 +426,6 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        // this.actionValue === '不限' ? '' : this.actionValue
         chatRoomId: '',
         endTime: this.endTime,
         owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,

@@ -70,7 +70,7 @@
             </div>
           </div>
           <div class="drawer-output" @click="outputClick">
-            导出CSV文件
+            导出文件
           </div>
         </div>
         <div class="title">数据分析</div>

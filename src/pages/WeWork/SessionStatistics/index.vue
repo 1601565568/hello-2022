@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="drawer-output" @click="outputClick">
-            导出CSV文件
+            导出文件
           </div>
         </div>
         <div class="title">数据分析</div>
@@ -316,11 +316,7 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
-      if (!this.outputClickState) {
-        this.$notify.info('正在导出中，请不要重复操作')
-        return
-      }
-      this.outputClickState = false
+      this.outputClickState = falses
       const params = {
         endTime: this.endTime + ' 00:00:00',
         startTime: this.startTime + ' 00:00:00',

@@ -79,7 +79,7 @@
       </div> -->
       <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
       <h3 class='double-title'>数据报表</h3>
-      <div class="select-data-view">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
         <el-tabs v-model="activeName">
           <el-tab-pane label="按日期统计" name="date">
             <TableByDate ref='TableByDate' :url='url' :data='model'/>

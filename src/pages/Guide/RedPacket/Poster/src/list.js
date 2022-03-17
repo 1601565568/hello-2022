@@ -10,7 +10,10 @@ export default {
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList,
-      detailPath: '/Social/SocialOperation/RedPacket/Poster/Edit'
+      detailPath: '/Social/SocialOperation/RedPacket/Poster/Edit',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mixins: [tableMixin, redpacketTable],

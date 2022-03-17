@@ -11,7 +11,6 @@ export default ($route) => {
     '/Social/WeWorkGroup/GroupWelcomeCode',
     '/WeWork/WelcomeLog/Log',
     '/WeWork/WelcomeCode/WelcomeCodeList',
-    '/Social/WeComCustomerOperation/LosOfFriends',
     '/Social/OperationConfig',
     '/Social/SocialOperation/RedPacket/Analysis',
     '/Social/SocialOperation/RedPacket/ReceiveRecord',
