@@ -57,6 +57,29 @@ export default {
   },
   methods: {
     /**
+     * @msg: 時間变更
+     */
+    changeTime (e) {
+      if (e != null) {
+        this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
+        this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        this.model.timeStart = ''
+        this.model.timeEnd = ''
+      }
+      this.$searchAction$()
+    },
+    handleChangeGuide (value) {
+      this.changeSearchfrom({ userIds: value })
+    },
+    changeSearchfrom (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+      this.$searchAction$()
+    },
+    handleSearch () {
+      this.changeSearchfrom()
+    },
+    /**
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
      */
@@ -97,18 +120,6 @@ export default {
         return v
       }
       return '-'
-    },
-    /**
-     * @msg: 時間变更
-     */
-    changeTime (e) {
-      if (e != null) {
-        this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
-        this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
-      } else {
-        this.model.timeStart = ''
-        this.model.timeEnd = ''
-      }
     },
     onRedactFun (row) {
     },
