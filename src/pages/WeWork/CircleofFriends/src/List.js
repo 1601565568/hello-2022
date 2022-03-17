@@ -82,29 +82,20 @@ export default {
       const params = {
         ...this.model,
         start,
-        length
+        length,
+        exportType: 1
       }
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.exportMomentStatistics, params)
+      // this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.task.exportExcel, params)
         .then((resp) => {
-          let url = window.URL.createObjectURL(new Blob([resp.data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-
-          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
-          link.setAttribute('download', fileName)
-
-          document.body.appendChild(link)
-          link.click()
-          this.$notify.success('下载完成')
+          // this.$notify.success('已加入下载中心')
+          this.$store.dispatch({
+            type: 'down/downAction',
+            status: true,
+            top: 180,
+            right: 60
+          })
         }).catch((resp) => {
-          const { startTime, endTime } = params
-          const day = new Date(endTime) - new Date(startTime)
-          if (day >= 604800000) {
-            this.$notify.error('数据导出筛选时间范围不能超过7天')
-            return
-          }
           this.$notify.error(resp.msg || '导出报错，请联系管理员')
         })
     },

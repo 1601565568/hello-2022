@@ -19,7 +19,7 @@
       </div>
       <div>
         <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
-        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出文件</ns-button>
       </div>
     </div>
     <div class="adder-detail-table">
@@ -187,24 +187,22 @@ export default {
 
       let param = this.$generateParams$()
       param.searchMap.type = 2
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
+      const searchMap = param.searchMap || {}
+      const params = {
+        ...searchMap,
+        exportType: 23,
+        name: this.$route.params.name
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 160,
+          right: 60
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }

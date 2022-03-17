@@ -68,6 +68,22 @@ export default {
     this.getSendStatistics()
   },
   methods: {
+    handleExcelExport (model) {
+      const params = {
+        ...model,
+        exportType: 15
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 430,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    },
     /**
      * 查看领取详情
      * @param {*} id

@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="drawer-output" @click="outputClick">
-            导出CSV文件
+            导出文件
           </div>
         </div>
         <div class="title">数据分析</div>
@@ -316,44 +316,23 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
-      if (!this.outputClickState) {
-        this.$notify.info('正在导出中，请不要重复操作')
-        return
+      this.outputClickState = falses
+      const params = {
+        endTime: this.endTime + ' 00:00:00',
+        startTime: this.startTime + ' 00:00:00',
+        guideIds: this.guideIds.toString(),
+        exportType: 9
       }
-      this.outputClickState = false
-      const parms = {
-        searchMap: {
-          endTime: this.endTime + ' 00:00:00',
-          startTime: this.startTime + ' 00:00:00',
-          guideIds: this.guideIds.toString()
-        }
-      }
-      const csvStartTime = this.startTime.replace(/-/g, '')
-      const csvEndTime = this.endTime.replace(/-/g, '')
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.sessionStatistics.export, parms)
-        .then(resp => {
-          that.outputClickState = true
-          that.$notify.success('下载完成')
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 340,
+          right: 60
         })
-        .catch(resp => {
-          that.outputClickState = true
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let fileName =
-              '客户会话统计' + csvStartTime + '-' + csvEndTime + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'

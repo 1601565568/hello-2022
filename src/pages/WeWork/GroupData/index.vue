@@ -75,7 +75,7 @@
           </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
           <div class="drawer-output" @click="outputCsvFile">
-            导出CSV文件
+            导出文件
           </div>
         </div>
       </div>
@@ -426,33 +426,22 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        // this.actionValue === '不限' ? '' : this.actionValue
         chatRoomId: '',
         endTime: this.endTime,
         owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
-        startTime: this.startTime
+        startTime: this.startTime,
+        exportType: 21
       }
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 320,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群分析' + this.startTime.replaceAll('-', '') + '-' + this.endTime.replaceAll('-', '') + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     // async chatNameChange (val) {
     //   this.initPageData()
