@@ -1,5 +1,5 @@
 import WhatsElement from 'whats-element/pure'
-import router from '@nascent/ecrp-ecrm/src/router'
+import router from '../router'
 const whats = new WhatsElement()
 let pathuuidMapList:any[] = []
 
