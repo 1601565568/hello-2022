@@ -1,7 +1,7 @@
 export default {
   'path': '/Pull/PullNew',
   'name': 'PULL_NEW',
-  'component': () => import('@layout/Default.vue'),
+  'component': () => import('@/layout/Default.vue'),
   'meta': {
     'title': '获客引流',
     'requiresAuth': true
@@ -216,6 +216,12 @@ export default {
           'name': 'WeWorkGroupWelcomeCode',
           'title': '群欢迎语',
           'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/index.vue')
+        },
+        {
+          'path': '/Social/WeWorkGroup/GroupWelcomeCode/Edit',
+          'name': 'WeWorkGroupWelcomeCodeEdit',
+          'title': '新建群欢迎语',
+          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/Edit.vue')
         },
         {
           'path': '/Social/WeWorkGroup/chatRoomGroup',

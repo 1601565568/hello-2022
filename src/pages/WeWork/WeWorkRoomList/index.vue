@@ -8,7 +8,7 @@
         </el-input>
         <div style="display: flex;padding-left: 8px" class="changeShopStatus">
           <p style="margin-right: 5px">状态:</p>
-          <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList">
+          <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList" :class="[chooesQA==='QA'?checkQA:'']">
             <el-checkbox label =  '1' >正常</el-checkbox>
             <el-checkbox label = '-1' >暂停</el-checkbox>
             <el-checkbox label = '-2' >关店</el-checkbox>
@@ -18,7 +18,7 @@
           <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                    node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                    :filter-node-method="onFilterNode" @node-click="onClickNode">
-            <div class="subdivision-tree-node" slot-scope="{ node }" >
+            <div class="subdivision-tree-node" :class="[chooesQA==='QA'?fuscousQA:fuscousIcon]" slot-scope="{ node }" >
               <span>{{node.label}}</span>
               <span v-if="node.label === '全部'"></span>
               <!-- 后端返回的是组件，不建议增加status字段 -->
@@ -63,5 +63,19 @@ export default index
 <style scoped>
 .changeShopStatus >>> .el-checkbox__input.is-checked+.el-checkbox__label {
   color: #606266!important;
+}
+.el-checkbox__inner .is-checked >>> .el-checkbox__inner{
+  background-color:#41a2e8;
+  border-color:#41a2e8;
+}
+.el-checkbox__innerQA .is-checked >>> .el-checkbox__inner{
+  background-color:#2153D4 ;
+  border-color:#2153D4 ;
+}
+.fuscousQA:hover{
+  color: #2153D4;
+}
+.fuscousIcon:hover{
+  color: #1a9cfb;
 }
 </style>

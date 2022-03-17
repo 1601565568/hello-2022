@@ -17,7 +17,7 @@
                 :class="
                   showTodaySelect
                     ? selectToday
-                      ? 'base-text-select'
+                      ? [bases==='QA'?baseAselectQA:baseAselect]
                       : ''
                     : 'base-un-active'
                 "
@@ -30,7 +30,7 @@
                   showTodaySelect
                     ? selectToday
                       ? ''
-                      : 'base-text-select'
+                      : [bases==='QA'?baseAselectQA:baseAselect]
                     : 'base-un-active'
                 "
                 class="base-text"
@@ -86,9 +86,9 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
+      <div  :class="[bases==='QA'? eltabQA:eltab]">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="按日期显示" name="first">
+          <el-tab-pane label="按日期显示" name="first" >
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
@@ -327,7 +327,12 @@ export default {
       last7: '',
       lart30: '',
       datePickerArr: [],
-      showTodaySelect: true
+      showTodaySelect: true,
+      bases: process.env.VUE_APP_THEME,
+      baseAselect: 'base-text-select',
+      baseAselectQA: 'base-text-selectQA',
+      eltabQA: 'elTabQA',
+      eltab: 'elTab'
     }
   },
   computed: {
@@ -867,6 +872,10 @@ export default {
     color: #0091fa;
     background: #f5fbff;
   }
+  .base-text-selectQA {
+   color: #2153D4;
+    background: #f5fbff;
+  }
   .base-un-active {
     color: #595959;
     background-color: white;
@@ -931,5 +940,13 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+</style>
+<style scoped>
+.elTab >>> .el-tabs__item.is-active{
+    color: #0094fc;
+}
+.elTabQA >>> .el-tabs__item.is-active{
+    color: #2153D4;
 }
 </style>

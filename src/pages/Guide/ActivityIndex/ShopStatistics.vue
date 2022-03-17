@@ -428,6 +428,11 @@
                     </template>
                   </el-table-column>
                   <el-table-column prop="createTime" label="时间"></el-table-column>
+                  <el-table-column prop="commissionType" label="提成类型">
+                    <template slot-scope="scope">
+                      <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
@@ -490,6 +495,11 @@
                   </el-table-column>
                   <el-table-column prop="orderCode" label="关联订单号"></el-table-column>
                   <el-table-column prop="createTime" label="时间" ></el-table-column>
+                  <el-table-column prop="commissionType" label="提成类型">
+                    <template slot-scope="scope">
+                      <span>{{commissionTypeText(scope.row.commissionType)}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="reward" label="提成"  align="right" width="140px">
                     <template slot-scope="scope">
                       {{'¥'+scope.row.reward}}
@@ -571,7 +581,7 @@ import listPageMixin from '@/mixins/listPage'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
-
+import { commissionTypeText } from './src/until.js'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -678,6 +688,9 @@ export default {
     this.loadListFun()
   },
   methods: {
+    commissionTypeText (type) {
+      return commissionTypeText(type)
+    },
     handleClick (tab, event) {
       if (tab.name === 'first') {
         this.outRefundId = null

@@ -15,21 +15,17 @@ export default {
       page: 1,
       total: 0
     }
-
+    let that = this
     const tableButtons = [
       {
         'func': function () {
-          this.$emit('add')
+          that.changeShop('guide')
         },
         'name': '更换导购'
       },
       {
         'func': function () {
-          if (this.$parent.total === '0') {
-            this.$parent.$notify.error('请选择要更换导购的会员')
-            return
-          }
-          this.$parent.$emit('handlereplaceShop')
+          that.changeShop('shop')
         },
         'name': '更换门店'
       }
@@ -91,7 +87,16 @@ export default {
       areaTree: [],
       selectItem: {
         label: ''
-      }
+      },
+      chooesQA: process.env.VUE_APP_THEME,
+      filter: 'filter-area',
+      filterQA: 'filter-areaQA',
+      selects: 'selected-area',
+      selectQA: 'selected-areaQA',
+      checkQA: 'checkQA',
+      checks: 'checks',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {
@@ -167,6 +172,45 @@ export default {
     clearInterval(this.shopCustomerTransferTaskStatusTime)
   },
   methods: {
+    changeShop (type) {
+      if (this.total === '0') {
+        this.$notify.error('请选择要更换导购的会员')
+        return
+      }
+      const checkAll = this.checkAll
+      const isIndeterminate = this.isIndeterminate
+      let name = this.selectItem.label || ''
+      const children = this.selectItem.children || []
+      if (name.indexOf('(') !== -1 && name.indexOf(')') !== -1) {
+        name = name.substring(0, name.indexOf('('))
+      }
+      const typeName = children.length > 0 ? '门店' : '导购'
+      if (checkAll && !isIndeterminate) {
+        const h = this.$createElement
+        this.$confirm('提示信息', {
+          title: '提示信息',
+          message: h('div', null, [
+            h('div', { style: 'width: 520px' }, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
+            h('div', { style: 'font-size:14px; color: rgba(0, 0, 0, 0.45); margin-top: 8px' }, ` 选择的会员范围与筛选条件无关`)
+          ]),
+          confirmButtonText: '继续',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.handleChange(type)
+        }).catch(() => {
+        })
+      } else {
+        this.handleChange(type)
+      }
+    },
+    handleChange (type) {
+      if (type === 'shop') {
+        this.$emit('handlereplaceShop')
+      } else if (type === 'guide') {
+        this.$emit('add')
+      }
+    },
     changeGuide () {
       if (this.total === '0') {
         this.$notify.error('请选择要更换导购的会员')

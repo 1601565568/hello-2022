@@ -103,7 +103,10 @@ export default {
         'endTime': moment()
           .subtract('days', 0)
           .format('YYYY-MM-DD')
-      }
+      },
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
       // quickSearchModel: quickSearchModel,
       // _table: {
       //   loadingtable: false

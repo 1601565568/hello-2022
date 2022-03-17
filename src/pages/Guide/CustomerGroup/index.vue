@@ -12,7 +12,7 @@
       <div class="material-chat">
         <div class="chat-select">
           <div class="left-select">
-            <div class="day-view">
+            <div class="day-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
               <span
                 :class="
                   showTodaySelect
@@ -89,7 +89,7 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
+      <div class="select-data-view" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="按日期显示" name="first">
             <page-table style="padding-top:0">
@@ -325,7 +325,10 @@ export default {
       lart30: '',
       guideIds: [],
       datePickerArr: [],
-      showTodaySelect: true
+      showTodaySelect: true,
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   computed: {
@@ -898,5 +901,25 @@ export default {
   .guideIds-icon {
     color: #c0c4cc;
   }
+}
+.fuscousQA .base-text-select{
+  color: #0C4CFF;
+}
+.fuscousIcon .base-text-select{
+  color: #0091fa;
+}
+</style>
+<style scoped>
+.fuscousQA >>> .el-tabs__item.is-active{
+  color: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__item.is-active{
+  color: #0091fa;
+}
+.fuscousQA >>> .el-tabs__active-bar{
+  background: #0C4CFF;
+}
+.fuscousIcon >>> .el-tabs__active-bar{
+  background: #0091fa;
 }
 </style>

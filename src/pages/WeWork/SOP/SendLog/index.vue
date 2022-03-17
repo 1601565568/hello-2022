@@ -4,93 +4,104 @@
       <h3>社群日历发送日志</h3>
     </div>
     <BaseContainer class="search-bar">
-      <el-form :inline="true" class='form-inline_top' style="display: flex">
+      <el-form :inline="true"
+               class='form-inline_top'
+               style="display: flex">
         <el-form-item label="">
-          <el-input v-model="model.code" placeholder="请输入编号"  @keyup.enter.native="searchLogList">
-            <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
+          <el-input v-model="model.code"
+                    placeholder="请输入编号"
+                    @keyup.enter.native="searchLogList">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="searchLogList"></Icon>
           </el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="model.name" placeholder="请输入名称"  @keyup.enter.native="searchLogList">
-            <Icon type="ns-search" slot="suffix" class='search-icon' @click="searchLogList"></Icon>
+          <el-input v-model="model.name"
+                    placeholder="请输入名称"
+                    @keyup.enter.native="searchLogList">
+            <Icon type="ns-search"
+                  slot="suffix"
+                  class='search-icon'
+                  @click="searchLogList"></Icon>
           </el-input>
         </el-form-item>
         <el-form-item label="">
-            <el-date-picker
-              class="date-filter"
-              type="daterange"
-              v-model="searchDate"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :clearable="false"
-              :picker-options="pickerOptions"
-              @change="switchSearchDate"
-            ></el-date-picker>
+          <el-date-picker class="date-filter"
+                          type="daterange"
+                          v-model="searchDate"
+                          value-format="yyyy-MM-dd"
+                          range-separator="至"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          :clearable="false"
+                          :picker-options="pickerOptions"
+                          @change="switchSearchDate"></el-date-picker>
         </el-form-item>
       </el-form>
-      <NsButton class="add-button" size="large" @click="exportFile">导出文件</NsButton>
+      <NsButton class="add-button"
+                size="large"
+                @click="exportFile">导出文件</NsButton>
     </BaseContainer>
-    <BaseContainer class="sendlog-table-container" v-loading="loading">
-      <el-table
-        class="table-form_reset sendlog-table"
-        :row-style="tableRowClassName"
-        :data="activityList"
-      >
-        <el-table-column prop="code" label="编号"></el-table-column>
-        <el-table-column prop="name" label="名称"></el-table-column>
-        <el-table-column prop="sendTime" label="发送时间"></el-table-column>
-        <el-table-column prop="msgNum" label="发送消息">
+    <BaseContainer class="sendlog-table-container"
+                   v-loading="loading">
+      <el-table class="table-form_reset sendlog-table"
+                :row-style="tableRowClassName"
+                :data="activityList">
+        <el-table-column prop="code"
+                         label="编号"></el-table-column>
+        <el-table-column prop="name"
+                         label="名称"></el-table-column>
+        <el-table-column prop="sendTime"
+                         label="发送时间"></el-table-column>
+        <el-table-column prop="msgNum"
+                         label="发送消息">
           <template slot-scope="scope">
-            <NsButton type="text" @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.msgNum}}</NsButton>条
+            <NsButton type="text"
+                      @click="checkActivityMessage(scope.row.id, scope.$index)">{{scope.row.msgNum}}</NsButton>条
           </template>
         </el-table-column>
-        <el-table-column prop="sendType" label="发送消息类型">
+        <el-table-column prop="sendType"
+                         label="发送消息类型">
           <template slot-scope="scope">
             <div class="message-icons-list">
-                <el-tooltip
-                  v-for="item in messageToolTipList(scope.row.contentList)"
-                  :key="item.type"
-                  class="message-icons-item"
-                  :content="item.tip"
-                  placement="top"
-                >
-                  <Icon :type="item.icon" className="icon"/>
-                </el-tooltip>
+              <el-tooltip v-for="item in messageToolTipList(scope.row.contentList)"
+                          :key="item.type"
+                          class="message-icons-item"
+                          :content="item.tip"
+                          placement="top">
+                <Icon :type="item.icon"
+                      className="icon" />
+              </el-tooltip>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="chatroomNum" label="发送结果">
+        <el-table-column prop="chatroomNum"
+                         label="发送结果">
           <template slot-scope="scope">
-            <NsButton type="text" @click="checkActivityGroup(scope.row.id, scope.$index, scope.row.code)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
+            <NsButton type="text"
+                      @click="checkActivityGroup(scope.row.id, scope.$index)">{{`${scope.row.successNum}/${scope.row.chatroomNum}`}}</NsButton>个群
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination
-        class="pagination"
-        :page-sizes="pagination.sizeOpts"
-        :total="pagination.total"
-        :current-page="pagination.page"
-        :page-size="pagination.size"
-        :background="true"
-        @size-change="pagination.sizeChange"
-        @current-change="pagination.pageChange"
-        layout="total, sizes, prev, pager, next, jumper"
-      />
+      <el-pagination class="pagination"
+                     :page-sizes="pagination.sizeOpts"
+                     :total="pagination.total"
+                     :current-page="pagination.page"
+                     :page-size="pagination.size"
+                     :background="true"
+                     @size-change="pagination.sizeChange"
+                     @current-change="pagination.pageChange"
+                     layout="total, sizes, prev, pager, next, jumper" />
     </BaseContainer>
     <!-- 参加活动群drawer -->
-      <!-- :update:visible="clearActiveIndex" -->
-    <GroupDrawer
-      :visible.sync="visibleGroupDrawer"
-      :activityId="activeActivityId"
-      :activityCode="activeActivityCode"
-    />
+    <!-- :update:visible="clearActiveIndex" -->
+    <GroupDrawer :visible.sync="visibleGroupDrawer"
+                 :activityId="activeActivityId" />
     <!-- 发送消息列表Drawer -->
-    <MessageDrawer
-      :visible.sync="visibleMessageDrawer"
-      :activityId="activeActivityId"
-    />
+    <MessageDrawer :visible.sync="visibleMessageDrawer"
+                   :activityId="activeActivityId" />
   </div>
 </template>
 
@@ -170,7 +181,7 @@ export default {
   },
   methods: {
     clearActiveIndex (state) {
-      window.console.log('哈哈哈', state)
+      //   window.console.log('哈哈哈', state)
       // this.visibleGroupDrawer = state
     },
     messageToolTipList (list) {
@@ -330,7 +341,7 @@ export default {
 
         .icon {
           font-size: 16px;
-          color:#383838;
+          color: #383838;
         }
       }
     }

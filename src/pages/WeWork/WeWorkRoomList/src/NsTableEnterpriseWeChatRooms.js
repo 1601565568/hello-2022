@@ -142,6 +142,18 @@ export default {
         }
       })
     },
+    resetInputAction () {
+      if (typeof this.$resetInput === 'function') {
+        const model = this.$resetInput(this.model)
+        if (model) {
+          this.$set(this, 'model', model)
+        }
+      } else {
+        this.$resetInput$()
+      }
+      this.model.guideIds = this.guideIds
+      this.$searchAction$()
+    },
     // 导出
     exportList () {
       if (!this._data._table.data.length) {

@@ -4,70 +4,97 @@
       <div class='common-header flex-box'>
         <h3>社群日历</h3>
         <div class='common-btn'>
-          <ns-button class='customer-btn_cancel' size='large' @click="$router.go(-1)" :loading="btnLoading">取消</ns-button>
-          <ns-button class='customer-btn_save' type="primary" size='large' @click="saveActivity(SOPExamineStatus.UnSubmit)" :loading="btnLoading">保存</ns-button>
-          <ns-button class='customer-btn_save' type="primary" size='large' @click="saveActivity(SOPExamineStatus.Pending)" :loading="btnLoading">保存并提交审核</ns-button>
+          <ns-button class='customer-btn_cancel'
+                     size='large'
+                     @click="$router.go(-1)"
+                     :loading="btnLoading">取消</ns-button>
+          <ns-button class='customer-btn_save'
+                     type="primary"
+                     size='large'
+                     @click="saveActivity(SOPExamineStatus.UnSubmit)"
+                     :loading="btnLoading">保存</ns-button>
+          <ns-button class='customer-btn_save'
+                     type="primary"
+                     size='large'
+                     @click="saveActivity(SOPExamineStatus.Pending)"
+                     :loading="btnLoading">保存并提交审核</ns-button>
         </div>
       </div>
     </template>
     <template slot='content'>
-      <el-form class="el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="98px" label-position="right">
-        <SimpleCollapse :title="'基本信息'" class="content">
-          <el-form-item label="编号" required>
+      <el-form class="el-form-reset"
+               size="medium"
+               ref="ruleForm"
+               :model="model"
+               :rules="rules"
+               label-width="98px"
+               label-position="right">
+        <SimpleCollapse :title="'基本信息'"
+                        class="content">
+          <el-form-item label="编号"
+                        required>
             <span>{{model.code}}</span>
           </el-form-item>
-          <el-form-item label="名称" prop="name" required>
-            <el-input v-model="model.name" placeholder="请输入名称" class="el-input" :length="10"></el-input>
+          <el-form-item label="名称"
+                        prop="name"
+                        required>
+            <el-input v-model="model.name"
+                      placeholder="请输入名称"
+                      class="el-input"
+                      :length="10"></el-input>
           </el-form-item>
-          <el-form-item label="发送群" prop="chatRoomIdList" required>
-            <NsRoomDialog
-              :visible.sync="roomDialogVisible"
-              :chatIds.sync="model.chatRoomIdList"
-            />
+          <el-form-item label="发送群"
+                        prop="chatRoomIdList"
+                        required>
+            <NsRoomDialog :visible.sync="roomDialogVisible"
+                          :chatIds.sync="model.chatRoomIdList" />
             <div class="select-area">
-              <div
-                class="select-tips"
-                @click="roomDialogVisible = true"
-              >
-                <el-input suffix-icon="geren" placeholder="请选择群" :value="selectedTip" readonly>
-                  <Icon type="geren" class="icon" slot="suffix"></Icon>
+              <div class="select-tips"
+                   @click="roomDialogVisible = true">
+                <el-input suffix-icon="geren"
+                          placeholder="请选择群"
+                          :value="selectedTip"
+                          readonly>
+                  <Icon type="geren"
+                        class="icon"
+                        slot="suffix"></Icon>
                 </el-input>
               </div>
             </div>
           </el-form-item>
           <div style="position: relative">
             <el-form-item label="发送方式" prop="sendType" required style="padding-bottom: 24px">
-              <el-radio-group v-model="model.sendType">
+              <el-radio-group v-model="model.sendType" :class="[ENV === 'QA'? colorQA:colorNormal ]" >
                 <el-radio :label="0">
                   立即发送
-                  <el-tooltip
-                    class="message-icons-item"
-                    content="审核成功后发送消息内容"
-                    placement="top"
-                  >
-                    <Icon type="ns-help" className="icon"/>
+                  <el-tooltip class="message-icons-item"
+                              content="审核成功后发送消息内容"
+                              placement="top">
+                    <Icon type="ns-help"
+                          className="icon" />
                   </el-tooltip>
                 </el-radio>
                 <el-radio :label="1">定时发送</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="model.sendType === 1" class="el-form-item_send-time" prop="sendTime" label-width="0">
-              <el-date-picker
-                class="el-date-picker"
-                type="datetime"
-                placeholder="请选择"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="pickerOptions"
-                default-time="12:00:00"
-                v-model="model.sendTime"
-              />
+            <el-form-item v-if="model.sendType === 1"
+                          class="el-form-item_send-time"
+                          prop="sendTime"
+                          label-width="0">
+              <el-date-picker class="el-date-picker"
+                              type="datetime"
+                              placeholder="请选择"
+                              value-format="yyyy-MM-dd HH:mm:ss"
+                              :picker-options="pickerOptions"
+                              default-time="12:00:00"
+                              v-model="model.sendTime" />
             </el-form-item>
           </div>
         </SimpleCollapse>
         <SimpleCollapse :title="'发布内容'">
           <PhoneBox>
             <template slot='collapse-left'>
-              <el-form-item label="素材" prop="contentList" required>
+              <el-form-item label="素材" prop="contentList" required >
                 <el-popover
                   placement="top-start"
                   width="480"
@@ -76,28 +103,24 @@
                 >
                   <template slot="reference">
                     <div v-if="model.contentList.length < 10" class="add-material">
-                      <Icon type="ns-add-border" class="icon"/>
+                      <Icon type="ns-add-border" :class="[ENV === 'QA'? iconQA:iconNormal ]" class="icon"/>
                       添加消息内容
                     </div>
                     <div v-else class="add-material" @click="$message.error('最多添加10条消息')">
-                      <Icon type="ns-add-border" class="icon"/>
+                      <Icon type="ns-add-border" :class="[ENV === 'QA'? iconQA:iconNormal ]" class="icon"/>
                       添加消息内容
                     </div>
                   </template>
-                  <WechatMessageBar
-                    ref="WechatMessageBar"
-                    @addMessage="addMessage"
-                    @uploadVideoProgress="uploadProgress"
-                  />
+                  <WechatMessageBar ref="WechatMessageBar"
+                                    @addMessage="addMessage"
+                                    @uploadVideoProgress="uploadProgress" />
                 </el-popover>
                 <span class="add-tip label-gap">最多添加10条消息，图片最大2M，视频最大10M</span>
               </el-form-item>
               <el-form-item>
-                <MessageList
-                  :list.sync="model.contentList"
-                  @edit="editMessage"
-                  @delete="deleteAnnexMessage"
-                />
+                <MessageList :list.sync="model.contentList"
+                             @edit="editMessage"
+                             @delete="deleteAnnexMessage" />
                 <!-- <div class="message-table label-gap">
                   <el-table
                     style="width: 100%;"
@@ -168,7 +191,8 @@
               </el-form-item>
             </template>
             <template slot="collapse-right">
-              <MessagePreviewPanel class="message-preivew-panel" :list="model.contentList"/>
+              <MessagePreviewPanel class="message-preivew-panel"
+                                   :list="model.contentList" />
             </template>
           </PhoneBox>
         </SimpleCollapse>
@@ -233,7 +257,7 @@ export default {
   },
   data () {
     return {
-      test: [ 'wraQfGDQAAJgQCRn4aIOsbN1balDuV3Q', 'wraQfGDQAA20PS7x3olaip6zWb6N9vmg', 'wraQfGDQAAb6YBajyT4sFqVsB0rbxr1A' ],
+      test: ['wraQfGDQAAJgQCRn4aIOsbN1balDuV3Q', 'wraQfGDQAA20PS7x3olaip6zWb6N9vmg', 'wraQfGDQAAb6YBajyT4sFqVsB0rbxr1A'],
       roomDialogVisible: false,
       SOPActivityMessageType: SOPActivityMessageType,
       SOPExamineStatus: SOPExamineStatus,
@@ -321,45 +345,53 @@ export default {
         ],
         chatRoomIdList: [
           { required: true, message: '请选择群', trigger: 'change' },
-          { validator: (rule, value, callback) => {
-            if (!value || value.length <= 0) {
-              callback(new Error(`请选择群`))
-            } else {
-              callback()
-            }
-          },
-          message: '请选择群',
-          trigger: ['blur', 'change']
+          {
+            validator: (rule, value, callback) => {
+              if (!value || value.length <= 0) {
+                callback(new Error(`请选择群`))
+              } else {
+                callback()
+              }
+            },
+            message: '请选择群',
+            trigger: ['blur', 'change']
           }
         ],
         sendTime: [
           { required: true, message: '请选择发送时间', trigger: 'change' },
-          { validator: (rule, value, callback) => {
-            if (Date.now() > (new Date(value)).getTime()) {
-              callback(new Error(`发送时间必须大于当前时间`))
-            } else {
-              callback()
-            }
-          },
-          message: '发送时间必须大于当前时间',
-          trigger: ['blur', 'change']
+          {
+            validator: (rule, value, callback) => {
+              if (Date.now() > (new Date(value)).getTime()) {
+                callback(new Error(`发送时间必须大于当前时间`))
+              } else {
+                callback()
+              }
+            },
+            message: '发送时间必须大于当前时间',
+            trigger: ['blur', 'change']
           }
         ],
         contentList: [
           { required: true, message: '请添加素材消息', trigger: 'change' },
-          { validator: (rule, value, callback) => {
-            if (!value || value.length <= 0) {
-              callback(new Error(`请添加素材消息`))
-            } else {
-              callback()
-            }
-          },
-          message: '请添加素材消息',
-          trigger: ['blur', 'change']
+          {
+            validator: (rule, value, callback) => {
+              if (!value || value.length <= 0) {
+                callback(new Error(`请添加素材消息`))
+              } else {
+                callback()
+              }
+            },
+            message: '请添加素材消息',
+            trigger: ['blur', 'change']
           }
         ]
       },
-      isCopy: false
+      isCopy: false,
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal',
+      iconNormal: 'iconNormal',
+      iconQA: 'iconQA'
     }
   },
   async mounted () {
@@ -481,7 +513,7 @@ export default {
      * @param direction 改变方向 top up down bottom
      */
     sortMessage (index, direction) {
-      const [ delItem ] = this.model.contentList.splice(index, 1)
+      const [delItem] = this.model.contentList.splice(index, 1)
       if (direction === 'top') {
         this.model.contentList.unshift(delItem)
       } else if (direction === 'bottom') {
@@ -542,13 +574,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .send-sort {
   padding: 0 20px;
 }
 .first-line {
   display: flex;
   justify-content: flex-end;
+}
+.colorQA >>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+    background: #2153D4;
+}
+.colorQA >>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
 }
 </style>
 
@@ -561,7 +600,7 @@ export default {
   width: 680px;
   .select-tips {
     .icon {
-      color: #BFBFBF;
+      color: #bfbfbf;
       font-size: 24px;
       margin-top: 4px;
       margin-right: 4px;
@@ -614,13 +653,19 @@ export default {
       // justify-content: center;
       .icon {
         font-size: 13px;
-        color:#0091FA;
+        color: #0091fa;
         margin-right: 5px;
+      }
+      .iconNormal{
+        color:#0091FA;
+      }
+      .iconQA{
+        color: #2153D4;
       }
     }
 
     .add-tip::before {
-      content: '';
+      content: "";
       display: inline-block;
       background: #f2aa18;
       height: 8px;
@@ -670,7 +715,7 @@ export default {
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: #9093994d;;
+    background: #9093994d;
   }
 
   .table-form_reset {
@@ -695,11 +740,11 @@ export default {
     width: 120px;
   }
   .news-message {
-    border: 1px solid #EEEEEE;
+    border: 1px solid #eeeeee;
   }
 
   .mini-message {
-    border: 1px solid #EEEEEE;
+    border: 1px solid #eeeeee;
     width: 120px;
     // transform: scale(0.7);
   }

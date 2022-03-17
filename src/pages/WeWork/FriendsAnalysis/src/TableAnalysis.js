@@ -210,7 +210,11 @@ export default {
         'linear-gradient(270deg, #A0E35E 0%, #67C230 100%)',
         'linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%)',
         'linear-gradient(269deg, #fc6767 0%, #ec008c 100%)'
-      ]
+      ],
+      bases: process.env.VUE_APP_THEME,
+      eltabQA: 'elTabQA',
+      eltab: 'elTab'
+
     }
   },
   watch: {
