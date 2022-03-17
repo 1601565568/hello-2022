@@ -1,7 +1,6 @@
 /* eslint-disable */
 'use strict'
 const appEnv = require('./appEnv')
-
 function _typeof (obj) {
   if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     // eslint-disable-next-line no-func-assign
@@ -1192,7 +1191,7 @@ var install = function install (win, name) {
     sampling(wpo)
     apis(wpo)
     browserPerformance(wpo, win, browserConf)
-    eventProxy(wpo)
+    // eventProxy(wpo)
     wpo.__hasInitBlSdk = true
   }
 
