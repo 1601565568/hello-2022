@@ -277,10 +277,8 @@ export default {
         shopId: this.succeedObj.shopId,
         size: scope.row.size,
         exportType: 36,
-        codeType
-      }
-      if (this.batchDownLoad) {
-        params = { ...params, shopIds: this.batchShopIds }
+        codeType,
+        shopIds: this.batchShopIds
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$notify.success('已加入下载中心')
