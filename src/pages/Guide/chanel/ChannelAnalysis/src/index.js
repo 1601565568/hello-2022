@@ -42,10 +42,12 @@ export default {
       _order: {
         orderDir: 'desc',
         orderKey: 'addTotalCount'
-      }
+      },
+      cloudPlatformType: ''
     }
   },
   async mounted () {
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     if (this.searchDate && this.searchDate.length === 2) {
       this.model.startTime = this.searchDate[0]
       this.model.endTime = this.searchDate[1]
