@@ -63,7 +63,8 @@ export default {
         ...param.searchMap,
         orderDir: param.orderDir,
         orderKey: param.orderKey,
-        exportType: 34
+        exportType: 34,
+        channelName: this.$route.params.channelName || ''
       }
       this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
         this.$store.dispatch({
