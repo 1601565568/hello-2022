@@ -49,14 +49,14 @@
             <template slot-scope="scope">
               <div v-if="checked" :fixScopeBug="scope.testId">
                 <div v-if="!batchDownLoad">
-                  <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size">
+                  <a @click="handlerDownClick(scope, 0)">
                     <i class="download">
                       <Icon type="xiazai"/>
                     </i>
                   </a>
                 </div>
                 <div v-if="batchDownLoad">
-                  <a :href="batchUrl+0+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size+'&shopIds='+ batchShopIds">
+                  <a @click="handlerDownClick(scope, 0)">
                     <i class="download">
                       <Icon type="xiazai"/>
                     </i>
@@ -85,12 +85,12 @@
             <template slot-scope="scope">
               <div v-if="!checked" :fixScopeBug="scope.testId">
                 <div v-if="!batchDownLoad">
-                  <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size">
+                  <a @click="handlerDownClick(scope, 1)">
                     <i class="download"><Icon type="xiazai"/></i>
                   </a>
                 </div>
                 <div v-else>
-                  <a :href="batchUrl+1+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size+'&shopIds='+ batchShopIds">
+                  <a @click="handlerDownClick(scope, 1)">
                     <i class="download">
                       <Icon type="xiazai"/>
                     </i>
