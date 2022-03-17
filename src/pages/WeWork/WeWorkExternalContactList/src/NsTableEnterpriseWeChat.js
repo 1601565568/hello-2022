@@ -28,8 +28,8 @@ export default {
           // this.$parent.$refs.detail.onOpenDetail(obj.row.sys_customer_id)
           this.onUserDetail(obj.row)
         },
-        icon: '$.noop',
-        name: '\u8be6\u60c5',
+        // icon: '$.noop',
+        name: '详情',
         auth: '',
         visible: ''
       }
@@ -55,6 +55,9 @@ export default {
         externalName: '',
         addFriendChannel: '',
         addTime: [],
+        mobileNum: '',
+        sexy: '',
+        tag: '',
         areaId: this.$store.state.user.area.id
       }, {})
 
@@ -76,6 +79,11 @@ export default {
     })
 
     return {
+      propsSet: {
+        label: 'tag_name',
+        value: 'tag_id',
+        disabled: 'disabled'
+      },
       model: model,
       synButton: true,
       synFriend: true,
@@ -92,6 +100,20 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
+      sourceList: [
+        { id: '0', name: '未知来源' },
+        { id: '1', name: '扫描二维码' },
+        { id: '2', name: '搜索手机号' },
+        { id: '3', name: '名片分享' },
+        { id: '4', name: '群聊' },
+        { id: '5', name: '手机通讯录' },
+        { id: '6', name: '微信联系人' },
+        { id: '7', name: '来自微信的添加好友申请' },
+        { id: '8', name: '安装第三方应用时自动添加的客服人员' },
+        { id: '9', name: '搜索邮箱' },
+        { id: '201', name: '内部成员共享' },
+        { id: '202', name: '管理员/负责人分配 ' }
+      ],
       addWay: {
         '0': '未知来源',
         '1': '扫描二维码',
@@ -121,7 +143,9 @@ export default {
       _queryConfig: {
         expand: false
       },
-      userDetails: {}
+      userDetails: {},
+      selectParams: { isTagGroup: 0 },
+      cloudPlatformType: '' // 判断客道、ecrp环境
     }
   },
   mounted: function () {
@@ -132,6 +156,7 @@ export default {
       this.reload()
     }
     this.initSynButton()
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
   },
   components: {
     ElSelectLoad,
@@ -182,7 +207,7 @@ export default {
         }).finally(() => {})
     },
 
-    // 查询企业标签列表
+    // 查询好友同步情况
     initSynButton: function () {
       let that = this
       that.$http.fetch(that.$api.core.group.getGroupConfig)
@@ -196,7 +221,7 @@ export default {
           }
         })
     },
-    // 查询企业标签列表
+    // 好友同步
     synFriends: function () {
       let that = this
       if (that.synButton || !that.synFriend) {
@@ -333,6 +358,11 @@ export default {
     },
     // 查询外部联系人详情，根据shopId和unionId查询
     onUserDetail (val) {
+      // console.log(val, '打开')
+      this.$refs.NsFriendDetail.showDetailDialog(val)
+      // this.$refs.NSUserDetails.showDetailDialog(val)
+    },
+    showVip (val) {
       this.$refs.NSUserDetails.showDetailDialog(val)
     }
   }

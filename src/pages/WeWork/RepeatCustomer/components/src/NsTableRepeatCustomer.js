@@ -45,7 +45,9 @@ export default {
       _table: {
         table_buttons: tableButtons,
         loadingtable: false
-      }
+      },
+      // 判断系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
   },
   mounted () {
