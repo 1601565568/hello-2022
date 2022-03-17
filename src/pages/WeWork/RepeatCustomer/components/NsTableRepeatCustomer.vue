@@ -23,7 +23,7 @@
           <el-input
             ref="quickText"
             v-model="model.name"
-            placeholder="请输入昵称"
+            :placeholder="cloudPlatformType === 'ecrp' ? '请输入昵称' : '请输入备注名'"
             style="width: 180px"
             clearable
           />
@@ -55,17 +55,17 @@
         :inline="true"
         @submit.native.prevent
       >
-        <el-form-item label="昵称：">
+        <el-form-item :label="cloudPlatformType === 'ecrp' ? '昵称：' : '备注名：'">
           <el-form-grid>
             <el-input
               autofocus="true"
               v-model.trim="model.name"
-              placeholder="请输入昵称"
+              :placeholder="cloudPlatformType === 'ecrp' ? '请输入昵称' : '请输入备注名'"
               clearable
             ></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="选择员工：">
+        <el-form-item label="选择员工：" label-width="80px">
           <div class="template-search__box">
             <span v-if="model.userIds && model.userIds.length>0">
                 已选择{{model.userIds.length}}个
@@ -82,7 +82,27 @@
                 btnTitle="选择"
                 dialogTitle="选择员工"
                 v-model="model.userIds"
+                v-if="cloudPlatformType === 'ecrp'"
               ></NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='false'
+                  :appendToBody='false'
+                  :isButton="false"
+                  :auth="true"
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择成员"
+                  v-model="model.userIds"
+                  v-else>
+                  <!-- <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+                      <Icon type="geren"
+                            class='guideIds-icon'></Icon>
+                    </div>
+                  </template> -->
+                </NsGuideWeChatDialog>
             </div>
           </div>
         </el-form-item>
@@ -130,9 +150,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" align="center">
+        <el-table-column :label="cloudPlatformType === 'ecrp' ? '昵称' : '姓名/备注名'" align="center">
           <template slot-scope="scope">
-            {{ scope.row.name }}
+            {{ scope.row.name }}{{cloudPlatformType === 'ecrp' ? '' : `/${scope.row.remark}`}}
           </template>
         </el-table-column>
         <el-table-column label="性别" align="center">
@@ -192,8 +212,10 @@
 <script>
 import NsTableRepeatCustomer from './src/NsTableRepeatCustomer.js'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 NsTableRepeatCustomer.components = {
-  NsGuideDialog
+  NsGuideDialog,
+  NsGuideWeChatDialog
 }
 export default NsTableRepeatCustomer
 </script>
