@@ -70,6 +70,7 @@ export default {
       this.$searchAction$()
     },
     handleChangeGuide (value) {
+      value = value.map(el => (el + ''))
       this.changeSearchfrom({ userIds: value })
     },
     changeSearchfrom (obj = {}) {
