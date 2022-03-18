@@ -20,7 +20,7 @@
           ></Icon>
         </el-input>
       </div>
-      <div class="output-button" @click="outputCsvFile">导出文件</div>
+      <div class="output-button" @click="outputCsvFile" id="exportButton">导出文件</div>
     </div>
     <div class="chat-bg">
       <div></div>
@@ -145,11 +145,13 @@ export default {
         exportType: 11,
         startTime: moment().format('YYYY-MM-DD HH:mm:ss')
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 180,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

@@ -791,26 +791,6 @@ export default {
       this.loadListFun()
     },
     exportExcel () {
-      // var url = API_ROOT + '/guide/shopperf/exportExcel'
-      // var form = document.createElement('form')
-      // if (this.searchform.type === '2') {
-      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
-      // } else {
-      //   form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
-      // }
-      // if (this.searchform.area.length > 0) {
-      //   form.appendChild(this.generateHideElement('province', this.searchform.area[0]))
-      //   form.appendChild(this.generateHideElement('city', this.searchform.area[1]))
-      //   form.appendChild(this.generateHideElement('district', this.searchform.area[2]))
-      // }
-      // form.appendChild(this.generateHideElement('shopType', this.searchform.shopType))
-      // form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
-      // form.appendChild(this.generateHideElement('type', this.searchform.type))
-      // form.appendChild(this.generateHideElement('shopStatus', this.searchform.shopStatus))
-      // form.setAttribute('action', url)
-      // form.setAttribute('method', 'post')
-      // document.body.appendChild(form)
-      // form.submit()
       const params = {
         shopType: this.searchform.shopType,
         shopName: this.searchform.shopName,

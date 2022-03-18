@@ -108,7 +108,7 @@
         <!-- 按钮-->
         <el-col :span='3' class="btn-content">
           <!-- <ns-button size='large' @click='handleExport(model)'>导出文件</ns-button> -->
-          <ns-button size='large' @click='handleExcelExport(model)'>导出文件</ns-button>
+          <ns-button size='large' @click='handleExcelExport(model)' id="exportButton">导出文件</ns-button>
         </el-col>
       </el-row>
     </div>

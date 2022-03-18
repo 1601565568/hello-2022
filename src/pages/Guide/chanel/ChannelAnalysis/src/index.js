@@ -107,11 +107,13 @@ export default {
         orderKey: param.orderKey,
         exportType: 33
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 380,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {
