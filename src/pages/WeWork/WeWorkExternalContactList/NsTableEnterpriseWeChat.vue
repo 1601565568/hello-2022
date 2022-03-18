@@ -154,7 +154,7 @@
             </template>
           </el-table-column> -->
           <el-table-column :show-overflow-tooltip="true" prop="external_name"
-                           label="昵称/备注名" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
+                           :label="cloudPlatformType === 'ecrp' ? '昵称/备注名' : '姓名/备注名'" dbcolumn="external_name" column="external_name" align="left" :sortable="false" >
             <template slot-scope="scope">
               <ns-wechat-emoji :data="scope.row.external_name ? scope.row.external_name : '-'"></ns-wechat-emoji>
               <ns-wechat-emoji :data="scope.row.remark ? '/' + scope.row.remark : ''"></ns-wechat-emoji>
