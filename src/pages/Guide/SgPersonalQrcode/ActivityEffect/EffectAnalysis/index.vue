@@ -43,7 +43,7 @@
           <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
             <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
           </el-input>
-          <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出文件</ns-button>
+          <ns-button size="medium" class="export-cvs-btn" @click="exportFile" id="exportButton">导出文件</ns-button>
         </div>
       </div>
       <div class="employee-table">
@@ -224,11 +224,13 @@ export default {
         exportType: 22,
         name: this.$route.params.name
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 380,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

@@ -77,7 +77,7 @@
               </NsGuideDialog>
             </div>
           </div>
-          <div class="drawer-output" @click="outputClick">
+          <div class="drawer-output" @click="outputClick" id="exportButton">
             导出文件
           </div>
         </div>
@@ -316,18 +316,20 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
-      this.outputClickState = falses
+      this.outputClickState = false
       const params = {
         endTime: this.endTime + ' 00:00:00',
         startTime: this.startTime + ' 00:00:00',
         guideIds: this.guideIds.toString(),
         exportType: 9
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 340,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

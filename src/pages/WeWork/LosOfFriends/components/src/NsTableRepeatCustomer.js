@@ -268,11 +268,13 @@ export default {
         start: (this.page - 1) * this.pageSize,
         exportType: 18
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 100,
+          top: rect.top,
           right: 150
         })
       }).catch((resp) => {

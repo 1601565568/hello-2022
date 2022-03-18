@@ -46,7 +46,7 @@
           <el-input placeholder="请输入渠道名称" v-model="model.channelName" @keyup.enter.native="searchform">
             <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px" @click="searchform"></Icon>
           </el-input>
-          <ns-button class="ns-button" @click="exportFile">导出文件</ns-button>
+          <ns-button class="ns-button" @click="exportFile" id="exportButton">导出文件</ns-button>
         </div>
       </template>
       <div class="new-table channel-table">

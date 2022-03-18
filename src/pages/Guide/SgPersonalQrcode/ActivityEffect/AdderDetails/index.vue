@@ -19,7 +19,7 @@
       </div>
       <div>
         <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
-        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出文件</ns-button>
+        <ns-button size="medium" class="export-cvs-btn" @click="exportFile" id="exportButtonSmall">导出文件</ns-button>
       </div>
     </div>
     <div class="adder-detail-table">
@@ -193,11 +193,13 @@ export default {
         exportType: 23,
         name: this.$route.params.name
       }
+      const elem = document.getElementById('exportButtonSmall')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 160,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

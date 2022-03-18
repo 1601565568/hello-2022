@@ -74,7 +74,7 @@
             </div>
           </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
-          <div class="drawer-output" @click="outputCsvFile">
+          <div class="drawer-output" @click="outputCsvFile" id="exportButton">
             导出文件
           </div>
         </div>
@@ -432,11 +432,13 @@ export default {
         startTime: this.startTime,
         exportType: 21
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 320,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

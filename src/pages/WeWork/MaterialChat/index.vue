@@ -69,7 +69,7 @@
               </el-date-picker>
             </div>
           </div>
-          <div class="drawer-output" @click="outputClick">
+          <div class="drawer-output" @click="outputClick" id="exportButton">
             导出文件
           </div>
         </div>
@@ -409,11 +409,13 @@ export default {
         startTime: this.startTime + ' 00:00:00',
         exportType: 4
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 380,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {
