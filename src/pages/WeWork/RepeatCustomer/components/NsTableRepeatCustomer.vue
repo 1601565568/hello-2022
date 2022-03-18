@@ -92,9 +92,10 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="cloudPlatformType === 'ecrp' ? '昵称/备注名' : '姓名/备注名'" align="center">
+        <el-table-column :show-overflow-tooltip="true" :label="cloudPlatformType === 'ecrp' ? '昵称/备注名' : '姓名/备注名'" align="center">
           <template slot-scope="scope">
-            {{ scope.row.name }}{{scope.row.remark ? `/${scope.row.remark}` : ''}}
+            <ns-wechat-emoji :data="scope.row.name ? scope.row.name : '-'"></ns-wechat-emoji>
+            <ns-wechat-emoji :data="scope.row.remark ? '/' + scope.row.remark : ''"></ns-wechat-emoji>
           </template>
         </el-table-column>
         <el-table-column label="性别" align="center">
@@ -102,12 +103,12 @@
             {{ scope.row.gender === 1 ? '男' : scope.row.gender === 2 ? '女' : '未知' }}
           </template>
         </el-table-column>
-        <el-table-column label="所属员工" align="center">
+        <el-table-column :show-overflow-tooltip="true" label="所属员工" align="center">
           <template slot-scope="scope">
             {{scope.row.COUNT}}人
           </template>
         </el-table-column>
-        <el-table-column label="首次添加时间" align="center">
+        <el-table-column :show-overflow-tooltip="true" label="首次添加时间" align="center">
           <template slot-scope="scope">
             {{scope.row.add_time}}
           </template>
@@ -156,9 +157,11 @@ import NsTableRepeatCustomer from './src/NsTableRepeatCustomer.js'
 import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
 NsTableRepeatCustomer.components = {
   PageTable,
   NsGuideDialog,
+  NsWechatEmoji,
   NsGuideWeChatDialog
 }
 export default NsTableRepeatCustomer
