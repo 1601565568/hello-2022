@@ -275,8 +275,8 @@
         <ns-button type="primary" @click="saveBatchMarking">保存</ns-button>
       </span>
     </el-dialog>
-    <NSUserDetails v-if="cloudPlatformType === 'ecrp'" ref="NSUserDetails" :userDetails="userDetails"/>
-    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType" @showVip="showVip"/>
+    <NSUserDetails :showViewChoose="false" :propsViewId="propsViewId" v-if="cloudPlatformType === 'ecrp'" ref="NSUserDetails" :userDetails="userDetails"/>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType" @showVip="showVip" @viewId="getViewId"/>
   </div>
 </template>
 

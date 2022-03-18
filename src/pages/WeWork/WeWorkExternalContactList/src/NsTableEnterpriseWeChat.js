@@ -144,6 +144,8 @@ export default {
         expand: false
       },
       userDetails: {},
+      // 视角Id
+      propsViewId: '',
       selectParams: { isTagGroup: 0 },
       cloudPlatformType: '' // 判断客道、ecrp环境
     }
@@ -362,8 +364,12 @@ export default {
       this.$refs.NsFriendDetail.showDetailDialog(val)
       // this.$refs.NSUserDetails.showDetailDialog(val)
     },
+    // 好友详情打开会员详情事件传递
     showVip (val) {
       this.$refs.NSUserDetails.showDetailDialog(val)
+    },
+    getViewId (val) {
+      this.propsViewId = val
     }
   }
 }
