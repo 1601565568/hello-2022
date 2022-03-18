@@ -12,7 +12,7 @@
       <template slot="title">
         <div class="dialog-header">
           <span class="dialog-header__title">{{dialogTitle}}</span>
-          <view-select class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
+          <view-select v-if="cloudPlatformType + '' === 'ecrp'" class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
         </div>
       </template>
       <div>

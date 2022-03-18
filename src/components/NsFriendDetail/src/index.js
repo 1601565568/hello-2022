@@ -120,7 +120,9 @@ export default {
       this.userId = val.externalUserId
       this.visible = true
       this.getFriendDetail()
-      this.checkVip()
+      if (this.cloudPlatformType + '' === 'ecrp') {
+        this.checkVip()
+      }
       this.getList(1)
     },
     showVipDetail () {
@@ -202,13 +204,9 @@ export default {
         .then(resp => {
           if (resp.success && resp.result != null) {
             let data = resp.result
-            this.friendInfo = data
-            this.isMan = data.gender
-            this.isVip = data.member
-            this.isWx = data.type + '' === '1'
           }
-          if (resp.result && resp.result.customerGuideDTOS && resp.result.customerGuideDTOS.length > 0) {
-            this.friendData = JSON.parse(JSON.stringify(resp.result.customerGuideDTOS))
+          if (resp.result && resp.result.data && resp.result.data.length > 0) {
+            this.friendData = JSON.parse(JSON.stringify(resp.result.data))
           }
           if (resp.result.recordsTotal) {
             this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
@@ -235,7 +233,9 @@ export default {
   },
   mounted: function () {
     vm = this
-    this.findViewList()
+    if (this.cloudPlatformType + '' === 'ecrp') {
+      this.findViewList()
+    }
   },
   created: function () {
   }
