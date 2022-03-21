@@ -49,8 +49,8 @@ export default {
               'path': '/Guide/SgPersonalQrcode/List',
               'name': 'f1',
               'title': '聚合二维码',
-              // 'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
-              'iframeComponent': () => import('@/components/Iframes/SgPersonalQrcode.vue')
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+              // 'iframeComponent': () => import('@/components/Iframes/SgPersonalQrcode.vue')
             },
             {
               'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
@@ -103,8 +103,8 @@ export default {
               // 'name': 'WelcomeCodeList',
               'name': 'f2',
               'title': '智能欢迎语(企微)',
-              'iframeComponent': () => import('@/components/Iframes/WelcomeCodeList.vue')
-              // 'component': () => import('@/pages/WeWork/WelcomeCode/List.vue')
+              // 'iframeComponent': () => import('@/components/Iframes/WelcomeCodeList.vue')
+              'component': () => import('@/pages/WeWork/WelcomeCode/List.vue')
             },
             {
               'path': '/WeWork/WelcomeCode/Edit',
