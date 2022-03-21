@@ -190,7 +190,7 @@ export default {
         this.$confirm('提示信息', {
           title: '提示信息',
           message: h('div', null, [
-            h('div', { style: 'width: 520px' }, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
+            h('div', null, `您正在转移${typeName}（${name}）全部会员，是否继续？`),
             h('div', { style: 'font-size:14px; color: rgba(0, 0, 0, 0.45); margin-top: 8px' }, ` 选择的会员范围与筛选条件无关`)
           ]),
           confirmButtonText: '继续',
