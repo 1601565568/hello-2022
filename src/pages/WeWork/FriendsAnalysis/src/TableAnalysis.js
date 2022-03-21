@@ -65,6 +65,7 @@ export default {
       total: 0
     }
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       pickerOptions: { disabledDate: (time) => {
         if (time.getTime() >= (new Date().getTime() - 3600 * 1000 * 24 * 1)) { return true }
         return false

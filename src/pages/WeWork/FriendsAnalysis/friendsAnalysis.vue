@@ -33,7 +33,7 @@
             </el-date-picker>
           </el-form-item>
           <!--导购员工组件 -->
-          <el-form-item label="选择员工：">
+          <el-form-item :label="cloudPlatformType === 'ecrp' ? '选择员工：': '选择成员：'">
             <div class="template-search__box">
               <span v-if="model.guideIds&&model.guideIds.length>0">
                   已选择{{model.guideIds.length}}个
@@ -55,7 +55,7 @@
                 ></NsGuideDialog>
                 <NsGuideWeChatDialog
                   :selfBtn='false'
-                  :appendToBody='false'
+                  :appendToBody='true'
                   :isButton="false"
                   :auth="true"
                   :switchAreaFlag="1"
@@ -96,16 +96,16 @@
         <span class="float-left" style="margin-right: 20px">数据报表</span>
         <el-radio-group v-model="tableRadios" @change="changeListDataType" class="float-left">
           <el-radio :label="1">按日期展示</el-radio>
-          <el-radio :label="2">按员工展示</el-radio>
+          <el-radio :label="2">按{{cloudPlatformType === 'ecrp' ? '员工': '成员'}}展示</el-radio>
         </el-radio-group>
-        <ns-button type="primary" v-if="tableRadios == 2" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
+        <ns-button type="primary" v-if="tableRadios == 2 && cloudPlatformType === 'ecrp'" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
       </div>
       <el-table ref="table" :data="_data._table.data"
                 class="template-table__main" stripe roll-click
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
         <el-table-column :show-overflow-tooltip="true" type="default" :prop="tableRadios === 1 ? 'TheDate' : 'UserID'"
-                         :label="tableRadios === 1 ? '日期':'员工'" :sortable="false" align="center">
+                         :label="tableRadios === 1 ? '日期' : cloudPlatformType === 'ecrp' ? '员工': '成员'" :sortable="false" align="center">
           <template slot-scope="scope">
             {{formateTheDate(scope.row)}}
           </template>
