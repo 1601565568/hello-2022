@@ -1,91 +1,20 @@
 <template>
   <!-- 信息更新页面 -->
   <div class="dataCenter-content">
-    <!-- <div style="padding: 7px 0px 25px;">
-    </div> -->
-    <!-- <el-row class="dataCenter-content__grid" :gutter="5">
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--blue">
-            <Icon type="kehudongcha-2"/>
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日好友总数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.customerTotal ?  this._data.rowDatas.customerTotal : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--red">
-            <Icon type="user-add-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日净增人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.increaseCount ?  this._data.rowDatas.increaseCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--green">
-            <Icon type="user-add-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日添加人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.addCount ?  this._data.rowDatas.addCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--orange">
-            <Icon type="user-delete-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日删除人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.deleteCount ?  this._data.rowDatas.deleteCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--purple">
-            <Icon type="user-be-deleted" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日被删除数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.beDeletedCount ?  this._data.rowDatas.beDeletedCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-    </el-row> -->
     <!--/数据面板-->
     <div class="material-data">
       <div class="top-view">
         <div class="title">好友分析</div>
       </div>
       <div class="data-view">
-        <!-- <el-row :gutter='5'> -->
-          <template v-for='(item, index) in dataList'>
-            <el-col :key='item.key'>
-              <div class='row-item' :style='`background-image:${colorList[index]}`'>
-                <div class='nick'>{{item.nick}}</div>
-                <div class='value'>{{item.value}}</div>
-              </div>
-            </el-col>
-          </template>
-        <!-- </el-row> -->
+        <template v-for='(item, index) in dataList'>
+          <el-col :key='item.key'>
+            <div class='row-item' :style='`background-image:${colorList[index]}`'>
+              <div class='nick'>{{item.nick}}</div>
+              <div class='value'>{{item.value}}</div>
+            </div>
+          </el-col>
+        </template>
       </div>
     </div>
     <ns-page-table :colButton="0">
@@ -122,7 +51,20 @@
                   btnTitle="选择"
                   dialogTitle="选择员工"
                   v-model="model.guideIds"
+                  v-if="cloudPlatformType === 'ecrp'"
                 ></NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='false'
+                  :appendToBody='false'
+                  :isButton="false"
+                  :auth="true"
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择成员"
+                  v-model="model.guideIds"
+                  v-else>
+                </NsGuideWeChatDialog>
               </div>
             </div>
           </el-form-item>

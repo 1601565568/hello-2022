@@ -7,6 +7,7 @@ import ElCard from '@nascent/nui/lib/card'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import moment from 'moment'
 
 export default {
@@ -22,6 +23,7 @@ export default {
     ElBreadcrumb,
     ElBreadcrumbItem,
     NsGuideDialog,
+    NsGuideWeChatDialog,
     ElCard
   },
   data: function () {
