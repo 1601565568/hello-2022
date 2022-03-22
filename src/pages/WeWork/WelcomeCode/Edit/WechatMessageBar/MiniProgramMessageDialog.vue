@@ -85,7 +85,7 @@
                       <p>1.小程序路径后需要带上.html,如pages/member/test.html</p>
                       <p>2.需要添加传参时,需在路径后添加“?”,多个参时用“&”隔开，如pages/member/test.html?id=1&number=2</p>
                     </slot>
-                    <span style="color:#0094FC;" slot="reference">&nbsp;&nbsp;输入说明</span>
+                    <span style="color:#0094FC;" :class="[ENV === 'QA' && 'colorQA']" slot="reference">&nbsp;&nbsp;输入说明</span>
                   </el-popover>
                 </div>
               </div>
@@ -274,6 +274,7 @@ export default {
 
     return {
       cloudPlatformType: '',
+      ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       defaultModel: {
         appid: '', // 小程序的appid
@@ -403,7 +404,7 @@ export default {
     open () {
       this.initData()
       if (this.content !== null) {
-        this.defaultModel = this.content
+        this.defaultModel = { ...this.content }
         this.$nextTick(() => {
           this.defaultModel.path = this.$refs.tagContent.stringTohtml(this.defaultModel.path)
           this.$refs.tagContent.$refs[this.$refs.tagContent.className].innerHTML = this.defaultModel.path
@@ -449,6 +450,9 @@ export default {
 <style scoped>
 @import '@theme/variables.pcss';
 @import "./styles/link.css";
+.colorQA {
+  color:#2153D4!important ;
+}
 .show-min-line {
   height: 1px;
   width: 100%;

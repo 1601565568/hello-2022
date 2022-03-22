@@ -66,7 +66,7 @@ export default {
         image: '',
         createTime: '',
         showType: 1,
-        isvalidate: true,
+        isvalidate: 1,
         keyword: null,
         channel_code: null,
         child_qrcodes: [],
@@ -117,7 +117,12 @@ export default {
       tagId2TagGroupId: {}, // 已选择标签id映射标签组id
       saveLoading: false,
       showPosterQrcode: false,
-      uploadPosterFileList: []
+      uploadPosterFileList: [],
+      bluePillar: process.env.VUE_APP_THEME,
+      bluePillarQA: 'bluepillarQA',
+      bluepill: 'bluepillar',
+      gridQA: 'el-radioboxQA',
+      gridChecks: 'el-radiobox'
     }
   },
   computed: {
@@ -204,9 +209,9 @@ export default {
   },
   methods: {
     getPosterQrcodeInfo (info) { // 海报信息
-      this.personalQrcode.qrcode_size = info.size
-      this.personalQrcode.qrcode_x = info.x
-      this.personalQrcode.qrcode_y = info.y
+      this.personalQrcode.qrcodeSize = info.size
+      this.personalQrcode.qrcodeX = info.x
+      this.personalQrcode.qrcodeY = info.y
     },
     switchTagDialog (state) { // 选择标签
       this.addTagDialogVisible = state
@@ -262,7 +267,6 @@ export default {
       }
       that.personalQrcode.personnelIds = personalIds.join(',')
       that.personalQrcode.child_qrcodes = JSON.stringify(that.tableData)
-      that.personalQrcode.isvalidate = that.personalQrcode.isvalidate ? 1 : 2
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })

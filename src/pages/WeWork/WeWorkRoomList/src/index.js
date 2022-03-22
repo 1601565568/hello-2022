@@ -38,8 +38,13 @@ export default {
         shopName: ''
       },
       checkStatusList: ['1', '-1'],
-      shopFindList: []
+      shopFindList: [],
       // 下拉门店树相关变量===结束
+      chooesQA: process.env.VUE_APP_THEME,
+      checkQA: 'el-checkbox__innerQA',
+      checks: 'el-checkbox__inner',
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   created: function () {

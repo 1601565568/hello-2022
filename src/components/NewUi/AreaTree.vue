@@ -18,6 +18,7 @@
         :filter-node-method="onFilterNode"
         :render-content="renderNode"
         @node-click="onClickNode"
+        :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"
       >
         <div class="subdivision-tree-node" slot-scope="{ node }">
           <span>{{node.label}}</span>
@@ -51,7 +52,10 @@ export default {
       },
       digitalShopList: [],
       areaId: '',
-      areaName: ''
+      areaName: '',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   props: ['value'],
@@ -182,5 +186,11 @@ export default {
 .template-page__row-left >>> .el-pagination {
     border-radius: none;
     box-shadow: 0;
+}
+.fuscousQA >>>.el-tree-node__content:hover{
+  color: #2153D4;
+}
+.fuscousIcon >>>.el-tree-node__content:hover{
+  color: #1a9cfb;
 }
 </style>

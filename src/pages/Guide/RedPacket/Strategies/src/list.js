@@ -20,7 +20,10 @@ export default {
       seachDate: [], // 时间筛选
       isLoad: false,
       detailPath: '/Social/SocialOperation/RedPacket/Strategies/Edit', // 详情页路由
-      payPath: '/Guide/Others/PaySet' // 支付商户号配置页面，未配置商户号需要先配置
+      payPath: '/Guide/Others/PaySet', // 支付商户号配置页面，未配置商户号需要先配置
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mounted () {
