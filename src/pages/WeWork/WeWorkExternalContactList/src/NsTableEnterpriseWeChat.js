@@ -147,7 +147,7 @@ export default {
       // 视角Id
       propsViewId: '',
       selectParams: { isTagGroup: 0 },
-      cloudPlatformType: '' // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 判断客道、ecrp环境
     }
   },
   mounted: function () {
@@ -158,7 +158,6 @@ export default {
       this.reload()
     }
     this.initSynButton()
-    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
   },
   components: {
     ElSelectLoad,
