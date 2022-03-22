@@ -102,7 +102,7 @@
             <el-form-item label="好友验证" v-if="personalQrcode.type == 0">
               <el-form-grid size="small">
                 <el-form-item prop="sex">
-                  <el-switch v-model="personalQrcode.isvalidate" />
+                  <el-switch :active-value="1" :inactive-value="2" v-model="personalQrcode.isvalidate" />
                 </el-form-item>
               </el-form-grid>
               <div class="sub-title" style="color: #595959;">
