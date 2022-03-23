@@ -19,15 +19,9 @@ import '@theme/index.pcss'
 // import './utils/storageControl'
 
 import '@/assets/fonts/iconfont.css'
-import { eventProxy } from './track/logForClick'
-const appTrack = require('./track/appTrack.js')
-eventProxy({
-  click: {},
-  input: {
-    excludes: ['input', 'textarea']
-  }
-}, 500)
-appTrack.init({
+import { eventProxy, setDefaultParmas } from './track/logForClick'
+const appEnv = require('./track/appEnv')
+LOG.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
   spmId: window.g_config.spmId,
@@ -35,6 +29,18 @@ appTrack.init({
   report: window.g_config.report,
   startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
   userInfo: store.state.user
+})
+
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
+
+setDefaultParmas({
+  appType: appEnv.getWebDev(),
+  appEnv: appEnv.getAppEnv()
 })
 
 if (window.g_config.sentry.report === true) {
