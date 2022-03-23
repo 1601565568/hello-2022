@@ -144,8 +144,10 @@ export default {
         expand: false
       },
       userDetails: {},
+      // 视角Id
+      propsViewId: '',
       selectParams: { isTagGroup: 0 },
-      cloudPlatformType: '' // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 判断客道、ecrp环境
     }
   },
   mounted: function () {
@@ -156,7 +158,6 @@ export default {
       this.reload()
     }
     this.initSynButton()
-    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
   },
   components: {
     ElSelectLoad,
@@ -362,8 +363,12 @@ export default {
       this.$refs.NsFriendDetail.showDetailDialog(val)
       // this.$refs.NSUserDetails.showDetailDialog(val)
     },
+    // 好友详情打开会员详情事件传递
     showVip (val) {
       this.$refs.NSUserDetails.showDetailDialog(val)
+    },
+    getViewId (val) {
+      this.propsViewId = val
     }
   }
 }

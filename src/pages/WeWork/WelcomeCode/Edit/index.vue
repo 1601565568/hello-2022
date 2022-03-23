@@ -37,6 +37,7 @@
               :rules="rules"
               label-width="107px"
               label-position="left"
+              :class="[btnTag==='QA'? tagTextQA : tagText]"
             >
               <div class="banner-tip">
                 <span class="text">当{{
@@ -455,7 +456,10 @@ export default {
           id: '{WeworkNickName}',
           value: '员工别名'
         }
-      ]
+      ],
+      btnTag: process.env.VUE_APP_THEME,
+      tagTextQA: 'tagTextQA',
+      tagText: 'tagText'
     }
   },
   mounted () {
@@ -727,5 +731,31 @@ export default {
 .message-preivew-panel {
   overflow: auto;
   height: 515px;
+}
+</style>
+<style scoped>
+.tagTextQA >>> .emoji-icon{
+  color: #2153D4;
+}
+.tagText >>> .emoji-icon{
+  color: #26a2ff;
+}
+.tagTextQA >>> wise{
+  color: #2153D4;
+}
+.tagText >>> wise{
+  color: #26a2ff;
+}
+.tagTextQA >>>.el-form-item .add-material .icon{
+  color: #2153D4;
+}
+.tagText >>>.el-form-item .add-material .icon{
+  color: #26a2ff;
+}
+.tagTextQA>>>.banner-tip{
+  background-color: rgba(237,242,252,100%);
+}
+.tagText >>>.banner-tip{
+  background-color: rgba(237,242,252);
 }
 </style>

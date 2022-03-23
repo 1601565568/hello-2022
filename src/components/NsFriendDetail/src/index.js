@@ -3,13 +3,15 @@
 // import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { Object } from 'core-js'
 import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
+import ViewSelect from '@/components/NsViewSelect'
 // import store from 'store/dist/store.legacy.min.js'
 let vm
 export default {
   name: 'NsFriendDetail',
   // mixins: [tableMixin],
   components: {
-    NsWechatEmoji
+    NsWechatEmoji,
+    ViewSelect
   },
   props: {
     value: {
@@ -31,7 +33,7 @@ export default {
     detailUrl: {
       type: Object,
       default: function () {
-        return this.$api.guide.guide.getCustomerDetail
+        return this.$api.weWork.externalContact.getCustomerDetail
       }
     },
     // 弹窗标题
@@ -93,10 +95,21 @@ export default {
         page: 1,
         total: 0
       },
+      // 视角列表
+      viewList: [],
+      // 视角Id
+      viewId: '',
       visible: false
     }
   },
-  computed: {},
+  computed: {
+    /**
+     * 区域id
+     */
+    areaId () {
+      return this.$store.state.user.area.id
+    }
+  },
   methods: {
     /**
      * 打开弹窗时的初始化事件
@@ -106,7 +119,11 @@ export default {
       this.unionId = val.unionid
       this.userId = val.externalUserId
       this.visible = true
-      this.getFriendDetail(1)
+      this.getFriendDetail()
+      if (this.cloudPlatformType + '' === 'ecrp') {
+        this.checkVip()
+      }
+      this.getList(1)
     },
     showVipDetail () {
       this.$emit('showVip', {
@@ -114,14 +131,33 @@ export default {
         unionId: this.unionId
       })
     },
+    // 查询区域对应的视角列表
+    findViewList () {
+      this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
+        .then(res => {
+          if (res.success) {
+            if (res.result.length) {
+              this.viewList = res.result
+              this.viewId = res.result[0].viewId
+              this.$emit('viewId', this.viewId)
+            }
+          } else {
+            this.$notify.error(res.msg)
+          }
+        }).catch(res => {
+          this.$notify.error('视角列表查询失败')
+        })
+    },
+    // 视角切换传值
+    viewChange () {
+      this.$emit('viewId', this.viewId)
+      this.checkVip()
+    },
     /**
      * 好友详情
      */
-    getFriendDetail: function (pageNo) {
-      this.tableLoading = true
-	   // eslint-disable-next-line no-mixed-spaces-and-tabs
-      this.pagination4Emp.page = pageNo
-      let param = { userId: this.userId, start: pageNo, length: this.pagination4Emp.size }
+    getFriendDetail () {
+      let param = { externalUserId: this.userId }
       // 请求好友详情数据
 
       this.$http.fetch(this.detailUrl, param)
@@ -130,17 +166,53 @@ export default {
             let data = resp.result
             this.friendInfo = data
             this.isMan = data.gender
-            this.isVip = data.member
             this.isWx = data.type + '' === '1'
           }
-          if (resp.result && resp.result.customerGuideDTOS && resp.result.customerGuideDTOS.length > 0) {
-            this.friendData = JSON.parse(JSON.stringify(resp.result.customerGuideDTOS))
+        }).catch(() => {
+          this.$notify.error('查询好友详情信息失败')
+        }).finally(() => {
+        })
+    },
+    /**
+     * 查询是否是会员
+     */
+    checkVip () {
+      let param = { externalUserId: this.userId, viewId: this.viewId }
+      // 请求好友详情数据
+
+      this.$http.fetch(this.$api.weWork.externalContact.isFriendActivate, param)
+        .then(resp => {
+          if (resp.success && resp.result != null) {
+            this.isVip = resp.result + '' === '1'
+          }
+        }).catch(() => {
+          this.$notify.error('查询好友会员信息失败')
+        }).finally(() => {
+        })
+    },
+    /**
+     * 获取好友对应所属员工列表
+     */
+    getList (pageNo) {
+      this.tableLoading = true
+	   // eslint-disable-next-line no-mixed-spaces-and-tabs
+      this.pagination4Emp.page = pageNo
+      let param = { externalUserId: this.userId, page: pageNo, pageSize: this.pagination4Emp.size }
+      // 请求好友详情数据
+
+      this.$http.fetch(this.$api.weWork.externalContact.findExternalUserRelationList, param)
+        .then(resp => {
+          if (resp.success && resp.result != null) {
+            let data = resp.result
+          }
+          if (resp.result && resp.result.data && resp.result.data.length > 0) {
+            this.friendData = JSON.parse(JSON.stringify(resp.result.data))
           }
           if (resp.result.recordsTotal) {
             this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
           }
         }).catch(() => {
-          this.$notify.error('查询好友详情信息失败')
+          this.$notify.error('查询列表信息失败')
         }).finally(() => {
           this.tableLoading = false
         })
@@ -156,11 +228,14 @@ export default {
      */
     $sizeChange$: function (size) {
       this.pagination4Emp.size = size
-      return this.getFriendDetail(1)
+      return this.getList(1)
     }
   },
   mounted: function () {
     vm = this
+    if (this.cloudPlatformType + '' === 'ecrp') {
+      this.findViewList()
+    }
   },
   created: function () {
   }

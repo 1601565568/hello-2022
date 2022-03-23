@@ -3,13 +3,17 @@ import redpacketTable from '../../mixins/redpacketTable'
 export default {
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         name: '', // 封面名称
         operatorName: '' // 创建人
       },
       drawer: false,
       url: this.$api.guide.redpacket.getCoverList,
-      detailPath: '/Social/SocialOperation/RedPacket/Poster/Edit'
+      detailPath: '/Social/SocialOperation/RedPacket/Poster/Edit',
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mixins: [tableMixin, redpacketTable],

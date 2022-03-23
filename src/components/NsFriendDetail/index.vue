@@ -9,6 +9,12 @@
                width="1100px"
                :modal-append-to-body='appendToBody'
                :append-to-body='appendToBody'>
+      <template slot="title">
+        <div class="dialog-header">
+          <span class="dialog-header__title">{{dialogTitle}}</span>
+          <view-select v-if="cloudPlatformType + '' === 'ecrp'" class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
+        </div>
+      </template>
       <div>
         <div class="head-wechat">
           <div class="head-left">
@@ -270,6 +276,17 @@ export default index
 }
 </style>
 <style lang="scss" scoped>
+.dialog-header{
+  display: flex;
+  align-items: center;
+  .dialog-header__title{
+    font-size: 16px;
+    color: #303133;
+  }
+  .dialog-header__select{
+    margin-left: 30px;
+  }
+}
 .detail-tags-container {
   display: flex;
   align-items: center;

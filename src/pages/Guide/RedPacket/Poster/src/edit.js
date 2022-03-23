@@ -11,6 +11,7 @@ export default {
       }
     }
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         name: '', // 封面名称
         background: '' // 封面海报

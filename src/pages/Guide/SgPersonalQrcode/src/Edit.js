@@ -8,6 +8,7 @@ export default {
   mixins: [tableMixin, scrollHeight],
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -116,7 +117,12 @@ export default {
       tagId2TagGroupId: {}, // 已选择标签id映射标签组id
       saveLoading: false,
       showPosterQrcode: false,
-      uploadPosterFileList: []
+      uploadPosterFileList: [],
+      bluePillar: process.env.VUE_APP_THEME,
+      bluePillarQA: 'bluepillarQA',
+      bluepill: 'bluepillar',
+      gridQA: 'el-radioboxQA',
+      gridChecks: 'el-radiobox'
     }
   },
   computed: {
@@ -162,7 +168,8 @@ export default {
           poster_background_url: data.result.poster_background_url || '',
           qrcode_size: data.result.qrcode_size !== undefined ? data.result.qrcode_size : 172,
           qrcode_x: data.result.qrcode_x !== undefined ? data.result.qrcode_x : 74,
-          qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349
+          qrcode_y: data.result.qrcode_y !== undefined ? data.result.qrcode_y : 349,
+          isvalidate: data.result.isvalidate
         }
         this.showPosterQrcode = true
         if (data.result.type === 1) {

@@ -7,6 +7,7 @@ import ElCard from '@nascent/nui/lib/card'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import moment from 'moment'
 
 export default {
@@ -22,6 +23,7 @@ export default {
     ElBreadcrumb,
     ElBreadcrumbItem,
     NsGuideDialog,
+    NsGuideWeChatDialog,
     ElCard
   },
   data: function () {
@@ -63,6 +65,7 @@ export default {
       total: 0
     }
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       pickerOptions: { disabledDate: (time) => {
         if (time.getTime() >= (new Date().getTime() - 3600 * 1000 * 24 * 1)) { return true }
         return false
@@ -210,7 +213,11 @@ export default {
         'linear-gradient(270deg, #A0E35E 0%, #67C230 100%)',
         'linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%)',
         'linear-gradient(269deg, #fc6767 0%, #ec008c 100%)'
-      ]
+      ],
+      bases: process.env.VUE_APP_THEME,
+      eltabQA: 'elTabQA',
+      eltab: 'elTab'
+
     }
   },
   watch: {

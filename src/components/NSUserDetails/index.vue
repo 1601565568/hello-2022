@@ -11,7 +11,7 @@
     <template slot="title">
       <div class="dialog-header">
         <span class="dialog-header__title">详情</span>
-        <view-select class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
+        <view-select v-if="showViewChoose" class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
       </div>
     </template>
     <div class="dialog-container__msg">

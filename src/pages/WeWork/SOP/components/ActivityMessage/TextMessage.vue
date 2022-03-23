@@ -39,7 +39,8 @@ export default {
   },
   data () {
     return {
-      htmlContent: ''
+      htmlContent: '',
+      ENV: process.env.VUE_APP_THEME
     }
   },
   mounted () {
@@ -65,7 +66,7 @@ export default {
       this.htmlContent = this.htmlContent.replace(strRegex, (item, index) => {
         const tagDom = document.createElement('span')
         tagDom.innerText = index
-        tagDom.className = 'text-message-tag'
+        tagDom.className = this.ENV === 'QA' ? 'colorQA' : 'colorNormal'
         return tagDom.outerHTML
       })
     },
@@ -77,10 +78,17 @@ export default {
 }
 </script>
 <style>
-.text-message-tag {
-  color:#26a2ff;
+
+.colorQA, .colorNormal {
+color:#26a2ff;
   cursor: default;
   margin: 0 1px;
+}
+.colorQA{
+color: #2153D4;
+}
+.colorNormal{
+     color:#26a2ff;
 }
 </style>
 

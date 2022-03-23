@@ -238,9 +238,9 @@ export default NsTableRepeatCustomer
 }
 </style>
 <style lang="scss" scoped>
-::v-deep .el-input .el-input__suffix-inner svg{
-  padding: 2px;
-}
+  ::v-deep .el-input .el-input__suffix-inner svg{
+    padding: 2px;
+  }
   .search-icon {
     font-size: 22px;
     margin-top: 2px;

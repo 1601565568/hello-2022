@@ -15,7 +15,8 @@ export default {
         orderDir: 'desc',
         orderKey: 'date'
       },
-      exportTime: ''
+      exportTime: '',
+      cloudPlatformType: ''
     }
   },
   computed: {
@@ -27,6 +28,7 @@ export default {
     }
   },
   mounted () {
+    this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     this.searchform()
   },
   methods: {
