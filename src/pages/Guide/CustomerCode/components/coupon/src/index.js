@@ -34,7 +34,8 @@ export default {
       chooseCouponDialogVisible: false,
       couponTypeList: couponTypeList,
       couponRadio: null,
-      couponMessage: null // 优惠券信息
+      couponMessage: null, // 优惠券信息
+      ENV: process.env.VUE_APP_THEME
     }
   },
   methods: {

@@ -34,7 +34,7 @@
               width='100px'
               label="二维码海报">
               <template slot-scope="scope">
-                <div class="scope-name scope-name_num box-padding">
+                <div class="scope-name scope-name_num box-padding"  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                   <Icon type="ns-file-picture" className="message-upload__tip" @click='handlePreview(scope.row)'/>
                 </div>
               </template>
@@ -170,6 +170,12 @@ export default List
   .question-circle {
     margin-left: 5px;
   }
+.fuscousQA {
+color: #1965FF;
+}
+.fuscousIcon{
+color: #0091FA;
+}
 </style>
 <style lang="scss" scoped>
 

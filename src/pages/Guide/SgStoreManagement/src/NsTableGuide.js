@@ -158,7 +158,10 @@ export default {
         page: 1,
         size: 50,
         areaName: ''
-      }
+      },
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
   mounted: function () {

@@ -6,7 +6,7 @@
     @close="close"
     @open="open"
   >
-    <div>
+    <div :class="[ENV === 'QA'? colorQA:colorNormal ]">
       <el-input style="width:180px;margin-left: 7px" v-model="searchTagGroupName" placeholder="请输入标签名" clearable></el-input>
       <el-form class="add-tags" label-position="left">
         <el-form-item v-loading="loading">
@@ -109,7 +109,10 @@ export default {
       showList: [],
       searchList: [],
       checkList: [],
-      tagId2TagGroupId: {} // tagId映射tagGroupId Map
+      tagId2TagGroupId: {}, // tagId映射tagGroupId Map
+      ENV: process.env.VUE_APP_THEME,
+      colorQA: 'colorQA',
+      colorNormal: 'colorNormal'
     }
   },
   methods: {
@@ -196,7 +199,15 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+  .colorQA >>>.el-checkbox__input.is-checked + .el-checkbox__label{
+    color: #2153D4;
+  }
+    .colorQA >>>.el-checkbox__input.is-checked .el-checkbox__inner{
+    background: #2153D4;
+    border-color: #2153D4;
+  }
+</style>
 <style lang="scss" scoped>
 @import "./reset.css";
 

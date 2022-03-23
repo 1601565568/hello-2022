@@ -7,6 +7,7 @@ export default {
       qychat2,
       qychat3,
       data: [],
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         appDomain: '',
         filename: '',
@@ -48,7 +49,11 @@ export default {
       })
     },
     handleLocation (url) {
-      window.open(URL[url])
+      let openUrl = URL[url]
+      if (url === 'WEB_DESCRIBE_URL' || url === 'FILE_DESCRIBE_URL' || url === 'SIDE_DESCRIBE_URL' || url === 'DIY_DESCRIBE_URL') {
+        openUrl = this.$isQa ? this.$qaDocs : URL[url]
+      }
+      window.open(openUrl)
     },
     // 上传之前钩子
     beforeUpload (file) {

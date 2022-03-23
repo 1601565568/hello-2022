@@ -223,7 +223,7 @@
           </template>
           <template slot-scope="scope">
             <div v-if="scope.row.type === 9">
-              <span style="color:#0091FA">全部{{variableName()}}</span>
+              <span :class="[employees==='QA'?employeeQA:employeeScope]" >全部{{variableName()}}</span>
             </div>
             <div v-else-if="
                 scope.row.employeeCount <= 0 &&
@@ -234,19 +234,19 @@
             </div>
             <div v-else>
               <ns-button v-if="scope.row.shopCount > 0 && cloudPlatformType == 'ecrp' "
-                         style="color:#0091FA"
+                         :class="[employees==='QA'?employeeQA:employeeScope]"
                          @click="onShowShopScope(scope.row)"
                          type="text">{{ scope.row.shopCount }}家门店
                 {{ scope.row.employeeCount > 0 ? "," : "" }}
               </ns-button>
-              <ns-button style="color:#0091FA"
+              <ns-button :class="[employees==='QA'?employeeQA:employeeScope]"
                          @click="onShowEmployeeScope(scope.row)"
                          v-if="scope.row.employeeCount > 0"
                          type="text">{{ scope.row.employeeCount }}名{{cloudPlatformType == 'ecrp'? '员工':'成员'}}
                 {{ scope.row.channelCount > 0 ? "," : "" }}
               </ns-button>
               <ns-button v-if="scope.row.channelCount > 0"
-                         style="color:#0091FA"
+                         :class="[employees==='QA'?employeeQA:employeeScope]"
                          @click="onShowChannelScope(scope.row)"
                          type="text">{{ scope.row.channelCount }}个渠道
               </ns-button>
@@ -263,6 +263,7 @@
                          min-width="30">
           <template slot-scope="{ row }">
             <el-switch style="cursor:pointer"
+            :class="[employees==='QA'?stateQA:elState]"
                        :disabled="
                 row.type === 9 && String(row.account ? row.account : '') !== 'admin'
               "
@@ -407,5 +408,19 @@ export default NsTableWelcomeCode
   .guideIds-icon {
     color: #c0c4cc;
   }
+}
+.employee{
+  color: #0091FA;
+}
+.employeeQA{
+  color: #2153D4;
+}
+.elState.is-checked >>>  .el-switch__core{
+    border-color: #41a2e8;
+    background-color: #41a2e8;
+}
+.elStateQA.is-checked >>>  .el-switch__core{
+    border-color: #2153D4;
+    background-color: #2153D4;
 }
 </style>

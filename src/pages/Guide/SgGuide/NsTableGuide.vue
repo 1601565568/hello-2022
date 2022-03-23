@@ -124,7 +124,7 @@
           <el-table-column prop="mobile" label="手机号码" align="left" min-width="100"></el-table-column>
           <el-table-column prop="shopName,count" min-width="150" label="工作门店" align="left" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
+              <ns-button :class="[fuscous==='QA'?fuscousQA:fuscousIcon]" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
               <div v-else>
                 {{ scope.row.shopName ? scope.row.shopName : '-' }}
                 <span :class="scope.row.shopStatus > 0 ? '' : 'text-error'">
@@ -216,4 +216,10 @@ export default guide
   .resetbtn {
     margin-left: var(--default-margin-larger);
   }
+.fuscousQA{
+  color:#0C4CFF ;
+}
+.fuscousIcon{
+  color: rgb(0, 145, 250);
+}
 </style>

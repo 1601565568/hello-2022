@@ -100,7 +100,8 @@ export default {
       personal: null,
       keyword: null,
       showType: null,
-      creatorName: null
+      creatorName: null,
+      isvalidate: null
     }
     let findVo = {
       'validateMsg': null,
@@ -157,7 +158,10 @@ export default {
           value: '2',
           label: '升序'
         }
-      ]
+      ],
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon'
     }
   },
 

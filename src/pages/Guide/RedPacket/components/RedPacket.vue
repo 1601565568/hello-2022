@@ -4,7 +4,7 @@
       <img :src='redpacketbg' class='red-image'>
     </template>
     <template v-else>
-      <img :src='redpacketbgHasFont' class='red-image'>
+      <img :src="cloudPlatformType === 'ecrp' ? redpacketbgHasFont : redpacketbgHasFontTwo " class='red-image'>
     </template>
     <div class='redpacket-text' v-if='!bgHasFont'>
       <div class='redpacket-name'>
@@ -20,11 +20,15 @@
 <script>
 import redpacketbg from '@/assets/redpacketbg.png'
 import redpacketbgHasFont from '@/assets/redpacketbgHasFont.png'
+import redpacketbgHasFontTwo from '@/assets/redpacketbgHasFontTwo.png'
 import baguser from '@/assets/baguser.png'
 export default {
   data () {
     return {
-      redpacketbg, redpacketbgHasFont
+      redpacketbg,
+      redpacketbgHasFont,
+      redpacketbgHasFontTwo,
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
     }
   },
   props: {
