@@ -19,7 +19,8 @@ export default ($route) => {
     '/Guide/chanel/chanel',
     '/Social/WeComCustomerOperation/LosOfFriends',
     '/Social/WeComCustomerOperation/ExternalContactList',
-    '/Social/WeComCustomerOperation/FriendsAnalysis'
+    '/Social/WeComCustomerOperation/FriendsAnalysis',
+    '/Social/WeComCustomerOperation/RepeatCustomer'
 
   ]
 
