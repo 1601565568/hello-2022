@@ -42,7 +42,7 @@
       </el-form>
       <NsButton class="add-button"
                 size="large"
-                @click="exportFile">导出文件</NsButton>
+                @click="exportFile" id="exportButton">导出文件</NsButton>
     </BaseContainer>
     <BaseContainer class="sendlog-table-container"
                    v-loading="loading">
@@ -257,11 +257,13 @@ export default {
         endTime: `${this.searchDate[1]} 23:59:59`,
         exportType: 3
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 135,
+          top: rect.top,
           right: 40
         })
       }).catch((resp) => {

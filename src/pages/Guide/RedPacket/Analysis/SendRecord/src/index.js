@@ -73,11 +73,13 @@ export default {
         ...model,
         exportType: 15
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 430,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

@@ -156,7 +156,7 @@
           <el-radio :label="1">按日期展示</el-radio>
           <el-radio :label="2">按员工展示</el-radio>
         </el-radio-group>
-        <ns-button type="primary" v-if="tableRadios == 2" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
+        <ns-button type="primary" v-if="tableRadios == 2" class="float-right" @click="outputClick" id="exportButton">导&nbsp;出</ns-button>
       </div>
       <el-table ref="table" :data="_data._table.data"
                 class="template-table__main" stripe roll-click

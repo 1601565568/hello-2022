@@ -20,7 +20,7 @@
       </el-form>
     </template>
     <template slot='button'>
-      <ns-button type="primary" size='large' @click="employeeListExportClick">导&nbsp;出</ns-button>
+      <ns-button type="primary" size='large' @click="employeeListExportClick" id="exportButton">导&nbsp;出</ns-button>
     </template>
     <template slot='table'>
       <template>
@@ -186,11 +186,13 @@ export default {
         ...params.searchMap,
         exportType: 24
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 300,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

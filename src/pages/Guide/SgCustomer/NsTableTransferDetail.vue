@@ -125,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="output-file" @click="outputFile">导出文件</div>
+      <div class="output-file" @click="outputFile" id="exportButton">导出文件</div>
     </div>
     <div class="trans-table-view">
       <page-table style="padding-top:0">
@@ -506,11 +506,13 @@ export default {
         ...this.searchData,
         exportType: 19
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 150,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

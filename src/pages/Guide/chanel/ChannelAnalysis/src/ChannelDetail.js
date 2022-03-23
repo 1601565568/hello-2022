@@ -68,11 +68,13 @@ export default {
         exportType: 34,
         channelName: this.$route.params.channelName || ''
       }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
       this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,
-          top: 160,
+          top: rect.top,
           right: 60
         })
       }).catch((resp) => {

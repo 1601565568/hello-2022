@@ -17,7 +17,14 @@ import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
+import { eventProxy } from './track/logForClick'
 const appTrack = require('./track/appTrack.js')
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
 appTrack.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
