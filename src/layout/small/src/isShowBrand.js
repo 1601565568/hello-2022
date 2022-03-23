@@ -17,7 +17,10 @@ export default ($route) => {
     '/Social/SocialOperation/RedPacket/SendRecord',
     '/Guide/SgPersonalQrcode/List',
     '/Guide/chanel/chanel',
-    '/Social/WeComCustomerOperation/LosOfFriends'
+    '/Social/WeComCustomerOperation/LosOfFriends',
+    '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/FriendsAnalysis',
+    '/Social/WeComCustomerOperation/RepeatCustomer'
 
   ]
 
