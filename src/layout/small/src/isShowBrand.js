@@ -18,7 +18,8 @@ export default ($route) => {
     '/Guide/SgPersonalQrcode/List',
     '/Guide/chanel/chanel',
     '/Social/WeComCustomerOperation/LosOfFriends',
-    '/Social/WeComCustomerOperation/ExternalContactList'
+    '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/FriendsAnalysis'
 
   ]
 
