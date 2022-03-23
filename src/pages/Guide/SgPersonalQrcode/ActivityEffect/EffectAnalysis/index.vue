@@ -43,7 +43,7 @@
           <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
             <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
           </el-input>
-          <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+          <ns-button size="medium" class="export-cvs-btn" @click="exportFile" id="exportButton">导出文件</ns-button>
         </div>
       </div>
       <div class="employee-table">
@@ -218,24 +218,24 @@ export default {
 
       let param = this.$generateParams$()
       param.searchMap.type = 1
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            const fileName = `${this.$route.params.name || ''}-添加导购统计.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
+      const searchMap = param.searchMap || {}
+      const params = {
+        ...searchMap,
+        exportType: 22,
+        name: this.$route.params.name
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }

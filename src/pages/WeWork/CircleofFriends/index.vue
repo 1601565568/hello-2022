@@ -60,7 +60,7 @@
         </div>
       </template>
       <template slot="button">
-        <NsButton class="add-button" size="large" @click="exportFile">导出</NsButton>
+        <NsButton class="add-button" size="large" @click="exportFile" id="exportButton">导出</NsButton>
       </template>
       <template slot="table">
         <template>
@@ -194,7 +194,6 @@ import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/ItemDrawer'
 import PublishDetailDrawer from './components/PublishDetailDrawer'
-
 List.components = {
   PageTable,
   NsGuideDialog,
