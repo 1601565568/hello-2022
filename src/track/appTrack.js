@@ -1,7 +1,6 @@
 /* eslint-disable */
 'use strict'
 const appEnv = require('./appEnv')
-
 function _typeof (obj) {
   if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     // eslint-disable-next-line no-func-assign
@@ -173,6 +172,10 @@ function core (wpo, root, conf, name) {
 
     while (params = core.dequeue()) {
       const model = JSON.parse(params.params || '')
+      let uuid = undefined
+      if (model.uuid) {
+        uuid = model.uuid
+      }
       obj = core.extend({
         uid: uid,
         userNick: wpo.getNick(),
@@ -183,7 +186,8 @@ function core (wpo, root, conf, name) {
         type: model.type || '',
         // _t: ~new Date() + (count++).toString(),
         tag: wpo.config.tag && (safetyCall(wpo.config.tag, [], wpo.config.tag + '') || ''),
-        ...appTrackOptions
+        ...appTrackOptions,
+        uuid
       }, params) // 最后一次尝试补齐spm值
 
       if (!obj.spm) {
@@ -1192,7 +1196,7 @@ var install = function install (win, name) {
     sampling(wpo)
     apis(wpo)
     browserPerformance(wpo, win, browserConf)
-    eventProxy(wpo)
+    // eventProxy(wpo)
     wpo.__hasInitBlSdk = true
   }
 
