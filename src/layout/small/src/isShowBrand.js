@@ -16,8 +16,8 @@ export default ($route) => {
     '/Social/SocialOperation/RedPacket/ReceiveRecord',
     '/Social/SocialOperation/RedPacket/SendRecord',
     '/Guide/chanel/chanel',
-    '/Social/WeComCustomerOperation/LosOfFriends'
-
+    '/Social/WeComCustomerOperation/LosOfFriends',
+    '/Social/WeComCustomerOperation/ExternalContactList'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
