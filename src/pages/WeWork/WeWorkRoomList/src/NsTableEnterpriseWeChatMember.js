@@ -42,7 +42,7 @@ export default {
       {
         memberWechatNo: '',
         memberWechatNick: '',
-        friendRelationship: '',
+        ownerBind: '',
         memberType: '',
         joinTime: [],
         joinScene: ''
@@ -125,7 +125,7 @@ export default {
      * 参数设置
      */
     $handleParams: function (params) {
-      Object.assign(params.searchMap, this.$route.params)
+      Object.assign(params.searchMap, this.$route.query)
       if (params.searchMap) {
         if (params.searchMap.joinTime && params.searchMap.joinTime.length > 0) {
           params.searchMap.startJoinTime = params.searchMap.joinTime[0]

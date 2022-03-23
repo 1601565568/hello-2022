@@ -53,16 +53,16 @@
                 </el-select>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="是否好友：" v-if="$route.params.personalWxid">
+            <el-form-item label="是否好友：">
               <el-form-grid size="xmd">
-                <el-select v-model="model.friendRelationship" filterable clearable
+                <el-select v-model="model.ownerBind" filterable clearable
                            :multiple="false">
-                  <span v-if='scope.row.friend_relationship === 1'>
-                    是
-                  </span>
-                  <span v-else>
-                    否
-                  </span>
+                  <el-option label="不限" value="">
+                  </el-option>
+                  <el-option label="是" value="1">
+                  </el-option>
+                  <el-option label="否" value="0">
+                  </el-option>
                 </el-select>
               </el-form-grid>
             </el-form-item>
@@ -160,16 +160,16 @@
               </template>
             </el-table-column>
 
-            <el-table-column v-if="$route.params.personalWxid" :show-overflow-tooltip="true" type="default" prop="friend_relationship"
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="owner_bind"
                              label="是否好友" :sortable="false" width="80" align="center">
               <template slot-scope="scope">
-                <span v-if='scope.row.friend_relationship == 1'>
+                <span v-if='scope.row.owner_bind === 1'>
                   是
                 </span>
-                <span v-if='scope.row.friend_relationship == 0'>
+                <span v-else-if='scope.row.owner_bind === 0'>
                   否
                 </span>
-                <span v-if='scope.row.friend_relationship == -1'>
+                <span v-else>
                   -
                 </span>
               </template>
