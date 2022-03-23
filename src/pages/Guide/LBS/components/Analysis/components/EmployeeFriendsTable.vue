@@ -1,5 +1,5 @@
 <template>
-  <page-table class='no-padding'>
+  <page-table class='no-padding' :tableBarShow='false'>
     <template slot='table'>
       <el-table
         :data="_data._table.data"

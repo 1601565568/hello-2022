@@ -4,7 +4,7 @@
       <page-table :title='`${shopName}-${name}`'>
         <template slot='table'>
           <div class='form-item_tip'>
-            客户选择此门店时，会随机添加以下的任意一名在职员工
+            客户选择此门店时，会随机添加以下的任意一名在职员工1111
           </div>
           <el-table
             :data="_data._table.data"

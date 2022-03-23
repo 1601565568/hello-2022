@@ -5,26 +5,47 @@
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
         {{activityName}}的效果分析
       </h3>
-      <div class='header-tab'>
+      <!-- <div class='header-tab'>
         <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">
           <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
         </el-tabs>
         <div class="header-tab_right">
-          <el-date-picker
-            v-model="time"
-            type="datetimerange"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            range-separator="至"
-            start-placeholder="请选择开始日期"
-            end-placeholder="请选择结束日期"
-            :default-time="['00:00:00','23:59:59']"
-            @change='handleChangeDateValue'
-            align="right">
-          </el-date-picker>
+
         </div>
-      </div>
+      </div> -->
     </div>
-    <page-table>
+    <page-table >
+      <template slot='nav'>
+        <el-row class='tab-ul' :gutter="24">
+          <el-col :span='12' :class="activeType === 'shop' && 'active'">
+            <div class='tab-li'  @click='handleChangeType("shop")'>
+              <div class='tab-li_left'>
+                <p class='tab-li_name'>参与门店</p>
+                <h3 class='tab-li_value'>{{countData.shop}}</h3>
+              </div>
+              <div class='tab-li_right'>
+                <Icon type="ns-shoper" class='tab-li_icon'></Icon>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span='12' :class="{active:activeType === 'employee'}">
+            <div class='tab-li'  @click='handleChangeType("employee")'>
+              <div class='tab-li_left'>
+                <p class='tab-li_name'>
+                  {{employeeName}}
+                  <el-tooltip v-if='type==="Group"' content="当一个群关联多个门店群聚合码时，新增群成员数会累计，不会进行排重。"  placement="top">
+                    <Icon type="question-circle" class='question-circle' />
+                  </el-tooltip>
+                </p>
+                <h3 class='tab-li_value'>{{countData.employee}}</h3>
+              </div>
+              <div class='tab-li_right employee'>
+                <Icon type="ns-group" class='tab-li_icon'></Icon>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </template>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
@@ -55,41 +76,51 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="添加时间：" class='el-form__change'>
+             <el-date-picker
+             v-model="time"
+             type="daterange"
+             value-format="yyyy / MM / dd"
+             range-separator="至"
+             start-placeholder="请选择开始日期"
+             end-placeholder="请选择结束日期"
+             :default-time="['00:00:00','23:59:59']"
+             @change='handleChangeDateValue'
+             align="right">
+           </el-date-picker>
+          </el-form-item>
+                <el-form-item label="下单时间：" class='el-form__change'>
+             <el-date-picker
+             v-model="time"
+             type="daterange"
+             value-format="yyyy / MM / dd"
+             range-separator="至"
+             start-placeholder="请选择开始日期"
+             end-placeholder="请选择结束日期"
+             :default-time="['00:00:00','23:59:59']"
+             @change='handleChangeDateValue'
+             align="right">
+           </el-date-picker>
+          </el-form-item>
+                <el-form-item label="退款时间：" class='el-form__change'>
+             <el-date-picker
+             v-model="time"
+             type="daterange"
+             value-format="yyyy / MM / dd"
+             range-separator="至"
+             start-placeholder="请选择开始日期"
+             end-placeholder="请选择结束日期"
+             :default-time="['00:00:00','23:59:59']"
+             @change='handleChangeDateValue'
+             align="right">
+           </el-date-picker>
+          </el-form-item>
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button  size='large' @click='handleExport'>导出CSV文件</ns-button>
+        <ns-button  size='large' @click='handleExport'>导出文件</ns-button>
       </template>
       <template slot='table'>
-        <el-row class='tab-ul' :gutter="24">
-          <el-col :span='12' :class="activeType === 'shop' && 'active'">
-            <div class='tab-li'  @click='handleChangeType("shop")'>
-              <div class='tab-li_left'>
-                <p class='tab-li_name'>参与门店</p>
-                <h3 class='tab-li_value'>{{countData.shop}}</h3>
-              </div>
-              <div class='tab-li_right'>
-                <Icon type="ns-shoper" class='tab-li_icon'></Icon>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span='12' :class="{active:activeType === 'employee'}">
-            <div class='tab-li'  @click='handleChangeType("employee")'>
-              <div class='tab-li_left'>
-                <p class='tab-li_name'>
-                  {{employeeName}}
-                  <el-tooltip v-if='type==="Group"' content="当一个群关联多个门店群聚合码时，新增群成员数会累计，不会进行排重。"  placement="top">
-                    <Icon type="question-circle" class='question-circle' />
-                  </el-tooltip>
-                </p>
-                <h3 class='tab-li_value'>{{countData.employee}}</h3>
-              </div>
-              <div class='tab-li_right employee'>
-                <Icon type="ns-group" class='tab-li_icon'></Icon>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
         <div v-if="activeType === 'shop'">
           <template v-if='type === "Group"'>
             <ShopTable :propsModel='model' @onSort='onSort'/>
@@ -112,7 +143,7 @@
 </template>
 <script>
 import Analysis from './src/index'
-import PageTable from '@/components/NewUi/PageTable'
+import PageTable from '@/components/NewUi/PageTable.vue'
 import NsShopDialog from '@/components/NsShopDialog'
 import ShopTable from './components/ShopTable'
 import EmployeeTable from './components/EmployeeTable'
@@ -173,6 +204,7 @@ Analysis.components = {
     }
   }
   .tab-ul {
+    margin-bottom: 16px;
     .tab-li {
       height: 96px;
       padding: 0 24px;
@@ -250,4 +282,7 @@ Analysis.components = {
     border-bottom: none;
   }
 }
+.template-table >>> .template-table__bar-base {
+    margin-bottom: 0;
+  }
 </style>

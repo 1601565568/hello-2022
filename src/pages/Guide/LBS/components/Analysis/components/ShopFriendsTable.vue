@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-table class='no-padding'>
+    <page-table class='no-padding' :tableBarShow='false'>
       <template slot='table'>
         <el-table
           :data="_data._table.data"
@@ -31,8 +31,41 @@
           <el-table-column
             prop="adduserNum"
             sortable="custom"
-            label="新加好友数">
+            label="新加好友数/添加好友数">
           </el-table-column>
+            <el-table-column
+            prop="adduserNum"
+            sortable="custom">
+              <template slot="header">
+                <span>
+                  <span>好友会员数 </span>
+                  <el-tooltip content="客户专属线下门店">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
+              </template>
+          </el-table-column>
+           <el-table-column
+            prop="adduserNum"
+            sortable="custom"
+            label="新增会员数">
+          </el-table-column>
+           <el-table-column
+            prop="adduserNum"
+            sortable="custom"
+            label="订单转化数">
+          </el-table-column>
+           <el-table-column
+            prop="adduserNum"
+            sortable="custom"
+            label="订单转化金额">
+          </el-table-column>
+           <el-table-column
+            prop="adduserNum"
+            sortable="custom"
+            label="退款金额">
+          </el-table-column>
+
           <el-table-column
             prop="address"
             width='150px'

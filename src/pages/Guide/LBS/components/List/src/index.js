@@ -251,11 +251,8 @@ export default {
         path: this.detailPath,
         query
       })
-    },
-    //
-    cope (address, scope) {
-      console.log(address, scope, 'sccccc')
     }
+    //
   },
   mounted () {
     this.$searchAction$()
