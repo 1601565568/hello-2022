@@ -100,7 +100,8 @@ export default {
       personal: null,
       keyword: null,
       showType: null,
-      creatorName: null
+      creatorName: null,
+      isvalidate: null
     }
     let findVo = {
       'validateMsg': null,
