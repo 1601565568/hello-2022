@@ -19,8 +19,10 @@ export default ($route) => {
     '/Guide/chanel/chanel',
     '/Social/WeComCustomerOperation/LosOfFriends',
     '/Social/WeComCustomerOperation/RepeatCustomer',
-    '/Social/WeComCustomerOperation/FriendsAnalysis'
-
+    '/Social/WeComCustomerOperation/FriendsAnalysis',
+    '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/RoomList',
+    '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
