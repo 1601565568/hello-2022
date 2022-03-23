@@ -49,9 +49,13 @@ export default {
       fuscousIcon: 'fuscousIcon'
     }
   },
-  created: function () {
+  mounted: function () {
     vm = this
-    vm.initShopList()
+    if (this.cloudPlatformType + '' === 'ecrp') {
+      vm.initShopList()
+    } else {
+      this.$refs.table.$searchAction$()
+    }
   },
   methods: {
     /**
