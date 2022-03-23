@@ -159,11 +159,12 @@ const getVueEvent = (item:any) => item.__vue__ && item.__vue__._events ? item.__
  * @param {*} item
  */
 const getVueRouter = () => {
-  try {
-    return router.history.current.path
-  } catch (e) {
-    return window.location.pathname
-  }
+  // try {
+  //   return router.history.current.path
+  // } catch (e) {
+  //   return window.location.pathname
+  // }
+  return window.location.pathname
 }
 
 router.beforeEach((to, from, next) => {
