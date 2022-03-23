@@ -197,6 +197,14 @@
                 {{scope.row.join_scene === 1 ? '直接邀请入群' : scope.row.join_scene === 2 ? '邀请链接入群' : scope.row.join_scene === 3 ? '扫码入群' : '-'}}
               </template>
             </el-table-column>
+
+            <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" label="操作" align="center" width="100">
+              <template slot-scope="scope">
+                <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
+                                                :prop="scope">
+                </ns-table-column-operate-button>
+              </template>
+            </el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
@@ -211,7 +219,8 @@
                          @current-change="$pageChange$">
           </el-pagination>
         </template>
-  </ns-page-table>
+      </ns-page-table>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType" @showVip="showVip" @viewId="getViewId"/>
     </div>
   </template>
 <script>
