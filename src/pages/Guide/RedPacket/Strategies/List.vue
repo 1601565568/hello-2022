@@ -134,7 +134,8 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='(value)=>{handleChangeState(scope.row.id,scope.row.state)}'
-                  :value="scope.row.state === normalType" :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
+                  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]"
+                  :value="scope.row.state === normalType">
                 </el-switch>
               </template>
             </el-table-column>
