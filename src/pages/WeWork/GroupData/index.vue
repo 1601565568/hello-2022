@@ -55,21 +55,48 @@
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
-                <el-select
-                  clearable
-                  v-model="chatOwnerName"
-                  :default-first-option="true"
-                  @visible-change="selectOptionOwnerClick"
-                  @change="owenerChange"
-                >
-                  <el-option
-                    v-for="item in chatRoomOwner"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                <NsGuideDialog v-if="cloudPlatformType === 'ecrp'"
+                  :validNull="true"
+                  :guideUrl="this.$api.core.sysUser.queryGuidePageByUserId"
+                  :guideFindUrl="this.$api.core.sysUser.guideFindUrl"
+                  :selfBtn='true'
+                  :appendToBody='true'
+                  :onlyOwner='true'
+                  :isButton="false"
+                  :auth="true"
+                  type="primary"
+                  btnTitle=""
+                  dialogTitle="选择群主"
+                  v-model="userIds"
+                  @input="handleChangeGuide"
+                  :isOpenDialogAfterRequest='true'>
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(userIds&&userIds.length)?`已选择${userIds.length}个群主`:'全部'}}
+                      <Icon type="geren" class='guideIds-icon'></Icon>
+                    </div>
+                  </template>
+                </NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='true'
+                  :isButton="false"
+                  :auth="true"
+                  :appendToBody="true"
+                  :onlyOwner='true'
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle=""
+                  dialogTitle="选择群主"
+                  v-model="userIds"
+                  @input="handleChangeGuide"
+                  v-else>
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(userIds&&userIds.length)?`已选择${userIds.length}个群主`:'全部'}}
+                      <Icon type="geren" class='guideIds-icon'></Icon>
+                    </div>
+                  </template>
+                </NsGuideWeChatDialog>
               </div>
             </div>
           </div>
@@ -171,9 +198,11 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, ColorfulDisplay },
+  components: { PageTable, NsEcharts, ColorfulDisplay, NsGuideDialog, NsGuideWeChatDialog },
   data () {
     return {
       // 判断客道、ecrp环境
@@ -321,7 +350,8 @@ export default {
       listDate: [],
       listPerson: [],
       chatRoomOwner: [],
-      chatOwnerName: '不限',
+      chatOwnerName: '不限', // 群主名字
+      userIds: [], // 群主id
       actionValue: '',
       ownerFlag: false,
       flag: false,
@@ -356,6 +386,11 @@ export default {
     this.init()
   },
   methods: {
+    // 处理员工组件选值回填
+    handleChangeGuide (value) {
+      this.userIds = value.map(el => (el + ''))
+      // this.changeSearchfrom({ userIds: value })
+    },
     async init () {
       this.dealTime()
       await this.dealInitTime()
@@ -911,8 +946,9 @@ export default {
 }
 
 .item-down {
-  width: 143px;
+  width: 180px;
   height: 32px;
+  padding-right: 4px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
@@ -953,6 +989,17 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+.self-btn {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
+  }
 }
 </style>
 <style scoped>
