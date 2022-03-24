@@ -124,7 +124,7 @@
               </template>
             </page-table>
           </el-tab-pane>
-          <el-tab-pane label="按员工显示" name="second">
+          <el-tab-pane :label="cloudPlatformType === 'ecrp' ? '按员工显示' : '按成员显示'" name="second">
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
@@ -133,7 +133,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="user_name" label="员工">
+                  <el-table-column prop="user_name" :label="cloudPlatformType === 'ecrp' ? '员工' : '成员'">
                   </el-table-column>
                   <el-table-column prop="chat_totals" label="总群数">
                   </el-table-column>
@@ -176,6 +176,8 @@ export default {
   components: { PageTable, NsEcharts, ColorfulDisplay },
   data () {
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       loading: false,
       loadingData: false,
       checkId: 1,
