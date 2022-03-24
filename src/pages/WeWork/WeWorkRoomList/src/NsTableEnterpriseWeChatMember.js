@@ -38,7 +38,7 @@ export default {
         // icon: '$.noop',
         name: '详情',
         auth: '',
-        visible: ''
+        visible: 'scope.row.member_type === 2'
       }
     ]
 
@@ -162,11 +162,11 @@ export default {
       return url
     },
     // 查询外部联系人详情，根据shopId和unionId查询
-    onUserDetail () {
+    onUserDetail (val) {
       this.$refs.NsFriendDetail.showDetailDialog({
         shopId: '',
         unionid: '',
-        externalUserId: this.$route.query.chatId
+        externalUserId: val.user_id
       })
     },
     // 好友详情打开会员详情事件传递
