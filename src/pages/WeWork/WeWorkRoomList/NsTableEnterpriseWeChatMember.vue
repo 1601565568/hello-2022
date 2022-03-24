@@ -198,7 +198,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column v-if="cloudPlatformType === 'kd'" :show-overflow-tooltip="true" label="操作" align="center" width="100">
+            <el-table-column v-if="false" :show-overflow-tooltip="true" label="操作" align="center" width="100">
               <template slot-scope="scope">
                 <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
                                                 :prop="scope">
