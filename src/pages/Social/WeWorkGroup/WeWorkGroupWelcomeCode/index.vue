@@ -21,6 +21,7 @@
             <div class="item-text">
               <el-tooltip
                 :enterable="true"
+                placement="top-start"
                 popper-class="table-body__tooltip"
               >
                 <div slot="content" v-html="strToRichText(item.textContent)" class="content-tooltip-view"></div>
@@ -408,7 +409,7 @@ export default {
       margin: 4px 0 8px 0;
     }
     .item-text{
-      width: 100%;
+      max-width: 100%;
       margin-bottom: 8px;
       font-size: 12px;
       color: #383838;

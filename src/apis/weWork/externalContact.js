@@ -26,6 +26,27 @@ export default {
     method: 'post'
   },
   /**
+   * @msg: 好友列表中获取好友基础信息
+   */
+  getCustomerDetail: {
+    url: '/wework/externalContact/getCustomerDetail',
+    method: 'get'
+  },
+  /**
+   * @msg: 好友列表中获取好友会员信息
+   */
+  isFriendActivate: {
+    url: '/wework/externalContact/isFriendActivate',
+    method: 'get'
+  },
+  /**
+   * @msg: 好友列表中获取好友所属员工列表
+   */
+  findExternalUserRelationList: {
+    url: '/wework/externalContact/findExternalUserRelationList',
+    method: 'get'
+  },
+  /**
    * @msg: 保存批量打标
    */
   saveBatchMarking: {

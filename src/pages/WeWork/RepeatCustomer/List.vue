@@ -23,7 +23,7 @@
                 mode="cover" :circle="true" class="detail-rightside__img"></el-image>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="昵称：" >
+          <el-form-item :label="cloudPlatformType === 'ecrp' ? '昵称：' : '备注名：'" >
             <el-form-grid>
               <span>{{guide.name}}</span>
             </el-form-grid>
@@ -38,12 +38,12 @@
               <el-table ref="table" :data="shopFindLists" stripe
                         resizable v-loading.lock="_data._table.loadingtable"
                         :element-loading-text="$t('prompt.loading')" >
-                <el-table-column label="所属员工" align="left" >
+                <el-table-column :label="cloudPlatformType === 'ecrp' ? '所属员工' : '所属成员'" align="left" >
                   <template slot-scope="scope">
                     {{scope.row.name}}
                   </template>
                 </el-table-column>
-                <el-table-column label="员工门店" width="400">
+                <el-table-column v-if="cloudPlatformType === 'ecrp'" label="员工门店" width="400">
                   <template slot-scope="scope">
                     {{scope.row.shop_name}}
                   </template>
@@ -87,6 +87,8 @@ export default {
   },
   data () {
     return {
+      // 判断系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       RepeatCustomerShow: false,
       channelList: [],
       shopList: [],

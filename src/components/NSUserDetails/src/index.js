@@ -6,6 +6,16 @@ export default {
   props: {
     userDetails: {
       type: Object
+    },
+    showViewChoose: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
+    },
+    propsViewId: {
+      type: String,
+      default: ''
     }
   },
   components: { ElImage, ViewSelect },
@@ -55,13 +65,20 @@ export default {
   },
   mounted () {
     // this.init()
-    this.findViewList()
+    if (this.showViewChoose) {
+      this.findViewList()
+    } else {
+      this.viewId = this.propsViewId
+    }
   },
   methods: {
     async showDetailDialog (val) {
       this.shopId = val.shopId
-      this.unionId = val.unionid
+      this.unionId = val.unionId
       this.shopKuhuShow = true
+      if (!this.showViewChoose) {
+        this.viewId = this.propsViewId
+      }
       this.customerGetDetail()
     },
     customerGetDetail () {
@@ -71,7 +88,7 @@ export default {
         this.$http.fetch(this.$api.guide.guide.customerGetDetail, {
           unionId: this.unionId,
           shopId: this.shopId,
-          viewId: this.viewId || null
+          viewId: this.viewId || this.propsViewId || null
         }).then(resp => {
           if (resp.success && resp.result != null) {
             this.items = resp.result
