@@ -12,16 +12,16 @@ function getWebDev () {
   if (map.has(originURL)) {
     return map.get(originURL)
   }
-  return 'localhost'
+  return 'dev'
 }
 
 // 只区分 测试 预发布 SAAS 标识
 function getAppEnv () {
   const appEnv = getWebDev()
-  if (appEnv === 'qa' || appEnv === 'eifini' || appEnv === 'peak') {
-    return 'saas'
+  if (appEnv === 'test' || appEnv === 'pre' || appEnv === 'dev') {
+    return appEnv
   }
-  return appEnv
+  return 'saas'
 }
 
 module.exports = {
