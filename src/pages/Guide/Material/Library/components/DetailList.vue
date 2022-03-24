@@ -226,7 +226,7 @@
               </page-table>
             </el-tab-pane>
           </el-tabs>
-          <div class="output-file-view" @click="exportData">导出CSV文件</div>
+          <div class="output-file-view" @click="exportData">导出文件</div>
         </div>
       </div>
     </el-drawer>
@@ -470,30 +470,38 @@ export default {
         materialScriptId: this.materialScriptId,
         guideIdsStr: '',
         isCompletion: 1,
-        shopIdsStr: ''
+        shopIdsStr: '',
+        name: this.matericalTitle,
+        startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+        exportType: 35
       }
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
-        .then(resp => {
-          that.$notify.success('下载完成')
-        })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '创建统计' + this.matericalTitle + curDate + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('文件已导入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+      // let that = this
+      // that.$notify.info('导出中，请稍后片刻')
+      // this.$http
+      //   .fetch(this.$api.guide.exportMaterialCompletionByExcel, params)
+      //   .then(resp => {
+      //     that.$notify.success('下载完成')
+      //   })
+      //   .catch(resp => {
+      //     if (!resp.size === 0) {
+      //       that.$notify.error('导出报错，请联系管理员')
+      //     } else {
+      //       let url = window.URL.createObjectURL(new Blob([resp]))
+      //       let link = document.createElement('a')
+      //       link.style.display = 'none'
+      //       link.href = url
+      //       let curDate = moment().format('YYYYMMDDHHmmss')
+      //       let fileName = '创建统计' + this.matericalTitle + curDate + '.xlsx'
+      //       link.setAttribute('download', fileName)
+      //       document.body.appendChild(link)
+      //       link.click()
+      //     }
+      //   })
     },
     loadNum () {
       const params = {

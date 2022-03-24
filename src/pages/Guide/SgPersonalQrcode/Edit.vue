@@ -27,20 +27,35 @@
               <el-form-grid size="small" :class="[bluePillar==='QA'?gridQA:gridChecks]" >
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.type" @change="checkChange()">
-                    <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
+                    <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName === '员工' && cloudPlatformType === 'kd' ? '成员' : typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="使用员工" required>
+            <el-form-item :label="cloudPlatformType === 'ecrp' ? '使用员工' : '使用成员'" required>
               <el-form-grid v-if="personalQrcode.type != 0">
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
               <el-form-grid v-if="personalQrcode.type === 0">
-                <NsGuideDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsGuideDialog>
+                <NsGuideDialog v-if="cloudPlatformType !== 'kd'" btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsGuideDialog>
+                <NsGuideWeChatDialog :selfBtn='true'
+                                    :appendToBody='true'
+                                    :isButton="false"
+                                    :auth="false"
+                                    type="primary"
+                                    btnTitle=""
+                                    dialogTitle="选择企业微信成员"
+                                    v-model="employeeSelectData"
+                                    v-else>
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                    +选择企业微信成员
+                    </div>
+                  </template>
+                </NsGuideWeChatDialog>
               </el-form-grid>
               <ElFormGrid v-if="personalQrcode.type === 0">
-                已选择<span class="text-primary">{{employeeSelectData.length}}</span>个员工
+                已选择<span class="text-primary">{{employeeSelectData.length}}</span>个{{cloudPlatformType ==='kd' ? '成员' : '员工'}}
               </ElFormGrid>
             </el-form-item>
             <ElFormItem :rules="rules">
@@ -84,6 +99,17 @@
                 </ElTable>
               </div>
             </ElFormItem>
+            <el-form-item label="好友验证" v-if="personalQrcode.type == 0">
+              <el-form-grid size="small">
+                <el-form-item prop="sex">
+                  <el-switch :active-value="1" :inactive-value="2" v-model="personalQrcode.isvalidate" />
+                </el-form-item>
+              </el-form-grid>
+              <div class="sub-title" style="color: #595959;">
+                <span class="yellow-point" style="background: #F2AA18;display: inline-block;height: 8px;width: 8px;border-radius: 50%;margin-right: 8px;"></span>
+                开启后，无需好友验证即可添加好友
+              </div>
+            </el-form-item>
             <el-form-item label="渠道设置：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <el-form-grid>
                 <el-select v-model="personalQrcode.channel_code" filterable placeholder="请选择">
@@ -244,6 +270,7 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import AddTagsDialog from './components/AddTagsDialog/index.vue'
 import PosterPreviewPanel from './components/PosterPreviewPanel'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 
 Edit.components = {
   index,
@@ -252,7 +279,8 @@ Edit.components = {
   NsGuideDialog,
   AddTagsDialog,
   PosterPreviewPanel,
-  DrapUpload
+  DrapUpload,
+  NsGuideWeChatDialog
 }
 export default Edit
 </script>
@@ -411,19 +439,19 @@ export default Edit
     border-radius: var(--default-radius-mini);
   }
   .el-radiobox .is-checked >>>  .el-radio__inner{
-  background-color:#41a2e8;
-  border-color:#41a2e8;
-}
+    background-color:#41a2e8;
+    border-color:#41a2e8;
+  }
   .el-radioboxQA .is-checked >>> .el-radio__inner{
-  background-color:#2153D4 ;
-  border-color:#2153D4 ;
-}
-.el-radiobox .is-checked >>> .el-radio__label{
-  color:#41a2e8;
-}
+    background-color:#2153D4 ;
+    border-color:#2153D4 ;
+  }
+  .el-radiobox .is-checked >>> .el-radio__label{
+    color:#41a2e8;
+  }
   .el-radioboxQA .is-checked >>> .el-radio__label{
-  color:#2153D4 ;
-}
+    color:#2153D4 ;
+  }
 
   @component-namespace code {
     @b container {

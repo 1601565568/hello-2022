@@ -61,7 +61,7 @@
                 <div class='auth-form_content'>
                   <template v-for='item in displayData'>
                     <!-- QA版本隐藏主体信息 -->
-                    <div class='auth-form_item' :key="item.key" v-if="item.key !== 'mainInformation' && $isQa">
+                    <div class='auth-form_item' :key="item.key" >
                       <div class='auth-form_name'>
                         {{item.name}}：
                       </div>

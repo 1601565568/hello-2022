@@ -12,7 +12,7 @@
           @initDate="setSearchDate"
           :defaultPickDay="7"
         />
-        <ns-button class="export-button" @click="exportFile">导出CSV文件</ns-button>
+        <ns-button class="export-button" @click="exportFile" id="exportButton">导出CSV文件</ns-button>
       </template>
       <div class="new-table channel-detail-table">
         <el-table

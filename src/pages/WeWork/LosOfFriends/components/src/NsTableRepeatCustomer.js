@@ -263,31 +263,23 @@ export default {
       maps.startTime = maps.startTime + ' 00:00:00'
       maps.endTime = maps.endTime + ' 23:59:59'
       const parms = {
+        ...maps,
         length: this.pageSize,
-        searchMap: maps,
-        start: (this.page - 1) * this.pageSize
+        start: (this.page - 1) * this.pageSize,
+        exportType: 18
       }
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkCustomer.exportLossFriendsList, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 150
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let fileName = '好友流失提醒' + this.model.startTime.replaceAll('-', '') + '-' + this.model.endTime.replaceAll('-', '') + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }
