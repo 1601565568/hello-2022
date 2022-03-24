@@ -59,6 +59,7 @@ export const submitPageDecorationDataFormat = (pageDecorationData) => {
     btnColor: pageDecorationData.getBtnColor,
     virtualFinishedCount: pageDecorationData.virtualFinishedCount
   }
+  console.log(MODULE_TO_INDEX_MAP.shareButton)
   pageDecoration[MODULE_TO_INDEX_MAP.shareButton].value = {
     color: pageDecorationData.shareBtnColor,
     name: pageDecorationData.shareBtnText

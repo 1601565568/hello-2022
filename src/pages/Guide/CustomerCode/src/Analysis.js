@@ -2,6 +2,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import backIcon from '../Images/icon-fanhuishangyiji.png'
 import { ANALYSIS_DATE, DEFAULT_DATA } from './const'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -22,10 +23,40 @@ export default {
       // 时间选择的值
       dateValue: 'all',
       dateValueList: [],
-      // 类型筛选
-      typeList: [
+      model: {
+        timeStart: ''
+      },
+      drawer: false,
+      analysisType: 'employee', // 报表类型
+      startTime: null,
+      endTime: null,
+      chooseMaster: {}, // 选中的推广大使
+      chooseFriend: {}, // 选中的邀请好友
+      showType: 'master', // 弹出框显示的内容
+      backIcon: backIcon,
+      totalData: DEFAULT_DATA
+    }
+  },
+  mixins: [tableMixin],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    // 邀请好友总数 tip展示
+    inviteFriendTip () {
+      const { distinctType, unfriendDeduction, validIntervalTimeOfStatistical, repeatParticipation } = this.totalData
+      return '1.通过此活动新增好友数总和。' + '<br />' +
+      '2.' + ANALYSIS_DATE(this.cloudPlatformType).DISTINC_TYPE[distinctType] + '<br />' +
+      '3.' + ANALYSIS_DATE(this.cloudPlatformType).UNFRIEND_DEDUCTION[unfriendDeduction] + '<br />' +
+      '4.' + ANALYSIS_DATE(this.cloudPlatformType).VALID_INTERVAL_TIME_OF_STATISTICAL(validIntervalTimeOfStatistical) + '<br />' +
+      '5.' + ANALYSIS_DATE(this.cloudPlatformType).REPEACT_PARTICIPATION[repeatParticipation]
+    },
+    typeList () {
+      const name = this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+      return [
         {
-          label: '参与活动员工总数',
+          label: `参与活动${name}总数`,
           value: 0,
           id: 'employee',
           key: 'employeeNumber'
@@ -34,7 +65,7 @@ export default {
           label: '裂变大师人数',
           value: 0,
           tip:
-            '筛选期间内，通过此活动成为裂变大师总人数（员工发送裂变大师活动后，好友分享活动生成海报后，即为裂变大师',
+            `筛选期间内，通过此活动成为裂变大师总人数（${name}发送裂变大师活动后，好友分享活动生成海报后，即为裂变大师`,
           id: 'master',
           key: 'promotionMasterNumber'
         },
@@ -58,31 +89,7 @@ export default {
           id: 'receive',
           key: 'awardNumber'
         }
-      ],
-      model: {
-        timeStart: ''
-      },
-      drawer: false,
-      analysisType: 'employee', // 报表类型
-      startTime: null,
-      endTime: null,
-      chooseMaster: {}, // 选中的推广大使
-      chooseFriend: {}, // 选中的邀请好友
-      showType: 'master', // 弹出框显示的内容
-      backIcon: backIcon,
-      totalData: DEFAULT_DATA
-    }
-  },
-  mixins: [tableMixin],
-  computed: {
-    // 邀请好友总数 tip展示
-    inviteFriendTip () {
-      const { distinctType, unfriendDeduction, validIntervalTimeOfStatistical, repeatParticipation } = this.totalData
-      return '1.通过此活动新增好友数总和。' + '<br />' +
-      '2.' + ANALYSIS_DATE.DISTINC_TYPE[distinctType] + '<br />' +
-      '3.' + ANALYSIS_DATE.UNFRIEND_DEDUCTION[unfriendDeduction] + '<br />' +
-      '4.' + ANALYSIS_DATE.VALID_INTERVAL_TIME_OF_STATISTICAL(validIntervalTimeOfStatistical) + '<br />' +
-      '5.' + ANALYSIS_DATE.REPEACT_PARTICIPATION[repeatParticipation]
+      ]
     }
   },
   methods: {

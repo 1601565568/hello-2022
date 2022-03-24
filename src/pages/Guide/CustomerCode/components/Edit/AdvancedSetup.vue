@@ -82,7 +82,7 @@
                   示例说明
                 </ns-button>
                 <template slot='content'>
-                  消费者张三通过裂变大师活动添加员工小A为好友并成功记录小A邀新好友+1，随后解除好友关系，原记录的邀新好友数会随之减去
+                  消费者张三通过裂变大师活动添加{{employeeEnv}}小A为好友并成功记录小A邀新好友+1，随后解除好友关系，原记录的邀新好友数会随之减去
                 </template>
               </el-tooltip>
             </div>
@@ -107,7 +107,7 @@
                   示例说明
                 </ns-button>
                 <template slot='content'>
-                  消费者张三通过裂变大师活动添加员工小A为好友后，需等待好友保持期结束才会记录小A要邀新好友数
+                  消费者张三通过裂变大师活动添加{{employeeEnv}}小A为好友后，需等待好友保持期结束才会记录小A要邀新好友数
                 </template>
               </el-tooltip>
             </div>
@@ -122,13 +122,13 @@
             <el-switch :disabled="isStating" v-model="model.repeatParticipation"  :active-value='0' :inactive-value='1'/>
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
-              关闭此功能后，单个活动内，不允许成为多位员工的裂变大师
+              关闭此功能后，单个活动内，不允许成为多位{{employeeEnv}}的裂变大师
               <el-tooltip  placement="top" popper-class='popperClass'>
                 <ns-button type='text' class='safe-btn'  :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                   示例说明
                 </ns-button>
                 <template slot='content'>
-                  单个活动内，好友李四分享员工小A的裂变大师活动后，不允许再分享员工小B的裂变大师活动
+                  单个活动内，好友李四分享{{employeeEnv}}小A的裂变大师活动后，不允许再分享{{employeeEnv}}小B的裂变大师活动
                 </template>
               </el-tooltip>
             </div>
@@ -143,7 +143,7 @@
         <template slot='label' class='larger-item_icon'>
           <span>
             分享二维码
-            <el-tooltip content="可前往“内容管理->红包工具->红包策略”添加“员工发放”的红包"  placement="top">
+            <el-tooltip :content="`可前往“内容管理->红包工具->红包策略”添加“${employeeEnv}发放”的红包`"  placement="top">
               <Icon type="question-circle" class='question-circle' /><br/>
             </el-tooltip>
             过期设置
@@ -210,6 +210,7 @@
 <script>
 import { STEP_LIST, DEFAULT_ADVANCEDSETUP_DATA, EDIT_DATA, GET_DEFAULT_TAGS_ITEM } from '../../src/const'
 import NsAddTagDialog from '@/components/NsAddTagDialog'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -285,6 +286,13 @@ export default {
       if (!this.NsAddTagDialogColumn) return ''
       const [ tags, tagKey, index ] = this.NsAddTagDialogColumn.split('.')
       return this.model[tags][tagKey][index].tag
+    },
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
     }
   },
   methods: {

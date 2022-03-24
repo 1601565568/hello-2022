@@ -3,14 +3,14 @@
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="所属员工：">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
-          </NsGuideDialog>
+          </GuideDialog>
         </el-form-item>
         <el-form-item label="活动码状态：" class='el-form__change'>
           <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({guestCodeStatus:value})}'>
@@ -144,7 +144,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import defaultIcon from '@/assets/defultheadPic.png'
 import moment from 'moment'
 export default {
@@ -197,7 +197,7 @@ export default {
       defaultIcon
     }
   },
-  components: { PageTable, NsGuideDialog },
+  components: { PageTable, GuideDialog },
   mixins: [tableMixin],
   props: ['startTime', 'endTime'],
   mounted () {

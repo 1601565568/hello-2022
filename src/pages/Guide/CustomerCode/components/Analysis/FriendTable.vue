@@ -3,14 +3,14 @@
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="添加员工：">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
                 {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
-          </NsGuideDialog>
+          </GuideDialog>
         </el-form-item>
         <el-form-item label="">
           <el-input v-model="seachVal" :placeholder="`请输入${holderName}`"  @keyup.enter.native="handleSearch" class='diff-input'>
@@ -183,7 +183,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import defaultIcon from '@/assets/defultheadPic.png'
 import moment from 'moment'
@@ -207,7 +207,7 @@ export default {
       defaultIcon
     }
   },
-  components: { PageTable, NsGuideDialog },
+  components: { PageTable, GuideDialog },
   computed: {
     holderName () {
       return ['', '好友昵称', '裂变大师'][this.searchType]
