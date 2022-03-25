@@ -14,6 +14,7 @@
       type="log"
       :reload="visible"
       :activityId="activityId"
+      :activityCode="activityCode"
     />
   </ElDrawer>
 </template>
@@ -32,7 +33,8 @@ export default {
       type: Boolean,
       default: false
     },
-    activityId: Number
+    activityId: Number,
+    activityCode: String
   },
   mounted () {
   },

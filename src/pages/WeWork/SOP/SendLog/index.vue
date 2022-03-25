@@ -42,7 +42,7 @@
       </el-form>
       <NsButton class="add-button"
                 size="large"
-                @click="exportFile">导出CSV文件</NsButton>
+                @click="exportFile" id="exportButton">导出文件</NsButton>
     </BaseContainer>
     <BaseContainer class="sendlog-table-container"
                    v-loading="loading">
@@ -172,7 +172,8 @@ export default {
             time > Date.now()
           )
         }
-      }
+      },
+      activeActivityCode: null
     }
   },
   mounted () {
@@ -192,9 +193,10 @@ export default {
     /**
      * 查看活动的群
      */
-    checkActivityGroup (id, index) {
+    checkActivityGroup (id, index, code) {
       this.activeIndex = index
       this.activeActivityId = id
+      this.activeActivityCode = code
       this.visibleGroupDrawer = true
     },
     /**
@@ -248,29 +250,25 @@ export default {
         this.$notify.error('当前没有匹配的数据项')
         return
       }
-
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.weWork.sop.getSendSucceedLog, {
+      const params = {
         code: this.model.code,
         name: this.model.name,
-        timeStart: `${this.searchDate[0]} 00:00:00`,
-        timeEnd: `${this.searchDate[1]} 23:59:59`
-      })
-        .then((resp) => {
-          let url = window.URL.createObjectURL(new Blob([resp.data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-
-          const fileName = decodeURIComponent(resp.headers['content-disposition'].split('=')[1])
-          link.setAttribute('download', fileName)
-
-          document.body.appendChild(link)
-          link.click()
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          this.$notify.error('导出报错，请联系管理员')
+        startTime: `${this.searchDate[0]} 00:00:00`,
+        endTime: `${this.searchDate[1]} 23:59:59`,
+        exportType: 3
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 40
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === this.activeIndex) {
