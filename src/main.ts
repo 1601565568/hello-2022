@@ -17,8 +17,7 @@ import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
-import { eventProxy, setDefaultParmas } from './track/logForClick'
-const appEnv = require('./track/appEnv')
+import { eventProxy } from './track/logForClick'
 LOG.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
@@ -35,11 +34,6 @@ eventProxy({
     excludes: ['input', 'textarea']
   }
 }, 500)
-
-setDefaultParmas({
-  appType: appEnv.getWebDev(),
-  appEnv: appEnv.getAppEnv()
-})
 
 if (window.g_config.sentry.report === true) {
   Vue.prototype.$sentry = Sentry
