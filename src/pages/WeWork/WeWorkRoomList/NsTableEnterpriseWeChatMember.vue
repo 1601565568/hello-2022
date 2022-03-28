@@ -156,17 +156,17 @@
             <el-table-column :show-overflow-tooltip="true" type="default" prop="member_wechat_no"
                              label="成员类型" :sortable="false" align="center">
               <template slot-scope="scope">
-                {{scope.row.member_type === 1 ? '企业成员' : scope.row.member_type === 2 ? '外部成员' : '-'}}
+                {{scope.row.member_type + '' === '1' ? '企业成员' : scope.row.member_type + '' === '2' ? '外部成员' : '-'}}
               </template>
             </el-table-column>
 
             <el-table-column :show-overflow-tooltip="true" type="default" prop="relationship"
                              label="是否好友" :sortable="false" width="80" align="center">
               <template slot-scope="scope">
-                <span v-if='scope.row.relationship === 1'>
+                <span v-if="scope.row.relationship + '' === '1'">
                   是
                 </span>
-                <span v-else-if='scope.row.relationship === 0'>
+                <span v-else-if="scope.row.relationship + '' === '0'">
                   否
                 </span>
                 <span v-else>
