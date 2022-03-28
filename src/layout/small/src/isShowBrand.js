@@ -25,7 +25,9 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/SocialOperation/CustomerCode/List',
     '/Social/SocialOperation/CustomerCode/Edit',
-    '/Social/SocialOperation/CustomerCode/Analysis'
+    '/Social/SocialOperation/CustomerCode/Analysis',
+    '/Social/WeComCustomerOperation/GroupData'
+
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
