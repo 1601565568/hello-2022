@@ -4,7 +4,21 @@ import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data: function () {
+    const operateButtons = [
+      {
+        func: function (obj) {
+          // console.log(this, 'this')
+          // this.$parent.$refs.detail.onOpenDetail(obj.row.sys_customer_id)
+          this.onUserDetail(obj.row)
+        },
+        // icon: '$.noop',
+        name: '详情',
+        auth: '',
+        visible: ''
+      }
+    ]
     return {
+      operateButtons: operateButtons,
       model: {
         customerNick: '',
         guideIds: [],

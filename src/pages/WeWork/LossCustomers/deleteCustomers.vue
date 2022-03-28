@@ -130,6 +130,13 @@
               {{scope.row.deleteTime || '-'}}
             </template>
           </el-table-column>
+          <el-table-column label="操作" align="center" width="100">
+            <template slot-scope="scope">
+              <ns-table-column-operate-button :buttons="operateButtons"
+                                              :prop="scope">
+              </ns-table-column-operate-button>
+            </template>
+          </el-table-column>
         </el-table>
       </template>
       <!-- 表格-结束 -->
