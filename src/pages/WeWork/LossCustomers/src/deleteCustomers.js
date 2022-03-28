@@ -18,6 +18,8 @@ export default {
       }
     ]
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       operateButtons: operateButtons,
       model: {
         customerNick: '',
@@ -86,6 +88,11 @@ export default {
         }
       }
       return url
+    },
+    // 查询外部联系人详情，根据shopId和unionId查询
+    onUserDetail (val) {
+      // console.log(val, '打开')
+      this.$refs.NsFriendDetail.showDetailDialog(val)
     }
   }
 }

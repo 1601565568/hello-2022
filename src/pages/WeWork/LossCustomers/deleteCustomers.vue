@@ -154,6 +154,7 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
@@ -161,9 +162,11 @@
 import deleteCustomers from './src/deleteCustomers'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ElAvatar from '@nascent/nui/lib/avatar'
+import NsFriendDetail from '@/components/NsFriendDetail'
 deleteCustomers.components = {
   NsGuideDialog,
-  ElAvatar
+  ElAvatar,
+  NsFriendDetail
 }
 export default deleteCustomers
 </script>
