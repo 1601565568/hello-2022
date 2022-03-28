@@ -50,6 +50,13 @@ export default {
     isOpenDialogAfterRequest: {
       type: Boolean,
       default: false
+    },
+    // ecrp是否显示区域切换
+    isShowView: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
     }
   },
   data: function () {
@@ -233,7 +240,7 @@ export default {
   },
   mounted: function () {
     vm = this
-    if (this.cloudPlatformType + '' === 'ecrp') {
+    if (this.cloudPlatformType + '' === 'ecrp' && this.isShowView) {
       this.findViewList()
     }
   },

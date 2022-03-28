@@ -154,7 +154,7 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
-    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType"/>
+    <NsFriendDetail ref="NsFriendDetail" :isShowView="false" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
