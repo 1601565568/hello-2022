@@ -46,7 +46,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="guideName" label="员工所属门店">
+          <el-table-column v-if='cloudPlatformType === "ecrp"' prop="guideName" label="员工所属门店">
             <template slot-scope="scope">
               <div class="scope-name">
                 <div :class="'scope-name_text'" >
@@ -127,6 +127,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {

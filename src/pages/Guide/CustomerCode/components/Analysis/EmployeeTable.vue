@@ -2,18 +2,18 @@
   <page-table :searchCol='24'>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-        <el-form-item label="所属员工：">
+        <el-form-item :label="`所属${employeeEnv}：`">
           <GuideDialog  :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="guideIds" @input="handleChangeGuide" :isOpenDialogAfterRequest='false'>
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员${employeeEnv}`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
           </GuideDialog>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="seachVal" placeholder="请输入员工姓名"  @keyup.enter.native="handleSearch">
+          <el-input v-model="seachVal" :placeholder="`请输入${employeeEnv}姓名`"  @keyup.enter.native="handleSearch">
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
           </el-input>
         </el-form-item>
@@ -33,7 +33,7 @@
           style="width: 100%">
           <el-table-column
             prop="employeeName"
-            label="员工姓名">
+            :label="`${employeeEnv}姓名`">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.employeeName|| '-'}}
@@ -41,6 +41,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="employeeNumber"
             label="工号">
             <template slot-scope="scope">
@@ -59,6 +60,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="loginAccount"
             label="线下门店">
             <template slot-scope="scope">
@@ -218,7 +220,7 @@ export default {
             } else {
               time = '全部'
             }
-            let fileName = '参与活动员工总数明细' + time + '.csv'
+            let fileName = `参与活动${this.employeeEnv}总数明细${time}.csv`
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
@@ -263,7 +265,7 @@ export default {
       if (type === 'prev') {
         if (this.activeIndex === 0) {
           if (page === 1) {
-            this.$notify.error('暂无上一个员工')
+            this.$notify.error(`暂无上一个${employeeEnv}`)
           } else {
             this._data._pagination.page = page - 1
             this.$queryList$(this.$generateParams$()).then(() => {
@@ -277,7 +279,7 @@ export default {
         }
       } else if (type === 'next') {
         if (((page - 1) * size + this.activeIndex + 1) >= total) {
-          this.$notify.error('暂无下一个员工')
+          this.$notify.error(`暂无下一个${employeeEnv}`)
         } else {
           if (this.activeIndex === size - 1) {
             this._data._pagination.page = page + 1

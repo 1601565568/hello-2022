@@ -26,6 +26,42 @@ export default {
       model: {
         timeStart: ''
       },
+      typeList: [
+        {
+          label: '参与活动员工总数',
+          value: 0,
+          id: 'employee',
+          key: 'employeeNumber'
+        },
+        {
+          label: '裂变大师人数',
+          value: 0,
+          tip:
+            '筛选期间内，通过此活动成为裂变大师总人数（员工发送裂变大师活动后，好友分享活动生成海报后，即为裂变大师',
+          id: 'master',
+          key: 'promotionMasterNumber'
+        },
+        {
+          label: '邀请好友总数',
+          value: 0,
+          tip:
+            '筛选期间内，通过此活动每个导购新增的好友数之和。注意：1、只有第一次添加导购企业微信才算邀请好友数；2、一个微信号添加了多个导购时，好友数为多个',
+          id: 'friend',
+          key: 'inviteFriendNumber'
+        },
+        {
+          label: '当前达标总人数',
+          value: 0,
+          id: 'prize',
+          key: 'reachStandardNumber'
+        },
+        {
+          label: '领奖记录',
+          value: 0,
+          id: 'receive',
+          key: 'awardNumber'
+        }
+      ],
       drawer: false,
       analysisType: 'employee', // 报表类型
       startTime: null,
@@ -51,8 +87,13 @@ export default {
       '3.' + ANALYSIS_DATE(this.cloudPlatformType).UNFRIEND_DEDUCTION[unfriendDeduction] + '<br />' +
       '4.' + ANALYSIS_DATE(this.cloudPlatformType).VALID_INTERVAL_TIME_OF_STATISTICAL(validIntervalTimeOfStatistical) + '<br />' +
       '5.' + ANALYSIS_DATE(this.cloudPlatformType).REPEACT_PARTICIPATION[repeatParticipation]
-    },
-    typeList () {
+    }
+  },
+  methods: {
+    /**
+     * 根据环境设置默认typeList
+     */
+    getDefaultTypeList () {
       const name = this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
       return [
         {
@@ -90,9 +131,7 @@ export default {
           key: 'awardNumber'
         }
       ]
-    }
-  },
-  methods: {
+    },
     // 获取列表统计
     getDataTotal () {
       const parmas = {
@@ -199,6 +238,7 @@ export default {
     }
   },
   mounted () {
+    this.typeList = this.getDefaultTypeList()
     this.getDataTotal()
   }
 }

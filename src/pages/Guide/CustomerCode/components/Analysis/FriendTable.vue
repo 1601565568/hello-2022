@@ -2,11 +2,11 @@
   <page-table>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="添加员工：">
-          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+        <el-form-item :label="`添加${employeeEnv}：`">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${employeeEnv}`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
@@ -50,7 +50,7 @@
           </el-table-column>
           <el-table-column
             prop="employeeName"
-            label="好友添加员工">
+            :label="`好友添加${employeeEnv}`">
             <template slot-scope="scope">
               <div class="scope-title_text" v-if="scope.row.addOfflineShops">
                 <div class="scope-name">
@@ -85,6 +85,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="employeeNumber"
             label="工号">
             <template slot-scope="scope">
@@ -107,7 +108,7 @@
           </el-table-column>
           <el-table-column
             prop="employeeName"
-            label="裂变大师所属员工">
+            :label="`裂变大师所属${employeeEnv}`">
             <template slot-scope="scope">
               <div class="scope-title_text" v-if="scope.row.offlineShops">
                 <div class="scope-name">
@@ -145,6 +146,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="employeeNumber"
             label="工号">
             <template slot-scope="scope">
@@ -186,6 +188,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import defaultIcon from '@/assets/defultheadPic.png'
+import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
   data () {
@@ -211,6 +214,13 @@ export default {
   computed: {
     holderName () {
       return ['', '好友昵称', '裂变大师'][this.searchType]
+    },
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
     }
   },
   props: ['startTime', 'endTime'],
