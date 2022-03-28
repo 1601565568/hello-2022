@@ -22,7 +22,7 @@
             :length="20"
           />
         </el-form-item>
-        <el-form-item label="参加活动人员" prop="guideIds">
+        <el-form-item :label="guideNamesEnv" prop="guideIds">
           <html-area>
             <div class="employee-list">
               <template v-if="model.guideDatas.length > 0">
@@ -50,30 +50,31 @@
             </div>
             <template slot="suffix">
               <div class="employee-suffix">
-                <NsGuideDialog
+                <GuideDialog
                   :selfBtn="true"
                   :appendToBody="true"
                   :isButton="false"
                   :validNull="true"
                   :auth="false"
-                  :isOpenDialogAfterRequest='true'
+                  :isOpenDialogAfterRequest='false'
                   btnTitle=""
                   type="text"
                   dialogTitle="选择员工"
                   v-model="model.guideIds"
                   @inputAllData="handleChangeGuide"
+                  @input="handleChangeGuide"
                 >
                   <template slot="selfBtn">
-                    <Icon type="geren"></Icon>
-                  </template>
-                </NsGuideDialog>
+                      <Icon type="geren"></Icon>
+                    </template>
+                </GuideDialog>
               </div>
             </template>
           </html-area>
           <div class="flex-box form-item_toptext">
             <div class="qrcode-bottom-view">
               <span class="remind-view"></span>
-              选择的员工可以在企微侧边栏使用该裂变大师活动
+              {{guideTipEnv}}
             </div>
             <span class="form-item_toptext__length"
               >已选<span :class="[btnNext==='QA'?numberQA:number]">{{ model.guideIds.length }}</span
@@ -141,10 +142,11 @@
 import Box from '@/components/NewUi/Box'
 import LengthInput from '@/components/NewUi/LengthInput'
 import HtmlArea from '@/components/NewUi/HtmlArea'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import moment from 'moment'
+import { mapState } from 'vuex'
 import { DEFAULT_BASEINFO_DATA, STEP_LIST, GUIDE_MAX } from '../../src/const'
 import validates from '../../src/validates'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 export default {
   data () {
     const validTimeEndFunc = (rule, value, callback) => {
@@ -164,8 +166,8 @@ export default {
           { validator: validates.validateName, trigger: ['blur', 'change'] }
         ],
         guideIds: [
-          { required: true, message: '请选择参加活动人员', trigger: ['blur', 'change'] },
-          { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
+          { required: true, message: `请选择`, trigger: ['blur', 'change'] },
+          { validator: validates.validateGuideIds, message: `请选择`, trigger: ['blur', 'change'] }
         ],
         validTimeStart: [
           { required: true, message: '请选择开始日期', trigger: ['blur', 'change'] }
@@ -189,8 +191,20 @@ export default {
     }
   },
   props: ['data', 'isStating'],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    guideNamesEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与活动成员'
+    },
+    guideTipEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '请选择可以在企微侧边栏使用该活动裂变大师的员工' : '选择的成员可以在企微侧边栏发送该裂变大师活动'
+    }
+  },
   components: {
-    Box, LengthInput, HtmlArea, NsGuideDialog
+    Box, LengthInput, HtmlArea, GuideDialog
   },
   methods: {
     handleChangeGuide (value) {
@@ -257,6 +271,10 @@ export default {
   },
   mounted () {
     this.model = { ...this.data }
+    this.rules.guideIds = [
+      { required: true, message: `请选择${this.guideNamesEnv}`, trigger: ['blur', 'change'] },
+      { validator: validates.validateGuideIds, message: `请选择${this.guideNamesEnv}`, trigger: ['blur', 'change'] }
+    ]
   }
 }
 </script>

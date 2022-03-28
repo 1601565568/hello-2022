@@ -42,7 +42,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="friendName"
-                  label="添加员工">
+                  :label="`添加${employeeEnv}`">
                   <template slot-scope="scope">
                     <div class="scope-title">
                       <div class="scope-title_text">
@@ -107,6 +107,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import defaultIcon from '@/assets/defultheadPic.png'
+import { mapState } from 'vuex'
 const originModel = {
   friendName: null,
   guideId: null,
@@ -133,8 +134,15 @@ export default {
   components: { PageTable },
   mixins: [tableMixin],
   computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    },
     nextName () {
-      return this.chooseFriend && this.chooseFriend.nextName ? this.chooseFriend.nextName : '员工'
+      return this.chooseFriend && this.chooseFriend.nextName ? this.chooseFriend.nextName : this.employeeEnv
     }
   },
   props: {

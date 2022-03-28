@@ -38,7 +38,7 @@
               </div>
               <!-- 配色方案 end-->
               <template v-for='item in model.eidtList'>
-                <div :key='item.itemCode' class='itemCode'>
+                <div v-if='!item.isHide' :key='item.itemCode' class='itemCode'>
                   <div class="edit-view" :class="[btnNext==='QA'? stateQA : stateIcon]" @click="onShowEdit(item.itemCode,item.status)">
                     <div >{{ item.itemName }}</div>
                     <!-- 时间类型为所有时间，按钮禁用 start-->
@@ -189,7 +189,7 @@
                     </div>
                     <!-- 活动规则 end-->
                     <!-- 注册会员 start-->
-                    <div v-if='item.itemCode === "memberRegister"' class='colle-container'>
+                    <div v-if='item.itemCode === "memberRegister" && memberRegisterenv' class='colle-container'>
                       <el-form-item prop='bannerUrl'>
                         <div class='updata-box' :class="[btnNext==='QA'? updataQA : updata]">
                           <SimpleUpload :maxSize="2" v-model='model.regUrl' :drag='false' />
@@ -246,6 +246,7 @@ import ActivePhone from '../ActivePhone'
 import TagArea from '@/components/NewUi/TagArea'
 import LengthInput from '@/components/NewUi/LengthInput'
 import SimpleUpload from '@/components/NewUi/SimpleUpload'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -283,6 +284,15 @@ export default {
     }
   },
   props: ['data', 'isStating', 'validTimeType', 'ladderRewardList'],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
+      memberRegisterenv () {
+        return !!this.cloudPlatformType === 'ecrp'
+      }
+    })
+  },
   components: {
     Box, ActivePhone, ColorView, ElColorPicker, TagArea, LengthInput, SimpleUpload
   },
