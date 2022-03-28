@@ -160,13 +160,13 @@
               </template>
             </el-table-column>
 
-            <el-table-column :show-overflow-tooltip="true" type="default" prop="owner_bind"
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="relationship"
                              label="是否好友" :sortable="false" width="80" align="center">
               <template slot-scope="scope">
-                <span v-if='scope.row.owner_bind === 1'>
+                <span v-if='scope.row.relationship === 1'>
                   是
                 </span>
-                <span v-else-if='scope.row.owner_bind === 0'>
+                <span v-else-if='scope.row.relationship === 0'>
                   否
                 </span>
                 <span v-else>
