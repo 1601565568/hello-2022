@@ -93,6 +93,10 @@ export default {
     onUserDetail (val) {
       // console.log(val, '打开')
       this.$refs.NsFriendDetail.showDetailDialog(val)
+    },
+    // 处理选择员工组件传值
+    owenerChange (val) {
+      this.model.guideIds = val.map(el => +el)
     }
   }
 }
