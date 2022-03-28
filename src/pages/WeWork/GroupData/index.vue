@@ -329,6 +329,7 @@ export default {
       chatRoomOwner: [],
       chatOwnerName: '不限', // 群主名字
       guideIds: [], // 群主id
+      guideIdStr: '', // 群主id字符串版
       actionValue: '',
       today: '',
       last7: '',
@@ -433,7 +434,7 @@ export default {
       const parms = {
         chatRoomId: '',
         endTime: this.endTime,
-        guideIds: this.guideIds,
+        guideIds: this.guideIdStr,
         // owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
         startTime: this.startTime,
         exportType: 21
@@ -453,6 +454,7 @@ export default {
     },
     owenerChange (val) {
       this.guideIds = val.map(el => +el)
+      this.guideIdStr = this.guideIds.join(',')
       this.initPageData()
       this.loadChatList()
       // if (this.checkId === 1) {
@@ -554,7 +556,7 @@ export default {
         searchMap: {
           chatRoomId: '',
           endTime: this.endTime,
-          guideIds: this.guideIds,
+          guideIds: this.guideIdStr,
           startTime: this.startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
@@ -589,7 +591,7 @@ export default {
         searchMap: {
           chatRoomId: '',
           endTime: this.endTime,
-          guideIds: this.guideIds,
+          guideIds: this.guideIdStr,
           startTime: this.startTime
         },
         start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -701,7 +703,7 @@ export default {
       const parms = {
         chatRoomId: '',
         endTime: this.endTime,
-        guideIds: this.guideIds,
+        guideIds: this.guideIdStr,
         startTime: this.startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.analysis_list, parms).then(res => {
