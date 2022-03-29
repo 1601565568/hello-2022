@@ -26,7 +26,9 @@ export default ($route) => {
     '/Social/SocialOperation/CustomerCode/List',
     '/Social/SocialOperation/CustomerCode/Edit',
     '/Social/SocialOperation/CustomerCode/Analysis',
-    '/Social/WeComCustomerOperation/GroupData'
+    '/Social/WeComCustomerOperation/GroupData',
+    '/Social/WeComCustomerOperation/DeleteCustomers',
+    '/Social/WeComCustomerOperation/BeDeleteCustomers'
 
   ]
 
