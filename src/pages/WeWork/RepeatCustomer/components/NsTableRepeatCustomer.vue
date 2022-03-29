@@ -6,116 +6,78 @@
  * @LastEditTime: 2021-08-17 16:43:50
  -->
 <template>
-  <ns-page-table ref="mainTable"
-    ><!-- :colButton="10" -->
-
-    <!-- 简单搜索 -->
-    <!-- el-form 需添加 @submit.native.prevent 配置 -->
-    <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
-    <template slot="searchSearch">
-      <el-form
-        @submit.native.prevent
-        :model="quickSearchModel"
-        class="pull-right"
-        :inline="true"
-      >
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input
-            ref="quickText"
-            v-model="model.name"
-            placeholder="请输入昵称"
-            style="width: 180px"
-            clearable
-          />
-          <!--  -->
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn"
-            >搜索</ns-button
-          >
-          <ns-button @click="$resetInputAction$();" class="resetbtn"
-            >重置</ns-button
-          >
+  <page-table ref="mainTable" :searchCol="24">
+    <template slot='search'>
+      <el-form :inline="true" :model="model" class='form-inline_top'>
+        <el-form-item label="参与员工：">
+          <NsGuideDialog v-if="cloudPlatformType === 'ecrp'"
+            :validNull="true"
+            :guideUrl="this.$api.core.sysUser.queryGuidePageByUserId"
+            :guideFindUrl="this.$api.core.sysUser.guideFindUrl"
+            :selfBtn='true'
+            :appendToBody='true'
+            :isButton="false"
+            :auth="true"
+            type="primary"
+            btnTitle=""
+            dialogTitle="选择员工"
+            v-model="model.userIds"
+            @input="handleChangeGuide"
+            :isOpenDialogAfterRequest='true'>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.userIds&&model.userIds.length)?`已选择${model.userIds.length}个员工`:'全部'}}
+                <Icon type="geren" class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideDialog>
+          <NsGuideWeChatDialog
+            :selfBtn='true'
+            :isButton="false"
+            :auth="true"
+            :appendToBody="true"
+            :switchAreaFlag="1"
+            type="primary"
+            btnTitle=""
+            dialogTitle="选择成员"
+            v-model="model.userIds"
+            @input="handleChangeGuide"
+            v-else>
+            <template slot='selfBtn'>
+              <div class='self-btn'>
+                {{(model.userIds&&model.userIds.length)?`已选择${model.userIds.length}个成员`:'全部'}}
+                <Icon type="geren" class='guideIds-icon'></Icon>
+              </div>
+            </template>
+          </NsGuideWeChatDialog>
         </el-form-item>
-        <el-form-item>
-          <ns-button type="text" @click.native.prevent="$handleTabClick">
-            {{ collapseText }}
-            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'" />
-          </ns-button>
+        <el-form-item label="">
+          <el-input v-model="model.name" :placeholder="cloudPlatformType === 'ecrp' ? '请输入昵称/备注名' : '请输入姓名/备注名'"  @keyup.enter.native="handleSearch">
+            <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="首次添加时间：" class='el-form__change'>
+          <el-date-picker
+            v-model="model.timeRange"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            @change="changeTime"
+            align="right">
+          </el-date-picker>
         </el-form-item>
       </el-form>
     </template>
-
-    <!-- 高级搜索 -->
-    <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
-    <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-    <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form
-        ref="table_filter_form"
-        :model="model"
-        label-width="60px"
-        :inline="true"
-        @submit.native.prevent
-      >
-        <el-form-item label="昵称：">
-          <el-form-grid>
-            <el-input
-              autofocus="true"
-              v-model.trim="model.name"
-              placeholder="请输入昵称"
-              clearable
-            ></el-input>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="选择员工：">
-          <div class="template-search__box">
-            <span v-if="model.userIds && model.userIds.length>0">
-                已选择{{model.userIds.length}}个
-            </span>
-            <span v-else>全部</span>
-            <div style="float: right;">
-              <NsGuideDialog
-                :isButton="false"
-                :validNull="true"
-                :guideUrl="this.$api.core.sysUser.queryGuidePageByUserId"
-                :guideFindUrl="this.$api.core.sysUser.guideFindUrl"
-                :auth="false"
-                type="primary"
-                btnTitle="选择"
-                dialogTitle="选择员工"
-                v-model="model.userIds"
-              ></NsGuideDialog>
-            </div>
-          </div>
-        </el-form-item>
-        <el-form-item label="首次添加时间：" label-width="100px">
-          <el-form-grid size="xlg">
-            <el-date-picker
-              v-model="model.timeRange"
-              type="datetimerange"
-              range-separator="至"
-              start-placeholder="请选择开始日期"
-              end-placeholder="请选择结束日期"
-              :default-time="['00:00:00','23:59:59']"
-              @change="changeTime"
-              align="right"><!-- value-format="yyyy-MM-dd HH-mm-ss" :default-time="['00:00:00', '23:59:59']" -->
-            </el-date-picker>
-          </el-form-grid>
-        </el-form-item>
-      </el-form>
-      <div class="template-table__more-btn">
-        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{
-          $t("operating.search")
-        }}</ns-button>
-        <ns-button @click.native.prevent="$resetInputAction$()">{{
-          $t("operating.reset")
-        }}</ns-button>
-      </div>
-    </template>
+    <!-- :colButton="10" -->
 
     <template slot="table">
       <el-table
         ref="table"
         :data="_data._table.data"
-        stripe
+        class="new-table_border"
         v-loading.lock="_data._table.loadingtable"
         :element-loading-text="$t('prompt.loading')"
         @sort-change="onSortChange"
@@ -130,9 +92,10 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" align="center">
+        <el-table-column :show-overflow-tooltip="true" :label="cloudPlatformType === 'ecrp' ? '昵称/备注名' : '姓名/备注名'" align="center">
           <template slot-scope="scope">
-            {{ scope.row.name }}
+            <ns-wechat-emoji :data="scope.row.name ? scope.row.name : '-'"></ns-wechat-emoji>
+            <ns-wechat-emoji :data="scope.row.remark ? '/' + scope.row.remark : ''"></ns-wechat-emoji>
           </template>
         </el-table-column>
         <el-table-column label="性别" align="center">
@@ -140,12 +103,12 @@
             {{ scope.row.gender === 1 ? '男' : scope.row.gender === 2 ? '女' : '未知' }}
           </template>
         </el-table-column>
-        <el-table-column label="所属员工" align="center">
+        <el-table-column :show-overflow-tooltip="true" label="所属员工" align="center">
           <template slot-scope="scope">
             {{scope.row.COUNT}}人
           </template>
         </el-table-column>
-        <el-table-column label="首次添加时间" align="center">
+        <el-table-column :show-overflow-tooltip="true" label="首次添加时间" align="center">
           <template slot-scope="scope">
             {{scope.row.add_time}}
           </template>
@@ -186,19 +149,26 @@
       >
       </el-pagination>
     </template>
-  </ns-page-table>
+  </page-table>
 </template>
 
 <script>
 import NsTableRepeatCustomer from './src/NsTableRepeatCustomer.js'
+import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
 NsTableRepeatCustomer.components = {
-  NsGuideDialog
+  PageTable,
+  NsGuideDialog,
+  NsWechatEmoji,
+  NsGuideWeChatDialog
 }
 export default NsTableRepeatCustomer
 </script>
 <style scoped>
 @import "@theme/variables.pcss";
+@import "./styles/reset.css";
 
 .scope_row_count {
   color: blue;
@@ -266,4 +236,24 @@ export default NsTableRepeatCustomer
 .template-search__box > div + span {
   margin-left: var(--default-margin-small);
 }
+</style>
+<style lang="scss" scoped>
+  ::v-deep .el-input .el-input__suffix-inner svg{
+    padding: 2px;
+  }
+  .search-icon {
+    font-size: 22px;
+    margin-top: 2px;
+  }
+  .self-btn {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
+  }
 </style>

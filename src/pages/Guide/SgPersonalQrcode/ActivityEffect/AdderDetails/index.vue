@@ -3,8 +3,8 @@
     <div class="adder-tool-bar">
       <div class='flex-box'>
         <div class="adder-owners">
-          <span class="owners-label">所属员工：</span>
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+          <span class="owners-label">{{cloudPlatformType === 'ecrp' ? '所属员工：' : '企业微信成员：'}}</span>
+          <NsGuideDialog v-if="cloudPlatformType === 'ecrp'" :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
             <template slot='selfBtn'>
               <div class="owners-select">
                 <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
@@ -12,14 +12,46 @@
               </div>
             </template>
           </NsGuideDialog>
+          <NsGuideWeChatDialog :selfBtn='true'
+                                :appendToBody='true'
+                                :isButton="false"
+                                :auth="false"
+                                type="primary"
+                                btnTitle=""
+                                dialogTitle="选择企业微信成员"
+                                v-model="model.guideIds"
+                                @input="searchform"
+                                v-else>
+              <template slot='selfBtn'>
+                <div class='owners-select'>
+                  <span>{{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}</span>
+                  <Icon type="geren" class='select-icon'></Icon>
+                </div>
+              </template>
+            </NsGuideWeChatDialog>
         </div>
-        <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+        <el-input v-model="model.employeeName" :placeholder="cloudPlatformType === 'ecrp' ? '请输入员工姓名' : '请输入成员姓名'" @keyup.enter.native="searchform">
           <Icon type="ns-search" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
         </el-input>
+        <div class="adder-date">
+          <span>添加时间：</span>
+          <el-date-picker
+            v-model="seachDate"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            align="right"
+            style="border: none"
+          >
+          </el-date-picker>
+        </div>
       </div>
       <div>
         <ns-button size="medium" type='primary' class="export-cvs-btn-left" @click='handleMarking'>批量打标</ns-button>
-        <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+        <ns-button size="medium" class="export-cvs-btn" @click="exportFile" id="exportButtonSmall">导出文件</ns-button>
       </div>
     </div>
     <div class="adder-detail-table">
@@ -48,11 +80,12 @@
         </el-table-column>
         <el-table-column
           prop="employeeName"
-          label="员工">
+          :label="cloudPlatformType === 'ecrp' ? '员工' : '成员'">
         </el-table-column>
         <el-table-column
           prop="employeeNumber"
-          label="工号">
+          label="工号"
+          v-if="cloudPlatformType === 'ecrp'">
           <template slot-scope="scope">
             {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
           </template>
@@ -105,16 +138,20 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import MarkingDialog from '@/components/NewUi/MarkingDialog'
 import { getErrorMsg } from '@/utils/toast'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 /**
  * 添加明细
  */
 export default {
   components: {
-    NsGuideDialog, MarkingDialog
+    NsGuideDialog,
+    MarkingDialog,
+    NsGuideWeChatDialog
   },
   mixins: [tableMixin],
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       url: this.$api.guide.sgPersonalQrcode.getQrCodeInviteFriendDetailList,
       seachVal: '',
       checkedCustomerList: [],
@@ -123,8 +160,11 @@ export default {
         guid: this.$route.params.guid,
         guideIds: [],
         employeeName: '',
-        createTimeOrderStr: 'desc'
-      }
+        createTimeOrderStr: 'desc',
+        startTime: '',
+        endTime: ''
+      },
+      seachDate: []
     }
   },
   mounted () {
@@ -187,24 +227,36 @@ export default {
 
       let param = this.$generateParams$()
       param.searchMap.type = 2
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
+      const searchMap = param.searchMap || {}
+      const params = {
+        ...searchMap,
+        exportType: 23,
+        name: this.$route.params.name
+      }
+      const elem = document.getElementById('exportButtonSmall')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    }
+  },
+  watch: {
+    seachDate (val) {
+      if (val) {
+        this.model.startTime = val[0]
+        this.model.endTime = val[1]
+      } else {
+        this.model.startTime = ''
+        this.model.endTime = ''
+      }
+      this.searchform()
     }
   }
 }
@@ -271,6 +323,20 @@ export default {
     }
     .export-cvs-btn {
       margin-right: 16px
+    }
+    .adder-date{
+      height: 32px;
+      width: 450px;
+      border: 1px solid #D9D9D9;
+      border-radius: 4px;
+      margin: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span{
+        width: 80px;
+        margin: 0 8px;
+      }
     }
   }
 

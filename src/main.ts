@@ -17,8 +17,8 @@ import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
-const appTrack = require('./track/appTrack.js')
-appTrack.init({
+import { eventProxy } from './track/logForClick'
+LOG.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
   spmId: window.g_config.spmId,
@@ -27,6 +27,13 @@ appTrack.init({
   startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
   userInfo: store.state.user
 })
+
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
 
 if (window.g_config.sentry.report === true) {
   Vue.prototype.$sentry = Sentry

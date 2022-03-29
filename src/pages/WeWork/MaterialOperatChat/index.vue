@@ -47,8 +47,8 @@
               </el-date-picker>
             </div>
           </div>
-          <div class="drawer-output" @click="outputClick">
-            导出CSV文件
+          <div class="drawer-output" @click="outputClick" id="exportButton">
+            导出文件
           </div>
         </div>
         <div class="title">数据分析</div>
@@ -506,33 +506,21 @@ export default {
     outputClick () {
       const parms = {
         endTime: this.endTime + ' 23:59:59',
-        startTime: this.startTime + ' 00:00:00'
+        startTime: this.startTime + ' 00:00:00',
+        exportType: 6
       }
-      const csvStartTime = this.startTime.replace(/-/g, '')
-      const csvEndTime = this.endTime.replace(/-/g, '')
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportOperateExcelByComplete, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName =
-              '附码素材运营统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'

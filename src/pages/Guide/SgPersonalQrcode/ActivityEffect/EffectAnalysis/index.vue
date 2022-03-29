@@ -6,8 +6,8 @@
       </div>
       <div class="data-statistics-content">
         <DataCard
-          title="参与员工总数"
-          tip="此聚合码的所有员工"
+          :title="cloudPlatformType === 'ecrp' ? '参与员工总数' : '参与成员总数'"
+          :tip="cloudPlatformType === 'ecrp' ? '此聚合码的所有员工' : '此聚合码的所有成员'"
           :count="dataStatistics.employeeSum"
           color="linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%)"
         />
@@ -27,11 +27,11 @@
     </div>
     <div class="employee-details">
       <div class="box-header">
-        <h3>员工明细</h3>
+        <h3>{{cloudPlatformType === 'ecrp' ? '员工明细' : '成员明细'}}</h3>
         <div class="adder-tool-bar">
           <div class="adder-owners">
-            <span class="owners-label">所属员工：</span>
-            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+            <span class="owners-label">{{cloudPlatformType === 'ecrp' ? '所属员工：' : '企业微信成员：'}}</span>
+            <NsGuideDialog v-if="cloudPlatformType === 'ecrp'" :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
               <template slot='selfBtn'>
                 <div class="owners-select">
                   <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
@@ -39,11 +39,28 @@
                 </div>
               </template>
             </NsGuideDialog>
+            <NsGuideWeChatDialog :selfBtn='true'
+                                :appendToBody='true'
+                                :isButton="false"
+                                :auth="false"
+                                type="primary"
+                                btnTitle=""
+                                dialogTitle="选择企业微信成员"
+                                v-model="model.guideIds"
+                                @input="searchform"
+                                v-else>
+              <template slot='selfBtn'>
+                <div class='owners-select'>
+                  <span>{{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}</span>
+                  <Icon type="geren" class='select-icon'></Icon>
+                </div>
+              </template>
+            </NsGuideWeChatDialog>
           </div>
-          <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+          <el-input v-model="model.employeeName" :placeholder="cloudPlatformType === 'ecrp' ? '请输入员工姓名' : '请输入成员姓名'" @keyup.enter.native="searchform">
             <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
           </el-input>
-          <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
+          <ns-button size="medium" class="export-cvs-btn" @click="exportFile" id="exportButton">导出文件</ns-button>
         </div>
       </div>
       <div class="employee-table">
@@ -57,11 +74,12 @@
         >
           <el-table-column
             prop="employeeName"
-            label="员工姓名">
+            :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
           </el-table-column>
           <el-table-column
             prop="employeeNumber"
-            label="工号">
+            label="工号"
+            v-if="cloudPlatformType === 'ecrp'">
             <template slot-scope="scope">
               {{ scope.row.employeeNumber ? scope.row.employeeNumber : '-' }}
             </template>
@@ -76,7 +94,8 @@
           <el-table-column
             prop="offlineShops"
             label="工作门店"
-            width="316">
+            width="316"
+            v-if="cloudPlatformType === 'ecrp'">
             <template slot-scope="scope">
               <div class="offline-shop-content">
                 <span class="scope-store-text">
@@ -129,6 +148,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import DataCard from './DataCard'
 import common from '../../../../../apis/core/common'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 
 /**
  * 效果分析页面
@@ -136,7 +156,8 @@ import common from '../../../../../apis/core/common'
 export default {
   components: {
     NsGuideDialog,
-    DataCard
+    DataCard,
+    NsGuideWeChatDialog
   },
   mixins: [tableMixin],
   props: [ 'searchDate' ],
@@ -156,6 +177,7 @@ export default {
   },
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       url: this.$api.guide.sgPersonalQrcode.getQrCodeEffectList,
       dataStatistics: {
         employeeSum: '-',
@@ -218,24 +240,24 @@ export default {
 
       let param = this.$generateParams$()
       param.searchMap.type = 1
-      this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
-        .then((resp) => {
-          this.$notify.success('下载完成')
-        }).catch((resp) => {
-          if (!resp.size === 0) {
-            this.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            const fileName = `${this.$route.params.name || ''}-添加导购统计.CSV`
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
+      const searchMap = param.searchMap || {}
+      const params = {
+        ...searchMap,
+        exportType: 22,
+        name: this.$route.params.name
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   }
 }
