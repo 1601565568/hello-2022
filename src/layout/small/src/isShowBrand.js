@@ -21,7 +21,8 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/ExternalContactList',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
-    '/Social/WeComCustomerOperation/DeleteCustomers'
+    '/Social/WeComCustomerOperation/DeleteCustomers',
+    '/Social/WeComCustomerOperation/BeDeleteCustomers'
 
   ]
 
