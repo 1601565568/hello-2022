@@ -57,6 +57,12 @@
             class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
+    <div class="add-material-item"
+         @click="visibleCostomCodeDialog = true">
+      <Icon type="poster-1"
+            class="icon" />
+      <span class="item-tip">裂变大师</span>
+    </div>
     <!-- 链接消息 -->
     <LinkMessageDialog
       :content="linkMsg ? linkMsg.content : null"
@@ -78,6 +84,12 @@
                          :content="posterMsg ? posterMsg.content : null"
                          :visible.sync="visiblePosterMessageDialog"
                          @update:visible="posterMsg = null" />
+    <!-- 二维码海报 -->
+    <PosterMessageDialog @confirm="addMessage"
+                         :content="posterMsg ? posterMsg.content : null"
+                         :visible.sync="visiblePosterMessageDialog"
+                         @update:visible="posterMsg = null" />
+    <CostomCodeDialog :visible.sync="visibleCostomCodeDialog" />
     <!-- 自建坑位消息 -->
     <PitbitMessageDialog ref='pitbit'
                          @confirm="addMessage"
@@ -98,6 +110,7 @@ import LinkMessageDialog from './LinkMessageDialog'
 import MiniProgramMessageDialog from './MiniProgramMessageDialog'
 import PosterMessageDialog from './PosterMessageDialog'
 import PitbitMessageDialog from './PitbitMessageDialog'
+import CostomCodeDialog from './CostomCodeDialog'
 import ImageCode from './ImageCode'
 export default {
   components: {
@@ -107,7 +120,8 @@ export default {
     MiniProgramMessageDialog,
     PosterMessageDialog,
     PitbitMessageDialog,
-    ImageCode
+    ImageCode,
+    CostomCodeDialog
   },
   props: {
     pitBit: {
@@ -156,6 +170,7 @@ export default {
       pitbitMsg: null,
       imageCodeMsg: null,
       visibleImageCodeDialog: false,
+      visibleCostomCodeDialog: false,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
 
     }
