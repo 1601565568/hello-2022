@@ -15,11 +15,16 @@ export default ($route) => {
     '/Social/SocialOperation/RedPacket/Analysis',
     '/Social/SocialOperation/RedPacket/ReceiveRecord',
     '/Social/SocialOperation/RedPacket/SendRecord',
+    '/Guide/SgPersonalQrcode/List',
     '/Guide/chanel/chanel',
     '/Social/WeComCustomerOperation/LosOfFriends',
     '/Social/SocialOperation/CustomerCode/List',
     '/Social/SocialOperation/CustomerCode/Edit',
-    '/Social/SocialOperation/CustomerCode/Analysis'
+    '/Social/SocialOperation/CustomerCode/Analysis',
+    '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/FriendsAnalysis',
+    '/Social/WeComCustomerOperation/RepeatCustomer'
+
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1

@@ -9,7 +9,7 @@
         <span>发送结果</span>
         <span>{{successTotal}}/{{_data._pagination.total}}个群</span>
       </div>
-      <NsButton class="export-button" size="medium" @click="exportFile">导出CSV文件</NsButton>
+      <NsButton class="export-button" size="medium" @click="exportFile">导出文件</NsButton>
     </div>
     <div class="new-table group-table">
       <el-table
@@ -88,7 +88,8 @@ export default {
       }
     },
     activityId: Number,
-    reload: Boolean
+    reload: Boolean,
+    activityCode: String
   },
   watch: {
     reload (newVal, oldVal) {

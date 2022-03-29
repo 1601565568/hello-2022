@@ -2,8 +2,12 @@
   <div class="remind-view" v-if="isShow">
     <div class="msg-view">
       <div class="msg">
-        <img src="./image/remidMsg.gif" style="width:20px;height:20px;margin-right:5px">
-        <span>转移会员以任务形式进行，需要一段时间处理</span>
+        <div class="lf">
+          <i class="iconfont icon-ns-info-cricle"></i>
+        <!-- <img src="./image/remidMsg.gif" style="width:20px;height:20px;margin-right:5px"> -->
+        <span>转移会员以任务形式进行，需要一段时间处理...</span>
+        </div>
+        <i class="iconfont icon-ns-close" @click="close"></i>
       </div>
     </div>
   </div>
@@ -23,6 +27,9 @@ export default {
       setTimeout(() => {
         this.isShow = false
       }, 3000)
+    },
+    close () {
+      this.isShow = false
     }
   }
 }
@@ -44,10 +51,12 @@ export default {
 }
 .msg {
   position: absolute;
-  top: 30px;
-  left: 40%;
-  padding: 16px;
-  background: #FFFFFF;
+  top: 16px;
+  right: 16px;
+  width: 382px;
+  height: 40px;
+  padding: 0 16px;
+  background: #FFF4E6;
   box-shadow: 0 0 16px 0 rgba(0,0,0,0.04);
   border-radius: 2px;
   font-size: 16px;
@@ -55,7 +64,17 @@ export default {
   line-height: 24px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  span{
+    font-size: 14px;
+    color: rgba(0,0,0,0.85);
+  }
+  .lf{
+    i{
+      color: #FA8500;
+      margin-right: 8px;
+    }
+  }
 }
 </style>

@@ -51,6 +51,13 @@ export default {
               this.isSaasAccount = infoData.work_environment && infoData.work_environment === 2
               this.infoData = this.formatInfoData(infoData)
               this.displayData = this.formatDisplayData(this.infoData)
+              // qa主体信息不展示
+              if (this.$isQa) {
+                const idx = this.displayData.findIndex((item) => item.key === 'mainInformation')
+                if (idx >= 0) {
+                  this.displayData.splice(idx, 1)
+                }
+              }
               this.isEmpty = false
             } else {
               this.isEmpty = true

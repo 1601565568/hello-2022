@@ -137,7 +137,7 @@
           <ns-button @click.native.prevent="resetInputAction">重置</ns-button>
         </div> -->
         <ns-button @click="() => {this.$emit('Reminder')}" class="dri_t">提醒设置</ns-button>
-        <ns-button @click="openFile" class="dri_t ari">导出文件</ns-button>
+        <ns-button @click="openFile" class="dri_t ari" id="exportButton">导出文件</ns-button>
       </el-form>
     </template>
 
