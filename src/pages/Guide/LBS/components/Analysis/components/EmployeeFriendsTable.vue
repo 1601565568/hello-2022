@@ -19,6 +19,10 @@
           prop="name"
           label="昵称">
         </el-table-column>
+         <el-table-column
+          prop="memberOrNo"
+          label="是否为会员">
+        </el-table-column>
         <el-table-column
           prop="shopName"
           label="所属门店">
@@ -41,8 +45,51 @@
         </el-table-column>
         <el-table-column
           prop="created"
-          sortable="custom"
-          label="添加时间">
+          sortable="custom">
+            <template slot="header">
+              <span>
+                <span>添加时间 </span>
+                <el-tooltip content="活动期间内，添加好友的退款订单金额">
+                  <Icon type="question-circle" />
+                </el-tooltip>
+              </span>
+            </template>
+        </el-table-column>
+          <el-table-column
+          prop="tradeCount"
+          sortable="custom">
+             <template slot="header">
+              <span>
+                <span>订单转化数 </span>
+                <el-tooltip content="活动期间内，该好友的订单转化数">
+                  <Icon type="question-circle" />
+                </el-tooltip>
+              </span>
+            </template>
+        </el-table-column>
+          <el-table-column
+          prop="payment"
+          sortable="custom">
+           <template slot="header">
+              <span>
+                <span>订单转化金额 </span>
+                <el-tooltip content="活动期间内，该好友的订单转化金额">
+                  <Icon type="question-circle" />
+                </el-tooltip>
+              </span>
+            </template>
+        </el-table-column>
+           <el-table-column
+          prop="refundFee"
+          sortable="custom">
+           <template slot="header">
+              <span>
+                <span>退款金额 </span>
+                <el-tooltip content="活动期间内，该好友的退款订单金额">
+                  <Icon type="question-circle" />
+                </el-tooltip>
+              </span>
+            </template>
         </el-table-column>
       </el-table>
     </template>

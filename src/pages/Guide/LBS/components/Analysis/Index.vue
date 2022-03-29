@@ -25,6 +25,33 @@
       </div>
     </div>
     <page-table >
+      <template slot='nav' v-if='type === "Group"'>
+        <el-form :inline="true" class='nav_Group form-inline_top' >
+          <div>
+               <el-form-item label="选择门店：">
+            <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn penetrate=1>
+              <template slot='btnIcon'>
+               <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
+          </el-form-item>
+          <el-form-item  label="群码设置状态：" class='el-form__change'>
+            <el-select v-model="model.setState" placeholder="请选择" @change='getDataTotal'>
+              <el-option
+                v-for="item in statusOptionList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          </div>
+          <ns-button  size='large' @click='handleExport'>导出文件</ns-button>
+        </el-form>
+      </template>
       <template slot='nav'>
         <el-row class='tab-ul' :gutter="24">
           <el-col :span='12' :class="activeType === 'shop' && 'active'">
@@ -56,7 +83,7 @@
           </el-col>
         </el-row>
       </template>
-      <template slot='search'>
+      <template slot='search' v-if='type !== "Group"'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
             <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIdList" @input="getDataTotal">
@@ -75,16 +102,6 @@
                 </div>
               </template>
             </shopSelect>
-          </el-form-item>
-          <el-form-item v-if='type === "Group"' label="群码设置状态：" class='el-form__change'>
-            <el-select v-model="model.setState" placeholder="请选择" @change='getDataTotal'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
           </el-form-item>
           <el-form-item label="添加时间：" class='el-form__change' v-if='type !== "Group"'>
              <el-date-picker
@@ -130,8 +147,8 @@
           </el-form-item>
         </el-form>
       </template>
-      <template slot='button'>
-        <ns-button  size='large' @click='handleExport'>导出文件</ns-button>
+      <template slot='button' v-if='type !== "Group"'>
+        <ns-button  size='large' @click='friendExport' id="exportButton">导出文件</ns-button>
       </template>
       <template slot='table'>
         <div v-if="activeType === 'shop'">
@@ -298,4 +315,11 @@ Analysis.components = {
 .template-table >>> .template-table__bar-base {
     margin-bottom: 0;
   }
+  .nav_Group{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 </style>

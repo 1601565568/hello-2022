@@ -211,9 +211,6 @@ export default {
       },
       immediate: true
     }
-  },
-  mounted () {
-    console.log(this.activityEndTime, this._data._table.data, 'this.activityEndTime')
   }
 }
 </script>
@@ -296,4 +293,12 @@ export default {
       }
     }
   }
+</style>
+<style scoped>
+    .form-item_tip{
+      margin-bottom: 20px;
+    }
+  .container-warpper >>> .template-table__bar{
+      margin-bottom: 20px;
+    }
 </style>

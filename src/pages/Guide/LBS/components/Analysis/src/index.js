@@ -66,6 +66,10 @@ export default {
     }
   },
   computed: {
+    // 导出报表类型
+    excelType () {
+      return this.activeType === 'shop' ? 29 : 37
+    },
     // 总数接口
     countApi () {
       return this.type === 'Group' ? this.$api.guide.lbs.getGroupStatisticsCount : this.$api.guide.lbs.getFirendsStatisticsCount
@@ -270,6 +274,25 @@ export default {
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
       form.submit()
+    },
+    // 好友拉新导出
+    friendExport () {
+      const sendParams = {
+        ...this.model,
+        exportType: this.excelType
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     }
   },
   mounted () {
