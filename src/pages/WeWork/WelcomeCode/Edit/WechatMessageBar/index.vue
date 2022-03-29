@@ -59,7 +59,7 @@
     </div>
     <div class="add-material-item"
          @click="visibleCostomCodeDialog = true">
-      <Icon type="poster-1"
+      <Icon type="icon-liebiandashi"
             class="icon" />
       <span class="item-tip">裂变大师</span>
     </div>
@@ -89,7 +89,11 @@
                          :content="posterMsg ? posterMsg.content : null"
                          :visible.sync="visiblePosterMessageDialog"
                          @update:visible="posterMsg = null" />
-    <CostomCodeDialog :visible.sync="visibleCostomCodeDialog" />
+    <!-- 裂变大师 -->
+    <CostomCodeDialog :visible.sync="visibleCostomCodeDialog"
+                      :content="posterMsg ? posterMsg.content : null"
+                      @update:visible="posterMsg = null"
+                      @confirm="addMessage"/>
     <!-- 自建坑位消息 -->
     <PitbitMessageDialog ref='pitbit'
                          @confirm="addMessage"
@@ -240,6 +244,8 @@ export default {
           type = 4
         } else if (message.type === 'imagecode') {
           type = 5
+        } else if (message.type === 'costomCode') {
+          type = 6
         }
       }
       this.$emit('addMessage', { ...msg, type, content: message.content })
