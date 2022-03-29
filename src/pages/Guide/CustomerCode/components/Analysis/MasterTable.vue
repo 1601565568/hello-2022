@@ -236,7 +236,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.customerCode.promotionListExport, params)
+        .fetch(this.$api.exportFile.exportFile, params)
         .then(resp => {
           that.exportState = true
           that.$notify.success('下载完成')

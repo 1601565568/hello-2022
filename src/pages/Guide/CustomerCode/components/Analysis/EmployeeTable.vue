@@ -197,7 +197,7 @@ export default {
       let that = this
       that.$notify.info('导出中，请稍后片刻')
       this.$http
-        .fetch(this.$api.guide.customerCode.employeeListExport, params)
+        .fetch(this.$api.core.exportFile.exportExecl, { ...params, exportType: 24 })
         .then(resp => {
           that.employeeListExportState = true
           that.$notify.success('下载完成')
