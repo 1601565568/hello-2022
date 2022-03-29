@@ -56,7 +56,7 @@
                   :selfBtn='false'
                   :appendToBody='true'
                   :isButton="false"
-                  :auth="false"
+                  :auth="true"
                   type="primary"
                   btnTitle="选择"
                   :dialogTitle="cloudPlatformType === 'ecrp' ? '选择员工' : '选择成员'"
