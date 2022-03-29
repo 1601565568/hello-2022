@@ -5,14 +5,24 @@
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
         {{activityName}}的效果分析
       </h3>
-      <!-- <div class='header-tab'>
+       <div class='header-tab' v-if='type === "Group"'>
         <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">
           <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
         </el-tabs>
         <div class="header-tab_right">
-
+          <el-date-picker
+            v-model="time"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            @change='handleChangeDateValue'
+            align="right">
+          </el-date-picker>
         </div>
-      </div> -->
+      </div>
     </div>
     <page-table >
       <template slot='nav'>
@@ -76,42 +86,45 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="添加时间：" class='el-form__change'>
+          <el-form-item label="添加时间：" class='el-form__change' v-if='type !== "Group"'>
              <el-date-picker
-             v-model="time"
+              v-model="time"
+              type="daterange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy/MM/dd"
+              range-separator="至"
+              start-placeholder="请选择开始日期"
+              end-placeholder="请选择结束日期"
+              :default-time="['00:00:00','23:59:59']"
+              @change='screenAddByTime'
+              align="right">
+          </el-date-picker>
+          </el-form-item>
+            <el-form-item label="下单时间：" class='el-form__change' v-if='type !== "Group"'>
+             <el-date-picker
+             v-model="timeOrder"
              type="daterange"
-             value-format="yyyy / MM / dd"
+             value-format="yyyy-MM-dd HH:mm:ss"
+             format="yyyy/MM/dd"
              range-separator="至"
              start-placeholder="请选择开始日期"
              end-placeholder="请选择结束日期"
              :default-time="['00:00:00','23:59:59']"
-             @change='handleChangeDateValue'
+             @change='screenOrderByTime'
              align="right">
            </el-date-picker>
           </el-form-item>
-                <el-form-item label="下单时间：" class='el-form__change'>
+          <el-form-item label="退款时间：" class='el-form__change' v-if='type !== "Group"'>
              <el-date-picker
-             v-model="time"
+             v-model="timeRefund"
              type="daterange"
-             value-format="yyyy / MM / dd"
+             value-format="yyyy-MM-dd HH:mm:ss"
+             format="yyyy/MM/dd"
              range-separator="至"
              start-placeholder="请选择开始日期"
              end-placeholder="请选择结束日期"
              :default-time="['00:00:00','23:59:59']"
-             @change='handleChangeDateValue'
-             align="right">
-           </el-date-picker>
-          </el-form-item>
-                <el-form-item label="退款时间：" class='el-form__change'>
-             <el-date-picker
-             v-model="time"
-             type="daterange"
-             value-format="yyyy / MM / dd"
-             range-separator="至"
-             start-placeholder="请选择开始日期"
-             end-placeholder="请选择结束日期"
-             :default-time="['00:00:00','23:59:59']"
-             @change='handleChangeDateValue'
+             @change='screenRefundByTime'
              align="right">
            </el-date-picker>
           </el-form-item>
@@ -126,7 +139,7 @@
             <ShopTable :propsModel='model' @onSort='onSort'/>
           </template>
           <template v-else>
-            <ShopFriendsTable :propsModel='model' @onSort='onSort'/>
+            <ShopFriendsTable :propsModel='model'  @onSort='onSort'  />
           </template>
         </div>
         <div v-if="activeType === 'employee'">

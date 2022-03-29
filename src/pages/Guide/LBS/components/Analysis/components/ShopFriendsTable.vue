@@ -31,39 +31,67 @@
           <el-table-column
             prop="adduserNum"
             sortable="custom"
-            label="新加好友数/添加好友数">
+            label="添加好友数">
           </el-table-column>
             <el-table-column
-            prop="adduserNum"
+            prop="customerCountTotal"
             sortable="custom">
               <template slot="header">
                 <span>
                   <span>好友会员数 </span>
-                  <el-tooltip content="客户专属线下门店">
+                  <el-tooltip content="活动期间内，添加好友的会员数量">
                     <Icon type="question-circle"/>
                   </el-tooltip>
                 </span>
               </template>
           </el-table-column>
            <el-table-column
-            prop="adduserNum"
-            sortable="custom"
-            label="新增会员数">
+            prop="customerCount"
+            sortable="custom">
+              <template slot="header">
+                <span>
+                  <span>新增会员数 </span>
+                  <el-tooltip content="活动期间内，新增的会员数量">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
+              </template>
           </el-table-column>
            <el-table-column
-            prop="adduserNum"
-            sortable="custom"
-            label="订单转化数">
+            prop="tradeCount"
+            sortable="custom">
+              <template slot="header">
+                <span>
+                  <span>订单转化数 </span>
+                  <el-tooltip content="活动期间内，添加好友的订单转化数量">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
+              </template>
           </el-table-column>
            <el-table-column
-            prop="adduserNum"
-            sortable="custom"
-            label="订单转化金额">
+            prop="payment"
+            sortable="custom">
+              <template slot="header">
+                <span>
+                  <span>订单转化金额 </span>
+                  <el-tooltip content="活动期间内，添加好友的订单转化金额">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
+              </template>
           </el-table-column>
            <el-table-column
-            prop="adduserNum"
-            sortable="custom"
-            label="退款金额">
+            prop="refundFee"
+            sortable="custom">
+             <template slot="header">
+                <span>
+                  <span>退款金额 </span>
+                  <el-tooltip content="活动期间内，添加好友的退款订单金额">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
+              </template>
           </el-table-column>
 
           <el-table-column
@@ -95,14 +123,14 @@
     </page-table>
     <el-drawer
       :modal='false'
-      size='50%'
+      size='70%'
       @close='handleClose'
       :visible.sync="drawer"
       :with-header="false">
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <FriendsList v-if='drawer' :startTime='model.startTime' :endTime='model.endTime' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <FriendsList v-if='drawer' :timeType='model.timeType' :activityStartTime='model.activityStartTime' :activityEndTime='model.activityEndTime' :addFriendsStartTime='model.addFriendsStartTime' :addFriendsEndTime='model.addFriendsEndTime' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
@@ -137,6 +165,7 @@ export default {
   methods: {
     // 查看详情
     handleDetail (row, index) {
+      console.log(row, 'row')
       this.activeIndex = index
       this.shopId = row.shopId
       this.shopName = row.shopName
@@ -182,6 +211,7 @@ export default {
       this.drawer = false
       this.activeIndex = -1
     },
+    // 排序
     handleSort (val) {
       const { order, prop } = val
       this.$emit('onSort', { sortType: order === 'ascending' ? 1 : 0, sortName: prop })
@@ -202,6 +232,9 @@ export default {
       immediate: true,
       deep: true
     }
+  },
+  mounted () {
+    // console.log(this.propsModel, 'ssss')
   }
 }
 </script>

@@ -1,10 +1,13 @@
 <template>
   <div class='container-warpper'>
     <div class='container-div'>
-      <page-table :title='`${shopName}-${name}`'>
+      <page-table :title='`门店名称 - ${shopName}-${name}`'>
+        <template slot='button'>
+          <ns-button  size='large' @click='handleExport'>导出</ns-button>
+        </template>
         <template slot='table'>
           <div class='form-item_tip'>
-            客户选择此门店时，会随机添加以下的任意一名在职员工1111
+            客户选择此门店时，会随机添加以下的任意一名在职员工
           </div>
           <el-table
             :data="_data._table.data"
@@ -26,13 +29,69 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="addUserNum"
+              prop="adduserNum"
               sortable="custom"
               label="添加好友数">
             </el-table-column>
             <el-table-column
-              prop="addTotalUserNum"
-              label="好友总数">
+              prop="customerCountTotal"
+              sortable="custom">
+                <template slot="header">
+                  <span>
+                    <span>好友会员数 </span>
+                    <el-tooltip content="活动期间内，该员工添加好友的会员数量">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </span>
+              </template>
+            </el-table-column>
+             <el-table-column
+              prop="customerCount"
+              sortable="custom">
+                <template slot="header">
+                  <span>
+                    <span>新增会员数 </span>
+                    <el-tooltip content="活动期间内，该员工的新增会员数量">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="tradeCount"
+              sortable="custom">
+                <template slot="header">
+                  <span>
+                    <span>订单转化数 </span>
+                    <el-tooltip content="活动期间内，该员工添加好友的订单转化数">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="payment"
+              sortable="custom">
+                <template slot="header">
+                  <span>
+                    <span>订单转化金额 </span>
+                    <el-tooltip content="活动期间内，该员工添加好友的订单转化金额">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="refundFee"
+              sortable="custom">
+                <template slot="header">
+                  <span>
+                    <span>转化退单金额 </span>
+                    <el-tooltip content="活动期间内，该员工添加好友的退款订单金额">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </span>
+              </template>
             </el-table-column>
           </el-table>
         </template>
@@ -86,7 +145,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId', 'startTime', 'endTime'],
+  props: ['shopId', 'guid', 'shopName', 'configId', 'addFriendsStartTime', 'addFriendsEndTime', 'timeType', 'activityStartTime', 'activityEndTime'],
   components: {
     PageTable
   },
@@ -143,12 +202,18 @@ export default {
         this.model.shopId = newVal
         this.model.guid = this.guid
         this.model.configId = this.configId
-        this.model.startTime = this.startTime
-        this.model.endTime = this.endTime
+        this.model.addFriendsStartTime = this.addFriendsStartTime
+        this.model.addFriendsEndTime = this.addFriendsEndTime
+        this.model.timeType = this.timeType
+        this.model.activityStartTime = this.activityStartTime
+        this.model.activityEndTime = this.activityEndTime
         this.$searchAction$()
       },
       immediate: true
     }
+  },
+  mounted () {
+    console.log(this.activityEndTime, this._data._table.data, 'this.activityEndTime')
   }
 }
 </script>
