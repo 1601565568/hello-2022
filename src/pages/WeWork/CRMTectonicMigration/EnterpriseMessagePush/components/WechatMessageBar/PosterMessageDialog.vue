@@ -36,7 +36,7 @@ export default {
       default: function () {
         return {
           configId: null, // 海报id
-          placard: '', // 海报地址
+          image: '', // 海报地址
           title: '' // 海报名称
         }
       }
@@ -46,7 +46,7 @@ export default {
     return {
       defaultModel: {
         configId: null, // 海报id
-        placard: '', // 海报地址
+        image: '', // 海报地址
         title: '' // 海报名称
       }
     }
@@ -57,7 +57,7 @@ export default {
     close () {
       this.defaultModel = {
         configId: null,
-        placard: '',
+        image: '',
         title: ''
       }
       this.$emit('update:visible', false)
@@ -74,7 +74,7 @@ export default {
           type: 'poster',
           content: {
             title: model.title,
-            placard: model.placard,
+            image: model.placard,
             configId: model.id
           }
         })

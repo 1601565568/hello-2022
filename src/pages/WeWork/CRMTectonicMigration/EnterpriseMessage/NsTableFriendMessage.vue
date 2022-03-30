@@ -71,12 +71,12 @@
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="auditTime"
+            prop="reviewTime"
             label="审核时间"
             sortable="1" :width="200">
             <template slot-scope="scope">
-              <template v-if="scope.row.auditTime">
-                {{scope.row.auditTime}}
+              <template v-if="scope.row.reviewTime">
+                {{scope.row.reviewTime}}
               </template>
               <template v-else>-</template>
             </template>
@@ -107,12 +107,14 @@
             prop="trade_tag_name"
             label="营销对象">
             <template slot-scope="scope">
-              {{scope.row.userGroupIds.split(',').length}}
+              <!-- Todo -->
+              <!-- {{scope.row.userGroupIds.split(',').length}} -->
               <template v-if="scope.row.customerType === 1"> 个客户分群</template>
               <template v-else> 个员工全部好友</template>
             </template>
           </el-table-column>
 
+          <!-- Todo -->
           <el-table-column
             :show-overflow-tooltip="true"
             prop="userName"

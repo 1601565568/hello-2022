@@ -10,7 +10,7 @@
       </div>
     </template>
     <template slot='content'>
-      <el-form class="normal-from el-form-reset" size="medium" ref="ruleForm" :model="model" :rules="rules" label-width="100px" label-position="left">
+      <el-form class="normal-from el-form-reset" size="medium" ref="formName" :model="model" :rules="rules" label-width="100px" label-position="left">
         <SimpleCollapse :title="'基本信息'" class="content">
           <el-form-item class="larger-item" label="活动名称" prop="name" required>
             <el-input v-model="model.name" :disabled="isUpdate" placeholder="请输入活动名称" class="el-input" show-word-limit :maxlength="30"></el-input>
@@ -47,11 +47,12 @@
             </el-radio-group>
             <div class="form-date" v-if="model.executeMode== 2">
               <span class="date-label">执行时间</span>
-              <el-form-item prop="executeTime">
+              <el-form-item prop="predictSendTime">
                 <el-date-picker
                   :disabled="isUpdate"
-                  v-model="model.executeTime"
+                  v-model="model.predictSendTime"
                   type="datetime"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   placeholder="选择日期时间">
                 </el-date-picker>
               </el-form-item>
@@ -116,7 +117,7 @@
               </el-form-item>
             </template>
             <template slot="collapse-right">
-              <MessagePreviewPanel :hasBracket="false" class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
+              <MessagePreviewPanel :needMaxHeight="true" :hasBracket="false" class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
             </template>
           </PhoneBox>
         </SimpleCollapse>
@@ -218,10 +219,11 @@ export default {
         marketingType: '',
         customerType: '1',
         executeMode: 1,
-        executeTime: '',
+        predictSendTime: '',
         textarea: '',
         type: '',
-        mediaList: []
+        mediaList: [],
+        chatRoomIdList: []
       },
       copyType: '',
       rules: {
@@ -229,7 +231,20 @@ export default {
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
-        executeTime: [
+        chatRoomIdList: [
+          {
+            validator: (rule, value, callback) => {
+              const length = this.employeeSelectData.data.length
+              if (!length) {
+                callback(new Error('请选择营销人群'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        predictSendTime: [
           { required: true, message: '请选择执行时间', trigger: 'blur' }
         ],
         textarea: [
@@ -248,7 +263,7 @@ export default {
             validator: (rule, value, callback) => {
               if (!value) {
                 if (vm.model.type === '') {
-                  callback(new Error('请输入发布内容'))
+                  callback(new Error('请输入发布文案'))
                 } else {
                   callback()
                 }
@@ -301,12 +316,9 @@ export default {
     // this.verifyProductToCRM()
   },
   watch: {
-    // selected (val) {
-    //   this.$refs.selectedTree.filter(val)
-    // },
-    // select (val) {
-    //   this.$refs.selectTree.filter(val)
-    // }
+    'employeeSelectData.data' (val) {
+      this.model.chatRoomIdList = val
+    }
   },
   methods: {
     /**
@@ -345,12 +357,12 @@ export default {
     },
     // 切换发送方式
     changeExec () {
-      this.model.executeTime = ''
+      this.model.predictSendTime = ''
     },
     init () {
       const that = this
       if (this.$route.query.taskId) {
-        this.$http.fetch(this.$api.marketing.weworkMarketing.getEnterpriseActivity, { taskId: this.$route.query.taskId })
+        this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { taskId: this.$route.query.taskId })
           .then(resp => {
             const data = resp.result
             vm.isUpdate = that.$route.query.openType === 'view'
@@ -358,7 +370,7 @@ export default {
             vm.model.name = data.name
             vm.model.executeMode = data.executeMode
             if (vm.model.executeMode === 2) {
-              vm.model.executeTime = data.executeTime
+              vm.model.predictSendTime = data.predictSendTime
             }
             vm.model.customerType = data.customerType + ''
             // 编辑状态修改 that.$route.query.openType === 'copy'
@@ -516,39 +528,74 @@ export default {
     },
     saveOrUpdate () {
       if (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) {
-        this.$notify.warning('请选择人群')
+        this.$notify.warning('请选择营销人群')
+        return false
+      }
+      if (!this.model.textarea && this.mediaList.length === 0) {
+        this.$notify.warning('请输入文案内容或添加附件')
         return false
       }
       this.loading = true
       const target = JSON.parse(JSON.stringify(this.model))
-      if (target.executeMode === 2) {
-        target.executeTime = moment(target.executeTime).format('YYYY-MM-DD HH:mm:ss')
+      if (target.executeMode === 1) {
+        target.predictSendTime = null
       }
       const data = {}
       if (vm.model.textarea) {
-        data.text = this.$refs.testText.htmlToString(vm.model.textarea, false)
+        target.content = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
-      if (vm.model.type) {
-        if (vm.model.type === 1) {
-          if (vm.picUrl) {
-            data.image = {}
-            data.image.image = vm.picUrl
+      if (!vm.model.mediaList.length) {
+        let array = []
+        vm.model.mediaList.forEach(el => {
+          if (el.type === 1) {
+            array.push({
+              type: 1,
+              picUrl: el.content.image,
+              title: el.content.fileName
+            })
+          } else if (el.type === 2) {
+            array.push({
+              type: 2,
+              picUrl: el.content.video,
+              title: el.content.fileName
+            })
+          } else if (el.type === 3) {
+            array.push({
+              type: 3,
+              // Todo
+              picUrl: el.content.image,
+              description: el.content.desc,
+              url: el.content.link,
+              title: el.content.title
+            })
+          } else if (el.type === 4) {
+            array.push({
+              type: 4,
+              appid: el.content.appid,
+              picUrl: el.content.image,
+              page: el.content.path,
+              title: el.content.title
+            })
+          } else if (el.type === 5) {
+            array.push({
+              type: 5,
+              // Todo 少configId
+              picUrl: el.content.image,
+              title: el.content.title
+            })
           }
-        } if (vm.model.type === 2) {
-          data.picText = vm.pic
-        } if (vm.model.type === 3) {
-          data.miniPro = vm.miniPro
-        }
+        })
+        target.attachments = array
       }
       target.content = data
       if (this.employeeSelectData.type === 'employee') {
-        target.customerType = 2
-        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) }).join(',')
+        target.type = 3
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) }).join(',')
       } else {
-        target.customerType = 1
-        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
+        target.type = 1
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
       }
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveEnterprise, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.saveEnterprise, target)
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()

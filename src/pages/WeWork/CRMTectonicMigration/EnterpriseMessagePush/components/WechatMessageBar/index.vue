@@ -132,22 +132,9 @@ export default {
       let type
       if (msg.type === undefined) {
         type = this.getWelcomeMessageType(message.type)
+      } else {
+        type = msg.type
       }
-      // if (this.pitBit) {
-      //   if (message.type === 'pitbit') {
-      //     type = 0
-      //   } else if (message.type === 'image') {
-      //     type = 1
-      //   } else if (message.type === 'video') {
-      //     type = 2
-      //   } else if (message.type === 'link') {
-      //     type = 3
-      //   } else if (message.type === 'miniprogram') {
-      //     type = 4
-      //   } else if (message.type === 'imagecode') {
-      //     type = 5
-      //   }
-      // }
       this.$emit('addMessage', { ...msg, type, content: message.content })
 
       if (this.imageMsg) this.imageMsg = null

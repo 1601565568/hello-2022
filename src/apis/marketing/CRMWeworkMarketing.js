@@ -16,6 +16,26 @@ export default {
     url: '/wework/groupMessage/friend',
     method: 'post'
   },
+  // 好友营销保存新建群发消息
+  saveEnterprise: {
+    url: '/wework/groupMessage/create',
+    method: 'post'
+  },
+  // 好友营销保存编辑群发消息
+  updateEnterprise: {
+    url: '/wework/groupMessage/update',
+    method: 'post'
+  },
+  // 好友营销列表删除
+  deleteWxActivity: {
+    url: '/wework/groupMessage/delete',
+    method: 'post'
+  },
+  // 好友营销详情
+  getMsgDetail: {
+    url: '/wework/groupMessage',
+    method: 'post'
+  },
   getSubdivisionList: {
     url: '/wework/marketing/getSubdivisionList',
     method: 'get'
@@ -36,16 +56,6 @@ export default {
     url: '/wework/marketing/queryEmployeeWechatInfoList',
     method: 'get'
   },
-  // 保存新建群发消息
-  saveEnterprise: {
-    url: '/wework/groupMessage/create',
-    method: 'post'
-  },
-  // 保存编辑群发消息
-  updateEnterprise: {
-    url: '/wework/groupMessage/update',
-    method: 'post'
-  },
   saveOrUpdateEnterprise4Room: {
     url: '/wework/marketing/saveOrUpdateEnterprise4Room',
     method: 'post'
@@ -54,6 +64,7 @@ export default {
     url: '/wework/marketing/updateStatus',
     method: 'get'
   },
+  // 旧的好友营销详情接口
   getEnterpriseActivity: {
     url: '/wework/marketing/getEnterpriseActivity',
     method: 'get'
@@ -61,11 +72,6 @@ export default {
   queryChatRoomLeadersByActivityId: {
     url: '/wework/marketing/queryChatRoomLeadersByActivityId',
     method: 'get'
-  },
-  // 好友营销列表删除
-  deleteWxActivity: {
-    url: '/wework/groupMessage/delete',
-    method: 'post'
   },
   queryTotal: {
     url: '/wework/marketing/queryTotal',

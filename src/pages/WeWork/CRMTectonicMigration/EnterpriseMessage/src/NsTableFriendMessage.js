@@ -172,7 +172,7 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              id: obj.row.id,
+              id: '',
               openType: 'add'
             }
           })
