@@ -71,6 +71,12 @@ export default {
           'name': 'SOPLog',
           'title': '社群日历发送日志',
           'component': () => import('@/pages/WeWork/SOP/SendLog/index.vue')
+        },
+        {
+          'path': '/WeWork/WelcomeLog/Log',
+          'name': 'WelcomeLog',
+          'title': '欢迎语日志',
+          'component': () => import('@/pages/WeWork/WelcomeLog/Log/index.vue')
         }
       ]
     },

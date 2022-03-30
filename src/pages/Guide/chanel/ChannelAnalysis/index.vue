@@ -46,7 +46,7 @@
           <el-input placeholder="请输入渠道名称" v-model="model.channelName" @keyup.enter.native="searchform">
             <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px" @click="searchform"></Icon>
           </el-input>
-          <ns-button class="ns-button" @click="exportFile">导出CSV文件</ns-button>
+          <ns-button class="ns-button" @click="exportFile" id="exportButton">导出文件</ns-button>
         </div>
       </template>
       <div class="new-table channel-table">
@@ -63,7 +63,7 @@
           <el-table-column prop="addTotalCount" label="总添加人数" sortable="addTotalCount">
             <template slot="header">
               总添加人数
-              <el-tooltip class="help" content="统计通过此渠道添加的好友总数（会进行以下场景排重仅计算为1：添加后删除又添加，同一个消费者在一个渠道添加多个员工）">
+              <el-tooltip class="help" :content="`统计通过此渠道添加的好友总数（会进行以下场景排重仅计算为1：添加后删除又添加，同一个消费者在一个渠道添加多个${cloudPlatformType === 'ecrp' ? '员工' : '成员'}）`">
                 <Icon type="ns-help"/>
               </el-tooltip>
             </template>
@@ -71,7 +71,7 @@
           <el-table-column prop="addCount" label="添加人数" sortable="addCount">
             <template slot="header">
               添加人数
-              <el-tooltip class="help" content="筛选时间内，统计通过此渠道添加的好友总数（会进行以下场景排重仅计算为1：添加后删除又添加，同一个消费者在一个渠道添加多个员工）">
+              <el-tooltip class="help" :content="`筛选时间内，统计通过此渠道添加的好友总数（会进行以下场景排重仅计算为1：添加后删除又添加，同一个消费者在一个渠道添加多个${cloudPlatformType === 'ecrp' ? '员工' : '成员'}）`">
                 <Icon type="ns-help"/>
               </el-tooltip>
             </template>
@@ -79,7 +79,7 @@
           <el-table-column prop="deleteCount" label="删除人数" sortable="deleteCount">
             <template slot="header">
               删除人数
-              <el-tooltip class="help" content="筛选时间内，员工主动删除此渠道的好友数（会进行以下场景排重仅计算为1：发生多次删除）">
+              <el-tooltip class="help" :content="`筛选时间内，${cloudPlatformType === 'ecrp' ? '员工' : '成员'}主动删除此渠道的好友数（会进行以下场景排重仅计算为1：发生多次删除）`">
                 <Icon type="ns-help"/>
               </el-tooltip>
             </template>

@@ -5,6 +5,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
         endTime: '',
         payConfigId: null,
@@ -67,6 +68,24 @@ export default {
     this.getSendStatistics()
   },
   methods: {
+    handleExcelExport (model) {
+      const params = {
+        ...model,
+        exportType: 15
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    },
     /**
      * 查看领取详情
      * @param {*} id

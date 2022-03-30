@@ -20,7 +20,7 @@
           ></Icon>
         </el-input>
       </div>
-      <div class="output-button" @click="outputCsvFile">导出CSV文件</div>
+      <div class="output-button" @click="outputCsvFile" id="exportButton">导出文件</div>
     </div>
     <div class="chat-bg">
       <div></div>
@@ -141,29 +141,22 @@ export default {
       this.$router.back(-1)
     },
     outputCsvFile () {
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportExcelByNoComplete, {})
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const params = {
+        exportType: 11,
+        startTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDD')
-            let fileName =
-              '素材库未执行统计' + curDate + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     handleSizeChangeForDate (size) {
       this.paginationToDate = {

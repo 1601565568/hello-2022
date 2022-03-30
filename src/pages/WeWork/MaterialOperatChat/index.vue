@@ -11,7 +11,7 @@
                 :class="
                   showTodaySelect
                     ? selectToday
-                      ? 'base-text-select'
+                      ? [bases==='QA'?baseAselectQA:baseAselect]
                       : ''
                     : 'base-un-active'
                 "
@@ -24,7 +24,7 @@
                   showTodaySelect
                     ? selectToday
                       ? ''
-                      : 'base-text-select'
+                      : [bases==='QA'?baseAselectQA:baseAselect]
                     : 'base-un-active'
                 "
                 class="base-text"
@@ -47,8 +47,8 @@
               </el-date-picker>
             </div>
           </div>
-          <div class="drawer-output" @click="outputClick">
-            导出CSV文件
+          <div class="drawer-output" @click="outputClick" id="exportButton">
+            导出文件
           </div>
         </div>
         <div class="title">数据分析</div>
@@ -62,7 +62,7 @@
     </div>
     <div class="material-list">
       <div class="title">数据报表</div>
-      <div class="select-data-view">
+      <div class="select-data-view" :class="[bases==='QA'? eltabQA:eltab]">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="按日期统计" name="first">
             <div v-if="listDate.length > 0">
@@ -462,7 +462,12 @@ export default {
       endTime: '',
       datePickerValue: [],
       materialTitle: '',
-      guideName: ''
+      guideName: '',
+      bases: process.env.VUE_APP_THEME,
+      baseAselect: 'base-text-select',
+      baseAselectQA: 'base-text-selectQA',
+      eltabQA: 'elTabQA',
+      eltab: 'elTab'
     }
   },
   methods: {
@@ -501,33 +506,21 @@ export default {
     outputClick () {
       const parms = {
         endTime: this.endTime + ' 23:59:59',
-        startTime: this.startTime + ' 00:00:00'
+        startTime: this.startTime + ' 00:00:00',
+        exportType: 6
       }
-      const csvStartTime = this.startTime.replace(/-/g, '')
-      const csvEndTime = this.endTime.replace(/-/g, '')
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.guide.exportOperateExcelByComplete, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName =
-              '附码素材运营统计' + csvStartTime + '至' + csvEndTime + '.xlsx'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     selectTodayClick (val) {
       this.selectToday = val === 'seven'
@@ -930,6 +923,10 @@ export default {
     color: #0091fa;
     background: #f5fbff;
   }
+  .base-text-selectQA {
+   color: #2153D4;
+    background: #f5fbff;
+  }
   .base-un-active {
     color: #595959;
     background-color: white;
@@ -954,5 +951,19 @@ export default {
   margin: 0 auto;
   width: 320px;
   height: 220px;
+}
+</style>
+<style scoped>
+.elTab >>> .el-tabs__item.is-active{
+    color: #0094fc;
+}
+.elTabQA >>> .el-tabs__item.is-active{
+    color: #2153D4;
+}
+.elTab >>>.el-tabs__active-bar{
+  background: #0094fc;
+}
+.elTabQA >>> .el-tabs__active-bar{
+    background: #2153D4;
 }
 </style>

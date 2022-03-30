@@ -17,13 +17,22 @@ import '@theme/index.pcss'
 // 是否启动本地原缓存数据
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
-LOG.init({
+import { eventProxy } from './track/logForClick'
+const appTrack = require('./track/appTrack.js')
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
+appTrack.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
   spmId: window.g_config.spmId,
   fetch: false, // 关闭 fetch，使用img src 方式上报
   report: window.g_config.report,
-  startTime: window.g_config.startTime // 自定义测速类页面统计起始时间
+  startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
+  userInfo: store.state.user
 })
 
 if (window.g_config.sentry.report === true) {
@@ -42,7 +51,10 @@ Vue.prototype.$ELEMENT = {
 }
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
-
+const qaDocs = ''
+Vue.prototype.$isQa = process.env.VUE_APP_THEME === 'QA'
+Vue.prototype.$qaDocs = qaDocs
+Vue.prototype.$isShowDocs = process.env.VUE_APP_THEME !== 'QA' || qaDocs.length > 0
 // 和三方需求功能相同所以隐藏
 // router.beforeEach(async (to:any, from, next) => {
 //   if (interceptRouter.includes(to.name)) {
@@ -62,25 +74,25 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 // })
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
-  // if (thirdRouter[to.path]) {
-  //   if (!store.state.companyPlan.isLoad) {
-  //     await store.dispatch('companyPlan/getCompanyPlan')
-  //   }
-  //   const typeObj = thirdRouter[to.path]
-  //   const companyPlanState = store.state.companyPlan
-  //   if (companyPlanState[typeObj.type] === typeObj.value) {
-  //     next()
-  //   } else {
-  //     // 为了解决node包中写的神奇的导航栏判断
-  //     const name1 = to.matched[0].name || ''
-  //     const name2 = to.matched[1].name || ''
-  //     const random = new Date().getTime()
-  //     router.addRoutes([addRouter(name1, name2, name1 + random, 'ThirdAuth')])
-  //     next({ name: (name1 + random) })
-  //   }
-  // } else {
-  next()
-  // }
+  if (thirdRouter[to.path]) {
+    if (!store.state.companyPlan.isLoad) {
+      await store.dispatch('companyPlan/getCompanyPlan')
+    }
+    const typeObj = thirdRouter[to.path]
+    const companyPlanState = store.state.companyPlan
+    if (companyPlanState[typeObj.type] === typeObj.value) {
+      next()
+    } else {
+      // 为了解决node包中写的神奇的导航栏判断
+      const name1 = to.matched[0].name || ''
+      const name2 = to.matched[1].name || ''
+      const random = new Date().getTime()
+      router.addRoutes([addRouter(name1, name2, name1 + random, 'ThirdAuth')])
+      next({ name: (name1 + random) })
+    }
+  } else {
+    next()
+  }
 })
 
 new Vue({

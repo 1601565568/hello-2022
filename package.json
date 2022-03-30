@@ -12,13 +12,14 @@
     "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "upDateOss": "node ./node_modules/@nascent/ecrp-ecrm/build/upLoadFolderToOss.js"
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/ecrp-ecrm": "0.6.92",
+    "@nascent/ecrp-ecrm": "7.0.0",
     "@nascent/icons-vue": "^1.0.11",
     "@nascent/log": "^0.2.3",
     "@nascent/nui": "^2.9.37",
@@ -59,7 +60,8 @@
     "vue-waterfall2": "^1.10.1",
     "vuedraggable": "^2.17.0",
     "vuex": "^3.1.2",
-    "vuex-class": "^0.3.2"
+    "vuex-class": "^0.3.2",
+    "whats-element": "^2.4.6"
   },
   "devDependencies": {
     "@nascent/icons-pro": "^1.0.13",

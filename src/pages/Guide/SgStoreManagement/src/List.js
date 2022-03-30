@@ -272,6 +272,20 @@ export default {
     }
   },
   methods: {
+    handlerDownClick (scope, codeType) {
+      let params = {
+        shopId: this.succeedObj.shopId,
+        size: scope.row.size,
+        exportType: 36,
+        codeType,
+        shopIds: this.batchShopIds
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$notify.success('已加入下载中心')
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
+    },
     transfer () {
       this.$router.push({
         path: '/Guide/Customer/CustomerManage'

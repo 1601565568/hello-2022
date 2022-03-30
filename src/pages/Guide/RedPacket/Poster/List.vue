@@ -33,8 +33,8 @@
               prop="name"
               label="红包封面">
               <template slot-scope="scope">
-                <div class="scope-title">
-                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' /></div>
+                <div class="scope-title" :class="[ fuscous=== 'QA' && 'styQA']">
+                  <div class='scope-img'><PreviewRedPacket :bgImage='scope.row.background' :bgHasFont='false'/></div>
                   <!-- <img :src='redPacket' class='scope-img' /> -->
                   <div class="scope-title_tab" v-if='scope.row.isDefault'>
                     默认
@@ -64,7 +64,8 @@
               <template slot-scope="scope">
                 <el-switch
                   @change='handleChangeState(scope.row.id,scope.row.isDefault)'
-                  :value="scope.row.isDefault">
+                  :value="scope.row.isDefault"
+                  :class="[fuscous==='QA'?fuscousQA:fuscousIcon]">
                 </el-switch>
               </template>
             </el-table-column>
@@ -74,7 +75,7 @@
               label="操作">
               <template slot-scope="scope">
                 <ns-button  style='margin-right:5px;' type="text" @click='handleJump(detailPath,{id:scope.row.id})'>编辑</ns-button>
-                <PreviewRedPacket :bgImage='scope.row.background'><ns-button type="text">查看</ns-button></PreviewRedPacket>
+                <PreviewRedPacket :bgImage='scope.row.background' :bgHasFont='false'><ns-button type="text">查看</ns-button></PreviewRedPacket>
                 <ns-button type="text"  style='margin-left:5px;' @click='handleDelete(scope.row.id,scope.row.isDefault)'>删除</ns-button>
               </template>
             </el-table-column>
@@ -131,5 +132,18 @@ export default Index
 .scope-img {
   width: 38.66px;
   margin-right: 15.67px;
+}
+</style>
+<style scoped>
+.styQA >>> .scope-title_tab{
+  color: #2153D4;
+}
+.fuscousQA.is-checked >>> .el-switch__core {
+  border-color: #0C4CFF;
+    background-color: #0C4CFF;
+}
+.fuscousIcon.is-checked >>>.el-switch__core {
+  border-color: #41a2e8;
+    background-color: #41a2e8;
 }
 </style>

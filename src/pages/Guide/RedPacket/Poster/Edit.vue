@@ -25,7 +25,7 @@
           </template>
           <template slot='collapse-right'>
             <div class='preview-img'>
-              <RedPacket :bgImage='model.background'/>
+              <RedPacket :bgImage='model.background' :bagName="cloudPlatformType==='ecrp'?'员工':'成员'+'姓名发出的红包'"/>
             </div>
           </template>
           <template slot='collapse-right__bottom'>

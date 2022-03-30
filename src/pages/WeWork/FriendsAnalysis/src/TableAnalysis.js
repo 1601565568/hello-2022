@@ -7,6 +7,7 @@ import ElCard from '@nascent/nui/lib/card'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import moment from 'moment'
 
 export default {
@@ -22,6 +23,7 @@ export default {
     ElBreadcrumb,
     ElBreadcrumbItem,
     NsGuideDialog,
+    NsGuideWeChatDialog,
     ElCard
   },
   data: function () {
@@ -63,6 +65,7 @@ export default {
       total: 0
     }
     return {
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       pickerOptions: { disabledDate: (time) => {
         if (time.getTime() >= (new Date().getTime() - 3600 * 1000 * 24 * 1)) { return true }
         return false
@@ -210,7 +213,11 @@ export default {
         'linear-gradient(270deg, #A0E35E 0%, #67C230 100%)',
         'linear-gradient(269deg, #8B4EFC 0%, #6A00FA 100%)',
         'linear-gradient(269deg, #fc6767 0%, #ec008c 100%)'
-      ]
+      ],
+      bases: process.env.VUE_APP_THEME,
+      eltabQA: 'elTabQA',
+      eltab: 'elTab'
+
     }
   },
   watch: {
@@ -263,37 +270,23 @@ export default {
         this.$notify.info('当前没有匹配的数据项')
         return
       }
-      if (!this.outputClickState) {
-        this.$notify.info('正在导出中，请不要重复操作')
-        return
+      const searchMap = this.$generateParams$().searchMap || {}
+      const params = {
+        ...searchMap,
+        exportType: 17
       }
-      this.outputClickState = false
-      const csvStartTime = this.model.TheDate[0].replace(/-/g, '')
-      const csvEndTime = this.model.TheDate[1].replace(/-/g, '')
-      let that = this
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkCustomer.export, that.$generateParams$())
-        .then(resp => {
-          that.outputClickState = true
-          that.$notify.success('下载完成')
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
-        .catch(resp => {
-          that.outputClickState = true
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let fileName =
-              '好友分析' + csvStartTime + '-' + csvEndTime + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     getDate: function (date) {
       let year = date.getFullYear()

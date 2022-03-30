@@ -41,7 +41,7 @@
                 </el-tooltip>
               </div>
             </span>
-            <el-radio-group :disabled="isUpdate" v-model="model.executeMode" @change="changeExec">>
+            <el-radio-group :disabled="isUpdate" v-model="model.executeMode" @change="changeExec" :class="[radioIcon==='QA'?radioQA:radio]">
               <el-radio :label="1">立即发送</el-radio>
               <el-radio :label="2">定时发送</el-radio>
             </el-radio-group>
@@ -63,7 +63,7 @@
             <template slot='collapse-left'>
               <el-form-item label="文案">
                 <tag-area
-                  class="tag-class"
+                  :class="[radioIcon==='QA'? tagTextQA: tagText]"
                   :disabled="isUpdate"
                   v-model='model.textarea'
                   tag="wise"
@@ -271,7 +271,12 @@ export default {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 69 // 底部按钮的高度39 + 30顶部设置小程序积分体系的高度
       },
-      inputLength: 0 // 文案输入字符数
+      inputLength: 0, // 文案输入字符数
+      radioIcon: process.env.VUE_APP_THEME,
+      radio: 'radio',
+      radioQA: 'radioQA',
+      tagText: 'tagText',
+      tagTextQA: 'tagTextQA'
     }
   },
   created: function () {
@@ -728,5 +733,28 @@ export default {
       cursor: not-allowed;
     }
   }
+  // @b spacelarger {
+  //   margin-top: var(--default-margin-larger);
+  // }
+}
+.radioQA>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #2153D4;
+  background: #2153D4;
+}
+.radio>>> .el-radio__input.is-checked .el-radio__inner{
+  border-color: #0091FA;
+  background: #0091FA;
+}
+.radioQA>>> .el-radio__input.is-checked + .el-radio__label{
+  color: #2153D4;
+}
+.radio>>>.el-radio__input.is-checked + .el-radio__label{
+  color: #0091FA;
+}
+ .tagTextQA>>> .emoji-icon{
+  color: #2153D4;
+}
+ .tagText >>> .emoji-icon{
+  color: #0091FA;
 }
 </style>

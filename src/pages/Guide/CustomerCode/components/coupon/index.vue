@@ -73,7 +73,7 @@
         >
           <el-table-column width="40">
             <template slot-scope="scope">
-              <div class="customerManage">
+              <div :class="[ENV !== 'QA'?'customerManage':'customerManageQA']">
                 <el-radio
                   :label="scope.row.activityCouponConfigId"
                   v-model="couponRadio"
@@ -170,5 +170,12 @@ export default index
 /* 去掉更换导购列表弹框单选组多余数字 */
 .customerManage >>> .el-radio__label {
   display: none !important;
+}
+.customerManageQA >>> .el-radio__label {
+  display: none !important;
+}
+.customerManageQA >>> .el-radio__input.is-checked .el-radio__inner{
+   border-color: #2153D4;
+  background-color: #2153D4;
 }
 </style>

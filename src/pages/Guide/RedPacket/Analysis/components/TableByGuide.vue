@@ -7,18 +7,18 @@
         style="width: 100%">
         <el-table-column
           prop="name"
-          label="员工">
+          :label="cloudPlatformType==='ecrp'?'员工':'成员'">
         </el-table-column>
         <el-table-column
           prop="wokerNumber"
-          label="工号">
+          label="工号" v-if="cloudPlatformType==='ecrp'">
           <template slot-scope="scope">
-            {{scope.row.wokerNumber || '-'}}
+            {{scope.row.workNumber || '-'}}
           </template>
         </el-table-column>
         <el-table-column
           prop="shopName"
-          label="工作门店">
+          label="工作门店" v-if="cloudPlatformType==='ecrp'">
           <template slot-scope="scope">
             <div class="offline-shop-content" v-if='scope.row.shopName'>
               <span class="scope-store-text">
@@ -70,7 +70,8 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   data () {
     return {
-      model: this.data
+      model: this.data,
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
     }
   },
   components: { PageTable },

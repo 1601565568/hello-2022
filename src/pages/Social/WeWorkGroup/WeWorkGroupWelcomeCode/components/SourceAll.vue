@@ -9,6 +9,7 @@
             :maxlength="500"
             :showEmoji='true'
             :showTextEmoji='true'
+            :tagSpecialHandle='true'
             :tools='tools'
             :disabled='disabled'
             ref="tagContent"

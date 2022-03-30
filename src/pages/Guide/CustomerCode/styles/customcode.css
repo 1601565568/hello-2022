@@ -1,7 +1,7 @@
-.costomcode-footer {
+.costomcode-footer,.costomcodeQA-footer {
   position: fixed;
   bottom: 20px;
-  left: 210px;
+  
   right: 10px;
   height: 64px;
   background: #FFFFFF;
@@ -10,7 +10,13 @@
   align-items: center;
   justify-content: center;
 }
-.costomcode-footer .btn {
+.costomcode-footer{
+  left: 210px;
+}
+.costomcodeQA-footer{
+  left: 180px;
+}
+.costomcode-footer .btn,.costomcodeQA-footer .btn{
   width: 160px;
   height: 40px;
   border-radius: 2px;
