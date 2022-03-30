@@ -28,7 +28,7 @@
           </el-table-column>
           <el-table-column prop="adduserNum" sortable="custom" label="添加好友数">
           </el-table-column>
-          <el-table-column prop="customerCountTotal" sortable="custom">
+          <el-table-column prop="customerCountTotal" >
             <template slot="header">
               <span>
                 <span>好友会员数 </span>
@@ -38,7 +38,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="customerCount" sortable="custom">
+          <el-table-column prop="customerCount" >
             <template slot="header">
               <span>
                 <span>新增会员数 </span>
@@ -48,7 +48,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="tradeCount" sortable="custom">
+          <el-table-column prop="tradeCount" >
             <template slot="header">
               <span>
                 <span>订单转化数 </span>
@@ -58,7 +58,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="payment" sortable="custom">
+          <el-table-column prop="payment" >
             <template slot="header">
               <span>
                 <span>订单转化金额 </span>
@@ -68,7 +68,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="refundFee" sortable="custom">
+          <el-table-column prop="refundFee" >
             <template slot="header">
               <span>
                 <span>退款金额 </span>
@@ -127,9 +127,13 @@
         :activityEndTime="model.activityEndTime"
         :addFriendsStartTime="model.addFriendsStartTime"
         :addFriendsEndTime="model.addFriendsEndTime"
+        :channelState= 'channelState'
+        :firstQrCodeUserId = 'firstQrCodeUserId'
         :shopName="shopName"
         :shopId="shopId"
+        :activeName='activityName'
         :guid="model.guid"
+        :modelData='model'
         @onNext="getOhter('next', handleDetail)"
         @onPrev="getOhter('prev', handleDetail)"
       />
@@ -141,6 +145,7 @@ import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import FriendsList from './FriendsList'
+import log from '@/apis/weWork/log'
 export default {
   data () {
     return {
@@ -150,7 +155,9 @@ export default {
       shopName: null,
       activeIndex: -1,
       model: {},
-      activeRow: {}
+      activeRow: {},
+      channelState: null,
+      firstQrCodeUserId: null
     }
   },
   components: {
@@ -163,6 +170,11 @@ export default {
       default () {
         return {}
       }
+    },
+    activityName: {
+      default () {
+        return ''
+      }
     }
   },
   mixins: [tableMixin],
@@ -173,6 +185,8 @@ export default {
       this.shopId = row.shopId
       this.shopName = row.shopName
       this.drawer = true
+      this.channelState = row.channelState
+      this.firstQrCodeUserId = row.firstQrCodeUserId
     },
     // 查看门店选择上一个或下一个详情
     getOhter (type, cb) {

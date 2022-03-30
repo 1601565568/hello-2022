@@ -156,7 +156,7 @@
             <ShopTable :propsModel='model' @onSort='onSort'/>
           </template>
           <template v-else>
-            <ShopFriendsTable :propsModel='model'  @onSort='onSort'  />
+            <ShopFriendsTable :propsModel='model'  @onSort='onSort' :activityName='activityName'  />
           </template>
         </div>
         <div v-if="activeType === 'employee'">

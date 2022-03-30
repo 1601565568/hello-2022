@@ -57,7 +57,7 @@
         </el-table-column>
           <el-table-column
           prop="tradeCount"
-          sortable="custom">
+          >
              <template slot="header">
               <span>
                 <span>订单转化数 </span>
@@ -69,7 +69,7 @@
         </el-table-column>
           <el-table-column
           prop="payment"
-          sortable="custom">
+          >
            <template slot="header">
               <span>
                 <span>订单转化金额 </span>
@@ -81,7 +81,7 @@
         </el-table-column>
            <el-table-column
           prop="refundFee"
-          sortable="custom">
+          >
            <template slot="header">
               <span>
                 <span>退款金额 </span>

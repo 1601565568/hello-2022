@@ -68,7 +68,7 @@ export default {
   computed: {
     // 导出报表类型
     excelType () {
-      return this.activeType === 'shop' ? 29 : 37
+      return this.activeType === 'shop' ? 29 : 30
     },
     // 总数接口
     countApi () {
@@ -96,7 +96,8 @@ export default {
         shopIdList: model.shopIdList,
         startTime: this.type === 'Group' ? model.startTime : this.model.addFriendsStartTime,
         endTime: this.type === 'Group' ? model.endTime : this.model.addFriendsEndTime,
-        setState: model.setState
+        setState: model.setState,
+        ...model
       }
       this.$http.fetch(this.countApi, parmas).then(res => {
         const { shopNum = 0,
@@ -279,6 +280,7 @@ export default {
     friendExport () {
       const sendParams = {
         ...this.model,
+        name: this.activityName,
         exportType: this.excelType
       }
       const elem = document.getElementById('exportButton')
