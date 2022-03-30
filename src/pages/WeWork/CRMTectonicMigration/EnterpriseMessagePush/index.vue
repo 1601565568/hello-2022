@@ -590,10 +590,10 @@ export default {
       target.content = data
       if (this.employeeSelectData.type === 'employee') {
         target.type = 3
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) }).join(',')
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) })
       } else {
         target.type = 1
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.id) })
       }
       this.$http.fetch(this.$api.marketing.weworkMarketing.saveEnterprise, target)
         .then(() => {
