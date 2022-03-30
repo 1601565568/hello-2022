@@ -20,7 +20,7 @@ export default {
       total: 0
     }
     return {
-      url: this.$api.guide.customerCode.findList,
+      url: this.$api.guide.customerCode.findPopupList,
       _pagination: pagination,
       model: {
         loginAccount: '',

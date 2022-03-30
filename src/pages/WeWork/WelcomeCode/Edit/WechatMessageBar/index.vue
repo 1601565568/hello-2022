@@ -173,6 +173,7 @@ export default {
       posterMsg: null,
       pitbitMsg: null,
       imageCodeMsg: null,
+      costomCodeMsg: null, // 裂变大师
       visibleImageCodeDialog: false,
       visibleCostomCodeDialog: false,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
@@ -226,6 +227,7 @@ export default {
       if (this.posterMsg) msg = this.posterMsg
       if (this.pitbitMsg) msg = this.pitbitMsg
       if (this.imageCodeMsg) msg = this.imageCodeMsg
+      if (this.costomCodeMsg) msg = this.costomCodeMsg
       // 新增时，添加sop活动类型
       let type
       if (msg.type === undefined && !this.pitBit) {
@@ -325,6 +327,8 @@ export default {
           return WelcomeMessageType.Poster
         case 'pitbit':
           return WelcomeMessageType.Pitbit
+        case 'costomCode':
+          return WelcomeMessageType.CostomCode
         default:
           break
       }

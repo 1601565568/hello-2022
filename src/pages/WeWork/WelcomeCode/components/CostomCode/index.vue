@@ -67,11 +67,11 @@
                 <el-popover
                   placement="top-start"
                   class="item"
-                  :title="`参与活动人员（${scope.row.guideCount}）`"
+                  :title="`参与活动人员（${scope.row.guideNames.split(',').length}）`"
                   width="200"
                   trigger="hover"
                   :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
-                  <span :class="[scopeName==='QA'?nameTextQA:nameText]" slot="reference">共{{scope.row.guideCount}}个</span>
+                  <span :class="[scopeName==='QA'?nameTextQA:nameText]" slot="reference">共{{scope.row.guideNames.split(',').length}}个</span>
                 </el-popover>
               </div>
             </template>
@@ -96,7 +96,7 @@
             align='center'
             label="状态">
             <template slot-scope="scope">
-              <el-tag :type="statusList[scope.row.status].color" class='scope-name_tag'>{{statusList[scope.row.status].value}}</el-tag>
+              <el-tag :type="statusList[scope.row.activityStatus].color" class='scope-name_tag'>{{statusList[scope.row.activityStatus].value}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column

@@ -70,10 +70,15 @@ export default {
     confirm () {
       const model = this.$refs.costomCode.onSave()
       if (model) {
+        const { cardCopywriting, cardCoverPic, cardTitle, name, guestCodeId } = model
         this.$emit('confirm', {
           type: 'costomCode',
           content: {
-            ...model
+            guestCodeId: guestCodeId,
+            guestCodeName: name,
+            title: cardTitle,
+            image: cardCoverPic,
+            desc: cardCopywriting
           }
         })
         this.close()
