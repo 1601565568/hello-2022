@@ -130,9 +130,17 @@
                 <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})' v-if='isShowEdit(scope.row)'>编辑</ns-button>
                 <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)' v-if='isShowEdit(scope.row)'>结束活动</ns-button>
                 <ns-button type="text" v-copy='scope.row.activityQrcode'>复制链接</ns-button>
-                <ns-button type="text" v-if='!(scope.row.state===0 && type==="Friends")' @click='handleAnalysis(scope.row.guid,scope.row.name,scope.row.state)'>效果分析</ns-button>
+                <ns-button type="text"
+                  v-if='!(scope.row.state===0 && type==="Friends")'
+                  @click='handleAnalysis(
+                    scope.row.guid,
+                    scope.row.name,
+                    scope.row.state,
+                    {start: scope.row.startTime, end: scope.row.endTime},
+                    scope.row.timeType
+                    )'>效果分析</ns-button>
               </template>
-            </el-table-column>
+            </el-table-column>s
           </el-table>
         </template>
       </template>
