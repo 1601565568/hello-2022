@@ -50,7 +50,7 @@
               <span>
                 <span>添加时间 </span>
                 <el-tooltip content="活动期间内，添加好友的退款订单金额">
-                  <Icon type="question-circle" />
+                  <!-- <Icon type="question-circle" /> -->
                 </el-tooltip>
               </span>
             </template>
