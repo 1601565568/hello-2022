@@ -158,6 +158,7 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
+    <NsFriendDetail ref="NsFriendDetail" :isShowView="false" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
@@ -165,9 +166,11 @@
 import beDeletedCustomers from './src/beDeletedCustomers'
 import ElAvatar from '@nascent/nui/lib/avatar'
 import GuideDialog from '@/components/NewUi/GuideDialog'
+import NsFriendDetail from '@/components/NsFriendDetail'
 beDeletedCustomers.components = {
   GuideDialog,
-  ElAvatar
+  ElAvatar,
+  NsFriendDetail
 }
 export default beDeletedCustomers
 </script>
