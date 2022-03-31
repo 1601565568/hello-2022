@@ -67,7 +67,7 @@
             </div>
             <div class='shop-content'>
               <span>选择员工：</span>
-              <NsGuideDialog :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
+              <NsGuideDialog v-if="cloudPlatformType === 'ecrp'" :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
@@ -75,6 +75,25 @@
                   </div>
                 </template>
               </NsGuideDialog>
+              <NsGuideWeChatDialog
+                :selfBtn='true'
+                :isButton="false"
+                :auth="true"
+                :appendToBody="true"
+                :switchAreaFlag="1"
+                type="primary"
+                btnTitle=""
+                dialogTitle="选择成员"
+                v-model="guideIds"
+                @input="guideClick"
+                v-else>
+                <template slot='selfBtn'>
+                  <div class='self-btn'>
+                    {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个成员`:'全部'}}
+                    <Icon type="geren" class='guideIds-icon'></Icon>
+                  </div>
+                </template>
+              </NsGuideWeChatDialog>
             </div>
           </div>
           <div class="drawer-output" @click="outputClick" id="exportButton">
@@ -169,9 +188,10 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 export default {
   name: 'MaterialCahat',
-  components: { PageTable, NsGuideDialog, NsEcharts },
+  components: { PageTable, NsGuideDialog, NsEcharts, NsGuideWeChatDialog },
   data () {
     return {
       pickerOptions: {
@@ -277,7 +297,9 @@ export default {
       datePickerValue: [],
       fuscous: process.env.VUE_APP_THEME,
       fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      fuscousIcon: 'fuscousIcon',
+      // 判断系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
   },
   methods: {
