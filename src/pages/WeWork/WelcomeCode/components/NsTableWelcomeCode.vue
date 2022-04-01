@@ -80,7 +80,7 @@
                          :isButton="false"
                          :auth="true"
                          btnTitle=""
-                         :dialogTitle="选择员工"
+                         dialogTitle="选择员工"
                          v-model="model.guideIds"
                          @input="handleChangeGuide"
                          :isOpenDialogAfterRequest='false'
