@@ -34,8 +34,7 @@ export default {
       // },
       {
         func: function () {
-          this.$parent.$searchAction$()
-          this.$parent.getTotal()
+          this.$searchAction$()
         },
         icon: '$.noop',
         name: '刷新',
@@ -73,6 +72,8 @@ export default {
     })
 
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       statistics: {
         total: 0,
@@ -87,7 +88,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryTableSendData,
+      url: this.$api.marketing.weworkMarketing.receiverWxActivity,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
@@ -132,9 +133,15 @@ export default {
         }).finally(() => {})
     },
     getTotal: function () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryTotal, { id: this.$route.query.id })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.$route.query.id })
         .then((resp) => {
-          vm.statistics = resp.result
+          // Todo
+          vm.statistics = {
+            total: resp.result.receiverStatusCount,
+            successTotal: resp.result.receiverStatusCount,
+            failTotal: resp.result.receiverStatusCount,
+            unSendTotal: resp.result.receiverStatusCount
+          }
         }).catch((resp) => {
           vm.$notify.error(resp.msg)
         }).finally()
@@ -148,8 +155,8 @@ export default {
       this.$formatTextToShow$()
     },
     $handleParams: function (param) {
-      param.searchMap.planId = this.$route.query.id
-      param.searchMap.markingType = 4
+      param.searchMap.messageId = this.$route.query.id
+      // param.searchMap.markingType = 4
       return param
     },
     change () {

@@ -55,32 +55,34 @@
             </el-form-item>
           </el-form-item>
           <el-form-item v-show="tabType === 'employee'">
-            <el-form-item label="工作门店：">
-              <el-form-grid size="md">
-                <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
-              </el-form-grid>
-              <el-form-grid size="md" style="margin-left:10px">
-                <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
-                </el-select-load>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item label="选择部门：">
-              <el-form-grid size="md">
-                <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item label="员工类型：">
-              <el-form-grid>
-                <el-select v-model="model.employeeType">
-                  <el-option label="不限" value="">
-                  </el-option>
-                  <el-option label="导购" value="2">
-                  </el-option>
-                  <el-option label="店长" value="3">
-                  </el-option>
-                </el-select>
-              </el-form-grid>
-            </el-form-item>
+            <template v-if="cloudPlatformType === 'ecrp'">
+              <el-form-item label="工作门店：">
+                <el-form-grid size="md">
+                  <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
+                </el-form-grid>
+                <el-form-grid size="md" style="margin-left:10px">
+                  <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
+                  </el-select-load>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="选择部门：">
+                <el-form-grid size="md">
+                  <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="员工类型：">
+                <el-form-grid>
+                  <el-select v-model="model.employeeType">
+                    <el-option label="不限" value="">
+                    </el-option>
+                    <el-option label="导购" value="2">
+                    </el-option>
+                    <el-option label="店长" value="3">
+                    </el-option>
+                  </el-select>
+                </el-form-grid>
+              </el-form-item>
+            </template>
             <el-form-item label="手机号：">
               <el-form-grid size="md">
                 <el-input :maxlength="11" v-model="model.mobile"></el-input>
@@ -308,6 +310,8 @@ export default {
   },
   data: function () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 员工和分群的所有数据
       allEmpData: {
         data: [],

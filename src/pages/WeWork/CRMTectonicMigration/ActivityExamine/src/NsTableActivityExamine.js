@@ -29,105 +29,37 @@ export default {
         name: '审核',
         auth: '',
         visible: ''
-      },
-      {
-        func: function (obj) {
-          switch (obj.row.marketingType) {
-            case 4: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseMessagePush',
-                query: {
-                  openType: 'view',
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-            case 5: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseGroupMessagePush',
-                query: {
-                  openType: 'view',
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-            default: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseMessagePush',
-                query: {
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-          }
-        },
-        icon: '$.noop',
-        name: '查看活动',
-        auth: '',
-        visible: ''
       }
     ]
 
     const operateButtons = []
 
-    const quickInput = [{
-      template: '',
-      inline: false,
-      name: 'name',
-      text: '活动名称',
-      placeholder: '请输入活动名称',
-      type: 'text',
-      value: '',
-      isConvenient: false
-    }]
-    const quickSearchNames = quickInput.map(x => x.name)
-    const quickSearchModel = {}
     const model = Object.assign({},
       {
-        creater: '',
+        employeeId: '',
         name: '',
-        type: '',
-        createTime: [],
-        execTime: []
+        status: '2',
+        createTime: []
       }, {})
     const that = this
 
-    quickInput.map(item => {
-      Object.defineProperty(quickSearchModel, item.name, {
-        get: function () {
-          return model[item.name]
-        },
-        set: function (val) {
-          model[item.name] = val
-          // TODO 由于特殊需求导致下列写法
-          if (item.type === 'radio') {
-            that._data._table.quickSearchMap[item.name] = val
-            that.$quickSearch$()
-          }
-        },
-        enumerable: true
-      })
-    })
-
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       pickerOptions: pickerOptions,
-      quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryAuditTable,
+      url: this.$api.marketing.weworkMarketing.queryTable,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
-        quickSearchNames: quickSearchNames,
-        operate_buttons: operateButtons,
-        quickSearchMap: {}
+        // quickSearchNames: quickSearchNames,
+        operate_buttons: operateButtons
+        // quickSearchMap: {}
       },
       _queryConfig: {
         expand: false
@@ -160,16 +92,6 @@ export default {
     getCreateTime (value) {
       this.model.createStartTime = value[0]
       this.model.createEndTime = value[1]
-      let type = '1'
-      switch (this.$route.path) {
-        case '/GroupExamine': type = '2'; break
-        case '/CircleExamine': type = '3'; break
-        case '/EnterpriseExamine': type = '4'; break
-        case '/EnterpriseGroupExamine': type = '5'; break
-        default: break
-      }
-      param.searchMap.type = type
-      delete param.searchMap.execTime
       delete param.searchMap.createTime
       param.searchMap.status = 2
       this.$searchAction$()
@@ -205,11 +127,11 @@ export default {
       }
       return ''
     },
-    onShowAudit (planId) {
-      if (!planId) {
+    onShowAudit (messageId) {
+      if (!messageId) {
         return false
       }
-      this.$emit('showAudit', planId)
+      this.$emit('showAudit', messageId)
     }
   }
 }

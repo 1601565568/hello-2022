@@ -26,7 +26,7 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              id: obj.row.id,
+              messageId: obj.row.id,
               openType: 'edit'
             }
           })
@@ -83,7 +83,7 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              id: obj.row.id,
+              messageId: obj.row.id,
               openType: 'look'
             }
           })
@@ -98,7 +98,7 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              id: obj.row.id,
+              messageId: obj.row.id,
               openType: 'copy'
             }
           })
@@ -113,7 +113,8 @@ export default {
           vm.$router.push({
             path: '/Marketing/EffectAnalysisEnterprise',
             query: {
-              id: obj.row.id
+              id: obj.row.id,
+              name: obj.row.name
             }
           })
         },
@@ -172,7 +173,7 @@ export default {
           vm.$router.push({
             path: '/Marketing/EnterpriseMessagePush',
             query: {
-              id: '',
+              messageId: '',
               openType: 'add'
             }
           })
@@ -223,6 +224,8 @@ export default {
       })
     })
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
@@ -251,6 +254,7 @@ export default {
       showStaff: false,
       staffName: '',
       groupName: '',
+      messageListId: '',
       tableDialogData: [],
       tableDialogLoading: false,
       paginationDialog: {
@@ -295,6 +299,21 @@ export default {
     getStatus (value) {
       this.$searchAction$()
     },
+    // 打开接收人弹框
+    lookReceiver (val, id) {
+      if (val === 1) {
+        this.showStaff = true
+        this.staffName = ''
+      } else {
+        this.groupName = ''
+        this.showStaff = false
+      }
+      this.messageListId = id
+      this.paginationDialog.size = 15
+      this.paginationDialog.page = 1
+      this.getTableList()
+      this.showTableDialog = true
+    },
     // 弹窗表格事件 start
     dialogSizeChange (size) {
       this.paginationDialog.size = size
@@ -306,10 +325,18 @@ export default {
       this.getTableList()
     },
     getTableList () {
+      let params = {
+        searchValue: this.showStaff ? this.staffName : this.groupName,
+        start: this.paginationDialog.page,
+        length: this.paginationDialog.size,
+        searchMap: {
+          messageId: this.messageListId
+        }
+      }
       this.tableDialogLoading = true
       // todo
-      this.$http.fetch(this.url, params).then((resp) => {
-        this.tableDialogData = resp.result.data
+      this.$http.fetch(this.$api.marketing.weworkMarketing.receiverWxActivity, params).then((resp) => {
+        this.tableDialogData = resp.result.data.map(el => el.guide)
         this.paginationDialog.total = parseInt(resp.result.recordsTotal)
       }).catch((err) => {
         if (err && err.msg) {
@@ -338,16 +365,30 @@ export default {
       this.handleStatus = status
       this.showDialog = true
     },
-    // Todo
+    // 列表处理接口
     handleApi () {
+      let url = ''
+      if (this.handleItemType === 'check') {
+        // 提交审核
+        url = this.$api.marketing.weworkMarketing.commitWxActivity
+      } else if (this.handleItemType === 'checkBack') {
+        // 撤销提交审核
+        url = this.$api.marketing.weworkMarketing.abortWxActivity
+      } else if (this.handleItemType === 'termination') {
+        // 终止活动
+        // url = this.$api.marketing.weworkMarketing.abortWxActivity
+      } else if (this.handleItemType === 'delete') {
+        // 删除活动
+        url = this.$api.marketing.weworkMarketing.deleteWxActivity
+      }
       this.$http
-        .fetch(this.$api.weWork.groupWelcomeCode.saveOrUpdate, params)
+        .fetch(url, { messageId: this.handleObj.id })
         .then(resp => {
-          this.$notify.success('保存成功')
-          this.onBack(true)
+          this.$notify.success('操作成功')
+          this.$searchAction$()
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('保存失败', resp))
+          this.$notify.error(getErrorMsg('操作失败', resp))
         })
         .finally(() => {
           this.loading = false

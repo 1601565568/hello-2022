@@ -3,11 +3,11 @@
     <el-form class="examine-activity el-form-reset" label-width="6px" label-position="left">
       <el-form-item>
         <el-radio-group v-model="status">
-          <el-radio :label="1">通过</el-radio>
-          <el-radio :label="2">不通过</el-radio>
+          <el-radio :label="2">通过</el-radio>
+          <el-radio :label="3">不通过</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item v-show="status + '' === '2'">
+      <el-form-item v-show="status + '' === '3'">
         <el-input
           class="el-input"
           type="textarea"
@@ -37,12 +37,12 @@ export default {
       type: Boolean,
       default: false
     },
-    activityId: Number
+    messageId: Number
   },
   data () {
     return {
       // SOPExamineStatus: SOPExamineStatus,
-      status: 1,
+      status: 2,
       remark: ''
     }
   },
@@ -55,7 +55,7 @@ export default {
       this.remark = ''
     },
     confirm () {
-      this.$emit('confirm', { id: this.activityId, status: this.status, remark: this.remark })
+      this.$emit('confirm', { messageId: this.messageId, reviewStatus: this.status, reviewRemark: this.remark })
       this.$emit('update:visible', false)
     }
   }

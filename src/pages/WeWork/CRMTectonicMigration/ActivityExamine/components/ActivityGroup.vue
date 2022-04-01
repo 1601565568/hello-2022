@@ -3,7 +3,7 @@
     <div class="group-header">
       <div class="group-header-tip">
         <span>营销对象</span>
-        <span>{{_data._pagination.total}}个{{type === 'staff' ? '员工的全部好友' : '客户分群'}}</span>
+        <span>{{_data._pagination.total}}个{{type === 'staff' ? cloudPlatformType === 'ecrp' ? '员工的全部好友' : '成员的全部好友' : '客户分群'}}</span>
       </div>
     </div>
     <div class="new-table group-table">
@@ -13,7 +13,7 @@
         :data="_data._table.data"
       >
         <template v-if="type === 'staff'">
-          <el-table-column prop="sendGuideName" label="员工姓名">
+          <el-table-column prop="sendGuideName" :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
             <template slot-scope="scope">
               {{ scope.row.sendGuideName || '-' }}
             </template>
@@ -25,7 +25,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column prop="workShopName" label="工作门店">
+          <el-table-column prop="workShopName" v-if="cloudPlatformType === 'ecrp'" label="工作门店">
             <template slot-scope="scope">
               <el-popover
                 v-if="scope.row.workShopName.length"
@@ -45,12 +45,6 @@
 
         <template v-else>
           <el-table-column prop="ownerWorkNum" label="分群名称">
-            <template slot-scope="scope">
-              {{ scope.row.ownerWorkNum || '-' }}
-            </template>
-          </el-table-column>
-
-          <el-table-column prop="ownerWorkNum" label="分群人数">
             <template slot-scope="scope">
               {{ scope.row.ownerWorkNum || '-' }}
             </template>
@@ -84,7 +78,7 @@ export default {
       type: String,
       default: 'staff'
     },
-    activityId: Number,
+    messageId: Number,
     reload: Boolean,
     urlList: String
   },
@@ -97,6 +91,8 @@ export default {
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       successTotal: '0',
       url: this.urlList,
       model: {
@@ -105,7 +101,7 @@ export default {
     }
   },
   mounted () {
-    this.model = { id: this.activityId }
+    this.model = { id: this.messageId }
 
     this.searchForm()
     // console.log(this.url, 'url')

@@ -2,7 +2,7 @@
   <PageEdit class="friend-marketing">
     <template slot="header">
       <div class="common-header flex-box">
-        <h3>{{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销</h3>
+        <h3>{{$route.query.messageId ? (openType === 'look' ? '查看' : openType === 'copy' ? '复制' : '编辑') : '新建'}}微信好友营销</h3>
         <div class="common-btn">
           <ns-button class="customer-btn_cancel" @click="cancel" size="large">取消</ns-button>
           <ns-button class="customer-btn_save"  :disabled="isUpdate" :loading="loading" @click='save' type="primary" size="large">保存</ns-button>
@@ -205,6 +205,8 @@ export default {
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // preList: [], // 预览数组
       disabled: false, // 设置附件禁用
       isUploading: false, // 附件上传中标识
@@ -291,29 +293,20 @@ export default {
       radio: 'radio',
       radioQA: 'radioQA',
       tagText: 'tagText',
-      tagTextQA: 'tagTextQA'
+      tagTextQA: 'tagTextQA',
+      openType: '' // 编辑页类型
     }
   },
   created: function () {
     vm = this
-    // vm.init()
+    vm.init()
   },
   mounted () {
-    let { openType, id } = this.$route.query
+    let { openType, messageId } = this.$route.query
     this.openType = openType
-    if (openType === 'edit') {
-      // this.isEdit = true
-      // this.getDetail(id)
-    } else if (openType === 'look') {
-      this.isUpdate = true
-      // this.getDetail(id)
-    } else if (openType === 'copy') {
-      // this.isUpdate = true
-      // this.getDetail(id)
+    if (openType === 'add' && this.cloudPlatformType === 'kd') {
+      this.onlyOne = 'employee'
     }
-    // this.initSubTree()
-    // this.initEmpTree()
-    // this.verifyProductToCRM()
   },
   watch: {
     'employeeSelectData.data' (val) {
@@ -361,72 +354,79 @@ export default {
     },
     init () {
       const that = this
-      if (this.$route.query.taskId) {
-        this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { taskId: this.$route.query.taskId })
+      const messageId = this.$route.query.messageId
+      if (messageId) {
+        this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId })
           .then(resp => {
             const data = resp.result
-            vm.isUpdate = that.$route.query.openType === 'view'
-            vm.model.id = that.$route.query.openType === 'copy' ? '' : data.id
+            vm.isUpdate = that.openType === 'look'
+            // vm.model.id = that.openType === 'copy' ? '' : data.id
             vm.model.name = data.name
-            vm.model.executeMode = data.executeMode
-            if (vm.model.executeMode === 2) {
+            if (data.predictSendTime + '' === 'null') {
+              vm.model.executeMode = 1
+              vm.model.predictSendTime = ''
+            } else {
+              vm.model.executeMode = 2
               vm.model.predictSendTime = data.predictSendTime
             }
-            vm.model.customerType = data.customerType + ''
-            // 编辑状态修改 that.$route.query.openType === 'copy'
-            const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
-            const isCrm = crm === '1'
-            if (that.$route.query.openType === 'copy') {
-              if (!isCrm) {
-                if (data.customerType === 1) {
-                  data.userGroupIds = ''
-                  data.customerType = 2
-                  vm.onlyOne = 'employee'
-                } else if (data.customerType === 2) {
-                  vm.onlyOne = 'employee'
+            // Todo 链接附件的传值回填
+            vm.model.customerType = data.type + ''
+            if (this.cloudPlatformType === 'ecrp') {
+              const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+              const isCrm = crm === '1'
+              if (that.openType === 'copy') {
+                if (!isCrm) {
+                  if (data.type === 3) {
+                    data.userGroupIds = ''
+                    data.type = 1
+                    vm.onlyOne = 'employee'
+                  } else if (data.type === 1) {
+                    vm.onlyOne = 'employee'
+                  }
+                } else {
+                  vm.onlyOne = crm === '1' ? '' : 'employee'
                 }
               } else {
-                vm.onlyOne = crm === '1' ? '' : 'employee'
+                if (isCrm) {
+                  vm.onlyOne = ''
+                } else {
+                  vm.onlyOne = data.type === 1 ? 'employee' : ''
+                }
               }
+              vm.copyCustomerType = vm.model.customerType
             } else {
-              if (isCrm) {
-                vm.onlyOne = ''
-              } else {
-                vm.onlyOne = data.customerType === 1 ? '' : 'employee'
-              }
+              vm.onlyOne = 'employee'
             }
-            vm.copyCustomerType = vm.model.customerType
             if (data.content) {
-              if (data.content.text) {
-                vm.model.textarea = toolFn.stringTohtml(data.content.text, false, { tools: [], emojiClass: '', showEmoji: true })
-              }
-              if (data.content.image && Object.keys(data.content.image).length > 0) {
-                vm.picUrl = data.content.image.image
-                vm.model.type = 1
-                vm.show = true
-              }
-              if (data.content.picText && Object.keys(data.content.picText).length > 0) {
-                vm.pic = data.content.picText
-                vm.model.type = 2
-                vm.show = true
-              }
-              if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
-                vm.miniPro = data.content.miniPro
-                vm.model.type = 3
-                vm.show = true
-              }
+              vm.model.textarea = toolFn.stringTohtml(data.content, false, { tools: [], emojiClass: '', showEmoji: true })
+              // if (data.content.image && Object.keys(data.content.image).length > 0) {
+              //   vm.picUrl = data.content.image.image
+              //   vm.model.type = 1
+              //   vm.show = true
+              // }
+              // if (data.content.picText && Object.keys(data.content.picText).length > 0) {
+              //   vm.pic = data.content.picText
+              //   vm.model.type = 2
+              //   vm.show = true
+              // }
+              // if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
+              //   vm.miniPro = data.content.miniPro
+              //   vm.model.type = 3
+              //   vm.show = true
+              // }
             }
-            vm.setView()
+            this.model.mediaList = this.handleMediaList(data.attachments)
+            // vm.setView()
             const employeeSelectData = {
               data: [],
               type: 'employee'
             }
             vm.employeeSelectData = employeeSelectData
             const userList = []
-            const arr = data.userGroupIds && data.userGroupIds.split(',')
+            const arr = data.targets.length && data.targets
             for (const item of arr) {
               let userItem = {}
-              if (data.customerType === 2) {
+              if (data.type === 1) {
                 userItem = {
                   employeeID: item
                 }
@@ -438,7 +438,7 @@ export default {
               userList.push(userItem)
             }
             vm.employeeSelectData.data = userList
-            if (data.customerType === 2) {
+            if (data.type === 1) {
               vm.employeeSelectData.type = 'employee'
             } else {
               vm.employeeSelectData.type = 'group'
@@ -448,6 +448,65 @@ export default {
             vm.$notify.error('数据查询失败！' || resp.msg)
           }).finally(() => {})
       }
+    },
+    handleMediaList (list) {
+      let array = []
+      if (list.length) {
+        list.forEach(el => {
+          if (el.type === 1) {
+            array.push({
+              type: 1,
+              content: {
+                fileName: el.title,
+                image: el.remoteUrl
+              }
+            })
+          } else if (el.type === 2) {
+            array.push({
+              type: 2,
+              content: {
+                fileName: el.title,
+                video: el.remoteUrl,
+                uid: ''
+              }
+            })
+          } else if (el.type === 3) {
+            array.push({
+              type: 3,
+              // Todo
+              content: {
+                brandId: '',
+                custom: '',
+                desc: el.description,
+                image: el.picUrl,
+                link: el.url,
+                settingId: '',
+                title: el.title
+              }
+            })
+          } else if (el.type === 4) {
+            array.push({
+              type: 4,
+              content: {
+                appid: el.appid,
+                image: el.remoteUrl,
+                path: el.page,
+                title: el.title
+              }
+            })
+          } else if (el.type === 5) {
+            array.push({
+              type: 5,
+              content: {
+                configId: '',
+                image: el.picUrl,
+                title: el.title
+              }
+            })
+          }
+        })
+      }
+      return array
     },
     // change (tab) {
     //   if (tab.name === '1') {
@@ -511,7 +570,7 @@ export default {
     },
     verifyProductToCRM: function () {
       // 编辑保留之前的任务的状态
-      if (this.$route.query.taskId) {
+      if (this.$route.query.messageId) {
         return
       }
       this.initCrmData()
@@ -544,19 +603,19 @@ export default {
       if (vm.model.textarea) {
         target.content = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
-      if (!vm.model.mediaList.length) {
+      if (vm.model.mediaList.length) {
         let array = []
         vm.model.mediaList.forEach(el => {
           if (el.type === 1) {
             array.push({
               type: 1,
-              picUrl: el.content.image,
+              remoteUrl: el.content.image,
               title: el.content.fileName
             })
           } else if (el.type === 2) {
             array.push({
               type: 2,
-              picUrl: el.content.video,
+              remoteUrl: el.content.video,
               title: el.content.fileName
             })
           } else if (el.type === 3) {
@@ -572,7 +631,7 @@ export default {
             array.push({
               type: 4,
               appid: el.content.appid,
-              picUrl: el.content.image,
+              remoteUrl: el.content.image,
               page: el.content.path,
               title: el.content.title
             })
@@ -589,13 +648,20 @@ export default {
       }
       target.content = data
       if (this.employeeSelectData.type === 'employee') {
-        target.type = 3
+        target.type = 1
         target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) })
       } else {
-        target.type = 1
+        target.type = 3
         target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.id) })
       }
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveEnterprise, target)
+      let apiUrl = ''
+      if (this.openType === 'add' || this.openType === 'copy') {
+        apiUrl = this.$api.marketing.weworkMarketing.saveEnterprise
+      } else if (this.openType === 'edit') {
+        apiUrl = this.$api.marketing.weworkMarketing.updateEnterprise
+        target.messageId = this.$route.query.messageId
+      }
+      this.$http.fetch(apiUrl, target)
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()

@@ -14,18 +14,15 @@
     <div class="drawer_content" v-loading="loading" ref="DrawerContent">
       <div
         class="drawer_content-header">
-        <NsButton size="medium" @click="$emit('examine', activityId)">审核</NsButton>
+        <NsButton size="medium" @click="$emit('examine', messageId)">审核</NsButton>
       </div>
       <div class="drawer_content-info">
         <el-form class="el-form-reset" size="medium" label-width="80px" label-position="right" disabled>
           <el-form-item label="活动名称">
-            <el-input :value="activity.code" class="el-input" readonly></el-input>
-          </el-form-item>
-          <el-form-item label="活动类型">
             <el-input :value="activity.name" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="创建人">
-            <el-input :value="activity.creatorName" class="el-input" readonly></el-input>
+            <el-input :value="activity.employeeName" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="执行时间" v-if="activity.sendType === 0">
             <el-radio v-model="activity.sendType" :label="0">立即发送</el-radio>
@@ -35,7 +32,7 @@
             <el-date-picker
               type="datetime"
               placeholder="请选择"
-              :value="activity.sendTime"
+              :value="activity.predictSendTime"
               :clearable="false"
             >
             </el-date-picker>
@@ -54,8 +51,9 @@
       </div>
       <div class="drawer_content-group block-line">
         <ActivityGroup
-          :activityId="activityId"
+          :messageId="messageId"
           :reload="visible"
+          :type="type"
           :urlList="urlList"
         />
       </div>
@@ -79,39 +77,47 @@ export default {
       type: Boolean,
       default: false
     },
-    activityId: Number,
-    panelType: {
-      type: String,
-      default: 'activity',
-      validator: function (value) {
-        // activity 创建活动使用 examine 审核页面使用
-        return ['activity', 'examine'].indexOf(value) !== -1
-      }
-    }
+    messageId: Number
   },
   data () {
     return {
       loading: false,
       activity: {},
+      type: 'staff',
       urlList: this.$api.weWork.sop.getChatRoomInfoList
     }
   },
   methods: {
     /**
-     * 获取好友营销详情
+     * 获取好友营销详情接口
      */
-    open () {
-      this.getActivityDetailById(this.activityId)
-    },
-    getActivityDetailById (id) {
+    getActivityDetailById () {
       this.loading = true
-      this.$http.fetch(this.$api.weWork.sop.findById, { id })
-        .then(resp => {
-          this.activity = resp.result
+      this.visible = true
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.messageId })
+        .then((resp) => {
+          if (resp && resp.result) {
+            let audioModel = {}
+            audioModel.name = resp.result.name
+            audioModel.employeeName = resp.result.employee.name
+            audioModel.sendType = resp.result.predictSendTime + '' === 'null' ? 0 : 1
+            audioModel.predictSendTime = resp.result.predictSendTime
+            // Todo
+            audioModel.contentList = resp.result.attachments
+            // let typeName = ''
+            if (resp.result.type === 3) {
+              this.type = 'group'
+            } else if (resp.result.type === 1) {
+              this.type = 'staff'
+            }
+            // audioModel.obj = resp.result.targets.length + typeName
+            this.activity = audioModel
+          }
+        }).catch((resp) => {
+          this.$notify.error(resp.msg)
+          this.$reload()
+        }).finally(() => {
           this.loading = false
-          this.resetScroll()
-        }).catch(() => {
-          this.$notify.error('获取营销活动详情失败')
         })
     },
     resetScroll () {

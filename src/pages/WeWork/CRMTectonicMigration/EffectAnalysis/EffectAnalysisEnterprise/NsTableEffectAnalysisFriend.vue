@@ -5,20 +5,20 @@
         <div class="head-router">
           <div>
             <span class="iconfont icon-icon-fanhuishangyiji icon-back" @click="$router.go(-1)"></span>
-            <span>的效果分析</span>
+            <span>{{this.$route.query.name}}的效果分析</span>
           </div>
           <ns-table-operate-button :buttons="_data._table.operate_buttons">
           </ns-table-operate-button>
         </div>
       </template>
-      <template slot='search'>
+      <!-- <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
             <el-input v-model.trim="model.nick" placeholder="请输入微信昵称" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
             </el-input>
           </el-form-item>
-          <el-form-item label="所属员工：">
+          <el-form-item :label="cloudPlatformType === 'ecrp' ? '所属员工：' : '所属成员：'">
             <el-select v-model="model.empId" filterable placeholder="请选择">
               <el-option v-for="item in employees" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
@@ -31,7 +31,7 @@
             </el-select>
           </el-form-item>
         </el-form>
-      </template>
+      </template> -->
       <template slot='table'>
         <div class="info-block">
           <span>发送总计:{{statistics.total}}</span>
@@ -47,8 +47,8 @@
             prop="plan_name"
             label="头像">
             <template slot-scope="scope">
-              <template v-if="scope.row.headImg">
-                <img :src="scope.row.headImg" class="head-img"/>
+              <template v-if="scope.row.externalContact.avatar">
+                <img :src="scope.row.externalContact.avatar" class="head-img"/>
               </template>
               <template v-else><img class="head-img" src="./images/no-img.png"/></template>
             </template>
@@ -56,35 +56,42 @@
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="friendNick"
+            prop="externalContact.name"
             label="微信昵称">
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="employeeWechatNick"
+            prop="guide.name"
             label="好友所属员工">
             <template slot-scope="scope">
-              {{scope.row.empName ? scope.row.empName: '-'}}
+              {{scope.row.guide.name ? scope.row.guide.name: '-'}}
             </template>
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="friendNick"
+            prop="guide.workNumber"
             label="工号">
+            <template slot-scope="scope">
+              {{scope.row.guide.workNumber ? scope.row.guide.workNumber: '-'}}
+            </template>
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="friendNick"
+            prop="sendStatus"
             label="确认结果">
             <template slot="header">
-              <span>确认结果</span>
+              <span class="mgr4">确认结果</span>
               <el-tooltip placement="top" effect="light" stype="">
                 <Icon type="question-circle" theme="outlined" className="text-primary"/>
                 <div slot="content">员工在移动端收到消息提醒后是否点击“发送”结果</div>
               </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <template v-if="scope.row.sendStatus >= 4">确认发送</template>
+              <template v-else>未确认发送</template>
             </template>
           </el-table-column>
 
@@ -93,23 +100,25 @@
             prop="sendStatus"
             label="发送状态">
             <template slot-scope="scope">
-              <template v-if="scope.row.sendStatus === 0">待发送</template>
-              <template v-else-if="scope.row.sendStatus === 1">发送成功</template>
-              <template v-else-if="scope.row.sendStatus === 2">发送失败</template>
-              <template v-else>待发送</template>
+              <template v-if="scope.row.sendStatus === 2">待发送</template>
+              <template v-else-if="scope.row.sendStatus === 4">发送成功</template>
+              <template v-else>
+                <span class="mgr4">发送失败</span>
+                <el-tooltip placement="top" effect="light" stype="">
+                  <Icon type="question-circle" theme="outlined" className="text-primary"/>
+                  <div slot="content">{{scope.row.sendFailReason}}</div>
+                </el-tooltip>
+              </template>
             </template>
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="auditTime"
+            prop="sendTime"
             label="发送时间"
             sortable="1">
             <template slot-scope="scope">
-              <template v-if="scope.row.auditTime">
-                {{scope.row.auditTime}}
-              </template>
-              <template v-else>-</template>
+              {{scope.row.sendTime ? scope.row.sendTime: '-'}}
             </template>
           </el-table-column>
 
@@ -306,5 +315,8 @@ export default NsTableEffectAnalysisFriend
   span{
     margin-right: 24px;
   }
+}
+.mgr4{
+  margin-right: 4px;
 }
 </style>
