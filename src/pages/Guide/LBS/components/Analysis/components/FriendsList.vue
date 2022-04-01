@@ -232,6 +232,8 @@ export default {
         this.model.timeType = this.timeType
         this.model.activityStartTime = this.activityStartTime
         this.model.activityEndTime = this.activityEndTime
+        this.model.firstQrCodeUserId = this.firstQrCodeUserId
+        this.model.channelState = this.channelState
         this.$searchAction$()
       },
       immediate: true
