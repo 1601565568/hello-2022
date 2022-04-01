@@ -72,13 +72,12 @@
           >
             没有更多了
           </p>
-          <NsNoData v-if="!listLoading && list.length === 0"
-          >暂无数据</NsNoData>
+          <NsNoData v-if="!listLoading && list.length === 0">暂无数据</NsNoData>
           <!-- </div> -->
         </div>
         <div class="content_bottom"></div>
       </div>
-      <div
+      <!-- <div
         class="template-page__left__children"
         :class="!unfoldAndStow ? 'customer_list__width' : ''"
       >
@@ -118,10 +117,10 @@
           >
         </div>
         <div class="content_bottom"></div>
-      </div>
+      </div> -->
       <div class="template-page__right">
         <div class="template-page__right__content" :class="ml">
-          <div class="content_header">关键词命中明细</div>
+          <!-- <div class="content_header">关键词命中明细</div>
           <div class="chat_record">
             <el-scrollbar ref="fullScreen">
               <el-table
@@ -150,12 +149,6 @@
                       >查看</ns-button
                     >
                   </template>
-                  <!-- <template slot-scope="scope">
-                  <ns-table-column-operate-button
-                    :buttons="table.operate_buttons"
-                    :prop="scope"
-                  ></ns-table-column-operate-button>
-                </template>  -->
                 </el-table-column>
               </el-table>
             </el-scrollbar>
@@ -169,8 +162,8 @@
               class="template-table__pagination"
               layout="total, sizes, prev, pager, next, jumper"
             ></el-pagination>
-            <!-- <ChatRecordList /> -->
-          </div>
+          </div> -->
+          <KeyWordList ref="keyWordList" :topicId="select" />
         </div>
       </div>
     </div>
@@ -252,7 +245,7 @@ export default Index
     width: 18px;
     height: 18px;
     margin-left: 8px;
-      cursor: pointer;
+    cursor: pointer;
   }
 }
 .loadMoreWrapper {
@@ -273,7 +266,7 @@ export default Index
   scrollbar-width: none;
   list-style: none;
   padding: 0px;
-    padding: 0 16px;
+  padding: 0 16px;
   li {
     position: relative;
     display: flex;
@@ -379,7 +372,7 @@ export default Index
   margin-left: 192px;
 }
 .template-page__right_content {
-  margin-left: 408px;
+  margin-left: 185px;
 }
 .template-page__content {
   position: relative;

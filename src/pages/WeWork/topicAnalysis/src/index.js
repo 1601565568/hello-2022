@@ -11,6 +11,7 @@ import AddKeyWord from '../../components/addKeyWord'
 import Message from '../../components/message'
 import { formatList, formatWeWorkChatData } from './format'
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import KeyWordList from '../components/KeyWordList.vue'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -20,7 +21,8 @@ export default {
     AddKeyWordTopic,
     AddKeyWord,
     Message,
-    NsNoData
+    NsNoData,
+    KeyWordList
   },
   data () {
     let _that = this
@@ -229,9 +231,9 @@ export default {
           let response = res.result
           this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
           let defItem =
-          this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
-            ? this.keyWordsVoList[0]
-            : null
+            this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
+              ? this.keyWordsVoList[0]
+              : null
           // 没有关键字列表
           this.keyWordsVoListLoding = false
           if (defItem === null) {
@@ -247,6 +249,7 @@ export default {
           this.table.loading = false
           this.$notify.error(error.msg)
         })
+      this.$refs.keyWordList.fetch({ topicId: this.select })
     },
     /**
      * 新增话题弹窗
