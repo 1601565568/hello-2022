@@ -1,8 +1,20 @@
 
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import { mapState } from 'vuex'
 
 export default {
   mixins: [tableMixin],
+  computed: {
+    ...mapState({
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig,
+      tableTitle () {
+        return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与企微成员'
+      },
+      tableKey () {
+        return this.cloudPlatformType === 'ecrp' ? 'guideNames' : 'userNames'
+      }
+    })
+  },
   props: {
     qrcodeModel: {
       type: Object,
@@ -51,6 +63,7 @@ export default {
           color: 'info'
         }
       },
+      maxPerson: 10,
       scopeName: process.env.VUE_APP_THEME,
       nameText: 'scope-name_text',
       nameTextQA: 'scope-name_textQA'
@@ -69,7 +82,6 @@ export default {
     },
     handleChange () {
       this.configObj = this._data._table.data.find(item => item.guestCodeId === this.configId) || {}
-      console.log(this.configObj)
     },
     onSave () {
       if (!this.configObj.guestCodeId) {
@@ -85,6 +97,14 @@ export default {
     handlePreview (data) {
       this.dialogData = data
       this.dialogVisible = true
+    },
+    calcPerson (item) {
+      const personList = (item[this.tableKey] || '').split(',')
+      return personList.length > this.maxPerson ? personList.slice(0, this.maxPerson).join(',') + '...' : personList.join(',')
+    },
+    calcPersonNum (item) {
+      const personList = (item[this.tableKey] || '').split(',')
+      return personList.length
     }
   },
   mounted () {

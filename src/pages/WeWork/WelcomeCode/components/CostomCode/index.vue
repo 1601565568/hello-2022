@@ -52,26 +52,26 @@
             label="活动海报">
             <template slot-scope="scope">
               <div class="scope-title">
-                <img :src='scope.row.activityPlacard' class="scope-title_img">
+                <img :src='scope.row.backgroundPic' class="scope-title_img">
               </div>
             </template>
           </el-table-column>
           <el-table-column
             prop="guideNames"
-            label="参与活动人员">
+            :label="tableTitle">
             <template slot-scope="scope">
               <div class="scope-name">
-                <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
-                  {{scope.row.guideNames}}
+                <div class="scope-name_text" >
+                  {{calcPerson(scope.row)}}
                 </div>
                 <el-popover
                   placement="top-start"
                   class="item"
-                  :title="`参与活动人员（${scope.row.guideNames.split(',').length}）`"
+                  :title="`参与活动人员（${calcPersonNum(scope.row)}）`"
                   width="200"
                   trigger="hover"
-                  :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
-                  <span :class="[scopeName==='QA'?nameTextQA:nameText]" slot="reference">共{{scope.row.guideNames.split(',').length}}个</span>
+                  :content="calcPerson(scope.row)">
+                  <span :class="[scopeName==='QA'?nameTextQA:nameText]" slot="reference">共{{`${calcPersonNum(scope.row)}`}}个</span>
                 </el-popover>
               </div>
             </template>
