@@ -1,18 +1,21 @@
 export interface THIRD_ROUTER {
   [key: string]: any,
 };
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isCropReady
 export const setPortals = () => (
   {
     type: 'isPortals',
     value: true
   }
 )
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isChatDataSettingReady
 export const setAddress = () => (
   {
     type: 'isAddress',
     value: true
   }
 )
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isContactSettingReady
 export const setChat = () => (
   {
     type: 'isChat',

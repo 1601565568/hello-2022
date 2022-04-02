@@ -1,11 +1,11 @@
 <template>
   <div>
-    <template v-if="textButton">
+    <!-- <template v-if="textButton">
       <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     </template>
     <template v-else>
       <NsButton type="primary" @click="onDialogOpen" class="margin-lr-small"><i class="bui-select-employee"></i>{{btnTitle}}</NsButton>
-    </template>
+    </template> -->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false" class="g-wrapper"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="960px">
       <div>
@@ -55,32 +55,34 @@
             </el-form-item>
           </el-form-item>
           <el-form-item v-show="tabType === 'employee'">
-            <el-form-item label="工作门店：">
-              <el-form-grid size="md">
-                <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
-              </el-form-grid>
-              <el-form-grid size="md" style="margin-left:10px">
-                <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
-                </el-select-load>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item label="选择部门：">
-              <el-form-grid size="md">
-                <ns-droptree ref="employeeDepartTree" :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item label="员工类型：">
-              <el-form-grid>
-                <el-select v-model="model.employeeType">
-                  <el-option label="不限" value="">
-                  </el-option>
-                  <el-option label="导购" value="2">
-                  </el-option>
-                  <el-option label="店长" value="3">
-                  </el-option>
-                </el-select>
-              </el-form-grid>
-            </el-form-item>
+            <template v-if="cloudPlatformType === 'ecrp'">
+              <el-form-item label="工作门店：">
+                <el-form-grid size="md">
+                  <ns-droptree v-if='isLoadShopAreaTree' ref="shopAreaTree" placeholder="请选择区域" :lazy="true" :data="shopAreaData" :load="loadShopAreaNode" :filter-lazy-nodes="filterShopArea" v-model="model.shopArea" clearable :defaultExpandAll='true'></ns-droptree>
+                </el-form-grid>
+                <el-form-grid size="md" style="margin-left:10px">
+                  <el-select-load v-model="model.shopId" :options="shopOptions" filterable clearable :page-sizes="20" placeholder="选择门店">
+                  </el-select-load>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="选择部门：">
+                <el-form-grid size="md">
+                  <ns-droptree ref="employeeDepartTree" :defaultExpandAll='true' :lazy="true" :data="deptData" :filter-lazy-nodes="filterDept" :load="loadNode" v-model="model.selectedDepart" clearable></ns-droptree>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="员工类型：">
+                <el-form-grid>
+                  <el-select v-model="model.employeeType">
+                    <el-option label="不限" value="">
+                    </el-option>
+                    <el-option label="导购" value="2">
+                    </el-option>
+                    <el-option label="店长" value="3">
+                    </el-option>
+                  </el-select>
+                </el-form-grid>
+              </el-form-item>
+            </template>
             <el-form-item label="手机号：">
               <el-form-grid size="md">
                 <el-input :maxlength="11" v-model="model.mobile"></el-input>
@@ -271,10 +273,17 @@ export default {
     showWechatNo: {
       type: Boolean,
       default: false
+    },
+    // 是否需要返回客户分组名称，好友营销新建中用到
+    needGroupName: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 员工和分群的所有数据
       allEmpData: {
         data: [],
@@ -1055,6 +1064,9 @@ export default {
             const returnObj = {}
             propsSet.forEach(pro => {
               returnObj[this[propsName][pro]] = item[pro]
+              if (this.needGroupName) {
+                returnObj.targetName = item.subdivisionName
+              }
             })
             result.push(returnObj)
           })
