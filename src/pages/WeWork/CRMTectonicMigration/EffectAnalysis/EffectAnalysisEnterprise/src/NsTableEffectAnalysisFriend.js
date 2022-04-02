@@ -135,12 +135,12 @@ export default {
     getTotal: function () {
       this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.$route.query.id })
         .then((resp) => {
-          // Todo
+          let countInfo = resp.result.formatReceiverStatusCount
           vm.statistics = {
-            total: resp.result.receiverStatusCount,
-            successTotal: resp.result.receiverStatusCount,
-            failTotal: resp.result.receiverStatusCount,
-            unSendTotal: resp.result.receiverStatusCount
+            total: countInfo.success + countInfo.fail + countInfo.pending,
+            successTotal: countInfo.success,
+            failTotal: countInfo.fail,
+            unSendTotal: countInfo.pending
           }
         }).catch((resp) => {
           vm.$notify.error(resp.msg)

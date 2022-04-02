@@ -41,7 +41,12 @@ export default {
     url: '/wework/groupMessage/commit',
     method: 'post'
   },
-  // 好友营销列表撤销提交审核
+  // 好友营销列表撤回提交审核
+  revokeWxActivity: {
+    url: '/wework/groupMessage/revoke',
+    method: 'post'
+  },
+  // 好友营销列表终止审核
   abortWxActivity: {
     url: '/wework/groupMessage/abort',
     method: 'post'
@@ -51,9 +56,14 @@ export default {
     url: '/wework/groupMessage/review',
     method: 'post'
   },
-  // 好友营销列表获取群发接收人
+  // 好友营销列表效果分析列表接口
   receiverWxActivity: {
     url: '/wework/groupMessage/receiver',
+    method: 'post'
+  },
+  // 好友营销列表获取营销对象接口
+  targetWxActivity: {
+    url: '/wework/groupMessage/target',
     method: 'post'
   },
   getSubdivisionList: {

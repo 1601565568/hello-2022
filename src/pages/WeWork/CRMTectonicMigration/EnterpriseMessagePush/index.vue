@@ -67,6 +67,7 @@
                   :class="[radioIcon==='QA'? tagTextQA: tagText]"
                   :disabled="isUpdate"
                   v-model='model.textarea'
+                  :tagSpecialHandle='true'
                   tag="wise"
                   ref="testText"
                   :maxlength="400"
@@ -123,7 +124,7 @@
         </SimpleCollapse>
       </el-form>
       <!-- 选择营销人群组件 -->
-      <NsEmployeeOrCustGroupDialog ref="nsEmployeeOrCustGroupDialog" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
+      <NsEmployeeOrCustGroupDialog ref="nsEmployeeOrCustGroupDialog" :needGroupName="true" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
     </template>
   </PageEdit>
 </template>
@@ -369,7 +370,6 @@ export default {
               vm.model.executeMode = 2
               vm.model.predictSendTime = data.predictSendTime
             }
-            // Todo 链接附件的传值回填
             vm.model.customerType = data.type + ''
             if (this.cloudPlatformType === 'ecrp') {
               const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
@@ -428,11 +428,12 @@ export default {
               let userItem = {}
               if (data.type === 1) {
                 userItem = {
-                  employeeID: item
+                  employeeID: item.targetId
                 }
               } else {
                 userItem = {
-                  id: item
+                  id: item.targetId
+                  // targetName: item.targetName
                 }
               }
               userList.push(userItem)
@@ -476,11 +477,11 @@ export default {
               // Todo
               content: {
                 brandId: '',
-                custom: '',
+                custom: el.urlType,
                 desc: el.description,
                 image: el.picUrl,
                 link: el.url,
-                settingId: '',
+                settingId: el.urlSettingId,
                 title: el.title
               }
             })
@@ -498,7 +499,7 @@ export default {
             array.push({
               type: 5,
               content: {
-                configId: '',
+                configId: el.qrcodePlacardConfigId,
                 image: el.picUrl,
                 title: el.title
               }
@@ -599,7 +600,6 @@ export default {
       if (target.executeMode === 1) {
         target.predictSendTime = null
       }
-      const data = {}
       if (vm.model.textarea) {
         target.content = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
@@ -625,7 +625,9 @@ export default {
               picUrl: el.content.image,
               description: el.content.desc,
               url: el.content.link,
-              title: el.content.title
+              title: el.content.title,
+              urlType: el.content.custom,
+              urlSettingId: el.content.settingId
             })
           } else if (el.type === 4) {
             array.push({
@@ -638,7 +640,7 @@ export default {
           } else if (el.type === 5) {
             array.push({
               type: 5,
-              // Todo 少configId
+              qrcodePlacardConfigId: el.content.configId,
               picUrl: el.content.image,
               title: el.content.title
             })
@@ -646,13 +648,12 @@ export default {
         })
         target.attachments = array
       }
-      target.content = data
       if (this.employeeSelectData.type === 'employee') {
         target.type = 1
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) })
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
       } else {
         target.type = 3
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return parseInt(value.id) })
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.id), targetName: value.targetName } })
       }
       let apiUrl = ''
       if (this.openType === 'add' || this.openType === 'copy') {

@@ -6,7 +6,7 @@ export default {
     return {
       // 环境判断
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
-      messageId: 0, // 点中审核的id
+      messageId: '0', // 点中审核的id
       visibleExamineDialog: false, // 审核dialog
       visible: false,
       loading: false
@@ -26,6 +26,7 @@ export default {
         const resp = await this.$http.fetch(this.$api.marketing.weworkMarketing.reviewWxActivity, context)
         this.$message.success('审核完成')
         this.$refs.table.$reload()
+        this.visible = false
       } catch (respErr) {
         this.$message.error('审核失败')
       } finally {
@@ -39,7 +40,9 @@ export default {
         return false
       }
       this.messageId = messageId
-      this.$refs.CheckActivityDrawer.getActivityDetailById()
+      this.visible = true
+      // console.log(messageId, 'messageId')
+      // this.$refs.CheckActivityDrawer.getActivityDetailById(messageId)
     }
   },
   created () {},

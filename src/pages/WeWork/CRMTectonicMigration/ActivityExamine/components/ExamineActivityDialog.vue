@@ -37,7 +37,7 @@ export default {
       type: Boolean,
       default: false
     },
-    messageId: Number
+    messageId: String
   },
   data () {
     return {
@@ -51,7 +51,7 @@ export default {
       this.$emit('update:visible', false)
     },
     open () {
-      this.status = SOPExamineStatus.Succeed
+      // this.status = SOPExamineStatus.Succeed
       this.remark = ''
     },
     confirm () {

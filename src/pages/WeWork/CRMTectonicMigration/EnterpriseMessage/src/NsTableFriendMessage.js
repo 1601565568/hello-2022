@@ -335,8 +335,8 @@ export default {
       }
       this.tableDialogLoading = true
       // todo
-      this.$http.fetch(this.$api.marketing.weworkMarketing.receiverWxActivity, params).then((resp) => {
-        this.tableDialogData = resp.result.data.map(el => el.guide)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.targetWxActivity, params).then((resp) => {
+        this.tableDialogData = resp.result.data
         this.paginationDialog.total = parseInt(resp.result.recordsTotal)
       }).catch((err) => {
         if (err && err.msg) {
@@ -373,10 +373,10 @@ export default {
         url = this.$api.marketing.weworkMarketing.commitWxActivity
       } else if (this.handleItemType === 'checkBack') {
         // 撤销提交审核
-        url = this.$api.marketing.weworkMarketing.abortWxActivity
+        url = this.$api.marketing.weworkMarketing.revokeWxActivity
       } else if (this.handleItemType === 'termination') {
         // 终止活动
-        // url = this.$api.marketing.weworkMarketing.abortWxActivity
+        url = this.$api.marketing.weworkMarketing.abortWxActivity
       } else if (this.handleItemType === 'delete') {
         // 删除活动
         url = this.$api.marketing.weworkMarketing.deleteWxActivity

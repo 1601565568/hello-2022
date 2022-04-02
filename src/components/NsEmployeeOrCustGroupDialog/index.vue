@@ -306,6 +306,11 @@ export default {
     showWechatNo: {
       type: Boolean,
       default: false
+    },
+    // 是否需要返回客户分组名称，好友营销新建中用到
+    needGroupName: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -1107,6 +1112,9 @@ export default {
             const returnObj = {}
             propsSet.forEach(pro => {
               returnObj[this[propsName][pro]] = item[pro]
+              if (this.needGroupName) {
+                returnObj.targetName = item.subdivisionName
+              }
             })
             result.push(returnObj)
           })

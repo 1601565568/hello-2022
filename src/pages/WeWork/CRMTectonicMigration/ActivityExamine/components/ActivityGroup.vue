@@ -13,30 +13,30 @@
         :data="_data._table.data"
       >
         <template v-if="type === 'staff'">
-          <el-table-column prop="sendGuideName" :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
+          <el-table-column prop="guide.name" :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
             <template slot-scope="scope">
-              {{ scope.row.sendGuideName || '-' }}
+              {{ scope.row.guide.name || '-' }}
             </template>
           </el-table-column>
 
-          <el-table-column prop="sendGuideWorkNum" label="工号">
+          <el-table-column prop="guide.workNumber" label="工号">
             <template slot-scope="scope">
-              {{ scope.row.sendGuideWorkNum || '-' }}
+              {{ scope.row.guide.workNumber || '-' }}
             </template>
           </el-table-column>
 
-          <el-table-column prop="workShopName" v-if="cloudPlatformType === 'ecrp'" label="工作门店">
+          <el-table-column prop="guide.simpleShops" v-if="cloudPlatformType === 'ecrp'" label="工作门店">
             <template slot-scope="scope">
               <el-popover
-                v-if="scope.row.workShopName.length"
+                v-if="scope.row.guide.simpleShops && scope.row.guide.simpleShops.length"
                 placement="top-start"
                 class="item"
-                :title="`工作门店（${scope.row.workShopName.length}）`"
+                :title="`工作门店（${scope.row.guide.simpleShops.length}）`"
                 trigger="hover"
-                :content="scope.row.workShopName.join('；')">
-                <span class="scope-name-tip" slot="reference">{{scope.row.workShopName.length ? scope.row.workShopName.slice(0, 2).join('；') : '-'}}</span>
+                :content="scope.row.guide.simpleShops.map(el => el.shopName).join('；')">
+                <span class="scope-name-tip" slot="reference">{{scope.row.guide.simpleShops.length ? scope.row.guide.simpleShops.map(el => el.shopName).slice(0, 2).join('；') : '-'}}</span>
                 <div style="max-width: 400px">
-                  {{scope.row.workShopName.join('；')}}
+                  {{scope.row.guide.simpleShops.map(el => el.shopName).join('；')}}
                 </div>
               </el-popover>
             </template>
@@ -44,9 +44,9 @@
         </template>
 
         <template v-else>
-          <el-table-column prop="ownerWorkNum" label="分群名称">
+          <el-table-column prop="targetName" label="分群名称">
             <template slot-scope="scope">
-              {{ scope.row.ownerWorkNum || '-' }}
+              {{ scope.row.targetName || '-' }}
             </template>
           </el-table-column>
         </template>
@@ -78,9 +78,14 @@ export default {
       type: String,
       default: 'staff'
     },
-    messageId: Number,
+    messageId: String,
     reload: Boolean,
-    urlList: String
+    urlList: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
   },
   watch: {
     reload (newVal, oldVal) {

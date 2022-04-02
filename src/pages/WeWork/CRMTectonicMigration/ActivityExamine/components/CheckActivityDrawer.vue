@@ -9,7 +9,7 @@
     @open="open"
   >
     <template slot="title">
-      <h3 class="title">查看</h3>
+      <h3 class="title">好友营销审核</h3>
     </template>
     <div class="drawer_content" v-loading="loading" ref="DrawerContent">
       <div
@@ -17,12 +17,12 @@
         <NsButton size="medium" @click="$emit('examine', messageId)">审核</NsButton>
       </div>
       <div class="drawer_content-info">
-        <el-form class="el-form-reset" size="medium" label-width="80px" label-position="right" disabled>
+        <el-form class="el-form-reset" :model="activity" size="medium" label-width="80px" label-position="right" disabled>
           <el-form-item label="活动名称">
-            <el-input :value="activity.name" class="el-input" readonly></el-input>
+            <el-input v-model="activity.name" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="创建人">
-            <el-input :value="activity.employeeName" class="el-input" readonly></el-input>
+            <el-input v-model="activity.employeeName" class="el-input" readonly></el-input>
           </el-form-item>
           <el-form-item label="执行时间" v-if="activity.sendType === 0">
             <el-radio v-model="activity.sendType" :label="0">立即发送</el-radio>
@@ -32,7 +32,7 @@
             <el-date-picker
               type="datetime"
               placeholder="请选择"
-              :value="activity.predictSendTime"
+              v-model="activity.predictSendTime"
               :clearable="false"
             >
             </el-date-picker>
@@ -43,8 +43,19 @@
               <MessagePreviewPanel
                 ref="MessagePreviewPanel"
                 class="message-box"
+                imageLabel="image"
+                videoLabel="video"
+                miniAndLinkImageLabel="image"
                 :list="activity.contentList"
               />
+              <!-- <MessagePreviewPanel
+                :needMaxHeight="true"
+                :hasBracket="false"
+                class="message-preivew-panel"
+                imageLabel="image"
+                videoLabel="video"
+                miniAndLinkImageLabel="image"
+                :list="preList"/> -->
             </div>
           </el-form-item>
         </el-form>
@@ -65,6 +76,7 @@
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ActivityGroup from './ActivityGroup.vue'
 import MessagePreviewPanel from '@/pages/WeWork/SOP/components/MessagePreviewPanel/index.vue'
+import { toolFn } from '@/components/NewUi/TagArea'
 
 export default {
   components: {
@@ -77,48 +89,135 @@ export default {
       type: Boolean,
       default: false
     },
-    messageId: Number
+    messageId: String
   },
   data () {
     return {
       loading: false,
       activity: {},
       type: 'staff',
-      urlList: this.$api.weWork.sop.getChatRoomInfoList
+      urlList: this.$api.marketing.weworkMarketing.targetWxActivity
     }
   },
   methods: {
+    open () {
+      this.getActivityDetailById(this.messageId)
+    },
+    // /**
+    //  * 替换标签成模板
+    //  * hasBracket 是否带括号 默认true
+    //  */
+    // htmlToString (html, hasBracket = true) {
+    //   const pre = hasBracket ? '{' : ''
+    //   const after = hasBracket ? '}' : ''
+    //   html = html.replace(/<wise.*?\bclass="/g, pre).replace(/">.*?<\/wise>/g, after).replace(/<(div|br|p).*?>/g, '\n').replace(/<(span|b).*?>/g, '').replace(/<\/(div|br|p)>/g, '').replace(/<\/(span|b)>/g, '')
+    //   // if (this.tagSpecialHandle) {
+    //   //   let { tools = [] } = this
+    //   //   tools.map(item => {
+    //   //     const regexp = new RegExp(item.id, 'g')
+    //   //     html = html.replace(
+    //   //       regexp,
+    //   //       `{${item.id}}`
+    //   //     )
+    //   //   })
+    //   // }
+    //   return html
+    // },
     /**
      * 获取好友营销详情接口
      */
-    getActivityDetailById () {
+    getActivityDetailById (messageId) {
+      let that = this
       this.loading = true
-      this.visible = true
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.messageId })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId })
         .then((resp) => {
           if (resp && resp.result) {
             let audioModel = {}
             audioModel.name = resp.result.name
-            audioModel.employeeName = resp.result.employee.name
+            audioModel.employeeName = resp.result.employee && resp.result.employee.name
             audioModel.sendType = resp.result.predictSendTime + '' === 'null' ? 0 : 1
             audioModel.predictSendTime = resp.result.predictSendTime
-            // Todo
-            audioModel.contentList = resp.result.attachments
-            // let typeName = ''
             if (resp.result.type === 3) {
-              this.type = 'group'
+              that.type = 'group'
             } else if (resp.result.type === 1) {
-              this.type = 'staff'
+              that.type = 'staff'
             }
-            // audioModel.obj = resp.result.targets.length + typeName
-            this.activity = audioModel
+            audioModel.contentList = that.handleMediaList(resp.result.attachments)
+            audioModel.contentList.unshift({
+              type: 0,
+              content: {
+                type: 'text',
+                textContent: toolFn.htmlToString(resp.result.content)
+              }
+            })
+            that.$set(this, 'activity', audioModel)
+            // that.activity = audioModel
           }
         }).catch((resp) => {
-          this.$notify.error(resp.msg)
-          this.$reload()
+          that.$notify.error(resp.msg)
+          // that.$reload()
         }).finally(() => {
-          this.loading = false
+          that.loading = false
         })
+    },
+    handleMediaList (list) {
+      let array = []
+      if (list.length) {
+        list.forEach(el => {
+          if (el.type === 1) {
+            array.push({
+              type: 1,
+              content: {
+                fileName: el.title,
+                image: el.remoteUrl
+              }
+            })
+          } else if (el.type === 2) {
+            array.push({
+              type: 2,
+              content: {
+                fileName: el.title,
+                video: el.remoteUrl,
+                uid: ''
+              }
+            })
+          } else if (el.type === 3) {
+            array.push({
+              type: 3,
+              // Todo
+              content: {
+                brandId: '',
+                custom: el.urlType,
+                desc: el.description,
+                image: el.picUrl,
+                link: el.url,
+                settingId: el.urlSettingId,
+                title: el.title
+              }
+            })
+          } else if (el.type === 4) {
+            array.push({
+              type: 4,
+              content: {
+                appid: el.appid,
+                image: el.remoteUrl,
+                path: el.page,
+                title: el.title
+              }
+            })
+          } else if (el.type === 5) {
+            array.push({
+              type: 5,
+              content: {
+                configId: el.qrcodePlacardConfigId,
+                image: el.picUrl,
+                title: el.title
+              }
+            })
+          }
+        })
+      }
+      return array
     },
     resetScroll () {
       this.$refs.DrawerContent.parentElement.scrollTop = 0

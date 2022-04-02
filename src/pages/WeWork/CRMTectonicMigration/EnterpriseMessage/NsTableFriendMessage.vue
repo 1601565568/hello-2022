@@ -107,10 +107,8 @@
             prop="trade_tag_name"
             label="营销对象">
             <template slot-scope="scope">
-              <!-- Todo -->
-              <!-- {{scope.row.userGroupIds.split(',').length}} -->
-              <template v-if="scope.row.type === 3"><span class="mem-detail" @click="lookReceiver(3, scope.row.id)">3</span>个客户分群</template>
-              <template v-else><span class="mem-detail" @click="lookReceiver(1, scope.row.id)">3</span>个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}全部好友</template>
+              <template v-if="scope.row.type === 3"><span class="mem-detail" @click="lookReceiver(3, scope.row.id)">{{scope.row.targetCount}}</span>个客户分群</template>
+              <template v-else><span class="mem-detail" @click="lookReceiver(1, scope.row.id)">{{scope.row.targetCount}}</span>个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}全部好友</template>
             </template>
           </el-table-column>
 
@@ -123,6 +121,7 @@
           <el-table-column
             :show-overflow-tooltip="true"
             prop="status"
+            min-width="90px"
             label="活动状态">
             <template slot-scope="scope">
               <!-- 已执行 -->
@@ -191,18 +190,18 @@
             <template v-if="showStaff">
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="name"
+                prop="guide.name"
                 :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
               </el-table-column>
 
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="workNumber"
+                prop="guide.workNumber"
                 v-if="cloudPlatformType === 'ecrp'"
                 label="工号">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.workNumber">
-                    {{scope.row.workNumber}}
+                  <template v-if="scope.row.guide.workNumber">
+                    {{scope.row.guide.workNumber}}
                   </template>
                   <template v-else>-</template>
                 </template>
@@ -210,18 +209,32 @@
 
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="userName"
+                prop="guide.simpleShops.shopName"
                 v-if="cloudPlatformType === 'ecrp'"
                 label="工作门店">
+                <template slot-scope="scope">
+                  <el-popover
+                    v-if="scope.row.guide.simpleShops && scope.row.guide.simpleShops.length"
+                    placement="top-start"
+                    class="item"
+                    :title="`工作门店（${scope.row.guide.simpleShops.length}）`"
+                    trigger="hover"
+                    :content="scope.row.guide.simpleShops.map(el => el.shopName).join('；')">
+                    <span class="scope-name-tip" slot="reference">{{scope.row.guide.simpleShops.length ? scope.row.guide.simpleShops.map(el => el.shopName).slice(0, 2).join('；') : '-'}}</span>
+                    <div style="max-width: 400px">
+                      {{scope.row.guide.simpleShops.map(el => el.shopName).join('；')}}
+                    </div>
+                  </el-popover>
+                </template>
               </el-table-column>
 
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="status"
+                prop="guide.status"
                 label="在职状态">
                 <template slot-scope="scope">
                   <template>
-                    {{scope.row.status === 0 ? '禁用' : scope.row.status === 1 ? '在职' : '离职'}}
+                    {{scope.row.guide.status === 0 ? '禁用' : scope.row.guide.status === 1 ? '在职' : '离职'}}
                   </template>
                 </template>
               </el-table-column>
@@ -229,14 +242,8 @@
             <template v-else>
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="userName"
+                prop="targetName"
                 label="分群名称">
-              </el-table-column>
-
-              <el-table-column
-                :show-overflow-tooltip="true"
-                prop="userName"
-                label="分群人数">
               </el-table-column>
             </template>
 

@@ -78,15 +78,8 @@
             prop="tradeTagName"
             label="营销对象">
             <template slot-scope="scope">
-              <!-- {{scope.row.userGroupIds.split(',').length}} -->
-              <template v-if="scope.row.customerType === 1"> 个客户分群</template>
-              <template v-else-if="scope.row.customerType === 2">
-                <template v-if="scope.row.marketingType === 3"> 个员工
-                </template>
-                <template v-else> 个员工全部好友</template>
-              </template>
-              <template v-else-if="scope.row.customerType === 3"> 个微信群</template>
-              <template v-else> 个群主</template>
+              <template v-if="scope.row.type === 3">{{scope.row.targetCount}}个客户分群</template>
+              <template v-else>{{scope.row.targetCount}}个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}全部好友</template>
             </template>
           </el-table-column>
 

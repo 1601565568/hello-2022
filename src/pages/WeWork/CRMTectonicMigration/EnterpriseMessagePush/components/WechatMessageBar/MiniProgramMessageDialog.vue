@@ -300,12 +300,6 @@ export default {
           value: '集团ID'
         },
         {
-          text: '好友userid',
-          id: 'userId',
-          type: 'tag',
-          value: '好友userid'
-        },
-        {
           text: '导购userid',
           id: 'guideUserId',
           type: 'tag',
