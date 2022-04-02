@@ -293,10 +293,7 @@ export default {
      */
     addKeyWord (data) {
       this.$http
-        .fetch(this.$api.weWork.topicAnalysis.addKeyWord, {
-          keyWords: data,
-          topicId: this.select
-        })
+        .fetch(this.$api.weWork.topicAnalysis.addKeyWord, data)
         .then(res => {
           if (res.success) {
             this.$notify.success(res.msg)

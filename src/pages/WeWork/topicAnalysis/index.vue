@@ -163,7 +163,11 @@
               layout="total, sizes, prev, pager, next, jumper"
             ></el-pagination>
           </div> -->
-          <KeyWordList ref="keyWordList" :topicId="select" />
+          <KeyWordList
+            ref="keyWordList"
+            :topicId="select"
+            @addKeyWordDialog="addKeyWordDialog"
+          />
         </div>
       </div>
     </div>

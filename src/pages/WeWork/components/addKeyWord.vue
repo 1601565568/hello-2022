@@ -1,3 +1,9 @@
+<!--
+ * @Date: 2022-03-30 14:04:18
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-02 17:58:07
+ * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\components\addKeyWord.vue
+-->
 <template>
   <el-dialog title="添加关键词" :visible.sync="visible" width="35%">
     <!-- <div style="height: 250px;padding-right:10px"> -->
@@ -5,11 +11,22 @@
       :model="Form"
       :rules="rules"
       ref="ruleForm"
-      label-width="80px"
+      label-width="90px"
       class="demo-ruleForm"
     >
       <el-form-item label="关键词：" prop="keyWords">
         <el-input type="textarea" v-model="Form.keyWords" :rows="10"></el-input>
+      </el-form-item>
+      <el-form-item label="话题分类：" prop="topicType">
+        <el-select v-model="Form.topicType" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.topicId"
+            :label="item.topicName"
+            :value="item.topicId"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <span class="text-primary">
@@ -34,13 +51,27 @@ export default {
   data () {
     return {
       Form: {
-        keyWords: ''
+        keyWords: '',
+        topicType: ''
       },
       rules: {
-        keyWords: [{ required: true, message: '请输入关键词', trigger: 'blur' }]
+        keyWords: [
+          { required: true, message: '请输入关键词', trigger: 'blur' }
+        ],
+        topicType: [{ required: true, message: '请选择' }]
       },
-      visible: false
+      visible: false,
+      listParams: {
+        start: 0,
+        time: '',
+        length: 100,
+        name: ''
+      },
+      options: []
     }
+  },
+  mounted () {
+    this.fetchOptions()
   },
   methods: {
     onShow () {
@@ -68,7 +99,10 @@ export default {
             return item.length <= 10 && item.length > 0
           })
           if (checkee) {
-            this.$emit('add', addWords)
+            this.$emit('add', {
+              keyWords: addWords,
+              topicId: this.Form.topicType
+            })
             this.$refs.ruleForm.resetFields()
             this.visible = false
           } else {
@@ -80,6 +114,20 @@ export default {
         }
       })
       //   this.$refs[ruleForm].resetFields()
+    },
+    fetchOptions () {
+      if (this.options.length > 0) return
+      this.$http
+        .fetch(
+          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
+          this.listParams
+        )
+        .then(res => {
+          this.options = res.result || []
+        })
+        .catch(error => {
+          this.$notify.error(error.msg)
+        })
     }
   }
 }

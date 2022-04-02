@@ -1,24 +1,21 @@
 /*
- * @Date: 2022-04-01 11:15:26
+ * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 19:05:41
- * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
+ * @LastEditTime: 2022-04-02 19:08:38
+ * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
-import MemberList from '../MemberList.vue'
 
 export default {
-  name: 'KeyWordList',
+  name: 'MemberList',
   props: {
-    topicId: {
-      type: Number
+    filterStr: {
+      type: String,
+      require: true
     }
   },
-  components: { MemberList },
   data () {
     return {
-      isDetails: false,
-      filterStr: '',
       table: {
         loading: false,
         tableData: []
@@ -66,7 +63,7 @@ export default {
   },
   methods: {
     initFetch () {
-
+      this.fetch()
     },
     fetch (params) {
       this.table.loading = true
@@ -76,8 +73,7 @@ export default {
           this.$api.weWork.topicAnalysis.getKeyWordTopicList,
           _params
         ).then(res => {
-          let response = res.result
-          this.table.tableData = response.length > 0 ? response[0].keyWordsVoList : []
+          this.table.tableData = res.result
           this.table.loading = false
         }).catch(error => {
           this.table.loading = false
@@ -112,14 +108,12 @@ export default {
         this.fetch()
       }
     },
-    handleAddKeyWord () {
-      this.$emit('addKeyWordDialog')
+    handleRowJump () {
+      this.$emit('handleRowJump')
     },
-    handleRowJump (params) {
-      this.isDetails = !this.isDetails
-      if (params) {
-        this.filterStr = params
-      }
+    fliterText (text) {
+      let str = text.split(this.filterStr).join('<span style="color: red">' + this.filterStr + '</span>')
+      return str
     },
     /**
      * 获取当天日期
