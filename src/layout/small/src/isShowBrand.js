@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-31 17:14:35
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 10:01:52
+ * @LastEditTime: 2022-04-02 10:33:56
  * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
  */
 /**
@@ -36,7 +36,8 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/DeleteCustomers',
     '/Social/WeComCustomerOperation/BeDeleteCustomers',
     '/Social/WeWorkGroup/sensitiveWords',
-    '/Customer/Group/CustomerGroup'
+    '/Customer/Group/CustomerGroup',
+    '/WeWork/Customer/SessionStatistics'
 
   ]
 
