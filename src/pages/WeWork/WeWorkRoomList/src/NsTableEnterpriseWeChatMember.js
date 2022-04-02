@@ -57,7 +57,7 @@ export default {
       {
         memberWechatNo: '',
         memberWechatNick: '',
-        ownerBind: '',
+        relationship: '',
         memberType: '',
         joinTime: [],
         joinScene: ''
