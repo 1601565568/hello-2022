@@ -19,6 +19,47 @@ export default {
         chargebackStartTime: null, // 好友拉新 退款开始
         chargebackEndTime: null // 好友拉新 退款结束
       },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          // 先判断活动类型timeType 如果是2那么时间限制一年前到现在
+          // 否则timeType===1，判断活动起始时间是否超过一年，超过一年，活动结束时间小于当前时间，那么就是范围就是活动结束时间一年前~活动结束时间，
+          // 活动结束时间大于当前时间，当前时间~一年前， 不超过一年，时间选择就是活动起始时间~活动结束时间
+          const { start, end, type } = this.$route.query // 活动起始时间， 活动结束时间， 活动类型
+          const now = new Date().getTime() // 此刻时间
+          const inTime = new Date(time).getTime() // 用户输入时间
+          const aYearAgo = moment(now).subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss') // 相对于此刻 一年前
+          const activityIsEnd = moment(now).isAfter(end, 'day')
+          if (Number(type) === 2) {
+            // 用户选择时间 > 今天；或者小于一年前
+            return moment(inTime).isBefore(aYearAgo, 'day') || moment(inTime).isAfter(now, 'day')
+          }
+          if (Number(type) === 1) {
+            const endSub = moment(end).subtract(1, 'year')
+            // 活动时间小于一年
+            if (moment(endSub).isBefore(start, 'day')) {
+              // 活动已经结束
+              if (activityIsEnd) {
+                return moment(inTime).isBefore(start, 'day') || moment(inTime).isAfter(end, 'day')
+              } else {
+                return moment(inTime).isBefore(start, 'day') || moment(inTime).isAfter(now, 'day')
+              }
+            } else {
+              const initTime = moment(end).subtract(1, 'year')
+              if (activityIsEnd) {
+                return moment(inTime).isBefore(initTime, 'day') || moment(inTime).isAfter(end, 'day')
+              } else {
+                return moment(inTime).isBefore(initTime, 'day') || moment(inTime).isAfter(now, 'day')
+              }
+            }
+          }
+          return false
+          // if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
+          //   return false
+          // } else {
+          //   return time.getTime() < Date.now() - 181 * 8.64e7
+          // }
+        }
+      },
       time: this.type !== 'Group' ? this.initTime() : this.changeDate(1), // 时间筛选
       timeOrder: [],
       timeRefund: [],

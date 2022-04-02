@@ -1,7 +1,7 @@
 <template>
   <div class="container-warpper">
     <div class="container-div">
-      <page-table :title="`门店名称 - ${shopName}-${name}`">
+      <page-table :title="`${shopName}-${name}`">
         <template slot="button">
           <ns-button size="large" @click="handleExport">导出</ns-button>
         </template>
