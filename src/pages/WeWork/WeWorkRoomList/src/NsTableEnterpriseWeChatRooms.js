@@ -71,6 +71,8 @@ export default {
       })
     })
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       synButton: false, // 导出按钮
       quickSearchModel: quickSearchModel,
@@ -211,7 +213,9 @@ export default {
       return url
     },
     queryChatroomLeaderOptions () {
-      this.$http.fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions)
+      let params = this.cloudPlatformType === 'kd' ? { chatId: '' } : {}
+      let url = this.cloudPlatformType === 'kd' ? this.$api.weWork.weWorkRooms.analysis_owner : this.$api.weWork.weWorkRooms.queryWeWorkRoomsLeaderOptions
+      this.$http.fetch(url, params)
         .then((resp) => {
           this.chatroomLeaders = resp.result
         }).catch((resp) => {
