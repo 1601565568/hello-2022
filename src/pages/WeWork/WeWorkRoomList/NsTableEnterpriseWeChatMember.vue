@@ -55,7 +55,7 @@
             </el-form-item>
             <el-form-item label="是否好友：">
               <el-form-grid size="xmd">
-                <el-select v-model="model.ownerBind" filterable clearable
+                <el-select v-model="model.relationship" filterable clearable
                            :multiple="false">
                   <el-option label="不限" value="">
                   </el-option>
