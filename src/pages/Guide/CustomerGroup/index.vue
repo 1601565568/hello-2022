@@ -56,6 +56,7 @@
               <el-form :inline="true" class="form-inline_top">
                 <el-form-item label="员工：">
                   <NsGuideDialog
+                    v-if="cloudPlatformType === 'ecrp'"
                     :selfBtn='true'
                     :appendToBody='true'
                     :isButton="false"
@@ -72,6 +73,25 @@
                       </div>
                     </template>
                   </NsGuideDialog>
+                  <NsGuideWeChatDialog
+                    :selfBtn='true'
+                    :isButton="false"
+                    :auth="true"
+                    :appendToBody="true"
+                    :switchAreaFlag="1"
+                    type="primary"
+                    btnTitle=""
+                    dialogTitle="选择成员"
+                    v-model="guideIds"
+                    @input="(value)=>{this.changeSearchfrom({ guideIds: value })}"
+                    v-else>
+                    <template slot='selfBtn'>
+                      <div class='self-btn'>
+                        {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个成员`:'全部'}}
+                        <Icon type="geren" class='guideIds-icon'></Icon>
+                      </div>
+                    </template>
+                  </NsGuideWeChatDialog>
                 </el-form-item>
               </el-form>
             </div>
@@ -167,9 +187,10 @@ import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ColorfulDisplay from './components/ColorfulDisplay'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay },
+  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay, NsGuideWeChatDialog },
   data () {
     return {
       loading: false,
@@ -325,7 +346,12 @@ export default {
       lart30: '',
       guideIds: [],
       datePickerArr: [],
-      showTodaySelect: true
+      showTodaySelect: true,
+      fuscous: process.env.VUE_APP_THEME,
+      fuscousQA: 'fuscousQA',
+      fuscousIcon: 'fuscousIcon',
+      // 判断系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
   },
   computed: {
