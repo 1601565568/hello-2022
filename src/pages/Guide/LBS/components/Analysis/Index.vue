@@ -114,6 +114,7 @@
               end-placeholder="请选择结束日期"
               :default-time="['00:00:00','23:59:59']"
               @change='screenAddByTime'
+              :picker-options="pickerOptions1"
               align="right">
           </el-date-picker>
           </el-form-item>
@@ -128,6 +129,7 @@
              end-placeholder="请选择结束日期"
              :default-time="['00:00:00','23:59:59']"
              @change='screenOrderByTime'
+             :picker-options="pickerOptions1"
              align="right">
            </el-date-picker>
           </el-form-item>
@@ -138,6 +140,7 @@
              value-format="yyyy-MM-dd HH:mm:ss"
              format="yyyy/MM/dd"
              range-separator="至"
+             :picker-options="pickerOptions1"
              start-placeholder="请选择开始日期"
              end-placeholder="请选择结束日期"
              :default-time="['00:00:00','23:59:59']"
