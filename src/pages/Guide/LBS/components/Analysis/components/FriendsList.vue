@@ -3,10 +3,10 @@
     <div class="container-div">
       <page-table :title="`${shopName}-${name}`">
         <template slot="button">
-          <ns-button size="large" @click="handleExport">导出</ns-button>
+          <button size="large" @click="handleExport" class="btn">导出</button>
         </template>
         <template slot="table">
-          <div class="form-item_tip">
+          <div class="form-item_tip" id="beClick">
             客户选择此门店时，会随机添加以下的任意一名在职员工
           </div>
           <el-table
@@ -243,6 +243,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@components/NewUi/styles/reset.css";
+.btn{
+    padding: 9px 20px;
+    font-size: 14px;
+    border: 1px solid #DCDFE6;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 3px;
+    display: inline-block;
+    background: #FFFFFF;
+    color: #606266;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+}
+.btn:hover{
+    background: #e6f4ff;
+    color: #0091fa;
+    border-color: #b3defe;
+}
 .container-warpper {
   height: 100vh;
   overflow-y: auto;
