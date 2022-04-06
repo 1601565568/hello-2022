@@ -141,7 +141,7 @@
             <el-table-column prop="createTime" label="时间"> </el-table-column>
             <el-table-column prop="address" label="操作"  width="140px">
               <template slot-scope="scope">
-                <ns-button
+                <!-- <ns-button
                   type="text"
                   @click="handleEdit(scope.row, scope.$index)"
                   >查看内容</ns-button
@@ -151,7 +151,10 @@
                   type="text"
                   @click="checkPublishDetail(scope.row)"
                   >发表明细</ns-button
-                >
+                > -->
+                <ns-button type="text" @click="handleEdit(scope.row, scope.$index)">
+                  详情
+                </ns-button>
               </template>
             </el-table-column>
           </el-table>
