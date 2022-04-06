@@ -135,8 +135,8 @@ export default {
             let audioModel = {}
             audioModel.name = resp.result.name
             audioModel.employeeName = resp.result.employee && resp.result.employee.name
-            audioModel.sendType = resp.result.predictSendTime + '' === 'null' ? 0 : 1
-            audioModel.predictSendTime = resp.result.predictSendTime
+            audioModel.sendType = !resp.result.predictSendTime ? 0 : 1
+            audioModel.predictSendTime = resp.result.predictSendTime && resp.result.predictSendTime
             if (resp.result.type === 3) {
               that.type = 'group'
             } else if (resp.result.type === 1) {
