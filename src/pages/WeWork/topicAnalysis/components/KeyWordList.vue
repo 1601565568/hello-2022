@@ -1,56 +1,63 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 19:06:30
+ * @LastEditTime: 2022-04-06 18:29:17
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
   <div class="page-contnaier">
-    <div v-if="isDetails">
-      <MemberList :filterStr="filterStr" @handleRowJump="handleRowJump" />
+    <div v-show="isDetails">
+      <MemberList
+        ref="memberList"
+        :memberData="memberData"
+        @handleRowJump="handleRowJump"
+      />
     </div>
-    <div v-if="!isDetails">
+    <div v-show="!isDetails">
       <div class="container-head">
-        <div class="head-title">
-          <span>关键词列表</span>
-          <ns-button round @click="handleAddKeyWord">新建关键词</ns-button>
-        </div>
         <div class="head-serach">
           <div>
-            <el-form label-position="left" :inline="true" label-width="80px">
-              <el-form-item label="关键词: ">
+            <el-form label-position="left" :inline="true">
+              <el-form-item>
+                <el-date-picker
+                  value-format="yyyy-MM-dd"
+                  format="yyyy-MM-dd"
+                  :picker-options="pickerOptions"
+                  type="date"
+                  :clearable="false"
+                  v-model="keyWordVoListReq.timeRange"
+                >
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item>
                 <el-input
                   @keyup.enter.native="fetch"
                   @clear="fetch"
                   clearable
                   placeholder="请输入关键词"
                   v-model="keyWordVoListReq.keyWord"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="自定义时段: ">
-                <el-date-picker
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  :picker-options="pickerOptions"
-                  type="datetimerange"
-                  :clearable="false"
-                  v-model="keyWordVoListReq.timeRange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
                 >
-                </el-date-picker>
+                  <i
+                    slot="suffix"
+                    class="el-input__icon el-icon-search"
+                    @click="handleKeyWordSearch"
+                  ></i>
+                </el-input>
               </el-form-item>
             </el-form>
           </div>
           <div>
-            <ns-button round type="primary" @click="handleKeyWordSearch"
+            <ns-button type="primary" @click="handleAddKeyWord"
+              >新建关键词</ns-button
+            >
+            <!-- <ns-button round type="primary" @click="handleKeyWordSearch"
               >搜索</ns-button
             >
-            <ns-button round @click="handleKeyWordReset">重置</ns-button>
+            <ns-button round @click="handleKeyWordReset">重置</ns-button> -->
           </div>
         </div>
       </div>
-      <div class="chat_record">
+      <div class="container-content">
         <el-scrollbar ref="fullScreen">
           <el-table
             ref="multipleTable"
@@ -59,25 +66,27 @@
             v-loading.lock="table.loading"
             stripe
             resizable
+            :header-cell-style="headerStyle"
           >
             <el-table-column label="关键词" prop="word"> </el-table-column>
             <el-table-column prop="keyWordId" label="最后发生时间">
             </el-table-column>
             <el-table-column label="成员发送次数">
               <template slot-scope="scope">
-                <ns-button type="text" @click="handleRowJump(scope.row.word)">{{
+                <ns-button type="text" @click="handleRowJump(scope.row)">{{
                   scope.row.count
                 }}</ns-button>
               </template>
             </el-table-column>
             <el-table-column label="好友发送次数">
               <template slot-scope="scope">
-                <ns-button type="text" @click="handleRowJump(scope.row.word)">{{
+                <ns-button type="text" @click="handleRowJump(scope.row)">{{
                   scope.row.count
                 }}</ns-button>
               </template>
             </el-table-column>
             <el-table-column prop="count" label="创建人"></el-table-column>
+            <el-table-column prop="count" label="创建时间"></el-table-column>
           </el-table>
         </el-scrollbar>
         <el-pagination
@@ -88,8 +97,10 @@
           @size-change="handleSizeChange"
           @current-change="handlePageChange"
           class="template-table__pagination"
-          layout="total, sizes, prev, pager, next, jumper"
-        ></el-pagination>
+          layout="slot, sizes, prev, pager, next, jumper"
+        >
+          <span class="pagination-text">单页显示: </span>
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -103,20 +114,24 @@ export default Index
 .page-contnaier {
   background: #ffffff;
   .container-head {
-    padding: 16px;
-    font-size: 16px;
+    padding: 12px 16px 16px;
     background: #ffffff;
-    color: #262626;
   }
-  .head-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  // .head-title {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  // }
   .head-serach {
-    margin-top: 15px;
     display: flex;
     justify-content: space-between;
+  }
+  .container-content {
+    padding: 0 16px 16px;
+  }
+  .pagination-text {
+    float: left;
+    font-weight: 400;
   }
 }
 </style>

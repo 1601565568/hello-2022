@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 19:08:38
+ * @LastEditTime: 2022-04-06 15:28:39
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -9,8 +9,8 @@ import moment from 'moment'
 export default {
   name: 'MemberList',
   props: {
-    filterStr: {
-      type: String,
+    memberData: {
+      type: Object,
       require: true
     }
   },
@@ -27,11 +27,12 @@ export default {
         page: 1,
         total: 0
       },
-      keyWordVoListReq: {
+      memberListParams: {
         start: 0,
         length: 15,
         topicId: null,
-        keyWord: '',
+        wxName: '',
+        name: '',
         timeRange: null
       },
       bottomMinDate: '',
@@ -59,15 +60,15 @@ export default {
     }
   },
   mounted () {
-    this.initFetch()
+    // this.initFetch()
   },
   methods: {
     initFetch () {
-      this.fetch()
+      this.fetchList()
     },
-    fetch (params) {
+    fetchList (params) {
       this.table.loading = true
-      let _params = { ...this.keyWordVoListReq, time: this.getDate(), topicId: this.topicId, ...params }
+      let _params = { ...this.memberListParams, time: this.getDate(), keyWordId: this.memberData.keyWordId, ...params }
       this.$http
         .fetch(
           this.$api.weWork.topicAnalysis.getKeyWordTopicList,
@@ -80,39 +81,37 @@ export default {
           this.$notify.error(error.msg)
         })
     },
-    handleKeyWordSearch () {
-      this.fetch()
+    handleSearch () {
+      this.fetchList()
     },
-    handleKeyWordReset () {
-      this.keyWordVoListReq = Object.assign({}, this.$options.data().keyWordVoListReq)
+    handleParamsReset () {
+      this.memberListParams = Object.assign({}, this.$options.data().memberListParams)
       this.pagination = Object.assign({}, this.$options.data().pagination)
-      this.fetch()
+      this.fetchList()
     },
     /**
      * 每页条数发生变化
      */
     handleSizeChange (size) {
-      if (this.topicId) {
-        this.pagination.page = 1
-        this.keyWordVoListReq.length = size
-        this.keyWordVoListReq.start = 0
-        this.fetch()
-      }
+      if (!this.memberData.keyWordId) return
+      this.pagination.page = 1
+      this.memberListParams.length = size
+      this.memberListParams.start = 0
+      this.fetchList()
     },
     /**
      * 页码发生变化
      */
     handlePageChange (page) {
-      if (this.topicId) {
-        this.keyWordVoListReq.start = (page - 1) * this.keyWordVoListReq.length
-        this.fetch()
-      }
+      if (!this.memberData.keyWordId) return
+      this.memberListParams.start = (page - 1) * this.memberListParams.length
+      this.fetchList()
     },
     handleRowJump () {
       this.$emit('handleRowJump')
     },
     fliterText (text) {
-      let str = text.split(this.filterStr).join('<span style="color: red">' + this.filterStr + '</span>')
+      let str = text.split(this.memberData.word).join('<span style="color: red">' + this.memberData.word + '</span>')
       return str
     },
     /**

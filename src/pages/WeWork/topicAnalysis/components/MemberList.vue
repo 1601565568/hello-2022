@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 19:02:28
+ * @LastEditTime: 2022-04-06 14:14:09
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -13,22 +13,22 @@
           <el-form :inline="true" label-width="100px">
             <el-form-item label="企业微信成员: ">
               <el-input
-                @keyup.enter.native="fetch"
-                @clear="fetch"
+                @keyup.enter.native="fetchList"
+                @clear="fetchList"
                 clearable
                 style="width:240px"
                 placeholder="请输入企业微信成员"
-                v-model="keyWordVoListReq.keyWord"
+                v-model="memberListParams.wxName"
               ></el-input>
             </el-form-item>
             <el-form-item label="好友: ">
               <el-input
-                @keyup.enter.native="fetch"
-                @clear="fetch"
+                @keyup.enter.native="fetchList"
+                @clear="fetchList"
                 clearable
                 style="width:240px"
                 placeholder="请输入好友"
-                v-model="keyWordVoListReq.name"
+                v-model="memberListParams.name"
               ></el-input>
             </el-form-item>
             <el-form-item label="自定义时段: ">
@@ -39,7 +39,7 @@
                 :picker-options="pickerOptions"
                 type="datetimerange"
                 :clearable="false"
-                v-model="keyWordVoListReq.timeRange"
+                v-model="memberListParams.timeRange"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
               >
@@ -48,10 +48,8 @@
           </el-form>
         </div>
         <div>
-          <ns-button round type="primary" @click="handleKeyWordSearch"
-            >搜索</ns-button
-          >
-          <ns-button round @click="handleKeyWordReset">重置</ns-button>
+          <ns-button round type="primary" @click="handleSearch">搜索</ns-button>
+          <ns-button round @click="handleParamsReset">重置</ns-button>
         </div>
       </div>
       <div class="chat_record">

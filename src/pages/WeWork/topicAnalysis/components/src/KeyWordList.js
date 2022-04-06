@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-02 19:05:41
+ * @LastEditTime: 2022-04-06 17:41:50
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -18,7 +18,10 @@ export default {
   data () {
     return {
       isDetails: false,
-      filterStr: '',
+      memberData: {
+        word: '',
+        topicId: null
+      },
       table: {
         loading: false,
         tableData: []
@@ -62,15 +65,16 @@ export default {
     }
   },
   mounted () {
-    this.initFetch()
+    this.initPage()
   },
   methods: {
-    initFetch () {
-
+    initPage () {
+      this.keyWordVoListReq.timeRange = this.getDate().nowDate
     },
     fetch (params) {
       this.table.loading = true
-      let _params = { ...this.keyWordVoListReq, time: this.getDate(), topicId: this.topicId, ...params }
+      let _params = { ...this.keyWordVoListReq, time: this.getDate().nowDateFormat, topicId: this.topicId, ...params }
+      // TODO 修改请求关键词接口
       this.$http
         .fetch(
           this.$api.weWork.topicAnalysis.getKeyWordTopicList,
@@ -78,6 +82,7 @@ export default {
         ).then(res => {
           let response = res.result
           this.table.tableData = response.length > 0 ? response[0].keyWordsVoList : []
+          this.pagination.total = this.table.tableData.length
           this.table.loading = false
         }).catch(error => {
           this.table.loading = false
@@ -116,17 +121,23 @@ export default {
       this.$emit('addKeyWordDialog')
     },
     handleRowJump (params) {
-      this.isDetails = !this.isDetails
       if (params) {
-        this.filterStr = params
+        let { word, keyWordId } = params
+        this.memberData = { word, keyWordId }
+        this.$refs.memberList.fetchList({ keyWordId })
       }
+      this.isDetails = !this.isDetails
     },
     /**
      * 获取当天日期
      */
     getDate () {
       const nowDate = new Date()
-      return moment(nowDate).format('YYYY-MM-DD')
+      let nowDateFormat = moment(nowDate).format('YYYY-MM-DD')
+      return { nowDate, nowDateFormat }
+    },
+    headerStyle ({ row, column, rowIndex, columnIndex }) {
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626' }
     }
   }
 }

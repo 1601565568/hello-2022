@@ -12,6 +12,8 @@ import Message from '../../components/message'
 import { formatList, formatWeWorkChatData } from './format'
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import KeyWordList from '../components/KeyWordList.vue'
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -22,7 +24,9 @@ export default {
     AddKeyWord,
     Message,
     NsNoData,
-    KeyWordList
+    KeyWordList,
+    ElBreadcrumb,
+    ElBreadcrumbItem
   },
   data () {
     let _that = this

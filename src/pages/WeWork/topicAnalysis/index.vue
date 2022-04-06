@@ -3,7 +3,16 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="page-header__text">
-          话题分析
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/Social/WeWorkGroup/ChatRecord' }"
+              >会话管理</el-breadcrumb-item
+            >
+            <el-breadcrumb-item>话题分析</el-breadcrumb-item>
+          </el-breadcrumb>
+          <span>话题分析</span>
+          <!-- <div class="member-back">
+            <img src="./image/icon-fanhuishangyiji.svg" />员工发送次数
+          </div> -->
         </div>
         <div class="page-header__search">
           <el-date-picker
@@ -206,13 +215,13 @@ export default Index
 .page-header {
   background: #ffffff;
   margin: -10px -10px 0;
-  padding: 0px 16px;
-  min-height: 66px;
+  padding: 16px;
   margin-bottom: 16px;
 }
 .page-header__text {
   font-size: 16px;
   color: #262626;
+  line-height: 24px;
   font-weight: bold;
 }
 .page-header__search {
@@ -462,5 +471,9 @@ export default Index
   width: 32px;
   height: 32px;
   border-radius: 4px;
+}
+.member-back {
+  display: flex;
+  align-items: center;
 }
 </style>
