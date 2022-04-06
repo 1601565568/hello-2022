@@ -88,7 +88,7 @@
                 <el-input :maxlength="11" v-model="model.mobile"></el-input>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="员工姓名：">
+            <el-form-item :label="cloudPlatformType === 'ecrp' ? '员工姓名：' : '成员姓名'">
               <el-form-grid size="md">
                 <ElInput :maxlength="20" v-model="model.name"/>
               </el-form-grid>
@@ -146,7 +146,7 @@
           <el-col :span="12">
             <ElTable v-loading="tableLoading" ref="employeeTable" stripe :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
               <ElTableColumn type="selection" width="55" />
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
             </ElTable>
             <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
@@ -173,7 +173,7 @@
               </ElTable>
             </div>-->
             <div class="tmp-choose__result" >
-              <p class="title">已选择了<span class="text-danger padding-lr-base">{{selectedData.length}}</span>个员工</p>
+              <p class="title">已选择了<span class="text-danger padding-lr-base">{{selectedData.length}}</span>个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}</p>
               <div v-if="loadSelectedData.length>0">
                 <el-scrollbar style="margin-top: 5px; height: 220px">
                   <ul class="tmp-choose__goods" v-infinite-scroll="loadSelectedDataF">
@@ -185,7 +185,7 @@
                   </ul>
                 </el-scrollbar>
               </div>
-              <ns-no-data height="220" v-else>请从左侧员工列表中选择</ns-no-data>
+              <ns-no-data height="220" v-else>请从左侧{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}列表中选择</ns-no-data>
             </div>
           </el-col>
         </el-row>
@@ -1085,7 +1085,7 @@ export default {
         this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
         vm.visible = false
       } else {
-        this.$notify.warning('请选择' + (vm.tabType === 'group' ? '分群' : '员工'))
+        this.$notify.warning('请选择' + (vm.tabType === 'group' ? '分群' : cloudPlatformType === 'ecrp' ? '员工' : '成员'))
       }
     },
     /**
