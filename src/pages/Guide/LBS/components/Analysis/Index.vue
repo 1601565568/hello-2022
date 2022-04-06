@@ -107,6 +107,7 @@
              <el-date-picker
               v-model="time"
               type="daterange"
+              :clearable="false"
               value-format="yyyy-MM-dd HH:mm:ss"
               format="yyyy/MM/dd"
               range-separator="至"
