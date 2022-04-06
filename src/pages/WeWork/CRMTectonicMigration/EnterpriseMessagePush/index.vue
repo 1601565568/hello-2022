@@ -363,7 +363,7 @@ export default {
             vm.isUpdate = that.openType === 'look'
             // vm.model.id = that.openType === 'copy' ? '' : data.id
             vm.model.name = data.name
-            if (data.predictSendTime + '' === 'null') {
+            if (!data.predictSendTime) {
               vm.model.executeMode = 1
               vm.model.predictSendTime = ''
             } else {
