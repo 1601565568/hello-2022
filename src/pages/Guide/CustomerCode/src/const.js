@@ -158,7 +158,7 @@ export const DEFAULT_PAGEDECORATION_DATA_KEDAO = {
     { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {} },
     { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {} },
     { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {} },
-    { itemName: '注册会员模块', itemCode: 'memberRegister', status: 1, value: {}, isHide: true },
+    { itemName: '注册会员模块', itemCode: 'memberRegister', status: 0, value: {}, isHide: true },
     { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
   ],
   activeInfo: {},
