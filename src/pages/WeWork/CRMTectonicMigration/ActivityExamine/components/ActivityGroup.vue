@@ -101,12 +101,12 @@ export default {
       successTotal: '0',
       url: this.urlList,
       model: {
-        id: 0
+        messageId: 0
       }
     }
   },
   mounted () {
-    this.model = { id: this.messageId }
+    this.model = { messageId: this.messageId }
 
     this.searchForm()
     // console.log(this.url, 'url')
