@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="replace-rule" v-if='configObj.id'>
-      仅员工参与裂变大师活动时，才可发送对应的裂变大师欢迎语；否则，将发送失败。
+    <div class="replace-rule">
+      仅{{guideName}}参与裂变大师活动时，才可发送对应的裂变大师欢迎语；否则，欢迎语将发送失败。
     </div>
     <div class="flex">
       <el-form :inline="true" class='form-inline_top poster-form'>
