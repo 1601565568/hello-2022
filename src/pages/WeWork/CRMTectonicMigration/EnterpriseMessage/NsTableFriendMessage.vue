@@ -7,17 +7,17 @@
         </div>
       </template>
       <template slot='search'>
-        <el-form :inline="true" class='form-inline_top'>
+        <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
           <el-form-item label="">
             <el-input v-model.trim="model.name" placeholder="请输入活动名称" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="创建人：">
-            <ns-select v-model="model.employeeId" @input="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+            <ns-select v-model="model.employeeId" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
           </el-form-item>
           <el-form-item label="活动状态：">
-            <ns-select v-model="model.status" @input="getStatus" filterable clearable :url="$api.marketing.weworkMarketing.getActivityStatus"/>
+            <ns-select v-model="model.status" @change="getStatus" filterable clearable :url="$api.marketing.weworkMarketing.getActivityStatus"/>
           </el-form-item>
           <el-form-item label="创建时间：" class='el-form__change'>
             <el-date-picker
@@ -66,14 +66,14 @@
             :show-overflow-tooltip="true"
             prop="createTime"
             label="创建时间"
-            sortable="0" :width="150">
+            sortable="create_time" :width="150">
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
             prop="reviewTime"
             label="审核时间"
-            sortable="1" :width="150">
+            sortable="review_time" :width="150">
             <template slot-scope="scope">
               <template v-if="scope.row.reviewTime">
                 {{scope.row.reviewTime}}
@@ -86,7 +86,7 @@
             :show-overflow-tooltip="true"
             prop="sendTime"
             label="执行时间"
-            sortable="2" :width="150">
+            sortable="send_time" :width="150">
             <template slot="header">
               <span>实际执行时间</span>
               <el-tooltip placement="top" effect="light" stype="">
