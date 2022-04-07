@@ -126,7 +126,7 @@
             <template slot-scope="scope">
               <!-- 已执行 -->
               <template v-if="scope.row.status === 6">
-                {{getStatusName(scope.row.status)}}（已执行{{scope.row.successNum}}个,失败{{scope.row.failNum}}个）
+                {{getStatusName(scope.row.status)}}（已执行{{scope.row.formatReceiverStatusCount.success}}个,失败{{scope.row.formatReceiverStatusCount.fail}}个）
               </template>
               <!-- 审核失败 -->
               <template v-else-if="scope.row.status === 3">
@@ -138,7 +138,7 @@
               </template>
               <!-- 已终止 -->
               <template v-else-if="scope.row.status === 7">
-                {{getStatusName(scope.row.status)}}（已执行{{scope.row.successNum}}个,失败{{scope.row.failNum}}个）
+                {{getStatusName(scope.row.status)}}（已执行{{scope.row.formatReceiverStatusCount.success}}个,失败{{scope.row.formatReceiverStatusCount.fail}}个）
                 <!-- <el-tooltip placement="top" effect="light" stype="">
                   <Icon type="question-circle" theme="outlined" className="text-primary"/>
                   <div slot="content">{{scope.row.remark}}</div>
