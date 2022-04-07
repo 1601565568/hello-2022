@@ -14,6 +14,7 @@ import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import KeyWordList from '../components/KeyWordList.vue'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
+import MemberList from '../components/MemberList.vue'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -26,7 +27,8 @@ export default {
     NsNoData,
     KeyWordList,
     ElBreadcrumb,
-    ElBreadcrumbItem
+    ElBreadcrumbItem,
+    MemberList
   },
   data () {
     let _that = this
@@ -91,7 +93,13 @@ export default {
         tolist: '', // 聊天接收人
         type: 1 // 1拉取历史数据 2拉取最新数据
       },
-      weWorkChatData: []
+      weWorkChatData: [],
+      userInfo: {},
+      isDetails: false,
+      memberData: {
+        word: '',
+        topicId: null
+      }
     }
   },
   computed: {
@@ -159,6 +167,7 @@ export default {
      * 话题列表加载更多
      */
     handlerScroll () {
+      console.log(!this.listIsScroll && this.getListMore, '!this.listIsScroll && this.getListMore')
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
         this.listParams.start = this.listParams.start + this.listParams.length
@@ -271,9 +280,12 @@ export default {
      * 新增话题弹窗确认
      * @param {Object} // data 弹窗回传的对象
      */
-    add (data) {
+    add (data, cb) {
       if (this.listLoading) {
         return
+      }
+      if (cb) {
+        cb(data)
       }
       this.listLoading = true
       this.keyWordsVoListLoding = true
@@ -417,6 +429,9 @@ export default {
      *  @param {object}
      */
     getContext (row) {
+      // todo 补全员工姓名
+      this.userInfo.userName = row.topicName
+      console.log(row, 'rowwwww')
       if (this.cantRequest) {
         return
       }
@@ -549,24 +564,21 @@ export default {
     },
     setHeight: function () {
       // this.$nextTick(() => {
-      let extraHeight =
-        this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
-      this.$refs.fullScreen.$el.children[0].style.maxHeight =
-        window.innerHeight - extraHeight - 38 + 'px'
-      let limitHeight =
-        window.innerHeight -
-        16 -
-        20 -
-        this.$refs.loadMoreWrapper.getBoundingClientRect().top
+      // let extraHeight = this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
+      // this.$refs.fullScreen.$el.children[0].style.maxHeight = window.innerHeight - extraHeight - 38 + 'px'
+      let limitHeight = window.innerHeight - 16 - 20 - this.$refs.loadMoreWrapper.getBoundingClientRect().top
       this.$refs.loadMoreWrapper.style.height = limitHeight + 'px'
-      let loadMoreWrapperChildren =
-        window.innerHeight -
-        16 -
-        20 -
-        this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
-      this.$refs.loadMoreWrapperChildren.style.height =
-        loadMoreWrapperChildren + 'px'
+      // let loadMoreWrapperChildren = window.innerHeight - 16 - 20 - this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
+      // this.$refs.loadMoreWrapperChildren.style.height = loadMoreWrapperChildren + 'px'
       // })
+    },
+    handleRowJump (params) {
+      if (params) {
+        let { word, keyWordId } = params
+        this.memberData = { word, keyWordId }
+        this.$refs.memberList.fetchList({ keyWordId })
+      }
+      this.isDetails = !this.isDetails
     }
   }
 }

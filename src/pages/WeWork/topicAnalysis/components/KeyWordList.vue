@@ -1,23 +1,23 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-06 18:29:17
+ * @LastEditTime: 2022-04-07 16:53:39
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
   <div class="page-contnaier">
-    <div v-show="isDetails">
+    <!-- <div v-show="isDetails">
       <MemberList
         ref="memberList"
         :memberData="memberData"
         @handleRowJump="handleRowJump"
       />
-    </div>
+    </div> -->
     <div v-show="!isDetails">
       <div class="container-head">
         <div class="head-serach">
           <div>
-            <el-form label-position="left" :inline="true">
+            <el-form :inline="true">
               <el-form-item>
                 <el-date-picker
                   value-format="yyyy-MM-dd"
@@ -75,7 +75,7 @@
               <template slot-scope="scope">
                 <ns-button type="text" @click="handleRowJump(scope.row)">{{
                   scope.row.count
-                }}</ns-button>
+                }}0</ns-button>
               </template>
             </el-table-column>
             <el-table-column label="好友发送次数">

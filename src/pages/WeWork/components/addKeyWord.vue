@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-30 14:04:18
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-06 19:21:51
+ * @LastEditTime: 2022-04-07 17:59:23
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\components\addKeyWord.vue
 -->
 <template>
@@ -15,14 +15,14 @@
         :model="Form"
         :rules="rules"
         ref="ruleForm"
-        label-width="120px"
+        label-width="110px"
         label-position="left"
         class="demo-ruleForm"
       >
-        <el-form-item label="话题名称：" prop="topicType">
+        <el-form-item label="话题名称" prop="topicType">
           <div class="topic-title">
             <span>请选择话题</span>
-            <span class="title-blue">新建话题</span>
+            <span class="title-blue" @click="handleAddTopic">新建话题</span>
           </div>
           <el-select
             v-model="Form.topicType"
@@ -38,14 +38,14 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="关键词：" prop="keyWords">
+        <el-form-item label="关键词" prop="keyWords">
           <div class="topic-title">
             多关键字用","隔开，且每个关键词不得超过10个字符，如关键词1,关键词2
           </div>
           <el-input
             type="textarea"
             v-model="Form.keyWords"
-            :rows="10"
+            :rows="6"
             placeholder="请输入关键词"
           ></el-input>
         </el-form-item>
@@ -67,10 +67,15 @@
       <ns-button @click="onCancel">取 消</ns-button>
       <ns-button type="primary" @click="confirm()">确 定</ns-button>
     </span>
+    <AddKeyWordTopic ref="addKeyWordTopic" @add="addTopic" />
   </el-dialog>
 </template>
 <script>
+import AddKeyWordTopic from './addKeyWordTopic'
 export default {
+  components: {
+    AddKeyWordTopic
+  },
   data () {
     return {
       Form: {
@@ -139,18 +144,36 @@ export default {
       //   this.$refs[ruleForm].resetFields()
     },
     fetchOptions () {
-      if (this.options.length > 0) return
-      this.$http
-        .fetch(
-          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
-          this.listParams
-        )
-        .then(res => {
-          this.options = res.result || []
-        })
-        .catch(error => {
-          this.$notify.error(error.msg)
-        })
+      return new Promise((resolve, reject) => {
+        this.$http
+          .fetch(
+            this.$api.weWork.topicAnalysis.getKeyWordTopicList,
+            this.listParams
+          )
+          .then(res => {
+            this.options = res.result || []
+            return resolve(res)
+          })
+          .catch(error => {
+            this.$notify.error(error.msg)
+            return reject(error)
+          })
+      })
+    },
+    handleAddTopic () {
+      this.$refs.addKeyWordTopic.onShow()
+    },
+    /**
+     * 新增话题弹窗确认
+     * @param {Object} // data 弹窗回传的对象
+     */
+    addTopic (data) {
+      this.$emit('addTopic', data, async cbParams => {
+        await this.fetchOptions()
+        // todo 补全话题id
+        this.Form.topicType = cbParams.topicName
+        console.log(cbParams, 'cbParams')
+      })
     }
   }
 }
@@ -166,7 +189,7 @@ export default {
   font-weight: bold;
 }
 .dialog-content {
-  margin:37px 10px;
+  margin: 37px 10px 0;
   .topic-title {
     font-size: 12px;
     color: #595959;
@@ -176,6 +199,11 @@ export default {
       margin-left: 4px;
       color: #0094fc;
     }
+  }
+}
+.demo-ruleForm {
+  >>> .el-form-item--small.el-form-item {
+    margin-bottom: 24px;
   }
 }
 </style>

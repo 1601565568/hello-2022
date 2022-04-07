@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-06 15:28:39
+ * @LastEditTime: 2022-04-07 18:18:04
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -107,11 +107,9 @@ export default {
       this.memberListParams.start = (page - 1) * this.memberListParams.length
       this.fetchList()
     },
-    handleRowJump () {
-      this.$emit('handleRowJump')
-    },
+    // 筛选高亮显示文本
     fliterText (text) {
-      let str = text.split(this.memberData.word).join('<span style="color: red">' + this.memberData.word + '</span>')
+      let str = text.split(this.memberData.word).join('<span style="color: #5BC228">' + this.memberData.word + '</span>')
       return str
     },
     /**
@@ -120,6 +118,12 @@ export default {
     getDate () {
       const nowDate = new Date()
       return moment(nowDate).format('YYYY-MM-DD')
+    },
+    headerStyle () {
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px' }
+    },
+    getContext (data) {
+      this.$emit('getContext', data)
     }
   }
 }

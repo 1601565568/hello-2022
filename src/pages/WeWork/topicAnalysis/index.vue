@@ -9,12 +9,13 @@
             >
             <el-breadcrumb-item>话题分析</el-breadcrumb-item>
           </el-breadcrumb>
-          <span>话题分析</span>
-          <!-- <div class="member-back">
-            <img src="./image/icon-fanhuishangyiji.svg" />员工发送次数
-          </div> -->
+          <div v-if="!isDetails" style="margin-top: 16px">话题分析</div>
+          <div v-else class="member-back" @click="handleRowJump">
+            <img src="./image/icon-fanhuishangyiji.svg" />
+            <span>员工发送次数</span>
+          </div>
         </div>
-        <div class="page-header__search">
+        <!-- <div class="page-header__search">
           <el-date-picker
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
@@ -34,102 +35,71 @@
             placeholder="请输入话题"
             v-model="listParams.name"
           ></el-input>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="template-page__content">
-      <div class="template-page__left">
-        <div class="content_header">
-          <div>
-            话题列表
-            <img class="add" :src="nsAddBorder" @click="addKeyWordTopic" />
-          </div>
-          <div @click="handlerUnfoldAndStow" style="cursor: pointer;">
-            <img v-if="unfoldAndStow" :src="packup" />
-            <img v-if="!unfoldAndStow" :src="unfold" />
-          </div>
-        </div>
-        <div
-          v-loading="listLoading"
-          class="loadMoreWrapper"
-          v-infinite-scroll="handlerScroll"
-          :infinite-scroll-disabled="listIsScroll"
-          :infinite-scroll-distance="5"
-          ref="loadMoreWrapper"
-        >
-          <!-- <div class="loadMoreWrapper" ref="loadMoreWrapperChildren"> -->
-          <div class="customer_list__warpper">
-            <div
-              class="customer_list__item"
-              v-for="i in list"
-              :key="i.topicId"
-              @click="onChangeList(i)"
-              :class="i.topicId === select ? 'user_list_select' : ''"
-            >
-              <div class="topic-text">{{ i.topicName }}</div>
-              <span class="del" @click.stop="del(1, i.topicName, i.topicId)">
-                <Icon type="delete"
-              /></span>
+      <MemberList
+        v-show="isDetails"
+        ref="memberList"
+        :memberData="memberData"
+        @handleRowJump="handleRowJump"
+        @getContext="getContext"
+      />
+      <div v-show="!isDetails">
+        <div class="template-page__left">
+          <div class="content_header">
+            <div>
+              话题列表
+              <img class="add" :src="nsAddBorder" @click="addKeyWordTopic" />
+            </div>
+            <div @click="handlerUnfoldAndStow" style="cursor: pointer;">
+              <img v-if="unfoldAndStow" :src="packup" />
+              <img v-if="!unfoldAndStow" :src="unfold" />
             </div>
           </div>
-          <p class="getMoreloading" v-if="getListMore && !listLoading">
-            加载中...
-          </p>
-          <p
-            class="getMoreloading"
-            v-if="!getListMore && !listLoading && list.length !== 0"
+          <div
+            v-loading="listLoading"
+            class="loadMoreWrapper"
+            v-infinite-scroll="handlerScroll"
+            :infinite-scroll-disabled="listIsScroll"
+            :infinite-scroll-distance="5"
+            ref="loadMoreWrapper"
           >
-            没有更多了
-          </p>
-          <NsNoData v-if="!listLoading && list.length === 0">暂无数据</NsNoData>
-          <!-- </div> -->
-        </div>
-        <div class="content_bottom"></div>
-      </div>
-      <!-- <div
-        class="template-page__left__children"
-        :class="!unfoldAndStow ? 'customer_list__width' : ''"
-      >
-        <div class="content_header">
-          关键词
-          <img class="add" :src="nsAddBorder" @click="addKeyWordDialog" />
-        </div>
-        <div
-          class="loadMoreWrapper"
-          ref="loadMoreWrapperChildren"
-          v-loading="keyWordsVoListLoding"
-        >
-          <ul class="user_list">
-            <li
-              v-for="(item, index) in keyWordsVoList"
-              :key="index"
-              :class="
-                item.keyWordId === selectKeyWordId
-                  ? 'user_list_select__keyWord'
-                  : ''
-              "
-              @click="selectKeyWord(item)"
+            <!-- <div class="loadMoreWrapper" ref="loadMoreWrapperChildren"> -->
+            <div class="customer_list__warpper">
+              <div
+                class="customer_list__item"
+                v-for="i in list"
+                :key="i.topicId"
+                @click="onChangeList(i)"
+                :class="i.topicId === select ? 'user_list_select' : ''"
+              >
+                <div class="topic-text">{{ i.topicName }}</div>
+                <span class="del" @click.stop="del(1, i.topicName, i.topicId)">
+                  <Icon type="delete"
+                /></span>
+              </div>
+            </div>
+            <p class="getMoreloading" v-if="getListMore && !listLoading">
+              加载中...
+            </p>
+            <p
+              class="getMoreloading"
+              v-if="!getListMore && !listLoading && list.length !== 0"
             >
-              <div class="topic-text">
-                {{ item.word }}
-              </div>
-              <div class="topic-Number">
-                {{ item.count }}
-              </div>
-              <span class="del" @click.stop="del(2, item.word, item.keyWordId)">
-                <Icon type="delete"
-              /></span>
-            </li>
-          </ul>
-          <NsNoData v-if="!keyWordsVoListLoding && keyWordsVoList.length === 0"
-          >暂无数据</NsNoData
-          >
+              没有更多了
+            </p>
+            <NsNoData v-if="!listLoading && list.length === 0"
+              >暂无数据</NsNoData
+            >
+            <!-- </div> -->
+          </div>
+          <div class="content_bottom"></div>
         </div>
-        <div class="content_bottom"></div>
-      </div> -->
-      <div class="template-page__right">
-        <div class="template-page__right__content" :class="ml">
-          <!-- <div class="content_header">关键词命中明细</div>
+        <div class="template-page__right">
+          <div class="template-page__right__content" :class="ml">
+            <!-- <div class="content_header">关键词命中明细</div>
           <div class="chat_record">
             <el-scrollbar ref="fullScreen">
               <el-table
@@ -172,13 +142,57 @@
               layout="total, sizes, prev, pager, next, jumper"
             ></el-pagination>
           </div> -->
-          <KeyWordList
-            ref="keyWordList"
-            :topicId="select"
-            @addKeyWordDialog="addKeyWordDialog"
-          />
+            <KeyWordList
+              ref="keyWordList"
+              :topicId="select"
+              @addKeyWordDialog="addKeyWordDialog"
+              @handleRowJump="handleRowJump"
+            />
+          </div>
         </div>
       </div>
+
+      <!-- <div
+        class="template-page__left__children"
+        :class="!unfoldAndStow ? 'customer_list__width' : ''"
+      >
+        <div class="content_header">
+          关键词
+          <img class="add" :src="nsAddBorder" @click="addKeyWordDialog" />
+        </div>
+        <div
+          class="loadMoreWrapper"
+          ref="loadMoreWrapperChildren"
+          v-loading="keyWordsVoListLoding"
+        >
+          <ul class="user_list">
+            <li
+              v-for="(item, index) in keyWordsVoList"
+              :key="index"
+              :class="
+                item.keyWordId === selectKeyWordId
+                  ? 'user_list_select__keyWord'
+                  : ''
+              "
+              @click="selectKeyWord(item)"
+            >
+              <div class="topic-text">
+                {{ item.word }}
+              </div>
+              <div class="topic-Number">
+                {{ item.count }}
+              </div>
+              <span class="del" @click.stop="del(2, item.word, item.keyWordId)">
+                <Icon type="delete"
+              /></span>
+            </li>
+          </ul>
+          <NsNoData v-if="!keyWordsVoListLoding && keyWordsVoList.length === 0"
+          >暂无数据</NsNoData
+          >
+        </div>
+        <div class="content_bottom"></div>
+      </div> -->
     </div>
     <el-drawer
       size="720px"
@@ -187,6 +201,7 @@
       :with-header="false"
     >
       <ItemDrawer
+        :userInfo="userInfo"
         :dataList="weWorkChatData"
         @getMore="getMore"
         :drawer="drawer"
@@ -197,7 +212,7 @@
     <!-- 添加话题 -->
     <AddKeyWordTopic ref="addKeyWordTopic" @add="add" />
     <!-- 添加关键词 -->
-    <AddKeyWord ref="addKeyWord" @add="addKeyWord" />
+    <AddKeyWord ref="addKeyWord" @add="addKeyWord" @addTopic="add" />
     <!-- 删除确认弹窗 -->
     <Message ref="message" :text="text" @confirm="messageConfirm()" />
   </div>
@@ -475,5 +490,17 @@ export default Index
 .member-back {
   display: flex;
   align-items: center;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: bold;
+  margin-top: 16px;
+  img {
+    width: 16px;
+    height: 16px;
+  }
+  span {
+    margin-left: 16px;
+  }
 }
 </style>
