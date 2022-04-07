@@ -4,7 +4,8 @@ export default {
       commentList: [],
       commentNum: 0,
       likeList: [],
-      likeNum: 0
+      likeNum: 0,
+      info: {}
     }
   },
   methods: {
@@ -15,11 +16,14 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            const { commentList, commentNum, likeList, likeNum } = res.result
+            const { commentList, commentNum, likeList, likeNum, guidePic, guideName, shopName, textContent, createTime } = res.result
             this.commentList = commentList
             this.commentNum = commentNum
             this.likeList = likeList
             this.likeNum = likeNum
+            this.info = {
+              guidePic, guideName, shopName, textContent, createTime
+            }
           }
         })
     },

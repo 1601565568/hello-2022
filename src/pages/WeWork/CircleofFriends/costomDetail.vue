@@ -4,20 +4,19 @@
       <img :src='backIcon' class='back-icon' @click='handleBack'/>
       朋友圈详情
     </h3>
-    <div class='detail'>
-      <div class='user-content'>
-        <img src='' />
-        <div></div>
+    <div class='container detail'>
+      <img :src="info.guidePic" class='usericon'/>
+      <div class='name'>{{info.guideName}}</div>
+      <div v-if='info.shopName' class='shop'>
+        所属门店：{{info.shopName}}
       </div>
-      <div class='container'>
-        <EmojiText :text='data' pre='EMOJI_'/>
-        <div class='date'>
-          <div>2020/07/18 12:00</div>
-          <ns-button type='text'>
-            <span class="iconfont icon-kejiankehu"></span>
-            可见客户
-          </ns-button>
-        </div>
+      <div class='text-content'>{{info.textContent}}</div>
+      <div class='footer'>
+        <div class='date'>{{info.createTime}}</div>
+        <ns-button type='text'>
+          <span class="iconfont icon-kejiankehu" ></span>
+          <span class='text'>可见客户</span>
+        </ns-button>
       </div>
     </div>
     <el-row class='list' :gutter='16'>
@@ -43,6 +42,7 @@ export default CostomDetail
 @import "@components/NewUi/styles/reset.css";
 .detail-container {
   .header-text {
+    margin:-10px -10px 0 -10px;
     background: #fff;
     padding: 0 16px;
     font-size: 16px;
@@ -51,6 +51,7 @@ export default CostomDetail
     line-height: 48px;
     display: flex;
     align-items: center;
+    margin-bottom: 16px;
   }
   .back-icon {
     height: 16px;
@@ -61,9 +62,60 @@ export default CostomDetail
   .detail {
     padding: 16px;
     background:#fff;
-    .user-content {
-
+    &.container {
+      position: relative;
+      padding-left: 72px;
     }
+    .usericon {
+      height:48px;
+      width: 48px;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      border-radius: 4px;
+    }
+    .name {
+      font-size: 14px;
+      color: #262626;
+      line-height: 22px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .shop {
+      font-size: 14px;
+      color: #8C8C8C;
+      line-height: 22px;
+      margin-bottom: 12px;
+    }
+    .text-content {
+      font-size: 14px;
+      color: #262626;
+      line-height: 22px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .footer {
+      display: flex;
+      align-items: center;
+      .date {
+        font-size: 14px;
+        color: #606266;
+        line-height: 22px;
+        margin-right:16px;
+      }
+      .iconfont {
+        color:#8c8c8c;
+        font-size: 20px;
+      }
+      .text {
+        font-size: 14px;
+        position: relative;
+        top:-3px;
+      }
+    }
+  }
+  .list {
+    margin-top: 16px;
   }
 }
 </style>

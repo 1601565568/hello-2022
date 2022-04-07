@@ -14,11 +14,11 @@
             style="width: 100%">
             <el-table-column type="selection" align="center">
             </el-table-column>
-            <el-table-column align="center">
+            <el-table-column align="left" label="昵称">
               <template slot-scope="scope">
-                <div>
-                  <img :src="scope.row.pic">
-                  <span>{{name}}</span>
+                <div class='td-detail'>
+                  <img :src="scope.row.pic" class='td-img'>
+                  <span class='td-name'>{{scope.row.name}}</span>
                 </div>
               </template>
             </el-table-column>
@@ -45,3 +45,27 @@ export default {
   }
 }
 </script>
+<style scoped lang='scss'>
+@import "@components/NewUi/styles/reset.css";
+.title {
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: 500;
+}
+.td-detail {
+  display: flex;
+  align-items: center;
+  .td-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    border-radius: 50%;
+  }
+  .td-name {
+    font-size: 14px;
+    color: #303133;
+    line-height: 22px;
+  }
+}
+</style>
