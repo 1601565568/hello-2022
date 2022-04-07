@@ -170,13 +170,32 @@ export default {
         }
       })
     },
-    // 查看点开弹窗
+    // 查看详情
     async handleEdit (row, index) {
-      this.momentId = row.momentId
-      this.activeIndex = index
-      await this.getInteractive()
-      // this.drawerDate = row
-      this.drawer = true
+      console.log(row)
+      const { createType, momentId } = row
+      if (createType === 0) {
+        this.handleDetail(momentId)
+      } else if (createType === 1) {
+        this.handlePersonDetail(momentId)
+      }
+      // this.momentId = row.momentId
+      // this.activeIndex = index
+      // await this.getInteractive()
+      // // this.drawerDate = row
+      // this.drawer = true
+    },
+    handleDetail (momentId) {
+      this.$router.push({
+        path: '/Social/OperationData/CircleOfFriends/detail',
+        query: { momentId }
+      })
+    },
+    handlePersonDetail (momentId) {
+      this.$router.push({
+        path: '/Social/OperationData/CircleOfFriends/costomDetail',
+        query: { momentId }
+      })
     },
     getInteractive () {
       this.$http

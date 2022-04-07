@@ -32,6 +32,12 @@ export default {
           'component': () => import('@/pages/WeWork/CircleofFriends/detail.vue')
         },
         {
+          'path': '/Social/OperationData/CircleOfFriends/costomDetail',
+          'name': 'CircleOfFriendsCostomDetail',
+          'title': '朋友圈看板个人详情',
+          'component': () => import('@/pages/WeWork/CircleofFriends/costomDetail.vue')
+        },
+        {
           'path': '/Social/WeComCustomerOperation/LossCustomers',
           'name': 'WeComLossCustomers',
           'title': '流失客户',
