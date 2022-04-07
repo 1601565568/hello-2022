@@ -2,11 +2,11 @@
   <page-table :searchCol='24'>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-        <el-form-item label="所属员工：">
-          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+        <el-form-item :label="`所属${employeeEnv}：`">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${employeeEnv}`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
@@ -39,7 +39,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column width="120px" prop="guideName" label="所属员工">
+          <el-table-column width="120px" prop="guideName" :label="`所属${employeeEnv}`">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.guideName|| '-'}}
@@ -161,6 +161,15 @@ export default {
     }
   },
   components: { PageTable, GuideDialog },
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    }
+  },
   props: ['startTime', 'endTime'],
   mixins: [tableMixin],
   mounted () {
