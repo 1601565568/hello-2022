@@ -6,6 +6,7 @@
  * 3 链接
  * 4 小程序
  * 5 二维码海报
+ * 6 裂变大师
  */
 export enum SOPActivityMessageType {
   Text,
@@ -14,6 +15,7 @@ export enum SOPActivityMessageType {
   Link,
   MiniProgram,
   Poster,
+  CostomCode,
   // @ts-ignore
   All = null
 }
@@ -45,6 +47,10 @@ export const SOPMessageTypeToolTip = {
   [SOPActivityMessageType.Poster]: {
     tip: '二维码海报',
     icon: 'poster-1'
+  },
+  [SOPActivityMessageType.CostomCode]: {
+    tip: '裂变大师',
+    icon: 'icon-liebiandashi'
   }
 }
 

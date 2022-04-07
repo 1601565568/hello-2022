@@ -24,7 +24,7 @@
                       :content="item.content"
                       :videoLabel="videoLabel"
                       :preview="true" />
-        <NewsMessage v-else-if="item.type === SOPActivityMessageType.Link"
+        <NewsMessage v-else-if="item.type === SOPActivityMessageType.Link || item.type === SOPActivityMessageType.CostomCode"
                      class="news-message"
                      :imageLabel="miniAndLinkImageLabel"
                      :content="item.content" />

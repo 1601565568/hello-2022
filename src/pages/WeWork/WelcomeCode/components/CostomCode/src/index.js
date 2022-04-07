@@ -12,6 +12,9 @@ export default {
       },
       tableKey () {
         return this.cloudPlatformType === 'ecrp' ? 'guideNames' : 'userNames'
+      },
+      guideName () {
+        return this.cloudPlatformType === 'ecrp' ? '员工' : '企微成员'
       }
     })
   },
