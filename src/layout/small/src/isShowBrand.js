@@ -21,6 +21,8 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/ExternalContactList',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
+    '/Social/WeComCustomerOperation/RoomList',
+    '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData'
 
   ]
