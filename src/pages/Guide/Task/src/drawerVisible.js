@@ -78,7 +78,8 @@ export default {
       finishedCount: 0, // 完成数量
       tableData: [],
       name: null,
-      type: null
+      type: null,
+      extData: {}
     }
   },
   methods: {
@@ -119,6 +120,13 @@ export default {
         .fetch(this.$api.guide.queryShopTaskDetail, params)
         .then(resp => {
           if (resp.success) {
+            this.extData = resp.result.ext || {
+              guideNum: 0,
+              customerTotal: 0,
+              customerFollowingNum: 0,
+              customerFollowNum: 0,
+              followProgress: 0
+            }
             this.tableData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
             this.finishedCount = parseInt(resp.result.recordsFiltered)
