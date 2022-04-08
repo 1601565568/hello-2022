@@ -30,6 +30,7 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/RoomList',
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData',
+    '/Social/WeWorkGroup/sensitiveWords',
     '/Social/WeWorkGroup/ChatRecord'
 
   ]
