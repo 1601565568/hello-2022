@@ -74,7 +74,6 @@ Vue.prototype.$isShowDocs = process.env.VUE_APP_THEME !== 'QA' || qaDocs.length 
 // })
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
-  next()
   if (thirdRouter[to.path]) {
     if (!store.state.companyPlan.isLoad) {
       await store.dispatch('companyPlan/getCompanyPlan')
