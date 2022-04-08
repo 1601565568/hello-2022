@@ -1,7 +1,7 @@
 /*
- * @Date: 2022-03-31 17:14:35
+ * @Date: 2022-04-08 11:49:37
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-08 11:53:26
+ * @LastEditTime: 2022-04-08 11:50:55
  * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
  */
 /**
@@ -30,7 +30,8 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/RoomList',
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData',
-    '/Social/WeWorkGroup/sensitiveWords'
+    '/Social/WeWorkGroup/sensitiveWords',
+    '/Social/WeWorkGroup/ChatRecord'
 
   ]
 
