@@ -62,7 +62,7 @@
         <!-- 按钮 -->
         <template v-if="showChangeGuide" slot="buttons">
           <div style="display:flex">
-            <el-checkbox :class="[chooseQA==='QA'?checkQA:check]"
+            <el-checkbox :class="[chooesQA==='QA'?checkQA:checks]"
               :disabled="_data._pagination.total === '0'"
               :indeterminate="isIndeterminate"
               v-model="checkAll"
@@ -241,8 +241,8 @@
             <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="100">
               <template slot-scope="scope">
                 <div>
-                  <ns-button  :class="[chooseQA==='QA'?checkQA:check]" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
-                  <ns-button  :class="[chooseQA==='QA'?checkQA:check]" @click="showTagDailog(scope.row,offLineShopId)" type="text">打标签</ns-button>
+                  <ns-button  :class="[chooesQA==='QA'?checkQA:checks]" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
+                  <ns-button  :class="[chooesQA==='QA'?checkQA:checks]" @click="showTagDailog(scope.row,offLineShopId)" type="text">打标签</ns-button>
                 </div>
               </template>
             </el-table-column>

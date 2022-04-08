@@ -335,20 +335,37 @@ export default {
      */
     onExportReport () {
       let _this = this
-      const url = API_ROOT + '/wework/marketing/createExportTask'
-      const form = document.createElement('form')
+      // const url = API_ROOT + '/wework/marketing/createExportTask'
+      // const form = document.createElement('form')
       const start = _this.model.time[0] ? moment(_this.model.time[0]).format('YYYY-MM-DD') : ''
       const end = _this.model.time[1] ? moment(_this.model.time[1]).format('YYYY-MM-DD') : ''
       const name = start + '-' + end + '企微好友数据分析报表'
-      form.appendChild(
-        _this.generateHideElement('json', JSON.stringify(_this.tableData))
-      )
-      form.appendChild(_this.generateHideElement('fileName', name))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
-      _this.$notify.info('报表导出中，请稍后！')
+      // form.appendChild(
+      //   _this.generateHideElement('json', JSON.stringify(_this.tableData))
+      // )
+      // form.appendChild(_this.generateHideElement('fileName', name))
+      // form.setAttribute('action', url)
+      // form.setAttribute('method', 'post')
+      // document.body.appendChild(form)
+      // form.submit()
+      // _this.$notify.info('报表导出中，请稍后！')
+
+      const params = {
+        json: JSON.stringify(_this.tableData),
+        fileName: name,
+        exportType: 0
+      }
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
+        // this.$notify.success('已加入下载中心')
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: 650,
+          right: 10
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')

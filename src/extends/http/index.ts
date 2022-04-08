@@ -109,7 +109,7 @@ instance.interceptors.response.use(function (response) {
 
 const parseApi = (config: api, data?: any): api => {
   config.method = config.method || api.API_DEFAULT_TYPE
-  if (config.method === 'get') {
+  if (config.method === 'get' || config.method === 'head') {
     config.params = data
   } else {
     config.data = data

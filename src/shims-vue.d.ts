@@ -13,3 +13,4 @@ declare module '@nascent/log';
 declare module '@nascent/icons-vue';
 declare module '@nascent/ecrp-ecrm';
 declare module '@/apis';
+declare module 'whats-element/pure';
