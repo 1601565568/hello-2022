@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class='shop-content'>
-              <span>选择员工：</span>
+              <span>选择{{platformText}}：</span>
               <NsGuideDialog v-if="cloudPlatformType === 'ecrp'" :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
@@ -145,7 +145,7 @@
               </template>
             </page-table>
           </el-tab-pane>
-          <el-tab-pane label="按员工显示" name="second">
+          <el-tab-pane :label="`按${platformText}显示`" name="second">
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
@@ -153,7 +153,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="guideName" label="员工姓名">
+                  <el-table-column prop="guideName" :label="`${platformText}姓名`">
                   </el-table-column>
                   <el-table-column prop="chatCnt" label="聊天次数">
                   </el-table-column>
@@ -189,6 +189,7 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import { formatText } from './utils'
 export default {
   name: 'MaterialCahat',
   components: { PageTable, NsGuideDialog, NsEcharts, NsGuideWeChatDialog },
@@ -300,6 +301,11 @@ export default {
       fuscousIcon: 'fuscousIcon',
       // 判断系统环境
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }
+  },
+  computed: {
+    platformText () {
+      return formatText({ kd: '成员', ecrp: '员工' })
     }
   },
   methods: {
