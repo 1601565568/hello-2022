@@ -111,6 +111,7 @@
 import PageTable from '@/components/NewUi/PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import api from '@/config/http'
+import { join } from 'lodash'
 export default {
   data () {
     return {
@@ -234,6 +235,10 @@ export default {
         this.model.activityEndTime = this.activityEndTime
         this.model.firstQrCodeUserId = this.firstQrCodeUserId
         this.model.channelState = this.channelState
+        this.model.tradeStartTime = this.modelData.tradeStartTime || null
+        this.model.tradeEndTime = this.modelData.tradeEndTime || null
+        this.model.chargebackStartTime = this.modelData.chargebackStartTime || null
+        this.model.chargebackEndTime = this.modelData.chargebackEndTime || null
         this.$searchAction$()
       },
       immediate: true
