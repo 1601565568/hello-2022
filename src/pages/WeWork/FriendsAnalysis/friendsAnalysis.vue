@@ -1,91 +1,20 @@
 <template>
   <!-- 信息更新页面 -->
   <div class="dataCenter-content">
-    <!-- <div style="padding: 7px 0px 25px;">
-    </div> -->
-    <!-- <el-row class="dataCenter-content__grid" :gutter="5">
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--blue">
-            <Icon type="kehudongcha-2"/>
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日好友总数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.customerTotal ?  this._data.rowDatas.customerTotal : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--red">
-            <Icon type="user-add-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日净增人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.increaseCount ?  this._data.rowDatas.increaseCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--green">
-            <Icon type="user-add-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日添加人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.addCount ?  this._data.rowDatas.addCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--orange">
-            <Icon type="user-delete-2" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日删除人数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.deleteCount ?  this._data.rowDatas.deleteCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col>
-        <div class="interactive__item">
-          <div class="interactive__icon interactive__icon--purple">
-            <Icon type="user-be-deleted" />
-          </div>
-          <div class="subtance">
-            <div class="subtance__title">昨日被删除数</div>
-            <div class="subtance__text">
-              <span>{{ this._data.rowDatas.beDeletedCount ?  this._data.rowDatas.beDeletedCount : 0 }}</span>
-            </div>
-          </div>
-        </div>
-      </el-col>
-    </el-row> -->
     <!--/数据面板-->
     <div class="material-data">
       <div class="top-view">
         <div class="title">好友分析</div>
       </div>
       <div class="data-view">
-        <!-- <el-row :gutter='5'> -->
-          <template v-for='(item, index) in dataList'>
-            <el-col :key='item.key'>
-              <div class='row-item' :style='`background-image:${colorList[index]}`'>
-                <div class='nick'>{{item.nick}}</div>
-                <div class='value'>{{item.value}}</div>
-              </div>
-            </el-col>
-          </template>
-        <!-- </el-row> -->
+        <template v-for='(item, index) in dataList'>
+          <el-col :key='item.key'>
+            <div class='row-item' :style='`background-image:${colorList[index]}`'>
+              <div class='nick'>{{item.nick}}</div>
+              <div class='value'>{{item.value}}</div>
+            </div>
+          </el-col>
+        </template>
       </div>
     </div>
     <ns-page-table :colButton="0">
@@ -104,7 +33,7 @@
             </el-date-picker>
           </el-form-item>
           <!--导购员工组件 -->
-          <el-form-item label="选择员工：">
+          <el-form-item :label="cloudPlatformType === 'ecrp' ? '选择员工：': '选择成员：'">
             <div class="template-search__box">
               <span v-if="model.guideIds&&model.guideIds.length>0">
                   已选择{{model.guideIds.length}}个
@@ -122,7 +51,20 @@
                   btnTitle="选择"
                   dialogTitle="选择员工"
                   v-model="model.guideIds"
+                  v-if="cloudPlatformType === 'ecrp'"
                 ></NsGuideDialog>
+                <NsGuideWeChatDialog
+                  :selfBtn='false'
+                  :appendToBody='true'
+                  :isButton="false"
+                  :auth="true"
+                  :switchAreaFlag="1"
+                  type="primary"
+                  btnTitle="选择"
+                  dialogTitle="选择成员"
+                  v-model="model.guideIds"
+                  v-else>
+                </NsGuideWeChatDialog>
               </div>
             </div>
           </el-form-item>
@@ -154,16 +96,16 @@
         <span class="float-left" style="margin-right: 20px">数据报表</span>
         <el-radio-group v-model="tableRadios" @change="changeListDataType" class="float-left">
           <el-radio :label="1">按日期展示</el-radio>
-          <el-radio :label="2">按员工展示</el-radio>
+          <el-radio :label="2">按{{cloudPlatformType === 'ecrp' ? '员工': '成员'}}展示</el-radio>
         </el-radio-group>
-        <ns-button type="primary" v-if="tableRadios == 2" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
+        <ns-button type="primary" v-if="tableRadios == 2 && cloudPlatformType === 'ecrp'" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
       </div>
       <el-table ref="table" :data="_data._table.data"
                 class="template-table__main" stripe roll-click
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
         <el-table-column :show-overflow-tooltip="true" type="default" :prop="tableRadios === 1 ? 'TheDate' : 'UserID'"
-                         :label="tableRadios === 1 ? '日期':'员工'" :sortable="false" align="center">
+                         :label="tableRadios === 1 ? '日期' : cloudPlatformType === 'ecrp' ? '员工': '成员'" :sortable="false" align="center">
           <template slot-scope="scope">
             {{formateTheDate(scope.row)}}
           </template>

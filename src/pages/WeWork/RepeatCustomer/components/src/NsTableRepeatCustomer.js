@@ -45,7 +45,9 @@ export default {
       _table: {
         table_buttons: tableButtons,
         loadingtable: false
-      }
+      },
+      // 判断系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
   },
   mounted () {
@@ -54,6 +56,30 @@ export default {
   computed: {
   },
   methods: {
+    /**
+     * @msg: 時間变更
+     */
+    changeTime (e) {
+      if (e != null) {
+        this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
+        this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        this.model.timeStart = ''
+        this.model.timeEnd = ''
+      }
+      this.$searchAction$()
+    },
+    handleChangeGuide (value) {
+      value = value.map(el => (el + ''))
+      this.changeSearchfrom({ userIds: value })
+    },
+    changeSearchfrom (obj = {}) {
+      this.model = Object.assign(this.model, obj)
+      this.$searchAction$()
+    },
+    handleSearch () {
+      this.changeSearchfrom()
+    },
     /**
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
@@ -95,18 +121,6 @@ export default {
         return v
       }
       return '-'
-    },
-    /**
-     * @msg: 時間变更
-     */
-    changeTime (e) {
-      if (e != null) {
-        this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
-        this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
-      } else {
-        this.model.timeStart = ''
-        this.model.timeEnd = ''
-      }
     },
     onRedactFun (row) {
     },

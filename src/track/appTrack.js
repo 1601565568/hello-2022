@@ -1,7 +1,6 @@
 /* eslint-disable */
 'use strict'
 const appEnv = require('./appEnv')
-
 function _typeof (obj) {
   if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     // eslint-disable-next-line no-func-assign
@@ -173,6 +172,10 @@ function core (wpo, root, conf, name) {
 
     while (params = core.dequeue()) {
       const model = JSON.parse(params.params || '')
+      let uuid = undefined
+      if (model.uuid) {
+        uuid = model.uuid
+      }
       obj = core.extend({
         uid: uid,
         userNick: wpo.getNick(),
@@ -183,7 +186,8 @@ function core (wpo, root, conf, name) {
         type: model.type || '',
         // _t: ~new Date() + (count++).toString(),
         tag: wpo.config.tag && (safetyCall(wpo.config.tag, [], wpo.config.tag + '') || ''),
-        ...appTrackOptions
+        ...appTrackOptions,
+        uuid
       }, params) // 最后一次尝试补齐spm值
 
       if (!obj.spm) {
@@ -1132,18 +1136,37 @@ function browserPerformance (wpo, win, browserConf) {
   browser.init()
 }
 
-// 页面事件监听 （暂不支持阻止冒泡事件）
+/**
+ * 除了页面自定义的点击事件以外需要监听的事件
+ * @param {*} item
+ * @return {Boolean} 
+ */
+const isNeedListenClick = function (item) {
+  // element 的 radio checkbox 组件需要监听
+  const selectClassList = ['el-radio__inner','el-radio__label','el-checkbox__label','el-checkbox__inner']
+  if (selectClassList.includes(item._prevClass)) {
+    return true
+  }
+  // 其他监听事件
+
+  return false
+}
+
+/**
+ * 页面事件监听 （暂不支持阻止冒泡事件）
+ * @param {*} wpo
+ */
 const eventProxy = function (wpo) {
   const eventList = ['click'] //  监听的事件列表
   // 处理点击事件上传的数据
   const formatParmas = (parmas) => (
-    { type: 'event', dataset: parmas.dataset }
+    { type: 'event', dataset: parmas.dataset,innerText:parmas.textContent }
   )
   const handleEvent = function (event) {
     if (event.path && event.path.length) {
       const clickItem = event.path.find(item =>
         // 判断冒泡过程中是否有定义click事件
-        !!(item.__vue__ && item.__vue__._events && item.__vue__._events.click)
+        !!(item.__vue__ && item.__vue__._events && item.__vue__._events.click) || isNeedListenClick(item)
       )
       clickItem && wpo.send(formatParmas(clickItem))
     }
@@ -1173,7 +1196,7 @@ var install = function install (win, name) {
     sampling(wpo)
     apis(wpo)
     browserPerformance(wpo, win, browserConf)
-    eventProxy(wpo)
+    // eventProxy(wpo)
     wpo.__hasInitBlSdk = true
   }
 

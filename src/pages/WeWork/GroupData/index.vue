@@ -55,27 +55,32 @@
             <div class="item-down">
               <div class="name">群主：</div>
               <div class="item-select">
-                <el-select
-                  clearable
-                  v-model="chatOwnerName"
-                  :default-first-option="true"
-                  @visible-change="selectOptionOwnerClick"
-                  @change="owenerChange"
+                <GuideDialog
+                  :validNull="true"
+                  :selfBtn='true'
+                  :appendToBody='true'
+                  :onlyOwner='true'
+                  :isButton="false"
+                  :auth="true"
+                  type="primary"
+                  btnTitle=""
+                  dialogTitle="选择群主"
+                  v-model="guideIds"
+                  @input="owenerChange"
                 >
-                  <el-option
-                    v-for="item in chatRoomOwner"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个群主`:'全部'}}
+                      <Icon type="geren" class='guideIds-icon'></Icon>
+                    </div>
+                  </template>
+                </GuideDialog>
               </div>
             </div>
           </div>
           <!-- <ns-button @click="onResetSearch">{{$t('operating.reset')}}</ns-button> -->
-          <div class="drawer-output" @click="outputCsvFile">
-            导出CSV文件
+          <div class="drawer-output" @click="outputCsvFile" id="exportButton">
+            导出文件
           </div>
         </div>
       </div>
@@ -124,7 +129,7 @@
               </template>
             </page-table>
           </el-tab-pane>
-          <el-tab-pane label="按员工显示" name="second">
+          <el-tab-pane :label="cloudPlatformType === 'ecrp' ? '按员工显示' : '按成员显示'" name="second">
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
@@ -133,7 +138,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="user_name" label="员工">
+                  <el-table-column prop="user_name" :label="cloudPlatformType === 'ecrp' ? '员工' : '成员'">
                   </el-table-column>
                   <el-table-column prop="chat_totals" label="总群数">
                   </el-table-column>
@@ -171,11 +176,14 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
 import ColorfulDisplay from '@/pages/Guide/CustomerGroup/components/ColorfulDisplay'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, ColorfulDisplay },
+  components: { PageTable, NsEcharts, ColorfulDisplay, GuideDialog },
   data () {
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       loading: false,
       loadingData: false,
       checkId: 1,
@@ -319,10 +327,10 @@ export default {
       listDate: [],
       listPerson: [],
       chatRoomOwner: [],
-      chatOwnerName: '不限',
+      chatOwnerName: '不限', // 群主名字
+      guideIds: [], // 群主id
+      guideIdStr: '', // 群主id字符串版
       actionValue: '',
-      ownerFlag: false,
-      flag: false,
       today: '',
       last7: '',
       lart30: '',
@@ -361,7 +369,7 @@ export default {
       this.loadChatList()
       this.loadDateList()
       this.loadPersonList()
-      this.queryChatroomLeaderOptions()
+      // this.queryChatroomLeaderOptions()
     },
     // 重置
     onResetSearch () {
@@ -377,8 +385,6 @@ export default {
       this.chatRoomOwner = []
       this.chatOwnerName = '不限'
       this.actionValue = ''
-      this.ownerFlag = false
-      this.flag = false
       this.today = ''
       this.last7 = ''
       this.lart30 = ''
@@ -426,47 +432,29 @@ export default {
         this.endTime = this.today
       }
       const parms = {
-        // this.actionValue === '不限' ? '' : this.actionValue
         chatRoomId: '',
         endTime: this.endTime,
-        owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
-        startTime: this.startTime
+        guideIds: this.guideIdStr,
+        // owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
+        startTime: this.startTime,
+        exportType: 21
       }
-      that.$notify.info('导出中，请稍后片刻')
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.chat_room_list_export, parms)
-        .then(resp => {
-          that.$notify.success('下载完成')
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, parms).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
         })
-        .catch(resp => {
-          if (!resp.size === 0) {
-            that.$notify.error('导出报错，请联系管理员')
-          } else {
-            let url = window.URL.createObjectURL(new Blob([resp]))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            let curDate = moment().format('YYYYMMDDHHmmss')
-            let fileName = '群分析' + this.startTime.replaceAll('-', '') + '-' + this.endTime.replaceAll('-', '') + '.csv'
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-          }
-        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
-    // async chatNameChange (val) {
-    //   this.initPageData()
-    //   this.loadChatList()
-    //   // if (this.checkId === 1) {
-    //   //   this.loadDateList()
-    //   // } else {
-    //   //   this.loadPersonList()
-    //   // }
-    //   this.loadDateList()
-    //   this.loadPersonList()
-    //   this.queryChatroomLeaderOptions()
-    // },
     owenerChange (val) {
+      this.guideIds = val.map(el => +el)
+      this.guideIdStr = this.guideIds.join(',')
       this.initPageData()
       this.loadChatList()
       // if (this.checkId === 1) {
@@ -502,12 +490,6 @@ export default {
       this.loadChatList()
       this.loadDateList()
       this.loadPersonList()
-    },
-    selectOptionClick (val) {
-      this.flag = val
-    },
-    selectOptionOwnerClick (val) {
-      this.ownerFlag = val
     },
     selectTodayClick (val) {
       this.datePickerArr = []
@@ -574,7 +556,7 @@ export default {
         searchMap: {
           chatRoomId: '',
           endTime: this.endTime,
-          owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
+          guideIds: this.guideIdStr,
           startTime: this.startTime
         },
         start: (this.paginationToDate.page - 1) * this.paginationToDate.size,
@@ -609,7 +591,7 @@ export default {
         searchMap: {
           chatRoomId: '',
           endTime: this.endTime,
-          owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
+          guideIds: this.guideIdStr,
           startTime: this.startTime
         },
         start: (this.paginationToPerson.page - 1) * this.paginationToPerson.size,
@@ -721,7 +703,7 @@ export default {
       const parms = {
         chatRoomId: '',
         endTime: this.endTime,
-        owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName,
+        guideIds: this.guideIdStr,
         startTime: this.startTime
       }
       this.$http.fetch(this.$api.weWork.weWorkRooms.analysis_list, parms).then(res => {
@@ -731,23 +713,25 @@ export default {
         }
       })
     },
-    queryChatroomLeaderOptions () {
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: '' })
-        .then(resp => {
-          this.chatRoomOwner = resp.result
-          this.chatRoomOwner.unshift({ value: '不限', label: '不限' })
-        })
-        .catch(resp => {})
-    },
-    queryWeWorkRoomsNameOptions () {
-      this.$http
-        .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions, { owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName })
-        .then(resp => {
-          this.options = resp.result
-        })
-        .catch(resp => {})
-    },
+    // 获取群主列表
+    // queryChatroomLeaderOptions () {
+    //   this.$http
+    //     .fetch(this.$api.weWork.weWorkRooms.analysis_owner, { chatId: '' })
+    //     .then(resp => {
+    //       this.chatRoomOwner = resp.result
+    //       this.chatRoomOwner.unshift({ value: '不限', label: '不限' })
+    //     })
+    //     .catch(resp => {})
+    // },
+    // 废弃接口 暂留以防后续使用
+    // queryWeWorkRoomsNameOptions () {
+    //   this.$http
+    //     .fetch(this.$api.weWork.weWorkRooms.queryWeWorkRoomsNameOptions, { owner: this.chatOwnerName === '不限' ? '' : this.chatOwnerName })
+    //     .then(resp => {
+    //       this.options = resp.result
+    //     })
+    //     .catch(resp => {})
+    // },
     dealTime () {
       this.today = moment()
         .subtract('days', 1)
@@ -909,8 +893,9 @@ export default {
 }
 
 .item-down {
-  width: 143px;
+  width: 180px;
   height: 32px;
+  padding-right: 4px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
@@ -951,6 +936,17 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+.self-btn {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
+  }
 }
 </style>
 <style scoped>

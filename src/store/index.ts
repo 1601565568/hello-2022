@@ -18,6 +18,8 @@ import pay from './modules/pay/index.js'
 import companyPlan from './modules/companyPlan/index.js'
 // @ts-ignore
 import marking from './modules/marking/index.js'
+// @ts-ignore
+import down from './modules/down/index.js'
 
 Vue.use(Vuex)
 
@@ -33,7 +35,8 @@ export default new Vuex.Store({
     user,
     pay,
     companyPlan,
-    marking
+    marking,
+    down
   },
   strict: debug
 })
