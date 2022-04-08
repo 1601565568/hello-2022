@@ -46,14 +46,13 @@
             :show-overflow-tooltip="true"
             prop="createTime"
             label="创建时间"
-            sortable="0">
+            sortable="create_time">
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
             prop="predictSendTime"
-            label="发送方式"
-            sortable="2">
+            label="发送方式">
             <template slot-scope="scope">
               <template>
                 {{scope.row.predictSendTime + '' === 'null' ? '立即发送' : '定时发送'}}
@@ -65,7 +64,7 @@
             :show-overflow-tooltip="true"
             prop="predictSendTime"
             label="执行时间"
-            sortable="2">
+            sortable="predict_send_time">
             <template slot-scope="scope">
               <template>
                 {{scope.row.predictSendTime + '' === 'null' ? '-' : scope.row.predictSendTime}}

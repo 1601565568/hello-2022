@@ -22,6 +22,10 @@ export default {
     },
     // 审核处理接口
     async confirmExamineActivity (context) {
+      if (context.reviewStatus + '' === '3' && !context.reviewRemark) {
+        this.$notify.warning('审核失败原因必填')
+        return
+      }
       try {
         const resp = await this.$http.fetch(this.$api.marketing.weworkMarketing.reviewWxActivity, context)
         this.$message.success('审核完成')
