@@ -263,6 +263,15 @@ export default {
         page: 1,
         total: 0
       },
+      statusData: [
+        { label: '未提交', value: 1 },
+        { label: '待审核', value: 2 },
+        { label: '审核失败', value: 3 },
+        { label: '待执行', value: 4 },
+        { label: '执行中', value: 5 },
+        { label: '已执行', value: 6 },
+        { label: '已终止', value: 7 }
+      ],
       statusName: {
         1: '未提交',
         2: '待审核',
@@ -396,13 +405,23 @@ export default {
     },
     // 弹框事件处理 end
     getCreateTime (value) {
-      this.model.createTimeStart = value[0]
-      this.model.createTimeEnd = value[1]
+      if (!value) {
+        this.model.createTimeStart = ''
+        this.model.createTimeEnd = ''
+      } else {
+        this.model.createTimeStart = value[0]
+        this.model.createTimeEnd = value[1]
+      }
       this.$searchAction$()
     },
     getExecTime (value) {
-      this.model.sendTimeStart = value[0]
-      this.model.sendTimeEnd = value[1]
+      if (!value) {
+        this.model.sendTimeStart = ''
+        this.model.sendTimeEnd = ''
+      } else {
+        this.model.sendTimeStart = value[0]
+        this.model.sendTimeEnd = value[1]
+      }
       this.$searchAction$()
     },
     changeSearchfrom (obj = {}) {

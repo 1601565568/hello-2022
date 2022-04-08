@@ -56,7 +56,7 @@ export default {
     },
     confirm () {
       this.$emit('confirm', { messageId: this.messageId, reviewStatus: this.status, reviewRemark: this.remark })
-      this.$emit('update:visible', false)
+      // this.$emit('update:visible', false)
     }
   }
 }

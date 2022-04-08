@@ -90,10 +90,13 @@ export default {
     },
     // 弹框事件处理 end
     getCreateTime (value) {
-      this.model.createStartTime = value[0]
-      this.model.createEndTime = value[1]
-      delete param.searchMap.createTime
-      param.searchMap.status = 2
+      if (!value) {
+        this.model.createTimeStart = ''
+        this.model.createTimeEnd = ''
+      } else {
+        this.model.createTimeStart = value[0]
+        this.model.createTimeEnd = value[1]
+      }
       this.$searchAction$()
     },
     // $handleParams: function (param) {

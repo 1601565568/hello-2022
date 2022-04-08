@@ -17,7 +17,7 @@
             <ns-select v-model="model.employeeId" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
           </el-form-item>
           <el-form-item label="活动状态：">
-            <ns-select v-model="model.status" @change="getStatus" filterable clearable :url="$api.marketing.weworkMarketing.getActivityStatus"/>
+            <ns-select v-model="model.status" @change="getStatus" filterable clearable :data="statusData"/>
           </el-form-item>
           <el-form-item label="创建时间：" class='el-form__change'>
             <el-date-picker

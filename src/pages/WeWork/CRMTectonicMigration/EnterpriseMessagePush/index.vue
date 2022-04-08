@@ -231,8 +231,8 @@ export default {
       copyType: '',
       rules: {
         name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
+          { required: true, message: '请输入活动名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
         ],
         chatRoomIdList: [
           {
@@ -244,18 +244,18 @@ export default {
                 callback()
               }
             },
-            trigger: 'blur'
+            trigger: ['blur', 'change']
           }
         ],
         predictSendTime: [
-          { required: true, message: '请选择执行时间', trigger: 'blur' }
+          { required: true, message: '请选择执行时间', trigger: ['blur', 'change'] }
         ],
         textarea: [
           {
             validator: (rule, value, callback) => {
               const text = this.$refs.testText.htmlToText(value)
-              if (text.length > 1000) {
-                callback(new Error('长度在 1 到 400 个字符'))
+              if (text.length > 400) {
+                callback(new Error('文案不能超过400个字符'))
               } else {
                 callback()
               }
@@ -305,8 +305,10 @@ export default {
   mounted () {
     let { openType, messageId } = this.$route.query
     this.openType = openType
-    if (openType === 'add' && this.cloudPlatformType === 'kd') {
+    if (this.cloudPlatformType === 'kd') {
       this.onlyOne = 'employee'
+    } else {
+      this.verifyProductToCRM()
     }
   },
   watch: {
@@ -593,6 +595,11 @@ export default {
       }
       if (!this.model.textarea && this.mediaList.length === 0) {
         this.$notify.warning('请输入文案内容或添加附件')
+        return false
+      }
+      const text = this.$refs.testText.htmlToText(this.model.textarea)
+      if (text.length > 400) {
+        this.$notify.warning('文案不能超过400个字符')
         return false
       }
       this.loading = true
