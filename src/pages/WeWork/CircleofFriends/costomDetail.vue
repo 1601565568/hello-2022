@@ -27,14 +27,25 @@
         <CommonTable :commentList='commentList' :commentNum='commentNum'/>
       </el-col>
     </el-row>
+    <el-drawer
+      :modal="false"
+      size="480px"
+      @close="handleClose"
+      :visible.sync="drawer"
+      :with-header="false"
+    >
+      <FriendDrawer @onClose='handleClose'/>
+    </el-drawer>
   </div>
 </template>
 <script>
 import CostomDetail from './src/CostomDetail'
+import ElDrawer from '@nascent/nui/lib/drawer'
 import LikeTable from './components/detail/LikeTable'
 import CommonTable from './components/detail/CommonTable'
+import FriendDrawer from './components/detail/FriendDrawer'
 CostomDetail.components = {
-  LikeTable, CommonTable
+  LikeTable, CommonTable, FriendDrawer, ElDrawer
 }
 export default CostomDetail
 </script>

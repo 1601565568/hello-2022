@@ -5,10 +5,14 @@ export default {
       commentNum: 0,
       likeList: [],
       likeNum: 0,
-      info: {}
+      info: {},
+      drawer: false
     }
   },
   methods: {
+    handleClose () {
+      this.drawer = false
+    },
     getPersonalMomentInfo (momentId) {
       this.$http
         .fetch(this.$api.guide.momentList.getPersonalMomentInfo, {

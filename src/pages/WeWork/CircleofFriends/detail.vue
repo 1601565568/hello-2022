@@ -19,7 +19,6 @@
         </ns-button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
