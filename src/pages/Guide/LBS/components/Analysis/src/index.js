@@ -53,11 +53,6 @@ export default {
             }
           }
           return false
-          // if (new Date(time).getTime() > new Date().getTime() - 1 * 8.64e7) {
-          //   return false
-          // } else {
-          //   return time.getTime() < Date.now() - 181 * 8.64e7
-          // }
         }
       },
       time: this.type !== 'Group' ? this.initTime() : this.changeDate(1), // 时间筛选
@@ -226,17 +221,22 @@ export default {
         return [startT, endT]
       }
       if (Number(type) === 1) {
-        // 如果活动 起始时间 比 计算的的开始时间（基于现在的一个月前） 晚 => 起始时间 === 活动起始时间 早 起始时间 === 基于现在的一个月前
+        // 如果活动 起始时间 比 计算的的开始时间（基于现在的一个月前） 晚 => 起始时间 === 活动起始时间; 早 起始时间 === 基于现在的一个月前
         // 如果活动 结束时间 比 现在(用户选择的时刻) 晚 => 结束时间 === 现在； 早 => 结束时间 === 活动结束时间
-        if (!moment(start).isBefore(startT)) {
-          if (moment(end).isBefore(endT)) {
+        if (!moment(start).isBefore(startT)) { // 活动起始时间在基于现在的一个月前 的 后面
+          if (moment(end).isBefore(endT)) { // 活动结束时间在现在之前
             return [start, end]
-          } else {
+          } else { // 活动结束时间在现在之后
             return [start, endT]
           }
-        } else {
-          if (moment(end).isBefore(endT)) {
-            return [startT, end]
+        } else { // 活动起始时间在基于现在的一个月前 的 前面
+          const startBaseEnd = moment(end).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
+          if (moment(end).isBefore(endT)) { // 活动结束时间在现在的前面 ； 活动已结束
+            if (moment(startBaseEnd).isBefore(start)) { // 活动间隔 < 一个月
+              return [start, end]
+            } else { // 活动间隔 > 一个月
+              return [startBaseEnd, end]
+            }
           }
         }
         return [startT, endT]
