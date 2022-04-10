@@ -5,24 +5,141 @@
       朋友圈详情
     </h3>
     <div class='container detail'>
-      <img :src="info.guidePic" class='usericon'/>
-      <div class='name'>{{info.guideName}}</div>
-      <div v-if='info.shopName' class='shop'>
-        所属门店：{{info.shopName}}
-      </div>
       <div class='text-content'>{{info.textContent}}</div>
+      <template v-if='info.imageMediaId'>
+         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
+      </template>
+      <template v-if='info.videoMediaId'>
+         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
+      </template>
+      <template v-if='info.linkTitle'>
+         <Link :url='info.linkUrl' :title='info.linkTitle' :image='info.imageMediaId ? info.imageMediaId.split(",")[0]:""'/>
+      </template>
       <div class='footer'>
         <div class='date'>{{info.createTime}}</div>
-        <ns-button type='text'>
+        <ns-button v-if='info.visibleType !== 1' type='text' @click='changeDrawer(true)'>
           <span class="iconfont icon-kejiankehu" ></span>
           <span class='text'>可见客户</span>
         </ns-button>
       </div>
     </div>
+    <div class='list'>
+      <div class='list-header'>
+        成员执行情况（总计：{{_data._pagination.total}}人 已发表人数：{{ext.published}}人 未发表人数：{{ext.unpublished}}人）
+      </div>
+      <page-table>
+        <template slot='search'>
+          <el-form :inline="true" class='form-inline_top'>
+            <el-form-item label="发表状态：">
+              <el-select v-model="model.publishStatus" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
+                <el-option
+                  v-for="item in PublishStatuList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="`选择${aliasGuideName}：`">
+              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="guideIds" @input="handleChangeGuide">
+                <template slot='selfBtn'>
+                  <div class='self-btn'>
+                    {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${aliasGuideName}`:'全部'}}
+                    <Icon type="geren" class='guideIds-icon'></Icon>
+                  </div>
+                </template>
+              </NsGuideDialog>
+            </el-form-item>
+          </el-form>
+        </template>
+        <template slot='button'>
+          <ns-button type="primary" size='large' @click="exportClick" id="exportButton">导&nbsp;出</ns-button>
+        </template>
+        <template slot='table'>
+          <template>
+            <el-table
+              :data="_data._table.data"
+              class="new-table_border"
+              v-loading.lock="_data._table.loadingtable"
+              style="width: 100%">
+              <el-table-column
+                prop="guideName"
+                :label="aliasGuideName">
+              </el-table-column>
+              <el-table-column
+                prop="workNumber"
+                label="工号">
+              </el-table-column>
+              <el-table-column
+                prop="shopName"
+                label="所属门店">
+              </el-table-column>
+              <el-table-column
+                prop="publishStatus"
+                label="发表状态">
+                <template slot-scope="scope">
+                  <div>{{PublishStatuMap[scope.row.publishStatus]}}</div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="likeNum"
+                label="点赞数">
+              </el-table-column>
+              <el-table-column
+                prop="commentNum"
+                label="评论数">
+              </el-table-column>
+              <el-table-column
+                prop="employeeNumber"
+                label="操作">
+                <template slot-scope="scope">
+                  <ns-button type='text' @click='handleDetail(scope.row.userId)'>详情</ns-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </template>
+        <template slot='pagination'>
+          <el-pagination v-if="_data._pagination.enable"
+                        class="template-table__pagination"
+                        :page-sizes="_data._pagination.sizeOpts"
+                        :total="_data._pagination.total"
+                        :current-page="_data._pagination.page"
+                        :page-size="_data._pagination.size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="$sizeChange$"
+                        @current-change="$pageChange$">
+          </el-pagination>
+        </template>
+      </page-table>
+    </div>
+    <el-drawer
+      :modal="false"
+      size="500px"
+      @close="changeDrawer(false)"
+      :visible.sync="drawer"
+      :with-header="false"
+    >
+      <FriendDrawer @onClose='changeDrawer(false)'/>
+    </el-drawer>
   </div>
 </template>
 <script>
 import Detail from './src/Detail'
+import ElDrawer from '@nascent/nui/lib/drawer'
+import LikeTable from './components/detail/LikeTable'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import FriendDrawer from './components/detail/FriendDrawer'
+import DetailCommon from './mixins/DetailCommon'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import PageTable from '@/components/NewUi/PageTable'
+import Picture from './components/friendsStyle/Picture'
+import Video from './components/friendsStyle/Video'
+import Link from './components/friendsStyle/Link'
+Detail.components = {
+  LikeTable, FriendDrawer, ElDrawer, PageTable, NsGuideDialog, Picture, Video, Link
+}
+Detail.mixins = [DetailCommon, tableMixin]
 export default Detail
 </script>
 <style lang="scss" scoped>
@@ -51,28 +168,6 @@ export default Detail
     background:#fff;
     &.container {
       position: relative;
-      padding-left: 72px;
-    }
-    .usericon {
-      height:48px;
-      width: 48px;
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      border-radius: 4px;
-    }
-    .name {
-      font-size: 14px;
-      color: #262626;
-      line-height: 22px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    .shop {
-      font-size: 14px;
-      color: #8C8C8C;
-      line-height: 22px;
-      margin-bottom: 12px;
     }
     .text-content {
       font-size: 14px;
@@ -103,6 +198,26 @@ export default Detail
   }
   .list {
     margin-top: 16px;
+    background-color: #fff;
+  }
+  .list-header {
+    padding:0 16px;
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    color: #262626;
+    font-weight: 500;
+  }
+}
+.self-btn {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #606266;
+  .guideIds-icon {
+    color:#C0C4CC;
   }
 }
 </style>

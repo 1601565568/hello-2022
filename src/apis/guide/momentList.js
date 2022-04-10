@@ -23,19 +23,23 @@ export default {
     responseType: 'blob',
     callback: false
   },
-  // 获取个人朋友圈详情
-  getPersonalMomentInfo: {
-    url: '/guide/merged/momentList/getPersonalMomentInfo',
+  // 获取朋友圈详情
+  getMomentInfo: {
+    url: '/guide/merged/momentList/getMomentInfo',
     method: 'get'
   },
   // 获取企业朋友圈企业发表的列表
-  getMomentTaskMerged: {
-    url: '/guide/merged/momentList/getMomentTask',
+  getLikeOrComment: {
+    url: '/guide/merged/momentList/getLikeOrComment',
     method: 'post'
   },
   // 可见用户数据
   getVisibleUserMerged: {
     url: '/guide/merged/momentList/getVisibleUser',
+    method: 'post'
+  },
+  getMomentTaskMerged: {
+    url: '/guide/merged/momentList/getMomentTask',
     method: 'post'
   }
 }

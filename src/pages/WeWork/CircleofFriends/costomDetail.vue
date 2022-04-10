@@ -2,7 +2,7 @@
   <div class='detail-container'>
     <h3 class='header-text'>
       <img :src='backIcon' class='back-icon' @click='handleBack'/>
-      朋友圈详情
+      {{info.guideName}}的朋友圈详情
     </h3>
     <div class='container detail'>
       <img :src="info.guidePic" class='usericon'/>
@@ -11,9 +11,18 @@
         所属门店：{{info.shopName}}
       </div>
       <div class='text-content'>{{info.textContent}}</div>
+      <template v-if='info.imageMediaId'>
+         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
+      </template>
+      <template v-if='info.videoMediaId'>
+         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
+      </template>
+      <template v-if='info.linkTitle'>
+         <Link :url='info.linkUrl' :title='info.linkTitle' :image='info.imageMediaId ? info.imageMediaId.split(",")[0]:""'/>
+      </template>
       <div class='footer'>
         <div class='date'>{{info.createTime}}</div>
-        <ns-button type='text'>
+        <ns-button v-if='info.visibleType !== 1' type='text' @click='changeDrawer(true)'>
           <span class="iconfont icon-kejiankehu" ></span>
           <span class='text'>可见客户</span>
         </ns-button>
@@ -21,20 +30,20 @@
     </div>
     <el-row class='list' :gutter='16'>
       <el-col :span="12">
-        <LikeTable :likeList='likeList' :likeNum='likeNum'/>
+        <LikeTable :type='1'/>
       </el-col>
       <el-col :span="12">
-        <CommonTable :commentList='commentList' :commentNum='commentNum'/>
+        <LikeTable :type='0'/>
       </el-col>
     </el-row>
     <el-drawer
       :modal="false"
-      size="480px"
-      @close="handleClose"
+      size="500px"
+      @close="changeDrawer(false)"
       :visible.sync="drawer"
       :with-header="false"
     >
-      <FriendDrawer @onClose='handleClose'/>
+      <FriendDrawer @onClose='changeDrawer(false)'/>
     </el-drawer>
   </div>
 </template>
@@ -42,11 +51,15 @@
 import CostomDetail from './src/CostomDetail'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import LikeTable from './components/detail/LikeTable'
-import CommonTable from './components/detail/CommonTable'
 import FriendDrawer from './components/detail/FriendDrawer'
+import DetailCommon from './mixins/DetailCommon'
+import Picture from './components/friendsStyle/Picture'
+import Video from './components/friendsStyle/Video'
+import Link from './components/friendsStyle/Link'
 CostomDetail.components = {
-  LikeTable, CommonTable, FriendDrawer, ElDrawer
+  LikeTable, FriendDrawer, ElDrawer, Picture, Video, Link
 }
+CostomDetail.mixins = [DetailCommon]
 export default CostomDetail
 </script>
 <style lang="scss" scoped>

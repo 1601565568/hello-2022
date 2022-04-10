@@ -5,14 +5,14 @@
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
       <div class='header-title'>
-        <h3 class='header-title_text'>可见客户（总计：11人）</h3>
+        <h3 class='header-title_text'>可见客户（总计：{{total}}人）</h3>
       </div>
       <div class='analysis-content'>
         <page-table :searchCol='24'>
           <template slot='search'>
-            <el-form :inline="true" class='form-inline_top'>
+            <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
               <el-form-item label="">
-                <el-input v-model="seachVal" placeholder="请输入昵称"  @keyup.enter.native="handleSearch">
+                <el-input v-model="model.name" placeholder="请输入昵称"  @keyup.enter.native="handleSearch">
                   <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
                 </el-input>
               </el-form-item>
@@ -21,17 +21,17 @@
           <template slot='table'>
             <template>
               <el-table
-                :data="data"
+                :data="getList"
                 class="new-table_border"
                 style="width: 100%">
                 <el-table-column
                   prop="name"
-                  label="裂变大师">
+                  label="好友昵称">
                   <template slot-scope="scope">
                     <div class="scope-title">
-                      <img :src='scope.row.avatar || defaultIcon' class="scope-title_img">
+                      <img :src='scope.row.pic || defaultIcon' class="scope-title_img">
                       <div class="scope-title_text">
-                        {{scope.row.promotionMasterName||'-'}}
+                        {{scope.row.name||'-'}}
                       </div>
                     </div>
                   </template>
@@ -60,10 +60,11 @@ export default {
   data () {
     return {
       model: {
-        promotionMasterName: null
+        name: null
       },
-      seachDate: [],
+      getList: [],
       seachVal: '',
+      total: 0,
       defaultIcon
     }
   },
@@ -82,12 +83,28 @@ export default {
       this.$searchAction$()
     },
     handleSearch () {
-      this.changeSearchfrom({ promotionMasterName: this.seachVal })
+      this.changeSearchfrom()
+    },
+    $searchAction$ () {
+      const params = this.model
+      this.$http.fetch(this.$api.guide.momentList.getVisibleUser, params).then(res => {
+        this.getList = res.result
+        this.total = res.result.length
+        this.loading = false
+      }).catch((err) => {
+        this.loading = false
+        this.$notify.error(err.msg)
+      })
     },
     // 关闭弹框
     handleClose () {
       this.$emit('onClose')
     }
+  },
+  mounted () {
+    const { momentId, userId = null } = this.$route.query
+    this.model = { ...this.model, momentId, userId }
+    this.$searchAction$()
   }
 }
 </script>

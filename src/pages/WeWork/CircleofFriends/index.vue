@@ -31,15 +31,15 @@
               >
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="选择员工：">
-              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIdList" @input="NsGuideDialog">
+            <el-form-item :label="`选择${aliasGuideName}：`">
+              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="model.guideIdList" @input="NsGuideDialog">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
-                    {{(model.guideIdList&&model.guideIdList.length)?`已选择${model.guideIdList.length}个员工`:'全部'}}
+                    {{(model.guideIdList&&model.guideIdList.length)?`已选择${model.guideIdList.length}个${aliasGuideName}`:'全部'}}
                     <Icon type="geren" class='guideIds-icon'></Icon>
                   </div>
                 </template>
-              </NsGuideDialog>
+              </GuideDialog>
             </el-form-item>
             <el-form-item label="" class="el-form__change">
               <el-input
@@ -126,7 +126,7 @@
                 {{statusOptionList[scope.row.createType + 1].label}}
               </template>
             </el-table-column>
-            <el-table-column prop="guideName" label="员工">
+            <el-table-column prop="guideName" :label="aliasGuideName">
             </el-table-column>
             <el-table-column prop="shopName" label="所属门店" show-overflow-tooltip>
               <template v-slot="scope">
@@ -192,14 +192,15 @@
 </template>
 <script>
 import List from './src/List'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import PageTable from '@/components/NewUi/PageTablePro'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/ItemDrawer'
 import PublishDetailDrawer from './components/PublishDetailDrawer'
+
 List.components = {
   PageTable,
-  NsGuideDialog,
+  GuideDialog,
   ElDrawer,
   ItemDrawer,
   PublishDetailDrawer

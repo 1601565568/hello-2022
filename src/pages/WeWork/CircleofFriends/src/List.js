@@ -1,5 +1,6 @@
 // import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -67,6 +68,9 @@ export default {
       }
     }
   },
+  computed: mapState({
+    aliasGuideName: state => state.env.aliasGuideName
+  }),
   methods: {
     checkPublishDetail (row) {
       this.activeMomentId = row.momentId
@@ -172,7 +176,6 @@ export default {
     },
     // 查看详情
     async handleEdit (row, index) {
-      console.log(row)
       const { createType, momentId } = row
       if (createType === 0) {
         this.handleDetail(momentId)
