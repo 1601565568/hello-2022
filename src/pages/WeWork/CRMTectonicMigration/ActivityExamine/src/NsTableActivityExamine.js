@@ -36,7 +36,7 @@ export default {
 
     const model = Object.assign({},
       {
-        employeeId: '',
+        employeeLoginName: '',
         name: '',
         status: '2',
         createTime: []

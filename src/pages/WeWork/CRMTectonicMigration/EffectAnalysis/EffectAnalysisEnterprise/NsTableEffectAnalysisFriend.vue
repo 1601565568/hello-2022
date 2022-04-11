@@ -4,7 +4,7 @@
       <template slot="title">
         <div class="head-router">
           <div>
-            <span class="iconfont icon-icon-fanhuishangyiji icon-back" @click="$router.go(-1)"></span>
+            <span class="iconfont icon-icon-fanhuishangyiji icon-back" @click="$router.replace({ path: '/Marketing/EnterpriseMessage' })"></span>
             <span>{{this.$route.query.name}}的效果分析</span>
           </div>
           <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -65,7 +65,7 @@
             prop="guide.name"
             label="好友所属员工">
             <template slot-scope="scope">
-              {{scope.row.guide.name ? scope.row.guide.name: '-'}}
+              {{scope.row.guide && scope.row.guide.name ? scope.row.guide.name: '-'}}
             </template>
           </el-table-column>
 
@@ -74,7 +74,7 @@
             prop="guide.workNumber"
             label="工号">
             <template slot-scope="scope">
-              {{scope.row.guide.workNumber ? scope.row.guide.workNumber: '-'}}
+              {{scope.row.guide && scope.row.guide.workNumber ? scope.row.guide.workNumber: '-'}}
             </template>
           </el-table-column>
 
@@ -303,6 +303,7 @@ export default NsTableEffectAnalysisFriend
   font-size: 16px;
   color: #909399;
   margin-right: 16px;
+  cursor: pointer;
 }
 ::v-deep .btn-content{
   min-width: 70px;

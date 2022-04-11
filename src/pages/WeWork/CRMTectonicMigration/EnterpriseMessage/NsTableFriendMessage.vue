@@ -14,7 +14,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="创建人：">
-            <ns-select v-model="model.employeeId" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+            <ns-select v-model="model.employeeLoginName" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
           </el-form-item>
           <el-form-item label="活动状态：">
             <ns-select v-model="model.status" @change="getStatus" filterable clearable :data="statusData"/>
