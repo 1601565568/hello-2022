@@ -1,30 +1,35 @@
 <template>
-  <div
-    class="user-video"
-    @click="
-      togglePreview(
-        0,
-        [
-          `${videoUrl}`
-        ],
-        'video'
-      )
-    "
-  >
-    <video
-        :src="videoUrl"
-        :poster="posterUrl"
+  <div>
+    <div
+      class="user-video"
+      @click="
+        togglePreview(
+          0,
+          [
+            `${videoUrl}`
+          ],
+          'video'
+        )
+      "
     >
-      您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-    </video>
-    <div class="tableItem-video__mask">
-      <div class="tableItem-video__wrapper">
-        <Icon type="begin" />
+      <video
+          :src="videoUrl"
+          :poster="posterUrl"
+      >
+        您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+      </video>
+      <div class="tableItem-video__mask">
+        <div class="tableItem-video__wrapper">
+          <Icon type="begin" />
+        </div>
       </div>
     </div>
+
+      <Preview ref="preview" />
   </div>
 </template>
 <script>
+import Preview from '@/components/NsPreview'
 export default {
   props: {
     videoUrl: {
@@ -34,6 +39,7 @@ export default {
       default: ''
     }
   },
+  components: { Preview },
   methods: {
     togglePreview (current, list, type) {
       this.$refs.preview.toggleShow(current, list, type)
