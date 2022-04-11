@@ -110,10 +110,14 @@ export default {
      */
     handlerLoading () {
       this.senderListLoading = true
-      this.toListLoading = true
       this.weWorkChatDataLoading = true
       // 是否有数据
       this.isSetWeWorkChatData = false
+      if (this.activeName === 1 || this.activeName === 3) {
+        this.toListLoading = true
+      } else {
+        this.toListLoading = false
+      }
     },
     /**
      * 获取当前列表
