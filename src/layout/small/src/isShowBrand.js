@@ -43,7 +43,14 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/RepeatCustomer',
     '/Social/OperationData/CircleOfFriends',
     '/Social/OperationData/CircleOfFriends/costomDetail',
-    '/Social/OperationData/CircleOfFriends/detail'
+    '/Social/OperationData/CircleOfFriends/detail',
+    '/Social/SocialOperation/CustomerCode/List',
+    '/Social/SocialOperation/CustomerCode/Edit',
+    '/Social/SocialOperation/CustomerCode/Analysis',
+    '/Social/WeComCustomerOperation/ExternalContactList',
+    '/Social/WeComCustomerOperation/FriendsAnalysis',
+    '/Social/WeComCustomerOperation/RepeatCustomer'
+
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1

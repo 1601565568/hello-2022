@@ -69,6 +69,7 @@
             prop="belongEmpName"
             :label="`所属${employeeEnv}`">
             <template slot-scope="scope">
+              <template v-if='cloudPlatformType === "ecrp"'>
               <div class="scope-title_text">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.belongEmpShops.length>10?' more':'')" >
@@ -87,6 +88,10 @@
                   </div> -->
                 </div>
               </div>
+              </template>
+              <template v-else>
+                {{scope.row.belongEmpName|| '-'}}
+              </template>
             </template>
           </el-table-column>
           <el-table-column

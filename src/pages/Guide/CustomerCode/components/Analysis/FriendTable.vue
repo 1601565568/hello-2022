@@ -52,6 +52,7 @@
             prop="employeeName"
             :label="`好友添加${employeeEnv}`">
             <template slot-scope="scope">
+              <template v-if='cloudPlatformType === "ecrp"'>
               <div class="scope-title_text" v-if="scope.row.addOfflineShops">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.addOfflineShops.split(',').length>10?' more':'')" >
@@ -82,6 +83,10 @@
                   </el-popover>
                 </div>
               </div>
+              </template>
+              <template v-else>
+                {{scope.row.addEmployeeName|| '-'}}
+              </template>
             </template>
           </el-table-column>
           <el-table-column
@@ -110,6 +115,7 @@
             prop="employeeName"
             :label="`裂变大师所属${employeeEnv}`">
             <template slot-scope="scope">
+              <template v-if='cloudPlatformType === "ecrp"'>
               <div class="scope-title_text" v-if="scope.row.offlineShops">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.offlineShops.split(',').length>10?' more':'')" >
@@ -143,6 +149,10 @@
                 </el-popover>
                 </div>
               </div>
+              </template>
+              <template v-else>
+                 {{scope.row.employeeName|| '-'}}
+              </template>
             </template>
           </el-table-column>
           <el-table-column

@@ -215,7 +215,6 @@ export default {
   data () {
     return {
       model: { ...DEFAULT_ADVANCEDSETUP_DATA },
-      DEDUP_WAY: EDIT_DATA.DEDUP_WAY,
       NsAddTagDialogVisible: false, // 打标模态框
       NsAddTagDialogColumn: '', // 正在打标的字段
       tagList: [],
@@ -277,10 +276,6 @@ export default {
   props: ['data', 'isStating', 'isEdit', 'ladderRewardList'],
   components: { NsAddTagDialog },
   computed: {
-    // 数据安全去重方式提示
-    dedupWay () {
-      return EDIT_DATA.DEDUP_WAY[this.model.distinctType] || {}
-    },
     // 打开选择tag的模块框时，要回显选中的标签
     activeSelectedTags () {
       if (!this.NsAddTagDialogColumn) return ''
@@ -293,6 +288,13 @@ export default {
     }),
     employeeEnv () {
       return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    },
+    DEDUP_WAY () {
+      return EDIT_DATA(this.cloudPlatformType).DEDUP_WAY
+    },
+    // 数据安全去重方式提示
+    dedupWay () {
+      return EDIT_DATA(this.cloudPlatformType).DEDUP_WAY[this.model.distinctType] || {}
     }
   },
   methods: {

@@ -44,7 +44,7 @@
               </template>
               <template v-else>
                 <p class="employee-text">
-                  请选择可以在企微侧边栏使用该活动裂变大师的员工
+                  请选择可以在企微侧边栏使用该活动裂变大师的{{guideName}}
                 </p>
               </template>
             </div>
@@ -59,7 +59,7 @@
                   :isOpenDialogAfterRequest='false'
                   btnTitle=""
                   type="text"
-                  dialogTitle="选择员工"
+                  :dialogTitle="`选择${guideName}`"
                   v-model="model.guideIds"
                   @inputAllData="handleChangeGuide"
                   @input="handleChangeGuide"
@@ -201,6 +201,9 @@ export default {
     },
     guideTipEnv () {
       return this.cloudPlatformType === 'ecrp' ? '请选择可以在企微侧边栏使用该活动裂变大师的员工' : '选择的成员可以在企微侧边栏发送该裂变大师活动'
+    },
+    guideName () {
+      return this.cloudPlatformType === 'ecrp' ? '人员' : '成员'
     }
   },
   components: {
