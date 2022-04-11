@@ -67,10 +67,12 @@
                 :label="aliasGuideName">
               </el-table-column>
               <el-table-column
+                v-if='cloudPlatformType === "ecrp"'
                 prop="workNumber"
                 label="工号">
               </el-table-column>
               <el-table-column
+                v-if='cloudPlatformType === "ecrp"'
                 prop="shopName"
                 label="所属门店">
               </el-table-column>

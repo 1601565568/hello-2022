@@ -128,7 +128,7 @@
             </el-table-column>
             <el-table-column prop="guideName" :label="aliasGuideName">
             </el-table-column>
-            <el-table-column prop="shopName" label="所属门店" show-overflow-tooltip>
+            <el-table-column prop="shopName" label="所属门店" v-if='cloudPlatformType === "ecrp"' show-overflow-tooltip>
               <template v-slot="scope">
                 <div class="shops">
                   <div class="shopname">
