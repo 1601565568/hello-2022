@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-07 16:53:39
+ * @LastEditTime: 2022-04-11 11:25:37
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -73,16 +73,20 @@
             </el-table-column>
             <el-table-column label="成员发送次数">
               <template slot-scope="scope">
-                <ns-button type="text" @click="handleRowJump(scope.row)">{{
-                  scope.row.count
-                }}0</ns-button>
+                <ns-button
+                  type="text"
+                  @click="handleRowJump({ ...scope.row, type: 1 })"
+                  >{{ scope.row.count }}0</ns-button
+                >
               </template>
             </el-table-column>
             <el-table-column label="好友发送次数">
               <template slot-scope="scope">
-                <ns-button type="text" @click="handleRowJump(scope.row)">{{
-                  scope.row.count
-                }}</ns-button>
+                <ns-button
+                  type="text"
+                  @click="handleRowJump({ ...scope.row, type: 2 })"
+                  >{{ scope.row.count }}</ns-button
+                >
               </template>
             </el-table-column>
             <el-table-column prop="count" label="创建人"></el-table-column>

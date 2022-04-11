@@ -15,6 +15,7 @@ import KeyWordList from '../components/KeyWordList.vue'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import MemberList from '../components/MemberList.vue'
+import { formatText } from '@/utils/formatText'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -94,6 +95,7 @@ export default {
         type: 1 // 1拉取历史数据 2拉取最新数据
       },
       weWorkChatData: [],
+      userTypeText: '',
       userInfo: {},
       isDetails: false,
       memberData: {
@@ -105,6 +107,9 @@ export default {
   computed: {
     ml () {
       return this.unfoldAndStow ? 'template-page__right_content' : ''
+    },
+    platformText () {
+      return formatText({ kd: '成员', ecrp: '员工' })
     }
   },
   created () {
@@ -167,7 +172,6 @@ export default {
      * 话题列表加载更多
      */
     handlerScroll () {
-      console.log(!this.listIsScroll && this.getListMore, '!this.listIsScroll && this.getListMore')
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
         this.listParams.start = this.listParams.start + this.listParams.length
@@ -574,8 +578,14 @@ export default {
     },
     handleRowJump (params) {
       if (params) {
-        let { word, keyWordId } = params
+        let { word, keyWordId, type } = params
         this.memberData = { word, keyWordId }
+        if (type === 1) {
+          this.userTypeText = this.platformText
+        } else if (type === 2) {
+          this.userTypeText = '好友'
+        }
+        this.userInfo = { ...this.userInfo, userTypeText: this.userTypeText }
         this.$refs.memberList.fetchList({ keyWordId })
       }
       this.isDetails = !this.isDetails

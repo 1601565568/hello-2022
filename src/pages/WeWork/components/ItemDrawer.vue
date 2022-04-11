@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="title">
-        {{ `员工${this.userInfo.userName}的` || '' }}聊天记录
+        {{ `${userInfo.userTypeText}${userInfo.userName}的` || '' }}聊天记录
       </div>
       <div class="warpper">
         <ChatRecordList

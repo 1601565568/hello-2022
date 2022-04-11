@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-07 18:18:04
+ * @LastEditTime: 2022-04-11 13:43:40
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
+import { formatText } from '@/utils/formatText'
 
 export default {
   name: 'MemberList',
@@ -57,6 +58,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    platformText () {
+      return formatText({ kd: '企业微信成员', ecrp: '员工' })
     }
   },
   mounted () {

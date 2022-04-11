@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-07 15:53:09
+ * @LastEditTime: 2022-04-11 11:24:48
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -121,13 +121,6 @@ export default {
       this.$emit('addKeyWordDialog')
     },
     handleRowJump (params) {
-      // if (params) {
-      //   let { word, keyWordId } = params
-      //   this.memberData = { word, keyWordId }
-      //   this.$refs.memberList.fetchList({ keyWordId })
-      // }
-      // this.isDetails = !this.isDetails
-      console.log(1111)
       this.$emit('handleRowJump', params)
     },
     /**

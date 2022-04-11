@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-07 16:15:13
+ * @LastEditTime: 2022-04-11 13:42:17
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -58,7 +58,7 @@
             resizable
             :header-cell-style="headerStyle"
           >
-            <el-table-column label="员工" prop="topicName"> </el-table-column>
+            <el-table-column :label="platformText" prop="topicName"> </el-table-column>
             <el-table-column label="好友" prop="topicName"> </el-table-column>
             <el-table-column prop="topicName" label="关键词"></el-table-column>
             <el-table-column label="内容">

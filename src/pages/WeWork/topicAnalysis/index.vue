@@ -12,7 +12,7 @@
           <div v-if="!isDetails" style="margin-top: 16px">话题分析</div>
           <div v-else class="member-back" @click="handleRowJump">
             <img src="./image/icon-fanhuishangyiji.svg" />
-            <span>员工发送次数</span>
+            <span>{{ userTypeText }}发送次数</span>
           </div>
         </div>
         <!-- <div class="page-header__search">
