@@ -184,7 +184,7 @@
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">分配客户</p>
-                <span class="data-item__num">{{ taskMsg.customerTotal }}</span>
+                <span class="data-item__num">{{isHaveGroup ? taskMsg.customerTotal:'-' }}</span>
                 <span class="data-item__icon distributionGuideA">
                   <Icon
                     type="distributionguide"
@@ -198,7 +198,7 @@
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">联系中客户</p>
-                <span class="data-item__num">{{ taskMsg.customerFollowingNum }}</span>
+                <span class="data-item__num">{{ isHaveGroup ?taskMsg.customerFollowingNum :'-' }}</span>
                 <span class="data-item__icon distributionGuideB">
                   <Icon
                     type="distributionguide"
@@ -212,7 +212,7 @@
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">跟进成功客户</p>
-                <span class="data-item__num">{{ taskMsg.customerFollowNum }}</span>
+                <span class="data-item__num">{{ isHaveGroup ? taskMsg.customerFollowNum  :'-'}}</span>
                 <span class="data-item__icon distributionGuideC">
                   <Icon
                     type="distributionguide"
@@ -272,17 +272,27 @@
                 <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
               </template>
             </el-table-column>
-            <el-table-column align="left" prop="guideCount" label="分配导购" />
-            <el-table-column align="left" prop="customerTotal" label="分配客户" />
-            <el-table-column align="left" prop="customerNoFollowNum" label="待跟进客户" />
+            <el-table-column align="left" prop="guideCount" label="分配导购" >
+              <template slot-scope="scope"> {{ `${scope.row.guideCount}人` || '-'}} </template>
+            </el-table-column>
+            <el-table-column align="left" prop="customerTotal" label="分配客户" >
+              <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerTotal) === NaN ? scope.row.customerTotal : scope.row.customerTotal + '人'}` : '-' }} </template>
+            </el-table-column>
+            <el-table-column align="left" prop="customerNoFollowNum" label="待跟进客户">
+              <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerNoFollowNum) === NaN ? scope.row.customerNoFollowNum : scope.row.customerNoFollowNum + '人'}` : '-' }} </template>
+            </el-table-column>
             <el-table-column
               align="left"
               prop="customerFollowingNum"
               label="联系中客户"
-            />
-            <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户" />
+            >
+            <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerFollowingNum) === NaN ? scope.row.customerFollowingNum : scope.row.customerFollowingNum + '人'}` : '-' }}</template>
+            </el-table-column>
+            <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户" >
+              <template slot-scope="scope"> {{isHaveGroup ? `${Number(scope.row.customerFollowNum) === NaN ? scope.row.customerFollowNum : scope.row.customerFollowNum + '人'}` : '-'}} </template>
+            </el-table-column>
             <el-table-column align="left" prop="completion" label="完成度">
-              <template slot-scope="scope"> {{ scope.row.completion }}% </template>
+              <template slot-scope="scope"> {{ scope.row.completion || 0 }}% </template>
             </el-table-column>
             <el-table-column align="left" label="操作">
               <template slot-scope="scope">

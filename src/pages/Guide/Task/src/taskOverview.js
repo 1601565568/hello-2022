@@ -36,7 +36,6 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          console.log(data)
           const { customerNoFollowNum, customerTotal, customerFollowingNum, customerFollowNum } = data.row
           if (customerNoFollowNum === '正在获取中…' ||
           customerTotal === '正在获取中…' ||
@@ -69,6 +68,7 @@ export default {
       {}
     )
     return {
+      isHaveGroup: 0,
       dialogFlag: false,
       listMap: {},
       model: model,
@@ -279,6 +279,7 @@ export default {
             var result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
+            this.isHaveGroup = result.draw
             this.table.loadingtable = false
           }
         })

@@ -36,7 +36,9 @@ export default {
     }
     const tableButtons = [
       {
-        func: function () {},
+        func: function (data) {
+          console.log(data, 'data')
+        },
         icon: '$.noop',
         name: '查看详情',
         auth: '',
@@ -52,6 +54,7 @@ export default {
       },
       {})
     return {
+      isHaveGroup: 0,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -63,7 +66,7 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       pagination: pagination,
       // eslint-disable-next-line vue/no-reserved-keys
-      _table: {
+      table: {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
@@ -120,13 +123,8 @@ export default {
         .fetch(this.$api.guide.queryShopTaskDetail, params)
         .then(resp => {
           if (resp.success) {
-            this.extData = resp.result.ext || {
-              guideNum: 0,
-              customerTotal: 0,
-              customerFollowingNum: 0,
-              customerFollowNum: 0,
-              followProgress: 0
-            }
+            this.extData = resp.result.draw && resp.result.ext
+            this.isHaveGroup = resp.result.draw
             this.tableData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
             this.finishedCount = parseInt(resp.result.recordsFiltered)

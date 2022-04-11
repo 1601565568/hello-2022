@@ -21,21 +21,25 @@
       <div class="nav">
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">执行导购</p>
-          <span class="data-item__num">{{ extData.guideNum }}</span>
+          <span class="data-item__num">{{ isHaveGroup ? extData.guideNum : "-" }}</span>
           <span class="data-item__icon distributionStore">
             <Icon type="distributionstore" class="distributionStoreIcon" />
           </span>
         </div>
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">分配客户</p>
-          <span class="data-item__num">{{ extData.customerTotal }}</span>
+          <span class="data-item__num">{{
+            isHaveGroup ? extData.customerTotal : "-"
+          }}</span>
           <span class="data-item__icon distributionGuide">
             <Icon type="distributionguide" class="distributionguideIcon" />
           </span>
         </div>
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">联系中客户</p>
-          <span class="data-item__num">{{ extData.customerFollowingNum }}</span>
+          <span class="data-item__num">{{
+            isHaveGroup ? extData.customerFollowingNum : "-"
+          }}</span>
           <span class="data-item__icon distributionGuideA">
             <Icon
               type="distributionguide"
@@ -46,7 +50,9 @@
         </div>
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">跟进成功客户</p>
-          <span class="data-item__num">{{ extData.customerFollowNum }}</span>
+          <span class="data-item__num">{{
+            isHaveGroup ? extData.customerFollowNum : "-"
+          }}</span>
           <span class="data-item__icon distributionGuideB">
             <Icon
               type="distributionguide"
@@ -62,14 +68,16 @@
                     <Icon type="question-circle" />
                   </el-tooltip> -->
           </p>
-          <span class="data-item__num">{{ extData.followProgress }}%</span>
+          <span class="data-item__num">{{
+            isHaveGroup ? extData.followProgress : "-"
+          }}</span>
           <span class="data-item__icon degreeCompletion">
             <Icon type="degreecompletion" class="degreecompletionIcon" />
           </span>
         </div>
       </div>
       <div class="export">
-         <NsButton @click="exportData">导出文件</NsButton>
+        <NsButton @click="exportData">导出文件</NsButton>
       </div>
       <div class="drawer-table">
         <el-table
@@ -81,35 +89,59 @@
           :element-loading-text="$t('prompt.loading')"
           @sort-change="$orderChange$"
         >
-          <el-table-column prop="name" label="导购" width="150px">
+          <el-table-column prop="name" label="导购" >
             <template slot-scope="scope">
               {{ scope.row.name || "-" }}
             </template>
           </el-table-column>
-          <el-table-column prop="workId" label="工号" width="120px">
+          <el-table-column prop="workId" label="工号" >
             <template slot-scope="scope">
               {{ scope.row.workId || "-" }}
             </template>
           </el-table-column>
-          <el-table-column prop="shopName" label="门店名称" width="140px" />
-          <el-table-column align="center" label="任务状态" width="120px">
+          <el-table-column prop="shopName" label="门店名称" />
+          <el-table-column align="left" label="任务状态" >
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
               <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
               <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
             </template>
           </el-table-column>
+          <el-table-column align="left" prop="customerTotal" label="分配客户">
+            <template slot-scope="scope">
+              {{ isHaveGroup ? `${scope.row.customerTotal}人` : "-" }}
+            </template>
+          </el-table-column>
+           <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
+            <template slot-scope="scope">
+              {{ isHaveGroup ? `${scope.row.customerNoFollowNum}人` : "-" }}
+            </template>
+          </el-table-column>
+           <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
+            <template slot-scope="scope">
+              {{ isHaveGroup ? `${scope.row.customerFollowingNum}人` : "-" }}
+            </template>
+          </el-table-column>
+           <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
+            <template slot-scope="scope">
+              {{ isHaveGroup ? `${scope.row.customerFollowNum}人` : "-" }}
+            </template>
+          </el-table-column>
+           <el-table-column align="left" prop="followProgress" label="跟进进度">
+            <template slot-scope="scope">
+              {{ isHaveGroup ? scope.row.followProgress : "-" }}
+            </template>
+          </el-table-column>
           <el-table-column
-            align="center"
+            align="left"
             prop="completeTime"
             label="完成时间"
-            width="180px"
           >
             <template slot-scope="scope">
               {{ scope.row.completeTime || "-" }}
             </template>
           </el-table-column>
-          <el-table-column prop="remark" label="反馈">
+          <el-table-column prop="remark" label="任务反馈" width="260px">
             <template slot-scope="scope">
               <div>
                 <div class="remark">{{ scope.row.remark || "-" }}</div>
@@ -126,6 +158,15 @@
                   >
                 </div>
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column align="left" label="操作">
+            <template slot-scope="scope">
+              <ns-table-column-operate-button
+                :buttons="table.table_buttons"
+                :prop="scope"
+              >
+              </ns-table-column-operate-button>
             </template>
           </el-table-column>
         </el-table>
@@ -276,6 +317,7 @@ export default drawerVisible
       margin-right: 0;
     }
     flex: 1;
+    min-height: 90px;
     margin-right: 17px;
     position: relative;
     border: 1px solid #d9d9d9;
@@ -330,18 +372,18 @@ export default drawerVisible
     }
   }
   .distributionStoreIcon {
-  font-size: 26px;
-  color: rgb(71, 146, 249);
-}
-.distributionguideIcon {
-  font-size: 26px;
-  color: rgb(243, 174, 17);
-}
+    font-size: 26px;
+    color: rgb(71, 146, 249);
+  }
+  .distributionguideIcon {
+    font-size: 26px;
+    color: rgb(243, 174, 17);
+  }
 
-.degreecompletionIcon {
-  font-size: 26px;
-  color: rgb(65, 197, 0);
-}
+  .degreecompletionIcon {
+    font-size: 26px;
+    color: rgb(65, 197, 0);
+  }
 }
 .export {
   display: flex;
@@ -349,9 +391,8 @@ export default drawerVisible
   & >>> button {
     width: 116px;
     height: 32px;
-      font-size: 14px;
-      color: #595959;
-
+    font-size: 14px;
+    color: #595959;
   }
 }
 </style>
