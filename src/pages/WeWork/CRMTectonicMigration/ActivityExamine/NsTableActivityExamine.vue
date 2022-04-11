@@ -7,7 +7,7 @@
         </div>
       </template>
       <template slot='search'>
-        <el-form :inline="true" class='form-inline_top'>
+        <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
           <el-form-item label="">
             <el-input v-model.trim="model.name" placeholder="请输入活动名称" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
@@ -27,7 +27,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="创建人：">
-            <ns-select v-model="model.employeeId" @input="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+            <ns-select v-model="model.employeeLoginName" @change="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
           </el-form-item>
         </el-form>
       </template>
@@ -55,7 +55,7 @@
             label="发送方式">
             <template slot-scope="scope">
               <template>
-                {{scope.row.predictSendTime + '' === 'null' ? '立即发送' : '定时发送'}}
+                {{!scope.row.predictSendTime ? '立即发送' : '定时发送'}}
               </template>
             </template>
           </el-table-column>
@@ -67,7 +67,7 @@
             sortable="predict_send_time">
             <template slot-scope="scope">
               <template>
-                {{scope.row.predictSendTime + '' === 'null' ? '-' : scope.row.predictSendTime}}
+                {{!scope.row.predictSendTime ? '-' : scope.row.predictSendTime}}
               </template>
             </template>
           </el-table-column>

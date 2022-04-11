@@ -34,6 +34,7 @@ export default {
       } catch (respErr) {
         this.$message.error('审核失败')
       } finally {
+        this.visibleExamineDialog = false
         this.visibleCheckActivityDrawer = false
         // this.$emit('change')
       }
