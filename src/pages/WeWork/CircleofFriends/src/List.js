@@ -69,7 +69,8 @@ export default {
     }
   },
   computed: mapState({
-    aliasGuideName: state => state.env.aliasGuideName
+    aliasGuideName: state => state.env.aliasGuideName,
+    cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
   }),
   methods: {
     checkPublishDetail (row) {

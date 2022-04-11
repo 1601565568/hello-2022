@@ -39,8 +39,11 @@ export default ($route) => {
     '/Social/WeWorkGroup/sensitiveWords',
     '/Customer/Group/CustomerGroup',
     '/WeWork/Customer/SessionStatistics',
-    '/Social/WeWorkGroup/ChatRecord'
-
+    '/Social/WeWorkGroup/ChatRecord',
+    '/Social/WeComCustomerOperation/RepeatCustomer',
+    '/Social/OperationData/CircleOfFriends',
+    '/Social/OperationData/CircleOfFriends/costomDetail',
+    '/Social/OperationData/CircleOfFriends/detail'
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
