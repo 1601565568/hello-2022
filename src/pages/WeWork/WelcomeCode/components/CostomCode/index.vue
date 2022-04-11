@@ -11,8 +11,8 @@
           </el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="model.title" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch('title')">
-            <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch('title')"></Icon>
+          <el-input v-model="model.name" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch('name')">
+            <Icon type="ns-search" slot="suffix" class='search-icon' @click="handleSearch('name')"></Icon>
           </el-input>
         </el-form-item>
       </el-form>
@@ -96,7 +96,7 @@
             align='center'
             label="状态">
             <template slot-scope="scope">
-              <el-tag :type="statusList[scope.row.activityStatus].color" class='scope-name_tag'>{{statusList[scope.row.activityStatus].value}}</el-tag>
+              <el-tag :type="statusList[scope.row.status].color" class='scope-name_tag'>{{statusList[scope.row.status].value}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column

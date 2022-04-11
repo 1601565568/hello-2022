@@ -6,17 +6,17 @@ export default {
   mixins: [tableMixin],
   computed: {
     ...mapState({
-      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig,
-      tableTitle () {
-        return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与企微成员'
-      },
-      tableKey () {
-        return this.cloudPlatformType === 'ecrp' ? 'guideNames' : 'userNames'
-      },
-      guideName () {
-        return this.cloudPlatformType === 'ecrp' ? '员工' : '企微成员'
-      }
-    })
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    tableTitle () {
+      return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与企微成员'
+    },
+    tableKey () {
+      return this.cloudPlatformType === 'ecrp' ? 'guideNames' : 'userNames'
+    },
+    guideName () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '企微成员'
+    }
   },
   props: {
     qrcodeModel: {
@@ -39,7 +39,7 @@ export default {
       _pagination: pagination,
       model: {
         loginAccount: '',
-        title: '',
+        name: '',
         configId: null
       },
       departData: {},
