@@ -54,7 +54,7 @@
             </div>
             <div>
               <el-form :inline="true" class="form-inline_top">
-                <el-form-item label="员工：">
+                <el-form-item :label="`${platformText}:`">
                   <NsGuideDialog
                     v-if="cloudPlatformType === 'ecrp'"
                     :selfBtn='true'
@@ -143,7 +143,7 @@
               </template>
             </page-table>
           </el-tab-pane>
-          <el-tab-pane label="按员工显示" name="second">
+          <el-tab-pane :label="`按${platformText}显示`" name="second">
             <page-table style="padding-top:0">
               <template slot="table">
                 <el-table
@@ -152,7 +152,7 @@
                   class="new-table_border drawer-table"
                   :row-style="{ height: '48px' }"
                 >
-                  <el-table-column prop="user_name" label="员工"> </el-table-column>
+                  <el-table-column prop="user_name" :label="platformText"> </el-table-column>
                   <el-table-column prop="chat_totals" label="好友群总数"> </el-table-column>
                   <el-table-column prop="new_chat_cnts" label="新增群聊数"> </el-table-column>
                   <el-table-column prop="chat_has_msgs" label="有过消息的好友群数"> </el-table-column>
@@ -188,6 +188,7 @@ import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ColorfulDisplay from './components/ColorfulDisplay'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import { formatText } from './utils'
 export default {
   name: 'GroupData',
   components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay, NsGuideWeChatDialog },
@@ -367,6 +368,9 @@ export default {
         startTime.setDate(startTime.getDate() + 1)
       }
       return dateList
+    },
+    platformText () {
+      return formatText({ kd: '成员', ecrp: '员工' })
     }
   },
   methods: {
