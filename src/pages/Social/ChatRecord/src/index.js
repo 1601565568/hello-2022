@@ -143,7 +143,12 @@ export default {
         this.isSetWeWorkChatData = false
         if (this.activeName === '2') {
           // 群聊天特殊处理
-          this.getWeWorkChatDataToDb()
+          if (this.senderList.length > 0) {
+            this.getWeWorkChatDataToDb()
+          } else {
+            this.weWorkChatDataLoading = false
+            this.isSetWeWorkChatData = true
+          }
         } else {
           this.getTalkToGuideList()
         }
