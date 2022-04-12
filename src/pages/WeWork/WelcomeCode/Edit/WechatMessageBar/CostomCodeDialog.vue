@@ -1,0 +1,93 @@
+<template>
+  <el-dialog
+    ref="linkDialog"
+    width="1000px"
+    :visible="visible"
+    title="选择裂变大师活动"
+    :show-scroll-x="false"
+    :close-on-click-modal="false"
+    @open="open"
+    @close="close"
+    modal-append-to-body
+    append-to-body
+  >
+    <CostomCode v-if="visible" :qrcodeModel="defaultModel" ref='costomCode'/>
+    <div slot="footer" class="dialog-footer">
+      <ns-button @click="close">取消</ns-button>
+      <ns-button @click="confirm" type="primary">确定</ns-button>
+    </div>
+  </el-dialog>
+</template>
+
+<script>
+import CostomCode from '@/pages/WeWork/WelcomeCode/components/CostomCode'
+
+export default {
+  components: {
+    CostomCode
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    content: {
+      type: Object,
+      default: function () {
+        return {
+          configId: null, // 海报id
+          placard: '', // 海报地址
+          title: '' // 海报名称
+        }
+      }
+    }
+  },
+  data () {
+    return {
+      defaultModel: {
+        configId: null, // 海报id
+        placard: '', // 海报地址
+        title: '' // 海报名称
+      }
+    }
+  },
+  mounted () {
+  },
+  methods: {
+    close () {
+      this.defaultModel = {
+        configId: null,
+        placard: '',
+        title: ''
+      }
+      this.$emit('update:visible', false)
+    },
+    open () {
+      if (this.content) {
+        this.defaultModel = this.content
+      }
+    },
+    confirm () {
+      const model = this.$refs.costomCode.onSave()
+      if (model) {
+        const { cardCopywriting, cardCoverPic, cardTitle, name, guestCodeId } = model
+        this.$emit('confirm', {
+          type: 'costomCode',
+          content: {
+            guestCodeId: guestCodeId,
+            guestCodeName: name,
+            title: cardTitle,
+            image: cardCoverPic,
+            desc: cardCopywriting
+          }
+        })
+        this.close()
+      }
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

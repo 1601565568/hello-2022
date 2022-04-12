@@ -359,7 +359,12 @@ function core (wpo, root, conf, name) {
           params.spm = spm
         }
 
-        this.queue({params:JSON.stringify(params),timestamp: new Date().getTime(),path:window.location.origin+window.location.pathname})
+        this.queue({
+          params: JSON.stringify(params),
+          timestamp: new Date().getTime(),
+          url: window.location.origin + window.location.pathname,
+          path: window.location.pathname,
+        })
       }
     },
     query: {

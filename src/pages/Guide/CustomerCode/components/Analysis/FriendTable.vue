@@ -2,15 +2,15 @@
   <page-table>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="添加员工：">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+        <el-form-item :label="`添加${employeeEnv}：`">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${employeeEnv}`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
-          </NsGuideDialog>
+          </GuideDialog>
         </el-form-item>
         <el-form-item label="">
           <el-input v-model="seachVal" :placeholder="`请输入${holderName}`"  @keyup.enter.native="handleSearch" class='diff-input'>
@@ -50,8 +50,9 @@
           </el-table-column>
           <el-table-column
             prop="employeeName"
-            label="好友添加员工">
+            :label="`好友添加${employeeEnv}`">
             <template slot-scope="scope">
+              <template v-if='cloudPlatformType === "ecrp"'>
               <div class="scope-title_text" v-if="scope.row.addOfflineShops">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.addOfflineShops.split(',').length>10?' more':'')" >
@@ -82,9 +83,14 @@
                   </el-popover>
                 </div>
               </div>
+              </template>
+              <template v-else>
+                {{scope.row.addEmployeeName|| '-'}}
+              </template>
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="employeeNumber"
             label="工号">
             <template slot-scope="scope">
@@ -107,8 +113,9 @@
           </el-table-column>
           <el-table-column
             prop="employeeName"
-            label="裂变大师所属员工">
+            :label="`裂变大师所属${employeeEnv}`">
             <template slot-scope="scope">
+              <template v-if='cloudPlatformType === "ecrp"'>
               <div class="scope-title_text" v-if="scope.row.offlineShops">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.offlineShops.split(',').length>10?' more':'')" >
@@ -142,9 +149,14 @@
                 </el-popover>
                 </div>
               </div>
+              </template>
+              <template v-else>
+                 {{scope.row.employeeName|| '-'}}
+              </template>
             </template>
           </el-table-column>
           <el-table-column
+            v-if='cloudPlatformType === "ecrp"'
             prop="employeeNumber"
             label="工号">
             <template slot-scope="scope">
@@ -183,9 +195,10 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import defaultIcon from '@/assets/defultheadPic.png'
+import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
   data () {
@@ -207,10 +220,17 @@ export default {
       defaultIcon
     }
   },
-  components: { PageTable, NsGuideDialog },
+  components: { PageTable, GuideDialog },
   computed: {
     holderName () {
       return ['', '好友昵称', '裂变大师'][this.searchType]
+    },
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
     }
   },
   props: ['startTime', 'endTime'],
