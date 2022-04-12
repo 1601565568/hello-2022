@@ -28,6 +28,13 @@
         class="news-message"
         :content="item.content"
       />
+      <!-- 裂变大师 start -->
+      <LinkMessage
+        v-else-if="item.type === messageType.CostomCode"
+        class="news-message"
+        :content="item.content"
+      />
+      <!-- 裂变大师 end -->
       <MiniProgramMessage
         v-else-if="item.type === messageType.MiniProgram"
         class="mini-message"

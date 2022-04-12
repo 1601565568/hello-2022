@@ -5,6 +5,11 @@ export default {
     url: `${prefix}findList`,
     method: 'post'
   },
+  // 查询裂变大师活动列表 for 欢迎语
+  findPopupList: {
+    url: `${prefix}findPopupList`,
+    method: 'post'
+  },
   // 结束裂变大师活动
   closeGuestCodeActivity: {
     url: `${prefix}closeGuestCodeActivity`,
