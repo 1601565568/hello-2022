@@ -1,18 +1,21 @@
 export interface THIRD_ROUTER {
   [key: string]: any,
 };
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isCropReady
 export const setPortals = () => (
   {
     type: 'isPortals',
     value: true
   }
 )
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isChatDataSettingReady
 export const setAddress = () => (
   {
     type: 'isAddress',
     value: true
   }
 )
+// 对应/guide/sgwxaccount/getAppIdletInfo接口的 字段是isContactSettingReady
 export const setChat = () => (
   {
     type: 'isChat',
@@ -40,7 +43,7 @@ export const thirdRouter:THIRD_ROUTER = {
   '/Social/WeComCustomerOperation/DeleteCustomers': setPortals(),
   '/Social/WeComCustomerOperation/FriendsAnalysis': setPortals(),
   '/Social/OperationData/CircleOfFriends': setPortals(),
-  // '/Social/WeComCustomerOperation/LosOfFriends': setPortals(),
+  '/Social/WeComCustomerOperation/LosOfFriends': setPortals(),
   // 通讯录配置 type:isAddress
   '/Marketing/FriendsCircle/OutList': setAddress(),
   '/Marketing/FriendsCircle/List': setAddress(),

@@ -134,7 +134,7 @@ export default {
     },
     showVipDetail () {
       this.$emit('showVip', {
-        shopId: this.shopId,
+        // shopId: this.shopId,
         unionId: this.unionId
       })
     },

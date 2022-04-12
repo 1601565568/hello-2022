@@ -18,14 +18,7 @@ import '@theme/index.pcss'
 // import './utils/storageControl'
 import '@/assets/fonts/iconfont.css'
 import { eventProxy } from './track/logForClick'
-const appTrack = require('./track/appTrack.js')
-eventProxy({
-  click: {},
-  input: {
-    excludes: ['input', 'textarea']
-  }
-}, 500)
-appTrack.init({
+LOG.init({
   imgUrl: window.g_config.imgUrl,
   sample: window.g_config.sample, // 抽样率，100 = 1%，1 = 100%，默认100
   spmId: window.g_config.spmId,
@@ -34,6 +27,13 @@ appTrack.init({
   startTime: window.g_config.startTime, // 自定义测速类页面统计起始时间
   userInfo: store.state.user
 })
+
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
 
 if (window.g_config.sentry.report === true) {
   Vue.prototype.$sentry = Sentry
@@ -74,7 +74,6 @@ Vue.prototype.$isShowDocs = process.env.VUE_APP_THEME !== 'QA' || qaDocs.length 
 // })
 // 三方路由拦截
 router.beforeEach(async (to, from, next) => {
-  next()
   if (thirdRouter[to.path]) {
     if (!store.state.companyPlan.isLoad) {
       await store.dispatch('companyPlan/getCompanyPlan')
