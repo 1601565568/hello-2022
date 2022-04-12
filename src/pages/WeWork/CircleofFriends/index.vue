@@ -138,6 +138,10 @@
                 </div>
               </template>
             </el-table-column>
+            <el-table-column prop="likeNum" label="点赞数">
+            </el-table-column>
+            <el-table-column prop="commentNum" label="评论数">
+            </el-table-column>
             <el-table-column prop="createTime" label="时间"> </el-table-column>
             <el-table-column prop="address" label="操作"  width="140px">
               <template slot-scope="scope">
