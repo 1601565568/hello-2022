@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-08 11:49:37
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 10:40:55
+ * @LastEditTime: 2022-04-12 14:51:01
  * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
  */
 /**
@@ -28,6 +28,7 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
     '/Customer/Group/CustomerGroup',
+    '/WeWork/Customer/SessionStatistics',
     '/Social/WeComCustomerOperation/RoomList',
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData',
