@@ -49,7 +49,8 @@ export default {
         time: '', // 查询时间
         name: '',
         start: 0,
-        length: 15
+        length: 15,
+        idType: '' // 查询id类型 1好友userId 2群ID 3成员userId
       },
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
@@ -66,22 +67,20 @@ export default {
         : ''
     },
     senderListPlaceholder () {
-      return `请输入${
-        parseInt(this.activeName) === 1
-          ? '好友'
-          : parseInt(this.activeName) === 2
-            ? '群'
-            : this.formatTabName()
-      }`
+      return `请输入${parseInt(this.activeName) === 1
+        ? '好友'
+        : parseInt(this.activeName) === 2
+          ? '群'
+          : this.formatTabName()
+        }`
     },
     toListPlaceholder () {
-      return `请输入${
-        this.activeName === '1'
-          ? this.formatTabName()
-          : this.activeName === '2'
-            ? '群'
-            : '好友'
-      }`
+      return `请输入${this.activeName === '1'
+        ? this.formatTabName()
+        : this.activeName === '2'
+          ? '群'
+          : '好友'
+        }`
     }
   },
   created () {
@@ -223,7 +222,8 @@ export default {
           time: this.time, // 查询时间
           name: '',
           start: 0,
-          length: 15
+          length: 15,
+          idType: ''
         }
       }
     },
@@ -374,6 +374,7 @@ export default {
       }
       this.toListRequest = true
       this.toListLoading = true
+      this.talkToGuideListParams = { ...this.talkToGuideListParams, idType: parseInt(this.activeName) }
       this.$http
         .fetch(
           this.$api.marketing.chatRecord.talkToGuideList,
