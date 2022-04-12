@@ -41,14 +41,14 @@
               </el-select>
             </el-form-item>
             <el-form-item :label="`选择${aliasGuideName}：`">
-              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="guideIds" @input="handleChangeGuide">
+              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="guideIds" @input="handleChangeGuide">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${aliasGuideName}`:'全部'}}
                     <Icon type="geren" class='guideIds-icon'></Icon>
                   </div>
                 </template>
-              </NsGuideDialog>
+              </GuideDialog>
             </el-form-item>
           </el-form>
         </template>
@@ -130,7 +130,7 @@
 import Detail from './src/Detail'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import LikeTable from './components/detail/LikeTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import FriendDrawer from './components/detail/FriendDrawer'
 import DetailCommon from './mixins/DetailCommon'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
@@ -139,7 +139,7 @@ import Picture from './components/friendsStyle/Picture'
 import Video from './components/friendsStyle/Video'
 import Link from './components/friendsStyle/Link'
 Detail.components = {
-  LikeTable, FriendDrawer, ElDrawer, PageTable, NsGuideDialog, Picture, Video, Link
+  LikeTable, FriendDrawer, ElDrawer, PageTable, GuideDialog, Picture, Video, Link
 }
 Detail.mixins = [DetailCommon, tableMixin]
 export default Detail
