@@ -7,6 +7,7 @@ export default {
     userDetails: {
       type: Object
     },
+    // 是否展示区域选择，注意不展示的情况下shopId也不会传
     showViewChoose: {
       type: Boolean,
       default: function () {
@@ -73,7 +74,7 @@ export default {
   },
   methods: {
     async showDetailDialog (val) {
-      this.shopId = val.shopId
+      this.shopId = val.shopId || ''
       this.unionId = val.unionId
       this.shopKuhuShow = true
       if (!this.showViewChoose) {
@@ -85,11 +86,18 @@ export default {
       // 查询会员详情
       // 无union_id则不支持查询详情
       if (this.unionId && this.unionId !== '') {
-        this.$http.fetch(this.$api.guide.guide.customerGetDetail, {
+        let params = {
           unionId: this.unionId,
           shopId: this.shopId,
           viewId: this.viewId || this.propsViewId || null
-        }).then(resp => {
+        }
+        if (!this.showViewChoose) {
+          params = {
+            unionId: this.unionId,
+            viewId: this.viewId || this.propsViewId || null
+          }
+        }
+        this.$http.fetch(this.$api.guide.guide.customerGetDetail, params).then(resp => {
           if (resp.success && resp.result != null) {
             this.items = resp.result
             if (Object.keys(this.items).length > 0) {

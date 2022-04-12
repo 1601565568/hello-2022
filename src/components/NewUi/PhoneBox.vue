@@ -65,7 +65,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // 群欢迎语替换图片
+    // (头部内容预览)替换图片，群欢迎语、好友营销都有用到
     showPhoneHead: {
       type: Boolean,
       default: false
