@@ -4,9 +4,11 @@
       <div class="page-header fl_between">
         <div class="page-header__text">
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/Social/WeWorkGroup/ChatRecord' }"
-              >会话管理</el-breadcrumb-item
+            <el-breadcrumb-item
+              :to="{ path: '/Social/WeWorkGroup/ChatRecord' }"
             >
+              会话管理
+            </el-breadcrumb-item>
             <el-breadcrumb-item>话题分析</el-breadcrumb-item>
           </el-breadcrumb>
           <div v-if="!isDetails" style="margin-top: 16px">话题分析</div>
@@ -53,10 +55,10 @@
               话题列表
               <img class="add" :src="nsAddBorder" @click="addKeyWordTopic" />
             </div>
-            <div @click="handlerUnfoldAndStow" style="cursor: pointer;">
+            <!-- <div @click="handlerUnfoldAndStow" style="cursor: pointer;">
               <img v-if="unfoldAndStow" :src="packup" />
               <img v-if="!unfoldAndStow" :src="unfold" />
-            </div>
+            </div> -->
           </div>
           <div
             v-loading="listLoading"
@@ -397,18 +399,18 @@ export default Index
   }
 }
 .template-page__right__content {
-  margin-left: 192px;
+  margin-left: 239px;
 }
-.template-page__right_content {
-  margin-left: 185px;
-}
+// .template-page__right_content {
+//   margin-left: 185px;
+// }
 .template-page__content {
   position: relative;
   display: flex;
   width: 100%;
 }
 .template-page__left {
-  width: 173px;
+  width: 223px;
   position: absolute;
   // left: 210px;
   // top: 70px;
