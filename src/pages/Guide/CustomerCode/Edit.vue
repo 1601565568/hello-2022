@@ -48,7 +48,7 @@
 import ElSteps from '@nascent/nui/lib/steps'
 import ElStep from '@nascent/nui/lib/step'
 import PageEdit from '@/components/NewUi/PageEdit'
-import { STEP_LIST, DEFAULT_BASEINFO_DATA, DEFAULT_SETPRIZE_DATA, DEFAULT_SETPOSTER_DATA, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_ADVANCEDSETUP_DATA, DEFAULT_PRIZE_ITEM, DEFAULT_PAGEDECORATION_DATA, DEFAULT_WELCOMECODE } from './src/const'
+import { STEP_LIST, DEFAULT_BASEINFO_DATA, DEFAULT_SETPRIZE_DATA, DEFAULT_SETPOSTER_DATA, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_ADVANCEDSETUP_DATA, DEFAULT_PRIZE_ITEM, DEFAULT_PAGEDECORATION_DATA, DEFAULT_WELCOMECODE, DEFAULT_PAGEDECORATION_DATA_KEDAO } from './src/const'
 import { submitFormat, loadingFormat } from './util/format'
 import BaseInfo from './components/Edit/BaseInfo'
 import AdvancedSetup from './components/Edit/AdvancedSetup'
@@ -56,6 +56,7 @@ import PageDecoration from './components/Edit/PageDecoration'
 import PrizeSet from './components/Edit/PrizeSet'
 import SetPoster from './components/Edit/SetPoster'
 import SetWelcomeCode from './components/Edit/SetWelcomeCode'
+import { mapState } from 'vuex'
 export default {
   components: { ElSteps, ElStep, PageEdit, BaseInfo, AdvancedSetup, PageDecoration, PrizeSet, SetPoster, SetWelcomeCode },
   data () {
@@ -90,7 +91,11 @@ export default {
   computed: {
     editType () {
       return this.$route.query.guestCodeId ? '编辑' : '新建'
-    }
+    },
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    })
   },
   methods: {
     handleCancel () {
@@ -186,6 +191,11 @@ export default {
         // this.btnLoad = false
       })
     }
+  },
+  created () {
+    this.cloudPlatformType === 'ecrp'
+      ? this.data.pageDecorationData = { ...DEFAULT_PAGEDECORATION_DATA }
+      : this.data.pageDecorationData = { ...DEFAULT_PAGEDECORATION_DATA_KEDAO }
   },
   async mounted () {
     this.isLoaded = false

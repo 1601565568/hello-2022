@@ -1,7 +1,8 @@
 import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 import store from '@/store'
 import LocalStorage from 'store/dist/store.legacy.min.js'
-const appTrack = require('../../track/appTrack.js')
+import { setDefaultParmas } from '../../track/logForClick'
+const appEnv = require('../../track/appEnv')
 const treeFn = (err, rows) => {
   if (err) { throw err }
   // get all data
@@ -131,7 +132,14 @@ export default {
         // CRM购买方案. 暂时方案
         const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? '1' : '0'
         localStorage.setItem('USER_LOCAL_COMPANY_PLAN', companyPlan)
-        appTrack.customConfig(user)
+        setDefaultParmas({
+          groupId: user.groupId ? user.groupId + '' : undefined,
+          appType: appEnv.getWebDev(),
+          appEnv: appEnv.getAppEnv(),
+          nick: user.nick ? user.nick : undefined,
+          nickId: user.nickId ? user.nickId : undefined
+        })
+        // appTrack.customConfig(user)
         resolve(res.data.result)
       } else {
         reject(res.data)
