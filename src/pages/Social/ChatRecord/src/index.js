@@ -50,7 +50,8 @@ export default {
         name: '',
         start: 0,
         length: 15
-      }
+      },
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }
   },
   computed: {
@@ -67,19 +68,19 @@ export default {
     senderListPlaceholder () {
       return `请输入${
         parseInt(this.activeName) === 1
-          ? '客户'
+          ? '好友'
           : parseInt(this.activeName) === 2
             ? '群'
-            : '导购'
+            : this.formatTabName()
       }`
     },
     toListPlaceholder () {
       return `请输入${
         this.activeName === '1'
-          ? '导购'
+          ? this.formatTabName()
           : this.activeName === '2'
             ? '群'
-            : '客户'
+            : '好友'
       }`
     }
   },
@@ -109,10 +110,14 @@ export default {
      */
     handlerLoading () {
       this.senderListLoading = true
-      this.toListLoading = true
       this.weWorkChatDataLoading = true
       // 是否有数据
       this.isSetWeWorkChatData = false
+      if (this.activeName === 1 || this.activeName === 3) {
+        this.toListLoading = true
+      } else {
+        this.toListLoading = false
+      }
     },
     /**
      * 获取当前列表
@@ -138,7 +143,12 @@ export default {
         this.isSetWeWorkChatData = false
         if (this.activeName === '2') {
           // 群聊天特殊处理
-          this.getWeWorkChatDataToDb()
+          if (this.senderList.length > 0) {
+            this.getWeWorkChatDataToDb()
+          } else {
+            this.weWorkChatDataLoading = false
+            this.isSetWeWorkChatData = true
+          }
         } else {
           this.getTalkToGuideList()
         }
@@ -226,11 +236,21 @@ export default {
       let name = ''
       let Name = parseInt(activeName)
       if (type === 1) {
-        name = Name === 1 ? '客户' : Name === 2 ? '群' : '导购'
+        name = Name === 1 ? '好友' : Name === 2 ? '群' : this.formatTabName()
       } else {
-        name = Name === 1 ? '导购' : Name === 2 ? '群' : '客户'
+        name = Name === 1 ? this.formatTabName() : Name === 2 ? '群' : '好友'
       }
       return name
+    },
+    /**
+     * 根据平台显示tab文案
+     */
+    formatTabName () {
+      let str = {
+        ecrp: '导购',
+        kd: '成员'
+      }[this.cloudPlatformType] || '导购'
+      return str
     },
     /**
      * 二级列表展开收起
