@@ -1,3 +1,9 @@
+/*
+ * @Date: 2022-04-08 11:49:37
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-12 09:59:17
+ * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
+ */
 /**
  * 监听路由变化时，是否要显示企微选择
  * @param $route 当前路由对象
@@ -21,7 +27,12 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/ExternalContactList',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
-    '/WeWork/Customer/SessionStatistics'
+    '/WeWork/Customer/SessionStatistics',
+    '/Social/WeComCustomerOperation/RoomList',
+    '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
+    '/Social/WeComCustomerOperation/GroupData',
+    '/Social/WeWorkGroup/sensitiveWords',
+    '/Social/WeWorkGroup/ChatRecord'
 
   ]
 
