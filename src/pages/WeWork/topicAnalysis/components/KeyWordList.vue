@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 16:29:25
+ * @LastEditTime: 2022-04-12 19:22:18
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -17,7 +17,7 @@
                 :picker-options="pickerOptions"
                 type="date"
                 :clearable="false"
-                v-model="keyWordVoListReq.timeRange"
+                v-model="keyWordVoListReq.time"
               >
               </el-date-picker>
             </el-form-item>
@@ -27,7 +27,7 @@
                 @clear="fetch"
                 clearable
                 placeholder="请输入关键词"
-                v-model="keyWordVoListReq.keyWord"
+                v-model="keyWordVoListReq.name"
               >
                 <Icon
                   type="ns-search"

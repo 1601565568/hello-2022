@@ -206,11 +206,11 @@ export default {
             let def = this.list[0] && this.list[0].topicId ? this.list[0] : null
             this.onChangeList(def)
           }
-          if (!res.result || res.result.length < 1) {
+          if (!res.result.data || res.result.data.length < 1) {
             this.keyWordsVoListLoding = false
             this.table.loading = false
           }
-          if (res.result.length < this.listParams.length) {
+          if (res.result.data.length < this.listParams.length) {
             this.getListMore = false
           } else {
             this.getListMore = true
@@ -240,34 +240,58 @@ export default {
         this.keyWordVoListReq.topicId = i.topicId
       }
       this.keyWordVoListReq.time = this.time
-      this.$http
-        .fetch(
-          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
-          this.keyWordVoListReq
-        ).then(res => {
-          this.cantRequest = false
-          let response = res.result
-          this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
-          let defItem =
-            this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
-              ? this.keyWordsVoList[0]
-              : null
-          // 没有关键字列表
-          this.keyWordsVoListLoding = false
-          if (defItem === null) {
-            this.table.loading = false
-            this.table.tableData = []
-            this.selectKeyWordId = null
-            return
-          }
-          this.selectKeyWord(defItem)
-        }).catch(error => {
-          this.cantRequest = false
-          this.keyWordsVoListLoding = false
+      // this.$http
+      //   .fetch(
+      //     this.$api.weWork.topicAnalysis.getKeyWordTopicList,
+      //     this.keyWordVoListReq
+      //   ).then(res => {
+      //     this.cantRequest = false
+      //     let response = res.result
+      //     this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
+      //     let defItem =
+      //       this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
+      //         ? this.keyWordsVoList[0]
+      //         : null
+      //     // 没有关键字列表
+      //     this.keyWordsVoListLoding = false
+      //     if (defItem === null) {
+      //       this.table.loading = false
+      //       this.table.tableData = []
+      //       this.selectKeyWordId = null
+      //       return
+      //     }
+      //     this.selectKeyWord(defItem)
+      //   }).catch(error => {
+      //     this.cantRequest = false
+      //     this.keyWordsVoListLoding = false
+      //     this.table.loading = false
+      //     this.$notify.error(error.msg)
+      //   })
+      // 调取关键词组件请求接口
+      this.$refs.keyWordList.fetch({ id: this.select }).then(() => {
+        console.log('loggggg')
+        this.cantRequest = false
+        let response = res.result
+        this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
+        let defItem =
+          this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
+            ? this.keyWordsVoList[0]
+            : null
+        // 没有关键字列表
+        this.keyWordsVoListLoding = false
+        if (defItem === null) {
           this.table.loading = false
-          this.$notify.error(error.msg)
-        })
-      this.$refs.keyWordList.fetch({ topicId: this.select })
+          this.table.tableData = []
+          this.selectKeyWordId = null
+          return
+        }
+        this.selectKeyWord(defItem)
+      }).catch(error => {
+        this.cantRequest = false
+        this.keyWordsVoListLoding = false
+        this.table.loading = false
+        this.$notify.error(error.msg)
+      })
     },
     /**
      * 新增话题弹窗

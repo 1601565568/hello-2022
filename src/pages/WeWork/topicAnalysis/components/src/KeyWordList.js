@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 15:46:44
+ * @LastEditTime: 2022-04-12 19:23:14
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -35,9 +35,9 @@ export default {
       keyWordVoListReq: {
         start: 0,
         length: 15,
-        topicId: null,
-        keyWord: '',
-        timeRange: null
+        id: null,
+        name: '',
+        time: null
       },
       bottomMinDate: '',
       topMaxDate: '',
@@ -68,25 +68,29 @@ export default {
   },
   methods: {
     initPage () {
-      this.keyWordVoListReq.timeRange = this.getDate().nowDate
+      this.keyWordVoListReq.time = this.getDate().nowDate
     },
     fetch (params) {
       this.table.loading = true
-      let _params = { ...this.keyWordVoListReq, time: this.getDate().nowDateFormat, topicId: this.topicId, ...params }
+      let _params = { ...this.keyWordVoListReq, time: this.getDate().nowDateFormat, id: this.topicId, ...params }
       // TODO 修改请求关键词接口
-      this.$http
-        .fetch(
-          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
-          _params
-        ).then(res => {
-          let response = res.result
-          this.table.tableData = response.length > 0 ? response[0].keyWordsVoList : []
-          this.pagination.total = this.table.tableData.length
-          this.table.loading = false
-        }).catch(error => {
-          this.table.loading = false
-          this.$notify.error(error.msg)
-        })
+      return new Promise((resolve, reject) => {
+        this.$http
+          .fetch(
+            this.$api.weWork.topicAnalysis.keyWordlist,
+            _params
+          ).then(res => {
+            let response = res.result
+            this.table.tableData = response.length > 0 ? response[0].keyWordsVoList : []
+            this.pagination.total = this.table.tableData.length
+            this.table.loading = false
+            resolve(res)
+          }).catch(error => {
+            this.table.loading = false
+            this.$notify.error(error.msg)
+            reject(error)
+          })
+      })
     },
     handleKeyWordSearch () {
       this.fetch()
