@@ -17,27 +17,6 @@
             <span>{{ userTypeText }}发送次数</span>
           </div>
         </div>
-        <!-- <div class="page-header__search">
-          <el-date-picker
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-            :picker-options="pickerOptions"
-            type="date"
-            :clearable="false"
-            v-model="time"
-            placeholder="选择日期"
-            @change="handlerChangeTime"
-          >
-          </el-date-picker>
-          <el-input
-            @keyup.enter.native="onSearch"
-            @clear="onSearch"
-            clearable
-            style="width:240px;margin-left:16px;"
-            placeholder="请输入话题"
-            v-model="listParams.name"
-          ></el-input>
-        </div> -->
       </div>
     </div>
     <div class="template-page__content">
@@ -68,7 +47,6 @@
             :infinite-scroll-distance="5"
             ref="loadMoreWrapper"
           >
-            <!-- <div class="loadMoreWrapper" ref="loadMoreWrapperChildren"> -->
             <div class="customer_list__warpper">
               <div
                 class="customer_list__item"
@@ -95,55 +73,11 @@
             <NsNoData v-if="!listLoading && list.length === 0"
               >暂无数据</NsNoData
             >
-            <!-- </div> -->
           </div>
           <div class="content_bottom"></div>
         </div>
         <div class="template-page__right">
           <div class="template-page__right__content" :class="ml">
-            <!-- <div class="content_header">关键词命中明细</div>
-          <div class="chat_record">
-            <el-scrollbar ref="fullScreen">
-              <el-table
-                ref="multipleTable"
-                :data="table.tableData"
-                :element-loading-text="$t('prompt.loading')"
-                v-loading.lock="table.loading"
-                stripe
-                resizable
-              >
-                <el-table-column label="头像">
-                  <template slot-scope="scope">
-                    <img :src="scope.row.avatar" class="scope-title_img" />
-                  </template>
-                </el-table-column>
-                <el-table-column prop="name" label="昵称"> </el-table-column>
-                <el-table-column
-                  prop="content"
-                  label="内容"
-                  :show-overflow-tooltip="true"
-                >
-                </el-table-column>
-                <el-table-column label="操作" fixed="right" :width="150">
-                  <template slot-scope="scope">
-                    <ns-button type="text" @click="getContext(scope.row)"
-                      >查看</ns-button
-                    >
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-scrollbar>
-            <el-pagination
-              :page-sizes="pagination.sizeOpts"
-              :total="pagination.total"
-              :current-page.sync="pagination.page"
-              :page-size.sync="pagination.size"
-              @size-change="handleSizeChange"
-              @current-change="handlePageChange"
-              class="template-table__pagination"
-              layout="total, sizes, prev, pager, next, jumper"
-            ></el-pagination>
-          </div> -->
             <KeyWordList
               ref="keyWordList"
               :topicId="select"
@@ -153,48 +87,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div
-        class="template-page__left__children"
-        :class="!unfoldAndStow ? 'customer_list__width' : ''"
-      >
-        <div class="content_header">
-          关键词
-          <img class="add" :src="nsAddBorder" @click="addKeyWordDialog" />
-        </div>
-        <div
-          class="loadMoreWrapper"
-          ref="loadMoreWrapperChildren"
-          v-loading="keyWordsVoListLoding"
-        >
-          <ul class="user_list">
-            <li
-              v-for="(item, index) in keyWordsVoList"
-              :key="index"
-              :class="
-                item.keyWordId === selectKeyWordId
-                  ? 'user_list_select__keyWord'
-                  : ''
-              "
-              @click="selectKeyWord(item)"
-            >
-              <div class="topic-text">
-                {{ item.word }}
-              </div>
-              <div class="topic-Number">
-                {{ item.count }}
-              </div>
-              <span class="del" @click.stop="del(2, item.word, item.keyWordId)">
-                <Icon type="delete"
-              /></span>
-            </li>
-          </ul>
-          <NsNoData v-if="!keyWordsVoListLoding && keyWordsVoList.length === 0"
-          >暂无数据</NsNoData
-          >
-        </div>
-        <div class="content_bottom"></div>
-      </div> -->
     </div>
     <el-drawer
       size="720px"
@@ -289,49 +181,49 @@ export default Index
   width: 100%;
   height: 16px;
 }
-.user_list {
-  // margin-top: 16px;
+// .user_list {
+//   // margin-top: 16px;
 
-  overflow: auto;
-  scrollbar-width: none;
-  list-style: none;
-  padding: 0px;
-  padding: 0 16px;
-  li {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 48px;
-    padding: 0px 8px;
-    border-radius: 2px;
-    user-select: none;
-    font-size: 14px;
-    color: #262626;
-    .topic-text {
-      width: 100px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .topic-Number {
-      margin-left: 16px;
-    }
-    .del {
-      display: none;
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-    &:hover {
-      background: #f5f5f5;
-      .del {
-        cursor: pointer;
-        display: block;
-      }
-    }
-  }
-}
+//   overflow: auto;
+//   scrollbar-width: none;
+//   list-style: none;
+//   padding: 0px;
+//   padding: 0 16px;
+//   li {
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+//     height: 48px;
+//     padding: 0px 8px;
+//     border-radius: 2px;
+//     user-select: none;
+//     font-size: 14px;
+//     color: #262626;
+//     .topic-text {
+//       width: 100px;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//       white-space: nowrap;
+//     }
+//     .topic-Number {
+//       margin-left: 16px;
+//     }
+//     .del {
+//       display: none;
+//       position: absolute;
+//       right: 8px;
+//       top: 50%;
+//       transform: translate(-50%, -50%);
+//     }
+//     &:hover {
+//       background: #f5f5f5;
+//       .del {
+//         cursor: pointer;
+//         display: block;
+//       }
+//     }
+//   }
+// }
 .user_list_select {
   position: relative;
   background: #d9effe;
@@ -376,7 +268,7 @@ export default Index
     line-height: 48px;
     height: 48px;
     .topic-text {
-      max-width: 100px;
+      max-width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

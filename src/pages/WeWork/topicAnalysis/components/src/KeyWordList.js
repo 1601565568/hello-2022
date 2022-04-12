@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-11 11:24:48
+ * @LastEditTime: 2022-04-12 15:46:44
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -17,7 +17,6 @@ export default {
   components: { MemberList },
   data () {
     return {
-      isDetails: false,
       memberData: {
         word: '',
         topicId: null

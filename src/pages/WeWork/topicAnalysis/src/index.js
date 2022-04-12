@@ -197,7 +197,8 @@ export default {
           this.listParams
         )
         .then(res => {
-          this.list = this.list.concat(formatList(res.result))
+          console.log(res, 'res-----')
+          this.list = this.list.concat(formatList(res.result.data))
           this.listLoading = false
           this.listIsScroll = false
           if (this.select === null && this.list.length > 0) {
