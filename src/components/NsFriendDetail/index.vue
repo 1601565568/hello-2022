@@ -12,7 +12,7 @@
       <template slot="title">
         <div class="dialog-header">
           <span class="dialog-header__title">{{dialogTitle}}</span>
-          <view-select v-if="cloudPlatformType + '' === 'ecrp'" class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
+          <view-select v-if="cloudPlatformType + '' === 'ecrp' && isShowView" class="dialog-header__select" :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="viewId" @change="viewChange"/>
         </div>
       </template>
       <div>
@@ -25,7 +25,7 @@
             <div class="name-info"><span class="name">{{friendInfo.name}}</span><span class="source" :class="isWx ? 'isWx' : 'isQyVx'">{{isWx ? '@微信' : friendInfo.corpName ? '@' + friendInfo.corpName : ''}}</span></div>
             <div class="job-info">
               <span v-if="!isWx" class="job-name">{{friendInfo.position}}</span>
-              <template v-if="cloudPlatformType === 'ecrp'">
+              <template v-if="cloudPlatformType === 'ecrp' && isShowView">
                 <span class="vip-info" :class="isVip ? 'vip-block' : 'non-vip'">{{isVip ? '会员' : '非会员'}}</span>
                 <span v-if="isVip" class="vip-detail" @click="showVipDetail">查看会员详情</span>
               </template>

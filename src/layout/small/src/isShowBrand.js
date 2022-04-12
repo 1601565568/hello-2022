@@ -37,7 +37,9 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData',
     '/Social/WeWorkGroup/sensitiveWords',
-    '/Social/WeWorkGroup/ChatRecord'
+    '/Social/WeWorkGroup/ChatRecord',
+    '/Social/WeComCustomerOperation/DeleteCustomers',
+    '/Social/WeComCustomerOperation/BeDeleteCustomers'
 
   ]
 
