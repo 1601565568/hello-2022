@@ -67,33 +67,16 @@
             </div>
             <div class='shop-content'>
               <span>选择{{platformText}}：</span>
-              <NsGuideDialog v-if="cloudPlatformType === 'ecrp'" :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="guideClick">
+              <GuideDialog
+                :selfBtn='true' :appendToBody='true' :switchAreaFlag='1' :isButton="false" :auth="true" type="primary" btnTitle="" :dialogTitle="`选择${platformText}`" v-model="guideIds" @input="guideClick"
+              >
                 <template slot='selfBtn'>
                   <div class='self-btn'>
-                    {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                    {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${platformText}`:'全部'}}
                     <Icon type="geren" class='guideIds-icon'></Icon>
                   </div>
                 </template>
-              </NsGuideDialog>
-              <NsGuideWeChatDialog
-                :selfBtn='true'
-                :isButton="false"
-                :auth="true"
-                :appendToBody="true"
-                :switchAreaFlag="1"
-                type="primary"
-                btnTitle=""
-                dialogTitle="选择成员"
-                v-model="guideIds"
-                @input="guideClick"
-                v-else>
-                <template slot='selfBtn'>
-                  <div class='self-btn'>
-                    {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个成员`:'全部'}}
-                    <Icon type="geren" class='guideIds-icon'></Icon>
-                  </div>
-                </template>
-              </NsGuideWeChatDialog>
+              </GuideDialog>
             </div>
           </div>
           <div class="drawer-output" @click="outputClick" id="exportButton">
@@ -185,14 +168,13 @@
 
 <script>
 import PageTable from '@/components/NewUi/PageTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
-import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import { formatText } from './utils'
 export default {
   name: 'MaterialCahat',
-  components: { PageTable, NsGuideDialog, NsEcharts, NsGuideWeChatDialog },
+  components: { PageTable, NsEcharts, GuideDialog },
   data () {
     return {
       pickerOptions: {

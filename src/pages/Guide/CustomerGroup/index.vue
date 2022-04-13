@@ -55,8 +55,7 @@
             <div>
               <el-form :inline="true" class="form-inline_top">
                 <el-form-item :label="`${platformText}:`">
-                  <NsGuideDialog
-                    v-if="cloudPlatformType === 'ecrp'"
+                  <GuideDialog
                     :selfBtn='true'
                     :appendToBody='true'
                     :isButton="false"
@@ -65,33 +64,14 @@
                     :switchAreaFlag='1'
                     :isNeedLink='true'
                     type="primary"
-                    btnTitle="" dialogTitle="员工" v-model="guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}" :showTitleTip='false'>
+                    btnTitle="" :dialogTitle="cloudPlatformType === 'ecrp' ? '员工': '选择成员'" v-model="guideIds" @input="(value)=>{this.changeSearchfrom({ guideIds: value })}" :showTitleTip='false'>
                     <template slot='selfBtn'>
                       <div class='self-btn'>
-                        {{(guideIds && guideIds.length)?`已选择${guideIds.length}个员工`:'不限'}}
+                        {{(guideIds && guideIds.length)?`已选择${guideIds.length}个${platformText}`:`${cloudPlatformType === 'ecrp' ? '不限': '全部'}`}}
                         <Icon type="geren" class='guideIds-icon'></Icon>
                       </div>
                     </template>
-                  </NsGuideDialog>
-                  <NsGuideWeChatDialog
-                    :selfBtn='true'
-                    :isButton="false"
-                    :auth="true"
-                    :appendToBody="true"
-                    :switchAreaFlag="1"
-                    type="primary"
-                    btnTitle=""
-                    dialogTitle="选择成员"
-                    v-model="guideIds"
-                    @input="(value)=>{this.changeSearchfrom({ guideIds: value })}"
-                    v-else>
-                    <template slot='selfBtn'>
-                      <div class='self-btn'>
-                        {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个成员`:'全部'}}
-                        <Icon type="geren" class='guideIds-icon'></Icon>
-                      </div>
-                    </template>
-                  </NsGuideWeChatDialog>
+                  </GuideDialog>
                 </el-form-item>
               </el-form>
             </div>
@@ -185,13 +165,12 @@
 import PageTable from '@/components/NewUi/PageTable'
 import NsEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import moment from 'moment'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import ColorfulDisplay from './components/ColorfulDisplay'
-import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import { formatText } from './utils'
 export default {
   name: 'GroupData',
-  components: { PageTable, NsEcharts, NsGuideDialog, ColorfulDisplay, NsGuideWeChatDialog },
+  components: { PageTable, NsEcharts, ColorfulDisplay, GuideDialog },
   data () {
     return {
       loading: false,

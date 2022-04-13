@@ -110,10 +110,14 @@ export default {
      */
     handlerLoading () {
       this.senderListLoading = true
-      this.toListLoading = true
       this.weWorkChatDataLoading = true
       // 是否有数据
       this.isSetWeWorkChatData = false
+      if (this.activeName === 1 || this.activeName === 3) {
+        this.toListLoading = true
+      } else {
+        this.toListLoading = false
+      }
     },
     /**
      * 获取当前列表
@@ -139,7 +143,12 @@ export default {
         this.isSetWeWorkChatData = false
         if (this.activeName === '2') {
           // 群聊天特殊处理
-          this.getWeWorkChatDataToDb()
+          if (this.senderList.length > 0) {
+            this.getWeWorkChatDataToDb()
+          } else {
+            this.weWorkChatDataLoading = false
+            this.isSetWeWorkChatData = true
+          }
         } else {
           this.getTalkToGuideList()
         }
