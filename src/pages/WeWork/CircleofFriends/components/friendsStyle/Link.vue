@@ -42,9 +42,13 @@ export default {
   font-size: 12px;
   color: #606266;
   margin-bottom: 12px;
+  max-width:380px;
   .Abox {
     display: flex;
     align-items: center;
+    font-size: 12px;
+    color: #606266;
+    line-height: 20px;
     .friendPic {
       width: 64px;
       height: 64px;

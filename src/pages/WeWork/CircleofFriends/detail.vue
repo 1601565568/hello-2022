@@ -6,14 +6,14 @@
     </h3>
     <div class='container detail'>
       <div class='text-content'>{{info.textContent}}</div>
-      <template v-if='info.imageMediaId'>
-         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
-      </template>
-      <template v-if='info.videoMediaId'>
-         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
-      </template>
       <template v-if='info.linkTitle'>
          <Link :url='info.linkUrl' :title='info.linkTitle' :image='info.imageMediaId ? info.imageMediaId.split(",")[0]:""'/>
+      </template>
+      <template v-else-if='info.videoMediaId'>
+         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
+      </template>
+      <template v-else-if='info.imageMediaId'>
+         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
       </template>
       <div class='footer'>
         <div class='date'>{{info.createTime}}</div>
@@ -75,6 +75,28 @@
                 v-if='cloudPlatformType === "ecrp"'
                 prop="shopName"
                 label="所属门店">
+                <template slot-scope="scope">
+                  <el-popover
+                    placement="top-start"
+                    width="300"
+                    trigger="hover"
+                    :disabled="scope.row.shopName && scope.row.shopName.length <= 15"
+                  >
+                    <div>{{ scope.row.shopName }}</div>
+                    <span
+                      slot="reference"
+                      v-if="scope.row.shopName && scope.row.shopName.length <= 15"
+                      >{{ scope.row.shopName }}</span
+                    >
+                    <span
+                      slot="reference"
+                      v-if="scope.row.shopName && scope.row.shopName.length > 15"
+                      >{{
+                        scope.row.shopName.substr(0, 15) + '...'
+                      }}</span
+                    >
+                  </el-popover>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="publishStatus"
