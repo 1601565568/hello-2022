@@ -11,14 +11,14 @@
         所属门店：{{info.shopName}}
       </div>
       <div class='text-content'>{{info.textContent}}</div>
-      <template v-if='info.imageMediaId'>
-         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
-      </template>
-      <template v-if='info.videoMediaId'>
-         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
-      </template>
       <template v-if='info.linkTitle'>
          <Link :url='info.linkUrl' :title='info.linkTitle' :image='info.imageMediaId ? info.imageMediaId.split(",")[0]:""'/>
+      </template>
+      <template v-else-if='info.videoMediaId'>
+         <Video :videoUrl='info.videoMediaId' :posterUrl='info.videoThumbMediaId'/>
+      </template>
+      <template v-else-if='info.imageMediaId'>
+         <Picture :imgList='info.imageMediaId ? info.imageMediaId.split(","):[]'/>
       </template>
       <div class='footer'>
         <div class='date'>{{info.createTime}}</div>
