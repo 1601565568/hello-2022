@@ -389,7 +389,7 @@ export default {
       return this.cloudPlatformType === 'ecrp' ? [{ label: '优惠券', value: 1 }, ...prizeList] : prizeList
     },
     isOpnePrizeEnv () {
-      return !!this.cloudPlatformType === 'ecrp'
+      return !!(this.cloudPlatformType === 'ecrp')
     }
   },
   methods: {
