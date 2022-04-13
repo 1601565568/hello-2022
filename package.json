@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn install && npm run clean:build && npm run build:icons && node ./script/iframs",
+    "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
     "start": "vue-cli-service serve",
     "start:QA": "cross-env VUE_APP_THEME=QA VUE_APP_LAYOUT=QA vue-cli-service serve",
     "start:mock": "cross-env VUE_APP_MOCK=true vue-cli-service serve",
