@@ -32,7 +32,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item :label="`选择${aliasGuideName}：`">
-              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="model.guideIdList" @input="NsGuideDialog">
+              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="model.guideIdList" @input="NsGuideDialog">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(model.guideIdList&&model.guideIdList.length)?`已选择${model.guideIdList.length}个${aliasGuideName}`:'全部'}}
@@ -371,7 +371,6 @@ export default List
 .template-table__bar-base .el-form .el-form-item {
     margin: 0 !important;
     margin-bottom: 5px !important;
-    margin-left: 16px !important;
 }
 .search-icon {
     font-size: 24px;
@@ -393,7 +392,6 @@ export default List
 
 .shops {
   display: flex;
-  width: 220px;
   .shopname {
     display: inline-block;
     text-overflow: ellipsis;
