@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-11 13:43:40
+ * @LastEditTime: 2022-04-13 18:11:03
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -19,7 +19,19 @@ export default {
     return {
       table: {
         loading: false,
-        tableData: []
+        tableData: [
+          {
+            'avatar': '',
+            'contactName': 'aaa',
+            'content': 'aaa1aaa1112222aaa1aaa1112222aaa1112222aaa111aaa1112222aaa11122222222112222aaa1112222112222',
+            'guideName': 'bbb',
+            'msgtime': 'xxxx',
+            'roomid': '123',
+            'sender': '4',
+            'seq': '5',
+            'tolist': '6'
+          }
+        ]
       },
       // 分页配置
       pagination: {
@@ -31,32 +43,11 @@ export default {
       memberListParams: {
         start: 0,
         length: 15,
-        topicId: null,
-        wxName: '',
-        name: '',
-        timeRange: null
-      },
-      bottomMinDate: '',
-      topMaxDate: '',
-      pickerOptions: {
-        onPick: ({
-          maxDate,
-          minDate
-        }) => {
-          // 向上1天
-          this.bottomMinDate = minDate.getTime() + 1 * 86400000
-          // 向下1天
-          this.topMaxDate = minDate.getTime() - 1 * 86400000
-          if (maxDate) {
-            this.bottomMinDate = ''
-            this.topMaxDate = ''
-          }
-        },
-        disabledDate: time => {
-          if (this.bottomMinDate !== '') {
-            return time.getTime() > this.bottomMinDate || time.getTime() < this.topMaxDate
-          }
-        }
+        id: null,
+        idType: '',
+        guideName: '',
+        contactName: '',
+        time: null
       }
     }
   },
@@ -65,22 +56,17 @@ export default {
       return formatText({ kd: '企业微信成员', ecrp: '员工' })
     }
   },
-  mounted () {
-    // this.initFetch()
-  },
+  mounted () { },
   methods: {
-    initFetch () {
-      this.fetchList()
-    },
     fetchList (params) {
       this.table.loading = true
-      let _params = { ...this.memberListParams, time: this.getDate(), keyWordId: this.memberData.keyWordId, ...params }
+      this.memberListParams = { ...this.memberListParams, ...params }
       this.$http
         .fetch(
-          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
-          _params
+          this.$api.weWork.topicAnalysis.contentList,
+          this.memberListParams
         ).then(res => {
-          this.table.tableData = res.result
+          // this.table.tableData = res.result
           this.table.loading = false
         }).catch(error => {
           this.table.loading = false
@@ -93,13 +79,12 @@ export default {
     handleParamsReset () {
       this.memberListParams = Object.assign({}, this.$options.data().memberListParams)
       this.pagination = Object.assign({}, this.$options.data().pagination)
-      this.fetchList()
     },
     /**
      * 每页条数发生变化
      */
     handleSizeChange (size) {
-      if (!this.memberData.keyWordId) return
+      if (!this.memberData.id) return
       this.pagination.page = 1
       this.memberListParams.length = size
       this.memberListParams.start = 0
@@ -109,7 +94,7 @@ export default {
      * 页码发生变化
      */
     handlePageChange (page) {
-      if (!this.memberData.keyWordId) return
+      if (!this.memberData.id) return
       this.memberListParams.start = (page - 1) * this.memberListParams.length
       this.fetchList()
     },

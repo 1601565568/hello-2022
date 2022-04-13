@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 19:22:18
+ * @LastEditTime: 2022-04-13 14:05:29
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -14,10 +14,10 @@
               <el-date-picker
                 value-format="yyyy-MM-dd"
                 format="yyyy/MM/dd"
-                :picker-options="pickerOptions"
                 type="date"
                 :clearable="false"
                 v-model="keyWordVoListReq.time"
+                @change="handleKeyWordSearch"
               >
               </el-date-picker>
             </el-form-item>
@@ -25,7 +25,6 @@
               <el-input
                 @keyup.enter.native="fetch"
                 @clear="fetch"
-                clearable
                 placeholder="请输入关键词"
                 v-model="keyWordVoListReq.name"
               >
@@ -61,14 +60,16 @@
           :header-cell-style="headerStyle"
         >
           <el-table-column label="关键词" prop="word"> </el-table-column>
-          <el-table-column prop="keyWordId" label="最后发生时间">
+          <el-table-column prop="lastSendTime" label="最后发生时间">
           </el-table-column>
           <el-table-column label="成员发送次数">
             <template slot-scope="scope">
               <ns-button
                 type="text"
-                @click="handleRowJump({ ...scope.row, type: 1 })"
-                >{{ scope.row.count }}0</ns-button
+                @click="
+                  handleRowJump({ ...scope.row, id: scope.row.wordId, type: 1 })
+                "
+                >{{ scope.row.staffSendCount }}</ns-button
               >
             </template>
           </el-table-column>
@@ -76,13 +77,15 @@
             <template slot-scope="scope">
               <ns-button
                 type="text"
-                @click="handleRowJump({ ...scope.row, type: 2 })"
-                >{{ scope.row.count }}</ns-button
+                @click="
+                  handleRowJump({ ...scope.row, id: scope.row.wordId, type: 2 })
+                "
+                >{{ scope.row.friendSendCount }}</ns-button
               >
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="创建人"></el-table-column>
-          <el-table-column prop="count" label="创建时间"></el-table-column>
+          <el-table-column prop="creatorName" label="创建人"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间"></el-table-column>
         </el-table>
       </el-scrollbar>
       <el-pagination

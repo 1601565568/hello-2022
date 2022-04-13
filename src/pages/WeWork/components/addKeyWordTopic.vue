@@ -1,6 +1,5 @@
 <template>
   <el-dialog :visible.sync="visible" width="35%" append-to-body>
-    <!-- <div style="height: 250px;padding-right:10px"> -->
     <template slot="title">
       <div class="dialog-title">新建话题</div>
     </template>
@@ -14,6 +13,7 @@
     >
       <el-form-item label="话题名称" prop="topicName">
         <el-input
+          class="suffix-input"
           type="text"
           v-model="Form.topicName"
           maxlength="20"
@@ -21,21 +21,7 @@
           placeholder="请输入话题名称"
         ></el-input>
       </el-form-item>
-      <!-- <el-form-item label="关键词：" prop="keyWords">
-        <el-input type="textarea" v-model="Form.keyWords" :rows="10"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <span class="text-primary">
-          <i>
-            <Icon type="exclamation-circle" />
-          </i>
-          <span
-            >多关键字用","隔开，且每个关键词不得超过10个字符，如关键词1,关键词2</span
-          >
-        </span>
-      </el-form-item> -->
     </el-form>
-    <!-- </div> -->
     <span slot="footer" class="dialog-footer">
       <ns-button @click="onCancel">取 消</ns-button>
       <ns-button type="primary" @click="confirm()">确 定</ns-button>
@@ -100,6 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@components/NewUi/styles/reset.css';
 .dialog-title {
   height: 24px;
   font-family: PingFangSC-Medium;

@@ -12,7 +12,7 @@
             <el-breadcrumb-item>话题分析</el-breadcrumb-item>
           </el-breadcrumb>
           <div v-if="!isDetails" style="margin-top: 16px">话题分析</div>
-          <div v-else class="member-back" @click="handleRowJump">
+          <div v-else class="member-back" @click="handleRowJump()">
             <img src="./image/icon-fanhuishangyiji.svg" />
             <span>{{ userTypeText }}发送次数</span>
           </div>
@@ -24,7 +24,6 @@
         v-show="isDetails"
         ref="memberList"
         :memberData="memberData"
-        @handleRowJump="handleRowJump"
         @getContext="getContext"
       />
       <div v-show="!isDetails">
@@ -243,16 +242,16 @@ export default Index
 .user_list_select__keyWord {
   background: #f5f5f5;
 }
-.template-page__left__children {
-  position: absolute;
-  left: 173px;
-  top: 0px;
-  z-index: 2;
-  overflow: hidden;
-  width: 220px;
-  background: #ffffff;
-  border-left: 1px solid #e8e8e8;
-}
+// .template-page__left__children {
+//   position: absolute;
+//   left: 173px;
+//   top: 0px;
+//   z-index: 2;
+//   overflow: hidden;
+//   width: 220px;
+//   background: #ffffff;
+//   border-left: 1px solid #e8e8e8;
+// }
 .customer_list__warpper {
   // padding: 0 16px;
   .customer_list__item {
@@ -329,7 +328,7 @@ export default Index
   //     width: 210px;
   // }
   .template-page__left {
-    width: 173px;
+    width: 223px;
     position: absolute;
     // left: 210px;
     // top: 90px;
@@ -344,11 +343,11 @@ export default Index
     width: 100%;
     margin: 0;
   }
-  .template-page__left__children {
-    position: absolute;
-    top: 0;
-    left: 173px;
-  }
+  // .template-page__left__children {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 223px;
+  // }
 }
 .customer_list__width {
   width: 0px;
@@ -389,6 +388,7 @@ export default Index
   line-height: 24px;
   font-weight: bold;
   margin-top: 16px;
+  cursor: pointer;
   img {
     width: 16px;
     height: 16px;

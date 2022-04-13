@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 19:23:14
+ * @LastEditTime: 2022-04-13 18:15:01
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -23,7 +23,16 @@ export default {
       },
       table: {
         loading: false,
-        tableData: []
+        tableData: [{
+          'createTime': '',
+          'creatorId': '',
+          'creatorName': '',
+          'friendSendCount': 2,
+          'lastSendTime': '',
+          'staffSendCount': 1,
+          'word': '12',
+          'wordId': 111
+        }]
       },
       // 分页配置
       pagination: {
@@ -40,27 +49,27 @@ export default {
         time: null
       },
       bottomMinDate: '',
-      topMaxDate: '',
-      pickerOptions: {
-        onPick: ({
-          maxDate,
-          minDate
-        }) => {
-          // 向上1天
-          this.bottomMinDate = minDate.getTime() + 1 * 86400000
-          // 向下1天
-          this.topMaxDate = minDate.getTime() - 1 * 86400000
-          if (maxDate) {
-            this.bottomMinDate = ''
-            this.topMaxDate = ''
-          }
-        },
-        disabledDate: time => {
-          if (this.bottomMinDate !== '') {
-            return time.getTime() > this.bottomMinDate || time.getTime() < this.topMaxDate
-          }
-        }
-      }
+      topMaxDate: ''
+      // pickerOptions: {
+      //   onPick: ({
+      //     maxDate,
+      //     minDate
+      //   }) => {
+      //     // 向上1天
+      //     this.bottomMinDate = minDate.getTime() + 1 * 86400000
+      //     // 向下1天
+      //     this.topMaxDate = minDate.getTime() - 1 * 86400000
+      //     if (maxDate) {
+      //       this.bottomMinDate = ''
+      //       this.topMaxDate = ''
+      //     }
+      //   },
+      //   disabledDate: time => {
+      //     if (this.bottomMinDate !== '') {
+      //       return time.getTime() > this.bottomMinDate || time.getTime() < this.topMaxDate
+      //     }
+      //   }
+      // }
     }
   },
   mounted () {
@@ -68,26 +77,24 @@ export default {
   },
   methods: {
     initPage () {
-      this.keyWordVoListReq.time = this.getDate().nowDate
+      this.keyWordVoListReq.time = this.getDate().nowDateFormat
     },
     fetch (params) {
       this.table.loading = true
-      let _params = { ...this.keyWordVoListReq, time: this.getDate().nowDateFormat, id: this.topicId, ...params }
-      // TODO 修改请求关键词接口
+      let _params = { ...this.keyWordVoListReq, id: this.topicId, ...params }
       return new Promise((resolve, reject) => {
         this.$http
           .fetch(
             this.$api.weWork.topicAnalysis.keyWordlist,
             _params
           ).then(res => {
-            let response = res.result
-            this.table.tableData = response.length > 0 ? response[0].keyWordsVoList : []
-            this.pagination.total = this.table.tableData.length
+            let { data } = res.result
+            this.table.tableData = data
+            this.pagination.total = recordsFiltered || this.table.tableData.length
             this.table.loading = false
             resolve(res)
           }).catch(error => {
             this.table.loading = false
-            this.$notify.error(error.msg)
             reject(error)
           })
       })
@@ -124,7 +131,7 @@ export default {
       this.$emit('addKeyWordDialog')
     },
     handleRowJump (params) {
-      this.$emit('handleRowJump', params)
+      this.$emit('handleRowJump', { ...params, time: this.keyWordVoListReq.time })
     },
     /**
      * 获取当天日期

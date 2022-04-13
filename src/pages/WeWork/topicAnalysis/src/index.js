@@ -100,7 +100,7 @@ export default {
       isDetails: false,
       memberData: {
         word: '',
-        topicId: null
+        id: null
       }
     }
   },
@@ -269,7 +269,6 @@ export default {
       //   })
       // 调取关键词组件请求接口
       this.$refs.keyWordList.fetch({ id: this.select }).then(() => {
-        console.log('loggggg')
         this.cantRequest = false
         let response = res.result
         this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
@@ -313,9 +312,6 @@ export default {
       if (this.listLoading) {
         return
       }
-      if (cb) {
-        cb(data)
-      }
       this.listLoading = true
       this.keyWordsVoListLoding = true
       this.$http
@@ -324,6 +320,9 @@ export default {
           if (res.success) {
             this.$notify.success(res.msg)
             this.onSearch()
+          }
+          if (cb) {
+            cb(res)
           }
         })
         .catch(err => {
@@ -454,12 +453,12 @@ export default {
         })
     },
     /**
-     * 获取table列表详情
+     * 获取聊天内容详情
      *  @param {object}
      */
     getContext (row) {
       // todo 补全员工姓名
-      this.userInfo.userName = row.topicName
+      this.userInfo.userName = row.guideName
       console.log(row, 'rowwwww')
       if (this.cantRequest) {
         return
@@ -603,15 +602,18 @@ export default {
     },
     handleRowJump (params) {
       if (params) {
-        let { word, keyWordId, type } = params
-        this.memberData = { word, keyWordId }
+        let { word, id, type, time } = params
+        this.memberData = { word, id }
         if (type === 1) {
           this.userTypeText = this.platformText
         } else if (type === 2) {
           this.userTypeText = '好友'
         }
-        this.userInfo = { ...this.userInfo, userTypeText: this.userTypeText }
-        this.$refs.memberList.fetchList({ keyWordId })
+        this.userInfo = { ...this.userInfo, userTypeText: this.userTypeText, userType: type }
+        this.$refs.memberList.memberListParams.time = time
+        this.$refs.memberList.fetchList({ id, idType: type })
+      } else {
+        this.$refs.memberList.handleParamsReset()
       }
       this.isDetails = !this.isDetails
     }

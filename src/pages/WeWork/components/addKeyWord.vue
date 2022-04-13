@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-30 14:04:18
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-07 17:59:23
+ * @LastEditTime: 2022-04-13 11:21:45
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\components\addKeyWord.vue
 -->
 <template>
@@ -26,6 +26,7 @@
           </div>
           <el-select
             v-model="Form.topicType"
+            class="suffix-input"
             placeholder="请选择话题名称"
             style="width: 100%"
           >
@@ -99,10 +100,10 @@ export default {
     }
   },
   mounted () {
-    this.fetchOptions()
   },
   methods: {
     onShow () {
+      this.fetchOptions()
       this.visible = true
     },
     onCancel () {
@@ -151,7 +152,7 @@ export default {
             this.listParams
           )
           .then(res => {
-            this.options = res.result || []
+            this.options = res.result.data || []
             return resolve(res)
           })
           .catch(error => {
@@ -171,7 +172,7 @@ export default {
       this.$emit('addTopic', data, async cbParams => {
         await this.fetchOptions()
         // todo 补全话题id
-        this.Form.topicType = cbParams.topicName
+        this.Form.topicType = cbParams.result
         console.log(cbParams, 'cbParams')
       })
     }
@@ -180,6 +181,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@components/NewUi/styles/reset.css';
 .dialog-title {
   height: 24px;
   font-family: PingFangSC-Medium;
