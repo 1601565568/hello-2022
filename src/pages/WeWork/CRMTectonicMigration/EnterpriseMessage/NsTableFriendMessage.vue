@@ -348,4 +348,9 @@ export default NsTableFriendMessage
   color: #0094FC;
   cursor: pointer;
 }
+::v-deep .el-dropdown-link{
+  color: #0091FA;
+  margin-left: 5px;
+  font-weight: 500;
+}
 </style>
