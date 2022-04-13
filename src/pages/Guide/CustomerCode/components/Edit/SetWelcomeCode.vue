@@ -85,13 +85,14 @@
 </template>
 <script>
 import Box from '@/components/NewUi/Box'
-import { STEP_LIST, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_WELCOMECODE, Tools } from '../../src/const'
+import { STEP_LIST, DEFAULT_SETWELCOMECODE_DATA, DEFAULT_WELCOMECODE, Tools, ToolsByKedao } from '../../src/const'
 import validates from '../../src/validates'
 import LengthInput from '@/components/NewUi/LengthInput'
 import TagArea from '@/components/NewUi/TagArea'
 import SimpleUpload from '@/components/NewUi/SimpleUpload'
 import { defCardImg } from '../../util/Edit'
 import Welcome from '../Welcome'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -112,7 +113,6 @@ export default {
           { required: true, trigger: ['blur', 'change'], message: '请选择活动消息卡片封面图片' }
         ]
       },
-      tools: Tools,
       validates,
       activityIntroductionLength: 0,
       btnNext: process.env.VUE_APP_THEME,
@@ -127,6 +127,15 @@ export default {
     }
   },
   props: ['data', 'isStating'],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    tools () {
+      return this.cloudPlatformType === 'ecrp' ? Tools : ToolsByKedao
+    }
+  },
   components: {
     Box, SimpleUpload, TagArea, LengthInput, Welcome
   },

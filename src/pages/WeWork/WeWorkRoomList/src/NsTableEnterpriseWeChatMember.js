@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import NsWechatEmoji from '@nascent/ecrp-ecrm/src/components/NsWechatEmoji'
+import NsFriendDetail from '@/components/NsFriendDetail'
 
 let vm
 export default {
@@ -27,6 +28,20 @@ export default {
         visible: '  '
       }
     ]
+    const operateButtons = [
+      {
+        func: function (obj) {
+          // console.log(this, 'this')
+          // this.$parent.$refs.detail.onOpenDetail(obj.row.sys_customer_id)
+          this.onUserDetail(obj.row)
+        },
+        // icon: '$.noop',
+        name: '详情',
+        auth: '',
+        visible: 'scope.row.member_type === 2'
+      }
+    ]
+
     const quickInput = [{
       template: '',
       inline: false,
@@ -42,7 +57,7 @@ export default {
       {
         memberWechatNo: '',
         memberWechatNick: '',
-        friendRelationship: '',
+        relationship: '',
         memberType: '',
         joinTime: [],
         joinScene: ''
@@ -64,6 +79,8 @@ export default {
       })
     })
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
@@ -71,6 +88,7 @@ export default {
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
+        operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
@@ -87,7 +105,8 @@ export default {
   },
   components: {
     NsDatetime,
-    NsWechatEmoji
+    NsWechatEmoji,
+    NsFriendDetail
     // NsSensitiveButton
   },
   computed: {},
@@ -125,7 +144,7 @@ export default {
      * 参数设置
      */
     $handleParams: function (params) {
-      Object.assign(params.searchMap, this.$route.params)
+      Object.assign(params.searchMap, this.$route.query)
       if (params.searchMap) {
         if (params.searchMap.joinTime && params.searchMap.joinTime.length > 0) {
           params.searchMap.startJoinTime = params.searchMap.joinTime[0]
@@ -141,6 +160,21 @@ export default {
         }
       }
       return url
+    },
+    // 查询外部联系人详情，根据shopId和unionId查询
+    onUserDetail (val) {
+      this.$refs.NsFriendDetail.showDetailDialog({
+        shopId: '',
+        unionid: '',
+        externalUserId: val.user_id
+      })
+    },
+    // 好友详情打开会员详情事件传递
+    showVip (val) {
+      // this.$refs.NSUserDetails.showDetailDialog(val)
+    },
+    getViewId (val) {
+      this.propsViewId = val
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="message-panel">
+  <div class="message-panel" :style="{height: needMaxHeight ? '513px' : ''}">
     <template v-for="(item, index) in list">
       <MessageItem
         :key="index"
@@ -86,6 +86,13 @@ export default {
       type: Boolean,
       default () {
         return true
+      }
+    },
+    // 是否需要最大高度来滚动
+    needMaxHeight: {
+      type: Boolean,
+      default () {
+        return false
       }
     }
   },
