@@ -2,8 +2,8 @@ import Vue from 'vue'
 import * as Sentry from '@sentry/browser'
 import App from '@nascent/ecrp-ecrm/src/App.vue'
 // import App from '@nascent/ecrp-ecrm/src/App.vue'
-import router from '@nascent/ecrp-ecrm/src/router'
-// import router from './router'
+// import router from '@nascent/ecrp-ecrm/src/router'
+import router from './router'
 import store from './store'
 import { i18n } from '@nascent/ecrp-ecrm/src/i18n'
 import LOG from '@nascent/log'
@@ -30,12 +30,12 @@ LOG.init({
   userInfo: store.state.user
 })
 
-eventProxy({
-  click: {},
-  input: {
-    excludes: ['input', 'textarea']
-  }
-}, 500)
+// eventProxy({
+//   click: {},
+//   input: {
+//     excludes: ['input', 'textarea']
+//   }
+// }, 500)
 
 if (window.g_config.sentry.report === true) {
   Vue.prototype.$sentry = Sentry
