@@ -104,7 +104,8 @@ export default {
   components: { PageTable },
   methods: {
     handleSelectionChange (selection) {
-      this.checkedCustomerList = selection
+      const selectList = selection.filter(item => !item.self)
+      this.checkedCustomerList = selectList
     },
     handleBatch () {
       if (this.checkedCustomerList && this.checkedCustomerList.length > 0) {

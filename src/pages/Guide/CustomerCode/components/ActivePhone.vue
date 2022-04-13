@@ -346,7 +346,7 @@ export default {
   height: 100%;
 }
 .scroll-view {
-  max-height: calc(100% - 62px -80px);
+  max-height: calc(100% - 62px - 80px);
   overflow: scroll;
   position: relative;
   &::-webkit-scrollbar-thumb {

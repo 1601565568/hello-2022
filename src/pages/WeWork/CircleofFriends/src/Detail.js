@@ -27,8 +27,8 @@ export default {
       const start = 0
       const length = 999999999
       const params = {
-        momentId: model.momentId,
-        publishStatus: model.publishStatus,
+        momentId: this.model.momentId,
+        publishStatus: this.model.publishStatus,
         // 后台说不传guideIds
         // ...this.model,
         start,

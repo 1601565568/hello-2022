@@ -41,7 +41,7 @@
               </el-select>
             </el-form-item>
             <el-form-item :label="`选择${aliasGuideName}：`">
-              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="guideIds" @input="handleChangeGuide">
+              <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" type="primary" btnTitle="" :dialogTitle="`选择${aliasGuideName}`" v-model="guideIds" @input="handleChangeGuide">
                 <template slot='selfBtn'>
                   <div class='self-btn'>
                     {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${aliasGuideName}`:'全部'}}
@@ -53,7 +53,7 @@
           </el-form>
         </template>
         <template slot='button'>
-          <ns-button type="primary" size='large' @click="exportClick" id="exportButton">导&nbsp;出</ns-button>
+          <ns-button size='large' @click="exportClick" id="exportButton">导&nbsp;出</ns-button>
         </template>
         <template slot='table'>
           <template>
@@ -225,9 +225,8 @@ export default Detail
     background-color: #fff;
   }
   .list-header {
-    padding:0 16px;
-    height: 56px;
-    line-height: 56px;
+    padding:16px 16px 0;
+    line-height: 16px;
     font-size: 16px;
     color: #262626;
     font-weight: 500;
