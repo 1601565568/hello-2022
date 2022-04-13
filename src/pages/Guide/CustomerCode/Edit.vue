@@ -214,7 +214,7 @@ export default {
         this.isStating = false
         this.isEdit = false
       }
-      this.data = loadingFormat(data)
+      this.data = loadingFormat(data, this.cloudPlatformType)
       this.isLoaded = true
     } else {
       this.isStating = false
