@@ -1,4 +1,4 @@
-import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools, DEFAULT_PRIZE_ITEM } from '../src/const'
+import { MODULE_TO_INDEX_MAP, GET_DEFAULT_TAGS, Tools, ToolsByKedao, DEFAULT_PRIZE_ITEM } from '../src/const'
 import TagArea from '@/components/NewUi/TagArea'
 
 // 上传时格式化
@@ -86,7 +86,8 @@ export const submitPrizeRuleListFormat = prizeRuleList => prizeRuleList.map(item
   validNumber: item.validNumber
 }))
 // 加载时格式化
-export const loadingFormat = (model) => {
+export const loadingFormat = (model, env) => {
+  const tools = (env === 'ecrp' ? Tools : ToolsByKedao)
   const baseInfoData = {
     name: model.name,
     guideIds: [],
@@ -115,7 +116,7 @@ export const loadingFormat = (model) => {
     qrCodeType: model.qrCodeType
   }
   const setWelcomeCodeData = {
-    activityIntroduction: TagArea.methods.stringTohtml.call({ tools: Tools }, model.activityIntroduction),
+    activityIntroduction: TagArea.methods.stringTohtml.call({ tools }, model.activityIntroduction),
     cardCopywriting: model.cardCopywriting,
     cardCoverPic: model.cardCoverPic,
     cardTitle: model.cardTitle
