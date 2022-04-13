@@ -85,6 +85,11 @@ export default {
     isOpenDialogAfterRequest: {
       type: Boolean,
       default: false
+    },
+    // 是否需要返回群主类型员工，true 是，false 否，在群分析页面中使用
+    onlyOwner: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -334,7 +339,7 @@ export default {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
-      let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
+      let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size, onlyOwner: this.onlyOwner }
       this.setParam(param)
       // 请求获取员工数据
       this.$http.fetch(this.guideUrl, param)
@@ -370,7 +375,7 @@ export default {
       if (vm.allSearchEmployeeData.length > 0) {
         return vm.allSearchEmployeeData
       }
-      let param = { pageNo: 1, pageSize: 9999999 }
+      let param = { pageNo: 1, pageSize: 9999999, onlyOwner: this.onlyOwner }
       this.setParam(param)
       // 请求获取员工数据
       await this.$http.fetch(this.guideUrl, param)
@@ -588,7 +593,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value, status: this.departData.status }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value, status: this.departData.status, onlyOwner: this.onlyOwner }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {

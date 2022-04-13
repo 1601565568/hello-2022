@@ -53,16 +53,16 @@
                 </el-select>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="是否好友：" v-if="$route.params.personalWxid">
+            <el-form-item label="是否好友：">
               <el-form-grid size="xmd">
-                <el-select v-model="model.friendRelationship" filterable clearable
+                <el-select v-model="model.relationship" filterable clearable
                            :multiple="false">
-                  <span v-if='scope.row.friend_relationship === 1'>
-                    是
-                  </span>
-                  <span v-else>
-                    否
-                  </span>
+                  <el-option label="不限" value="">
+                  </el-option>
+                  <el-option label="是" value="1">
+                  </el-option>
+                  <el-option label="否" value="0">
+                  </el-option>
                 </el-select>
               </el-form-grid>
             </el-form-item>
@@ -156,20 +156,20 @@
             <el-table-column :show-overflow-tooltip="true" type="default" prop="member_wechat_no"
                              label="成员类型" :sortable="false" align="center">
               <template slot-scope="scope">
-                {{scope.row.member_type === 1 ? '企业成员' : scope.row.member_type === 2 ? '外部成员' : '-'}}
+                {{scope.row.member_type + '' === '1' ? '企业成员' : scope.row.member_type + '' === '2' ? '外部成员' : '-'}}
               </template>
             </el-table-column>
 
-            <el-table-column v-if="$route.params.personalWxid" :show-overflow-tooltip="true" type="default" prop="friend_relationship"
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="relationship"
                              label="是否好友" :sortable="false" width="80" align="center">
               <template slot-scope="scope">
-                <span v-if='scope.row.friend_relationship == 1'>
+                <span v-if="scope.row.relationship + '' === '1'">
                   是
                 </span>
-                <span v-if='scope.row.friend_relationship == 0'>
+                <span v-else-if="scope.row.relationship + '' === '0'">
                   否
                 </span>
-                <span v-if='scope.row.friend_relationship == -1'>
+                <span v-else>
                   -
                 </span>
               </template>
@@ -197,6 +197,14 @@
                 {{scope.row.join_scene === 1 ? '直接邀请入群' : scope.row.join_scene === 2 ? '邀请链接入群' : scope.row.join_scene === 3 ? '扫码入群' : '-'}}
               </template>
             </el-table-column>
+
+            <el-table-column v-if="false" :show-overflow-tooltip="true" label="操作" align="center" width="100">
+              <template slot-scope="scope">
+                <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
+                                                :prop="scope">
+                </ns-table-column-operate-button>
+              </template>
+            </el-table-column>
           </el-table>
         </template>
         <template slot="pagination">
@@ -211,7 +219,8 @@
                          @current-change="$pageChange$">
           </el-pagination>
         </template>
-  </ns-page-table>
+      </ns-page-table>
+    <NsFriendDetail ref="NsFriendDetail" :cloudPlatformType="cloudPlatformType" @showVip="showVip" @viewId="getViewId"/>
     </div>
   </template>
 <script>

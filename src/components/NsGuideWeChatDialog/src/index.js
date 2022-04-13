@@ -87,6 +87,11 @@ export default {
     isOpenDialogAfterRequest: {
       type: Boolean,
       default: false
+    },
+    // 是否需要返回群主类型员工，true 是，false 否，在群分析页面中使用
+    onlyOwner: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -104,26 +109,7 @@ export default {
       successCount: 0, // 导入员工数量
       // 搜索数据封装
       departData: {
-        // 所有部门值
-        departmentTree: [],
-        // 所有部门值
-        allDepartments: [],
-        // 部门搜索值
-        selectedDepart: {
-          value: '',
-          text: ''
-        },
-        // 搜索的员工名称
-        name: '',
-        shopId: '',
-        shopIds: '',
-        // 门店区域
-        shopArea: {},
-        // 类型 0导购 1店长
-        job: null,
-        mobile: '',
-        fileImportKey: '', // 文件导入
-        manualInputKey: '' // 手动输入导入
+        name: ''
       },
       // 门店区域树
       shopAreaTree: [],
@@ -146,26 +132,7 @@ export default {
     }
   },
   computed: {},
-  watch: {
-    'departData.shopArea': function (o1, o2) {
-      let shopOptions = []
-      this.departData.shopId = ''
-      this.departData.shopIds = ''
-      if (!o1.value || o1.value !== o2.value) {
-        if (o1.value === 0) {
-          this.shopOptions = this.allShopOptions
-          return
-        }
-        let areaIdStr = '/' + o1.value + '/'
-        this.allShopOptions.map(item => {
-          if (!o1.value || (item.ext && item.ext.indexOf(areaIdStr) !== -1)) {
-            shopOptions.push(item)
-          }
-        })
-        this.shopOptions = shopOptions
-      }
-    }
-  },
+  watch: {},
   methods: {
     /**
      * 打开弹窗时的初始化事件
@@ -178,109 +145,8 @@ export default {
       vm.isCheckAll = false
       vm.$nextTick(function () {
         this.departData.name = ''
-        this.departData.mobile = ''
-        this.departData.job = null
-        this.departData.selectedDepart = {}
-        if (this.echoStore) {
-          let areaData = store.get('user_area')
-          this.departData.shopArea = {
-            text: areaData.name,
-            value: areaData.id
-          }
-        } else {
-          this.departData.shopArea = {}
-        } // 选择的门店区域
-        this.departData.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
-    },
-    /**
-     * 部门树点击事件(懒加载)
-     */
-    loadNode (node, resolve) {
-      let allDepar = this.departData.departmentTree
-      if (node.level === 0) { // 第一次调用
-        return resolve([{ id: 0, parentId: -1, code: 0, label: '全部', checked: false, showAdd: true, showEdit: true, showDelete: true }])
-      }
-      if (node.level >= 1) {
-        // 点击之后触发
-        let filter = allDepar.filter(data => {
-          return parseInt(data.parentId) === parseInt(node.data.id)
-        })
-        if (filter && filter.length > 0) {
-          resolve(filter)
-        } else {
-          resolve([])
-        }
-      }
-    },
-    /**
-     * 门店区域树点击事件(懒加载)
-     * @param node
-     * @param resolve
-     * @returns {*}
-     */
-    loadShopAreaNode (node, resolve) {
-      let shopAreaTree = this.shopAreaTree
-      if (node.level === 0) { // 第一次调用
-        return resolve(this.getRootTree(this.shopAreaTree, this.isNeedLink ? store.get('user_area').id : null))
-      }
-      if (node.level >= 1) {
-        // 点击之后触发
-        let filter = shopAreaTree.filter(data => {
-          return parseInt(data.parentId) === parseInt(node.data.id)
-        })
-        if (filter && filter.length > 0) {
-          resolve(filter)
-        } else {
-          resolve([])
-        }
-      }
-    },
-    getRootTree (shopAreaTree, areaId = null) {
-      const rootTree = []
-      for (let item of shopAreaTree) {
-        let parentId = item.parentId // 每一项的父级id
-        let flag = false
-        for (let item of shopAreaTree) {
-          if (parentId === item.id) {
-            flag = true
-            break
-          }
-        }
-        if (!flag && !areaId) {
-          rootTree.push(item)
-        } else if (areaId && item.id === areaId) {
-          rootTree.push(item)
-        }
-      }
-      return rootTree
-    },
-    /**
-     * 重置搜索条件并搜索
-     */
-    resetSearch: function () {
-      vm.departData.name = ''
-      vm.departData.mobile = ''
-      vm.departData.job = ''
-      vm.departData.selectedDepart = {}
-      vm.departData.shopArea = {} // 选择的门店分类
-      vm.departData.shopId = '' // 选择的门店
-      vm.departData.fileImportKey = '' // 文件导入key
-      vm.departData.manualInputKey = '' // 手动输入key
-      this.successCount = 0 // 已导入员工数量
-      this.$refs.import.reset()
-      vm.searchEmployee(1)
-    },
-    // 接收导入员工参数
-    acceptImport: function (val) {
-      this.successCount = val.successCount
-      if (val.manualInputKey) {
-        this.departData.manualInputKey = val.manualInputKey
-      }
-      if (val.fileImportKey) {
-        this.departData.fileImportKey = val.fileImportKey
-      }
     },
     /**
      * 搜索员工
@@ -290,7 +156,7 @@ export default {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
-      let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
+      let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size, onlyOwner: this.onlyOwner }
       this.setParam(param)
       // 请求获取员工数据
 
@@ -308,9 +174,9 @@ export default {
         }).finally(() => {
           vm.allSearchEmployeeData = []
           // 员工数据
-          vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
+          vm.employeeData = JSON.parse(JSON.stringify(data))
           // 所有员工数据
-          vm.allEmployeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
+          vm.allEmployeeData = JSON.parse(JSON.stringify(data))
           // 数据总数
           vm.pagination4Emp.total = total
           vm.$nextTick(function () {
@@ -327,7 +193,7 @@ export default {
       if (vm.allSearchEmployeeData.length > 0) {
         return vm.allSearchEmployeeData
       }
-      let param = { pageNo: 1, pageSize: 9999999 }
+      let param = { pageNo: 1, pageSize: 9999999, onlyOwner: this.onlyOwner }
       this.setParam(param)
       // 请求获取员工数据
       await this.$http.fetch(this.guideUrl, param)
@@ -353,20 +219,6 @@ export default {
       // if (vm.departData.fileImportKey) {
       //   param.fileImportKey = vm.departData.fileImportKey
       // }
-    },
-    /**
-     * 拼接部门的id,所有子部门
-     */
-    jointDepartId (departId, allDepart) {
-      let _jointString = [departId]
-      if (departId && allDepart && allDepart.length > 0) {
-        allDepart.forEach(index => {
-          if (index.parentId && index.id && parseInt(index.parentId) === parseInt(departId)) {
-            _jointString = _jointString.concat(vm.jointDepartId(index.id, allDepart))
-          }
-        })
-      }
-      return _jointString
     },
     /**
      * 设置员工勾选状态
@@ -423,58 +275,6 @@ export default {
         }
       }
     },
-    /**
-     * 员工列表点击条件全部选择事件
-     */
-    onSelectAllData () {
-      this.searchAllEmployee().then(allEmployee => {
-        let selectedData2 = []
-        let selectedData3 = []
-        // 已选择的有权限的员工
-        let authSelectedData = []
-        let allEmployeeMap = {}
-        allEmployee.forEach(function (item) {
-          allEmployeeMap[item.id] = item
-        })
-        // 区分该批搜索数据中的权限数据
-        vm.selectedData.forEach(function (item) {
-          if (vm.auth && item.auth) {
-            // 没有权限的员工
-            selectedData2.push(item)
-          } else {
-            if (allEmployeeMap[item.id]) {
-              // 有操作权限的员工
-              authSelectedData.push(item)
-            } else {
-              // 已经选择的员工中，存在条件筛选员工外的员工，叠加保留。
-              selectedData3.push(item)
-            }
-          }
-        })
-        vm.selectedData = []
-        if (vm.isCheckAll) {
-          // 清空左边列表
-          // vm.$refs.employeeTable.clearSelection()
-          return
-        } else {
-          // 左边列表全部勾选
-          vm.employeeData.forEach(function (item) {
-            if (allEmployeeMap[item.id]) {
-              vm.$refs.employeeTable.toggleRowSelection(item, true)
-            }
-          })
-          selectedData3.forEach(function (item) {
-            selectedData2.push(item)
-          })
-          // 右边员工数据添加
-          allEmployee.forEach(function (item) {
-            selectedData2.push(item)
-          })
-        }
-        vm.selectedData = selectedData2
-        // vm.isCheckAll = !vm.isCheckAll
-      })
-    },
     clearSelection () {
       vm.$refs.employeeTable.clearSelection()
       this.selectedData = []
@@ -519,12 +319,12 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: this.departData.shopArea.value }
+      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, auth: vm.auth, switchAreaFlag: vm.switchAreaFlag, areaId: '', onlyOwner: this.onlyOwner }
       this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), vm.departData.allDepartments)
-            vm.allEmployeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), vm.departData.allDepartments)
+            vm.employeeData = JSON.parse(JSON.stringify(resp.result.data))
+            vm.allEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
           }
           if (resp.result.recordsTotal) {
             vm.pagination4Emp.total = parseInt(resp.result.recordsTotal)
@@ -548,7 +348,7 @@ export default {
             }
             vm.$http.fetch(this.guideFindUrl, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
-                vm.selectedData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result)), vm.departData.allDepartments)
+                vm.selectedData = JSON.parse(JSON.stringify(resp.result))
                 vm.$nextTick(function () {
                   vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
                   vm.tableLoading = false
@@ -563,23 +363,6 @@ export default {
           })
           vm.tableLoading = false
         })
-    },
-    /**
-     * 处理左侧员工数据，给其赋值部门名称
-     */
-    handleEmployeeList (employeeData, departData) {
-      if (employeeData && employeeData.length > 0) {
-        // 设置部门名称
-        if (departData) {
-          employeeData.map(data => {
-            let filterList = departData.filter(data2 => parseInt(data2.id) === parseInt(data.department_id))
-            if (filterList && filterList.length > 0) {
-              Object.assign(data, { departName: filterList[0].label })
-            }
-          })
-        }
-      }
-      return employeeData
     },
     /**
      * 关闭弹窗

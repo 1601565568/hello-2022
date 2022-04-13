@@ -3,15 +3,15 @@
     <page-table>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="参与员工：">
-            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide" :isOpenDialogAfterRequest='true'>
+          <el-form-item :label="`${guideIdSelectEnv}：`">
+            <GuideDialog  :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="model.guideIds" @input="handleChangeGuide" :isOpenDialogAfterRequest='false'>
               <template slot='selfBtn'>
                 <div class='self-btn'>
                   {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
                   <Icon type="geren" class='guideIds-icon'></Icon>
                 </div>
               </template>
-            </NsGuideDialog>
+            </GuideDialog>
           </el-form-item>
           <el-form-item label="活动状态：" class='el-form__change'>
             <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
@@ -66,7 +66,7 @@
             </el-table-column>
             <el-table-column
               prop="guideNames"
-              label="参与活动人员">
+              :label="guideNamesEnv">
               <template slot-scope="scope">
                 <div class="scope-name">
                   <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
@@ -75,7 +75,7 @@
                   <el-popover
                     placement="top-start"
                     class="item"
-                    :title="`参与活动人员（${scope.row.guideCount}）`"
+                    :title="`${guideNamesEnv} ${scope.row.guideCount}）`"
                     width="200"
                     trigger="hover"
                     :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
@@ -169,13 +169,14 @@
 </template>
 <script>
 import List from './src/List'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/List/ItemDrawer'
 import CheckTagDrawer from './components/CheckTagDrawer'
 List.components = {
-  PageTable, NsGuideDialog, ElDrawer, ItemDrawer, CheckTagDrawer
+  PageTable, ElDrawer, ItemDrawer, CheckTagDrawer, GuideDialog
+
 }
 export default List
 </script>
@@ -241,7 +242,7 @@ export default List
     }
   }
   .self-btn {
-    width: 100px;
+    width: 150px;
     display: flex;
     align-items: center;
     justify-content: space-between;

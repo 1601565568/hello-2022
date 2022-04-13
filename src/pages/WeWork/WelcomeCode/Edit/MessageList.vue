@@ -69,6 +69,8 @@ export default {
         case WelcomeMessageType.MiniProgram:
         case WelcomeMessageType.Poster:
           return content.title
+        case WelcomeMessageType.CostomCode:
+          return content.guestCodeName
         case WelcomeMessageType.Pitbit:
           return content.pitText
         default:
