@@ -289,7 +289,7 @@ export default {
       // 环境判断
       cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       memberRegisterenv () {
-        return !!this.cloudPlatformType === 'ecrp'
+        return !!(this.cloudPlatformType === 'ecrp')
       }
     })
   },
