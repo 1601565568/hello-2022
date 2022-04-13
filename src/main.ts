@@ -30,12 +30,12 @@ LOG.init({
   userInfo: store.state.user
 })
 
-// eventProxy({
-//   click: {},
-//   input: {
-//     excludes: ['input', 'textarea']
-//   }
-// }, 500)
+eventProxy({
+  click: {},
+  input: {
+    excludes: ['input', 'textarea']
+  }
+}, 500)
 
 if (window.g_config.sentry.report === true) {
   Vue.prototype.$sentry = Sentry
