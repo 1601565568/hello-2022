@@ -368,10 +368,6 @@ export default List
     }
   }
 }
-.template-table__bar-base .el-form .el-form-item {
-    margin: 0 !important;
-    margin-bottom: 5px !important;
-}
 .search-icon {
     font-size: 24px;
     color: #959595;
