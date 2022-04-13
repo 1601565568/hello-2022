@@ -176,7 +176,7 @@ export default {
       })
     },
     // 查看详情
-    async handleEdit (row, index) {
+    handleEdit (row, index) {
       const { createType, momentId } = row
       if (createType === 0) {
         this.handleDetail(momentId)
