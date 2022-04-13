@@ -34,7 +34,7 @@
             <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
             <div class="task-group__name" v-if="taskMsg.subGroupId">
               {{ taskMsg.subGroupName }}
-              <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton>
+              <NsButton @click="showSubgroupMsg" type="text" >查看详情</NsButton>
             </div>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
@@ -313,6 +313,7 @@
           :total="pagination.total"
           :current-page="pagination.page"
           :page-size="pagination.size"
+          :pager-count="5"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="sizeChange"
           @current-change="pageChange"
@@ -675,9 +676,15 @@ export default taskOverview
     }
     @e table {
       padding-top: 24px;
+      >>> .el-button--text{
+        font-size: 14px;
+      }
       &:before {
         background-color: #e8e8e8;
       }
+        >>> tr {
+      font-size: 14px;
+    }
       >>> th {
         background-color: #f5f5f5;
         padding: 9px 0;
@@ -698,7 +705,7 @@ export default taskOverview
         }
       }
       >>> td {
-        padding: 10px 0;
+        padding: 13.5px 0;
         border-color: #e8e8e8;
         &:first-child .cell {
           padding-left: 25px;
@@ -708,11 +715,60 @@ export default taskOverview
     @e footer {
       padding: 16px 24px;
       box-shadow: none;
+      >>> .el-pagination__total {
+      font-size: 14px;
+      color: #262626;
+      line-height: 30px;
+    }
+    >>> .el-select .el-input .el-input__inner {
+      height: 32px;
+      line-height: 32px;
+    }
+    >>> .el-pagination__sizes .el-input .el-input__inner {
+      font-size: 14px;
+    }
+    >>>.btn-prev .el-icon {
+      font-size: 16px;
+      margin-top: 2px;
+    }
+    >>>.btn-next .el-icon {
+      font-size: 16px;
+      margin-top: 2px;
+    }
+    >>> .el-pager li {
+      font-size: 14px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      border: 1px solid rgba(217, 217, 217, 1);
+      border-radius: 2px;
+      box-sizing: border-box;
+      margin-right: 8px;
+      min-width: 32px;
+    }
+    >>> .el-pager li.active {
+      border: none;
+    }
+    >>> .el-pagination__jump{
+      font-size: 14px;
+    }
+    >>>.el-pagination__editor.el-input{
+      width: 50px;
+      height: 32px;
+      border: 1px solid rgba(217,217,217,1);
+      border-radius: 2px;
+      box-sizing: border-box;
+      margin:0 8px
+    }
+    >>>.el-input.el-input--small .el-input__inner{
+      border: none;
+    }
     }
   }
 }
 >>> .el-drawer__header {
   margin-bottom: 0;
+  display: block;
 }
 
 .distributionStoreIcon {

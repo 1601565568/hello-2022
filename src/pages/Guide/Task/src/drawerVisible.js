@@ -1,6 +1,8 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsPreview from '@/components/NsPreview'
+import ElDrawer from '@nascent/nui/lib/drawer'
+import drawerClient from '../drawerClient'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
@@ -24,7 +26,9 @@ export default {
   },
   mixins: [tableMixin, scrollHeight],
   components: {
-    NsPreview
+    NsPreview,
+    ElDrawer,
+    drawerClient
   },
   data () {
     const pagination = {
@@ -37,7 +41,9 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          console.log(data, 'data')
+          this.drawerVisible = true
+          this.guideName = data.row.name
+          this.guideId = data.row.guideId
         },
         icon: '$.noop',
         name: '查看详情',
@@ -54,6 +60,9 @@ export default {
       },
       {})
     return {
+      guideId: null,
+      guideName: null,
+      drawerVisible: false,
       isHaveGroup: 0,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
@@ -77,7 +86,6 @@ export default {
       form: {
         time: ''
       },
-      totalNum: 0, // 任务分配导购总数
       finishedCount: 0, // 完成数量
       tableData: [],
       name: null,
@@ -128,7 +136,6 @@ export default {
             this.tableData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
             this.finishedCount = parseInt(resp.result.recordsFiltered)
-            this.totalNum = parseInt(resp.result.recordsTotal)
           }
         })
         .catch(resp => {

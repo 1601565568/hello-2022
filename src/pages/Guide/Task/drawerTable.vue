@@ -21,7 +21,7 @@
       <div class="nav">
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">执行导购</p>
-          <span class="data-item__num">{{ isHaveGroup ? extData.guideNum : "-" }}</span>
+          <span class="data-item__num">{{ isHaveGroup ? pagination.total : "-" }}</span>
           <span class="data-item__icon distributionStore">
             <Icon type="distributionstore" class="distributionStoreIcon" />
           </span>
@@ -89,18 +89,18 @@
           :element-loading-text="$t('prompt.loading')"
           @sort-change="$orderChange$"
         >
-          <el-table-column prop="name" label="导购" >
+          <el-table-column prop="name" label="导购">
             <template slot-scope="scope">
               {{ scope.row.name || "-" }}
             </template>
           </el-table-column>
-          <el-table-column prop="workId" label="工号" >
+          <el-table-column prop="workId" label="工号">
             <template slot-scope="scope">
               {{ scope.row.workId || "-" }}
             </template>
           </el-table-column>
           <el-table-column prop="shopName" label="门店名称" />
-          <el-table-column align="left" label="任务状态" >
+          <el-table-column align="left" label="任务状态">
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
               <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
@@ -112,31 +112,27 @@
               {{ isHaveGroup ? `${scope.row.customerTotal}人` : "-" }}
             </template>
           </el-table-column>
-           <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
+          <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
             <template slot-scope="scope">
               {{ isHaveGroup ? `${scope.row.customerNoFollowNum}人` : "-" }}
             </template>
           </el-table-column>
-           <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
+          <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
             <template slot-scope="scope">
               {{ isHaveGroup ? `${scope.row.customerFollowingNum}人` : "-" }}
             </template>
           </el-table-column>
-           <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
+          <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
             <template slot-scope="scope">
               {{ isHaveGroup ? `${scope.row.customerFollowNum}人` : "-" }}
             </template>
           </el-table-column>
-           <el-table-column align="left" prop="followProgress" label="跟进进度">
+          <el-table-column align="left" prop="followProgress" label="跟进进度">
             <template slot-scope="scope">
               {{ isHaveGroup ? scope.row.followProgress : "-" }}
             </template>
           </el-table-column>
-          <el-table-column
-            align="left"
-            prop="completeTime"
-            label="完成时间"
-          >
+          <el-table-column align="left" prop="completeTime" label="完成时间">
             <template slot-scope="scope">
               {{ scope.row.completeTime || "-" }}
             </template>
@@ -178,6 +174,7 @@
         :total="pagination.total"
         :current-page="pagination.page"
         :page-size="pagination.size"
+        :pager-count="5"
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="$sizeChange$"
         @current-change="$currentChange$"
@@ -185,6 +182,24 @@
       </el-pagination>
     </ElScrollbar>
     <NsPreview ref="NsPreview" :appendToBody="true"></NsPreview>
+    <el-drawer
+      title=""
+      size="1500px"
+      :visible.sync="drawerVisible"
+      direction="rtl"
+      :append-to-body="true"
+    >
+      <drawerClient
+        v-if="drawerVisible"
+        :runType="runType"
+        :guideName="guideName"
+        :isHaveGroup="isHaveGroup"
+        :id="id"
+        :shopId="shopId"
+        :guideId="guideId"
+        :queryDate="form.time"
+      />
+    </el-drawer>
   </div>
 </template>
 
@@ -197,6 +212,10 @@ export default drawerVisible
 @import "@theme/variables.pcss";
 .drawer {
   padding: 0 16px;
+}
+>>> .el-drawer__header {
+  margin-bottom: 0;
+  display: block;
 }
 @component-namespace drawer {
   @b head {
@@ -224,8 +243,14 @@ export default drawerVisible
   }
   @b table {
     padding-top: 16px;
+    >>> .el-button--text {
+        font-size: 14px;
+      }
     &:before {
       background-color: #e8e8e8;
+    }
+    >>> tr {
+      font-size: 14px;
     }
     >>> th {
       background-color: #f5f5f5;
@@ -247,7 +272,7 @@ export default drawerVisible
       }
     }
     >>> td {
-      padding: 10px 0;
+      padding: 13.5px 0;
       border-color: #e8e8e8;
       &:first-child .cell {
         padding-left: 25px;
@@ -268,6 +293,54 @@ export default drawerVisible
   @b footer {
     padding: 16px;
     box-shadow: none;
+    >>> .el-pagination__total {
+      font-size: 14px;
+      color: #262626;
+      line-height: 30px;
+    }
+    >>> .el-select .el-input .el-input__inner {
+      height: 32px;
+      line-height: 32px;
+    }
+    >>> .el-pagination__sizes .el-input .el-input__inner {
+      font-size: 14px;
+    }
+    >>> .btn-prev .el-icon {
+      font-size: 16px;
+      margin-top: 2px;
+    }
+    >>> .btn-next .el-icon {
+      font-size: 16px;
+      margin-top: 2px;
+    }
+    >>> .el-pager li {
+      font-size: 14px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      border: 1px solid rgba(217, 217, 217, 1);
+      border-radius: 2px;
+      box-sizing: border-box;
+      margin-right: 8px;
+      min-width: 32px;
+    }
+    >>> .el-pager li.active {
+      border: none;
+    }
+    >>> .el-pagination__jump {
+      font-size: 14px;
+    }
+    >>> .el-pagination__editor.el-input {
+      width: 50px;
+      height: 32px;
+      border: 1px solid rgba(217, 217, 217, 1);
+      border-radius: 2px;
+      box-sizing: border-box;
+      margin: 0 8px;
+    }
+    >>> .el-input.el-input--small .el-input__inner {
+      border: none;
+    }
   }
 }
 .remark {
