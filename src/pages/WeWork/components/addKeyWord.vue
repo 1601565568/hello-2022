@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-30 14:04:18
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-13 11:21:45
+ * @LastEditTime: 2022-04-14 17:35:27
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\components\addKeyWord.vue
 -->
 <template>
@@ -173,7 +173,7 @@ export default {
         await this.fetchOptions()
         // todo 补全话题id
         this.Form.topicType = cbParams.result
-        console.log(cbParams, 'cbParams')
+        // console.log(cbParams, 'cbParams')
       })
     }
   }

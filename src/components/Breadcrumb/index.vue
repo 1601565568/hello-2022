@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-14 11:23:58
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-14 16:10:28
+ * @LastEditTime: 2022-04-14 17:36:24
  * @FilePath: \ECRP-SG-WEB\src\components\Breadcrumb\index.vue
 -->
 <template>
@@ -43,7 +43,7 @@ export default {
   methods: {
     // translateTitle,
     getBreadcrumb() {
-      console.log(this.$route.matched, 'route-----')
+      // console.log(this.$route.matched, 'route-----')
       // todo  [{name: 1}, {name:2}, {name:3}]
       // [{},{}]
       let menuItem = this.menus
