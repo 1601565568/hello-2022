@@ -1,7 +1,8 @@
 import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 import store from '@/store'
 import LocalStorage from 'store/dist/store.legacy.min.js'
-const appTrack = require('../../track/appTrack.js')
+import { setDefaultParmas } from '../../track/logForClick'
+const appEnv = require('../../track/appEnv')
 const treeFn = (err, rows) => {
   if (err) { throw err }
   // get all data
@@ -57,6 +58,8 @@ export default {
           groupId: jsonResult.groupId || 0
         }
         const productConfig = res.data.result.productConfig || {}
+        const cloudPlatformType = (res.data.result.cloudPlatformType).toLowerCase() // 判断是客道还是ecrp登录 [kd,ecrp]
+        store.dispatch('env/setAliasGuidename', cloudPlatformType)
         res.data.result = {
           integralActivityUrl: res.data.result.integralActivityUrl,
           openDmWechat: res.data.result.openDmWechat,
@@ -73,7 +76,7 @@ export default {
           // 拓展字段
           productConfig: {
             ...productConfig,
-            cloudPlatformType: (res.data.result.cloudPlatformType).toLowerCase(), // 判断是客道还是ecrp登录 [kd,ecrp]
+            cloudPlatformType,
             wxPlan: res.data.result.wxPlan,
             user,
             viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
@@ -129,7 +132,14 @@ export default {
         // CRM购买方案. 暂时方案
         const companyPlan = res.data.result.companyPlan && res.data.result.companyPlan.crm === true ? '1' : '0'
         localStorage.setItem('USER_LOCAL_COMPANY_PLAN', companyPlan)
-        appTrack.customConfig(user)
+        setDefaultParmas({
+          groupId: user.groupId ? user.groupId + '' : undefined,
+          appType: appEnv.getWebDev(),
+          appEnv: appEnv.getAppEnv(),
+          nick: user.nick ? user.nick : undefined,
+          nickId: user.nickId ? user.nickId : undefined
+        })
+        // appTrack.customConfig(user)
         resolve(res.data.result)
       } else {
         reject(res.data)

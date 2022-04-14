@@ -4,6 +4,9 @@
       <h1>{{title}}</h1>
       <slot name='title'></slot>
     </div>
+    <div class='template-table__bar-name' v-if='diyTitle'>
+      <slot name='title'></slot>
+    </div>
     <slot name='tab'></slot>
     <div class="template-table">
       <div class='teplate-table__box'>
@@ -50,6 +53,10 @@ export default {
     },
     title: {
       type: String
+    },
+    diyTitle: {
+      type: Boolean,
+      default: false
     }
   }
 }

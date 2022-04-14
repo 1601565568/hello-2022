@@ -268,7 +268,7 @@
           </el-tooltip>
         </div>
       </el-form-item>
-      <el-form-item v-if='model.isOpnePrize'>
+      <el-form-item v-if='model.isOpnePrize && isOpnePrizeEnv'>
         <div class='swicth-item' :class="[btnNext==='QA'?stateQA:stateIcon]">
           <span>仅会员可领取奖励</span>
           <el-switch v-model="model.isOnlyReceiveByMember" :active-value='1' :inactive-value='0'/>
@@ -308,6 +308,7 @@ import ValidateUtil from '@/utils/validateUtil'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import StrategiesList from '@/pages/Guide/RedPacket/components/StrategiesList'
 import Coupon from '../coupon'
+import { mapState } from 'vuex'
 export default {
   data () {
     // 效验库存设置
@@ -360,16 +361,6 @@ export default {
           }
         ]
       },
-      prizeList: [
-        {
-          label: '优惠券',
-          value: 1
-        },
-        {
-          label: '红包',
-          value: 2
-        }
-      ],
       redpackVisible: false,
       couponVisible: false,
       chooseItem: {}, // 如果红包记录选择的那项
@@ -388,6 +379,19 @@ export default {
   },
   props: ['data', 'isStating', 'isEdit'],
   components: { ElInputNumber, Coupon, StrategiesList },
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    prizeList () {
+      const prizeList = [{ label: '红包', value: 2 }]
+      return this.cloudPlatformType === 'ecrp' ? [{ label: '优惠券', value: 1 }, ...prizeList] : prizeList
+    },
+    isOpnePrizeEnv () {
+      return !!(this.cloudPlatformType === 'ecrp')
+    }
+  },
   methods: {
     /**
      * 达标人数失焦后重新重新校验所有达标人数
