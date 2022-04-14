@@ -51,6 +51,7 @@ export default {
       {}
     )
     return {
+      completionProgress: '-',
       model: model,
       rules: Object.assign({}, {}, {}),
       url: '',
@@ -206,6 +207,7 @@ export default {
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
             this.unfinishedTotal = result.ext.unfinishedTotal
+            this.completionProgress = result.ext.completionProgress
             this.table.loadingtable = false
           }
         })

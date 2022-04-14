@@ -36,7 +36,17 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          this.drawerVisible = true
+          const { customerNoFollowNum, customerTotal, customerFollowingNum, customerFollowNum } = data.row
+          if (customerNoFollowNum === '正在获取中…' ||
+          customerTotal === '正在获取中…' ||
+          customerFollowingNum === '正在获取中…' ||
+          customerFollowNum === '正在获取中…') {
+            this.drawerVisible = false
+            this.$notify.info('客户正在获取中，无法查看详情')
+          } else {
+            this.drawerVisible = true
+          }
+
           this.shopId = data.row.shopId
           this.shopName = data.row.shopName
           this.runType = this.taskMsg.runType
@@ -58,6 +68,7 @@ export default {
       {}
     )
     return {
+      isHaveGroup: 0,
       dialogFlag: false,
       listMap: {},
       model: model,
@@ -87,7 +98,10 @@ export default {
         subgroupName: '',
         shopNum: 0,
         guideNum: 0,
-        completion: 0
+        completion: 0,
+        customerTotal: '',
+        customerFollowingNum: '',
+        customerFollowNum: ''
       },
       searchMap: {
         shopId: null,
@@ -233,6 +247,15 @@ export default {
             this.taskMsg.shopNum = result.shopNum
             this.taskMsg.guideNum = result.guideNum
             this.taskMsg.completion = result.completion
+            this.taskMsg.customerTotal = result.customerTotal
+            this.taskMsg.customerFollowingNum = result.customerFollowingNum
+            this.taskMsg.customerFollowNum = result.customerFollowNum
+            if (result.completion === '正在获取中…' ||
+             result.customerTotal === '正在获取中…' ||
+             result.customerFollowingNum === '正在获取中…' ||
+             result.customerFollowNum === '正在获取中…') {
+              this.noToDetail = !this.noToDetail
+            }
           }
         })
         .catch(resp => {
@@ -256,6 +279,7 @@ export default {
             var result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
+            this.isHaveGroup = result.draw
             this.table.loadingtable = false
           }
         })

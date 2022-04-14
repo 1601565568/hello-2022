@@ -1,6 +1,8 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsPreview from '@/components/NsPreview'
+import ElDrawer from '@nascent/nui/lib/drawer'
+import drawerClient from '../drawerClient'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
@@ -24,7 +26,9 @@ export default {
   },
   mixins: [tableMixin, scrollHeight],
   components: {
-    NsPreview
+    NsPreview,
+    ElDrawer,
+    drawerClient
   },
   data () {
     const pagination = {
@@ -36,7 +40,11 @@ export default {
     }
     const tableButtons = [
       {
-        func: function () {},
+        func: function (data) {
+          this.drawerVisible = true
+          this.guideName = data.row.name
+          this.guideId = data.row.guideId
+        },
         icon: '$.noop',
         name: '查看详情',
         auth: '',
@@ -52,6 +60,10 @@ export default {
       },
       {})
     return {
+      guideId: null,
+      guideName: null,
+      drawerVisible: false,
+      isHaveGroup: 0,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -63,7 +75,7 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       pagination: pagination,
       // eslint-disable-next-line vue/no-reserved-keys
-      _table: {
+      table: {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
@@ -74,11 +86,11 @@ export default {
       form: {
         time: ''
       },
-      totalNum: 0, // 任务分配导购总数
       finishedCount: 0, // 完成数量
       tableData: [],
       name: null,
-      type: null
+      type: null,
+      extData: {}
     }
   },
   methods: {
@@ -119,10 +131,11 @@ export default {
         .fetch(this.$api.guide.queryShopTaskDetail, params)
         .then(resp => {
           if (resp.success) {
+            this.extData = resp.result.draw && resp.result.ext
+            this.isHaveGroup = resp.result.draw
             this.tableData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
             this.finishedCount = parseInt(resp.result.recordsFiltered)
-            this.totalNum = parseInt(resp.result.recordsTotal)
           }
         })
         .catch(resp => {
