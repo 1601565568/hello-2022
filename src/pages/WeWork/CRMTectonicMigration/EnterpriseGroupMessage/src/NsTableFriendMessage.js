@@ -144,7 +144,7 @@ export default {
           const title = '确定删除营销活动' + obj.row.planName
           // const vm = this
           apiRequestConfirm(title).then(function () {
-            vm.$http.fetch(vm.$api.marketing.weworkMarketing.deleteWxActivity
+            vm.$http.fetch(vm.$api.marketing.weworkMarketing.deleteWxActivityGroup
               , { id: obj.row.id })
               .then((resp) => {
                 vm.$notify.success(resp.msg)
@@ -220,7 +220,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryTable,
+      url: this.$api.marketing.weworkMarketing.queryTableGroup,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
