@@ -674,6 +674,10 @@ export default {
         border-bottom: 1px dashed #f2f2f2;
         .name {
           float: left;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          width: 90%;
         }
         .del {
           font-size: var(--default-font-size-middle);

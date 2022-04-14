@@ -93,8 +93,8 @@
           <template slot='pagination'>
             <div class='drawer-pagination'>
               <div class='pagecontent-left'>
-                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
-                <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
+                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个{{employeeEnv}}</div>
+                <div class='content-item' @click='handleNext'>下一个{{employeeEnv}}<i class="el-icon-arrow-right"></i></div>
               </div>
               <el-pagination v-if="_data._pagination.enable"
                               pager-count='4'
@@ -119,6 +119,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import defaultIcon from '@/assets/defultheadPic.png'
+import { mapState } from 'vuex'
 const originModel = {
   timeStart: null,
   timeEnd: null,
@@ -171,6 +172,15 @@ export default {
   },
   components: { PageTable },
   mixins: [tableMixin],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    }
+  },
   props: {
     chooseMaster: {
       default () {

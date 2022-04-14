@@ -98,7 +98,7 @@
           <el-radio :label="1">按日期展示</el-radio>
           <el-radio :label="2">按{{cloudPlatformType === 'ecrp' ? '员工': '成员'}}展示</el-radio>
         </el-radio-group>
-        <ns-button type="primary" v-if="tableRadios == 2 && cloudPlatformType === 'ecrp'" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
+        <ns-button id="exportButton" type="primary" v-if="tableRadios == 2 && cloudPlatformType === 'ecrp'" class="float-right" @click="outputClick">导&nbsp;出</ns-button>
       </div>
       <el-table ref="table" :data="_data._table.data"
                 class="template-table__main" stripe roll-click

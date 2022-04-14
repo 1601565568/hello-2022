@@ -7,6 +7,8 @@ export default {
   mixins: [formMixin, tableMixin],
   data () {
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       buttonStatus: 0, // 0是高级搜索，1是重置
       treeData: [],
       guideIds: '', // 店铺员工树选中后的导购id集合
@@ -47,9 +49,13 @@ export default {
       fuscousIcon: 'fuscousIcon'
     }
   },
-  created: function () {
+  mounted: function () {
     vm = this
-    vm.initShopList()
+    if (this.cloudPlatformType + '' === 'ecrp') {
+      vm.initShopList()
+    } else {
+      this.$refs.table.$searchAction$()
+    }
   },
   methods: {
     /**
