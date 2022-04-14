@@ -87,7 +87,7 @@ export default {
     },
     $searchAction$ () {
       const params = this.model
-      this.$http.fetch(this.$api.guide.momentList.getVisibleUser, params).then(res => {
+      this.$http.fetch(this.$api.guide.momentList.getVisibleUserMerged, params).then(res => {
         this.getList = res.result
         this.total = res.result.length
         this.loading = false

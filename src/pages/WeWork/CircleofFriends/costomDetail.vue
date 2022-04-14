@@ -22,7 +22,7 @@
       </template>
       <div class='footer'>
         <div class='date'>{{info.createTime}}</div>
-        <ns-button v-if='info.visibleType !== 1' type='text' @click='changeDrawer(true)'>
+        <ns-button v-if='info.visibleType === 0' type='text' @click='changeDrawer(true)'>
           <span class="iconfont icon-kejiankehu" ></span>
           <span class='text'>可见客户</span>
         </ns-button>
