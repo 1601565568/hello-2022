@@ -199,7 +199,7 @@ export default {
           this.listParams
         )
         .then(res => {
-          console.log(res, 'res-----')
+          // console.log(res, 'res-----')
           this.list = this.list.concat(formatList(res.result.data))
           this.listLoading = false
           this.listIsScroll = false
@@ -461,7 +461,7 @@ export default {
     getContext (row) {
       // todo 补全员工姓名
       this.userInfo.userName = row.guideName
-      console.log(row, 'rowwwww')
+      // console.log(row, 'rowwwww')
       if (this.cantRequest) {
         return
       }
