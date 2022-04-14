@@ -233,7 +233,7 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          console.log(data)
+          // console.log(data)
         },
         icon: '$.noop',
         name: '查看详情',
@@ -358,11 +358,11 @@ export default {
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId
       this.drawerVisible = true
-      console.log(data, 'data')
+      // console.log(data, 'data')
     },
     // 导出
     exportData () {
-      console.log('hhhh')
+      // console.log('hhhh')
     },
     changeStatus (value) {
       this.pagination.page = 1

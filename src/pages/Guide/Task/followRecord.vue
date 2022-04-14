@@ -143,7 +143,7 @@ export default {
       this.queryTask()
     },
     onShowPic (arr, index) {
-      console.log(arr)
+      // console.log(arr)
       this.$refs.NsPreview.toggleShow(0, arr)
     }
   },
