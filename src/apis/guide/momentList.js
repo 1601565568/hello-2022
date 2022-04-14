@@ -36,7 +36,7 @@ export default {
   // 可见用户数据
   getVisibleUserMerged: {
     url: '/guide/merged/momentList/getVisibleUser',
-    method: 'post'
+    method: 'get'
   },
   getMomentTaskMerged: {
     url: '/guide/merged/momentList/getMomentTask',
