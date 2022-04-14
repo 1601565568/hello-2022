@@ -498,7 +498,7 @@ export default Index
     background-origin: 50% 50%;
     position: relative;
     &.short-img {
-      height:476px;
+      height:513px;
       .user-content_bg {
         top: 120px;
       }
