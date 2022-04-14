@@ -3,6 +3,7 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="page-header__text">
+          <!-- <breadcrumb class="hidden-xs-only"></breadcrumb> -->
           <el-breadcrumb separator="/">
             <el-breadcrumb-item
               :to="{ path: '/Social/WeWorkGroup/ChatRecord' }"
@@ -226,18 +227,19 @@ export default Index
 .user_list_select {
   position: relative;
   background: #d9effe;
+  font-weight: 600;
   z-index: 2;
-  &::after {
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    transform: translate(0%, -50%);
-    content: '';
-    border-top: 7px solid transparent;
-    border-right: 7px solid #fff;
-    border-bottom: 7px solid transparent;
-    border-left: 7px solid transparent;
-  }
+  // &::after {
+  //   position: absolute;
+  //   right: 0px;
+  //   top: 50%;
+  //   transform: translate(0%, -50%);
+  //   content: '';
+  //   border-top: 7px solid transparent;
+  //   border-right: 7px solid #fff;
+  //   border-bottom: 7px solid transparent;
+  //   border-left: 7px solid transparent;
+  // }
 }
 .user_list_select__keyWord {
   background: #f5f5f5;

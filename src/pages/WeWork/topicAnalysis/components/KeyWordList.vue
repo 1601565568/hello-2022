@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-13 14:05:29
+ * @LastEditTime: 2022-04-14 10:47:03
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -60,7 +60,11 @@
           :header-cell-style="headerStyle"
         >
           <el-table-column label="关键词" prop="word"> </el-table-column>
-          <el-table-column prop="lastSendTime" label="最后发生时间">
+          <el-table-column
+            prop="lastSendTime"
+            label="最后发生时间"
+            min-width="110"
+          >
           </el-table-column>
           <el-table-column label="成员发送次数">
             <template slot-scope="scope">
@@ -85,7 +89,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="creatorName" label="创建人"></el-table-column>
-          <el-table-column prop="createTime" label="创建时间"></el-table-column>
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            min-width="110"
+          ></el-table-column>
         </el-table>
       </el-scrollbar>
       <el-pagination

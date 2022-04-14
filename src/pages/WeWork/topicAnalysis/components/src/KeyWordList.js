@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-13 18:15:01
+ * @LastEditTime: 2022-04-14 12:00:00
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -88,9 +88,9 @@ export default {
             this.$api.weWork.topicAnalysis.keyWordlist,
             _params
           ).then(res => {
-            let { data } = res.result
+            let { data, recordsFiltered } = res.result
             this.table.tableData = data
-            this.pagination.total = recordsFiltered || this.table.tableData.length
+            this.pagination.total = parseInt(recordsFiltered || data.length)
             this.table.loading = false
             resolve(res)
           }).catch(error => {

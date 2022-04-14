@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-13 18:11:03
+ * @LastEditTime: 2022-04-14 10:37:55
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -41,6 +41,7 @@ export default {
         total: 0
       },
       memberListParams: {
+        name: '',
         start: 0,
         length: 15,
         id: null,

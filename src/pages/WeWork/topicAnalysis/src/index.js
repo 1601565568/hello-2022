@@ -14,6 +14,7 @@ import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import KeyWordList from '../components/KeyWordList.vue'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
+import Breadcrumb from '@/components/Breadcrumb'
 import MemberList from '../components/MemberList.vue'
 import { formatText } from '@/utils/formatText'
 export default {
@@ -29,7 +30,8 @@ export default {
     KeyWordList,
     ElBreadcrumb,
     ElBreadcrumbItem,
-    MemberList
+    MemberList,
+    Breadcrumb
   },
   data () {
     let _that = this
@@ -611,7 +613,7 @@ export default {
         }
         this.userInfo = { ...this.userInfo, userTypeText: this.userTypeText, userType: type }
         this.$refs.memberList.memberListParams.time = time
-        this.$refs.memberList.fetchList({ id, idType: type })
+        this.$refs.memberList.fetchList({ id, idType: type, name: word })
       } else {
         this.$refs.memberList.handleParamsReset()
       }
