@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:22:13
+ * @LastEditTime: 2022-04-15 20:03:25
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -81,7 +81,7 @@ export default {
           ).then(res => {
             let { data, recordsFiltered } = res.result
             this.table.tableData = data
-            this.pagination.total = parseInt(recordsFiltered || data.length)
+            this.pagination.total = parseInt(recordsFiltered)
             this.table.loading = false
             resolve(res)
           }).catch(error => {
@@ -133,7 +133,7 @@ export default {
       return { nowDate, nowDateFormat }
     },
     headerStyle () {
-      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px', textAlign: 'center' }
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px' }
     }
   }
 }

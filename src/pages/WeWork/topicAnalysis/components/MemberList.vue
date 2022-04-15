@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:32:13
+ * @LastEditTime: 2022-04-15 20:04:08
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -68,7 +68,6 @@
             stripe
             resizable
             :header-cell-style="headerStyle"
-            :cell-style="'text-align: center'"
           >
             <el-table-column
               :label="platformText"

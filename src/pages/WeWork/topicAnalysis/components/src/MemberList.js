@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:23:41
+ * @LastEditTime: 2022-04-15 20:04:22
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -55,8 +55,9 @@ export default {
           this.$api.weWork.topicAnalysis.contentList,
           this.memberListParams
         ).then(res => {
-          this.table.tableData = res.result.data
-          this.pagination.total = parseInt(recordsFiltered)
+          let { data, recordsTotal } = res.result
+          this.table.tableData = data
+          this.pagination.total = parseInt(recordsTotal)
           this.table.loading = false
         }).catch(error => {
           this.table.loading = false
@@ -101,7 +102,7 @@ export default {
       return moment(nowDate).format('YYYY-MM-DD')
     },
     headerStyle () {
-      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px', textAlign: 'center' }
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px' }
     },
     getContext (data) {
       this.$emit('getContext', data)
