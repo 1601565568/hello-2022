@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-14 10:47:03
+ * @LastEditTime: 2022-04-15 19:20:43
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -58,13 +58,18 @@
           stripe
           resizable
           :header-cell-style="headerStyle"
+          :cell-style="'text-align:center'"
         >
           <el-table-column label="关键词" prop="word"> </el-table-column>
           <el-table-column
             prop="lastSendTime"
             label="最后发生时间"
             min-width="110"
+            align="center"
           >
+            <template slot-scope="scope">
+              <span>{{ scope.row.lastSendTime || '- -' }}</span>
+            </template>
           </el-table-column>
           <el-table-column label="成员发送次数">
             <template slot-scope="scope">
