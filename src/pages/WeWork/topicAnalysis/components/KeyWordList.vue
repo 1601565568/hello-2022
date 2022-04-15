@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:20:43
+ * @LastEditTime: 2022-04-15 19:31:57
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -68,7 +68,7 @@
             align="center"
           >
             <template slot-scope="scope">
-              <span>{{ scope.row.lastSendTime || '- -' }}</span>
+              <span>{{ scope.row.lastSendTime || '-' }}</span>
             </template>
           </el-table-column>
           <el-table-column label="成员发送次数">

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:25:43
+ * @LastEditTime: 2022-04-15 19:32:13
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -98,7 +98,7 @@
             </el-table-column>
             <el-table-column prop="msgtime" label="时间" :width="180">
               <template slot-scope="scope">
-                <span>{{ scope.row.msgtime || '- -' }}</span>
+                <span>{{ scope.row.msgtime || '-' }}</span>
               </template>
             </el-table-column>
             <el-table-column label="操作" :width="150">
