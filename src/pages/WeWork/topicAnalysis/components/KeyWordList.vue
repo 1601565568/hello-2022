@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-01 11:14:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 19:31:57
+ * @LastEditTime: 2022-04-15 20:02:54
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\KeyWordList.vue
 -->
 <template>
@@ -58,7 +58,6 @@
           stripe
           resizable
           :header-cell-style="headerStyle"
-          :cell-style="'text-align:center'"
         >
           <el-table-column label="关键词" prop="word"> </el-table-column>
           <el-table-column

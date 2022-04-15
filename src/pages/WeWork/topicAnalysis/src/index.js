@@ -270,7 +270,7 @@ export default {
       //     this.$notify.error(error.msg)
       //   })
       // 调取关键词组件请求接口
-      this.$refs.keyWordList.fetch({ id: this.select }).then(() => {
+      this.$refs.keyWordList.fetch({ id: this.select }).then((res) => {
         this.cantRequest = false
         let response = res.result
         this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
