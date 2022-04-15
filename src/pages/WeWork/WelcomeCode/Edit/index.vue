@@ -127,6 +127,7 @@
                   </template>
                   <WechatMessageBar
                     ref="WechatMessageBar"
+                    :showCostomCode="true"
                     @addMessage="addAnnexMessage"
                     @uploadVideoProgress="uploadProgress"
                   />
