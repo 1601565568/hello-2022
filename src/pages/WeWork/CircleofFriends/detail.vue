@@ -25,7 +25,7 @@
     </div>
     <div class='list'>
       <div class='list-header'>
-        成员执行情况（总计：{{_data._pagination.total}}人 已发表人数：{{ext.published}}人 未发表人数：{{ext.unpublished}}人）
+        成员执行情况（总计：{{ext.total}}人 已发表人数：{{ext.published}}人 未发表人数：{{ext.unpublished}}人）
       </div>
       <page-table>
         <template slot='search'>
