@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 10:42:32
+ * @LastEditTime: 2022-04-15 19:32:13
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -13,7 +13,6 @@
             <el-input
               @keyup.enter.native="fetchList"
               @clear="fetchList"
-              clearable
               style="width:240px"
               placeholder="请输入员工"
               v-model="memberListParams.guideName"
@@ -30,7 +29,6 @@
             <el-input
               @keyup.enter.native="fetchList"
               @clear="fetchList"
-              clearable
               style="width:240px"
               placeholder="请输入好友"
               v-model="memberListParams.contactName"
@@ -70,11 +68,20 @@
             stripe
             resizable
             :header-cell-style="headerStyle"
+            :cell-style="'text-align: center'"
           >
-            <el-table-column :label="platformText" prop="guideName">
+            <el-table-column
+              :label="platformText"
+              prop="guideName"
+              :width="150"
+            >
             </el-table-column>
             <el-table-column label="好友" prop="contactName"> </el-table-column>
-            <el-table-column prop="keyWord" label="关键词"></el-table-column>
+            <el-table-column
+              prop="keyWord"
+              label="关键词"
+              :width="200"
+            ></el-table-column>
             <el-table-column label="内容" min-width="400">
               <template slot-scope="scope">
                 <el-popover placement="top-start" width="400" trigger="hover">
@@ -89,11 +96,11 @@
                 </el-popover>
               </template>
             </el-table-column>
-            <el-table-column
-              prop="msgtime"
-              label="时间"
-              :width="150"
-            ></el-table-column>
+            <el-table-column prop="msgtime" label="时间" :width="180">
+              <template slot-scope="scope">
+                <span>{{ scope.row.msgtime || '-' }}</span>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" :width="150">
               <template slot-scope="scope">
                 <ns-button type="text" @click="getContext(scope.row)"

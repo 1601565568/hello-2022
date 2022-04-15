@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 10:07:36
+ * @LastEditTime: 2022-04-15 19:22:13
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -23,18 +23,7 @@ export default {
       },
       table: {
         loading: false,
-        tableData: [
-          // {
-          //   'createTime': '',
-          //   'creatorId': '',
-          //   'creatorName': '',
-          //   'friendSendCount': 2,
-          //   'lastSendTime': '',
-          //   'staffSendCount': 1,
-          //   'word': '12',
-          //   'wordId': 111
-          // }
-        ]
+        tableData: []
       },
       // 分页配置
       pagination: {
@@ -144,7 +133,7 @@ export default {
       return { nowDate, nowDateFormat }
     },
     headerStyle () {
-      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px' }
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px', textAlign: 'center' }
     }
   }
 }

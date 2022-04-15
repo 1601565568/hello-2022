@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 10:39:50
+ * @LastEditTime: 2022-04-15 19:23:41
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -19,19 +19,7 @@ export default {
     return {
       table: {
         loading: false,
-        tableData: [
-          {
-            'contactName': 'aaa',
-            'content': '关键1 14.32',
-            'guideName': '哈哈',
-            'msgtime': '1649917933113',
-            'roomid': '',
-            'sender': 'wmAcXVDQAARcn81Y_CKRl7uFDMEXNDmQ',
-            'seq': '71300',
-            'tolist': '18961400576',
-            'keyWord': '关键'
-          }
-        ]
+        tableData: []
       },
       // 分页配置
       pagination: {
@@ -67,9 +55,7 @@ export default {
           this.$api.weWork.topicAnalysis.contentList,
           this.memberListParams
         ).then(res => {
-          if (res.result.data.length > 0) {
-            this.table.tableData = res.result.data
-          }
+          this.table.tableData = res.result.data
           this.pagination.total = parseInt(recordsFiltered)
           this.table.loading = false
         }).catch(error => {
@@ -115,7 +101,7 @@ export default {
       return moment(nowDate).format('YYYY-MM-DD')
     },
     headerStyle () {
-      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px' }
+      return { background: '#f5f5f5', lineHeight: '40px', fontSize: '14px', color: '#262626', height: '40px', padding: '0px', textAlign: 'center' }
     },
     getContext (data) {
       this.$emit('getContext', data)
