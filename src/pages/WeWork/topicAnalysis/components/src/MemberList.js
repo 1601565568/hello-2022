@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-14 10:37:55
+ * @LastEditTime: 2022-04-15 10:39:50
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -21,15 +21,15 @@ export default {
         loading: false,
         tableData: [
           {
-            'avatar': '',
             'contactName': 'aaa',
-            'content': 'aaa1aaa1112222aaa1aaa1112222aaa1112222aaa111aaa1112222aaa11122222222112222aaa1112222112222',
-            'guideName': 'bbb',
-            'msgtime': 'xxxx',
-            'roomid': '123',
-            'sender': '4',
-            'seq': '5',
-            'tolist': '6'
+            'content': '关键1 14.32',
+            'guideName': '哈哈',
+            'msgtime': '1649917933113',
+            'roomid': '',
+            'sender': 'wmAcXVDQAARcn81Y_CKRl7uFDMEXNDmQ',
+            'seq': '71300',
+            'tolist': '18961400576',
+            'keyWord': '关键'
           }
         ]
       },
@@ -67,7 +67,10 @@ export default {
           this.$api.weWork.topicAnalysis.contentList,
           this.memberListParams
         ).then(res => {
-          // this.table.tableData = res.result
+          if (res.result.data.length > 0) {
+            this.table.tableData = res.result.data
+          }
+          this.pagination.total = parseInt(recordsFiltered)
           this.table.loading = false
         }).catch(error => {
           this.table.loading = false
