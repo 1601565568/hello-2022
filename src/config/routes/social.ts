@@ -138,7 +138,7 @@ export default {
           'path': '/EnterpriseGroupExamine',
           'name': 'enterpriseGroupExamine',
           'title': '企业微信群营销审核',
-          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamineGroup/index.vue')
         }
       ]
     },
@@ -219,7 +219,7 @@ export default {
           'path': '/EnterpriseGroupExamine',
           'name': 'enterpriseGroupExamine',
           'title': '企业微信群营销审核',
-          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamine/index.vue')
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/ActivityExamineGroup/index.vue')
         },
         {
           'path': '/Marketing/SOP/Examine',

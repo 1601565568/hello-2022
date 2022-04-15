@@ -145,5 +145,15 @@ export default {
   verifyProductToCRM: {
     url: '/wework/marketing/verifyProductToCRM',
     method: 'get'
+  },
+  // 群营销列表接口
+  queryTableGroup: {
+    url: '/wework/marketing/queryTable',
+    method: 'post'
+  },
+  // 群营销列表删除接口
+  deleteWxActivityGroup: {
+    url: '/wework/marketing/deleteWxActivity',
+    method: 'get'
   }
 }
