@@ -58,6 +58,7 @@
       <span class="item-tip">二维码海报</span>
     </div>
     <div class="add-material-item"
+         v-if="showCostomCode"
          @click="visibleCostomCodeDialog = true">
       <Icon type="icon-liebiandashi"
             class="icon" />
@@ -156,6 +157,13 @@ export default {
       type: Boolean,
       default () {
         return true
+      }
+    },
+    // 是否需要显示裂变大师
+    showCostomCode: {
+      type: Boolean,
+      default () {
+        return false
       }
     }
   },
