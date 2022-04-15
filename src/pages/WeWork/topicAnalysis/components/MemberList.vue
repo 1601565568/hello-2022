@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-13 17:30:42
+ * @LastEditTime: 2022-04-15 10:42:32
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -74,30 +74,26 @@
             <el-table-column :label="platformText" prop="guideName">
             </el-table-column>
             <el-table-column label="好友" prop="contactName"> </el-table-column>
-            <el-table-column prop="topicName" label="关键词"></el-table-column>
+            <el-table-column prop="keyWord" label="关键词"></el-table-column>
             <el-table-column label="内容" min-width="400">
               <template slot-scope="scope">
                 <el-popover placement="top-start" width="400" trigger="hover">
                   <span
                     slot="reference"
-                    v-html="
-                      fliterText(
-                        `1auto_加入登录.1122121auto_加入登录${scope.row.content}auto_加入登录`
-                      )
-                    "
+                    v-html="fliterText(`${scope.row.content}`)"
                   ></span>
                   <div
                     class="content-pop"
-                    v-html="
-                      fliterText(
-                        `auto_加入登录.111222122auto_加入登录${scope.row.content}auto_加入登录`
-                      )
-                    "
+                    v-html="fliterText(`${scope.row.content}`)"
                   ></div>
                 </el-popover>
               </template>
             </el-table-column>
-            <el-table-column prop="msgtime" label="时间"></el-table-column>
+            <el-table-column
+              prop="msgtime"
+              label="时间"
+              :width="150"
+            ></el-table-column>
             <el-table-column label="操作" :width="150">
               <template slot-scope="scope">
                 <ns-button type="text" @click="getContext(scope.row)"
