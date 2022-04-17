@@ -244,6 +244,9 @@
                 :show-overflow-tooltip="true"
                 prop="targetName"
                 label="分群名称">
+                <template slot-scope="scope">
+                  {{scope.row.targetName || '-'}}
+                </template>
               </el-table-column>
             </template>
 
