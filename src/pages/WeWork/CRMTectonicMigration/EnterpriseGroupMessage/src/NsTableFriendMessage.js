@@ -233,7 +233,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryTable,
+      url: this.$api.marketing.weworkMarketing.queryTableGroup,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
