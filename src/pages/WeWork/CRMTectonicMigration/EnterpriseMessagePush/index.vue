@@ -342,11 +342,7 @@ export default {
      * 打开选择营销人群组件
      */
     openECDialog () {
-      if (this.cloudPlatformType === 'ecrp') {
-        this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
-      } else {
-        this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
-      }
+      this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
     },
     setView () {
       // if (vm.model.textarea) {
