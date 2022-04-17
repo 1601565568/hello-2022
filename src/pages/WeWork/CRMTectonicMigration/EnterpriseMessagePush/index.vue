@@ -124,7 +124,26 @@
         </SimpleCollapse>
       </el-form>
       <!-- 选择营销人群组件 -->
-      <NsEmployeeOrCustGroupDialog ref="nsEmployeeOrCustGroupDialog" :needGroupName="true" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
+      <NsEmployeeOrCustGroupDialog v-if="cloudPlatformType === 'ecrp'" ref="nsEmployeeOrCustGroupDialog" :needGroupName="true" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog>
+      <NsGuideWeChatDialog :selfBtn='true'
+        ref="nsEmployeeOrCustGroupDialog"
+        :appendToBody='true'
+        :isButton="false"
+        :auth="true"
+        :switchAreaFlag="1"
+        btnTitle=""
+        dialogTitle="选择企业微信成员"
+        v-model="employeeSelectData.data"
+        :isOpenDialogAfterRequest='false'
+        v-else>
+        <!-- <template slot='selfBtn'>
+          <div class='self-btn'>
+            {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+            <Icon type="geren"
+                  class='guideIds-icon'></Icon>
+          </div>
+        </template> -->
+      </NsGuideWeChatDialog>
     </template>
   </PageEdit>
 </template>
@@ -145,6 +164,7 @@ import TagArea, { toolFn } from '@/components/NewUi/TagArea'
 import MessageList from './components/MessageList'
 import WechatMessageBar from './components/WechatMessageBar/index'
 import MessagePreviewPanel from '@/pages/WeWork/SOP/components/MessagePreviewPanel/index.vue'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
@@ -156,6 +176,7 @@ export default {
     // ElCard,
     // contentPreview,
     NsEmployeeOrCustGroupDialog,
+    NsGuideWeChatDialog,
     // ElUpload,
     TagArea,
     MessageList,
@@ -165,7 +186,7 @@ export default {
   computed: {
     selectedTip () {
       if (this.employeeSelectData.data.length) {
-        return `已选择${this.employeeSelectData.data.length}${this.employeeSelectData.type === 'employee' ? '个员工全部好友' : '个客户分群'}`
+        return `已选择${this.employeeSelectData.data.length}${this.employeeSelectData.type === 'employee' ? this.cloudPlatformType === 'ecrp' ? '个员工全部好友' : '个成员全部好友' : '个客户分群'}`
       } else {
         return ''
       }
@@ -321,7 +342,11 @@ export default {
      * 打开选择营销人群组件
      */
     openECDialog () {
-      this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
+      if (this.cloudPlatformType === 'ecrp') {
+        this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
+      } else {
+        this.$refs.nsEmployeeOrCustGroupDialog.onDialogOpen()
+      }
     },
     setView () {
       // if (vm.model.textarea) {
@@ -401,21 +426,6 @@ export default {
             }
             if (data.content) {
               vm.model.textarea = toolFn.stringTohtml(data.content, false, { tools: [], emojiClass: '', showEmoji: true })
-              // if (data.content.image && Object.keys(data.content.image).length > 0) {
-              //   vm.picUrl = data.content.image.image
-              //   vm.model.type = 1
-              //   vm.show = true
-              // }
-              // if (data.content.picText && Object.keys(data.content.picText).length > 0) {
-              //   vm.pic = data.content.picText
-              //   vm.model.type = 2
-              //   vm.show = true
-              // }
-              // if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
-              //   vm.miniPro = data.content.miniPro
-              //   vm.model.type = 3
-              //   vm.show = true
-              // }
             }
             this.model.mediaList = this.handleMediaList(data.attachments)
             // vm.setView()
@@ -429,8 +439,12 @@ export default {
             for (const item of arr) {
               let userItem = {}
               if (data.type === 1) {
-                userItem = {
-                  employeeID: item.targetId
+                if (this.cloudPlatformType === 'ecrp') {
+                  userItem = {
+                    employeeID: item.targetId
+                  }
+                } else {
+                  userItem = item.targetId
                 }
               } else {
                 userItem = {
@@ -657,7 +671,11 @@ export default {
       }
       if (this.employeeSelectData.type === 'employee') {
         target.type = 1
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+        if (this.cloudPlatformType === 'ecrp') {
+          target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+        } else {
+          target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value), targetName: '' } })
+        }
       } else {
         target.type = 3
         target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.id), targetName: value.targetName } })
