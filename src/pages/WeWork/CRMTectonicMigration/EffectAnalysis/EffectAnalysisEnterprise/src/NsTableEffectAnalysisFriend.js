@@ -109,7 +109,7 @@ export default {
     } else {
       this.$reload()
     }
-    vm.employeeList()
+    // vm.employeeList()
     vm.getTotal()
   },
   components: {
