@@ -244,26 +244,27 @@ export default {
       _queryConfig: {
         expand: false
       },
-      showDialog: false,
-      dialogTitle: '',
-      handleItemType: '',
-      dialogContent: '',
-      handleStatus: '',
-      handleObj: {},
-      showTableDialog: false,
-      showStaff: false,
-      staffName: '',
-      groupName: '',
-      messageListId: '',
-      tableDialogData: [],
-      tableDialogLoading: false,
-      paginationDialog: {
+      showDialog: false, // 显示二次确认弹框
+      dialogTitle: '', // 弹框标题
+      handleItemType: '', // 弹框处理类型
+      dialogContent: '', // 弹框显示内容
+      handleStatus: '', // 弹框处理的状态
+      handleObj: {}, // 处理行内容
+      showTableDialog: false, // 显示营销对象弹框
+      showStaff: false, // 区别员工/群
+      staffName: '', // 表格搜索员工名称
+      groupName: '', // 表格搜索群名称
+      messageListId: '', // 此行记录id
+      tableDialogData: [], // 表格数据
+      tableDialogLoading: false, // 加载标识
+      paginationDialog: { // 表格翻页
         size: 15,
         sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
       },
-      statusData: [
+      // 状态列表
+      statusData: [ 
         { label: '未提交', value: 1 },
         { label: '待审核', value: 2 },
         { label: '审核失败', value: 3 },
@@ -272,6 +273,7 @@ export default {
         { label: '已执行', value: 6 },
         { label: '已终止', value: 7 }
       ],
+      // 状态枚举
       statusName: {
         1: '未提交',
         2: '待审核',
@@ -343,7 +345,6 @@ export default {
         }
       }
       this.tableDialogLoading = true
-      // todo
       this.$http.fetch(this.$api.marketing.weworkMarketing.targetWxActivity, params).then((resp) => {
         this.tableDialogData = resp.result.data
         this.paginationDialog.total = parseInt(resp.result.recordsTotal)
