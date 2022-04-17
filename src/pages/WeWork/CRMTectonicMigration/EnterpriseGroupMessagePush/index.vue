@@ -1,354 +1,285 @@
 <template>
-  <div v-if="!isError">
-    <div class="page-title">
-      新建微信群营销
-    </div>
-    <ElScrollbar ref="fullScreen">
-      <div class="message-container">
-        <ElCard shadow="never">
-          <div slot="header">基本信息</div>
-          <div>
-            <ElForm label-width="100px" ref="formName" :model="model" :rules="rules" :disabled="isUpdate">
-              <ElFormItem label="活动名称：" prop="name">
-                <ElFormGrid size="xlg">
-                  <ElInput
-                    type="text"
-                    placeholder="请输入活动名称"
-                    v-model="model.name"
-                    maxlength="30"
-                    show-word-limit
-                  />
-                </ElFormGrid>
-              </ElFormItem>
-              <ElFormItem label="选择营销人群：" required>
-                <ElFormGrid>
-                  <!--<NsButton type="text" @click="onOpenGroupSelect()"><Icon type="plus"/>选择营销人群</NsButton>-->
-                  <NsChatrommSelectDialog :echoStore='true' :isNeedLink='true' :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData2"></NsChatrommSelectDialog>
-                </ElFormGrid>
-                <ElFormGrid>
-                  已选择<span class="text-primary">{{employeeSelectData2.data? employeeSelectData2.data.length: 0}}</span>个群主
-                </ElFormGrid>
-              </ElFormItem>
-              <ElFormItem label="发送方式：" required>
-                <ElFormGrid>
-                  <ElRadioGroup v-model="model.executeMode" @change="changeExec" :class="[radioIcon==='QA'?radioQA:radio]">
-                    <ElRadio :label="1">立即发送</ElRadio>
-                    <ElRadio :label="2">定时发送</ElRadio>
-                  </ElRadioGroup>
-                </ElFormGrid>
-                <ElFormGrid class="text-secondary">设置任务发送的时间</ElFormGrid>
-              </ElFormItem>
-              <ElFormItem label="执行时间：" v-if="model.executeMode== 2" prop="executeTime">
-                <ElFormGrid size="xmd">
-                  <el-date-picker
-                    v-model="model.executeTime"
-                    type="datetime"
-                    placeholder="选择日期时间">
-                  </el-date-picker>
-                </ElFormGrid>
-                <ElFormGrid size="xmd">
-                </ElFormGrid>
-              </ElFormItem>
-            </ElForm>
-          </div>
-        </ElCard>
-        <ElCard shadow="never" class="message-container__card">
-          <div slot="header">发布设置</div>
-          <div class="message-composition">
-            <div class="message-composition__left">
-              <ElForm label-width="0px" ref="formPush" :model="model" :rules="rules" :disabled="isUpdate">
-                <ElFormItem prop="textarea">
-                  <tag-area :class="[radioIcon==='QA'? tagTextQA: tagText]" :disabled="isUpdate" v-model='model.textarea' tag="wise" ref="testText" :maxlength="1000" @inputLength="changeInputLength" placeholder="请输入内容" emojiClass='' :showEmoji='true' :showTextEmoji='true' @input='setView'/>
-                  <!-- <ElFormGrid>
-                    <el-input
-                      type="textarea"
-                      :rows="6"
-                      placeholder="请输入内容"
-                      @blur="setView"
-                      v-model="model.textarea" maxlength="1000" style="width: 700px;">
-                    </el-input>
-                  </ElFormGrid> -->
-                </ElFormItem>
-                <ElFormItem>
-                  <ElFormGrid>
-                    <ElPopover trigger="hover" v-if="!show">
-                      <div class="message-prompt">
-                      <div class="message-prompt__mass" @click="setType()">
-                        <ElUpload ref="upload"
-                                  :action="this.$api.core.sgUploadFile('activityPic')"
-                                  :show-file-list="false"
-                                  :on-success="uploadSuccess"
-                                  :before-upload="beforeAvatarUpload"
-                                  accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
-                          <Icon type="picture" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">图片</div>
-                        </ElUpload>
-                      </div>
-                      <div class="message-prompt__mass" style="display: inline-block;" @click="openPic">
-                          <Icon type="picture" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">图文</div>
-                      </div>
-                      <div class="message-prompt__mass" style="display: inline-block;" @click="openMiniPro">
-                          <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
-                      </div>
-                        <!--<div class="message-prompt__mass">
-                          <Icon type="link" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">链接</div>
-                        </div>
-                        <div class="message-prompt__mass" @click="dialogVisibleLink = true">
-                          <Icon type="applet" className="font-size-xlarge cursor-pointer message-hovericolor"/>
-                          <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">小程序</div>
-                        </div>-->
-                      </div>
-                      <NsButton type="text" slot="reference">+添加图片/图文/小程序</NsButton>
-                     </ElPopover>
-                    <div v-if="show">
-                      <ElUpload ref="upload"
-                                :action="this.$api.core.sgUploadFile('activityPic')"
-                                :show-file-list="false"
-                                :on-success="uploadSuccess"
-                                :before-upload="beforeAvatarUpload"
-                                accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG" v-if="model.type === 1" style="display: inline-block;">
-                        <NsButton type="text">图片</NsButton>
-                      </ElUpload>
-                      <NsButton type="text" @click="openPic" v-if="model.type === 2" style="display: inline-block;">图文</NsButton>
-                      <NsButton type="text" @click="openMiniPro" v-if="model.type === 3" style="display: inline-block;">小程序</NsButton>
-                      <NsButton type="text">
-                        <Icon type="close-circle"  theme="outlined"  @click="clear"/>
-                      </NsButton>
-                    </div>
-                  </ElFormGrid>
-                </ElFormItem>
-              </ElForm>
-            </div>
-            <div class="message-composition__right">
-              <contentPreview  ref="preview"/>
-            </div>
-          </div>
-        </ElCard>
+  <PageEdit class="friend-marketing">
+    <template slot="header">
+      <div class="common-header flex-box">
+        <h3>{{$route.query.messageId ? (openType === 'look' ? '查看' : openType === 'copy' ? '复制' : '编辑') : '新建'}}微信群营销</h3>
+        <div class="common-btn">
+          <ns-button class="customer-btn_cancel" @click="cancel" size="large">取消</ns-button>
+          <ns-button class="customer-btn_save"  :disabled="isUpdate" :loading="loading" @click='save' type="primary" size="large">保存</ns-button>
+        </div>
       </div>
-    </ElScrollbar>
-    <div class="form-save__unique">
-      <NsSave  @click="save" :disabled="isUpdate" :loading="loading"/>
-      <NsButton @click="cancel">{{$t('operating.cancel')}}</NsButton>
-    </div>
-
-    <el-dialog title="选择微信群" :show-scroll-x="false" :visible.sync="visible"
-               :close-on-click-modal = "false" :before-close="onCloseSelectRoom" width="700px" height="400px">
-      <div>
-        <el-form>
-          <el-form-item>
-            <el-form-grid><div style="margin-left: 10px;">选择门店：</div></el-form-grid>
-            <el-form-grid>
-              <el-select-load v-model="roomsData.searchShopId" :options="roomsData.offEmployees" filterable @change="changeShop"
-                              clearable @clear="clear" :page-sizes="20" placeholder="请选择">
-              </el-select-load>
-            </el-form-grid>
+    </template>
+    <template slot='content'>
+      <el-form class="normal-from el-form-reset" size="medium" ref="formName" :model="model" :rules="rules" label-width="100px" label-position="left">
+        <SimpleCollapse :title="'基本信息'" class="content">
+          <el-form-item class="larger-item" label="活动名称" prop="name" required>
+            <el-input v-model="model.name" :disabled="isUpdate" placeholder="请输入活动名称" class="el-input" show-word-limit :maxlength="30"></el-input>
           </el-form-item>
-        </el-form>
-        <el-row :gutter="24">
-          <el-col :span="12">
-            <ElTable ref="selectEmp" :data="roomsData.matchRooms" height="260" @select="selectChange" @select-all="selectAllChange" v-loading="roomsData.loading">
-              <ElTableColumn type="selection" width="55"/>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empNick" label="群主昵称" align="left" width="120" >
-              </ElTableColumn>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empName" label="员工姓名" align="left" />
-            </ElTable>
-          </el-col>
-          <el-col :span="12"><ElTable :data="roomsData.selectedData" height="260" v-loading="">
-            <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empName" label="已选群主" align="left" />
-            <ElTableColumn  prop="select" align="center" width="55" >
-              <template slot-scope="scope">
-                <ns-button
-                  type="text"
-                  size="mini"
-                  @click="() => removeRoom(scope)">
-                  <Icon type="delete" className="code-delete"/>
-                </ns-button>
-              </template>
-            </ElTableColumn>
-          </ElTable></el-col>
-        </el-row>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="onCloseSelectRoom()">{{$t('operating.cancel')}}</ns-button>
-        <ns-save @click="onSaveSelectRoom()"></ns-save>
-      </div>
-    </el-dialog>
-    <!-- 图文 start -->
-    <ElDialog
-      width="500px"
-      height="265px"
-      title="图文"
-      :visible.sync="picVisible"
-      :show-scroll-x=false :before-close="cancelPic">
-      <div class="margin-lr-small">
-        <ElForm ref="picForm" :model="pic" :rules="picRules">
-          <ElFormItem label="图片标题：" required label-width="100px" prop="title">
-            <ElFormGrid size="lg">
-            <ElInput
-              type="text"
-              placeholder="请输入图文标题"
-              v-model="pic.title"
-            />
-            </ElFormGrid>
-          </ElFormItem>
-          <ElFormItem label="图文描述：" required  label-width="100px" prop="desc">
-            <ElFormGrid size="lg">
-            <ElInput
-              type="textarea"
-              row="3"
-              placeholder="请输入图文描述"
-              v-model="pic.desc"
-            />
-            </ElFormGrid>
-          </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" prop="pic">
-            <ElFormGrid>
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('activityPic')"
-              :show-file-list="false"
-              :on-success="uploadSuccess"
-              :before-upload="beforeAvatarUpload" accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
-              <img v-if="pic.pic" :src="pic.pic" style="height: 30px; width: 30px">
-              <Icon type="plus" style="height: 30px; width: 30px" v-else/>
-            </ElUpload>
-            </ElFormGrid>
-          </ElFormItem>
-          <ElFormItem label="图文链接：" required label-width="100px" prop="url">
-            <ElFormGrid size="lg">
-              <ElInput
-                type="text"
-                placeholder="请输入图文链接"
-                v-model="pic.url"
-              />
-            </ElFormGrid>
-          </ElFormItem>
-        </ElForm>
-      </div>
-      <span slot="footer">
-        <NsButton @click="cancelPic">{{$t('operating.cancel')}}</NsButton>
-        <NsSave @click="savePic"/>
-      </span>
-    </ElDialog>
-    <!-- 图文 end -->
-    <!-- 小程序 start-->
-    <ElDialog
-      width="500px"
-      title="小程序"
-      :visible.sync="miniProVisible"
-      :show-scroll-x=false :before-close="cancelMiniPro">
-      <div class="margin-lr-small">
-        <ElForm ref="miniProForm" :model="miniPro" :rules="miniProRules">
-          <ElFormItem label="小程序标题：" required label-width="100px" prop="title">
-            <ElInput
-              type="text"
-              placeholder="请输入小程序标题"
-              v-model="miniPro.title"
-            />
-          </ElFormItem>
-          <ElFormItem label="小程序appid：" required label-width="100px" prop="appid">
-            <ElInput
-              type="text"
-              placeholder="请输入小程序appid"
-              v-model="miniPro.appid"
-            />
-          </ElFormItem>
-          <ElFormItem label="小程序路径：" required  label-width="100px" prop="appPath">
-            <ElInput
-              type="text"
-              placeholder="请输入小程序路径"
-              v-model="miniPro.appPath"
-            />
-          </ElFormItem>
-          <ElFormItem label-width="100px">
-            <el-form-grid size="xmd">
-              <a href="https://jingyan.baidu.com/article/f3ad7d0f4c39aa09c3345bf1.html" target="_blank">如何获取路径</a>
-            </el-form-grid>
-          </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" prop="pic">
-            <ElFormGrid>
-              <ElUpload
-                :action="this.$api.core.sgUploadFile('activityPic')"
-                :show-file-list="false"
-                :on-success="uploadSuccess"
-                :before-upload="beforeAvatarUpload" accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG">
-                <img v-if="miniPro.pic" :src="miniPro.pic" style="height: 30px; width: 30px">
-                <Icon type="plus" style="height: 30px; width: 30px" v-else/>
-              </ElUpload>
-            </ElFormGrid>
-          </ElFormItem>
-        </ElForm>
-      </div>
-      <span slot="footer">
-        <NsButton @click="cancelMiniPro">{{$t('operating.cancel')}}</NsButton>
-        <NsSave @click="saveMiniPro"/>
-      </span>
-    </ElDialog>
-    <!-- 小程序 end-->
-  </div>
-  <div v-else>
-    <ns-no-data>{{$t('prompt.noData')}}</ns-no-data>
-  </div>
+          <el-form-item class="larger-item" label="选择营销人群" prop="chatRoomIdList" required>
+            <div class="select-area">
+              <div
+                class="select-tips"
+                @click="openECDialog"
+              >
+                <el-input placeholder="请选择好友" :disabled="isUpdate" :value="selectedTip" readonly>
+                  <!-- <Icon type="geren" class="icon" slot="suffix"></Icon> -->
+                  <Icon type='icon-ns-people' class='icon' slot="suffix"/>
+                </el-input>
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item class="form-slot" prop="executeMode" required>
+            <span class="form-item-slot" slot="label">
+              <div class="form-flex">
+                <span>发送方式</span>
+                <el-tooltip
+                  class="message-icons-item"
+                  content="设置任务发送的时间"
+                  placement="top"
+                >
+                  <Icon type="ns-help" className="icon"/>
+                </el-tooltip>
+              </div>
+            </span>
+            <el-radio-group :disabled="isUpdate" v-model="model.executeMode" @change="changeExec" :class="[radioIcon==='QA'?radioQA:radio]">
+              <el-radio :label="1">立即发送</el-radio>
+              <el-radio :label="2">定时发送</el-radio>
+            </el-radio-group>
+            <div class="form-date" v-if="model.executeMode== 2">
+              <span class="date-label">执行时间</span>
+              <el-form-item prop="predictSendTime">
+                <el-date-picker
+                  :disabled="isUpdate"
+                  v-model="model.predictSendTime"
+                  type="datetime"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  placeholder="选择日期时间">
+                </el-date-picker>
+              </el-form-item>
+            </div>
+          </el-form-item>
+        </SimpleCollapse>
+        <SimpleCollapse :title="'发布设置'">
+          <PhoneBox phoneTitle :showPhoneHead="true">
+            <template slot='collapse-left'>
+              <el-form-item label="文案">
+                <tag-area
+                  :class="[radioIcon==='QA'? tagTextQA: tagText]"
+                  :disabled="isUpdate"
+                  v-model='model.textarea'
+                  :tagSpecialHandle='true'
+                  tag="wise"
+                  ref="testText"
+                  :maxlength="400"
+                  @inputLength="changeInputLength"
+                  placeholder="请输入文案内容"
+                  emojiClass=''
+                  @input='setView'
+                  :showEmoji='true'
+                  :showTextEmoji='true'
+                />
+              </el-form-item>
+              <el-form-item ref="imageForm" label="附件">
+                <span class="add-tip">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG、JPEG格式；最多可添加9个附件</span>
+                  <MessageList
+                    :list.sync="mediaList"
+                    @edit="editAnnexMessage"
+                    @delete="deleteAnnexMessage"
+                    :isUploading.sync="isUploading"
+                    :disabled="isUpdate"
+                  />
+                  <el-popover
+                    placement="top-start"
+                    trigger="hover"
+                    :disabled="!(mediaList.length < 9) || isUpdate"
+                  >
+                    <template slot="reference">
+                      <div class="add-material" v-if="mediaList.length < 9 && !isUpdate">
+                        <Icon type="ns-add-border" class="icon"/>
+                        添加消息内容
+                      </div>
+                      <div v-else-if="!isUpdate" class="add-material add-material-disabled" @click="$notify.error('附件已达上限（9个），不能再添加')">
+                        <Icon type="ns-add-border" class="icon"/>
+                        添加消息内容
+                      </div>
+                      <div v-else class="add-material add-material-disabled">
+                        <Icon type="ns-add-border" class="icon"/>
+                        添加消息内容
+                      </div>
+                    </template>
+                    <WechatMessageBar
+                      ref="WechatMessageBar"
+                      :multipleImage='false'
+                      :limitImage='limitImage'
+                      @addMessage="addAnnexMessage"
+                      @uploadVideoProgress="uploadProgress"
+                    />
+                  </el-popover>
+              </el-form-item>
+            </template>
+            <template slot="collapse-right">
+              <MessagePreviewPanel :needMaxHeight="true" :hasBracket="false" class="message-preivew-panel" imageLabel="image" videoLabel="video" miniAndLinkImageLabel="image" :list="preList"/>
+            </template>
+          </PhoneBox>
+        </SimpleCollapse>
+      </el-form>
+      <!-- 选择营销人群组件 -->
+      <NsChatrommSelectDialog ref="NsChatrommSelectDialog" v-if="cloudPlatformType === 'ecrp'" :echoStore='true' :isNeedLink='true' :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData"></NsChatrommSelectDialog>
+      <!-- <NsEmployeeOrCustGroupDialog v-if="cloudPlatformType === 'ecrp'" ref="nsEmployeeOrCustGroupDialog" :needGroupName="true" :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData" :echoStore='true' :isNeedLink='true'></NsEmployeeOrCustGroupDialog> -->
+      <NsGuideWeChatDialog :selfBtn='true'
+        ref="NsChatrommSelectDialog"
+        :appendToBody='true'
+        :isButton="false"
+        :auth="true"
+        :switchAreaFlag="1"
+        btnTitle=""
+        dialogTitle="选择企业微信成员"
+        v-model="employeeSelectData.data"
+        :isOpenDialogAfterRequest='false'
+        v-else>
+        <!-- <template slot='selfBtn'>
+          <div class='self-btn'>
+            {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个成员`:'全部'}}
+            <Icon type="geren"
+                  class='guideIds-icon'></Icon>
+          </div>
+        </template> -->
+      </NsGuideWeChatDialog>
+    </template>
+  </PageEdit>
 </template>
 <script>
+import PageEdit from '@/components/NewUi/PageEdit'
+import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
+import PhoneBox from '@/components/NewUi/PhoneBox'
+
 import ElCard from '@nascent/nui/lib/card'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElUpload from '@nascent/nui/lib/upload'
-import ElSelectLoad from '@nascent/nui/lib/select-load'
 import contentPreview from './contentPreview.vue'
-import NsChatrommSelectDialog from '@/components/NsChatrommSelectDialog'
-import TagArea from '@/components/NewUi/TagArea'
-
+import $ from 'jquery'
 import moment from 'moment'
+// import NsEmployeeOrCustGroupDialog from '@/components/NsEmployeeOrCustGroupDialog'
+import TagArea, { toolFn } from '@/components/NewUi/TagArea'
+import MessageList from './components/MessageList'
+import WechatMessageBar from './components/WechatMessageBar/index'
+import MessagePreviewPanel from '@/pages/WeWork/SOP/components/MessagePreviewPanel/index.vue'
+import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import NsChatrommSelectDialog from '@/components/NsChatrommSelectDialog'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
   components: {
-    ElCard,
-    contentPreview,
-    ElUpload,
-    ElSelectLoad,
+    PageEdit,
+    SimpleCollapse,
+    PhoneBox,
+
+    // ElCard,
+    // contentPreview,
+    // NsEmployeeOrCustGroupDialog,
     NsChatrommSelectDialog,
-    TagArea
+    NsGuideWeChatDialog,
+    // ElUpload,
+    TagArea,
+    MessageList,
+    WechatMessageBar,
+    MessagePreviewPanel
+  },
+  computed: {
+    selectedTip () {
+      if (this.employeeSelectData.data.length) {
+        return `已选择${this.employeeSelectData.data.length}${this.employeeSelectData.type === 'employee' ? this.cloudPlatformType === 'ecrp' ? '个员工全部好友' : '个成员全部好友' : '个客户分群'}`
+      } else {
+        return ''
+      }
+    },
+    preList () {
+      let array = []
+      array = (this.model.mediaList.slice(0, this.imageNum))
+      if (this.model.textarea) {
+        array.unshift({
+          type: 0,
+          content: {
+            type: 'text',
+            textContent: this.$refs.testText.htmlToString(this.model.textarea, false)
+          }
+        })
+      }
+      return array
+    },
+    // 展示的素材列表处理
+    mediaList: {
+      get () {
+        return this.model.mediaList.slice(0, this.imageNum)
+      },
+      set (v) {
+        let arr = []
+        for (const item of v) {
+          if (item && item.type !== 0) {
+            arr.push(item)
+          }
+        }
+        this.model.mediaList = arr
+      }
+    },
+    // 图片多选时，判断还能选择的张数
+    limitImage () {
+      return this.imageNum - this.mediaList.length
+    }
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
+      // preList: [], // 预览数组
+      disabled: false, // 设置附件禁用
+      isUploading: false, // 附件上传中标识
+      imageNum: 9, // 允许图片张数
       isError: false,
       isUpdate: false,
       loading: false,
+      onlyOne: 'chatroom',
       model: {
         id: '',
         name: '',
         marketingType: '',
-        // 群主
-        customerType: '4',
+        customerType: '1',
         executeMode: 1,
-        executeTime: '',
+        predictSendTime: '',
         textarea: '',
-        type: ''
+        type: 2,
+        mediaList: [],
+        chatRoomIdList: []
       },
       copyType: '',
-      employeeSelectData2: {
-        data: [],
-        type: 'chatroom'
-      },
       rules: {
         name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
+          { required: true, message: '请输入活动名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
         ],
-        executeTime: [
-          { required: true, message: '请选择执行时间', trigger: 'blur' }
+        chatRoomIdList: [
+          {
+            validator: (rule, value, callback) => {
+              const length = this.employeeSelectData.data.length
+              if (!length) {
+                callback(new Error('请选择营销人群'))
+              } else {
+                callback()
+              }
+            },
+            trigger: ['blur', 'change']
+          }
+        ],
+        predictSendTime: [
+          { required: true, message: '请选择执行时间', trigger: ['blur', 'change'] }
         ],
         textarea: [
           {
             validator: (rule, value, callback) => {
               const text = this.$refs.testText.htmlToText(value)
-              if (text.length > 1000) {
-                callback(new Error('长度在 1 到 1000 个字符'))
+              if (text.length > 400) {
+                callback(new Error('文案不能超过400个字符'))
               } else {
                 callback()
               }
@@ -359,7 +290,7 @@ export default {
             validator: (rule, value, callback) => {
               if (!value) {
                 if (vm.model.type === '') {
-                  callback(new Error('请输入发布内容'))
+                  callback(new Error('请输入发布文案'))
                 } else {
                   callback()
                 }
@@ -371,170 +302,294 @@ export default {
           }
         ]
       },
-      picRules: {
-        title: [
-          { required: true, message: '请输入图片标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
-        ],
-        desc: [
-          { required: true, message: '请输入图文描述', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: ['blur', 'change'] }
-        ],
-        pic: [
-          { required: true, message: '请选择封面图', trigger: ['blur', 'change'] },
-          {
-            validator: (rule, value, callback) => {
-              if (value) {
-                callback()
-              } else {
-                callback(new Error('请选择封面图'))
-              }
-            },
-            trigger: 'blur'
-          }],
-        url: [
-          { required: true, message: '请输入图文链接', trigger: ['blur', 'change'] }
-        ]
+      employeeSelectData: {
+        data: [],
+        type: 'chatroom'
       },
-      miniProRules: {
-        appid: [
-          { required: true, message: '请输入小程序appid', trigger: ['blur', 'change'] },
-          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: ['blur', 'change'] }
-        ],
-        appPath: [
-          { required: true, message: '请输入小程序路径', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: ['blur', 'change'] }
-        ],
-        title: [
-          { required: true, message: '请输入小程序标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 60, message: '长度在 1 到 60 个字符', trigger: ['blur', 'change'] }
-        ],
-        pic: [
-          { required: true, message: '请选择封面图', trigger: ['blur', 'change'] },
-          {
-            validator: (rule, value, callback) => {
-              if (value) {
-                callback()
-              } else {
-                callback(new Error('请选择封面图'))
-              }
-            },
-            trigger: 'blur'
-          }]
-      },
-      picVisible: false,
-      miniProVisible: false,
-      show: false,
-      pic: {
-        title: '',
-        desc: '',
-        url: '',
-        pic: '',
-        code: ''
-      },
-      miniPro: {
-        appid: '',
-        appPath: '',
-        appPathBak: '',
-        title: '',
-        desc: '',
-        pic: '',
-        code: ''
-      },
-      copyPic: {},
-      copyMiniPro: {},
       picUrl: '',
       code: '',
-      treeDefaultSetting: { id: 'id', pId: 'pId', children: 'children', extData: { showCheckbox: false, showIcon: false, showAddIcon: false, showEditIcon: false, showDeleteIcon: false } },
-      visible: false,
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 69 // 底部按钮的高度39 + 30顶部设置小程序积分体系的高度
       },
-      // 选择群弹框数据
-      roomsData: {
-        allRooms: [],
-        matchRooms: [],
-        searchShopId: '',
-        selectedData: [],
-        offEmployees: [],
-        loading: false
-      },
-      // 保存的选择群信息
-      roomSelectedData: [],
-      inputLength: 0,
+      inputLength: 0, // 文案输入字符数
       radioIcon: process.env.VUE_APP_THEME,
       radio: 'radio',
       radioQA: 'radioQA',
       tagText: 'tagText',
-      tagTextQA: 'tagTextQA'
+      tagTextQA: 'tagTextQA',
+      openType: '' // 编辑页类型
     }
   },
   created: function () {
     vm = this
+    vm.init()
   },
   mounted () {
-    this.queryGroupRooms4ent(null)
-    this.$nextTick(function () {
-      vm.init()
-      vm.getViewShopOffList()
-    })
+    let { openType, messageId } = this.$route.query
+    this.openType = openType
+    this.onlyOne = 'chatroom'
+    // if (this.cloudPlatformType === 'kd') {
+    //   this.onlyOne = 'employee'
+    // } else {
+    //   this.verifyProductToCRM()
+    // }
   },
   watch: {
-    selected (val) {
-      this.$refs.selectedTree.filter(val)
-    },
-    select (val) {
-      this.$refs.selectTree.filter(val)
+    'employeeSelectData.data' (val) {
+      this.model.chatRoomIdList = val
     }
   },
   methods: {
-    getViewShopOffList () {
-      const that = this
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getViewShopOffList)
-        .then(resp => {
-          if (resp && resp.result) {
-            that.roomsData.offEmployees = JSON.parse(JSON.stringify(resp.result))
-          }
-        }).catch((aaa) => {
-          that.$notify.error('导购员工列表加载失败！')
-        })
+    /**
+     * 打开选择营销人群组件
+     */
+    openECDialog () {
+      this.$refs.NsChatrommSelectDialog.onDialogOpen()
     },
-    // 查询群主
-    queryGroupRooms4ent (shopId) {
+    setView () {
+      // if (vm.model.textarea) {
+      //   if (this.mediaList[0].type === 0) {
+      //     this.mediaList[0].content.textContent = this.$refs.testText.htmlToString(this.model.textarea, false)
+      //   } else {
+      //     this.mediaList.unshift({
+      //       type: 0,
+      //       content: {
+      //         type: 'text',
+      //         textContent: this.$refs.testText.htmlToString(this.model.textarea, false)
+      //       }
+      //     })
+      //   }
+      // data.push({
+      //   type: 0,
+      //   msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
+      // })
+      // }
+      // this.$refs.preview.massData = data
+    },
+    clear () {
+      vm.model.type = ''
+      vm.setView()
+      vm.show = false
+    },
+    changeInputLength (length) {
+      this.inputLength = length
+    },
+    // 切换发送方式
+    changeExec () {
+      this.model.predictSendTime = ''
+    },
+    init () {
       const that = this
-      this.roomsData.loading = true
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryGroupEntRoomsLeaderList, { shopId: shopId })
-        .then(resp => {
-          if (resp && resp.result) {
-            that.roomsData.matchRooms = JSON.parse(JSON.stringify(resp.result))
-            if (!shopId) {
-              that.roomsData.allRooms = JSON.parse(JSON.stringify(resp.result))
+      const messageId = this.$route.query.messageId
+      if (messageId) {
+        this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId })
+          .then(resp => {
+            const data = resp.result
+            vm.isUpdate = that.openType === 'look'
+            // vm.model.id = that.openType === 'copy' ? '' : data.id
+            vm.model.name = data.name
+            if (!data.predictSendTime) {
+              vm.model.executeMode = 1
+              vm.model.predictSendTime = ''
             } else {
-              that.$nextTick(function () {
-                that.fileData()
-              })
+              vm.model.executeMode = 2
+              vm.model.predictSendTime = data.predictSendTime
             }
-          }
-          that.roomsData.loading = false
-        }).catch(() => {
-          that.$notify.error('微信群加载失败！')
-          that.roomsData.loading = false
-        })
-    },
-    save () {
-      let isOk = false
-      this.$refs.formName.validate((valid) => {
-        if (!valid) {
-          isOk = true
-          return false
-        }
-      })
-      if (isOk) {
-        return
+            vm.onlyOne = 'chatroom'
+            vm.model.type = data.type + ''
+            // if (this.cloudPlatformType === 'ecrp') {
+            //   const crm = localStorage.getItem('USER_LOCAL_COMPANY_PLAN')
+            //   const isCrm = crm === '1'
+            //   if (that.openType === 'copy') {
+            //     if (!isCrm) {
+            //       if (data.type === 3) {
+            //         data.userGroupIds = ''
+            //         data.type = 1
+            //         vm.onlyOne = 'employee'
+            //       } else if (data.type === 1) {
+            //         vm.onlyOne = 'employee'
+            //       }
+            //     } else {
+            //       vm.onlyOne = crm === '1' ? '' : 'employee'
+            //     }
+            //   } else {
+            //     if (isCrm) {
+            //       vm.onlyOne = ''
+            //     } else {
+            //       vm.onlyOne = data.type === 1 ? 'employee' : ''
+            //     }
+            //   }
+            //   vm.copyCustomerType = vm.model.customerType
+            // } else {
+            //   vm.onlyOne = 'employee'
+            // }
+            if (data.content) {
+              vm.model.textarea = toolFn.stringTohtml(data.content, false, { tools: [], emojiClass: '', showEmoji: true })
+            }
+            this.model.mediaList = this.handleMediaList(data.attachments)
+            // vm.setView()
+            const employeeSelectData = {
+              data: [],
+              type: 'chatroom'
+            }
+            vm.employeeSelectData = employeeSelectData
+            const userList = []
+            const arr = data.targets.length && data.targets
+            for (const item of arr) {
+              let userItem = {}
+              if (this.cloudPlatformType === 'ecrp') {
+                userItem = {
+                  employeeID: item.targetId
+                }
+              } else {
+                userItem = item.targetId
+              }
+              // if (data.type === 1) {
+              //   if (this.cloudPlatformType === 'ecrp') {
+              //     userItem = {
+              //       employeeID: item.targetId
+              //     }
+              //   } else {
+              //     userItem = item.targetId
+              //   }
+              // } else {
+              //   userItem = {
+              //     id: item.targetId
+              //     // targetName: item.targetName
+              //   }
+              // }
+              userList.push(userItem)
+            }
+            vm.employeeSelectData.data = userList
+            // if (data.type === 1) {
+            //   vm.employeeSelectData.type = 'chatroom'
+            // } else {
+            //   vm.employeeSelectData.type = 'group'
+            // }
+          }).catch((resp) => {
+            this.isError = true
+            vm.$notify.error('数据查询失败！' || resp.msg)
+          }).finally(() => {})
       }
-      this.$refs.formPush.validate((valid) => {
+    },
+    handleMediaList (list) {
+      let array = []
+      if (list.length) {
+        list.forEach(el => {
+          if (el.type === 1) {
+            array.push({
+              type: 1,
+              content: {
+                fileName: el.title,
+                image: el.remoteUrl
+              }
+            })
+          } else if (el.type === 2) {
+            array.push({
+              type: 2,
+              content: {
+                fileName: el.title,
+                video: el.remoteUrl,
+                uid: ''
+              }
+            })
+          } else if (el.type === 3) {
+            array.push({
+              type: 3,
+              // Todo
+              content: {
+                brandId: '',
+                custom: el.urlType,
+                desc: el.description,
+                image: el.picUrl,
+                link: el.url,
+                settingId: el.urlSettingId,
+                title: el.title
+              }
+            })
+          } else if (el.type === 4) {
+            array.push({
+              type: 4,
+              content: {
+                appid: el.appid,
+                image: el.remoteUrl,
+                path: el.page,
+                title: el.title
+              }
+            })
+          } else if (el.type === 5) {
+            array.push({
+              type: 5,
+              content: {
+                configId: el.qrcodePlacardConfigId,
+                image: el.picUrl,
+                title: el.title
+              }
+            })
+          }
+        })
+      }
+      return array
+    },
+    // change (tab) {
+    //   if (tab.name === '1') {
+    //     vm.selectData = vm.selectSubData
+    //   } else {
+    //     vm.selectData = vm.selectEmpData
+    //   }
+    //   vm.model.customerType = tab.name
+    //   this.$refs.selectTree.getCheckedNodes().splice(0, this.$refs.selectTree.getCheckedNodes().length)
+    //   this.selectedData = []
+    //   this.selectKeys = []
+    // },
+    // initSubTree: function () {
+    //   const that = this
+    //   // 分群类别加载
+    //   this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
+    //     .then(resp => {
+    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+    //       $.each(resp.result, function (index, element) {
+    //         serverData.push({
+    //           id: element.id,
+    //           pId: element.parent_id,
+    //           label: element.subdivision_name,
+    //           isRoot: false,
+    //           disabled: element.is_category === 1
+    //         })
+    //       })
+    //       this.selectSubData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
+    //       vm.selectData = vm.selectSubData
+    //     }).catch(() => {
+    //       that.$notify.error('客户分群加载失败！')
+    //     })
+    // },
+    // initEmpTree: function () {
+    //   const that = this
+    //   // 分群类别加载
+    //   this.$http.fetch(this.$api.marketing.weworkMarketing.queryDeptAndEmpl, { isEnterprise: true })
+    //     .then(resp => {
+    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+    //       $.each(resp.result, function (index, element) {
+    //         serverData.push({
+    //           id: element.id,
+    //           pId: element.parentId,
+    //           label: element.name,
+    //           isRoot: false,
+    //           disabled: element.type === 1
+    //         })
+    //       })
+    //       this.selectEmpData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
+    //     }).catch(() => {
+    //       that.$notify.error('员工加载失败！')
+    //     })
+    // },
+
+    save () {
+      this.$refs.formName.validate((valid) => {
         if (!valid) {
           return false
         } else {
@@ -542,35 +597,98 @@ export default {
         }
       })
     },
-    // 保存活动信息
     saveOrUpdate () {
-      if (!this.employeeSelectData2.data || this.employeeSelectData2.data.length === 0) {
-        this.$notify.warning('请选择人群')
+      if (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) {
+        this.$notify.warning('请选择营销人群')
+        return false
+      }
+      if (!this.model.textarea && this.mediaList.length === 0) {
+        this.$notify.warning('请输入文案内容或添加附件')
+        return false
+      }
+      const text = this.$refs.testText.htmlToText(this.model.textarea)
+      if (text.length > 400) {
+        this.$notify.warning('文案不能超过400个字符')
         return false
       }
       this.loading = true
       const target = JSON.parse(JSON.stringify(this.model))
-      if (target.executeMode === 2) {
-        target.executeTime = moment(target.executeTime).format('YYYY-MM-DD HH:mm:ss')
+      if (target.executeMode === 1) {
+        target.predictSendTime = null
       }
-      const data = {}
       if (vm.model.textarea) {
-        data.text = this.$refs.testText.htmlToString(vm.model.textarea, false)
+        target.content = this.$refs.testText.htmlToString(vm.model.textarea, false)
       }
-      if (vm.model.type) {
-        if (vm.model.type === 1) {
-          data.image = {}
-          data.image.image = vm.picUrl
-        } if (vm.model.type === 2) {
-          data.picText = vm.pic
-        } if (vm.model.type === 3) {
-          data.miniPro = vm.miniPro
-        }
+      if (vm.model.mediaList.length) {
+        let array = []
+        vm.model.mediaList.forEach(el => {
+          if (el.type === 1) {
+            array.push({
+              type: 1,
+              remoteUrl: el.content.image,
+              title: el.content.fileName
+            })
+          } else if (el.type === 2) {
+            array.push({
+              type: 2,
+              remoteUrl: el.content.video,
+              title: el.content.fileName
+            })
+          } else if (el.type === 3) {
+            array.push({
+              type: 3,
+              // Todo
+              picUrl: el.content.image,
+              description: el.content.desc,
+              url: el.content.link,
+              title: el.content.title,
+              urlType: el.content.custom,
+              urlSettingId: el.content.settingId
+            })
+          } else if (el.type === 4) {
+            array.push({
+              type: 4,
+              appid: el.content.appid,
+              remoteUrl: el.content.image,
+              page: el.content.path,
+              title: el.content.title
+            })
+          } else if (el.type === 5) {
+            array.push({
+              type: 5,
+              qrcodePlacardConfigId: el.content.configId,
+              picUrl: el.content.image,
+              title: el.content.title
+            })
+          }
+        })
+        target.attachments = array
       }
-      target.content = data
-      // target.userGroupIds = (!this.roomSelectedData || this.roomSelectedData.length === 0) ? '' : this.roomSelectedData.map(value => { return parseInt(value.empId) }).join(',')
-      target.userGroupIds = (!this.employeeSelectData2.data || this.employeeSelectData2.data.length === 0) ? '' : this.employeeSelectData2.data.map(value => { return value.empId.trim() }).join(',')
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise4Room, { ...target, textarea: this.$refs.testText.htmlToString(vm.model.textarea, false) })
+      target.type = 2
+      if (this.cloudPlatformType === 'ecrp') {
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+      } else {
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value), targetName: '' } })
+      }
+      // if (this.employeeSelectData.type === 'employee') {
+      //   target.type = 2
+      //   if (this.cloudPlatformType === 'ecrp') {
+      //     target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+      //   } else {
+      //     target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value), targetName: '' } })
+      //   }
+      // } else {
+      //   target.type = 3
+      //   target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.id), targetName: value.targetName } })
+      // }
+      let apiUrl = ''
+      if (this.openType === 'add' || this.openType === 'copy') {
+        apiUrl = this.$api.marketing.weworkMarketing.saveEnterprise
+      } else if (this.openType === 'edit') {
+        apiUrl = this.$api.marketing.weworkMarketing.updateEnterprise
+        target.messageId = this.$route.query.messageId
+      }
+      this.$http.fetch(apiUrl, target)
         .then(() => {
           this.$notify.success('保存成功')
           vm.cancel()
@@ -581,533 +699,184 @@ export default {
           return true
         })
     },
-    /**
-     * 初始化页面
-     */
-    init () {
-      if (this.$route.query.taskId) {
-        this.$http.fetch(this.$api.marketing.weworkMarketing.getEnterpriseActivity, { taskId: this.$route.query.taskId })
-          .then(resp => {
-            const data = resp.result
-            vm.isUpdate = !data.isUpdate
-            vm.model.id = data.id
-            vm.model.name = data.name
-            vm.model.executeMode = data.executeMode
-            if (vm.model.executeMode === 2) {
-              vm.model.executeTime = data.executeTime
-            }
-            if (vm.$route.query.openType === 'copy') {
-              vm.model.id = ''
-              vm.isUpdate = false
-            }
-            if (data.content) {
-              if (data.content.text) {
-                vm.model.textarea = this.$refs.testText.stringTohtml(data.content.text, false)
-              }
-              if (data.content.image && Object.keys(data.content.image).length > 0) {
-                vm.picUrl = data.content.image.image
-                vm.model.type = 1
-                vm.show = true
-              }
-              if (data.content.picText && Object.keys(data.content.picText).length > 0) {
-                vm.pic = data.content.picText
-                vm.model.type = 2
-                vm.show = true
-              }
-              if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
-                vm.miniPro = data.content.miniPro
-                vm.model.type = 3
-                vm.show = true
-              }
-            }
-            const employeeSelectData2 = {
-              data: [],
-              type: 'chatroom'
-            }
-            vm.employeeSelectData2 = employeeSelectData2
-            const userList = []
-            for (const item of data.userGroupIds.split(',')) {
-              let userItem = {}
-              userItem = {
-                empId: item
-              }
-              userList.push(userItem)
-            }
-            vm.employeeSelectData2.data = userList
-            vm.setView()
-            // const roomList = []
-            // for (const item of data.userGroupIds.split(',')) {
-            //   roomList.push({ empId: item })
-            // }
-            // vm.roomSelectedData = roomList
-          }).catch((resp) => {
-            this.isError = true
-            vm.$notify.error('数据查询失败！' || resp.msg)
-          }).finally(() => {
-            // do something
-          })
-      }
-    },
-    selectChange (select, scope) {
-      if (this.roomsData.selectedData.length > 0) {
-        const index = this.roomsData.selectedData.findIndex(d => d.empId === scope.empId)
-        if (index > -1) {
-          this.roomsData.selectedData.splice(index, 1)
-        } else {
-          this.roomsData.selectedData.push(scope)
-        }
-      } else {
-        this.roomsData.selectedData = JSON.parse(JSON.stringify(this.$refs.selectEmp.selection))
-      }
-      if (this.roomsData.selectedData.length === 0) {
-        this.$refs.selectEmp.clearSelection()
-      }
-    },
-    selectAllChange (select) {
-      if (select.length === 0) {
-        for (const data of this.roomsData.matchRooms) {
-          const index = this.roomsData.selectedData.findIndex(d => d.empId === data.empId)
-          if (index > -1) {
-            this.roomsData.selectedData.splice(index, 1)
-          }
-        }
-      } else {
-        for (const data of select) {
-          const index = this.roomsData.selectedData.findIndex(d => d.empId === data.empId)
-          if (index === -1) {
-            this.roomsData.selectedData.push(data)
-          }
-        }
-      }
-    },
-    removeRoom (scope) {
-      this.roomsData.selectedData.splice(scope.$index, 1)
-      const index = this.$refs.selectEmp.selection.findIndex(d => d.empId === scope.row.empId)
-      if (index > -1) {
-        this.$refs.selectEmp.selection.splice(index, 1)
-      }
-      if (this.$refs.selectEmp.selection.length === 0) {
-        this.$refs.selectEmp.clearSelection()
-      }
-    },
-    onSaveSelectRoom () {
-      if (this.roomsData.selectedData.length > 0) {
-        this.roomSelectedData = JSON.parse(JSON.stringify(vm.roomsData.selectedData))
-        this.visible = false
-      } else {
-        this.$notify.warning('请至少选择一个群')
-      }
-    },
-    onCloseSelectRoom () {
-      vm.visible = false
-    },
-    // 打开选择群弹框
-    onOpenGroupSelect () {
-      vm.visible = true
-      vm.roomsData.selectedData = JSON.parse(JSON.stringify(vm.roomSelectedData))
-      vm.$nextTick(function () {
-        vm.fileData()
-        vm.fillData()
-      })
-    },
-    // 设置选中状态
-    fileData () {
-      if (this.$refs.selectEmp) {
-        this.$refs.selectEmp.clearSelection()
-      }
-      this.$nextTick(function () {
-        for (const indexDat of vm.roomsData.matchRooms) {
-          if (vm.roomsData.selectedData.filter(d => d.empId === indexDat.empId).length > 0) {
-            this.$refs.selectEmp.toggleRowSelection(indexDat)
-          }
-        }
-      })
-    },
-    // 完善分组信息，编辑或查看时只带了id，需完善数据
-    fillData () {
-      if (vm.roomsData.allRooms.length > 0 && vm.roomsData.selectedData && vm.roomsData.selectedData.length > 0 && !vm.roomsData.selectedData[0].empName) {
-        const roomList = []
-        for (const item of vm.roomsData.selectedData) {
-          const matchArr = vm.roomsData.allRooms.filter(data => {
-            return data.empId === item.empId
-          })
-          if (matchArr.length > 0) {
-            roomList.push(JSON.parse(JSON.stringify(matchArr[0])))
-          }
-        }
-        vm.roomsData.selectedData = roomList
-      }
-    },
-    changeShop (value) {
-      if (value) {
-        vm.queryGroupRooms4ent(value)
-      } else {
-        vm.roomsData.matchRooms = JSON.parse(JSON.stringify(vm.roomsData.allRooms))
-        vm.$nextTick(function () {
-          vm.fileData()
-        })
-      }
-    },
     cancel () {
-      vm.$router.push({ path: '/Marketing/EnterpriseGroupMessage' })
+      vm.$router.replace({ path: '/Marketing/EnterpriseMessage' })
     },
-    // end
-    setView () {
-      const data = []
-      if (vm.model.textarea) {
-        data.push({
-          type: 1,
-          msg: this.$refs.testText.htmlToString(vm.model.textarea, false)
-        })
-      }
-      switch (vm.model.type) {
-        case 1: {
-          data.push({
-            type: 2,
-            pic: vm.picUrl
-          })
-          break
+    // 附件处理 start
+    // 编辑附件列表
+    editAnnexMessage (context) {
+      this.$refs.WechatMessageBar.openMessageDialogByEdit(context, true)
+    },
+    // 删除附件
+    deleteAnnexMessage (context) {
+      this.model.mediaList.splice(context.index, 1)
+    },
+    // 新增附件
+    addAnnexMessage (context) {
+      // console.log(context, 'context新增消息')
+      const { index, content, type, isDelete } = context
+      if (content.uid) {
+        let isLargeNumber = (item) => item.content.uid === content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex > -1) {
+          this.$set(this.model.mediaList, findEditIndex, context)
         }
-        case 2: {
-          const picData = {
-            type: 3
-          }
-          Object.assign(picData, vm.pic)
-          data.push(picData)
-          break
-        }
-        case 3: {
-          const picData = {
-            type: 4
-          }
-          Object.assign(picData, vm.miniPro)
-          data.push(picData)
-          break
-        }
-        default:
-      }
-      this.$refs.preview.massData = data
-    },
-    clear () {
-      vm.model.type = ''
-      vm.setView()
-      vm.show = false
-    },
-    setType () {
-      vm.model.type = 1
-    },
-    changeInputLength (length) {
-      this.inputLength = length
-    },
-    uploadSuccess (resp) {
-      if (resp.result) {
-        const url = resp.result.url
-        if (vm.model.type === 1) {
-          vm.picUrl = url
-          vm.setView()
-        } else if (vm.model.type === 2) {
-          vm.pic.pic = url
-        } else if (vm.model.type === 3) {
-          vm.miniPro.pic = url
-        }
-        vm.show = true
+      } else if (index > -1) {
+        // 编辑消息
+        this.$set(this.model.mediaList, index, context)
       } else {
-        vm.$notify.error('图片上传失败' + resp.msg ? resp.msg : '')
-      }
-    },
-    beforeAvatarUpload (file) {
-      const isLt2M = file.size / 1024 < 512
-      const suffix = 'gif|jpg|jpeg|png|GIF|JPG|PNG'
-      if (suffix.indexOf(file.type) !== -1) {
-        this.$notify.warning('上传形象图只支持 JPG GIF JPEG GIF PNG 格式!')
-        return false
-      }
-      if (!isLt2M) {
-        this.$notify.warning('图片不能大于512KB!')
-        return false
-      }
-      return true
-    },
-    openPic () {
-      this.copyPic = JSON.parse(JSON.stringify(this.pic))
-      vm.picVisible = true
-      vm.copyType = vm.model.type
-      vm.model.type = 2
-    },
-    openMiniPro () {
-      this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
-      vm.miniProVisible = true
-      vm.copyType = vm.model.type
-      vm.model.type = 3
-    },
-    cancelPic () {
-      vm.model.type = vm.copyType
-      vm.$refs.picForm.resetFields()
-      this.pic = JSON.parse(JSON.stringify(this.copyPic))
-      vm.picVisible = false
-    },
-    cancelMiniPro () {
-      vm.model.type = vm.copyType
-      vm.$refs.miniProForm.resetFields()
-      this.miniPro = JSON.parse(JSON.stringify(this.copyMiniPro))
-      vm.miniProVisible = false
-    },
-    savePic () {
-      vm.$refs.picForm.validate((valid) => {
-        if (valid) {
-          vm.model.type = 2
-          vm.show = true
-          this.copyPic = JSON.parse(JSON.stringify(this.pic))
-          vm.setView()
-          vm.picVisible = false
+        // 新增消息
+        if (this.model.mediaList.length < 9) {
+          this.model.mediaList.push(context)
         } else {
-          return false
+          this.$notify.error('附件已达上限（9个），不能再添加')
         }
-      })
+      }
     },
-    saveMiniPro () {
-      vm.$refs.miniProForm.validate((valid) => {
-        if (valid) {
-          vm.model.type = 3
-          vm.show = true
-          this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
-          vm.setView()
-          vm.miniProVisible = false
+    // 上传进度
+    uploadProgress (data) {
+      if (data) {
+        const percent = data.content.percent
+        this.isUploading = percent !== '100.00'
+        // // 根据uid判断是否存在
+        let isLargeNumber = (item) => item.content.uid === data.content.uid
+        let findEditIndex = this.model.mediaList.findIndex(isLargeNumber)
+        if (findEditIndex === -1) {
+          // 新添加
+          let findIndex = this.model.mediaList.length
+          let objData = { ...data, uid: data.content.uid }
+          this.model.mediaList.push(objData)
         } else {
-          return false
+          this.model.mediaList.splice(findEditIndex, 1, data)
         }
-      })
-    },
-    changeExec () {
-      this.model.executeTime = ''
+      }
     }
   }
 }
 </script>
 
-<style scoped>
-  @import "@theme/variables.pcss";
-
-  @component-namespace message {
-    @b container {
-      >>> .el-card {
-        border: none;
-        border-radius: var(--default-radius-mini);
+<style lang="scss" scoped>
+// @import "@theme/variables.pcss";
+@import "@components/NewUi/styles/reset.css";
+.friend-marketing{
+  .el-form-reset{
+    .el-form-item {
+      .el-input{
+        width: 626px;
+        height: 32px;
       }
-      @e card {
-        margin-top: var(--default-margin-base);
-        border: none;
-        border-radius: var(--default-radius-mini);
-      }
-    }
-    @b composition {
-      display: flex;
-      @e left {
-        width: 68%;
-      }
-      @e right {
-        flex-shrink: 0;
-        margin: 0 auto;
-        >>> .el-scrollbar__wrap {
-          height: 410px;
-          padding-bottom: 20px;
+      ::v-deep .el-input__suffix{
+        height: 30px;
+        line-height: 30px;
+        &.el-input__suffix:before{
+          display: none;
         }
       }
     }
-  }
-  /* 页面结构标题样式 start*/
-  .page-title {
-    font-size: var(--default-font-size-base);
-    padding-bottom: var(--default-padding-larger);
-    font-weight: bold;
-  }
-  /* 页面结构标题样式 end*/
-
-  /* 底部按钮样式 start*/
-  .form-save__unique {
-    padding: var(--default-padding-small) 0 var(--default-padding-small) 121px;
-    border-top: 1px solid var(--theme-base-border-color-primary);
-    background-color: var(--theme-color-white);
-    border-bottom-left-radius: var(--default-radius-mini);
-    border-bottom-right-radius: var(--default-radius-mini);
-  }
-  /* 底部按钮样式 end*/
-
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
-  }
-  /* 卡片样式 end*/
-
-  /** start 选择员工*/
-  @component-namespace code {
-    @b container {
-      padding: 0 var(--default-padding-small);
-      @e item {
-        >>> .el-scrollbar__wrap {
-          height: 200px;
+    .select-area {
+      width: 626px;
+      .select-tips {
+        .icon {
+          color: #BFBFBF;
+          font-size: 24px;
+          margin-top: 4px;
+          margin-right: 4px;
         }
       }
     }
-    @b title {
-      font-weight: bold;
-      line-height: 30px;
-      background: var(--theme-bg-color-base);
-      padding: 0 8px;
-      border-radius: var(--default-radius-mini);
-    }
-    @b delete {
-      margin-left: var(--default-margin-small);
-    }
-    @b space {
-      margin-top: var(--default-margin-base);
-    }
-    @b detail {
-      display: flex;
-      align-items: center;
-      @e text {
-        max-width: 188px;
-        margin-right: var(--default-margin-small);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+    .form-slot{
+      ::v-deep label{
+        // display: flex;
+        // align-items: center;
       }
     }
-  }
-  /** end 选择员工*/
-
-  @component-namespace message {
-    @b detail {
-      padding: 20px 20px 0;
-      margin-bottom: 20px;
-      border: 1px dashed var(--theme-base-border-color-primary);
-      border-radius: 6px;
-      @e btn {
+    .form-item-slot{
+      display: inline-block;
+      height: 32px;
+      line-height: 32px;
+      .form-flex{
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        >>> .el-tag {
-          cursor: text;
+        .message-icons-item{
+          margin-left: 4px;
         }
       }
-      @e table {
-        margin-top: var(--default-margin-larger);
-      }
-      >>> .ElImage {
-        background-color: unset;
-      }
     }
-    @b item {
+    .form-date{
       display: flex;
       align-items: center;
-      @m title {
-        line-height: 18px;
+      width: 626px;
+      padding: 16px;
+      border: 1px solid #D9D9D9;
+      border-radius: 2px;
+      .date-label{
+        font-size: 14px;
+        color: #595959;
+        margin-right: 8px;
+        line-height: 32px;
       }
-      @m image {
-        margin: 7px 0;
-      }
-      @m add {
-        line-height: 60px;
-        height: 60px;
-      }
-      @m opposite {
-        width: 76px;
-        height: 46px;
-        position: relative;
-      }
-      @e broadcast {
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 8px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, .4);
-        border-radius: 50%;
+      .el-date-editor--datetime{
+        width: 364px;
       }
     }
-    @b circle {
-      width: 0;
-      height: 0;
-      border-width: 4px;
-      border-style: solid;
-      border-color: transparent transparent transparent var(--theme-color-white);
+    .tag-class{
+      margin-bottom: 0;
     }
-    @b prompt {
+    .add-tip{
+      font-size: 12px;
+      color: #595959;
+      line-height: 20px;
+      vertical-align: top;
+    }
+    .add-tip::before {
+      content: '';
+      display: inline-block;
+      background: #f2aa18;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      margin-bottom: 1px;
+    }
+    .add-material {
+      margin-top: 16px;
+      font-size: 14px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin: var(--default-margin-larger) 0;
-      @e mass {
-        text-align: center;
-        padding: var(--default-padding-larger) 25px;
-        cursor: pointer;
-        border-right: 1px solid var(--theme-base-border-color-primary);
-      &:hover {
-        .message-hovericolor {
-          color: var(--theme-color-primary);
-        }
-      }
-    &:last-child {
-       border-right: 0;
-     }
-      @m topspace {
-        margin-top: var(--default-margin-small);
+      justify-content: center;
+      width: 136px;
+      height: 32px;
+      color: #0094FC;
+      background: #FFFFFF;
+      border: 1px solid #DCDFE6;
+      border-radius: 2px;
+      .icon {
+        font-size: 13px;
+        color:#0091FA;
+        margin-right: 5px;
       }
     }
-    >>> .el-popover {
-      padding: 0;
+    .add-material:hover{
+      background: #e6f2ff;
+    }
+    .add-material-disabled {
+      background: #F5F5F5;
+      border: 1px solid #D9D9D9;
+      color: #BFBFBF;
+      .icon {
+        color:#BFBFBF;
+      }
+    }
+    .add-material-disabled:hover{
+      background: #F5F5F5;
+      cursor: not-allowed;
     }
   }
-  @b headling {
-    font-weight: bold;
-    padding: 0 var(--default-padding-larger);
-    background: var(--theme-bg-color-base);
-    border-radius: var(--default-radius-mini);
-  }
-  @b upload {
-    >>> .el-upload {
-      width: 100px;
-      height: 100px;
-      position: relative;
-      border: 1px solid var(--theme-base-border-color-primary);
-      border-radius: var(--default-radius-mini);
-  &:hover {
-     border-color: var(--theme-color-primary-light);
-   }
-  }
-  @e tip {
-    font-size: var(--default-font-size-large);
-    color: var(--theme-base-border-color-primary);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-  }
-  @e avatar {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -1px;
-    left: -1px;
-  }
-  }
-  @b videodialog {
-    >>>> .el-dialog__headerbtn {
-      display: none;
-    }
-    >>> .el-dialog__body {
-      padding: 20px 0 0 0;
-    }
-  }
-  @b spacelarger {
-    margin-top: var(--default-margin-larger);
-  }
-  }
+  // @b spacelarger {
+  //   margin-top: var(--default-margin-larger);
+  // }
+}
 .radioQA>>> .el-radio__input.is-checked .el-radio__inner{
   border-color: #2153D4;
   background: #2153D4;

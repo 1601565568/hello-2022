@@ -3,7 +3,7 @@
     <page-table :searchCol="24" :diyTitle="true">
       <template slot="title">
         <div class="head-router">
-          <span>好友营销</span>
+          <span>群营销</span>
         </div>
       </template>
       <template slot='search'>
