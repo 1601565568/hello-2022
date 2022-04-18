@@ -99,7 +99,8 @@ export default {
   },
   computed: {
     headerTip () {
-      return this.type === 'Group' ? '需向企业微信申请企业白名单，才可使用此功能' : ''
+      return ''
+      // return this.type === 'Group' ? '需向企业微信申请企业白名单，才可使用此功能' : ''
     },
     title () {
       return this.type === 'Friends' ? 'LBS好友拉新活动' : 'LBS群拉新活动'

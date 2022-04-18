@@ -133,7 +133,7 @@
               <template v-if='type === "Group"'>
                 <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
                   消费者进入此活动页面后，根据定位位置自动推荐最近门店的群聚合码，客户可扫码入群<br />
-                  群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）
+                  群满后会根据以下规则自动创建新群
                 </div>
                 <div class='step-content'>
                   <div class='step-name'>Step1：</div>
