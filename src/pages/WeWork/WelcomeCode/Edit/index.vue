@@ -128,6 +128,7 @@
                   </template>
                   <WechatMessageBar
                     ref="WechatMessageBar"
+                    :showCostomCode="true"
                     @addMessage="addAnnexMessage"
                     @uploadVideoProgress="uploadProgress"
                   />
@@ -563,6 +564,11 @@ export default {
     getWelcomeCode () {
       const welcomeCodeUuid = this.$route.query.welcomeCodeUuid
       if (welcomeCodeUuid) {
+        let content = this.$refs.TagAreaText.htmlToString(
+          this.model.content,
+          false
+        )
+        content = content.replace(/&nbsp;/g, '\u0020')
         this.$http
           .fetch(this.$api.weWork.welcomeCode.getWelcomeCode, {
             welcomeCodeUuid: welcomeCodeUuid
@@ -570,10 +576,7 @@ export default {
           .then((resp) => {
             this.model = {
               ...resp.result,
-              content: this.$refs.TagAreaText.stringTohtml(
-                resp.result.content,
-                false
-              )
+              content
             }
             // eslint-disable-next-line standard/computed-property-even-spacing
             this.$refs.TagAreaText.$refs[
