@@ -37,6 +37,7 @@ export default {
     const model = Object.assign({},
       {
         employeeLoginName: '',
+        employeeId: '',
         name: '',
         status: '2',
         createTime: []
@@ -63,6 +64,12 @@ export default {
       },
       _queryConfig: {
         expand: false
+      },
+      // 创建人客道环境下拉
+      selectProps: {
+        label: 'name',
+        value: 'id',
+        disabled: 'disabled'
       }
     }
   },
@@ -85,6 +92,7 @@ export default {
     PageTable
   },
   methods: {
+    // 创建人筛选
     getCreater (value) {
       this.$searchAction$()
     },

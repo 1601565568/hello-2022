@@ -27,7 +27,8 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="创建人：">
-            <ns-select v-model="model.employeeLoginName" @change="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+            <ns-select v-if="cloudPlatformType === 'ecrp'" v-model="model.employeeLoginName" @change="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.getEmployee"/>
+            <ns-select v-else v-model="model.employeeId" @change="getCreater" :props="selectProps" filterable clearable :url="$api.core.sysUser.queryGuidePage"/>
           </el-form-item>
         </el-form>
       </template>
