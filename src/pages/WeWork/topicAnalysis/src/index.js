@@ -270,7 +270,7 @@ export default {
       //     this.$notify.error(error.msg)
       //   })
       // 调取关键词组件请求接口
-      this.$refs.keyWordList.fetch({ id: this.select }).then((res) => {
+      this.$refs.keyWordList.fetch({ id: this.select }, 1).then((res) => {
         this.cantRequest = false
         let response = res.result
         this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
@@ -459,15 +459,13 @@ export default {
      *  @param {object}
      */
     getContext (row) {
-      // todo 补全员工姓名
       this.userInfo.userName = row.guideName
-      // console.log(row, 'rowwwww')
       if (this.cantRequest) {
         return
       }
       this.cantRequest = true
       this.WeWorkChatParam = {
-        chatDateTime: this.time,
+        chatDateTime: row.msgtime || this.time,
         sender: row.sender,
         seq: row.seq,
         tolist: row.tolist,

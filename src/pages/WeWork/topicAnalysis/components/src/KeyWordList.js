@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-01 11:15:26
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 20:03:25
+ * @LastEditTime: 2022-04-18 11:31:11
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\KeyWordList.js
  */
 import moment from 'moment'
@@ -41,36 +41,14 @@ export default {
       },
       bottomMinDate: '',
       topMaxDate: ''
-      // pickerOptions: {
-      //   onPick: ({
-      //     maxDate,
-      //     minDate
-      //   }) => {
-      //     // 向上1天
-      //     this.bottomMinDate = minDate.getTime() + 1 * 86400000
-      //     // 向下1天
-      //     this.topMaxDate = minDate.getTime() - 1 * 86400000
-      //     if (maxDate) {
-      //       this.bottomMinDate = ''
-      //       this.topMaxDate = ''
-      //     }
-      //   },
-      //   disabledDate: time => {
-      //     if (this.bottomMinDate !== '') {
-      //       return time.getTime() > this.bottomMinDate || time.getTime() < this.topMaxDate
-      //     }
-      //   }
-      // }
     }
   },
-  mounted () {
-    this.initPage()
-  },
+  mounted () { },
   methods: {
-    initPage () {
-      this.keyWordVoListReq.time = this.getDate().nowDateFormat
-    },
-    fetch (params) {
+    fetch (params, reset) {
+      if (reset === 1) {
+        this.handleKeyWordReset(false)
+      }
       this.table.loading = true
       let _params = { ...this.keyWordVoListReq, id: this.topicId, ...params }
       return new Promise((resolve, reject) => {
@@ -91,11 +69,18 @@ export default {
       })
     },
     handleKeyWordSearch () {
-      this.fetch()
+      if (this.keyWordVoListReq.start > 0) {
+        this.pagination.page = 1
+        this.fetch({ start: 0 })
+      } else {
+        this.fetch()
+      }
     },
-    handleKeyWordReset () {
+    handleKeyWordReset (isFetch = true) {
       this.keyWordVoListReq = Object.assign({}, this.$options.data().keyWordVoListReq)
       this.pagination = Object.assign({}, this.$options.data().pagination)
+      this.keyWordVoListReq.time = this.getDate().nowDateFormat
+      if (!isFetch) return
       this.fetch()
     },
     /**

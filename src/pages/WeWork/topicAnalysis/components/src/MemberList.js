@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-02 18:38:29
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 20:04:22
+ * @LastEditTime: 2022-04-18 11:36:31
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\src\MemberList.js
  */
 import moment from 'moment'
@@ -65,7 +65,12 @@ export default {
         })
     },
     handleSearch () {
-      this.fetchList()
+      if (this.memberListParams.start > 0) {
+        this.pagination.page = 1
+        this.fetchList({ start: 0 })
+      } else {
+        this.fetchList()
+      }
     },
     handleParamsReset () {
       this.memberListParams = Object.assign({}, this.$options.data().memberListParams)

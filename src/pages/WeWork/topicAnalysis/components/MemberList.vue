@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 20:04:08
+ * @LastEditTime: 2022-04-18 10:11:17
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -49,6 +49,7 @@
               type="date"
               :clearable="false"
               v-model="memberListParams.time"
+              @change="handleSearch"
             >
             </el-date-picker>
           </el-form-item>
