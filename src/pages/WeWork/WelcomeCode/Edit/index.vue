@@ -569,7 +569,11 @@ export default {
           })
           .then((resp) => {
             this.model = {
-              ...resp.result
+              ...resp.result,
+              content: this.$refs.TagAreaText.stringTohtml(
+                resp.result.content,
+                false
+              )
             }
             // eslint-disable-next-line standard/computed-property-even-spacing
             this.$refs.TagAreaText.$refs[
