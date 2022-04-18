@@ -109,22 +109,22 @@
           </el-table-column>
           <el-table-column align="left" prop="customerTotal" label="分配客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${scope.row.customerTotal}人` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number(scope.row.customerTotal))?scope.row.customerTotal+'人': scope.row.customerTotal}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${scope.row.customerNoFollowNum}人` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerNoFollowNum+'人': scope.row.customerNoFollowNum}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${scope.row.customerFollowingNum}人` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerFollowingNum+'人': scope.row.customerFollowingNum}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${scope.row.customerFollowNum}人` : "-" }}
+              {{ isHaveGroup ? `${ Number.isFinite(Number())?scope.row.customerFollowNum+'人': scope.row.customerFollowNum}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="followProgress" label="跟进进度">

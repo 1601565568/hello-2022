@@ -287,28 +287,53 @@ export default {
           this.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
         })
     },
-    // 导出导购完成明细csv文件
+    // 导出导购完成明细文件，迁移到下载中心
     exportGuideCompleteData () {
-      var url = API_ROOT + '/guide/task/guideCompleteDataExport'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      const { id, startTime, endTime, name } = this.taskMsg
+      const sendParams = {
+        taskId: id,
+        startTime,
+        endTime,
+        taskName: name,
+        ...this.searchMap,
+        exportType: 50
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 170
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
-    // 导出csv文件
+    // 导出文件
     exportShopCompleteData () {
-      var url = API_ROOT + '/guide/task/exportShopCompleteData'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      const { id, startTime, endTime, name } = this.taskMsg
+      const sendParams = {
+        taskId: id,
+        startTime,
+        endTime,
+        taskName: name,
+        ...this.searchMap,
+        exportType: 51
+      }
+      const elem = document.getElementById('exportFile')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
