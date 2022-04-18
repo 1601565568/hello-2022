@@ -34,7 +34,7 @@
             <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
             <div class="task-group__name" v-if="taskMsg.subGroupId">
               {{ taskMsg.subGroupName }}
-              <NsButton @click="showSubgroupMsg" type="text" >查看详情</NsButton>
+              <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton>
             </div>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
@@ -155,8 +155,10 @@
                 placeholder="选择日期"
               />
             </ElFormItem>
-            <NsButton @click="exportGuideCompleteData">导出导购完成明细CSV文件</NsButton>
-            <NsButton @click="exportShopCompleteData">导出CSV文件</NsButton>
+            <NsButton @click="exportGuideCompleteData" id="exportButton"
+              >导出导购完成明细文件</NsButton
+            >
+            <NsButton @click="exportShopCompleteData" id="exportFile">导出文件</NsButton>
           </ElForm>
         </div>
         <div class="taskOverview-detail__data">
@@ -167,7 +169,6 @@
                 <span class="data-item__num">{{ taskMsg.shopNum }}</span>
                 <span class="data-item__icon distributionStore">
                   <Icon type="distributionstore" class="distributionStoreIcon" />
-                  <!-- <img src="../../../icons/outline/distributionStore.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -177,49 +178,51 @@
                 <span class="data-item__num">{{ taskMsg.guideNum }}</span>
                 <span class="data-item__icon distributionGuide">
                   <Icon type="distributionguide" class="distributionguideIcon" />
-                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">分配客户</p>
-                <span class="data-item__num">{{isHaveGroup ? taskMsg.customerTotal:'-' }}</span>
+                <span class="data-item__num">{{
+                  isHaveGroup ? taskMsg.customerTotal : "-"
+                }}</span>
                 <span class="data-item__icon distributionGuideA">
                   <Icon
                     type="distributionguide"
                     class="distributionguideIcon"
                     style="color: #905ee6"
                   />
-                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">联系中客户</p>
-                <span class="data-item__num">{{ isHaveGroup ?taskMsg.customerFollowingNum :'-' }}</span>
+                <span class="data-item__num">{{
+                  isHaveGroup ? taskMsg.customerFollowingNum : "-"
+                }}</span>
                 <span class="data-item__icon distributionGuideB">
                   <Icon
                     type="distributionguide"
                     class="distributionguideIcon"
                     style="color: #fa8500"
                   />
-                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
             <ElCol :span="4">
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">跟进成功客户</p>
-                <span class="data-item__num">{{ isHaveGroup ? taskMsg.customerFollowNum  :'-'}}</span>
+                <span class="data-item__num">{{
+                  isHaveGroup ? taskMsg.customerFollowNum : "-"
+                }}</span>
                 <span class="data-item__icon distributionGuideC">
                   <Icon
                     type="distributionguide"
                     class="distributionguideIcon"
                     style="color: #5ec920"
                   />
-                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -234,7 +237,6 @@
                 <span class="data-item__num">{{ taskMsg.completion }}%</span>
                 <span class="data-item__icon degreeCompletion">
                   <Icon type="degreecompletion" class="degreecompletionIcon" />
-                  <!-- <img src="../../../icons/outline/degreeCompletion.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -272,24 +274,62 @@
                 <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
               </template>
             </el-table-column>
-            <el-table-column align="left" prop="guideCount" label="分配导购" >
-              <template slot-scope="scope"> {{ `${scope.row.guideCount}人` || '-'}} </template>
+            <el-table-column align="left" prop="guideCount" label="分配导购">
+              <template slot-scope="scope">
+                {{ `${scope.row.guideCount}人` || "-" }}
+              </template>
             </el-table-column>
-            <el-table-column align="left" prop="customerTotal" label="分配客户" >
-              <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerTotal) === NaN ? scope.row.customerTotal : scope.row.customerTotal + '人'}` : '-' }} </template>
+            <el-table-column align="left" prop="customerTotal" label="分配客户">
+              <template slot-scope="scope">
+                {{
+                  isHaveGroup
+                    ? `${
+                        !Number.isFinite(Number(scope.row.customerTotal))
+                          ? scope.row.customerTotal
+                          : scope.row.customerTotal + "人"
+                      }`
+                    : "-"
+                }}
+              </template>
             </el-table-column>
             <el-table-column align="left" prop="customerNoFollowNum" label="待跟进客户">
-              <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerNoFollowNum) === NaN ? scope.row.customerNoFollowNum : scope.row.customerNoFollowNum + '人'}` : '-' }} </template>
+              <template slot-scope="scope">
+                {{
+                  isHaveGroup
+                    ? `${
+                        !Number.isFinite(Number(scope.row.customerNoFollowNum))
+                          ? scope.row.customerNoFollowNum
+                          : scope.row.customerNoFollowNum + "人"
+                      }`
+                    : "-"
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              align="left"
-              prop="customerFollowingNum"
-              label="联系中客户"
-            >
-            <template slot-scope="scope"> {{ isHaveGroup ? `${Number(scope.row.customerFollowingNum) === NaN ? scope.row.customerFollowingNum : scope.row.customerFollowingNum + '人'}` : '-' }}</template>
+            <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
+              <template slot-scope="scope">
+                {{
+                  isHaveGroup
+                    ? `${
+                        !Number.isFinite(Number(scope.row.customerFollowingNum))
+                          ? scope.row.customerFollowingNum
+                          : scope.row.customerFollowingNum + "人"
+                      }`
+                    : "-"
+                }}</template
+              >
             </el-table-column>
-            <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户" >
-              <template slot-scope="scope"> {{isHaveGroup ? `${Number(scope.row.customerFollowNum) === NaN ? scope.row.customerFollowNum : scope.row.customerFollowNum + '人'}` : '-'}} </template>
+            <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
+              <template slot-scope="scope">
+                {{
+                  isHaveGroup
+                    ? `${
+                        !Number.isFinite(Number(scope.row.customerFollowNum))
+                          ? scope.row.customerFollowNum
+                          : scope.row.customerFollowNum + "人"
+                      }`
+                    : "-"
+                }}
+              </template>
             </el-table-column>
             <el-table-column align="left" prop="completion" label="完成度">
               <template slot-scope="scope"> {{ scope.row.completion || 0 }}% </template>
@@ -676,15 +716,16 @@ export default taskOverview
     }
     @e table {
       padding-top: 24px;
-      >>> .el-button--text{
+      >>> .el-button--text {
         font-size: 14px;
+        color: #0094fc;
       }
       &:before {
         background-color: #e8e8e8;
       }
-        >>> tr {
-      font-size: 14px;
-    }
+      >>> tr {
+        font-size: 14px;
+      }
       >>> th {
         background-color: #f5f5f5;
         padding: 9px 0;
@@ -716,53 +757,53 @@ export default taskOverview
       padding: 16px 24px;
       box-shadow: none;
       >>> .el-pagination__total {
-      font-size: 14px;
-      color: #262626;
-      line-height: 30px;
-    }
-    >>> .el-select .el-input .el-input__inner {
-      height: 32px;
-      line-height: 32px;
-    }
-    >>> .el-pagination__sizes .el-input .el-input__inner {
-      font-size: 14px;
-    }
-    >>>.btn-prev .el-icon {
-      font-size: 16px;
-      margin-top: 2px;
-    }
-    >>>.btn-next .el-icon {
-      font-size: 16px;
-      margin-top: 2px;
-    }
-    >>> .el-pager li {
-      font-size: 14px;
-      width: 32px;
-      height: 32px;
-      line-height: 32px;
-      border: 1px solid rgba(217, 217, 217, 1);
-      border-radius: 2px;
-      box-sizing: border-box;
-      margin-right: 8px;
-      min-width: 32px;
-    }
-    >>> .el-pager li.active {
-      border: none;
-    }
-    >>> .el-pagination__jump{
-      font-size: 14px;
-    }
-    >>>.el-pagination__editor.el-input{
-      width: 50px;
-      height: 32px;
-      border: 1px solid rgba(217,217,217,1);
-      border-radius: 2px;
-      box-sizing: border-box;
-      margin:0 8px
-    }
-    >>>.el-input.el-input--small .el-input__inner{
-      border: none;
-    }
+        font-size: 14px;
+        color: #262626;
+        line-height: 30px;
+      }
+      >>> .el-select .el-input .el-input__inner {
+        height: 32px;
+        line-height: 32px;
+      }
+      >>> .el-pagination__sizes .el-input .el-input__inner {
+        font-size: 14px;
+      }
+      >>> .btn-prev .el-icon {
+        font-size: 16px;
+        margin-top: 2px;
+      }
+      >>> .btn-next .el-icon {
+        font-size: 16px;
+        margin-top: 2px;
+      }
+      >>> .el-pager li {
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        border-radius: 2px;
+        box-sizing: border-box;
+        margin-right: 8px;
+        min-width: 32px;
+      }
+      >>> .el-pager li.active {
+        border: none;
+      }
+      >>> .el-pagination__jump {
+        font-size: 14px;
+      }
+      >>> .el-pagination__editor.el-input {
+        width: 50px;
+        height: 32px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        border-radius: 2px;
+        box-sizing: border-box;
+        margin: 0 8px;
+      }
+      >>> .el-input.el-input--small .el-input__inner {
+        border: none;
+      }
     }
   }
 }
