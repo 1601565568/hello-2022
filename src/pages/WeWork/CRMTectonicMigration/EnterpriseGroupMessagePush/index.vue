@@ -21,7 +21,7 @@
                 class="select-tips"
                 @click="openECDialog"
               >
-                <el-input placeholder="请选择好友" :disabled="isUpdate" :value="selectedTip" readonly>
+                <el-input placeholder="请选择群主" :disabled="isUpdate" :value="selectedTip" readonly>
                   <!-- <Icon type="geren" class="icon" slot="suffix"></Icon> -->
                   <Icon type='icon-ns-people' class='icon' slot="suffix"/>
                 </el-input>
@@ -133,7 +133,7 @@
         :auth="true"
         :switchAreaFlag="1"
         btnTitle=""
-        dialogTitle="选择企业微信成员"
+        dialogTitle="选择企业微信群主"
         v-model="employeeSelectData.data"
         :isOpenDialogAfterRequest='false'
         v-else>
@@ -189,7 +189,7 @@ export default {
   computed: {
     selectedTip () {
       if (this.employeeSelectData.data.length) {
-        return `已选择${this.employeeSelectData.data.length}${this.employeeSelectData.type === 'employee' ? this.cloudPlatformType === 'ecrp' ? '个员工全部好友' : '个成员全部好友' : '个客户分群'}`
+        return `已选择${this.employeeSelectData.data.length}个群主`
       } else {
         return ''
       }
@@ -441,7 +441,7 @@ export default {
               let userItem = {}
               if (this.cloudPlatformType === 'ecrp') {
                 userItem = {
-                  employeeID: item.targetId
+                  empId: item.targetId
                 }
               } else {
                 userItem = item.targetId
@@ -449,7 +449,7 @@ export default {
               // if (data.type === 1) {
               //   if (this.cloudPlatformType === 'ecrp') {
               //     userItem = {
-              //       employeeID: item.targetId
+              //       empId: item.targetId
               //     }
               //   } else {
               //     userItem = item.targetId
@@ -533,61 +533,8 @@ export default {
       }
       return array
     },
-    // change (tab) {
-    //   if (tab.name === '1') {
-    //     vm.selectData = vm.selectSubData
-    //   } else {
-    //     vm.selectData = vm.selectEmpData
-    //   }
-    //   vm.model.customerType = tab.name
-    //   this.$refs.selectTree.getCheckedNodes().splice(0, this.$refs.selectTree.getCheckedNodes().length)
-    //   this.selectedData = []
-    //   this.selectKeys = []
-    // },
-    // initSubTree: function () {
-    //   const that = this
-    //   // 分群类别加载
-    //   this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
-    //     .then(resp => {
-    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-    //       $.each(resp.result, function (index, element) {
-    //         serverData.push({
-    //           id: element.id,
-    //           pId: element.parent_id,
-    //           label: element.subdivision_name,
-    //           isRoot: false,
-    //           disabled: element.is_category === 1
-    //         })
-    //       })
-    //       this.selectSubData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-    //       vm.selectData = vm.selectSubData
-    //     }).catch(() => {
-    //       that.$notify.error('客户分群加载失败！')
-    //     })
-    // },
-    // initEmpTree: function () {
-    //   const that = this
-    //   // 分群类别加载
-    //   this.$http.fetch(this.$api.marketing.weworkMarketing.queryDeptAndEmpl, { isEnterprise: true })
-    //     .then(resp => {
-    //       // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-    //       const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-    //       $.each(resp.result, function (index, element) {
-    //         serverData.push({
-    //           id: element.id,
-    //           pId: element.parentId,
-    //           label: element.name,
-    //           isRoot: false,
-    //           disabled: element.type === 1
-    //         })
-    //       })
-    //       this.selectEmpData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-    //     }).catch(() => {
-    //       that.$notify.error('员工加载失败！')
-    //     })
-    // },
 
+    // 保存事件
     save () {
       this.$refs.formName.validate((valid) => {
         if (!valid) {
@@ -597,6 +544,7 @@ export default {
         }
       })
     },
+    // 保存接口
     saveOrUpdate () {
       if (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) {
         this.$notify.warning('请选择营销人群')
@@ -666,14 +614,14 @@ export default {
       }
       target.type = 2
       if (this.cloudPlatformType === 'ecrp') {
-        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+        target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.empId), targetName: '' } })
       } else {
         target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value), targetName: '' } })
       }
       // if (this.employeeSelectData.type === 'employee') {
       //   target.type = 2
       //   if (this.cloudPlatformType === 'ecrp') {
-      //     target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.employeeID), targetName: '' } })
+      //     target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value.empId), targetName: '' } })
       //   } else {
       //     target.targets = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? [] : this.employeeSelectData.data.map(value => { return { targetId: parseInt(value), targetName: '' } })
       //   }
@@ -700,7 +648,7 @@ export default {
         })
     },
     cancel () {
-      vm.$router.replace({ path: '/Marketing/EnterpriseMessage' })
+      vm.$router.replace({ path: '/Marketing/EnterpriseGroupMessage' })
     },
     // 附件处理 start
     // 编辑附件列表

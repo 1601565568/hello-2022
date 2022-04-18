@@ -99,6 +99,7 @@ export default {
     url: '/wework/marketing/getEnterpriseActivity',
     method: 'get'
   },
+  // 群营销效果分析群主数据查询
   queryChatRoomLeadersByActivityId: {
     url: '/wework/marketing/queryChatRoomLeadersByActivityId',
     method: 'get'
@@ -107,15 +108,17 @@ export default {
     url: '/wework/marketing/queryTotal',
     method: 'get'
   },
-  // 旧的效果分析列表接口
+  // 旧的好友营销效果分析列表接口
   queryTableSendData: {
     url: '/wework/marketing/queryTableSendData',
     method: 'post'
   },
+  // 旧的群营销效果分析列表接口
   queryTableSendDataToGroup: {
     url: '/wework/marketing/queryTableSendDataToGroup',
     method: 'post'
   },
+  // ecrp群营销获取群主信息
   queryGroupEntRoomsLeaderList: {
     url: '/wework/marketing/queryGroupEntRoomsLeaderList',
     method: 'post'

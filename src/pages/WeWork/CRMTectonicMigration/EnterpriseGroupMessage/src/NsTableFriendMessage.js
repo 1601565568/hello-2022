@@ -201,6 +201,7 @@ export default {
     const model = Object.assign({},
       {
         employeeLoginName: '',
+        employeeId: '',
         name: '',
         status: '',
         createTime: [],
@@ -226,6 +227,8 @@ export default {
     })
 
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
@@ -282,6 +285,12 @@ export default {
         6: '已执行',
         7: '已终止',
         8: '执行失败'
+      },
+      // 创建人客道环境下拉
+      selectProps: {
+        label: 'name',
+        value: 'id',
+        disabled: 'disabled'
       }
     }
   },

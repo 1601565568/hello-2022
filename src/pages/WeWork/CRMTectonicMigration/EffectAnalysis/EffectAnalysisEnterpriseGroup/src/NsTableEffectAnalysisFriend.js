@@ -2,10 +2,11 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import $ from 'jquery'
 import { MARKETING_TYPE } from '../../../EnterpriseGroupMessage/src/common'
+import PageTable from '@/components/NewUi/PageTablePro'
 
 let vm
 export default {
-  name: 'NsTableEffectAnalysisFriend',
+  name: 'NsTableEffectAnalysisGroup',
   mixins: [tableMixin],
   props: {
     types: Object,
@@ -23,19 +24,18 @@ export default {
     const tableButtons = []
 
     const operateButtons = [
-      {
-        func: function () {
-          this.$router.go(-1)
-        },
-        icon: '',
-        type: 'default',
-        name: '返回',
-        visible: ''
-      },
+      // {
+      //   func: function () {
+      //     this.$router.go(-1)
+      //   },
+      //   icon: '',
+      //   type: 'default',
+      //   name: '返回',
+      //   visible: ''
+      // },
       {
         func: function () {
           this.$parent.$searchAction$()
-          // this.$parent.getTotal()
         },
         icon: '$.noop',
         name: '刷新',
@@ -73,6 +73,8 @@ export default {
     })
 
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       statistics: {
         total: 0,
@@ -87,6 +89,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
+      // Todo 群营销分析接口
       url: this.$api.marketing.weworkMarketing.queryTableSendDataToGroup,
       _pagination: pagination,
       _table: {
@@ -109,14 +112,15 @@ export default {
     } else {
       this.$reload()
     }
-    vm.queryGroupRooms4ent()
+    // vm.queryGroupRooms4ent()
     // vm.getTotal()
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
-    // 查询群主
+    // 查询列表查询群主信息
     queryGroupRooms4ent () {
       const that = this
       this.$http.fetch(this.$api.marketing.weworkMarketing.queryChatRoomLeadersByActivityId, { id: parseInt(this.$route.query.id) })
@@ -128,10 +132,18 @@ export default {
           that.$notify.error('微信群加载失败！')
         })
     },
+    // 获取发送状态信息
     getTotal: function () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryTotal, { id: this.$route.query.id })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.$route.query.id })
         .then((resp) => {
-          vm.statistics = resp.result
+          let countInfo = resp.result.formatReceiverStatusCount
+          vm.statistics = {
+            total: countInfo.success + countInfo.fail + countInfo.pending,
+            successTotal: countInfo.success,
+            failTotal: countInfo.fail,
+            unSendTotal: countInfo.pending
+          }
+          // vm.statistics = resp.result
         }).catch((resp) => {
           vm.$notify.error(resp.msg)
         }).finally()
@@ -145,18 +157,26 @@ export default {
       this.$formatTextToShow$()
     },
     $handleParams: function (param) {
-      param.searchMap.planId = this.$route.query.id
-      param.searchMap.markingType = MARKETING_TYPE.ENT_GROUP
+      param.searchMap.messageId = this.$route.query.id
+      // param.searchMap.planId = this.$route.query.id
+      // Todo 此处类型要确认到时候接口需不需要
+      // param.searchMap.markingType = MARKETING_TYPE.ENT_GROUP
       return param
     },
-    change () {
-      this.$searchAction$()
-    },
-    onHandleSelectChange: function (val) {
-      this.$set(this, 'selectRows', val)
-    },
+    // change () {
+    //   this.$searchAction$()
+    // },
+    // onHandleSelectChange: function (val) {
+    //   this.$set(this, 'selectRows', val)
+    // },
     onSearch () {
       this.$searchAction$()
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     }
   }
 }
