@@ -264,7 +264,7 @@ export default {
         total: 0
       },
       // 状态列表
-      statusData: [ 
+      statusData: [
         { label: '未提交', value: 1 },
         { label: '待审核', value: 2 },
         { label: '审核失败', value: 3 },
