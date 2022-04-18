@@ -116,7 +116,7 @@
             :show-overflow-tooltip="true"
             prop="sendTime"
             label="发送时间"
-            sortable="1">
+            sortable="send_time">
             <template slot-scope="scope">
               {{scope.row.sendTime ? scope.row.sendTime: '-'}}
             </template>
