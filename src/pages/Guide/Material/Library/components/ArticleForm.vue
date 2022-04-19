@@ -293,9 +293,7 @@ export default {
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.mediaList = this.mediaList
       params.materialScriptType = 1
-      let content = this.$refs.tagContent.htmlToString(this.pitContent)
-      content = content.replace(/&nbsp;/g, '\u0020')
-      params.content = content
+      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
       delete params.cardStyle
       this.$http
         .fetch(this.$api.guide.materialEdit, params)
