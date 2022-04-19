@@ -48,9 +48,9 @@ export default {
     const quickSearchModel = {}
     const model = Object.assign({},
       {
-        status: '',
-        empId: '',
-        nick: ''
+        sendStatus: '',
+        guideId: '',
+        searchValue: ''
       }, {})
     const that = this
 
@@ -109,7 +109,7 @@ export default {
     } else {
       this.$reload()
     }
-    // vm.employeeList()
+    vm.employeeList()
     vm.getTotal()
   },
   components: {
@@ -117,16 +117,21 @@ export default {
     PageTable
   },
   methods: {
+    // 获取所属员工
     employeeList () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryEmployeeWechatInfoList, { queryType: 2 })
+      let url = this.$api.core.sysUser.queryGuidePage
+      if (this.cloudPlatformType === 'ecrp') {
+        url = this.$api.marketing.weworkMarketing.queryEmployeeWechatInfoList
+      }
+      this.$http.fetch(url, { queryType: 2 })
         .then(resp => {
           if (resp.result) {
-            for (const index of resp.result) {
-              vm.employees.push({
-                label: index.name,
-                value: index.employeeID
-              })
-            }
+            vm.employees = resp.result.map(el => {
+              return {
+                label: el.name,
+                value: vm.cloudPlatformType === 'ecrp' ? el.employeeID : el.id
+              }
+            })
           }
         }).catch((resp) => {
           vm.$notify.error('查询员工信息失败！' || resp.msg)
@@ -156,6 +161,8 @@ export default {
     },
     $handleParams: function (param) {
       param.searchMap.messageId = this.$route.query.id
+      delete param.searchMap.searchValue
+      param.searchValue = this.model.searchValue
       // param.searchMap.markingType = 4
       return param
     },
