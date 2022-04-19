@@ -82,6 +82,7 @@ export default {
     url: '/wework/marketing/queryDeptAndEmpl',
     method: 'get'
   },
+  // 好友营销效果分析中获取所属员工
   queryEmployeeWechatInfoList: {
     url: '/wework/marketing/queryEmployeeWechatInfoList',
     method: 'get'

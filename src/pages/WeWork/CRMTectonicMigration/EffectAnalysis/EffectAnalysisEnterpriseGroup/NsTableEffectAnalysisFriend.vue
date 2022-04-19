@@ -11,27 +11,32 @@
           </ns-table-operate-button>
         </div>
       </template>
-      <!-- <template slot='search'>
+      <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <el-input v-model.trim="model.nick" placeholder="微信群名" @keyup.enter.native="onSearch">
+            <el-input v-model.trim="model.searchValue" placeholder="微信群名" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="群主：">
-            <el-select v-model="model.empId" filterable placeholder="请选择">
-              <el-option v-for="item in employees" :key="item.empId" :label="item.empName" :value="item.empId" />
+            <el-select v-model="model.guideId" filterable @change="onSearch" placeholder="请选择">
+              <template v-if="cloudPlatformType === 'ecrp'">
+                <el-option v-for="item in employees" :key="item.empId" :label="item.empName" :value="item.empId" />
+              </template>
+              <template v-else>
+                <el-option v-for="item in employees" :key="item.id" :label="item.name" :value="item.id" />
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item label="发送状态：">
-            <el-select v-model="model.status" filterable clearable>
-              <el-option key="1" label="成功" value="1" />
-              <el-option key="2" label="失败" value="2" />
-              <el-option key="0" label="待发送" value="0" />
+            <el-select v-model="model.sendStatus" filterable clearable @change="onSearch">
+              <el-option key="1" label="待发送" value="1" />
+              <el-option key="2" label="发送成功" value="2" />
+              <el-option key="3" label="发送失败" value="3" />
             </el-select>
           </el-form-item>
         </el-form>
-      </template> -->
+      </template>
       <template slot='table'>
         <div class="info-block">
           <span>发送总计:{{statistics.total}}</span>
@@ -44,25 +49,28 @@
                   @sort-change="$orderChange$" :row-style="tableRowClassName">
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="externalContact.name"
+            prop="chatRoom.name"
             label="微信群名">
-          </el-table-column>
-
-          <el-table-column
-            :show-overflow-tooltip="true"
-            prop="guide.name"
-            label="群主">
             <template slot-scope="scope">
-              {{scope.row.guide && scope.row.guide.name ? scope.row.guide.name: '-'}}
+              {{scope.row.chatRoom && scope.row.chatRoom.name ? scope.row.chatRoom.name: '-'}}
             </template>
           </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="guide.workNumber"
+            prop="chatRoom.ownerName"
+            label="群主">
+            <template slot-scope="scope">
+              {{scope.row.chatRoom && scope.row.chatRoom.ownerName ? scope.row.chatRoom.ownerName: '-'}}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="chatRoom.personNum"
             label="群人数">
             <template slot-scope="scope">
-              {{scope.row.guide && scope.row.guide.workNumber ? scope.row.guide.workNumber: '-'}}
+              {{scope.row.chatRoom && scope.row.chatRoom.personNum ? scope.row.chatRoom.personNum: '-'}}
             </template>
           </el-table-column>
 

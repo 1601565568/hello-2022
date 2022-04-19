@@ -49,9 +49,9 @@ export default {
     const quickSearchModel = {}
     const model = Object.assign({},
       {
-        status: '',
-        empId: '',
-        nick: ''
+        sendStatus: '',
+        guideId: '',
+        searchValue: ''
       }, {})
     const that = this
 
@@ -89,8 +89,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      // Todo 群营销分析接口
-      url: this.$api.marketing.weworkMarketing.queryTableSendDataToGroup,
+      url: this.$api.marketing.weworkMarketing.receiverWxActivity,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
@@ -112,8 +111,8 @@ export default {
     } else {
       this.$reload()
     }
-    // vm.queryGroupRooms4ent()
-    // vm.getTotal()
+    vm.queryGroupRooms4ent()
+    vm.getTotal()
   },
   components: {
     NsDatetime,
@@ -123,10 +122,24 @@ export default {
     // 查询列表查询群主信息
     queryGroupRooms4ent () {
       const that = this
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryChatRoomLeadersByActivityId, { id: parseInt(this.$route.query.id) })
+      let url = this.$api.core.sysUser.queryGuidePage
+      if (this.cloudPlatformType === 'ecrp') {
+        url = this.$api.marketing.weworkMarketing.queryChatRoomLeadersByActivityId
+      }
+      this.$http.fetch(url, { id: parseInt(this.$route.query.id) })
         .then(resp => {
           if (resp && resp.result) {
             that.employees = JSON.parse(JSON.stringify(resp.result))
+            // if (that.cloudPlatformType === 'ecrp') {
+            //   that.employees = JSON.parse(JSON.stringify(resp.result))
+            // } else {
+            //   that.employees = resp.result.map(el => {
+            //     return {
+            //       label: el.name,
+            //       value: el.employeeID
+            //     }
+            //   })
+            // }
           }
         }).catch(() => {
           that.$notify.error('微信群加载失败！')
@@ -158,6 +171,8 @@ export default {
     },
     $handleParams: function (param) {
       param.searchMap.messageId = this.$route.query.id
+      delete param.searchMap.searchValue
+      param.searchValue = this.model.searchValue
       // param.searchMap.planId = this.$route.query.id
       // Todo 此处类型要确认到时候接口需不需要
       // param.searchMap.markingType = MARKETING_TYPE.ENT_GROUP
