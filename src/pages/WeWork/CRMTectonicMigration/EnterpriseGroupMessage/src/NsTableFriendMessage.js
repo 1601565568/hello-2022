@@ -342,7 +342,7 @@ export default {
     getTableList () {
       let params = {
         searchValue: this.groupName,
-        start: this.paginationDialog.page,
+        start: (this.paginationDialog.page - 1) * this.paginationDialog.size,
         length: this.paginationDialog.size,
         searchMap: {
           messageId: this.messageListId
@@ -448,6 +448,12 @@ export default {
     // onHandleSelectChange: function (val) {
     //   this.$set(this, 'selectRows', val)
     // },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
+    },
     onSearch () {
       this.$searchAction$()
     }
