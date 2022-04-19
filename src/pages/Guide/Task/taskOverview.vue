@@ -338,7 +338,7 @@
               <template slot-scope="scope">
                 <ns-table-column-operate-button
                   :buttons="table.table_buttons"
-                  :class="[scope.row.customerTotal === '正在获取中…' && 'zhihui']"
+                  :class="[scope.row.customerTotal ==='正在获取中…' && 'zhihui']"
                   :prop="scope"
                 >
                 </ns-table-column-operate-button>
@@ -368,6 +368,7 @@
         :shopId="shopId"
         :shopName="shopName"
         :runType="runType"
+        :taskName="taskMsg.name"
         :queryTime="searchMap.queryTime"
       />
     </el-drawer>
@@ -434,9 +435,7 @@ export default taskOverview
 </style>
 <style scoped>
 @import "@theme/variables.pcss";
-.zhihui >>> button {
-  color: #606266;
-}
+
 .taskOverview {
   >>> .taskOverview-head {
     padding: 16px 16px 8px;
@@ -716,6 +715,9 @@ export default taskOverview
     }
     @e table {
       padding-top: 24px;
+      .zhihui >>> button {
+        color: #606266;
+      }
       >>> .el-button--text {
         font-size: 14px;
         color: #0094fc;

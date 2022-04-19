@@ -81,7 +81,7 @@
                 @input="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
-            <NsButton @click="exportShopCompleteData">导出文件</NsButton>
+            <NsButton @click="exportShopCompleteData" id="exportBtn">导出文件</NsButton>
           </ElForm>
         </div>
         <div class='total-tip'>
@@ -144,8 +144,8 @@
               <template slot-scope="scope">
                 <div>
                 <div class="remark">{{scope.row.remark || '-'}}</div>
-                <div class="urkJsonimageContent">
-                  <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
+                <div class="urkJsonimageContent" v-if="scope.row && scope.row.urlJson">
+                  <div  class="urkJsonimageWarpper">
                     <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
                       <img :src="item"/>
                     </div>

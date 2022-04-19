@@ -214,6 +214,12 @@ export default {
     queryDate: {
       type: String,
       default: null
+    },
+    shopName: {
+      type: String
+    },
+    taskName: {
+      type: String
     }
   },
   mixins: [tableMixin, scrollHeight],
@@ -362,7 +368,24 @@ export default {
     },
     // 导出
     exportData () {
-      // console.log('hhhh')
+      const sendParams = {
+        taskId: this.id,
+        exportType: 53,
+        shopId: this.shopId,
+        guideId: this.guideId,
+        shopName: this.shopName,
+        guideName: this.guideName,
+        taskName: this.taskName,
+        queryDate: this.queryDate
+      }
+      this.$http
+        .fetch(this.$api.guide.task.exportExcel, sendParams)
+        .then((resp) => {
+          this.$notify.success('文件已导入下载中心')
+        })
+        .catch((resp) => {
+          this.$notify.error(resp.msg || '导出报错，请联系管理员')
+        })
     },
     changeStatus (value) {
       this.pagination.page = 1

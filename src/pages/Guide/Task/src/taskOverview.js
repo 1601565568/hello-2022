@@ -290,12 +290,14 @@ export default {
     // 导出导购完成明细文件，迁移到下载中心
     exportGuideCompleteData () {
       const { id, startTime, endTime, name } = this.taskMsg
+      const { shopId, queryTime } = this.searchMap
       const sendParams = {
         taskId: id,
         startTime,
         endTime,
         taskName: name,
-        ...this.searchMap,
+        shopId,
+        queryDate: queryTime,
         exportType: 50
       }
       const elem = document.getElementById('exportButton')
@@ -314,12 +316,14 @@ export default {
     // 导出文件
     exportShopCompleteData () {
       const { id, startTime, endTime, name } = this.taskMsg
+      const { shopId, queryTime } = this.searchMap
       const sendParams = {
         taskId: id,
         startTime,
         endTime,
         taskName: name,
-        ...this.searchMap,
+        shopId,
+        queryDate: queryTime,
         exportType: 51
       }
       const elem = document.getElementById('exportFile')
