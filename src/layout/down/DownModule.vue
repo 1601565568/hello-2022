@@ -27,6 +27,7 @@
 
 <script>
 import isShowArea from '@/layout/small/src/isShowArea'
+import isShowBrand from '@/layout/small/src/isShowBrand'
 import DownFileList from './components/DownFileList'
 export default {
   name: 'downModule',
@@ -43,7 +44,11 @@ export default {
     $route: {
       handler () {
         this.activeName = this.$route.matched[0].name
-        this.isShowAreaSelect = isShowArea(this.$route)
+        if (this.cloudPlatformType === 'ecrp') {
+          this.isShowAreaSelect = isShowArea(this.$route)
+        } else {
+          this.isShowAreaSelect = isShowBrand(this.$route)
+        }
         this.visible = false
       },
       immediate: true
@@ -56,6 +61,8 @@ export default {
   },
   data () {
     return {
+      // 标识系统环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       showFile: false,
       iconTop: null,
       iconRight: null,
