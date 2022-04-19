@@ -8,6 +8,8 @@ export default ($route) => {
   const showBrandSelectPathList = [
     '/Marketing/EnterpriseMessage',
     '/Marketing/EnterpriseMessagePush',
+    '/Marketing/EffectAnalysisEnterprise',
+    '/EnterpriseExamine',
     '/Social/WeComCustomerOperation/GroupRepeat',
     '/Social/WeWorkGroup/GroupWelcomeCode',
     '/WeWork/WelcomeLog/Log',
