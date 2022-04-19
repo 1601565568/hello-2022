@@ -124,6 +124,7 @@ export default {
       const that = this
       let url = this.$api.core.sysUser.queryGuidePage
       if (this.cloudPlatformType === 'ecrp') {
+        // Todo 群主列表需要重写
         url = this.$api.marketing.weworkMarketing.queryChatRoomLeadersByActivityId
       }
       this.$http.fetch(url, { id: parseInt(this.$route.query.id) })
