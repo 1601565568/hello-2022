@@ -345,7 +345,7 @@ export default {
     getTableList () {
       let params = {
         searchValue: this.showStaff ? this.staffName : this.groupName,
-        start: this.paginationDialog.page,
+        start: (this.paginationDialog.page - 1) * this.paginationDialog.size,
         length: this.paginationDialog.size,
         searchMap: {
           messageId: this.messageListId
