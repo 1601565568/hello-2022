@@ -3,13 +3,13 @@
     <div class="template-page">
       <div class="page-header">
         <div class="page-header__text">
-          <el-breadcrumb separator="/">
+          <!-- <el-breadcrumb separator="/">
             <el-breadcrumb-item
               :to="{ path: '/PerformanceAppraisal/SalesStatistics/List' }"
               >绩效考核</el-breadcrumb-item
             >
             <el-breadcrumb-item>销售数据统计</el-breadcrumb-item>
-          </el-breadcrumb>
+          </el-breadcrumb> -->
           <span class="head-title">销售数据统计</span>
         </div>
       </div>
@@ -18,24 +18,23 @@
     <div class="blue-tip">
       <div>点击设置销售数据计算规则</div>
       <div>
-        <ns-button type="text" @click="handlePreview(true, 1)"
-          >统计设置</ns-button
-        >
+        <ns-button type="text" @click="handleSet">统计设置</ns-button>
       </div>
     </div>
     <div class="page-content">
-      <el-tabs class="el-tabs" v-model="tabId">
+      <el-tabs v-model="tabId" @tab-click="handleTabsClick">
         <el-tab-pane
           v-for="item in tabOptions.tabList"
           :key="item.name"
           :label="item.name"
+          :name="item.value"
         ></el-tab-pane>
       </el-tabs>
       <div class="params-container">
         <el-form :inline="true" class="form-inline_top">
           <el-form-item>
             <div class="shop-content">
-              <span>选择{{ platformText }}：</span>
+              <span>{{ { "1": "企业微信成员", "2": "群主" }[tabId] }}：</span>
               <GuideDialog
                 :selfBtn="true"
                 :appendToBody="true"
@@ -63,9 +62,9 @@
           </el-form-item>
           <el-form-item label="订单来源：" class="el-form__change">
             <el-select
-              v-model="model.payConfigId"
+              v-model="tableParams.searchMap.platform"
               placeholder="请选择"
-              @change="handleChangePay"
+              @change="fetchList"
             >
               <el-option
                 v-for="item in orderOptions"
@@ -78,9 +77,9 @@
           </el-form-item>
           <el-form-item label="店铺来源：" class="el-form__change">
             <el-select
-              v-model="model.payConfigId"
+              v-model="tableParams.searchMap.shopId"
               placeholder="请选择"
-              @change="handleChangePay"
+              @change="fetchList"
             >
               <el-option
                 v-for="item in storeOptions"
@@ -91,28 +90,48 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="日期: ">
+          <el-form-item label="下单时间: ">
             <el-date-picker
               style="margin-left:15px"
               value-format="yyyy-MM-dd"
               format="yyyy/MM/dd"
-              type="date"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
               :clearable="false"
               v-model="tableParams.time"
               @change="handleSearch"
+              :pickerOptions="pickerOptions"
+              :default-value="this.tableParams.time"
             >
             </el-date-picker>
           </el-form-item>
         </el-form>
       </div>
       <el-table
-        :data="_data._table.data"
+        :data="table.tableData"
         class="new-table_border table-container"
         style="width: 100%"
       >
-        <el-table-column prop="name">
+        <el-table-column
+          v-if="tabId == '1'"
+          prop="userName"
+          key="qw"
+          label="企业微信成员"
+        >
+        </el-table-column>
+        <el-table-column
+          v-if="tabId == '2'"
+          prop="address"
+          label="群名称"
+          key="qmc"
+        >
+        </el-table-column>
+        <el-table-column v-if="tabId == '2'" prop="name" key="qz" label="群主">
+        </el-table-column>
+        <el-table-column prop="orderPriceAll">
           <template slot="header">
-            企业微信成员
+            下单金额/笔数
             <el-tooltip
               effect="light"
               popper-class="popperClass"
@@ -120,67 +139,164 @@
             >
               <Icon type="question-circle" class="question-circle" />
               <template slot="content">
-                企业微信后台专属对外信息被删除或取消显示时，状态则会提醒异常，<br />请及时前往企业微信后台新增相同名称的专属对外信息或恢复显示
+                时间段内好友通过商品链接触达后下单总金额/笔数（已付款+未付款订单）
               </template>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="webTitle" label="下单金额/笔数">
+        <el-table-column prop="payPriceAll">
+          <template slot="header">
+            付款金额/笔数
+            <el-tooltip
+              effect="light"
+              popper-class="popperClass"
+              placement="top"
+            >
+              <Icon type="question-circle" class="question-circle" />
+              <template slot="content">
+                时间段内好友通过商品链接触达后下单并付款总金额/笔数
+              </template>
+            </el-tooltip>
+          </template>
         </el-table-column>
-        <el-table-column prop="style" label="付款金额/笔数"> </el-table-column>
-        <el-table-column prop="status" label="退款金额/笔数"> </el-table-column>
-        <el-table-column prop="status" label="平均客单价"> </el-table-column>
-        <el-table-column prop="status" label="购买人数"> </el-table-column>
-        <el-table-column prop="status" label="购买率"> </el-table-column>
+        <el-table-column prop="refundPriceAll">
+          <template slot="header">
+            退款金额/笔数
+            <el-tooltip
+              effect="light"
+              popper-class="popperClass"
+              placement="top"
+            >
+              <Icon type="question-circle" class="question-circle" />
+              <template slot="content">
+                时间段内好友通过商品链接触达后下单并退款完成的总金额/笔数
+              </template>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="avgCustomerPrice">
+          <template slot="header">
+            平均客单价
+            <el-tooltip
+              effect="light"
+              popper-class="popperClass"
+              placement="top"
+            >
+              <Icon type="question-circle" class="question-circle" />
+              <template slot="content">
+                时间段内好友通过商品链接触达后下单并付款总金额/付款人数
+              </template>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="buyCustomerCount">
+          <template slot="header">
+            购买人数
+            <el-tooltip
+              effect="light"
+              popper-class="popperClass"
+              placement="top"
+            >
+              <Icon type="question-circle" class="question-circle" />
+              <template slot="content">
+                时间段内所有有过付款行为的好友数
+              </template>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="buyCustomerTax">
+          <template slot="header">
+            购买率
+            <el-tooltip
+              effect="light"
+              popper-class="popperClass"
+              placement="top"
+            >
+              <Icon type="question-circle" class="question-circle" />
+              <template slot="content">
+                指定时间范围内所有有过付款行为的好友数/所有好友数
+              </template>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="address" width="125px" label="操作">
           <template slot-scope="scope">
             <ns-button type="text" @click="handleDetail(scope.row.id)"
-              >详情</ns-button
-            >
+              >详情
+            </ns-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
-        v-if="_data._pagination.enable"
         class="template-table__pagination"
-        :page-sizes="_data._pagination.sizeOpts"
-        :total="_data._pagination.total"
-        :current-page="_data._pagination.page"
-        :page-size="_data._pagination.size"
+        :page-sizes="pagination.sizeOpts"
+        :total="pagination.total"
+        :current-page="pagination.page"
+        :page-size="pagination.size"
         layout="slot, sizes, prev, pager, next, jumper"
-        @size-change="$sizeChange$"
-        @current-change="$pageChange$"
+        @size-change="handleSizeChange"
+        @current-change="handlePageChange"
       >
         <span class="pagination-text">单页显示: </span>
       </el-pagination>
     </div>
 
     <el-dialog
-      title="对外信息展示"
+      title="统计设置"
       custom-class="full-dialog"
       class="full-dialog"
-      height="600px"
-      width="1000px"
-      :visible.sync="previewVisin"
+      width="758px"
+      :visible.sync="dialogVisible"
     >
       <div class="dialog-content">
         <div class="blue-tip">
-          <template v-if="previewType === 1">
-            <div>
-              路径：我的企业->通讯录管理->对外资料显示-修改->添加自定义信息<br />添加自定义信息：名称可自定义，类型请选择“网页”。
-            </div>
-          </template>
-          <template v-if="previewType === 2">
-            企业可在企业成员的企业信息处配置专属对外信息，可在专属对外信息内添加文字、图片、视频等，客户在员工名片点击后，即可进入由企业发布的内容页面，达到内容营销的作用。
-          </template>
+          <div>
+            成员分享的商品链接被好友点击后，好友在规定的时间内下单即可被统计计算业绩。
+          </div>
         </div>
-        <!-- <template v-if="previewType === 1">
-          <img src="./images/peizhi.png" class="full-img" />
-        </template>
-        <template v-if="previewType === 2">
-          <img src="./images/shouji.png" class="full-img padding-img" />
-        </template> -->
+        <div>
+          <el-form :model="dialogData" size="small">
+            <el-form-item label="销售数据统计 ">
+              <el-form-item prop="saleSwitch">
+                <el-switch
+                  class="sale-switch"
+                  :active-value="1"
+                  :inactive-value="0"
+                  v-model="dialogData.saleSwitch"
+                />
+              </el-form-item>
+            </el-form-item>
+            <div v-if="dialogData.saleSwitch === 1">
+              <el-form-item label="时间间隔设置" prop="saleTime">
+                <!-- <el-input v-model="dialogData.saleTime" width="68" /> -->
+                <el-input-number
+                  class="inputNumber"
+                  v-model="dialogData.saleTime"
+                  type="number"
+                  :min="1"
+                  :max="999"
+                ></el-input-number>
+                小时
+              </el-form-item>
+              <div class="sub-title">
+                <span class="yellow-point"></span>
+                <span>用户点开商品链接，在间隔时间内下单即可被统计</span>
+              </div>
+            </div>
+          </el-form>
+        </div>
       </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button
+          @click="
+            () => {
+              this.dialogVisible = !this.dialogVisible;
+            }
+          "
+          >取 消</ns-button
+        >
+        <ns-button type="primary" @click="confirm()">保 存</ns-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -195,6 +311,7 @@ import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import GuideDialog from '@/components/NewUi/GuideDialog'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 // import AllTable from './components/List/AllTable'
 // import EachTable from './components/List/EachTable'
 // Index.components = {
@@ -213,10 +330,12 @@ export default {
     // ElDrawer,
     // NsShopDialog,
     // NsGuideDialog,
-    GuideDialog,
-    ElBreadcrumb,
-    ElBreadcrumbItem
+    ElInputNumber,
+    GuideDialog
+    // ElBreadcrumb,
+    // ElBreadcrumbItem
   },
+  // mixins: [tableMixin],
   computed: {
     platformText() {
       return '111'
@@ -224,103 +343,129 @@ export default {
   },
   data() {
     return {
-      previewVisin: false, // 弹框状态
-      previewType: 1, // 弹框展示内容 1 配置说明 2 对外信息展示 说明
-      url: this.$api.weWork.friendsCircle.profileList,
-      delectingIds: [], // 正在删除中的id
-      tabId: null,
-      tabOptions: {
-        tabList: [{ name: '成员销售数据' }, { name: '群销售数据' }]
+      dialogVisible: false,
+      dialogData: {
+        saleSwitch: 1,
+        saleTime: ''
       },
-      tableParams: {},
+      // url: this.$api.weWork.salesStatistics.statisticsList,
+      table: {
+        loading: false,
+        tableData: [{ id: 111 }]
+      },
+      pagination: {
+        size: 15,
+        sizeOpts: [15, 50, 100],
+        page: 1,
+        total: 0
+      },
+      tabId: '1',
+      tabOptions: {
+        tabList: [
+          { name: '成员销售数据', value: '1' },
+          { name: '群销售数据', value: '2' }
+        ]
+      },
+      tableParams: {
+        time: [],
+        start: 0,
+        length: 15,
+        searchMap: {
+          chatId: '',
+          createdEnd: '',
+          createdStart: '',
+          platform: 0,
+          shopId: 0,
+          userId: ''
+        }
+      },
       guideIds: [],
-      orderOptions: [],
-      storeOptions: []
+      orderOptions: [
+        { label: '淘宝', value: 1 },
+        { label: '拍拍', value: 2 },
+        { label: '淘宝2', value: 3 },
+        { label: '淘宝3', value: 4 },
+        { label: '淘宝4', value: 5 },
+        { label: '淘宝5', value: 6 },
+        { label: '淘宝6', value: 7 }
+      ],
+      storeOptions: [
+        { label: '淘宝', value: 1 },
+        { label: '拍拍', value: 2 },
+        { label: '淘宝2', value: 3 },
+        { label: '淘宝3', value: 4 },
+        { label: '淘宝4', value: 5 },
+        { label: '淘宝5', value: 6 },
+        { label: '淘宝6', value: 7 }
+      ],
+      pickerOptions: {
+        onPick: ({ maxDate, minDate }) => {
+          this.selectDate = minDate.getTime()
+          if (maxDate) {
+            this.selectDate = ''
+          }
+        },
+        disabledDate: time => {
+          if (this.selectDate !== '') {
+            const one = 365 * 24 * 3600 * 1000 // 限制一年
+            const minTime = this.selectDate - one
+            const maxTime = this.selectDate + one
+            return time.getTime() < minTime || time.getTime() > maxTime
+          }
+        }
+      }
     }
   },
-  mixins: [tableMixin],
-  methods: {
-    fetchList() {},
-    handleSearch() {},
-    /**
-     * 查看/关闭 配置说明
-     * @param {*} previewVisin
-     */
-    handlePreview(previewVisin, previewType) {
-      this.previewType = previewType
-      this.previewVisin = previewVisin
+  created() {
+    this.init()
+  },
+  mounted() {
+    this.fetchList()
+    // this.$searchAction$()
+  },
+  watch: {
+    'tableParams.time': function(val) {
+      this.tableParams.searchMap.createdStart = val[0]
+      this.tableParams.searchMap.createdEnd = val[1]
     },
-    /**
-     * 去企微
-     */
-    handleQY() {
-      window.open(
-        'https://work.weixin.qq.com/wework_admin/loginpage_wx?redirect_uri=https://work.weixin.qq.com/wework_admin/frame#profile/contactsMng/exMemberAttrVisable'
-      )
-    },
-    /**
-     * 删除
-     * @param {number} id
-     */
-    handleDelect(id) {
-      this.$confirm(
-        '删除后，网页中的内容将被清空，是否确认删除？',
-        '提示信息',
-        {
-          confirmButtonText: '确定',
-          type: 'warning',
-          cancelButtonText: '取消'
+    guideIds: {
+      handler: function(val) {
+        if (this.tabId === '1') {
+          this.tableParams.searchMap.chatId = val
+        } else if (this.tabId === '2') {
+          this.tableParams.searchMap.userId = val
         }
-      ).then(() => {
-        this.requestDelect(id)
-      })
+      }
+    }
+  },
+  methods: {
+    init() {
+      let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
+      let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
+      this.tableParams.time.push(beginDate)
+      this.tableParams.time.push(endDate)
     },
-    /**
-     * 请求删除
-     * @param {number} id
-     */
-    requestDelect(id) {
-      this.delectingIds.push(id)
+    fetchList(params) {
+      let _params = { ...this.tableParams, params }
+      let url = {
+        1: this.$api.weWork.salesStatistics.statisticsUserList,
+        2: this.$api.weWork.salesStatistics.queryGuideRoomList
+      }[this.tabId]
       this.$http
-        .fetch(this.$api.weWork.friendsCircle.profileDelById, { id })
-        .then(() => {
-          this.$notify.success('删除成功')
-          this.$searchAction$()
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('删除失败', resp))
-          const index = this.delectingIds.findIndex(item => item.id === id)
-          this.delectingIds.split(index, 1)
-        })
-    },
-    /**
-     * 同步修改单条状态
-     * @param {number} state 需要修改的状态
-     * @param {number} index  下标修改状态使用
-     */
-    changeState(status, index) {
-      this.$set(this._data._table.data, index, {
-        ...this._data._table.data[index],
-        status
-      })
-    },
-    /**
-     * 更新
-     * @param {number} id
-     * @param {number} index  下标修改状态使用
-     */
-    handleRefresh(id, index) {
-      this.changeState(1, index)
-      this.$http
-        .fetch(this.$api.weWork.friendsCircle.profileSync, { id })
+        .fetch(url, _params)
         .then(res => {
-          this.changeState(res.result, index)
-          this.$notify.success('更新成功')
+          if (res.success) {
+            const {
+              result: { data }
+            } = res
+            this.table.tableData = data
+          }
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('更新失败', resp))
+          this.$notify.error(getErrorMsg('加载失败', resp))
         })
     },
+    handleSearch() {},
     /**
      * 编辑/新建
      * @param {number｜null} id
@@ -328,33 +473,72 @@ export default {
     handleDetail(id) {
       const query = id ? { id } : {}
       this.$router.push({
-        path: '/Marketing/FriendsCircle/OutEdit',
+        path: '/PerformanceAppraisal/SalesStatistics/Details',
         query
       })
     },
     tabSwitchActivityList() {},
-    initPageData() {
-      this.paginationToDate = {
-        ...this.paginationToDate,
-        size: 10,
-        page: 1
-      }
-      this.paginationToPerson = {
-        ...this.paginationToPerson,
-        size: 10,
-        page: 1
-      }
-    },
     guideClick() {
+      this.fetchList()
       // this.initPageData()
       // this.loadDateList()
       // this.loadMaterialList()
       // this.loadChartData()
     },
-    handleChangePay() {}
-  },
-  mounted() {
-    this.$searchAction$()
+    handleChangePay() {},
+    handleTabsClick() {
+      this.tableParams = Object.assign({}, this.$options.data().tableParams)
+      this.guideIds = Object.assign({}, this.$options.data().guideIds)
+      this.init()
+      this.fetchList()
+    },
+    /**
+     * 每页条数发生变化
+     */
+    handleSizeChange(size) {
+      this.pagination.page = 1
+      this.tableParams.length = size
+      this.tableParams.start = 0
+      this.fetchList()
+    },
+    /**
+     * 页码发生变化
+     */
+    handlePageChange(page) {
+      this.tableParams.start = (page - 1) * this.tableParams.length
+      this.fetchList()
+    },
+    confirm() {
+      this.dialogVisible = false
+    },
+    handleSet() {
+      this.dialogVisible = true
+    },
+    // 格式化日期
+    formatNumber(number) {
+      return String(number)[1] ? String(number) : `0${number}`
+    },
+    // 设置前一周日期
+    handleTimeOld(time, split) {
+      let date = new Date(time)
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate() - 7
+      split = '-'
+      return [year, month, day].map(num => this.formatNumber(num)).join(split)
+    },
+    // 设置昨天日期
+    handleTimeNew(time) {
+      let date = new Date(time)
+      let year = date.getFullYear()
+      let month =
+        date.getMonth() + 1 > 10
+          ? date.getMonth() + 1
+          : '0' + (date.getMonth() + 1)
+      let day = date.getDate() > 10 ? date.getDate() : '0' + date.getDate()
+      day--
+      return `${year}-${month}-${day}`
+    }
   }
 }
 </script>
@@ -398,16 +582,17 @@ export default {
   }
 }
 .dialog-content {
-  background: #f5f5f5;
   width: 100%;
   .blue-tip {
     margin: 16px 0;
   }
-  .full-img {
-    width: 100%;
-    &.padding-img {
-    }
-  }
+}
+.sale-switch {
+  margin-left: 8px;
+}
+.inputNumber {
+  width: 100px;
+  margin-left: 8px;
 }
 .refresh-btn {
   font-size: 14px;
@@ -420,7 +605,7 @@ export default {
 .template_main {
   .head-title {
     display: inline-block;
-    margin-top: 16px;
+    // margin-top: 16px;
   }
   .page-content {
     margin-top: 16px;
@@ -449,6 +634,19 @@ export default {
     float: left;
     font-weight: 400;
   }
+  .sub-title {
+    margin-left: 90px;
+    display: flex;
+    align-items: center;
+    .yellow-point {
+      background: #f2aa18;
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+  }
 }
 
 //
@@ -470,10 +668,14 @@ export default {
 </style>
 <style scoped>
 .template_main >>> .full-dialog {
-  padding-bottom: 20px;
+  padding-bottom: 6px;
   box-sizing: content-box;
 }
 .template_main >>> .el-tabs__header {
   border-bottom: none;
+}
+.template_main >>> .el-input__inner {
+  padding-right: 0px;
+  text-align: center;
 }
 </style>
