@@ -181,6 +181,7 @@ export default {
   font-size: 14px;
   color: #595959;
   line-height: 22px;
+  white-space: pre-wrap;
   }
   .pic{
     margin-bottom: 4px;

@@ -198,6 +198,8 @@
         :shopId="shopId"
         :guideId="guideId"
         :queryDate="form.time"
+        :shopName="name"
+        :taskName="taskName"
       />
     </el-drawer>
   </div>

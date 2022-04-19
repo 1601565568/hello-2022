@@ -84,7 +84,8 @@ export default {
       unfinishedTotal: 0,
       searchMap: {
         runType: null,
-        taskId: null
+        taskId: null,
+        shopId: null
       },
       drawerVisible: false,
       selectMaterial: {},
@@ -217,18 +218,31 @@ export default {
     },
     // 导出csv文件
     exportShopCompleteData () {
-      var url = API_ROOT + '/guide/task/shopCompleteDataExport'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
-      if (this.taskMsg.runType === 1) {
-        form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      const { runType, name, startTime, endTime } = this.taskMsg
+      const { taskId, queryTime } = this.searchMap
+      const sendParams = {
+        taskId: taskId,
+        runType,
+        shopId: this.searchMap.shopId,
+        shopName: this.createShopName,
+        taskName: name,
+        queryDate: queryTime,
+        startTime,
+        endTime,
+        exportType: 54
       }
-      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
-      form.appendChild(this.generateHideElement('shopName', this.createShopName))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      const elem = document.getElementById('exportBtn')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')

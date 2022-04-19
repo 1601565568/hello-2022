@@ -22,6 +22,9 @@ export default {
     },
     queryTime: {
       type: String
+    },
+    taskName: {
+      type: String
     }
   },
   mixins: [tableMixin, scrollHeight],
@@ -143,16 +146,22 @@ export default {
         })
     },
     exportData () {
-      var url = API_ROOT + '/guide/task/exportGuideCompleteData'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('type', 1))
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('shopId', this.shopId))
-      form.appendChild(this.generateHideElement('queryTime', this.form.time))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      const sendParams = {
+        taskId: this.id,
+        exportType: 52,
+        shopId: this.shopId,
+        shopName: this.name,
+        taskName: this.taskName,
+        queryDate: this.queryTime
+      }
+      this.$http
+        .fetch(this.$api.guide.task.exportExcel, sendParams)
+        .then((resp) => {
+          this.$notify.success('文件已导入下载中心')
+        })
+        .catch((resp) => {
+          this.$notify.error(resp.msg || '导出报错，请联系管理员')
+        })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
