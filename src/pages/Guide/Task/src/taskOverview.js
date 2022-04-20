@@ -289,6 +289,10 @@ export default {
     },
     // 导出导购完成明细文件，迁移到下载中心
     exportGuideCompleteData () {
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       const { id, startTime, endTime, name } = this.taskMsg
       const { shopId, queryTime } = this.searchMap
       const sendParams = {
@@ -315,6 +319,10 @@ export default {
     },
     // 导出文件
     exportShopCompleteData () {
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       const { id, startTime, endTime, name } = this.taskMsg
       const { shopId, queryTime } = this.searchMap
       const sendParams = {
