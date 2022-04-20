@@ -117,7 +117,7 @@
           </el-table-column>
           <el-table-column align="left" prop="followTime" label="最近一次联系时间">
             <template slot-scope="scope">
-              {{ isHaveGroup ? scope.row.followTime : "-" }}
+              {{ scope.row.followTime || "-" }}
             </template>
           </el-table-column>
           <el-table-column prop="remark" label="跟进记录" width="260px">
@@ -368,6 +368,10 @@ export default {
     },
     // 导出
     exportData () {
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       const sendParams = {
         taskId: this.id,
         exportType: 53,

@@ -218,6 +218,10 @@ export default {
     },
     // 导出csv文件
     exportShopCompleteData () {
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       const { runType, name, startTime, endTime } = this.taskMsg
       const { taskId, queryTime } = this.searchMap
       const sendParams = {

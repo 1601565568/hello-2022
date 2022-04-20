@@ -146,6 +146,10 @@ export default {
         })
     },
     exportData () {
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
       const sendParams = {
         taskId: this.id,
         exportType: 52,
