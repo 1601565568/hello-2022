@@ -94,7 +94,7 @@
                 <ns-button
                   type="text"
                   class="lager-btn"
-                  @click="handleLocation(cloudPlatformType === 'ecrp' ? 'SIDE_DESCRIBE_URL' : 'baidu')"
+                  @click="handleLocation(cloudPlatformType === 'ecrp' ? 'SIDE_DESCRIBE_URL' : 'HELP_CENTER_URL')"
                   v-show="$isShowDocs"
                   >配置说明
                 </ns-button>
