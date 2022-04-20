@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="pageRewardSettingShow" width="35%">
     <div class="tipsShowTitle" slot="title">设置</div>
     <div class="tipsShowContent">
-      <el-form label-width="100px">
+      <el-form label-width="4px">
         <el-form-item label="" required>
           <el-checkbox
             v-for="(item, index) in list"
