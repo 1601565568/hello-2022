@@ -45,6 +45,19 @@
               /></span>
               ></el-tooltip
             >
+            <el-tooltip
+              v-if="
+                item.itemName === '切换账户'
+              "
+              effect="dark"
+              content="编辑"
+              placement="top"
+            >
+              <span class="editIcon" @click="onPageRewardSetting(item)"
+                ><Icon type="edit"
+              /></span>
+            </el-tooltip>
+
             <!-- <span
               class="editIcon code-delete"
               @click="onEditDelMenu(index)"
@@ -193,6 +206,9 @@ export default {
     }
   },
   methods: {
+    onPageRewardSetting (item) {
+      this.$emit('onPageRewardSetting', item.itemCode)
+    },
     formatCheckbox (status) {
       return status === 1
     },
