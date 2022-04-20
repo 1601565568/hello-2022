@@ -32,13 +32,15 @@
           v-if="
             item.itemName === '总收益' ||
               item.itemName === '本月收益和今日收益' ||
-              item.itemName === '我的收益'
+              item.itemName === '我的收益' ||
+              item.itemName === '设置' ||
+              item.itemName === '切换账户'
           "
           effect="dark"
           content="编辑"
           placement="top"
         >
-          <span class="editIcon" @click="onPageRewardSetting"
+          <span class="editIcon" @click="onPageRewardSetting(item)"
             ><Icon type="edit"
           /></span>
         </el-tooltip>
@@ -120,8 +122,8 @@ export default {
       })
       this.data = arr
     },
-    onPageRewardSetting () {
-      this.$emit('onPageRewardSetting')
+    onPageRewardSetting (item) {
+      this.$emit('onPageRewardSetting', item.itemCode)
     }
   }
 }
