@@ -43,7 +43,7 @@
                 :auth="true"
                 type="primary"
                 btnTitle=""
-                :dialogTitle="`选择${platformText}`"
+                :dialogTitle="`选择${tabId === '1' ? '企业微信成员' : '群主'}`"
                 v-model="guideIds"
                 @input="guideClick"
               >
@@ -51,7 +51,7 @@
                   <div class="self-btn">
                     {{
                       guideIds && guideIds.length
-                        ? `已选择${guideIds.length}个${platformText}`
+                        ? `已选择${guideIds.length}个`
                         : "全部"
                     }}
                     <Icon type="geren" class="guideIds-icon"></Icon>
@@ -64,7 +64,7 @@
             <el-select
               v-model="tableParams.searchMap.platform"
               placeholder="请选择"
-              @change="fetchList"
+              @change="fetchList()"
             >
               <el-option
                 v-for="item in orderOptions"
@@ -79,13 +79,13 @@
             <el-select
               v-model="tableParams.searchMap.shopId"
               placeholder="请选择"
-              @change="fetchList"
+              @change="fetchList()"
             >
               <el-option
                 v-for="item in storeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.shopPlatId"
+                :label="item.shopName"
+                :value="item.shopId"
               >
               </el-option>
             </el-select>
@@ -93,16 +93,16 @@
           <el-form-item label="下单时间: ">
             <el-date-picker
               style="margin-left:15px"
-              value-format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd HH:mm:ss"
               format="yyyy/MM/dd"
               type="daterange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :clearable="false"
               v-model="tableParams.time"
-              @change="handleSearch"
+              @change="fetchList()"
               :pickerOptions="pickerOptions"
-              :default-value="this.tableParams.time"
+              :default-time="['00:00:00', '23:59:59']"
             >
             </el-date-picker>
           </el-form-item>
@@ -112,6 +112,7 @@
         :data="table.tableData"
         class="new-table_border table-container"
         style="width: 100%"
+        v-loading="table.loading"
       >
         <el-table-column
           v-if="tabId == '1'"
@@ -122,12 +123,12 @@
         </el-table-column>
         <el-table-column
           v-if="tabId == '2'"
-          prop="address"
+          prop="chatName"
           label="群名称"
           key="qmc"
         >
         </el-table-column>
-        <el-table-column v-if="tabId == '2'" prop="name" key="qz" label="群主">
+        <el-table-column v-if="tabId == '2'" prop="ownerName" key="qz" label="群主">
         </el-table-column>
         <el-table-column prop="orderPriceAll">
           <template slot="header">
@@ -142,6 +143,11 @@
                 时间段内好友通过商品链接触达后下单总金额/笔数（已付款+未付款订单）
               </template>
             </el-tooltip>
+          </template>
+          <template slot-scope="scope">
+            <template>
+              {{ scope.row.orderPriceAll }}/{{ scope.row.orderCountAll }}
+            </template>
           </template>
         </el-table-column>
         <el-table-column prop="payPriceAll">
@@ -158,6 +164,11 @@
               </template>
             </el-tooltip>
           </template>
+          <template slot-scope="scope">
+            <template>
+              {{ scope.row.payPriceAll }}/{{ scope.row.payCountAll }}
+            </template>
+          </template>
         </el-table-column>
         <el-table-column prop="refundPriceAll">
           <template slot="header">
@@ -172,6 +183,11 @@
                 时间段内好友通过商品链接触达后下单并退款完成的总金额/笔数
               </template>
             </el-tooltip>
+          </template>
+          <template slot-scope="scope">
+            <template>
+              {{ scope.row.refundPriceAll }}/{{ scope.row.refundCountAll }}
+            </template>
           </template>
         </el-table-column>
         <el-table-column prop="avgCustomerPrice">
@@ -218,16 +234,20 @@
               </template>
             </el-tooltip>
           </template>
+          <template slot-scope="scope">
+            <template> {{ scope.row.buyCustomerTax * 100 }}% </template>
+          </template>
         </el-table-column>
         <el-table-column prop="address" width="125px" label="操作">
           <template slot-scope="scope">
-            <ns-button type="text" @click="handleDetail(scope.row.id)"
+            <ns-button type="text" @click="handleDetail(scope.row)"
               >详情
             </ns-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
+        key=""
         class="template-table__pagination"
         :page-sizes="pagination.sizeOpts"
         :total="pagination.total"
@@ -260,13 +280,11 @@
               <el-form-item prop="saleSwitch">
                 <el-switch
                   class="sale-switch"
-                  :active-value="1"
-                  :inactive-value="0"
                   v-model="dialogData.saleSwitch"
                 />
               </el-form-item>
             </el-form-item>
-            <div v-if="dialogData.saleSwitch === 1">
+            <div v-if="dialogData.saleSwitch">
               <el-form-item label="时间间隔设置" prop="saleTime">
                 <!-- <el-input v-model="dialogData.saleTime" width="68" /> -->
                 <el-input-number
@@ -312,6 +330,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
+import { ShipOptions, StatisticsCode } from './src/const.js'
 // import AllTable from './components/List/AllTable'
 // import EachTable from './components/List/EachTable'
 // Index.components = {
@@ -336,22 +355,18 @@ export default {
     // ElBreadcrumbItem
   },
   // mixins: [tableMixin],
-  computed: {
-    platformText() {
-      return '111'
-    }
-  },
   data() {
     return {
       dialogVisible: false,
       dialogData: {
-        saleSwitch: 1,
-        saleTime: ''
+        saleSwitch: false,
+        saleTime: '',
+        id: null,
+        code: StatisticsCode
       },
-      // url: this.$api.weWork.salesStatistics.statisticsList,
       table: {
         loading: false,
-        tableData: [{ id: 111 }]
+        tableData: []
       },
       pagination: {
         size: 15,
@@ -374,30 +389,14 @@ export default {
           chatId: '',
           createdEnd: '',
           createdStart: '',
-          platform: 0,
-          shopId: 0,
-          userId: ''
+          platform: null,
+          shopId: null,
+          userIdList: ''
         }
       },
       guideIds: [],
-      orderOptions: [
-        { label: '淘宝', value: 1 },
-        { label: '拍拍', value: 2 },
-        { label: '淘宝2', value: 3 },
-        { label: '淘宝3', value: 4 },
-        { label: '淘宝4', value: 5 },
-        { label: '淘宝5', value: 6 },
-        { label: '淘宝6', value: 7 }
-      ],
-      storeOptions: [
-        { label: '淘宝', value: 1 },
-        { label: '拍拍', value: 2 },
-        { label: '淘宝2', value: 3 },
-        { label: '淘宝3', value: 4 },
-        { label: '淘宝4', value: 5 },
-        { label: '淘宝5', value: 6 },
-        { label: '淘宝6', value: 7 }
-      ],
+      orderOptions: ShipOptions,
+      storeOptions: [],
       pickerOptions: {
         onPick: ({ maxDate, minDate }) => {
           this.selectDate = minDate.getTime()
@@ -421,7 +420,7 @@ export default {
   },
   mounted() {
     this.fetchList()
-    // this.$searchAction$()
+    this.fetchOptions()
   },
   watch: {
     'tableParams.time': function(val) {
@@ -430,64 +429,72 @@ export default {
     },
     guideIds: {
       handler: function(val) {
-        if (this.tabId === '1') {
-          this.tableParams.searchMap.chatId = val
-        } else if (this.tabId === '2') {
-          this.tableParams.searchMap.userId = val
-        }
+        this.tableParams.searchMap.userIdList = val.join(',')
       }
     }
   },
   methods: {
     init() {
-      let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
-      let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
-      this.tableParams.time.push(beginDate)
-      this.tableParams.time.push(endDate)
+      // let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
+      // let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
+      // this.tableParams.time.push(beginDate)
+      // this.tableParams.time.push(endDate)
+      this.tableParams.time = ['2021-10-13 17:59:41', '2021-12-13 17:59:41']
     },
     fetchList(params) {
+      this.table.loading = true
       let _params = { ...this.tableParams, params }
-      let url = {
-        1: this.$api.weWork.salesStatistics.statisticsUserList,
-        2: this.$api.weWork.salesStatistics.queryGuideRoomList
-      }[this.tabId]
+      let url =
+        {
+          1: this.$api.weWork.salesStatistics.statisticsUserList,
+          2: this.$api.weWork.salesStatistics.statisticsRoomList
+        }[this.tabId] || ''
       this.$http
         .fetch(url, _params)
         .then(res => {
           if (res.success) {
             const {
-              result: { data }
+              result: { data, recordsTotal }
             } = res
-            this.table.tableData = data
+            this.pagination.total = parseInt(recordsTotal) || 0
+            this.table.tableData = data || []
+          }
+          this.table.loading = false
+        })
+        .catch(resp => {
+          this.table.loading = false
+          this.$notify.error(getErrorMsg('加载失败', resp))
+        })
+    },
+    fetchOptions() {
+      this.$http
+        .fetch(this.$api.weWork.salesStatistics.statisticsShopList)
+        .then(res => {
+          if (res.success) {
+            this.storeOptions = res.result
           }
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('加载失败', resp))
         })
     },
-    handleSearch() {},
-    /**
-     * 编辑/新建
-     * @param {number｜null} id
-     */
-    handleDetail(id) {
-      const query = id ? { id } : {}
+    handleDetail(row) {
+      let _params = {
+        ...this.tableParams.searchMap,
+        userIdList: row.userID,
+        chatId: row.chatID
+      }
       this.$router.push({
-        path: '/PerformanceAppraisal/SalesStatistics/Details',
-        query
+        name: 'memberStatistics',
+        params: _params
       })
     },
-    tabSwitchActivityList() {},
     guideClick() {
       this.fetchList()
-      // this.initPageData()
-      // this.loadDateList()
-      // this.loadMaterialList()
-      // this.loadChartData()
     },
-    handleChangePay() {},
     handleTabsClick() {
       this.tableParams = Object.assign({}, this.$options.data().tableParams)
+      this.pagination = Object.assign({}, this.$options.data().pagination)
       this.guideIds = Object.assign({}, this.$options.data().guideIds)
       this.init()
       this.fetchList()
@@ -497,6 +504,7 @@ export default {
      */
     handleSizeChange(size) {
       this.pagination.page = 1
+      this.pagination.size = size
       this.tableParams.length = size
       this.tableParams.start = 0
       this.fetchList()
@@ -509,9 +517,45 @@ export default {
       this.fetchList()
     },
     confirm() {
+      let { id, code, saleSwitch, saleTime } = this.dialogData
+      let strifyValue = JSON.stringify({
+        isOpen: saleSwitch,
+        hours: saleTime
+      })
+      let params = { id, code, value: strifyValue }
+      this.$http
+        .fetch(this.$api.weWork.salesStatistics.saveOrUpdate, params)
+        .then(res => {
+          if (res.success) {
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('加载失败', resp))
+        })
       this.dialogVisible = false
     },
     handleSet() {
+      let params = { code: this.dialogData.code }
+      this.$http
+        .fetch(this.$api.weWork.salesStatistics.findByCode, params)
+        .then(res => {
+          if (res.success) {
+            const {
+              result: { id, code, value }
+            } = res
+            let parseStr = JSON.parse(value)
+            this.dialogData = {
+              ...this.dialogData,
+              id,
+              code,
+              saleSwitch: parseStr.isOpen,
+              saleTime: parseStr.hours
+            }
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('加载失败', resp))
+        })
       this.dialogVisible = true
     },
     // 格式化日期
@@ -525,7 +569,10 @@ export default {
       let month = date.getMonth() + 1
       let day = date.getDate() - 7
       split = '-'
-      return [year, month, day].map(num => this.formatNumber(num)).join(split)
+      return (
+        [year, month, day].map(num => this.formatNumber(num)).join(split) +
+        ' 00:00:00'
+      )
     },
     // 设置昨天日期
     handleTimeNew(time) {
@@ -537,7 +584,7 @@ export default {
           : '0' + (date.getMonth() + 1)
       let day = date.getDate() > 10 ? date.getDate() : '0' + date.getDate()
       day--
-      return `${year}-${month}-${day}`
+      return `${year}-${month}-${day}` + ' 23:59:59'
     }
   }
 }
