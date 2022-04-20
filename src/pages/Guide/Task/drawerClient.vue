@@ -659,7 +659,4 @@ export default {
     }
   }
 }
-.testUpdataH{
-  background: red;
-}
 </style>
