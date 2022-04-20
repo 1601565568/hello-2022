@@ -168,7 +168,7 @@
               <img class="register-view-img" :src="model.regUrl||defRegUrl"/>
             </div>
           </div>
-          <div class="share-view" v-show="eidtList[MODULE_TO_INDEX_MAP.shareButton].status === 1">
+          <div class="share-view" v-show="eidtList[MODULE_TO_INDEX_MAP.shareButton] && eidtList[MODULE_TO_INDEX_MAP.shareButton].status === 1">
             <div class="share-button" :style="{background:model.shareBtnColor,color:showColor.strColor}">{{model.shareBtnText}}</div>
           </div>
         </div>
