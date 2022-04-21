@@ -165,5 +165,10 @@ export default {
   groupCreators: {
     url: '/wework/groupMessage/groupCreators',
     method: 'post'
+  },
+  // 好友营销列表获取创建人筛选信息接口
+  friendCreators: {
+    url: '/wework/groupMessage/friendCreators',
+    method: 'post'
   }
 }
