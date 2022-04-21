@@ -145,5 +145,10 @@ export default {
   verifyProductToCRM: {
     url: '/wework/marketing/verifyProductToCRM',
     method: 'get'
+  },
+  // 好友营销列表获取创建人筛选信息接口
+  friendCreators: {
+    url: '/wework/groupMessage/friendCreators',
+    method: 'post'
   }
 }

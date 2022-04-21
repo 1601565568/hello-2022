@@ -199,7 +199,6 @@ export default {
     const quickSearchModel = {}
     const model = Object.assign({},
       {
-        employeeLoginName: '',
         employeeId: '',
         name: '',
         status: '',
