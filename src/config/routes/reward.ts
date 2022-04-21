@@ -209,6 +209,20 @@ export default {
           'component': () => import('@/pages/Guide/RedPacket/Analysis/SendRecord/index.vue')
         }
       ]
+    },
+    {
+      'path': '/PerformanceAppraisal/SalesStatistics/List',
+      'name': 'PerformanceAppraisal',
+      'title': '绩效考核',
+      'component': () => import('@layout/Content.vue'),
+      'children': [
+        {
+          'path': '/PerformanceAppraisal/SessionCollect/List',
+          'name': 'SessionCollect',
+          'title': '会话数据统计',
+          'component': () => import('@/pages/PerformanceAppraisal/SessionCollect/index.vue')
+        }
+      ]
     }
   ]
 }

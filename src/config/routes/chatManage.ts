@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-30 14:04:17
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-20 18:57:26
+ * @LastEditTime: 2022-04-21 16:04:53
  * @FilePath: \ECRP-SG-WEB\src\config\routes\chatManage.ts
  */
 export default {
@@ -36,12 +36,6 @@ export default {
           'name': 'topicAnalysis',
           'title': '话题分析 ',
           'component': () => import('@/pages/WeWork/topicAnalysis/index.vue')
-        },
-        {
-          'path': '/Social/OperationConfig/SessionCollect',
-          'name': 'sessionCollect',
-          'title': '会话数据统计',
-          'component': () => import('@/pages/WeWork/sessionCollect/index.vue')
         }
       ]
     }
