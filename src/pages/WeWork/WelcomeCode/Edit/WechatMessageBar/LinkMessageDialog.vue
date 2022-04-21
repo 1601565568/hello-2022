@@ -34,7 +34,7 @@
           :rules="rules"
         >
           <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
-          <el-form-item label="跳转链接" prop="custom" label-width="110px" required >
+          <el-form-item label="跳转链接" v-if="cloudPlatformType === 'ecrp'" prop="custom" label-width="110px" required >
             <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange" >
               <el-radio :label="1"  :class="[ENV === 'QA'&& 'stylesQA']" >自定义链接</el-radio>
               <el-radio :label="2"  :class="[ENV === 'QA'&& 'stylesQA']">系统预置链接</el-radio>
