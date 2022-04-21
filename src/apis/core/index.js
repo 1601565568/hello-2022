@@ -16,6 +16,7 @@ import exportlog from './exportlog'
 import exportTask from './exportTask'
 import sysUser from './sysUser'
 import exportDownloadLog from './exportDownloadLog'
+import exportFile from './exportFile'
 export default {
   access,
   common,
@@ -34,6 +35,7 @@ export default {
   exportTask,
   sysUser,
   exportDownloadLog,
+  exportFile,
   /**
    * $api.uploadFile('test')
    * @param {string} module 上传模块名

@@ -4,7 +4,23 @@ import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data: function () {
+    const operateButtons = [
+      {
+        func: function (obj) {
+          // console.log(this, 'this')
+          // this.$parent.$refs.detail.onOpenDetail(obj.row.sys_customer_id)
+          this.onUserDetail(obj.row)
+        },
+        // icon: '$.noop',
+        name: '详情',
+        auth: '',
+        visible: ''
+      }
+    ]
     return {
+      // 判断客道、ecrp环境
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
+      operateButtons: operateButtons,
       model: {
         customerNick: '',
         guideIds: [],
@@ -72,6 +88,15 @@ export default {
         }
       }
       return url
+    },
+    // 查询外部联系人详情，根据shopId和unionId查询
+    onUserDetail (val) {
+      // console.log(val, '打开')
+      this.$refs.NsFriendDetail.showDetailDialog(val)
+    },
+    // 处理选择员工组件传值
+    owenerChange (val) {
+      this.model.guideIds = val.map(el => +el)
     }
   }
 }

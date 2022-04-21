@@ -111,7 +111,7 @@
           <el-table-column
             label="权益"
             :show-overflow-tooltip="true"
-            align="left"
+            align="center"
             :sortable="false"
           >
             <template slot-scope="scope">
@@ -130,7 +130,12 @@
               >
             </template>
           </el-table-column>
-          <el-table-column label="剩余数量" prop="validNumber" align="right">
+          <el-table-column label="剩余数量" prop="validNumber" align="center">
+          </el-table-column>
+            <el-table-column label="备注" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.remark || '-' }}</span>
+            </template>
           </el-table-column>
           <el-table-column label="创建人" align="right">
             <template slot-scope="scope">
