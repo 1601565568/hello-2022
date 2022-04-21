@@ -32,7 +32,7 @@
       <Icon type="xiaochengxushouquan" class="icon"/>
       <span class="item-tip">小程序</span>
     </div>
-    <div class="add-material-item" @click="visiblePosterMessageDialog = true">
+    <div class="add-material-item" v-if="cloudPlatformType === 'ecrp'" @click="visiblePosterMessageDialog = true">
       <Icon type="poster-1" class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
@@ -90,6 +90,8 @@ export default {
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       visibleLinkMessageDialog: false,
       visibleMiniProgramMessageDialog: false,
       visiblePosterMessageDialog: false,

@@ -13,11 +13,11 @@
       </template>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="">
+          <!-- <el-form-item label="">
             <el-input v-model.trim="model.searchValue" placeholder="微信群名" @keyup.enter.native="onSearch">
               <Icon type="ns-search" slot="suffix" class='search-icon' @click="onSearch"></Icon>
             </el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="群主：">
             <el-select v-model="model.guideId" filterable @change="onSearch" placeholder="请选择">
               <template v-if="cloudPlatformType === 'ecrp'">
