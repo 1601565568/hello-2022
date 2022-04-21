@@ -84,7 +84,7 @@
       </el-form-item>
       <el-form-item ref="imageForm" label="附件：">
         <span class="add-tip label-gap">视频限制最大10MB，支持MP4格式；图片最大2MB，支持PNG、JPG格式；</span><br/>
-        <span class="add-tip label-gap">最多可添加9个附件（加小程序码的最多8个）</span><br/>
+        <span class="add-tip label-gap">最多可添加9个附件{{cloudPlatformType === 'ecrp' ? '（加小程序码的最多8个）' : ''}}</span><br/>
         <span class="add-tip label-gap">若希望在移动端一键发送至朋友圈，附件仅支持图片、视频、链接，且只能存在一种类型</span>
           <MessageList
             :list.sync="mediaList"
@@ -95,7 +95,6 @@
           />
           <el-popover
             placement="top-start"
-            width="480"
             trigger="hover"
             :disabled="!(imageNum===8?mediaList.length < 8:mediaList.length < 9)"
           >
@@ -111,6 +110,7 @@
             </template>
             <WechatMessageBar
               :pitBit='true'
+              :showPitBit="cloudPlatformType === 'ecrp'"
               ref="WechatMessageBar"
               :multipleImage='true'
               :limitImage='limitImage'
@@ -119,7 +119,7 @@
             />
           </el-popover>
       </el-form-item>
-      <el-form-item label="跳转链接：" prop="codeModule" v-if="showMiniCode">
+      <el-form-item label="跳转链接：" prop="codeModule" v-if="showMiniCode && cloudPlatformType === 'ecrp'">
         <div style="display:inline-block;margin-right:16px;">
           <div class="run-link-view">
             <div class="run-item-select">
@@ -213,7 +213,7 @@
       >
         <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
       </el-form-item> -->
-      <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget">
+      <el-form-item label="小程序码类型：" prop="codeType" v-if="model.codeTarget && cloudPlatformType === 'ecrp'">
         <template v-if="disabledPicType">
           <el-radio-group v-model="model.codeType" :class="[ENV === 'QA' && 'radioQA']">
             <el-radio :label="1" :disabled="true">图片上植入小程序码 </el-radio>
@@ -231,69 +231,71 @@
         <span class="library-catalogue__text">{{ catalogueStr }}</span>
         <ns-button :style='catalogueStr ? "margin-left: 12px" : ""' type="primary" @click="toggleFolder">选择文件夹</ns-button>
       </el-form-item>
-      <el-form-item class="remind-setting" label="提醒设置：" :class="[ENV === 'QA' && 'bgQA']">
-        <el-switch
-          :active-value="1"
-          :inactive-value="0"
-          v-model="model.notifyState"
-        ></el-switch>
-        <span class="add-tip label-gap" style="display:block;margin-top: 16px;">如开启，将通知员工有新的素材上架</span>
-      </el-form-item>
-      <el-form-item v-if="model.notifyState">
-        <el-form-item label-width="106px" label="提醒员工" prop="guideIdList" required>
-          <html-area style="position:relative;height: 32px;max-width: 540px">
-            <div class="employee-list">
-              <span class="selected-tip">
-                已选择<span class="selected-count" :class="[ENV === 'QA' && 'colorQA']" >{{ model.guideIdList.length }}</span>人
-              </span>
-              <template v-if="guideDatas.length">
-                <div class="employee-list_item" v-for="item in guideDatas" :key="item.id">
-                  {{ item.name }}
+      <template v-if="cloudPlatformType === 'ecrp'">
+        <el-form-item class="remind-setting" label="提醒设置：" :class="[ENV === 'QA' && 'bgQA']">
+          <el-switch
+            :active-value="1"
+            :inactive-value="0"
+            v-model="model.notifyState"
+          ></el-switch>
+          <span class="add-tip label-gap" style="display:block;margin-top: 16px;">如开启，将通知员工有新的素材上架</span>
+        </el-form-item>
+        <el-form-item v-if="model.notifyState">
+          <el-form-item label-width="106px" label="提醒员工" prop="guideIdList" required>
+            <html-area style="position:relative;height: 32px;max-width: 540px">
+              <div class="employee-list">
+                <span class="selected-tip">
+                  已选择<span class="selected-count" :class="[ENV === 'QA' && 'colorQA']" >{{ model.guideIdList.length }}</span>人
+                </span>
+                <template v-if="guideDatas.length">
+                  <div class="employee-list_item" v-for="item in guideDatas" :key="item.id">
+                    {{ item.name }}
+                  </div>
+                </template>
+                <p v-else class="employee-text" >
+                  请选择员工
+                </p>
+                <span v-if="model.guideIdList.length > 5">...</span>
+              </div>
+              <template slot="suffix">
+                <div class="employee-suffix" :class="[ENV === 'QA' && 'colorQA']">
+                  <NsGuideV2Dialog
+                    :visible.sync="NsGuide2DialogVisible"
+                    :appendToBody="true"
+                    :rawInput="5"
+                    v-model="model.guideIdList"
+                    @rawList="handleChangeGuide"
+                  />
+                  <Icon type="geren" @click="NsGuide2DialogVisible = true"></Icon>
                 </div>
               </template>
-              <p v-else class="employee-text" >
-                请选择员工
-              </p>
-              <span v-if="model.guideIdList.length > 5">...</span>
+            </html-area>
+          </el-form-item>
+          <el-form-item label-width="106px" label="通知时间" :class="[ENV === 'QA' && 'QAbg']">
+            <el-radio-group v-model="model.notifyType">
+              <el-radio :label="1">上架即通知</el-radio>
+              <el-radio :label="2">自定义通知时间</el-radio>
+            </el-radio-group>
+            <div class="select-time-view" v-if="model.notifyType === 2">
+              <span class="remind-text">通知时间</span>
+              <el-form-item prop="notifyTime" :rules="[
+                {required: model.notifyType === 2 ? true : false, message:'请选择通知时间', trigger: ['blur', 'change']},
+              ]">
+                <el-date-picker
+                  v-model="model.notifyTime"
+                  type="datetime"
+                  size="large"
+                  format="yyyy-MM-dd HH:mm:ss"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  placeholder="请选择通知时间"
+                  :picker-options="notifyTimePickerOptions"
+                >
+                </el-date-picker>
+              </el-form-item>
             </div>
-            <template slot="suffix">
-              <div class="employee-suffix" :class="[ENV === 'QA' && 'colorQA']">
-                <NsGuideV2Dialog
-                  :visible.sync="NsGuide2DialogVisible"
-                  :appendToBody="true"
-                  :rawInput="5"
-                  v-model="model.guideIdList"
-                  @rawList="handleChangeGuide"
-                />
-                <Icon type="geren" @click="NsGuide2DialogVisible = true"></Icon>
-              </div>
-            </template>
-          </html-area>
+          </el-form-item>
         </el-form-item>
-        <el-form-item label-width="106px" label="通知时间" :class="[ENV === 'QA' && 'QAbg']">
-          <el-radio-group v-model="model.notifyType">
-            <el-radio :label="1">上架即通知</el-radio>
-            <el-radio :label="2">自定义通知时间</el-radio>
-          </el-radio-group>
-          <div class="select-time-view" v-if="model.notifyType === 2">
-            <span class="remind-text">通知时间</span>
-            <el-form-item prop="notifyTime" :rules="[
-              {required: model.notifyType === 2 ? true : false, message:'请选择通知时间', trigger: ['blur', 'change']},
-            ]">
-              <el-date-picker
-                v-model="model.notifyTime"
-                type="datetime"
-                size="large"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="请选择通知时间"
-                :picker-options="notifyTimePickerOptions"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </div>
-        </el-form-item>
-      </el-form-item>
+      </template>
     </el-form>
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
@@ -356,6 +358,8 @@ export default {
   },
   data: function () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       ENV: process.env.VUE_APP_THEME,
       NsGuide2DialogVisible: false,
       loading: false,

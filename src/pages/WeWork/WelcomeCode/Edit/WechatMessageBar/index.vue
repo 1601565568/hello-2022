@@ -145,7 +145,7 @@ export default {
       type: Number,
       default: 99999
     },
-    // 群欢迎语中不需要自建坑位和附码图片
+    // 群欢迎语中不需要自建坑位和附码图片(还有客道环境的素材库也不需要)
     showPitBit: {
       type: Boolean,
       default () {
