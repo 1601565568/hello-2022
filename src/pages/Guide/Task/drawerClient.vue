@@ -122,8 +122,11 @@
           </el-table-column>
           <el-table-column prop="remark" label="跟进记录" width="260px">
             <template slot-scope="scope">
-              <div>
-                <div class="remark">{{ scope.row.remark || "-" }}</div>
+              <div class="spanStyle">
+                <div class="remark">
+                  {{ scope.row.remark || "-" }}
+                </div>
+                <span  v-if="scope.row && !scope.row.urlJson && scope.row.remark" title="点击查看全部" @click="goDetail(scope.row)">详情</span>
                 <div class="urkJsonFather">
                  <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
                     <div
@@ -133,8 +136,9 @@
                   >
                     <img :src="item" />
                   </div>
+                  <span  title="点击查看全部" @click="goDetail(scope.row)">详情</span>
                  </div>
-                  <span v-if="scope.row && (scope.row.remark || scope.row.urlJson)" title="点击查看全部" @click="goDetail(scope.row)">详情</span>
+
                 </div>
               </div>
             </template>
@@ -157,7 +161,7 @@
 
     <el-drawer
       title=""
-      size="1500px"
+      size="80%"
       :visible.sync="drawerVisible"
       direction="rtl"
       :append-to-body="true"
@@ -354,17 +358,16 @@ export default {
     },
     formatUrlJson (urlJson) {
       let arr = urlJson
-      if (arr.length <= 5) {
+      if (arr.length <= 4) {
         return arr
       } else {
-        return arr.slice(0, 5)
+        return arr.slice(0, 4)
       }
     },
     goDetail (data) {
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId
       this.drawerVisible = true
-      console.log(data, 'data')
     },
     // 导出
     exportData () {
@@ -434,7 +437,7 @@ export default {
       }
     }
     >>> td {
-      padding: 13.5px 0;
+      padding: 12px 0;
       border-color: #e8e8e8;
       &:first-child .cell {
         padding-left: 25px;
@@ -454,11 +457,13 @@ export default {
       >>> .remark {
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: pre-line;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
     .urkJsonimageWarpper {
+      margin-top: 8px;
       display: flex;
       align-items: flex-end;
     }
@@ -480,7 +485,7 @@ export default {
       display: flex;
       align-items: center;
     }
-    .urkJsonFather span {
+    .spanStyle span {
       cursor: pointer;
       display: inline-block;
       font-size: 14px;
@@ -511,6 +516,7 @@ export default {
       margin-top: 2px;
     }
     >>> .el-pager li {
+      padding: 0;
       font-size: 14px;
       width: 32px;
       height: 32px;
