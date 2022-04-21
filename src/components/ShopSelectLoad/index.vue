@@ -9,12 +9,22 @@
     @scroll="loadMore"
     @visible-change="handleVisibleChange"
   >
-     <el-option
-      v-for="item in options"
-      :key="item[props.value]"
-      :label="item[props.label]"
-      :value="item[props.value]">
-    </el-option>
+    <template v-if="kdSystemCreator">
+      <el-option
+        v-for="(item, index) in options"
+        :key="index"
+        :label="item"
+        :value="item">
+      </el-option>
+    </template>
+    <template v-else>
+      <el-option
+        v-for="item in options"
+        :key="item[props.value]"
+        :label="item[props.label]"
+        :value="item[props.value]">
+      </el-option>
+    </template>
   </el-select>
 </template>
 <script>

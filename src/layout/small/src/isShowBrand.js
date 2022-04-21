@@ -39,7 +39,8 @@ export default ($route) => {
     '/Social/WeWorkGroup/sensitiveWords',
     '/Social/WeWorkGroup/ChatRecord',
     '/Social/WeComCustomerOperation/DeleteCustomers',
-    '/Social/WeComCustomerOperation/BeDeleteCustomers'
+    '/Social/WeComCustomerOperation/BeDeleteCustomers',
+    'Guide/Material/Library'
 
   ]
 
