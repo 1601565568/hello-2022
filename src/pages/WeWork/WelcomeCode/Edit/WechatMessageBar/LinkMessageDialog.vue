@@ -34,7 +34,7 @@
           :rules="rules"
         >
           <!-- <el-form-item label="跳转链接：" class="message-headling"> </el-form-item> -->
-          <el-form-item label="跳转链接" prop="custom" label-width="110px" required >
+          <el-form-item label="跳转链接" v-if="cloudPlatformType === 'ecrp'" prop="custom" label-width="110px" required >
             <el-radio-group v-model="defaultModel.custom" @change="linkRadioChange" >
               <el-radio :label="1"  :class="[ENV === 'QA'&& 'stylesQA']" >自定义链接</el-radio>
               <el-radio :label="2"  :class="[ENV === 'QA'&& 'stylesQA']">系统预置链接</el-radio>
@@ -437,6 +437,38 @@ export default {
           value: '时间戳'
         }
       ],
+      placeholderLinkKD: [
+        {
+          text: '集团ID',
+          id: 'groupId',
+          type: 'tag',
+          value: '集团ID'
+        },
+        {
+          text: '好友userid',
+          id: 'userId',
+          type: 'tag',
+          value: '好友userid'
+        },
+        {
+          text: '成员userid',
+          id: 'guideUserId',
+          type: 'tag',
+          value: '成员userid'
+        },
+        {
+          text: '随机数标识',
+          id: 'random',
+          type: 'tag',
+          value: '随机数标识'
+        },
+        {
+          text: '时间戳',
+          id: 'timestamp',
+          type: 'tag',
+          value: '时间戳'
+        }
+      ],
       defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/mini-icon.jpg'
     }
   },
@@ -444,6 +476,10 @@ export default {
     this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     if (!this.needLink) {
       this.placeholderLink = []
+    } else {
+      if (this.cloudPlatformType === 'kd') {
+        this.placeholderLink = this.placeholderLinkKD
+      }
     }
   },
   methods: {
