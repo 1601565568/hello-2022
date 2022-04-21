@@ -129,7 +129,7 @@
               />
             </ElFormItem>
             <ElFormItem label="封面图：" prop="image" label-width="110px" class="el-form-validate__box">
-              <el-form-item prop="image">
+              <!-- <el-form-item prop="image"> -->
                 <div class="link-upload-view">
                   <div class="img-url__logo">
                     <div v-if="defaultModel.image" class="upload-mask-view">
@@ -155,7 +155,7 @@
                     </drap-upload>
                   </div>
                 </div>
-              </el-form-item>
+              <!-- </el-form-item> -->
               <!-- <ElUpload
                 :action="this.$api.core.sgUploadFile('message')"
                 :show-file-list="false"
@@ -172,7 +172,7 @@
                 请上传格式为jpg、png的图片，建议长宽比例为5:4，大小不超过2M
               </div> -->
             </ElFormItem>
-            <ElFormItem label-width="110px" style="margin-top:-25px">
+            <ElFormItem label-width="110px">
               <div class="text-secondary">上传限制：建议比例5:4，小于2M，jpg、png、jpeg格式</div>
             </ElFormItem>
             <!-- <ElFormItem label-width="83px">
