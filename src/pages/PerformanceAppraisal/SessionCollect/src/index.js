@@ -1,18 +1,13 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from './mixins/redpacketTable'
-import { getCurrentMonthArray } from '@/utils/date'
-import { mapState } from 'vuex'
+import { getCurrentMonthArray, handleTimeNew } from '@/utils/date'
 export default {
   data () {
     return {
-      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType, // 平台判断
       model: {
-        endTime: '',
-        launchType: null,
-        customerNick: '',
-        redpackType: null,
         guideIds: [],
-        startTime: ''
+        startTime: '',
+        endTime: ''
       },
       url: this.$api.guide.redpacket.getReceiverList,
       exportApi: this.$api.guide.redpacket.exportReceiverList,
@@ -20,13 +15,9 @@ export default {
     }
   },
   mixins: [tableMixin, redpacketTable],
-  computed: {
-    ...mapState({
-      payMap: state => state.pay.wxpayMap
-    })
-  },
   mounted () {
     // 设置时间筛选默认当月
+    console.log(handleTimeNew(new Date(), 1), 'getCurrentMonthArray()')
     this.seachDate = getCurrentMonthArray()
     this.model.startTime = this.seachDate[0]
     this.model.endTime = this.seachDate[1]

@@ -20,17 +20,14 @@
             >
             </el-date-picker>
           </el-form-item>
-          <el-form-item
-            :label="cloudPlatformType == 'ecrp' ? '发放人：' : '发放成员：'"
-            class="el-form__change"
-          >
-            <NsGuideDialog
+          <el-form-item label="企业微信成员: " class="el-form__change">
+            <GuideDialog
               :selfBtn="true"
               :appendToBody="true"
               :isButton="false"
-              :auth="true"
+              :auth="false"
               btnTitle=""
-              :dialogTitle="选择员工"
+              :dialogTitle="`选择员工`"
               v-model="model.guideIds"
               @input="
                 (value) => {
@@ -38,7 +35,6 @@
                 }
               "
               :isOpenDialogAfterRequest="false"
-              v-if="cloudPlatformType == 'ecrp'"
             >
               <template slot="selfBtn">
                 <div class="self-btn">
@@ -50,35 +46,7 @@
                   <Icon type="geren" class="guideIds-icon"></Icon>
                 </div>
               </template>
-            </NsGuideDialog>
-            <NsGuideWeChatDialog
-              :selfBtn="true"
-              :appendToBody="true"
-              :isButton="false"
-              :auth="true"
-              :switchAreaFlag="1"
-              btnTitle=""
-              dialogTitle="选择企业微信成员"
-              v-model="model.guideIds"
-              @input="
-                (value) => {
-                  changeSearchfrom({ guideIds: value })
-                }
-              "
-              :isOpenDialogAfterRequest="false"
-              v-else
-            >
-              <template slot="selfBtn">
-                <div class="self-btn">
-                  {{
-                    model.guideIds && model.guideIds.length
-                      ? `已选择${model.guideIds.length}个成员`
-                      : '全部'
-                  }}
-                  <Icon type="geren" class="guideIds-icon"></Icon>
-                </div>
-              </template>
-            </NsGuideWeChatDialog>
+            </GuideDialog>
           </el-form-item>
         </el-form>
       </template>
@@ -114,36 +82,11 @@
                 </template>
               </template>
             </el-table-column>
-            <el-table-column prop="payTime" label="平均响应时长"> </el-table-column>
+            <el-table-column prop="payTime" label="平均响应时长">
+            </el-table-column>
             <el-table-column prop="redpackName" label="群聊发言次数">
             </el-table-column>
             <el-table-column prop="mchMsg" label="敏感词触发次数">
-            </el-table-column>
-            <el-table-column prop="redpackType" label="红包类型">
-              <template slot-scope="scope">
-                {{ redpacketTypeMap[scope.row.redpackType] }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="sendName"
-              :label="cloudPlatformType === 'ecrp' ? '发放人' : '发放成员'"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="workNumber"
-              label="工号"
-              v-if="cloudPlatformType === 'ecrp'"
-            >
-              <template slot-scope="scope">
-                {{ scope.row.workNumber || '-' }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="shopNames"
-              show-overflow-tooltip
-              label="工作门店"
-              v-if="cloudPlatformType === 'ecrp'"
-            >
             </el-table-column>
           </el-table>
         </template>
@@ -173,8 +116,9 @@ import Index from './src/index'
 import PageTable from '@/components/NewUi/PageTablePro'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 Index.components = {
-  PageTable, NsGuideDialog, NsGuideWeChatDialog
+  PageTable, NsGuideDialog, NsGuideWeChatDialog, GuideDialog
 }
 export default Index
 </script>
