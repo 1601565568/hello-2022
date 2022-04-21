@@ -184,7 +184,7 @@
     <NsPreview ref="NsPreview" :appendToBody="true"></NsPreview>
     <el-drawer
       title=""
-      size="1500px"
+      size="80%"
       :visible.sync="drawerVisible"
       direction="rtl"
       :append-to-body="true"
@@ -316,6 +316,7 @@ export default drawerVisible
       margin-top: 2px;
     }
     >>> .el-pager li {
+      padding: 0;
       font-size: 14px;
       width: 32px;
       height: 32px;

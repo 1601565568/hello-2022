@@ -268,10 +268,10 @@
             </el-table-column>
             <el-table-column align="left" prop="shopStatus" label="线下门店状态">
               <template slot-scope="scope">
-                <span v-if="scope.row.shopStatus === 0" class="text-danger">删除</span>
-                <span v-if="scope.row.shopStatus === -1" class="text-danger">暂停</span>
-                <span v-if="scope.row.shopStatus === -2" class="text-danger">已关店</span>
-                <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
+                <span v-if="scope.row.shopStatus === 0" >删除</span>
+                <span v-if="scope.row.shopStatus === -1" >暂停</span>
+                <span v-if="scope.row.shopStatus === -2" >已关店</span>
+                <span v-if="scope.row.shopStatus === 1" >正常</span>
               </template>
             </el-table-column>
             <el-table-column align="left" prop="guideCount" label="分配导购">
@@ -361,7 +361,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-drawer title="" size="1500px" :visible.sync="drawerVisible" direction="rtl">
+    <el-drawer title="" size="80%" :visible.sync="drawerVisible" direction="rtl">
       <drawerTable
         v-if="drawerVisible"
         :id="id"
@@ -779,6 +779,7 @@ export default taskOverview
         margin-top: 2px;
       }
       >>> .el-pager li {
+        padding: 0;
         font-size: 14px;
         width: 32px;
         height: 32px;

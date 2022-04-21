@@ -245,6 +245,7 @@ export default {
       margin-top: 2px;
     }
     >>> .el-pager li {
+      padding: 0;
       font-size: 14px;
       width: 32px;
       height: 32px;
