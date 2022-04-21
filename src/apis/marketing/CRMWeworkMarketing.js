@@ -1,4 +1,5 @@
 export default {
+  // 老的群营销列表获取创建人筛选信息接口
   getEmployee: {
     url: '/wework/marketing/getEmployee',
     method: 'get'
@@ -159,5 +160,10 @@ export default {
   deleteWxActivityGroup: {
     url: '/wework/marketing/deleteWxActivity',
     method: 'get'
+  },
+  // 群营销列表获取创建人筛选信息接口
+  groupCreators: {
+    url: '/wework/groupMessage/groupCreators',
+    method: 'post'
   }
 }
