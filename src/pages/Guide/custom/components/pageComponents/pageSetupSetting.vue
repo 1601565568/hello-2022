@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="pageRewardSettingShow" width="35%">
-    <div class="tipsShowTitle" slot="title">设置</div>
+    <div class="tipsShowTitle" slot="title">{{title}}</div>
     <div class="tipsShowContent">
       <el-form label-width="4px">
         <el-form-item label="" required>
@@ -27,13 +27,15 @@ export default {
     return {
       pageRewardSettingShow: false,
       list: [],
-      type: ''
+      type: '',
+      title: ''
     }
   },
   methods: {
     init (item, type) {
       this.pageRewardSettingShow = true
       this.type = type
+      this.title = type === 'guide' ? '设置' : '操作管理'
       this.list = JSON.parse(JSON.stringify(item))
     },
     formatLabel (status) {
