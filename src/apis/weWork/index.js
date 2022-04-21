@@ -2,8 +2,8 @@
  * @Descripttion: 企业微信
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:31:11
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-30 11:29:27
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-19 19:25:32
  */
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
@@ -19,6 +19,7 @@ import friendsCircle from './friendsCircle.js'
 import sessionStatistics from './sessionStatistics.js'
 import groupManager from './groupManager.js'
 import groupWelcomeCode from './groupWelcomeCode'
+import salesStatistics from './salesStatistics'
 export default {
   welcomeCode,
   behaviorData,
@@ -33,5 +34,6 @@ export default {
   friendsCircle,
   sessionStatistics,
   groupManager,
-  groupWelcomeCode
+  groupWelcomeCode,
+  salesStatistics
 }

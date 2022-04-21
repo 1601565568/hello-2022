@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-08 11:49:37
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-14 18:17:48
+ * @LastEditTime: 2022-04-21 15:29:09
  * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
  */
 /**
@@ -61,7 +61,8 @@ export default ($route) => {
     '/Marketing/EnterpriseGroupMessage',
     '/Marketing/EnterpriseGroupMessagePush',
     '/Marketing/EffectAnalysisEnterpriseGroup',
-    '/EnterpriseGroupExamine'
+    '/EnterpriseGroupExamine',
+    '/PerformanceAppraisal/SalesStatistics/List'
 
   ]
 
