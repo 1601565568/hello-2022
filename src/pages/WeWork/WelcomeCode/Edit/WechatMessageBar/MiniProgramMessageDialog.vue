@@ -273,7 +273,7 @@ export default {
     }
 
     return {
-      cloudPlatformType: '',
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       defaultModel: {
@@ -354,6 +354,38 @@ export default {
           value: '时间戳'
         }
       ],
+      placeholderLinkKD: [
+        {
+          text: '集团ID',
+          id: 'groupId',
+          type: 'tag',
+          value: '集团ID'
+        },
+        {
+          text: '好友userid',
+          id: 'userId',
+          type: 'tag',
+          value: '好友userid'
+        },
+        {
+          text: '成员userid',
+          id: 'guideUserId',
+          type: 'tag',
+          value: '成员userid'
+        },
+        {
+          text: '随机数标识',
+          id: 'random',
+          type: 'tag',
+          value: '随机数标识'
+        },
+        {
+          text: '时间戳',
+          id: 'timestamp',
+          type: 'tag',
+          value: '时间戳'
+        }
+      ],
       defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg',
       linkLength: 0
     }
@@ -362,6 +394,10 @@ export default {
     // this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     if (!this.needLink) {
       this.placeholderLink = []
+    } else {
+      if (this.cloudPlatformType === 'kd') {
+        this.placeholderLink = this.placeholderLinkKD
+      }
     }
   },
   methods: {
