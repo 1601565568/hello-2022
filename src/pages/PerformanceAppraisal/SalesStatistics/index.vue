@@ -34,7 +34,7 @@
         <el-form :inline="true" class="form-inline_top">
           <el-form-item>
             <div class="shop-content">
-              <span>{{ { "1": "企业微信成员", "2": "群主" }[tabId] }}：</span>
+              <span>{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span>
               <GuideDialog
                 :selfBtn="true"
                 :appendToBody="true"
@@ -45,14 +45,14 @@
                 btnTitle=""
                 :dialogTitle="`选择${tabId === '1' ? '企业微信成员' : '群主'}`"
                 v-model="guideIds"
-                @input="guideClick"
+                @inputAllData="guideClick"
               >
                 <template slot="selfBtn">
                   <div class="self-btn">
                     {{
                       guideIds && guideIds.length
                         ? `已选择${guideIds.length}个`
-                        : "全部"
+                        : '全部'
                     }}
                     <Icon type="geren" class="guideIds-icon"></Icon>
                   </div>
@@ -92,7 +92,7 @@
           </el-form-item>
           <el-form-item label="下单时间: ">
             <el-date-picker
-              style="margin-left:15px"
+              style="margin-left: 15px"
               value-format="yyyy-MM-dd HH:mm:ss"
               format="yyyy/MM/dd"
               type="daterange"
@@ -128,7 +128,12 @@
           key="qmc"
         >
         </el-table-column>
-        <el-table-column v-if="tabId == '2'" prop="ownerName" key="qz" label="群主">
+        <el-table-column
+          v-if="tabId == '2'"
+          prop="ownerName"
+          key="qz"
+          label="群主"
+        >
         </el-table-column>
         <el-table-column prop="orderPriceAll">
           <template slot="header">
@@ -235,7 +240,9 @@
             </el-tooltip>
           </template>
           <template slot-scope="scope">
-            <template> {{ scope.row.buyCustomerTax * 100 }}% </template>
+            <template>
+              {{ floatObj.multiply(scope.row.buyCustomerTax, 100) }}%
+            </template>
           </template>
         </el-table-column>
         <el-table-column prop="address" width="125px" label="操作">
@@ -308,7 +315,7 @@
         <ns-button
           @click="
             () => {
-              this.dialogVisible = !this.dialogVisible;
+              this.dialogVisible = !this.dialogVisible
             }
           "
           >取 消</ns-button
@@ -331,6 +338,7 @@ import { getErrorMsg } from '@/utils/toast'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import { ShipOptions, StatisticsCode } from './src/const.js'
+import { floatObj } from '@/utils/common.js'
 // import AllTable from './components/List/AllTable'
 // import EachTable from './components/List/EachTable'
 // Index.components = {
@@ -355,8 +363,9 @@ export default {
     // ElBreadcrumbItem
   },
   // mixins: [tableMixin],
-  data() {
+  data () {
     return {
+      floatObj: { ...floatObj },
       dialogVisible: false,
       dialogData: {
         saleSwitch: false,
@@ -415,33 +424,33 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.init()
   },
-  mounted() {
+  mounted () {
     this.fetchList()
     this.fetchOptions()
   },
   watch: {
-    'tableParams.time': function(val) {
+    'tableParams.time': function (val) {
       this.tableParams.searchMap.createdStart = val[0]
       this.tableParams.searchMap.createdEnd = val[1]
     },
     guideIds: {
-      handler: function(val) {
+      handler: function (val) {
         this.tableParams.searchMap.userIdList = val.join(',')
       }
     }
   },
   methods: {
-    init() {
-      // let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
-      // let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
-      // this.tableParams.time.push(beginDate)
-      // this.tableParams.time.push(endDate)
-      this.tableParams.time = ['2021-10-13 17:59:41', '2021-12-13 17:59:41']
+    init () {
+      let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
+      let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
+      this.tableParams.time.push(beginDate)
+      this.tableParams.time.push(endDate)
+      // this.tableParams.time = ['2020-01-08 14:38:18', '2022-03-21 13:45:55']
     },
-    fetchList(params) {
+    fetchList (params) {
       this.table.loading = true
       let _params = { ...this.tableParams, params }
       let url =
@@ -466,7 +475,7 @@ export default {
           this.$notify.error(getErrorMsg('加载失败', resp))
         })
     },
-    fetchOptions() {
+    fetchOptions () {
       this.$http
         .fetch(this.$api.weWork.salesStatistics.statisticsShopList)
         .then(res => {
@@ -478,7 +487,7 @@ export default {
           this.$notify.error(getErrorMsg('加载失败', resp))
         })
     },
-    handleDetail(row) {
+    handleDetail (row) {
       let _params = {
         ...this.tableParams.searchMap,
         userIdList: row.userID,
@@ -489,10 +498,11 @@ export default {
         params: _params
       })
     },
-    guideClick() {
+    guideClick (value) {
+      this.guideIds = value.map(item => item.userId)
       this.fetchList()
     },
-    handleTabsClick() {
+    handleTabsClick () {
       this.tableParams = Object.assign({}, this.$options.data().tableParams)
       this.pagination = Object.assign({}, this.$options.data().pagination)
       this.guideIds = Object.assign({}, this.$options.data().guideIds)
@@ -502,7 +512,7 @@ export default {
     /**
      * 每页条数发生变化
      */
-    handleSizeChange(size) {
+    handleSizeChange (size) {
       this.pagination.page = 1
       this.pagination.size = size
       this.tableParams.length = size
@@ -512,11 +522,11 @@ export default {
     /**
      * 页码发生变化
      */
-    handlePageChange(page) {
+    handlePageChange (page) {
       this.tableParams.start = (page - 1) * this.tableParams.length
       this.fetchList()
     },
-    confirm() {
+    confirm () {
       let { id, code, saleSwitch, saleTime } = this.dialogData
       let strifyValue = JSON.stringify({
         isOpen: saleSwitch,
@@ -534,7 +544,7 @@ export default {
         })
       this.dialogVisible = false
     },
-    handleSet() {
+    handleSet () {
       let params = { code: this.dialogData.code }
       this.$http
         .fetch(this.$api.weWork.salesStatistics.findByCode, params)
@@ -559,11 +569,11 @@ export default {
       this.dialogVisible = true
     },
     // 格式化日期
-    formatNumber(number) {
+    formatNumber (number) {
       return String(number)[1] ? String(number) : `0${number}`
     },
     // 设置前一周日期
-    handleTimeOld(time, split) {
+    handleTimeOld (time, split) {
       let date = new Date(time)
       let year = date.getFullYear()
       let month = date.getMonth() + 1
@@ -575,7 +585,7 @@ export default {
       )
     },
     // 设置昨天日期
-    handleTimeNew(time) {
+    handleTimeNew (time) {
       let date = new Date(time)
       let year = date.getFullYear()
       let month =
@@ -590,13 +600,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "@components/NewUi/styles/reset.css";
+@import '@components/NewUi/styles/reset.css';
 .title-tab {
   display: flex;
   margin-left: 16px;
   position: relative;
   &::before {
-    content: " ";
+    content: ' ';
     position: absolute;
     left: 0;
     top: 50%;

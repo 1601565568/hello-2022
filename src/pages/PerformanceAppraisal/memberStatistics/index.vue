@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-20 17:38:15
+ * @LastEditTime: 2022-04-21 15:02:25
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -61,7 +61,7 @@
         class="template-table__main"
         stripe
         resizable
-        v-loading.lock="_data.table.loadingtable"
+        v-loading.lock="_data._table.loadingtable"
         :element-loading-text="$t('prompt.loading')"
         @sort-change="tableSort"
       >
@@ -211,9 +211,7 @@ export default {
       {},
       {
         customerNameOrPlatNick: '',
-        workTag: '',
-        orderKey: 'orderPrice',
-        orderDir: ''
+        workTag: ''
       },
       {}
     )
@@ -238,6 +236,11 @@ export default {
         disabled: 'disabled'
       },
       model: model,
+      // eslint-disable-next-line vue/no-reserved-keys
+      _order: {
+        orderKey: 'orderPrice',
+        orderDir: 'desc'
+      },
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
@@ -275,9 +278,9 @@ export default {
     // 下单金额排序
     tableSort(data) {
       if (data.order === 'ascending') {
-        this.model.orderDir = 'asc'
+        this._data._order.orderDir = 'asc'
       } else if (data.order === 'descending') {
-        this.model.orderDir = 'desc'
+        this._data._order.orderDir = 'desc'
       }
       this.$searchAction$()
     },
