@@ -257,7 +257,28 @@
               prop="shopName"
               label="门店名称"
             />
-            <el-table-column label="区域" prop="address" width="200px" />
+            <el-table-column label="区域" prop="address" width="200px">
+               <template slot-scope="scope">
+                    <div class="offline-shop-content">
+                      <span class="scope-store-text">
+                        {{scope.row.address.length ? scope.row.address.join('；') : '-'}}
+                      </span>
+                      <el-popover
+                        v-if="scope.row.address.length"
+                        placement="top-start"
+                        class="item"
+                        :title="`所在区域（${scope.row.address.length}）`"
+                        trigger="hover"
+                        :content="scope.row.address.join('；')"
+                        >
+                        <span class="scope-name_tip" slot="reference">共{{scope.row.address.length}}个</span>
+                        <div style="max-width: 400px">
+                          {{scope.row.address.join('；')}}
+                        </div>
+                      </el-popover>
+                    </div>
+                  </template>
+            </el-table-column>
             <el-table-column align="left" prop="shopType" label="类型">
               <template slot-scope="{ row }">
                 <span v-if="row.shopType === 'ZYD'">直营店</span>
@@ -715,6 +736,20 @@ export default taskOverview
     }
     @e table {
       padding-top: 24px;
+       .offline-shop-content {
+          display: flex;
+        .scope-store-text {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        }
+         .scope-name_tip {
+          color: #0091FA;
+          display: block;
+          min-width: 55px;
+        }
       .zhihui >>> button {
         color: #606266;
       }
