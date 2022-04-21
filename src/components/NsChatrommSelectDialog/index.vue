@@ -1,11 +1,11 @@
 <template>
   <div>
-    <template v-if="textButton">
+    <!-- <template v-if="textButton">
       <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     </template>
     <template v-else>
       <NsButton type="primary" @click="onDialogOpen" class="margin-lr-small"><i class="bui-select-employee"></i>{{btnTitle}}</NsButton>
-    </template>
+    </template> -->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false" class="g-wrapper"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="960px">
       <div>
@@ -307,6 +307,11 @@ export default {
     textButton: {
       type: Boolean,
       default: true
+    },
+    // 是否需要返回群名称，群营销新建中用到
+    needGroupName: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -1121,6 +1126,7 @@ export default {
         }
       }
     },
+    // 获取群主信息
     getChatrooms (type, initData, setSelectedDataFull) {
       const map = { }
       const url = this.isqywx ? this.$api.marketing.weworkMarketing.queryGroupEntRoomsLeaderList : this.$api.marketing.wechat.queryGroupRooms
@@ -1144,6 +1150,7 @@ export default {
           this.tableLoading = false
         })
     },
+    // 获取员工信息
     getEmployeeList (type, initData, setSelectedDataFull) {
       this.tableLoading = true
       const param = {}
@@ -1339,6 +1346,10 @@ export default {
             const returnObj = {}
             propsSet.forEach(pro => {
               returnObj[this[propsName][pro]] = item[pro]
+              if (this.needGroupName) {
+                // Todo 缺少群名字段
+                // returnObj.targetName = item.subdivisionName
+              }
             })
             result.push(returnObj)
           })

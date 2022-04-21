@@ -57,7 +57,11 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/RoomList',
     '/Social/WeComCustomerOperation/NsTableEnterpriseWeChatMember',
     '/Social/WeComCustomerOperation/GroupData',
-    '/Social/OperationConfig/topicAnalysis'
+    '/Social/OperationConfig/topicAnalysis',
+    '/Marketing/EnterpriseGroupMessage',
+    '/Marketing/EnterpriseGroupMessagePush',
+    '/Marketing/EffectAnalysisEnterpriseGroup',
+    '/EnterpriseGroupExamine'
 
   ]
 

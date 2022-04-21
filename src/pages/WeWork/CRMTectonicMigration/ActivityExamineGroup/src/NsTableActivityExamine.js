@@ -1,10 +1,11 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import { pickerOptions } from '../../EnterpriseGroupMessage/src/common'
+import PageTable from '@/components/NewUi/PageTablePro'
 
 let vm
 export default {
-  name: 'NsTableActivityExamine',
+  name: 'NsTableActivityExamineGroup',
   mixins: [tableMixin],
   props: {
     types: Object,
@@ -28,108 +29,48 @@ export default {
         name: '审核',
         auth: '',
         visible: ''
-      },
-      {
-        func: function (obj) {
-          switch (obj.row.marketingType) {
-            case 4: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseMessagePush',
-                query: {
-                  openType: 'view',
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-            case 5: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseGroupMessagePush',
-                query: {
-                  openType: 'view',
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-            default: {
-              vm.$router.push({
-                path: '/Marketing/EnterpriseMessagePush',
-                query: {
-                  taskId: obj.row.id
-                }
-              })
-              break
-            }
-          }
-        },
-        icon: '$.noop',
-        name: '查看活动',
-        auth: '',
-        visible: ''
       }
     ]
 
     const operateButtons = []
 
-    const quickInput = [{
-      template: '',
-      inline: false,
-      name: 'name',
-      text: '活动名称',
-      placeholder: '请输入活动名称',
-      type: 'text',
-      value: '',
-      isConvenient: false
-    }]
-    const quickSearchNames = quickInput.map(x => x.name)
-    const quickSearchModel = {}
     const model = Object.assign({},
       {
-        creater: '',
+        employeeLoginName: '',
+        employeeId: '',
         name: '',
-        type: '',
-        createTime: [],
-        execTime: []
+        status: '2',
+        createTime: []
       }, {})
     const that = this
 
-    quickInput.map(item => {
-      Object.defineProperty(quickSearchModel, item.name, {
-        get: function () {
-          return model[item.name]
-        },
-        set: function (val) {
-          model[item.name] = val
-          // TODO 由于特殊需求导致下列写法
-          if (item.type === 'radio') {
-            that._data._table.quickSearchMap[item.name] = val
-            that.$quickSearch$()
-          }
-        },
-        enumerable: true
-      })
-    })
-
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       pickerOptions: pickerOptions,
-      quickSearchModel: quickSearchModel,
+      // quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryAuditTable,
+      url: this.$api.marketing.weworkMarketing.queryTableGroup,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
-        quickSearchNames: quickSearchNames,
-        operate_buttons: operateButtons,
-        quickSearchMap: {}
+        // quickSearchNames: quickSearchNames,
+        operate_buttons: operateButtons
+        // quickSearchMap: {}
       },
       _queryConfig: {
         expand: false
+      },
+      // 创建人客道环境下拉
+      selectProps: {
+        label: 'name',
+        value: 'id',
+        disabled: 'disabled'
       }
     }
   },
@@ -148,39 +89,62 @@ export default {
     }
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
-    $handleParams: function (param) {
-      if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
-        param.searchMap.createStartTime = param.searchMap.createTime[0]
-        param.searchMap.createEndTime = param.searchMap.createTime[1]
-      }
-      let type = '1'
-      switch (this.$route.path) {
-        case '/GroupExamine': type = '2'; break
-        case '/CircleExamine': type = '3'; break
-        case '/EnterpriseExamine': type = '4'; break
-        case '/EnterpriseGroupExamine': type = '5'; break
-        default: break
-      }
-      param.searchMap.type = type
-      delete param.searchMap.execTime
-      delete param.searchMap.createTime
-      param.searchMap.status = 2
-      return param
+    // 筛选创建人
+    getCreater (value) {
+      this.$searchAction$()
     },
-    onHandleSelectChange: function (val) {
-      this.$set(this, 'selectRows', val)
+    // 弹框事件处理 end
+    getCreateTime (value) {
+      if (!value) {
+        this.model.createTimeStart = ''
+        this.model.createTimeEnd = ''
+      } else {
+        this.model.createTimeStart = value[0]
+        this.model.createTimeEnd = value[1]
+      }
+      this.$searchAction$()
     },
+    // $handleParams: function (param) {
+    //   if (param.searchMap && param.searchMap.createTime && param.searchMap.createTime.length > 0) {
+    //     param.searchMap.createStartTime = param.searchMap.createTime[0]
+    //     param.searchMap.createEndTime = param.searchMap.createTime[1]
+    //   }
+    //   let type = '1'
+    //   switch (this.$route.path) {
+    //     case '/GroupExamine': type = '2'; break
+    //     case '/CircleExamine': type = '3'; break
+    //     case '/EnterpriseExamine': type = '4'; break
+    //     case '/EnterpriseGroupExamine': type = '5'; break
+    //     default: break
+    //   }
+    //   param.searchMap.type = type
+    //   delete param.searchMap.execTime
+    //   delete param.searchMap.createTime
+    //   param.searchMap.status = 2
+    //   return param
+    // },
+    // onHandleSelectChange: function (val) {
+    //   this.$set(this, 'selectRows', val)
+    // },
+    // 搜索活动名称
     onSearch () {
       this.$searchAction$()
     },
-    onShowAudit (planId) {
-      if (!planId) {
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
+    },
+    onShowAudit (messageId) {
+      if (!messageId) {
         return false
       }
-      this.$emit('showAudit', planId)
+      this.$emit('showAudit', messageId)
     }
   }
 }
