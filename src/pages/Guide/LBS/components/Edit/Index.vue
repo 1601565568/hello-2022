@@ -158,7 +158,7 @@
 
                   <el-tooltip content=""  placement="top">
                     <div slot="content">
-                      <span>一个群聚合码最多可关联100个群，超过100个群时无法自动创建群</span><br/>
+                      <span>一个群聚合码最多可关联{{showWhiteNum}}个群，超过{{showWhiteNum}}个群时无法自动创建群</span><br/>
                       <span>请设置需自动移除的群聊（不会解散群）</span>
                     </div>
                     <Icon type="question-circle" class='question-circle' />
