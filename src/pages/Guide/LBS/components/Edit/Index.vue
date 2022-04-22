@@ -184,14 +184,14 @@
 
                     <el-tooltip content=""  placement="top">
                       <div slot="content">
-                        <span>企微接口限制，单个群码聚合超过100个群时，无法自动创建新群</span><br/>
-                        <span>请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）</span>
+                        <span>企微接口限制，单个群码聚合超过{{showWhiteNum}}个群时，无法自动创建新群</span><br/>
+                        <span>请输入1-200的正整数，群聚合码达到{{showWhiteNum}}个群时，聚合码中会移除超过该人数的群聊（不会解散群）</span>
                       </div>
                       <Icon type="question-circle" class='question-circle' />
                     </el-tooltip>
                   </template>
                   <div style='display:flex;'>
-                    当群聚合超的群过100个群时，自动移除 <div class='cha'></div>
+                    当群聚合超的群过{{showWhiteNum}}个群时，自动移除 <div class='cha'></div>
                     <el-form-item prop='roomUserNum'>
                       <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
                     </el-form-item><div class='cha'></div>人以上群聊
