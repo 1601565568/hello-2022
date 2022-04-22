@@ -31,6 +31,7 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/ExternalContactList',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
+    '/Guide/SgQuicklyWord/List', // 快捷话术
     '/Customer/Group/CustomerGroup',
     '/WeWork/Customer/SessionStatistics',
     '/Social/WeComCustomerOperation/RoomList',
@@ -43,7 +44,6 @@ export default ($route) => {
     '/Social/OperationData/CircleOfFriends',
     '/Social/OperationData/CircleOfFriends/costomDetail',
     '/Social/OperationData/CircleOfFriends/detail'
-
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
