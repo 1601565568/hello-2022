@@ -190,46 +190,46 @@ export default {
         }
       }
       this.$http.fetch(this.url, Object.assign({}, limit, { searchMap }))
-      .then(resp => {
-        if (resp.success && resp.result != null) {
-          this.haveMore = resp.result.length >= this.pageSize
-          const push = (before) => {
-            if (before) {
-              before()
+        .then(resp => {
+          if (resp.success && resp.result != null) {
+            this.haveMore = resp.result.length >= this.pageSize
+            const push = (before) => {
+              if (before) {
+                before()
+              }
+              resp.result.map(v => {
+                this.options.push(v)
+              })
             }
-            resp.result.map(v => {
-              this.options.push(v)
-            })
-          }
-          if (page === 1) {
-            if (this.value && this.value.length > 0) {
+            if (page === 1) {
+              if (this.value && this.value.length > 0) {
               // 查询已选择，若不则么做，会导致已选择只展示门店id
-              this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: typeof this.value === 'string' ? this.value : this.value.join(',') }).then(selectedResponse => {
+                this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: typeof this.value === 'string' ? this.value : this.value.join(',') }).then(selectedResponse => {
+                  push(() => {
+                    this.resetOptions()
+                    if (selectedResponse.success && selectedResponse.result != null) {
+                      selectedResponse.result.map(v => {
+                        this.options.push(v)
+                      })
+                    }
+                  })
+                }).catch((resp) => {
+                  this.$notify.error(getErrorMsg('查询失败', resp))
+                })
+              } else {
                 push(() => {
                   this.resetOptions()
-                  if (selectedResponse.success && selectedResponse.result != null) {
-                    selectedResponse.result.map(v => {
-                      this.options.push(v)
-                    })
-                  }
                 })
-              }).catch((resp) => {
-                this.$notify.error(getErrorMsg('查询失败', resp))
-              })
+              }
             } else {
-              push(() => {
-                this.resetOptions()
-              })
+              push()
             }
-          } else {
-            push()
           }
-        }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('门店下拉框加载失败', resp))
-      }).finally(() => {
-        this.loading = false
-      })
+        }).catch((resp) => {
+          this.$notify.error(getErrorMsg('门店下拉框加载失败', resp))
+        }).finally(() => {
+          this.loading = false
+        })
     }
   }
 }
