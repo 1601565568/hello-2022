@@ -327,7 +327,7 @@ export default {
     onPageRewardSetting (itemCode) {
       if (itemCode === 'setting') {
         this.$refs.PageSetupSetting.init(this.guideSettingList, 'guide')
-      } else if (itemCode === 'account-switch') {
+      } else if (itemCode === 'month-manage-quota') {
         this.$refs.PageSetupSetting.init(this.shopSettingList, 'shop')
       } else {
         this.$refs.PageRewardSetting.init()
