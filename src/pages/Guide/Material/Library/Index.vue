@@ -59,7 +59,7 @@
           <el-form-item label="素材内容：">
             <el-input type="text" v-model="model.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
-          <el-form-item label="货号：">
+          <el-form-item label="货号：" v-if="cloudPlatformType === 'ecrp'">
             <el-input type="text" v-model="model.outerId" placeholder="请输入货号" clearable></el-input>
           </el-form-item>
           <el-form-item label="发布时间：">
@@ -90,13 +90,21 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="发布方："
+            :label="cloudPlatformType === 'ecrp' ? '发布方：' : '创建人'"
             prop="sourceId"
           >
             <shop-select-load
+              v-if="cloudPlatformType === 'ecrp'"
               v-model="model.sourceId"
               clearable
               :insertList='insertList'
+            />
+            <shop-select-load
+              v-if="cloudPlatformType === 'kd'"
+              v-model="model.addName"
+              :url="$api.guide.material.getCreator"
+              :kdSystemCreator="true"
+              clearable
             />
           </el-form-item>
           <el-form-item label="当前状态：">
@@ -272,7 +280,8 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column v-if="cloudPlatformType === 'ecrp'" label="发布方" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column v-else label="创建人" prop="addName" :min-width="130"></el-table-column>
               <el-table-column label="编辑人" prop="addName" :min-width="130">
                   <template slot-scope="scope">
                     {{ scope.row.addName || '-' }}

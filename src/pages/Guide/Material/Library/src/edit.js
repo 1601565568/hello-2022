@@ -14,6 +14,8 @@ export default {
   components: { imageform, videoform, articleform, LabelAdd, Preview, PageEdit, PhoneBox, SourceAll, SimpleCollapse, MessagePreviewPanel },
   data: function () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       tabValue: '1',
       // tabList: [
       //   { label: '图文素材', name: '1', type: 'imageform' },

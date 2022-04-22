@@ -1,6 +1,6 @@
 <template>
   <div class="preview_body">
-    <div class="u_tag u_tag-color">湖滨银泰一号门店<Icon class="icon" type="ns-arrow-drowdown" /></div>
+    <div class="u_tag u_tag-color" v-if="showSelectShop">湖滨银泰一号门店<Icon class="icon" type="ns-arrow-drowdown" /></div>
     <img :src='defaultIcon' class="scope-title_img">
     <div class="u_tag">所有素材<Icon class="icon" type="ns-arrow-drowdown" /></div>
     <div class="u_container_view">
@@ -113,6 +113,13 @@ export default {
       type: String,
       default () {
         return ''
+      }
+    },
+    // 是否显示选择门店
+    showSelectShop: {
+      type: Boolean,
+      default () {
+        return true
       }
     }
   },

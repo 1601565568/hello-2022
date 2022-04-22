@@ -49,5 +49,10 @@ export default {
   findGoodBankList: {
     url: '/guide/goods/findGoodBankList',
     method: 'get'
+  },
+  // 获取客道下素材库创建人筛选信息
+  getCreator: {
+    url: '/guide/material/getCreator',
+    method: 'post'
   }
 }

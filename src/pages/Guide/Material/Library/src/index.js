@@ -16,6 +16,8 @@ export default {
   components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview, DetailList },
   data: function () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 表格顶部
       operateButtons: [
         {
@@ -83,6 +85,7 @@ export default {
         name: '',
         content: '',
         sourceId: '',
+        addName: '',
         subdivisionId: '',
         mType: '',
         codeType: '',

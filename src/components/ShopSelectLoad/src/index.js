@@ -62,6 +62,13 @@ export default {
       default () {
         return null
       }
+    },
+    // 客道环境素材库创建人筛选开启
+    kdSystemCreator: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -172,13 +179,18 @@ export default {
         start: (page - 1) * this.pageSize,
         length: this.pageSize
       }
-      this.$http.fetch(this.url, Object.assign({}, limit, {
-        searchMap: {
-          shopName: this.shopName,
-          insertShopIds: this.getInsertShopIds(),
-          sameSystemShopId: this.sameSystemShopId
+      let searchMap = {
+        shopName: this.shopName,
+        insertShopIds: this.getInsertShopIds(),
+        sameSystemShopId: this.sameSystemShopId
+      }
+      if (this.kdSystemCreator) {
+        searchMap = {
+          creator: this.shopName
         }
-      })).then(resp => {
+      }
+      this.$http.fetch(this.url, Object.assign({}, limit, { searchMap }))
+      .then(resp => {
         if (resp.success && resp.result != null) {
           this.haveMore = resp.result.length >= this.pageSize
           const push = (before) => {

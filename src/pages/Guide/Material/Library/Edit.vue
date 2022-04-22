@@ -11,7 +11,7 @@
     </template>
     <template slot='content'>
       <SimpleCollapse :title="'素材配置'">
-        <PhoneBox phoneTitle phoneBar="素材库">
+        <PhoneBox phoneTitle phoneBar="素材库" :isH5bar="cloudPlatformType === 'kd'">
           <template slot='collapse-left'>
             <source-all
               ref='sourceAll'
@@ -34,6 +34,7 @@
               :title='title'
               :subdivision='subdivision'
               :pitContent='pitContent'
+              :showSelectShop="cloudPlatformType === 'ecrp'"
             />
           </template>
         </PhoneBox>

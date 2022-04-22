@@ -70,15 +70,15 @@
               >
               </div>
               <div class="catalogue-materials__item--desc">
-                <span>发布方：</span>
+                <span>{{cloudPlatformType === 'ecrp' ? '发布方：' : '创建人：'}}</span>
                 <el-tooltip
                   placement="top-start"
                   :enterable="true"
                   popper-class="table-body__tooltip"
                 >
-                  <div slot="content">{{ item.sourceName || '-' }}</div>
+                  <div slot="content">{{ (cloudPlatformType === 'ecrp' ? item.sourceName : item.addName) || '-' }}</div>
                   <span class="catalogue-ellipsis">{{
-                    item.sourceName || '-'
+                    (cloudPlatformType === 'ecrp' ? item.sourceName : item.addName) || '-'
                   }}</span>
                 </el-tooltip>
                 <div >
@@ -356,6 +356,8 @@ export default {
   components: { NsNoData, GuideInfo, EmojiText },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       // 卡片容器宽度
       wrapperW: 0,
       // 卡片宽度
