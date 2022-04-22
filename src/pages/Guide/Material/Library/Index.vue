@@ -90,7 +90,7 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            :label="cloudPlatformType === 'ecrp' ? '发布方：' : '创建人'"
+            :label="cloudPlatformType === 'ecrp' ? '发布方：' : '创建人：'"
             prop="sourceId"
           >
             <shop-select-load
