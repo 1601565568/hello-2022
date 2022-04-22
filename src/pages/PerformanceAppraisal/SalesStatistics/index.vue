@@ -448,7 +448,6 @@ export default {
       let endDate = this.handleTimeNew(new Date())
       this.orderTime.push(beginDate)
       this.orderTime.push(endDate)
-      // this.orderTime = ['2020-01-08 14:38:18', '2022-03-21 13:45:55']
     },
     fetchList (params) {
       this.table.loading = true
