@@ -7,19 +7,19 @@
       <div class="storeGuide-table__title__name">姓名（工号）</div>
       <div class="storeGuide-table__title__achieve" v-if="editData[0] && editData[0].status === 1">月销售指标/元</div>
       <div class="storeGuide-table__title__norm" v-if="editData[1] && editData[1].status === 1">月招募指标/位</div>
-      <div class="storeGuide-table__title__operation">操作</div>
+      <div class="storeGuide-table__title__operation" v-if="editData[2] && editData[2].status === 1">操作</div>
     </div>
     <div class="storeGuide-table__title storeGuide-table__border">
       <div class="storeGuide-table__title__name">导购姓名</div>
       <div class="storeGuide-table__title__achieve" v-if="editData[0] && editData[0].status === 1">0</div>
       <div class="storeGuide-table__title__norm" v-if="editData[1] && editData[1].status === 1">0</div>
-      <div class="storeGuide-table__title__operation">管理</div>
+      <div class="storeGuide-table__title__operation" v-if="editData[2] && editData[2].status === 1">管理</div>
     </div>
     <div class="storeGuide-table__title storeGuide-table__border">
       <div class="storeGuide-table__title__name">导购姓名</div>
       <div class="storeGuide-table__title__achieve" v-if="editData[0] && editData[0].status === 1">未设</div>
       <div class="storeGuide-table__title__norm" v-if="editData[1] && editData[1].status === 1">未设</div>
-      <div class="storeGuide-table__title__operation">管理</div>
+      <div class="storeGuide-table__title__operation" v-if="editData[2] && editData[2].status === 1">管理</div>
     </div>
   </div>
 </template>
