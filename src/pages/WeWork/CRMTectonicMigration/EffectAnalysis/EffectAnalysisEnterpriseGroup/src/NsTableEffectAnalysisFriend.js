@@ -122,32 +122,23 @@ export default {
     // 查询列表查询群主信息
     queryGroupRooms4ent () {
       const that = this
-      let obj = {}
-      let url = this.$api.core.sysUser.queryGuidePage
-      if (this.cloudPlatformType === 'ecrp') {
-        url = this.$api.marketing.weworkMarketing.targetWxActivity
-        obj = {
-          length: 9999,
-          start: 0,
-          searchMap: {
-            messageId: parseInt(this.$route.query.id)
-          }
+      const obj = {
+        length: 9999,
+        start: 0,
+        searchMap: {
+          messageId: parseInt(this.$route.query.id)
         }
       }
-      this.$http.fetch(url, obj)
+      this.$http.fetch(this.$api.marketing.weworkMarketing.targetWxActivity, obj)
         .then(resp => {
           if (resp && resp.result) {
             // that.employees = JSON.parse(JSON.stringify(resp.result))
-            if (that.cloudPlatformType === 'ecrp') {
-              that.employees = resp.result.map(el => {
-                return {
-                  name: el.guide.name,
-                  id: el.guide.id
-                }
-              })
-            } else {
-              that.employees = JSON.parse(JSON.stringify(resp.result))
-            }
+            that.employees = resp.result.data.map(el => {
+              return {
+                name: el.guide.name,
+                id: el.guide.id
+              }
+            })
           }
         }).catch(() => {
           that.$notify.error('群主信息获取失败！')
