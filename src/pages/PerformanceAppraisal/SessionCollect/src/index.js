@@ -1,3 +1,9 @@
+/*
+ * @Date: 2022-04-22 19:32:43
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-22 19:48:46
+ * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\SessionCollect\src\index.js
+ */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from './mixins/redpacketTable'
 import { getCurrentMonthArray, handleTimeNew } from '@/utils/date'
@@ -9,7 +15,8 @@ export default {
         startTime: '',
         endTime: ''
       },
-      url: this.$api.guide.redpacket.getReceiverList,
+      // todo
+      url: this.$api.weWork.sessionCollect.getSessionStatistics,
       exportApi: this.$api.guide.redpacket.exportReceiverList,
       seachDate: []
     }
