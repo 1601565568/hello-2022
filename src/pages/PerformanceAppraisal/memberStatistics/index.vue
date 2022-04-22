@@ -168,10 +168,10 @@ export default {
     department: Array,
     role: Array
   },
-  data: function() {
+  data: function () {
     const operateButtons = [
       {
-        func: function() {
+        func: function () {
           vm.$router.push({
             path: '/PerformanceAppraisal/SalesStatistics/List'
           })
@@ -219,10 +219,10 @@ export default {
 
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
-        get: function() {
+        get: function () {
           return model[item.name]
         },
-        set: function(val) {
+        set: function (val) {
           model[item.name] = val
         },
         enumerable: true
@@ -260,7 +260,7 @@ export default {
       selectParams: { isTagGroup: 0 }
     }
   },
-  mounted: function() {
+  mounted: function () {
     vm = this
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
@@ -272,11 +272,11 @@ export default {
     ElImage
   },
   methods: {
-    onSearch() {
+    onSearch () {
       this.$searchAction$()
     },
     // 下单金额排序
-    tableSort(data) {
+    tableSort (data) {
       if (data.order === 'ascending') {
         this._data._order.orderDir = 'asc'
       } else if (data.order === 'descending') {
@@ -287,7 +287,7 @@ export default {
     /**
      * 参数设置
      */
-    $handleParams: function(params) {
+    $handleParams: function (params) {
       Object.assign(params.searchMap, this.$route.params)
       return params
     }

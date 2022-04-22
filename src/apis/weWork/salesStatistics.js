@@ -43,7 +43,7 @@ export default {
   /**
    * @msg: 店铺来源列表
    */
-   statisticsShopList: {
+  statisticsShopList: {
     url: '/wework/sales/statistics/shop/list',
     method: 'get'
   }
