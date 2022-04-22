@@ -20,7 +20,7 @@
           </el-form-item> -->
           <el-form-item :label="cloudPlatformType === 'ecrp' ? '所属员工：' : '所属成员：'">
             <el-select v-model="model.guideId" filterable placeholder="请选择" @change="onSearch">
-              <el-option v-for="item in employees" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option v-for="item in employees" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="发送状态：">
