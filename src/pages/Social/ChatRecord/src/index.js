@@ -72,7 +72,7 @@ export default {
         : parseInt(this.activeName) === 2
           ? '群'
           : this.formatTabName()
-        }`
+      }`
     },
     toListPlaceholder () {
       return `请输入${this.activeName === '1'
@@ -80,7 +80,7 @@ export default {
         : this.activeName === '2'
           ? '群'
           : '好友'
-        }`
+      }`
     }
   },
   created () {

@@ -105,9 +105,9 @@
                     </el-table-column>
                     <el-table-column prop="nowSendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="nowDownloadSum" label="下载次数">
+                    <el-table-column v-if="this.cloudPlatformType === 'ecrp'" prop="nowDownloadSum" label="下载次数">
                     </el-table-column>
-                    <el-table-column prop="nowCompletionSum" label="补全次数">
+                    <el-table-column v-if="this.cloudPlatformType === 'ecrp'" prop="nowCompletionSum" label="补全次数">
                     </el-table-column>
                     <el-table-column prop="nowFriendsCircleSum" label="朋友圈发送次数">
                     </el-table-column>
@@ -188,9 +188,9 @@
                     </el-table-column>
                     <el-table-column prop="sendSum" label="发送次数">
                     </el-table-column>
-                    <el-table-column prop="downloadSum" label="下载次数">
+                    <el-table-column v-if="this.cloudPlatformType === 'ecrp'" prop="downloadSum" label="下载次数">
                     </el-table-column>
-                    <el-table-column prop="completionSum" label="补全次数">
+                    <el-table-column v-if="this.cloudPlatformType === 'ecrp'" prop="completionSum" label="补全次数">
                     </el-table-column>
                     <el-table-column prop="friendsCircleSum" label="朋友圈发送次数">
                     </el-table-column>
@@ -613,6 +613,24 @@ export default {
               yFriendsCircleSum.push(item.nowFriendsCircleSum)
             }
             this.option.xAxis.data = times
+            if (this.cloudPlatformType === 'ecrp') {
+              this.option.legend.data = [
+                '素材发送总次数',
+                '素材下载总次数',
+                // '素材补全总次数',
+                '素材发朋友圈总次数',
+                '每日素材发送次数',
+                '每日素材下载次数',
+                // '每日素材补全次数',
+                '每日素材发朋友圈次数'
+              ]
+              this.option.legend.selected = {
+                素材发送总次数: false,
+                素材下载总次数: false,
+                // 素材补全总次数: false,
+                素材发朋友圈总次数: false
+              }
+            }
             this.option.series = [
               {
                 name: '素材发送总次数',
@@ -624,7 +642,7 @@ export default {
                 type: 'line',
                 data: downTotal
               },
-              {
+              this.cloudPlatformType === 'ecrp' && {
                 name: '素材补全总次数',
                 type: 'line',
                 data: addTotal
@@ -644,7 +662,7 @@ export default {
                 type: 'line',
                 data: yDownTotal
               },
-              {
+              this.cloudPlatformType === 'ecrp' && {
                 name: '每日素材补全次数',
                 type: 'line',
                 data: yAddTotal
