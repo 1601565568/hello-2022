@@ -99,7 +99,7 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :clearable="false"
-              v-model="tableParams.time"
+              v-model="orderTime"
               @change="fetchList()"
               :pickerOptions="pickerOptions"
               :default-time="['00:00:00', '23:59:59']"
@@ -391,7 +391,6 @@ export default {
         ]
       },
       tableParams: {
-        time: [],
         start: 0,
         length: 15,
         searchMap: {
@@ -403,6 +402,7 @@ export default {
           userIdList: ''
         }
       },
+      orderTime: [],
       guideIds: [],
       orderOptions: ShipOptions,
       storeOptions: [],
@@ -432,7 +432,7 @@ export default {
     this.fetchOptions()
   },
   watch: {
-    'tableParams.time': function (val) {
+    'orderTime': function (val) {
       this.tableParams.searchMap.createdStart = val[0]
       this.tableParams.searchMap.createdEnd = val[1]
     },
@@ -444,11 +444,11 @@ export default {
   },
   methods: {
     init () {
-      let beginDate = this.handleTimeOld(new Date()) // 2012-12-1   handleTimeOld是我用来获取当月的第一天的
-      let endDate = this.handleTimeNew(new Date()) // 2012-12-1 handleTimeNew是获取今天的日期
-      this.tableParams.time.push(beginDate)
-      this.tableParams.time.push(endDate)
-      // this.tableParams.time = ['2020-01-08 14:38:18', '2022-03-21 13:45:55']
+      let beginDate = this.handleTimeOld(new Date())
+      let endDate = this.handleTimeNew(new Date())
+      this.orderTime.push(beginDate)
+      this.orderTime.push(endDate)
+      // this.orderTime = ['2020-01-08 14:38:18', '2022-03-21 13:45:55']
     },
     fetchList (params) {
       this.table.loading = true
@@ -480,7 +480,7 @@ export default {
         .fetch(this.$api.weWork.salesStatistics.statisticsShopList)
         .then(res => {
           if (res.success) {
-            this.storeOptions = res.result
+            this.storeOptions = [{ shopName: '不限', shopId: null }, ...res.result]
           }
         })
         .catch(resp => {
@@ -537,6 +537,7 @@ export default {
         .fetch(this.$api.weWork.salesStatistics.saveOrUpdate, params)
         .then(res => {
           if (res.success) {
+            this.$notify.success('更新成功')
           }
         })
         .catch(resp => {
