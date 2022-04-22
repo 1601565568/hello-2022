@@ -11,7 +11,7 @@
       <div class="data-view">
         <el-row :gutter="15">
           <template v-for="item in dataList">
-            <el-col :key="item.name" :span="6">
+            <el-col :key="item.name" :span="cloudPlatformType === 'ecrp' ? 6 : 12">
               <div class="base-cell" :class="item.claseName">
                 <div class="text">{{ item.name }}</div>
                 <div class="subTitle">昨日次数</div>
@@ -246,6 +246,8 @@ export default {
   components: { PageTable, NsEcharts, DataList, TimeList, NoData },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() > Date.now() - 24 * 60 * 60 * 1000
@@ -488,6 +490,14 @@ export default {
       this.$refs.detaList.openDeawer(row, this.startTime, this.endTime)
     },
     loadTopData () {
+      if (this.cloudPlatformType === 'kd') {
+        this.dataList = [
+          { name: '素材发送次数', totalNum: 0, yesterdayNum: 0, claseName: 'one' },
+          // { name: '素材下载次数', totalNum: 0, yesterdayNum: 0, claseName: 'two' },
+          // { name: '素材补全次数', totalNum: 0, yesterdayNum: 0, claseName: 'three' },
+          { name: '素材发朋友圈次数', totalNum: 0, yesterdayNum: 0, claseName: 'four' }
+        ]
+      }
       this.$http
         .fetch(this.$api.guide.getSumData, {})
         .then(resp => {
@@ -495,15 +505,19 @@ export default {
             const json = resp.result || {}
             this.dataList[0].totalNum = json.sendSum || 0
             this.dataList[0].yesterdayNum = json.nowSendSum || 0
+            if (this.cloudPlatformType === 'kd') {
+              this.dataList[1].totalNum = json.friendsCircleSum || 0
+              this.dataList[1].yesterdayNum = json.nowFriendsCircleSum || 0
+            } else {
+              this.dataList[1].totalNum = json.downloadSum || 0
+              this.dataList[1].yesterdayNum = json.nowDownloadSum || 0
 
-            this.dataList[1].totalNum = json.downloadSum || 0
-            this.dataList[1].yesterdayNum = json.nowDownloadSum || 0
+              this.dataList[2].totalNum = json.completionSum || 0
+              this.dataList[2].yesterdayNum = json.nowCompletionSum || 0
 
-            this.dataList[2].totalNum = json.completionSum || 0
-            this.dataList[2].yesterdayNum = json.nowCompletionSum || 0
-
-            this.dataList[3].totalNum = json.friendsCircleSum || 0
-            this.dataList[3].yesterdayNum = json.nowFriendsCircleSum || 0
+              this.dataList[3].totalNum = json.friendsCircleSum || 0
+              this.dataList[3].yesterdayNum = json.nowFriendsCircleSum || 0
+            }
           }
         })
         .catch(resp => {})
