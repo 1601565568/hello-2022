@@ -22,8 +22,27 @@
         <div class="menu-view">
           <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
-              <el-form-item label="门店/员工：">
-                <NsGuideDialog
+              <el-form-item :label="cloudPlatformType === 'ecrp' ? '门店/员工：' : '成员：'">
+                <GuideDialog
+                  :selfBtn='true'
+                  :appendToBody='true'
+                  :isButton="false"
+                  :auth="true"
+                  type="primary"
+                  btnTitle=""
+                  :dialogTitle="cloudPlatformType === 'ecrp' ? '门店/员工：' : '成员'"
+                  v-model="guideIds"
+                  @input="handleChangeGuide"
+                  :switchAreaFlag="1"
+                >
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${cloudPlatformType === 'ecrp' ? '员工' : '成员'}`:'全部'}}
+                      <Icon type="geren" class='guideIds-icon'></Icon>
+                    </div>
+                  </template>
+                </GuideDialog>
+                <!-- <NsGuideDialog
                   :selfBtn="true"
                   :appendToBody="true"
                   :isButton="false"
@@ -45,14 +64,14 @@
                       <Icon type="geren" class="guideIds-icon"></Icon>
                     </div>
                   </template>
-                </NsGuideDialog>
+                </NsGuideDialog> -->
               </el-form-item>
             </el-form>
           </div>
           <ns-button size='large' type='primary' style='margin-right:16px;' @click='handleExport'>导出文件</ns-button>
         </div>
         <div class="select-data-view">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-if="cloudPlatformType === 'ecrp'" v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="未发送" name="first"></el-tab-pane>
             <el-tab-pane label="未下载" name="second"></el-tab-pane>
             <el-tab-pane
@@ -72,50 +91,78 @@
                 :row-style="{ height: '48px' }"
                 :row-key="getRowKey"
               >
-                <el-table-column
-                  prop="employeeNumber"
-                  label="工号"
-                  :width="114"
-                >
-                  <template slot-scope="scope">{{
-                    scope.row.employeeNumber || '-'
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="name" label="员工"> </el-table-column>
-                <el-table-column prop="phone" label="电话">
-                  <template slot-scope="scope">{{
-                    scope.row.phone || '-'
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="post" label="岗位">
-                  <template slot-scope="scope">{{
-                    transPost(scope.row.post)
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="shopNamesStr" label="所属门店">
-                  <template slot-scope="scope">
-                    <el-popover
-                      placement="top-start"
-                      width="300"
-                      trigger="hover"
-                      :disabled="scope.row.shopNamesStr.length <= 15"
-                    >
-                      <div>{{ scope.row.shopNamesStr }}</div>
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopNamesStr.length <= 15"
-                        >{{ scope.row.shopNamesStr }}</span
+                <template v-if="cloudPlatformType === 'ecrp'">
+                  <el-table-column
+                    prop="employeeNumber"
+                    label="工号"
+                    :width="114"
+                  >
+                    <template slot-scope="scope">{{
+                      scope.row.employeeNumber || '-'
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="name" label="员工"> </el-table-column>
+                  <el-table-column prop="phone" label="电话">
+                    <template slot-scope="scope">{{
+                      scope.row.phone || '-'
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="post" label="岗位">
+                    <template slot-scope="scope">{{
+                      transPost(scope.row.post)
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="shopNamesStr" label="所属门店">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="top-start"
+                        width="300"
+                        trigger="hover"
+                        :disabled="scope.row.shopNamesStr.length <= 15"
                       >
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopNamesStr.length > 15"
-                        >{{
-                          scope.row.shopNamesStr.substr(0, 15) + '...'
-                        }}</span
-                      >
-                    </el-popover>
-                  </template>
-                </el-table-column>
+                        <div>{{ scope.row.shopNamesStr }}</div>
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopNamesStr.length <= 15"
+                          >{{ scope.row.shopNamesStr }}</span
+                        >
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopNamesStr.length > 15"
+                          >{{
+                            scope.row.shopNamesStr.substr(0, 15) + '...'
+                          }}</span
+                        >
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                </template>
+                <template v-else>
+                  <el-table-column
+                    prop="headImg"
+                    label="头像"
+                    align="left"
+                    :sortable="false">
+                    <template slot-scope="scope">
+                      <!-- <div v-if="!scope.row.headImg">
+                        <img src="./images/head_demo.svg" width="60" height="60"/>
+                      </div> -->
+                      <div>
+                        <img :src="checkUrl(scope.row.headImg)" width="60" height="60"/>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="name" label="姓名">
+                    <template slot-scope="scope">
+                      {{scope.row.name || '-'}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="userId" label="企微userId">
+                    <template slot-scope="scope">
+                      {{scope.row.userId || '-'}}
+                    </template>
+                  </el-table-column>
+                </template>
               </el-table>
               <!-- </div> -->
             </template>
@@ -145,13 +192,16 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
+// import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import NoData from './NoData'
 export default {
   name: 'undone',
-  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
+  components: { ElDrawer, PageTable, NoData, GuideDialog },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       direction: 'rtl',
       drawer: false,
       listData: [],
@@ -170,6 +220,14 @@ export default {
     }
   },
   methods: {
+    checkUrl (url) {
+      if (url !== null && url !== '') {
+        if (url.indexOf('img.alicdn.com') !== -1) {
+          url = url + '_200x200.jpg'
+        }
+      }
+      return url
+    },
     transPost (val) {
       if (val === 1) {
         return '店长'

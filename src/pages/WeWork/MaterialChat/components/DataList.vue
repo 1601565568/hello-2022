@@ -48,8 +48,27 @@
           </div>
           <div class="user-view">
             <el-form :inline="true" class="form-inline_top">
-              <el-form-item label="门店/员工：">
-                <NsGuideDialog
+              <el-form-item :label="cloudPlatformType === 'ecrp' ? '门店/员工：' : '成员：'">
+                <GuideDialog
+                  :selfBtn='true'
+                  :appendToBody='true'
+                  :isButton="false"
+                  :auth="true"
+                  type="primary"
+                  btnTitle=""
+                  :dialogTitle="cloudPlatformType === 'ecrp' ? '门店/员工：' : '成员'"
+                  v-model="guideIds"
+                  @input="handleChangeGuide"
+                  :switchAreaFlag="1"
+                >
+                  <template slot='selfBtn'>
+                    <div class='self-btn'>
+                      {{(guideIds && guideIds.length)?`已选择${guideIds.length}个${cloudPlatformType === 'ecrp' ? '员工' : '成员'}`:'全部'}}
+                      <Icon type="geren" class='guideIds-icon'></Icon>
+                    </div>
+                  </template>
+                </GuideDialog>
+                <!-- <NsGuideDialog
                   :selfBtn="true"
                   :appendToBody="true"
                   :isButton="false"
@@ -71,7 +90,7 @@
                       <Icon type="geren" class="guideIds-icon"></Icon>
                     </div>
                   </template>
-                </NsGuideDialog>
+                </NsGuideDialog> -->
               </el-form-item>
             </el-form>
           </div>
@@ -93,6 +112,7 @@
                   }}</template>
                 </el-table-column>
                 <el-table-column
+                  v-if="cloudPlatformType === 'ecrp'"
                   prop="employeeNumber"
                   label="工号"
                   :width="114"
@@ -101,40 +121,45 @@
                     scope.row.employeeNumber || '-'
                   }}</template>
                 </el-table-column>
-                <el-table-column prop="guideName" label="员工">
-                </el-table-column>
-                <el-table-column prop="phone" label="电话">
+                <el-table-column prop="guideName" :label="cloudPlatformType === 'ecrp' ? '员工' : '企业微信成员'">
                   <template slot-scope="scope">{{
-                    scope.row.phone || '-'
+                    scope.row.guideName || '-'
                   }}</template>
                 </el-table-column>
-                <el-table-column prop="post" label="岗位">
-                  <template slot-scope="scope">{{
-                    transPost(scope.row.post)
-                  }}</template>
-                </el-table-column>
-                <el-table-column prop="shopName" label="所属门店">
-                  <template slot-scope="scope">
-                    <el-popover
-                      placement="top-start"
-                      width="300"
-                      trigger="hover"
-                      :disabled="scope.row.shopName.length <= 10"
-                    >
-                      <div>{{ scope.row.shopName }}</div>
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length <= 10"
-                        >{{ scope.row.shopName }}</span
+                <template v-if="cloudPlatformType === 'ecrp'">
+                  <el-table-column prop="phone" label="电话">
+                    <template slot-scope="scope">{{
+                      scope.row.phone || '-'
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="post" label="岗位">
+                    <template slot-scope="scope">{{
+                      transPost(scope.row.post)
+                    }}</template>
+                  </el-table-column>
+                  <el-table-column prop="shopName" label="所属门店">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="top-start"
+                        width="300"
+                        trigger="hover"
+                        :disabled="scope.row.shopName.length <= 10"
                       >
-                      <span
-                        slot="reference"
-                        v-if="scope.row.shopName.length > 10"
-                        >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
-                      >
-                    </el-popover>
-                  </template>
-                </el-table-column>
+                        <div>{{ scope.row.shopName }}</div>
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopName.length <= 10"
+                          >{{ scope.row.shopName }}</span
+                        >
+                        <span
+                          slot="reference"
+                          v-if="scope.row.shopName.length > 10"
+                          >{{ scope.row.shopName.substr(0, 10) + '...' }}</span
+                        >
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                </template>
               </el-table>
               <!-- </div> -->
             </template>
@@ -164,38 +189,59 @@
 <script>
 import ElDrawer from '@nascent/nui/lib/drawer'
 import PageTable from '@/components/NewUi/PageTable'
-import NsGuideDialog from '@/components/NsGuideDialog'
+// import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import NoData from './NoData'
 export default {
   name: 'dataList',
-  components: { ElDrawer, PageTable, NsGuideDialog, NoData },
+  components: { ElDrawer, PageTable, GuideDialog, NoData },
   data () {
+    const optionList = this.cloudPlatformType === 'ecrp' ? [
+      {
+        value: 0,
+        label: '全部'
+      },
+      {
+        value: 14,
+        label: '下载'
+      },
+      {
+        value: 16,
+        label: '发送'
+      },
+      {
+        value: 18,
+        label: '补全'
+      },
+      {
+        value: 19,
+        label: '发朋友圈'
+      }
+    ] : [
+      {
+        value: 0,
+        label: '全部'
+      },
+      {
+        value: 14,
+        label: '下载'
+      },
+      {
+        value: 16,
+        label: '发送'
+      },
+      {
+        value: 19,
+        label: '发朋友圈'
+      }
+    ]
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       direction: 'rtl',
       drawer: false,
       listData: [],
-      options: [
-        {
-          value: 0,
-          label: '全部'
-        },
-        {
-          value: 14,
-          label: '下载'
-        },
-        {
-          value: 16,
-          label: '发送'
-        },
-        {
-          value: 18,
-          label: '补全'
-        },
-        {
-          value: 19,
-          label: '发朋友圈'
-        }
-      ],
+      options: optionList,
       actionValue: 0,
       guideIds: [],
       item: {},
