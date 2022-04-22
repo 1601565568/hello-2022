@@ -273,5 +273,10 @@ export default {
   importGuideQuery: {
     url: '/guide/guide/importGuideQuery',
     method: 'post'
+  },
+  // 好友营销效果分析中获取所属成员接口
+  getGuideListAnalysis: {
+    url: '/guide/guide/list',
+    method: 'post'
   }
 }

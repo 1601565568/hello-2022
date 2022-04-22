@@ -119,19 +119,17 @@ export default {
   methods: {
     // 获取所属员工
     employeeList () {
-      let url = this.$api.core.sysUser.queryGuidePage
-      if (this.cloudPlatformType === 'ecrp') {
-        url = this.$api.marketing.weworkMarketing.queryEmployeeWechatInfoList
+      const obj = {
+        length: 9999,
+        start: 0,
+        searchMap: {
+          hasUserId: true
+        }
       }
-      this.$http.fetch(url, { queryType: 2 })
+      this.$http.fetch(this.$api.guide.guide.getGuideListAnalysis, obj)
         .then(resp => {
           if (resp.result) {
-            vm.employees = resp.result.map(el => {
-              return {
-                label: el.name,
-                value: vm.cloudPlatformType === 'ecrp' ? el.employeeID : el.id
-              }
-            })
+            vm.employees = resp.result.data
           }
         }).catch((resp) => {
           vm.$notify.error('查询员工信息失败！' || resp.msg)
