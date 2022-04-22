@@ -83,7 +83,7 @@
             >
               <el-option
                 v-for="item in storeOptions"
-                :key="item.shopPlatId"
+                :key="item.shopId"
                 :label="item.shopName"
                 :value="item.shopId"
               >
@@ -295,7 +295,7 @@
               <el-form-item label="时间间隔设置" prop="saleTime">
                 <!-- <el-input v-model="dialogData.saleTime" width="68" /> -->
                 <el-input-number
-                  class="inputNumber"
+                  class="input-number"
                   v-model="dialogData.saleTime"
                   type="number"
                   :min="1"
@@ -326,43 +326,18 @@
   </div>
 </template>
 <script>
-// import Index from './src/index'
-// import PageTable from '@/components/NewUi/PageTablePro'
-// import NsGuideDialog from '@/components/NsGuideDialog'
-// import ElDrawer from '@nascent/nui/lib/drawer'
-// import NsShopDialog from '@/components/NsShopDialog'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import { ShipOptions, StatisticsCode } from './src/const.js'
 import { floatObj } from '@/utils/common.js'
-// import AllTable from './components/List/AllTable'
-// import EachTable from './components/List/EachTable'
-// Index.components = {
-//   PageTable,
-//   ElDrawer,
-//   NsShopDialog,
-//   NsGuideDialog,
-//   ElBreadcrumb,
-//   ElBreadcrumbItem
-//   // AllTable,
-//   // EachTable
-// };
 export default {
   components: {
-    // PageTable,
-    // ElDrawer,
-    // NsShopDialog,
-    // NsGuideDialog,
     ElInputNumber,
     GuideDialog
-    // ElBreadcrumb,
-    // ElBreadcrumbItem
   },
-  // mixins: [tableMixin],
   data () {
     return {
       floatObj: { ...floatObj },
@@ -448,6 +423,7 @@ export default {
       let endDate = this.handleTimeNew(new Date())
       this.orderTime.push(beginDate)
       this.orderTime.push(endDate)
+      // this.orderTime = ['2020-01-08 14:38:18', '2021-01-07 14:38:18']
     },
     fetchList (params) {
       this.table.loading = true
@@ -504,7 +480,8 @@ export default {
     handleTabsClick () {
       this.tableParams = Object.assign({}, this.$options.data().tableParams)
       this.pagination = Object.assign({}, this.$options.data().pagination)
-      this.guideIds = Object.assign({}, this.$options.data().guideIds)
+      this.guideIds = []
+      this.orderTime = []
       this.init()
       this.fetchList()
     },
@@ -601,32 +578,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@components/NewUi/styles/reset.css';
-.title-tab {
-  display: flex;
-  margin-left: 16px;
-  position: relative;
-  &::before {
-    content: ' ';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    height: 24px;
-    width: 1px;
-    margin-top: -12px;
-    background: #e8e8e8;
-  }
-  .tab-item {
-    padding: 0 16px;
-    font-size: 14px;
-    color: #595959;
-    cursor: pointer;
-    font-weight: normal;
-    &.active {
-      color: #262626;
-      font-weight: bold;
-    }
-  }
-}
 .self-btn {
   width: 150px;
   display: flex;
@@ -647,22 +598,13 @@ export default {
 .sale-switch {
   margin-left: 8px;
 }
-.inputNumber {
+.input-number {
   width: 100px;
   margin-left: 8px;
-}
-.refresh-btn {
-  font-size: 14px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-.col-text_error {
-  color: #f39801;
 }
 .template_main {
   .head-title {
     display: inline-block;
-    // margin-top: 16px;
   }
   .page-content {
     margin-top: 16px;
@@ -676,16 +618,7 @@ export default {
     margin-top: 16px;
   }
   .shop-content {
-    // position: relative;
-    // top: -1px;
     display: flex;
-    // font-size: 14px;
-    // border: 1px solid #D9D9D9;
-    // height: 30px;
-    // align-items: center;
-    // padding: 0 8px;
-    // border-radius: 2px;
-    // margin-left: 16px;
   }
   .pagination-text {
     float: left;
@@ -705,8 +638,6 @@ export default {
     }
   }
 }
-
-//
 .page-header {
   background: #ffffff;
   margin: -10px -10px 0;

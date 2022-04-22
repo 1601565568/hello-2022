@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-21 11:48:28
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-21 14:46:14
+ * @LastEditTime: 2022-04-22 15:34:56
  * @FilePath: \ECRP-SG-WEB\src\utils\common.js
  */
 export const floatObj = (function () {
@@ -139,3 +139,13 @@ export const floatObj = (function () {
     divide: divide
   }
 })()
+
+export const hasKey = (obj) => {
+  if (obj === null || obj === undefined) {
+    return false
+  }
+  if (Object.keys(obj).length === 0) {
+    return false
+  }
+  return true
+}

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-21 15:02:25
+ * @LastEditTime: 2022-04-22 15:39:13
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -37,7 +37,7 @@
             <Icon
               type="search"
               className=" el-input__icon"
-              style="padding: 5px;"
+              style="padding: 5px"
               slot="suffix"
               name="name"
               @click="$quickSearchAction$('customerNameOrPlatNick')"
@@ -158,6 +158,7 @@
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElImage from '@nascent/nui/lib/image'
+import { hasKey } from '@/utils/common'
 
 let vm
 export default {
@@ -243,7 +244,6 @@ export default {
       },
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
-      state: {},
       url: this.$api.weWork.salesStatistics.statisticsDetail,
       pagination: {
         enable: true,
@@ -262,10 +262,9 @@ export default {
   },
   mounted: function () {
     vm = this
-    if (typeof this.$init === 'function') {
-      this.$init(this, this.$generateParams$)
-    } else {
-      this.$reload()
+    this.$reload()
+    if (!hasKey(this.$route.params)) {
+      this.$router.go(-1)
     }
   },
   components: {
