@@ -3,7 +3,6 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="page-header__text">
-          <!-- <breadcrumb class="hidden-xs-only"></breadcrumb> -->
           <el-breadcrumb separator="/">
             <el-breadcrumb-item
               :to="{ path: '/Social/WeWorkGroup/ChatRecord' }"
@@ -55,7 +54,8 @@
                 @click="onChangeList(i)"
                 :class="i.topicId === select ? 'user_list_select' : ''"
               >
-                <div class="topic-text">{{ i.topicName }}</div>
+                <!-- <div class="topic-text">{{ i.topicName }}</div> -->
+                 <NsTextOverFlow maxWidth="180px" :content="i.topicName" />
                 <span class="del" @click.stop="del(1, i.topicName, i.topicId)">
                   <Icon type="delete"
                 /></span>
@@ -181,81 +181,16 @@ export default Index
   width: 100%;
   height: 16px;
 }
-// .user_list {
-//   // margin-top: 16px;
-
-//   overflow: auto;
-//   scrollbar-width: none;
-//   list-style: none;
-//   padding: 0px;
-//   padding: 0 16px;
-//   li {
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//     height: 48px;
-//     padding: 0px 8px;
-//     border-radius: 2px;
-//     user-select: none;
-//     font-size: 14px;
-//     color: #262626;
-//     .topic-text {
-//       width: 100px;
-//       overflow: hidden;
-//       text-overflow: ellipsis;
-//       white-space: nowrap;
-//     }
-//     .topic-Number {
-//       margin-left: 16px;
-//     }
-//     .del {
-//       display: none;
-//       position: absolute;
-//       right: 8px;
-//       top: 50%;
-//       transform: translate(-50%, -50%);
-//     }
-//     &:hover {
-//       background: #f5f5f5;
-//       .del {
-//         cursor: pointer;
-//         display: block;
-//       }
-//     }
-//   }
-// }
 .user_list_select {
   position: relative;
   background: #d9effe;
   font-weight: 600;
   z-index: 2;
-  // &::after {
-  //   position: absolute;
-  //   right: 0px;
-  //   top: 50%;
-  //   transform: translate(0%, -50%);
-  //   content: '';
-  //   border-top: 7px solid transparent;
-  //   border-right: 7px solid #fff;
-  //   border-bottom: 7px solid transparent;
-  //   border-left: 7px solid transparent;
-  // }
 }
 .user_list_select__keyWord {
   background: #f5f5f5;
 }
-// .template-page__left__children {
-//   position: absolute;
-//   left: 173px;
-//   top: 0px;
-//   z-index: 2;
-//   overflow: hidden;
-//   width: 220px;
-//   background: #ffffff;
-//   border-left: 1px solid #e8e8e8;
-// }
 .customer_list__warpper {
-  // padding: 0 16px;
   .customer_list__item {
     padding: 0 16px;
     position: relative;
@@ -294,9 +229,6 @@ export default Index
 .template-page__right__content {
   margin-left: 239px;
 }
-// .template-page__right_content {
-//   margin-left: 185px;
-// }
 .template-page__content {
   position: relative;
   display: flex;
@@ -305,78 +237,36 @@ export default Index
 .template-page__left {
   width: 223px;
   position: absolute;
-  // left: 210px;
-  // top: 70px;
   z-index: 2;
   background: #ffffff;
   overflow: hidden;
-  // >>> .el-input {
-  //     margin-bottom: var(--default-margin-base);
-  // }
 }
 .template-page__right {
   position: absolute;
-  // top: 70px;
   left: 0;
   z-index: 1;
   margin: 0;
   width: 100%;
 }
-// .template-table {
-//     margin: 0 10px 10px 435px;
-// }
 @media screen and (min-width: 1624px) {
-  // .el-tree-node__content {
-  //     width: 210px;
-  // }
   .template-page__left {
     width: 223px;
     position: absolute;
-    // left: 210px;
-    // top: 90px;
     z-index: 2;
     overflow: hidden;
   }
   .template-page__right {
     position: absolute;
-    // top: 90px;
     left: 0;
     z-index: 1;
     width: 100%;
     margin: 0;
   }
-  // .template-page__left__children {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 223px;
-  // }
 }
 .customer_list__width {
   width: 0px;
   border-left: 0px solid #e8e8e8;
 }
-// .tipsShowTitle {
-//   padding-top: 5px;
-//   font-size: 16px;
-//   font-weight: bold;
-//   color: #303133;
-// }
-// .tipsShowContent {
-//   padding: 16px 5px;
-//   color: #595959;
-//   font-size: 14px;
-// }
-// .ns-warm-cricle {
-//   display: inline-block;
-//   text-align: center;
-//   line-height: 14px;
-//   width: 14px;
-//   height: 14px;
-//   border-radius: 50%;
-//   background: #ffaa00;
-//   color: #fff;
-//   margin-right: 10px;
-// }
 .scope-title_img {
   width: 32px;
   height: 32px;

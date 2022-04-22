@@ -14,7 +14,7 @@ import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import KeyWordList from '../components/KeyWordList.vue'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
-import Breadcrumb from '@/components/Breadcrumb'
+import NsTextOverFlow from '@/components/NsTextOverFlow'
 import MemberList from '../components/MemberList.vue'
 import { formatText } from '@/utils/formatText'
 export default {
@@ -31,7 +31,7 @@ export default {
     ElBreadcrumb,
     ElBreadcrumbItem,
     MemberList,
-    Breadcrumb
+    NsTextOverFlow
   },
   data () {
     let _that = this
