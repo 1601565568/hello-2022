@@ -88,13 +88,13 @@
         >
           <el-table-column prop="customerName" label="会员姓名" align="center">
             <template slot-scope="scope">
-              {{ scope.row.customerName || "-" }}
+              <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encCustomerName || '-'" :sensitiveData="scope.row.customerName || '-'"></ns-sg-sensitive-button>
             </template>
           </el-table-column>
           <el-table-column prop="mobile" label="会员手机号">
-            <template slot-scope="scope">
-              {{ scope.row.mobile || "-" }}
-            </template>
+             <template slot-scope="scope">
+                <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="scope.row.encMobile" :sensitiveData="scope.row.mobile"></ns-sg-sensitive-button>
+              </template >
           </el-table-column>
           <el-table-column align="left" label="跟进状态">
             <template slot-scope="scope">
