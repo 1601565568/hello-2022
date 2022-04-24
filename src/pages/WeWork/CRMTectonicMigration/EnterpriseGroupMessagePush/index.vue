@@ -66,6 +66,7 @@
                 <tag-area
                   :class="[radioIcon==='QA'? tagTextQA: tagText]"
                   :disabled="isUpdate"
+                  className="group-edit_input"
                   v-model='model.textarea'
                   :tagSpecialHandle='true'
                   tag="wise"
