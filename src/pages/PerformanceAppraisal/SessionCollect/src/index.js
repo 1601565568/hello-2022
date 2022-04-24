@@ -1,21 +1,20 @@
 /*
  * @Date: 2022-04-22 19:32:43
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-22 19:48:46
+ * @LastEditTime: 2022-04-24 11:26:51
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\SessionCollect\src\index.js
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import redpacketTable from './mixins/redpacketTable'
-import { getCurrentMonthArray, handleTimeNew } from '@/utils/date'
+import { formatTime } from '@/utils/date'
 export default {
   data () {
     return {
-      model: {
-        guideIds: [],
-        startTime: '',
-        endTime: ''
+      _order: {
+        time: '',
+        userId: ''
       },
-      // todo
+      guideIds: [],
       url: this.$api.weWork.sessionCollect.getSessionStatistics,
       exportApi: this.$api.guide.redpacket.exportReceiverList,
       seachDate: []
@@ -23,20 +22,26 @@ export default {
   },
   mixins: [tableMixin, redpacketTable],
   mounted () {
-    // 设置时间筛选默认当月
-    console.log(handleTimeNew(new Date(), 1), 'getCurrentMonthArray()')
-    this.seachDate = getCurrentMonthArray()
-    this.model.startTime = this.seachDate[0]
-    this.model.endTime = this.seachDate[1]
+    this.initPage()
     this.$reload()
   },
   watch: {
-    seachDate (newVal) {
-      const date = newVal || [null, null]
-      this.changeSearchfrom({ startTime: date[0], endTime: date[1] })
+    guideIds (newVal) {
+      // this.$data._order.userId = newVal.join(',')
     }
   },
   methods: {
+    initPage () {
+      this.$data._order.time = formatTime(new Date())
+    },
+    changeSearchfrom (obj = {}) {
+      this.$data._order = { ...this.$data._order, ...obj }
+      this.$searchAction$()
+    },
+    handleGuideIds (arr) {
+      this.guideIds = arr.map((item) => { return item.userId })
+      this.changeSearchfrom({ userId: this.guideIds.join(',') })
+    },
     handleExcelExport (model) {
       const params = {
         ...model,

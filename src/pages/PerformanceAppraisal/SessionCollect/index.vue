@@ -6,17 +6,14 @@
         <el-form :inline="true" class="form-inline_top">
           <el-form-item label="有效期：" class="el-form__change">
             <el-date-picker
-              v-model="seachDate"
-              type="datetimerange"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              popper-class="date-filter"
+              v-model="_data._order.time"
+              type="date"
+              value-format="yyyy-MM-dd"
               :clearable="false"
-              range-separator="至"
               :picker-options="pickerOptions"
-              start-placeholder="请选择开始日期"
-              end-placeholder="请选择结束日期"
-              :default-time="['00:00:00', '23:59:59']"
+              placeholder="请选择日期"
               align="right"
+              @change="changeSearchfrom()"
             >
             </el-date-picker>
           </el-form-item>
@@ -28,19 +25,15 @@
               :auth="false"
               btnTitle=""
               :dialogTitle="`选择员工`"
-              v-model="model.guideIds"
-              @input="
-                (value) => {
-                  changeSearchfrom({ guideIds: value })
-                }
-              "
+              v-model="guideIds"
+              @inputAllData="handleGuideIds"
               :isOpenDialogAfterRequest="false"
             >
               <template slot="selfBtn">
                 <div class="self-btn">
                   {{
-                    model.guideIds && model.guideIds.length
-                      ? `已选择${model.guideIds.length}个员工`
+                    guideIds && guideIds.length
+                      ? `已选择${guideIds.length}个员工`
                       : '全部'
                   }}
                   <Icon type="geren" class="guideIds-icon"></Icon>

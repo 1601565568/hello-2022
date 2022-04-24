@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-30 14:04:18
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-21 19:44:35
+ * @LastEditTime: 2022-04-24 10:47:51
  * @FilePath: \ECRP-SG-WEB\src\utils\date.js
  */
 import moment from 'moment'
@@ -20,18 +20,4 @@ export const getDuringDateArray = (day) => {
 export const getCurrentMonthArray = () => {
   const day = new Date().getDate()
   return getDuringDateArray(day)
-}
-
-// todo
-export const handleTimeNew = (time, DelayDay = 0, isCurrentTime) => {
-  let date = new Date(time)
-  let year = date.getFullYear()
-  let month =
-    date.getMonth() + 1 > 10
-      ? date.getMonth() + 1
-      : '0' + (date.getMonth() + 1)
-  let day = date.getDate() > 10 ? date.getDate() : '0' + date.getDate()
-  day = parseInt(day - DelayDay)
-  // isCurrentTime ? ''
-  return `${year}-${month}-${day}` + ' 23:59:59'
 }
