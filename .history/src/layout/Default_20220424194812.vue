@@ -60,14 +60,14 @@ export default {
       const domTop = document.getElementsByClassName('nav')[0]
       const domLeft = document.getElementsByClassName('menu')[0]
       const leftSty = document.getElementsByClassName('layout-content')[0]
+      console.log(leftSty, 'leftStyleftStyleftSty')
       // 是否嵌套在iframe下面
       if (window.self !== window.top) {
         domTop.style.display = 'none'
-        if (domLeft.style) {
-          domLeft.style.display = 'none'
-        }
+        domLeft.style.display = 'none'
         leftSty.style.marginLeft = '16px'
         leftSty.style.paddingTop = '0'
+        leftSty.setAttribute('padding-top', '16px')
       }
       // dom.style.display = 'none'
     })

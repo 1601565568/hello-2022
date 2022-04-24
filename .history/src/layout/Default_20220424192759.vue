@@ -63,11 +63,9 @@ export default {
       // 是否嵌套在iframe下面
       if (window.self !== window.top) {
         domTop.style.display = 'none'
-        if (domLeft.style) {
-          domLeft.style.display = 'none'
-        }
-        leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '0'
+        domLeft.style.display = 'none'
+        leftSty.style.marginLeft = 0
+        leftSty.style.paddingTop = 0
       }
       // dom.style.display = 'none'
     })

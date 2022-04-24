@@ -1,7 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-04-24 17:17:08
+ * @LastEditTime: 2022-04-24 19:14:22
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \ECRP-SG-WEB\src\layout\Default.vue
+-->
 <template>
     <div>
         <NavHeadQa v-if="$isQa" @area-change="onReload"/>
-        <NavHead v-else @area-change="onReload"/>
         <router-view v-if="isReload"/>
         <FooterQa v-if="$isQa" />
         <Footer v-else />
@@ -54,23 +61,6 @@ export default {
       })
     }
     this.init()
-  },
-  mounted () {
-    this.$nextTick(() => {
-      const domTop = document.getElementsByClassName('nav')[0]
-      const domLeft = document.getElementsByClassName('menu')[0]
-      const leftSty = document.getElementsByClassName('layout-content')[0]
-      // 是否嵌套在iframe下面
-      if (window.self !== window.top) {
-        domTop.style.display = 'none'
-        if (domLeft.style) {
-          domLeft.style.display = 'none'
-        }
-        leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '0'
-      }
-      // dom.style.display = 'none'
-    })
   }
 }
 </script>

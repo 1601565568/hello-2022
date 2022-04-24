@@ -60,6 +60,7 @@ export default {
       const domTop = document.getElementsByClassName('nav')[0]
       const domLeft = document.getElementsByClassName('menu')[0]
       const leftSty = document.getElementsByClassName('layout-content')[0]
+      console.log(leftSty, 'leftStyleftStyleftSty')
       // 是否嵌套在iframe下面
       if (window.self !== window.top) {
         domTop.style.display = 'none'
