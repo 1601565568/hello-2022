@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-02 18:36:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-18 10:11:17
+ * @LastEditTime: 2022-04-22 16:41:29
  * @FilePath: \ECRP-SG-WEB\src\pages\WeWork\topicAnalysis\components\MemberList.vue
 -->
 <template>
@@ -55,10 +55,6 @@
           </el-form-item>
         </el-form>
       </div>
-      <!-- <div>
-          <ns-button round type="primary" @click="handleSearch">搜索</ns-button>
-          <ns-button round @click="handleParamsReset">重置</ns-button>
-        </div> -->
       <div class="chat_record">
         <el-scrollbar ref="fullScreen">
           <el-table
