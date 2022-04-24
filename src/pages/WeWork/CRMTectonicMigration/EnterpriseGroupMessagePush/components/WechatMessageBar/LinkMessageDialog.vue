@@ -139,6 +139,7 @@
             <tag-area
               v-if="defaultModel.custom === 1"
               class="tag-area"
+              className="group-link_input"
               v-model='defaultModel.link'
               :showEmoji='false'
               :showTextEmoji='false'
