@@ -36,6 +36,7 @@
               <tag-area
                 class="tag-area"
                 v-model='defaultModel.path'
+                className="friend-mini_input"
                 :maxlength="255"
                 :showEmoji='false'
                 :showTextEmoji='false'
