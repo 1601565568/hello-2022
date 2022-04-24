@@ -387,14 +387,19 @@
             </el-form-item>
             <div v-if="dialogData.saleSwitch">
               <el-form-item label="时间间隔设置" prop="saleTime">
-                <!-- <el-input v-model="dialogData.saleTime" width="68" /> -->
-                <el-input-number
+                <el-input
+                  class="sale-number"
+                  type="number"
+                  v-model="dialogData.saleTime"
+                  @change="activityCouponTotal"
+                />
+                <!-- <el-input-number
                   class="input-number"
                   v-model="dialogData.saleTime"
                   type="number"
                   :min="1"
                   :max="999"
-                ></el-input-number>
+                ></el-input-number> -->
                 小时
               </el-form-item>
               <div class="sub-title">
@@ -429,7 +434,7 @@ import { ShipOptions, StatisticsCode } from './src/const.js'
 import { floatObj } from '@/utils/common.js'
 export default {
   components: {
-    ElInputNumber,
+    // ElInputNumber,
     GuideDialog
   },
   data () {
@@ -666,6 +671,12 @@ export default {
       let day = date.getDate() > 10 ? date.getDate() : '0' + date.getDate()
       day--
       return `${year}-${month}-${day}` + ' 23:59:59'
+    },
+    activityCouponTotal () {
+      if (!/^[1-9]*$/.test(this.dialogData.saleTime)) {
+        this.dialogData.saleTime = this.dialogData.saleTime
+        this.$notify.error('请输入正整数')
+      }
     }
   }
 }
@@ -690,6 +701,11 @@ export default {
 }
 .sale-switch {
   margin-left: 8px;
+}
+.sale-number {
+  margin-left: 8px;
+  width: 93px;
+  text-align: left;
 }
 .input-number {
   width: 100px;

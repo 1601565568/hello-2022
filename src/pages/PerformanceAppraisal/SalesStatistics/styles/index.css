@@ -1,13 +1,13 @@
 .no-input-view >>> .el-input.el-input--small .el-input__inner {
   font-size: 14px;
-  height:32px;
-  border: 1px solid #D9D9D9;
+  height: 32px;
+  border: 1px solid #d9d9d9;
   border-radius: 2px;
-  width:240px;
+  width: 240px;
 }
 .no-input-view >>> .el-input__suffix {
-  width:30px;
-  height:30px;
+  width: 30px;
+  height: 30px;
 }
 
 .no-input-view >>> .el-input__suffix:before {
@@ -29,6 +29,11 @@
   height: 30px;
   border: none;
 }
+
+.dialog-content >>> .el-input__inner {
+  text-align: left !important;
+}
+
 .data-view >>> .el-range-input {
   font-size: 14px;
   text-align: center;
@@ -42,6 +47,7 @@
   /* height: 32px; */
 }
 
-.trans-table-view >>> .el-table--border th, .el-table--border td {
+.trans-table-view >>> .el-table--border th,
+.el-table--border td {
   border-right: none;
 }
