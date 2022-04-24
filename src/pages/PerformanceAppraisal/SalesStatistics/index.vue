@@ -17,7 +17,7 @@
 
     <div class="blue-tip">
       <div>点击设置销售数据计算规则</div>
-      <div>
+      <div class="tip-button">
         <ns-button type="text" @click="handleSet">统计设置</ns-button>
       </div>
     </div>
@@ -31,7 +31,98 @@
         ></el-tab-pane>
       </el-tabs>
       <div class="params-container">
-        <el-form :inline="true" class="form-inline_top">
+        <div class="seach-left-view">
+          <div class="shop-content operation-view base-view">
+            <span class="ml-8"
+              >{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span
+            >
+            <GuideDialog
+              :selfBtn="true"
+              :appendToBody="true"
+              :switchAreaFlag="1"
+              :isButton="false"
+              :auth="true"
+              type="primary"
+              btnTitle=""
+              :dialogTitle="`选择${tabId === '1' ? '企业微信成员' : '群主'}`"
+              v-model="guideIds"
+              @inputAllData="guideClick"
+            >
+              <template slot="selfBtn">
+                <div class="self-btn">
+                  {{
+                    guideIds && guideIds.length
+                      ? `已选择${guideIds.length}个`
+                      : '全部'
+                  }}
+                  <span
+                    class="icon-xuanzeyuangong2x iconfont"
+                    style="margin: 0 10px 0 5px"
+                  ></span>
+                </div>
+              </template>
+            </GuideDialog>
+          </div>
+          <div class="operation-view base-view" style="width: auto">
+            <div class="name" style="width: 70px">订单来源：</div>
+            <div class="item-select">
+              <el-select
+                v-model="tableParams.searchMap.platform"
+                :default-first-option="true"
+                @change="fetchList()"
+              >
+                <el-option
+                  v-for="item in orderOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+            <div class="icon-view">
+              <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
+            </div>
+          </div>
+          <div class="operation-view base-view" style="width: auto">
+            <div class="name" style="width: 70px">店铺来源：</div>
+            <div class="item-select">
+              <el-select
+                v-model="tableParams.searchMap.shopId"
+                :default-first-option="true"
+                @change="fetchList()"
+              >
+                <el-option
+                  v-for="item in storeOptions"
+                  :key="item.shopId"
+                  :label="item.shopName"
+                  :value="item.shopId"
+                >
+                </el-option>
+              </el-select>
+            </div>
+            <div class="icon-view">
+              <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
+            </div>
+          </div>
+          <div class="date-view base-view">
+            <span style="font-size: 13px">下单时间: </span>
+            <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
+              format="yyyy/MM/dd"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :clearable="false"
+              v-model="orderTime"
+              @change="fetchList()"
+              :pickerOptions="pickerOptions"
+              :default-time="['00:00:00', '23:59:59']"
+            >
+            </el-date-picker>
+          </div>
+        </div>
+        <!-- <el-form :inline="true" class="form-inline_top">
           <el-form-item>
             <div class="shop-content">
               <span>{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span>
@@ -54,7 +145,10 @@
                         ? `已选择${guideIds.length}个`
                         : '全部'
                     }}
-                    <Icon type="geren" class="guideIds-icon"></Icon>
+                    <span
+                      class="icon-xuanzeyuangong2x iconfont"
+                      style="marginleft: 5px"
+                    ></span>
                   </div>
                 </template>
               </GuideDialog>
@@ -106,7 +200,7 @@
             >
             </el-date-picker>
           </el-form-item>
-        </el-form>
+        </el-form> -->
       </div>
       <el-table
         :data="table.tableData"
@@ -578,8 +672,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@components/NewUi/styles/reset.css';
+@import './styles/index.css';
+
 .self-btn {
-  width: 150px;
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -591,9 +687,6 @@ export default {
 }
 .dialog-content {
   width: 100%;
-  .blue-tip {
-    margin: 16px 0;
-  }
 }
 .sale-switch {
   margin-left: 8px;
@@ -636,6 +729,51 @@ export default {
       border-radius: 50%;
       margin-right: 6px;
     }
+  }
+  .blue-tip {
+    margin: 16px 0;
+    justify-content: flex-start;
+    .tip-button {
+      margin-left: 8px;
+    }
+  }
+  .base-view {
+    margin-right: 16px;
+    margin-bottom: 16px;
+  }
+  .icon-view {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .operation-view {
+    width: auto;
+    height: 32px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    .name {
+      width: 70px;
+      margin-left: 8px;
+    }
+  }
+  .seach-left-view {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .date-view {
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    padding: 0px 12px;
+  }
+  .ml-8 {
+    margin-left: 8px;
   }
 }
 .page-header {
