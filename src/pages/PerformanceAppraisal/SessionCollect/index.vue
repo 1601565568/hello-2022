@@ -4,7 +4,7 @@
       <!-- 搜索 start -->
       <template slot="search">
         <el-form :inline="true" class="form-inline_top">
-          <el-form-item label="有效期：" class="el-form__change">
+          <el-form-item label="时间选择：" class="el-form__change">
             <el-date-picker
               v-model="_data._order.time"
               type="date"
@@ -48,8 +48,8 @@
           size="large"
           @click="handleExcelExport(model)"
           id="exportButton"
-          >导出文件</ns-button
-        >
+          >导出文件
+        </ns-button>
       </template>
       <!-- 搜索 end -->
       <!-- 表格 start -->
@@ -61,25 +61,87 @@
             v-loading.lock="_data._table.loadingtable"
             style="width: 100%"
           >
-            <el-table-column prop="nickname" label="企业微信成员">
+            <el-table-column prop="userName" label="企业微信成员">
             </el-table-column>
-            <el-table-column prop="state" label="接待人数">
-              <template slot-scope="scope">
-                {{ setTypeMap[scope.row.launchType] }}
+            <el-table-column prop="receptionTotal" label="接待人数">
+              <template slot="header">
+                接待人数
+                <el-tooltip
+                  effect="light"
+                  popper-class="popperClass"
+                  placement="top"
+                >
+                  <Icon type="question-circle" class="question-circle" />
+                  <template slot="content">
+                    客户主动发起聊天后，企微成员在当天24点前回复接待的人数，不包括群聊
+                  </template>
+                </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column prop="total" label="已回复聊天占比">
+            <el-table-column prop="replyPercentage" label="已回复聊天占比">
+              <template slot="header">
+                已回复聊天占比
+                <el-tooltip
+                  effect="light"
+                  popper-class="popperClass"
+                  placement="top"
+                >
+                  <Icon type="question-circle" class="question-circle" />
+                  <template slot="content">
+                    单聊中企微员工已回复接待客户人数/主动发起聊天的客户数对应比例，不包括群聊
+                  </template>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <template>
-                  {{ (scope.row.money / 100) | moneyStr }}
+                  {{ scope.row.replyPercentage }}
                 </template>
               </template>
             </el-table-column>
-            <el-table-column prop="payTime" label="平均响应时长">
+            <el-table-column prop="avgReplyTime" label="平均响应时长">
+              <template slot="header">
+                平均响应时长
+                <el-tooltip
+                  effect="light"
+                  popper-class="popperClass"
+                  placement="top"
+                >
+                  <Icon type="question-circle" class="question-circle" />
+                  <template slot="content">
+                    客户主动发起聊天后，企微成员在当天24点前所有聊天首次回复总时长/回复接待客户数比例，不包括群聊
+                  </template>
+                </el-tooltip>
+              </template>
             </el-table-column>
-            <el-table-column prop="redpackName" label="群聊发言次数">
+            <el-table-column prop="roomSpeakTotal" label="群聊发言次数">
+              <template slot="header">
+                群聊发言次数
+                <el-tooltip
+                  effect="light"
+                  popper-class="popperClass"
+                  placement="top"
+                >
+                  <Icon type="question-circle" class="question-circle" />
+                  <template slot="content">
+                    群聊成员时间段内在其所在的群聊里发送的消息总条数，只统计包含外部客户群聊
+                  </template>
+                </el-tooltip>
+              </template>
             </el-table-column>
-            <el-table-column prop="mchMsg" label="敏感词触发次数">
+            <el-table-column prop="sensitiveWordsTotal" label="敏感词触发次数">
+              <template slot="header">
+                敏感词触发次数
+                <el-tooltip
+                  effect="light"
+                  popper-class="popperClass"
+                  placement="top"
+                >
+                  <Icon type="question-circle" class="question-circle" />
+                  <template slot="content">
+                    在敏感词管理预置好敏感词之后，记录该成员时间段内在其群聊里敏感词的触发总次数
+                  </template>
+                </el-tooltip>
+              </template>
             </el-table-column>
           </el-table>
         </template>
@@ -111,7 +173,7 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 Index.components = {
-  PageTable, NsGuideDialog, NsGuideWeChatDialog, GuideDialog
+  PageTable, GuideDialog
 }
 export default Index
 </script>
