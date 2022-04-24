@@ -35,7 +35,7 @@ export default {
       // },
       {
         func: function () {
-          this.$parent.$searchAction$()
+          this.$searchAction$()
         },
         icon: '$.noop',
         name: '刷新',
