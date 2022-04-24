@@ -118,7 +118,7 @@ export default {
       // showSwitchVersion: true 是否显示去新版按钮
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
       this.$http
-        .fetch({ url: '/core/access/changePageVersion', method: 'post' }, { version: 1 })
+        .fetch({url: '/core/access/changePageVersion', method: 'post'}, { version: 1 })
         .then(resp => {
           window.location.href = window.location.origin + '/v3' + window.location.pathname
         })

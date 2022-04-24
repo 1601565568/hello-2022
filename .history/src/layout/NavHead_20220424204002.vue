@@ -114,13 +114,13 @@ export default {
       })
     },
     // 去新版
-    toNew () {
+    async toNew () {
       // showSwitchVersion: true 是否显示去新版按钮
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
-      this.$http
-        .fetch({ url: '/core/access/changePageVersion', method: 'post' }, { version: 1 })
+      await this.$http
+        .fetch('/core/access/changePageVersion', { version: 1 })
         .then(resp => {
-          window.location.href = window.location.origin + '/v3' + window.location.pathname
+          window.location.href = window.location.origin + '/v3/' + window.location.pathname
         })
         .catch(resp => {
           that.$notify.error(getErrorMsg('切换失败', resp))
