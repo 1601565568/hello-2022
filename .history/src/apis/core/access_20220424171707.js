@@ -76,7 +76,6 @@ export default {
           // 拓展字段
           productConfig: {
             ...productConfig,
-            pageVersion: res.data.result.pageVersion,
             cloudPlatformType,
             wxPlan: res.data.result.wxPlan,
             user,

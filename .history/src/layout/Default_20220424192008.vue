@@ -59,16 +59,11 @@ export default {
     this.$nextTick(() => {
       const domTop = document.getElementsByClassName('nav')[0]
       const domLeft = document.getElementsByClassName('menu')[0]
-      const leftSty = document.getElementsByClassName('layout-content')[0]
-
+      document.getElementsByClassName('nav')[0].style.display = 'none'
       // 是否嵌套在iframe下面
-      if (window.self !== window.top) {
+      if (window.self === window.top) {
         domTop.style.display = 'none'
-        if (domLeft) {
-          domLeft.style.display = 'none'
-        }
-        leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '16px'
+        domLeft.style.display = 'none'
       }
       // dom.style.display = 'none'
     })

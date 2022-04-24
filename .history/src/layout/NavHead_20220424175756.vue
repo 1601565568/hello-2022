@@ -16,16 +16,6 @@
       </div>
     </div>
     <div class="nav-tool">
-      <el-tooltip
-        v-if="cloudPlatformType === 'kd'"
-        placement="bottom"
-        effect="dark"
-        content="帮助中心"
-        trigger="hover">
-        <div class="help-center" @click="jumpHelp">
-          <span class="iconfont icon-lujing"></span>
-        </div>
-      </el-tooltip>
       <NavToolSlot/>
       <div class="nav-brand" v-if="isShowBrandSelect" >
         <ElSelectLoad v-model="area.text" :props="props" :options="$store.state.user.areas" filterable @change="onHandleAreaCommand"></ElSelectLoad>
@@ -33,7 +23,7 @@
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
       </div>
-      <div @click="toNew()">去新版</div>
+      <div v-if="pageVersion && pageVersion.showSwitchVersion" @click="toNew()">去新版</div>
       <el-dropdown
         trigger="click"
         @command='setDialogInfo'>
@@ -116,12 +106,6 @@ export default {
   },
   methods: {
     /**
-     * 跳转帮助中心
-     */
-    jumpHelp () {
-      window.open('https://oa.nascent.cn/zhiku/detail?QAdDJ1M7F31LE2deO1cbG2YGGlYmRhp2diYaViZ2GnYmBhoySxNeJk5ODsK9')
-    },
-    /**
      * 退出登录
      */
     logout () {
@@ -130,17 +114,11 @@ export default {
       })
     },
     // 去新版
-    async toNew () {
+    toNew () {
       // showSwitchVersion: true 是否显示去新版按钮
+      // version: 0 
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
-      await this.$http
-        .fetch('/core/access/changePageVersion', { version: 1 })
-        .then(resp => {
-          window.location.reload()
-        })
-        .catch(resp => {
-          that.$notify.error(getErrorMsg('切换失败', resp))
-        })
+
       }
     },
     /**
@@ -353,19 +331,6 @@ export default {
   display: flex;
   align-items: center;
   padding-right: 15px;
-
-  .help-center {
-    margin-right: 8px;
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, .2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-  }
 
   /* 右侧工具栏-图标 */
   .yunpingtai-icon {

@@ -57,19 +57,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      const domTop = document.getElementsByClassName('nav')[0]
-      const domLeft = document.getElementsByClassName('menu')[0]
-      const leftSty = document.getElementsByClassName('layout-content')[0]
-
-      // 是否嵌套在iframe下面
-      if (window.self !== window.top) {
-        domTop.style.display = 'none'
-        if (domLeft) {
-          domLeft.style.display = 'none'
-        }
-        leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '16px'
-      }
+      const dom = document.getElementsByClassName('nav')[0]
+      document.getElementsByClassName('nav')[0].style.display = 'none'
+      console.log(document.getElementsByClassName('nav')[0], dom, 'xxxxx')
       // dom.style.display = 'none'
     })
   }

@@ -1,7 +1,6 @@
 <template>
     <div>
         <NavHeadQa v-if="$isQa" @area-change="onReload"/>
-        <NavHead v-else @area-change="onReload"/>
         <router-view v-if="isReload"/>
         <FooterQa v-if="$isQa" />
         <Footer v-else />
@@ -54,24 +53,6 @@ export default {
       })
     }
     this.init()
-  },
-  mounted () {
-    this.$nextTick(() => {
-      const domTop = document.getElementsByClassName('nav')[0]
-      const domLeft = document.getElementsByClassName('menu')[0]
-      const leftSty = document.getElementsByClassName('layout-content')[0]
-
-      // 是否嵌套在iframe下面
-      if (window.self !== window.top) {
-        domTop.style.display = 'none'
-        if (domLeft) {
-          domLeft.style.display = 'none'
-        }
-        leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '16px'
-      }
-      // dom.style.display = 'none'
-    })
   }
 }
 </script>
