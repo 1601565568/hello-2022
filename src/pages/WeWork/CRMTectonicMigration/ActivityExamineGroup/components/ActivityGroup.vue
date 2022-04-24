@@ -3,7 +3,7 @@
     <div class="group-header">
       <div class="group-header-tip">
         <span>营销对象</span>
-        <span>{{_data._pagination.total}}个群主</span>
+        <span>{{_data._pagination.total}}个群聊</span>
       </div>
     </div>
     <div class="new-table group-table">
