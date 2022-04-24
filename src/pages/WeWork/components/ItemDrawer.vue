@@ -6,7 +6,13 @@
           <i class="el-icon-close"></i>
         </div>
       </div>
-      <div class="title">聊天记录</div>
+      <div class="title">
+        {{
+          (userInfo.userTypeText
+            ? userInfo.userTypeText + userInfo.userName + '的'
+            : '') + '聊天记录'
+        }}
+      </div>
       <div class="warpper">
         <ChatRecordList
           v-if="drawer"
@@ -22,25 +28,31 @@
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 export default {
   components: { ChatRecordList },
-  data () {
+  data() {
     return {}
   },
   props: {
     dataList: {
-      default () {}
+      default() {}
     },
     drawer: {
       type: Boolean
+    },
+    userInfo: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   methods: {
-    getMore () {
+    getMore() {
       this.$emit('getMore')
     },
-    handleScrollTop () {
+    handleScrollTop() {
       this.$emit('handleScrollTop')
     },
-    handleClose () {
+    handleClose() {
       this.$emit('handleClose')
     }
   }

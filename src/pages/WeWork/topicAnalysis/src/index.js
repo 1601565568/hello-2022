@@ -11,6 +11,12 @@ import AddKeyWord from '../../components/addKeyWord'
 import Message from '../../components/message'
 import { formatList, formatWeWorkChatData } from './format'
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import KeyWordList from '../components/KeyWordList.vue'
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
+import NsTextOverFlow from '@/components/NsTextOverFlow'
+import MemberList from '../components/MemberList.vue'
+import { formatText } from '@/utils/formatText'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -20,7 +26,12 @@ export default {
     AddKeyWordTopic,
     AddKeyWord,
     Message,
-    NsNoData
+    NsNoData,
+    KeyWordList,
+    ElBreadcrumb,
+    ElBreadcrumbItem,
+    MemberList,
+    NsTextOverFlow
   },
   data () {
     let _that = this
@@ -85,12 +96,22 @@ export default {
         tolist: '', // 聊天接收人
         type: 1 // 1拉取历史数据 2拉取最新数据
       },
-      weWorkChatData: []
+      weWorkChatData: [],
+      userTypeText: '',
+      userInfo: {},
+      isDetails: false,
+      memberData: {
+        word: '',
+        id: null
+      }
     }
   },
   computed: {
     ml () {
       return this.unfoldAndStow ? 'template-page__right_content' : ''
+    },
+    platformText () {
+      return formatText({ kd: '成员', ecrp: '员工' })
     }
   },
   created () {
@@ -178,7 +199,8 @@ export default {
           this.listParams
         )
         .then(res => {
-          this.list = this.list.concat(formatList(res.result))
+          // console.log(res, 'res-----')
+          this.list = this.list.concat(formatList(res.result.data))
           this.listLoading = false
           this.listIsScroll = false
           if (this.select === null && this.list.length > 0) {
@@ -186,11 +208,11 @@ export default {
             let def = this.list[0] && this.list[0].topicId ? this.list[0] : null
             this.onChangeList(def)
           }
-          if (!res.result || res.result.length < 1) {
+          if (!res.result.data || res.result.data.length < 1) {
             this.keyWordsVoListLoding = false
             this.table.loading = false
           }
-          if (res.result.length < this.listParams.length) {
+          if (res.result.data.length < this.listParams.length) {
             this.getListMore = false
           } else {
             this.getListMore = true
@@ -220,33 +242,57 @@ export default {
         this.keyWordVoListReq.topicId = i.topicId
       }
       this.keyWordVoListReq.time = this.time
-      this.$http
-        .fetch(
-          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
-          this.keyWordVoListReq
-        ).then(res => {
-          this.cantRequest = false
-          let response = res.result
-          this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
-          let defItem =
+      // this.$http
+      //   .fetch(
+      //     this.$api.weWork.topicAnalysis.getKeyWordTopicList,
+      //     this.keyWordVoListReq
+      //   ).then(res => {
+      //     this.cantRequest = false
+      //     let response = res.result
+      //     this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
+      //     let defItem =
+      //       this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
+      //         ? this.keyWordsVoList[0]
+      //         : null
+      //     // 没有关键字列表
+      //     this.keyWordsVoListLoding = false
+      //     if (defItem === null) {
+      //       this.table.loading = false
+      //       this.table.tableData = []
+      //       this.selectKeyWordId = null
+      //       return
+      //     }
+      //     this.selectKeyWord(defItem)
+      //   }).catch(error => {
+      //     this.cantRequest = false
+      //     this.keyWordsVoListLoding = false
+      //     this.table.loading = false
+      //     this.$notify.error(error.msg)
+      //   })
+      // 调取关键词组件请求接口
+      this.$refs.keyWordList.fetch({ id: this.select }, 1).then((res) => {
+        this.cantRequest = false
+        let response = res.result
+        this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
+        let defItem =
           this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
             ? this.keyWordsVoList[0]
             : null
-          // 没有关键字列表
-          this.keyWordsVoListLoding = false
-          if (defItem === null) {
-            this.table.loading = false
-            this.table.tableData = []
-            this.selectKeyWordId = null
-            return
-          }
-          this.selectKeyWord(defItem)
-        }).catch(error => {
-          this.cantRequest = false
-          this.keyWordsVoListLoding = false
+        // 没有关键字列表
+        this.keyWordsVoListLoding = false
+        if (defItem === null) {
           this.table.loading = false
-          this.$notify.error(error.msg)
-        })
+          this.table.tableData = []
+          this.selectKeyWordId = null
+          return
+        }
+        this.selectKeyWord(defItem)
+      }).catch(error => {
+        this.cantRequest = false
+        this.keyWordsVoListLoding = false
+        this.table.loading = false
+        this.$notify.error(error.msg)
+      })
     },
     /**
      * 新增话题弹窗
@@ -264,7 +310,7 @@ export default {
      * 新增话题弹窗确认
      * @param {Object} // data 弹窗回传的对象
      */
-    add (data) {
+    add (data, cb) {
       if (this.listLoading) {
         return
       }
@@ -276,6 +322,9 @@ export default {
           if (res.success) {
             this.$notify.success(res.msg)
             this.onSearch()
+          }
+          if (cb) {
+            cb(res)
           }
         })
         .catch(err => {
@@ -290,10 +339,7 @@ export default {
      */
     addKeyWord (data) {
       this.$http
-        .fetch(this.$api.weWork.topicAnalysis.addKeyWord, {
-          keyWords: data,
-          topicId: this.select
-        })
+        .fetch(this.$api.weWork.topicAnalysis.addKeyWord, data)
         .then(res => {
           if (res.success) {
             this.$notify.success(res.msg)
@@ -409,16 +455,17 @@ export default {
         })
     },
     /**
-     * 获取table列表详情
+     * 获取聊天内容详情
      *  @param {object}
      */
     getContext (row) {
+      this.userInfo.userName = row.guideName
       if (this.cantRequest) {
         return
       }
       this.cantRequest = true
       this.WeWorkChatParam = {
-        chatDateTime: this.time,
+        chatDateTime: row.msgtime || this.time,
         sender: row.sender,
         seq: row.seq,
         tolist: row.tolist,
@@ -545,24 +592,30 @@ export default {
     },
     setHeight: function () {
       // this.$nextTick(() => {
-      let extraHeight =
-        this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
-      this.$refs.fullScreen.$el.children[0].style.maxHeight =
-        window.innerHeight - extraHeight - 38 + 'px'
-      let limitHeight =
-        window.innerHeight -
-        16 -
-        20 -
-        this.$refs.loadMoreWrapper.getBoundingClientRect().top
+      // let extraHeight = this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
+      // this.$refs.fullScreen.$el.children[0].style.maxHeight = window.innerHeight - extraHeight - 38 + 'px'
+      let limitHeight = window.innerHeight - 16 - 20 - this.$refs.loadMoreWrapper.getBoundingClientRect().top
       this.$refs.loadMoreWrapper.style.height = limitHeight + 'px'
-      let loadMoreWrapperChildren =
-        window.innerHeight -
-        16 -
-        20 -
-        this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
-      this.$refs.loadMoreWrapperChildren.style.height =
-        loadMoreWrapperChildren + 'px'
+      // let loadMoreWrapperChildren = window.innerHeight - 16 - 20 - this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
+      // this.$refs.loadMoreWrapperChildren.style.height = loadMoreWrapperChildren + 'px'
       // })
+    },
+    handleRowJump (params) {
+      if (params) {
+        let { word, id, type, time } = params
+        this.memberData = { word, id }
+        if (type === 1) {
+          this.userTypeText = this.platformText
+        } else if (type === 2) {
+          this.userTypeText = '好友'
+        }
+        this.userInfo = { ...this.userInfo, userTypeText: this.userTypeText, userType: type }
+        this.$refs.memberList.memberListParams.time = time
+        this.$refs.memberList.fetchList({ id, idType: type, name: word })
+      } else {
+        this.$refs.memberList.handleParamsReset()
+      }
+      this.isDetails = !this.isDetails
     }
   }
 }
