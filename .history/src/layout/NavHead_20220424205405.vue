@@ -23,11 +23,7 @@
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
       </div>
-      <div class='check' @click="toNew()">
-        <el-tooltip class="item" effect="dark" content="去新版" placement="bottom">
-          <img src='@/assets/qiehuan.svg' />
-        </el-tooltip>
-      </div>
+      <div @click="toNew()"><img src='@/assets/qiehuan.svg' /></div>
       <el-dropdown
         trigger="click"
         @command='setDialogInfo'>
@@ -335,10 +331,7 @@ export default {
     }
   }
 }
-.check{
-  margin-right: 18px;
-  cursor: pointer
-}
+
 /* 右侧工具栏 */
 @b tool {
   display: flex;

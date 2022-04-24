@@ -24,7 +24,7 @@
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
       </div>
       <div class='check' @click="toNew()">
-        <el-tooltip class="item" effect="dark" content="去新版" placement="bottom">
+        <el-tooltip class="item" effect="dark" content="Bottom Center 提示文字" placement="bottom">
           <img src='@/assets/qiehuan.svg' />
         </el-tooltip>
       </div>
