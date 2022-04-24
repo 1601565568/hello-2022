@@ -70,13 +70,13 @@ export default {
           nick: res.data.result.userName,
           menus: res.data.result.menus,
           areas: res.data.result.areas,
+          pageVersion: res.data.result.pageVersion,
           areaTree: res.data.result.areaTree,
           views: res.data.result.views,
           companyPlan: res.data.result.companyPlan,
           // 拓展字段
           productConfig: {
             ...productConfig,
-            pageVersion: res.data.result.pageVersion,
             cloudPlatformType,
             wxPlan: res.data.result.wxPlan,
             user,

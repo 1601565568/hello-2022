@@ -115,15 +115,26 @@ export default {
     },
     // 去新版
     async toNew () {
-      // showSwitchVersion: true 是否显示去新版按钮
+      // showSwitchVersion: true 是否显示去新版按钮/core/access/changePageVersion
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
       await this.$http
-        .fetch('/core/access/changePageVersion', { version: 1 })
+        .fetch(this.$api.overView.findDailyReward, parms)
         .then(resp => {
-          window.location.reload()
+          that.loadingReward = false
+          if (resp.result === null || resp.result.length === 0) {
+            that.isRewardDate = false
+          } else {
+            resp.result.map(item => {
+              sellRewardArr.push(item.sale)
+              recruitRewardArr.push(item.recruit)
+            })
+            that.isRewardDate = true
+            that.rewardOption.series[0].data = recruitRewardArr
+            that.rewardOption.series[1].data = sellRewardArr
+          }
         })
         .catch(resp => {
-          that.$notify.error(getErrorMsg('切换失败', resp))
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
       }
     },

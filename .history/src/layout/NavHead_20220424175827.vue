@@ -114,17 +114,10 @@ export default {
       })
     },
     // 去新版
-    async toNew () {
+    toNew () {
       // showSwitchVersion: true 是否显示去新版按钮
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
-      await this.$http
-        .fetch('/core/access/changePageVersion', { version: 1 })
-        .then(resp => {
-          window.location.reload()
-        })
-        .catch(resp => {
-          that.$notify.error(getErrorMsg('切换失败', resp))
-        })
+
       }
     },
     /**

@@ -69,7 +69,6 @@ export default {
         label: 'areaName',
         value: 'areaId'
       },
-      pageVersion: this.$store.state.user.remumber.remumber_login_info.productConfig.pageVersion,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       areaSelDisabled: false,
       originArea: {
@@ -112,20 +111,6 @@ export default {
       this.$store.dispatch('user/logout').catch(() => {
         this.$notify.error('退出失败，系统异常！')
       })
-    },
-    // 去新版
-    async toNew () {
-      // showSwitchVersion: true 是否显示去新版按钮
-      if (this.pageVersion && this.pageVersion.showSwitchVersion) {
-      await this.$http
-        .fetch('/core/access/changePageVersion', { version: 1 })
-        .then(resp => {
-          window.location.reload()
-        })
-        .catch(resp => {
-          that.$notify.error(getErrorMsg('切换失败', resp))
-        })
-      }
     },
     /**
      * 弹出框-修改密码或者系统设置

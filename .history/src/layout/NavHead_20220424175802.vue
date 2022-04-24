@@ -23,7 +23,7 @@
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
       </div>
-      <div @click="toNew()">去新版</div>
+      <div v-if="pageVersion && pageVersion.showSwitchVersion" @click="toNew()">去新版</div>
       <el-dropdown
         trigger="click"
         @command='setDialogInfo'>
@@ -114,17 +114,10 @@ export default {
       })
     },
     // 去新版
-    async toNew () {
+    toNew () {
       // showSwitchVersion: true 是否显示去新版按钮
       if (this.pageVersion && this.pageVersion.showSwitchVersion) {
-      await this.$http
-        .fetch('/core/access/changePageVersion', { version: 1 })
-        .then(resp => {
-          window.location.reload()
-        })
-        .catch(resp => {
-          that.$notify.error(getErrorMsg('切换失败', resp))
-        })
+
       }
     },
     /**

@@ -120,7 +120,7 @@ export default {
       await this.$http
         .fetch('/core/access/changePageVersion', { version: 1 })
         .then(resp => {
-          window.location.reload()
+          window.location.reload();
         })
         .catch(resp => {
           that.$notify.error(getErrorMsg('切换失败', resp))
