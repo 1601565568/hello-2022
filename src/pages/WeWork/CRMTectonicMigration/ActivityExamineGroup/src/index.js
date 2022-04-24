@@ -17,7 +17,7 @@ export default {
     /**
      * 审核活动
      */
-     examineActivity (id) {
+    examineActivity (id) {
       this.visibleExamineDialog = true
     },
     // 审核处理接口
