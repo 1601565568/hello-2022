@@ -136,6 +136,7 @@
         dialogTitle="选择企业微信群主"
         v-model="employeeSelectData.data"
         :isOpenDialogAfterRequest='false'
+        :onlyOwner="true"
         v-else>
         <!-- <template slot='selfBtn'>
           <div class='self-btn'>
