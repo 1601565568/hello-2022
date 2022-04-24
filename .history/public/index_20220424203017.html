@@ -129,7 +129,7 @@
   <strong>We're sorry but web-wm doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 </noscript>
 <!--加载中-->
-<!-- <style>
+<style>
   .el-form-item__label,.el-radio__label,.el-checkbox__label,.el-form-item__content{
   font-size: 14px;
 }
@@ -252,12 +252,12 @@
   /* 过渡页面的加载中动画-结束 */
 </style>
 <div class="loader-noCache" id="loader-noCache">
-  <div class="login-background__image bg-small"></div>
-  <div class="login-background__image bg-default"></div>
+  <!-- <div class="login-background__image bg-small"></div> -->
+  <!-- <div class="login-background__image bg-default"></div> -->
   <div class="loader-noCache-box">
-    <h1 style="color:#fff;padding-bottom:20px;font-size: 38px;">社群运营</h1>
+    <!-- <h1 style="color:#fff;padding-bottom:20px;font-size: 38px;">社群运营</h1>
     <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-         width="120px" height="120px" viewBox="0 0 206.641 200" enable-background="new 0 0 206.641 200" xml:space="preserve">
+         width="120px" height="120px" viewBox="0 0 206.641 200" enable-background="new 0 0 206.641 200" xml:space="preserve"> -->
     <circle fill="#5AA8FE" cx="104.321" cy="100.5" r="100"/>
       <path fill="#FFFFFF" d="M166.05,76.185c-1.059-4.17-6.79-6.408-11.716-5.231c0,0,11.818-0.077,1.866,9.438
       c-1.71,1.461-3.448,2.812-5.378,4.056v-18.57c0-6.679-5.324-11.975-12.031-11.975H70.294c-6.707,0-12.028,5.297-12.028,11.975
@@ -296,7 +296,7 @@
     <div class="noCache-animation"></div>
     <div class="loader-noCache-footer">©<%= new Date().getFullYear() %> 厦门南讯股份有限公司</div>
   </div>
-</div> -->
+</div>
 <div id="app"></div>
 <script>
     window.g_infos = window.g_infos || <%= process.env.VUE_APP_INFOS %> || {};

@@ -68,7 +68,7 @@ export default {
           domLeft.style.display = 'none'
         }
         leftSty.style.marginLeft = '16px'
-        leftSty.style.paddingTop = '16px'
+        leftSty.style.paddingTop = '0'
       }
       // dom.style.display = 'none'
     })
