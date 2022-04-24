@@ -314,7 +314,7 @@
             >
               <Icon type="question-circle" class="question-circle" />
               <template slot="content">
-                时间段内所有有过付款行为的好友数
+                {{ `时间段内所有有过付款行为的${formTipText}数` }}
               </template>
             </el-tooltip>
           </template>
@@ -329,7 +329,9 @@
             >
               <Icon type="question-circle" class="question-circle" />
               <template slot="content">
-                指定时间范围内所有有过付款行为的好友数/所有好友数
+                {{
+                  `指定时间范围内所有有过付款行为的${formTipText}数/所有${formTipText}数`
+                }}
               </template>
             </el-tooltip>
           </template>
@@ -390,16 +392,9 @@
                 <el-input
                   class="sale-number"
                   type="number"
-                  v-model="dialogData.saleTime"
-                  @change="activityCouponTotal"
+                  v-model.number="dialogData.saleTime"
+                  @change="handleChangeInput"
                 />
-                <!-- <el-input-number
-                  class="input-number"
-                  v-model="dialogData.saleTime"
-                  type="number"
-                  :min="1"
-                  :max="999"
-                ></el-input-number> -->
                 小时
               </el-form-item>
               <div class="sub-title">
@@ -441,6 +436,7 @@ export default {
     return {
       floatObj: { ...floatObj },
       dialogVisible: false,
+      oSaleTime: '',
       dialogData: {
         saleSwitch: false,
         saleTime: '',
@@ -496,6 +492,13 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    formTipText () {
+      let str = ''
+      str = { 1: '好友', 2: '群成员' }[this.tabId] || '好友'
+      return str
     }
   },
   created () {
@@ -637,6 +640,7 @@ export default {
               saleSwitch: parseStr.isOpen,
               saleTime: parseStr.hours
             }
+            this.oSaleTime = parseStr.hours
           }
         })
         .catch(resp => {
@@ -672,10 +676,13 @@ export default {
       day--
       return `${year}-${month}-${day}` + ' 23:59:59'
     },
-    activityCouponTotal () {
-      if (!/^[1-9]*$/.test(this.dialogData.saleTime)) {
-        this.dialogData.saleTime = this.dialogData.saleTime
+    handleChangeInput () {
+      if (!/^[0-9]*[1-9][0-9]*$/.test(this.dialogData.saleTime)) {
+        this.dialogData.saleTime = this.oSaleTime
         this.$notify.error('请输入正整数')
+      } else if (this.dialogData.saleTime > 99999) {
+        this.dialogData.saleTime = this.oSaleTime
+        this.$notify.error('输入值超出最大上限')
       }
     }
   }
