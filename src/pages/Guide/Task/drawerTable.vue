@@ -114,22 +114,22 @@
           </el-table-column>
           <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerNoFollowNum+'人': scope.row.customerNoFollowNum}` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number(scope.row.customerNoFollowNum))? scope.row.customerNoFollowNum+'人': (scope.row.customerNoFollowNum || '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerFollowingNum+'人': scope.row.customerFollowingNum}` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number(scope.row.customerFollowingNum))? scope.row.customerFollowingNum+'人': (scope.row.customerFollowingNum|| '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${ Number.isFinite(Number())?scope.row.customerFollowNum+'人': scope.row.customerFollowNum}` : "-" }}
+              {{ isHaveGroup ? `${ Number.isFinite(Number(scope.row.customerFollowNum))?scope.row.customerFollowNum+'人': (scope.row.customerFollowNum || '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="followProgress" label="跟进进度">
             <template slot-scope="scope">
-              {{ isHaveGroup ? scope.row.followProgress : "-" }}
+              {{ isHaveGroup ? (scope.row.followProgress || "-") : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="completeTime" label="完成时间">
@@ -149,7 +149,7 @@
                   >
                     <img :src="item" />
                   </div>
-                  <span title="点击查看全部" @click="onShowPic(scope.row.urlJson)"
+                  <span title="点击查看全部" v-if="formatUrlJson(scope.row.urlJson).length > 1" @click="onShowPic(scope.row.urlJson)"
                     >共{{ scope.row.urlJson.split(",").length }}张</span
                   >
                 </div>
