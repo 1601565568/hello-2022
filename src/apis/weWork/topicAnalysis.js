@@ -1,3 +1,9 @@
+/*
+ * @Date: 2022-03-30 14:04:17
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-12 19:15:52
+ * @FilePath: \ECRP-SG-WEB\src\apis\weWork\topicAnalysis.js
+ */
 export default {
   // 获取话题列表
   getKeyWordTopicList: {
@@ -24,8 +30,14 @@ export default {
     url: 'weWorkchatTopic/deleteKeyWord',
     method: 'get'
   },
+  // 获取关键词内容
   contentList: {
     url: 'weWorkchatTopic/contentList',
+    method: 'post'
+  },
+  // 获取关键词列表
+  keyWordlist: {
+    url: 'weWorkchatTopic/keyWordlist',
     method: 'post'
   }
 }
