@@ -27,7 +27,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="创建人：">
-            <ns-select v-model="model.employeeId" :props="selectProps" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.friendCreators"/>
+            <ns-select v-model="model.employeeId" :props="selectProps" @change="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.friendCreators"/>
           </el-form-item>
         </el-form>
       </template>
