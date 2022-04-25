@@ -348,7 +348,7 @@ export default {
         }
       }
       this.tableDialogLoading = true
-      this.$http.fetch(this.$api.marketing.weworkMarketing.targetWxActivity, params).then((resp) => {
+      this.$http.fetch(this.$api.marketing.weworkMarketing.groupChatRooms, params).then((resp) => {
         this.tableDialogData = resp.result.data
         this.paginationDialog.total = parseInt(resp.result.recordsTotal)
       }).catch((err) => {

@@ -36,6 +36,7 @@ export default {
       {
         func: function () {
           this.$searchAction$()
+          this.getTotal()
         },
         icon: '$.noop',
         name: '刷新',

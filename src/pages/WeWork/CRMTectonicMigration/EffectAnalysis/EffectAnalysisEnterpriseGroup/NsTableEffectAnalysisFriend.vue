@@ -109,7 +109,7 @@
             prop="sendStatus"
             label="发送状态">
             <template slot-scope="scope">
-              <template v-if="scope.row.sendStatus === 2">待发送</template>
+              <template v-if="scope.row.sendStatus === 1 || scope.row.sendStatus === 2">待发送</template>
               <template v-else-if="scope.row.sendStatus === 4">发送成功</template>
               <template v-else>
                 <span class="mgr4">发送失败</span>

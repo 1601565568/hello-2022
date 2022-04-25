@@ -107,7 +107,7 @@
             prop="trade_tag_name"
             label="营销对象">
             <template slot-scope="scope">
-              <template><span class="mem-detail" @click="lookReceiver(scope.row.id)">{{scope.row.targetCount}}</span>个群主</template>
+              <template><span class="mem-detail" @click="lookReceiver(scope.row.id)">{{scope.row.chatRoomCount}}</span>个群主</template>
               <!-- <template v-else><span class="mem-detail" @click="lookReceiver(1, scope.row.id)">{{scope.row.targetCount}}</span>个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}全部好友</template> -->
             </template>
           </el-table-column>
@@ -187,54 +187,31 @@
             <template>
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="guide.name"
-                :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
-              </el-table-column>
-
-              <el-table-column
-                :show-overflow-tooltip="true"
-                prop="guide.workNumber"
-                v-if="cloudPlatformType === 'ecrp'"
-                label="工号">
+                prop="name"
+                label="微信群名">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.guide.workNumber">
-                    {{scope.row.guide.workNumber}}
-                  </template>
-                  <template v-else>-</template>
+                  {{scope.row.name || '-'}}
                 </template>
               </el-table-column>
 
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="guide.simpleShops.shopName"
-                v-if="cloudPlatformType === 'ecrp'"
-                label="工作门店">
+                prop="ownerName"
+                label="群主">
                 <template slot-scope="scope">
-                  <el-popover
-                    v-if="scope.row.guide.simpleShops && scope.row.guide.simpleShops.length"
-                    placement="top-start"
-                    class="item"
-                    :title="`工作门店（${scope.row.guide.simpleShops.length}）`"
-                    trigger="hover"
-                    :content="scope.row.guide.simpleShops.map(el => el.shopName).join('；')">
-                    <span class="scope-name-tip" slot="reference">{{scope.row.guide.simpleShops.length ? scope.row.guide.simpleShops.map(el => el.shopName).slice(0, 2).join('；') : '-'}}</span>
-                    <div style="max-width: 400px">
-                      {{scope.row.guide.simpleShops.map(el => el.shopName).join('；')}}
-                    </div>
-                  </el-popover>
+                  {{scope.row.ownerName || '-'}}
                 </template>
               </el-table-column>
 
               <el-table-column
                 :show-overflow-tooltip="true"
-                prop="guide.status"
-                label="在职状态">
+                prop="personNum"
+                label="群人数">
                 <template slot-scope="scope">
-                  <template>
-                    {{scope.row.guide.status === 0 ? '禁用' : scope.row.guide.status === 1 ? '在职' : '离职'}}
-                  </template>
+                  {{scope.row.personNum || '-'}}
                 </template>
               </el-table-column>
+
             </template>
 
           </el-table>

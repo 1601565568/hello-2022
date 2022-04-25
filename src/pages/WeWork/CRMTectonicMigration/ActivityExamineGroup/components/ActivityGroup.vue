@@ -13,34 +13,33 @@
         :data="_data._table.data"
       >
         <template>
-          <el-table-column prop="guide.name" :label="cloudPlatformType === 'ecrp' ? '员工姓名' : '成员姓名'">
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="name"
+            label="微信群名">
             <template slot-scope="scope">
-              {{ scope.row.guide.name || '-' }}
+              {{scope.row.name || '-'}}
             </template>
           </el-table-column>
 
-          <el-table-column prop="guide.workNumber" label="工号">
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="ownerName"
+            label="群主">
             <template slot-scope="scope">
-              {{ scope.row.guide.workNumber || '-' }}
+              {{scope.row.ownerName || '-'}}
             </template>
           </el-table-column>
 
-          <el-table-column prop="guide.simpleShops" v-if="cloudPlatformType === 'ecrp'" label="工作门店">
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="personNum"
+            label="群人数">
             <template slot-scope="scope">
-              <el-popover
-                v-if="scope.row.guide.simpleShops && scope.row.guide.simpleShops.length"
-                placement="top-start"
-                class="item"
-                :title="`工作门店（${scope.row.guide.simpleShops.length}）`"
-                trigger="hover"
-                :content="scope.row.guide.simpleShops.map(el => el.shopName).join('；')">
-                <span class="scope-name-tip" slot="reference">{{scope.row.guide.simpleShops.length ? scope.row.guide.simpleShops.map(el => el.shopName).slice(0, 2).join('；') : '-'}}</span>
-                <div style="max-width: 400px">
-                  {{scope.row.guide.simpleShops.map(el => el.shopName).join('；')}}
-                </div>
-              </el-popover>
+              {{scope.row.personNum || '-'}}
             </template>
           </el-table-column>
+
         </template>
 
       </el-table>
