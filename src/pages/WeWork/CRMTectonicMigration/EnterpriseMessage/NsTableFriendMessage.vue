@@ -176,10 +176,10 @@
       <div class="table-title" slot="title">{{showStaff ? (cloudPlatformType === 'ecrp' ? '已选择员工' : '已选择成员') : '已选择分群'}}</div>
       <div>
         <div>
-          <el-input v-if="showStaff" v-model="staffName" class="input-search" :placeholder="cloudPlatformType === 'ecrp' ? '请输入员工姓名' : '请输入成员姓名'" @keyup.enter.native="getTableList">
+          <el-input v-if="showStaff" v-model="guideName" class="input-search" :placeholder="cloudPlatformType === 'ecrp' ? '请输入员工姓名' : '请输入成员姓名'" @keyup.enter.native="getTableList">
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="getTableList"></Icon>
           </el-input>
-          <el-input v-else v-model="groupName" class="input-search" placeholder="请输入分群名称" @keyup.enter.native="getTableList">
+          <el-input v-else v-model="chatRoomName" class="input-search" placeholder="请输入分群名称" @keyup.enter.native="getTableList">
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="getTableList"></Icon>
           </el-input>
         </div>
