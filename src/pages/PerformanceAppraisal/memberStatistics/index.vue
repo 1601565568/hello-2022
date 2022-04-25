@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-22 15:39:13
+ * @LastEditTime: 2022-04-25 15:33:02
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -158,7 +158,6 @@
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElImage from '@nascent/nui/lib/image'
-import { hasKey } from '@/utils/common'
 
 let vm
 export default {
@@ -167,15 +166,19 @@ export default {
   props: {
     types: Object,
     department: Array,
-    role: Array
+    role: Array,
+    detailsData: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
   },
   data: function () {
     const operateButtons = [
       {
         func: function () {
-          vm.$router.push({
-            path: '/PerformanceAppraisal/SalesStatistics/List'
-          })
+          vm.$emit('handleJumpList')
         },
         icon: '$.noop',
         name: '返回',
@@ -263,9 +266,6 @@ export default {
   mounted: function () {
     vm = this
     this.$reload()
-    if (!hasKey(this.$route.params)) {
-      this.$router.go(-1)
-    }
   },
   components: {
     ElImage
@@ -287,7 +287,7 @@ export default {
      * 参数设置
      */
     $handleParams: function (params) {
-      Object.assign(params.searchMap, this.$route.params)
+      Object.assign(params.searchMap, this.detailsData)
       return params
     }
   }
