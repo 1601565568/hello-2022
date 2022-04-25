@@ -94,7 +94,7 @@ export default {
     return {
       loading: false,
       activity: {},
-      urlList: this.$api.marketing.weworkMarketing.targetWxActivity
+      urlList: this.$api.marketing.weworkMarketing.groupChatRooms
     }
   },
   methods: {
