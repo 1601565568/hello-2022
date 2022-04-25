@@ -1,131 +1,42 @@
 <template>
-  <div class="template_main">
-    <div class="template-page">
-      <div class="page-header">
-        <div class="page-header__text">
-          <!-- <el-breadcrumb separator="/">
+  <div>
+    <div v-show="!isDetails" class="template_main">
+      <div class="template-page">
+        <div class="page-header">
+          <div class="page-header__text">
+            <!-- <el-breadcrumb separator="/">
             <el-breadcrumb-item
               :to="{ path: '/PerformanceAppraisal/SalesStatistics/List' }"
               >绩效考核</el-breadcrumb-item
             >
             <el-breadcrumb-item>销售数据统计</el-breadcrumb-item>
           </el-breadcrumb> -->
-          <span class="head-title">销售数据统计</span>
+            <span class="head-title">销售数据统计</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="blue-tip">
-      <div>点击设置销售数据计算规则</div>
-      <div class="tip-button">
-        <ns-button type="text" @click="handleSet">统计设置</ns-button>
-      </div>
-    </div>
-    <div class="page-content">
-      <el-tabs v-model="tabId" @tab-click="handleTabsClick">
-        <el-tab-pane
-          v-for="item in tabOptions.tabList"
-          :key="item.name"
-          :label="item.name"
-          :name="item.value"
-        ></el-tab-pane>
-      </el-tabs>
-      <div class="params-container">
-        <div class="seach-left-view">
-          <div class="shop-content operation-view base-view">
-            <span class="ml-8"
-              >{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span
-            >
-            <GuideDialog
-              :selfBtn="true"
-              :appendToBody="true"
-              :switchAreaFlag="1"
-              :isButton="false"
-              :auth="true"
-              type="primary"
-              btnTitle=""
-              :dialogTitle="`选择${tabId === '1' ? '企业微信成员' : '群主'}`"
-              v-model="guideIds"
-              @inputAllData="guideClick"
-            >
-              <template slot="selfBtn">
-                <div class="self-btn">
-                  {{
-                    guideIds && guideIds.length
-                      ? `已选择${guideIds.length}个`
-                      : '全部'
-                  }}
-                  <span
-                    class="icon-xuanzeyuangong2x iconfont"
-                    style="margin: 0 10px 0 5px"
-                  ></span>
-                </div>
-              </template>
-            </GuideDialog>
-          </div>
-          <div class="operation-view base-view" style="width: auto">
-            <div class="name" style="width: 70px">订单来源：</div>
-            <div class="item-select">
-              <el-select
-                v-model="tableParams.searchMap.platform"
-                :default-first-option="true"
-                @change="fetchList()"
-              >
-                <el-option
-                  v-for="item in orderOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="icon-view">
-              <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
-            </div>
-          </div>
-          <div class="operation-view base-view" style="width: auto">
-            <div class="name" style="width: 70px">店铺来源：</div>
-            <div class="item-select">
-              <el-select
-                v-model="tableParams.searchMap.shopId"
-                :default-first-option="true"
-                @change="fetchList()"
-              >
-                <el-option
-                  v-for="item in storeOptions"
-                  :key="item.shopId"
-                  :label="item.shopName"
-                  :value="item.shopId"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="icon-view">
-              <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
-            </div>
-          </div>
-          <div class="date-view base-view">
-            <span style="font-size: 13px">下单时间: </span>
-            <el-date-picker
-              value-format="yyyy-MM-dd HH:mm:ss"
-              format="yyyy/MM/dd"
-              type="daterange"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :clearable="false"
-              v-model="orderTime"
-              @change="fetchList()"
-              :pickerOptions="pickerOptions"
-              :default-time="['00:00:00', '23:59:59']"
-            >
-            </el-date-picker>
-          </div>
+      <div class="blue-tip">
+        <div>点击设置销售数据计算规则</div>
+        <div class="tip-button">
+          <ns-button type="text" @click="handleSet">统计设置</ns-button>
         </div>
-        <!-- <el-form :inline="true" class="form-inline_top">
-          <el-form-item>
-            <div class="shop-content">
-              <span>{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span>
+      </div>
+      <div class="page-content">
+        <el-tabs v-model="tabId" @tab-click="handleTabsClick">
+          <el-tab-pane
+            v-for="item in tabOptions.tabList"
+            :key="item.name"
+            :label="item.name"
+            :name="item.value"
+          ></el-tab-pane>
+        </el-tabs>
+        <div class="params-container">
+          <div class="seach-left-view">
+            <div class="shop-content operation-view base-view">
+              <span class="ml-8"
+                >{{ { '1': '企业微信成员', '2': '群主' }[tabId] }}：</span
+              >
               <GuideDialog
                 :selfBtn="true"
                 :appendToBody="true"
@@ -147,276 +58,295 @@
                     }}
                     <span
                       class="icon-xuanzeyuangong2x iconfont"
-                      style="marginleft: 5px"
+                      style="margin: 0 10px 0 5px"
                     ></span>
                   </div>
                 </template>
               </GuideDialog>
             </div>
-          </el-form-item>
-          <el-form-item label="订单来源：" class="el-form__change">
-            <el-select
-              v-model="tableParams.searchMap.platform"
-              placeholder="请选择"
-              @change="fetchList()"
-            >
-              <el-option
-                v-for="item in orderOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="店铺来源：" class="el-form__change">
-            <el-select
-              v-model="tableParams.searchMap.shopId"
-              placeholder="请选择"
-              @change="fetchList()"
-            >
-              <el-option
-                v-for="item in storeOptions"
-                :key="item.shopId"
-                :label="item.shopName"
-                :value="item.shopId"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="下单时间: ">
-            <el-date-picker
-              style="margin-left: 15px"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              format="yyyy/MM/dd"
-              type="daterange"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :clearable="false"
-              v-model="orderTime"
-              @change="fetchList()"
-              :pickerOptions="pickerOptions"
-              :default-time="['00:00:00', '23:59:59']"
-            >
-            </el-date-picker>
-          </el-form-item>
-        </el-form> -->
-      </div>
-      <el-table
-        :data="table.tableData"
-        class="new-table_border table-container"
-        style="width: 100%"
-        v-loading="table.loading"
-      >
-        <el-table-column
-          v-if="tabId == '1'"
-          prop="userName"
-          key="qw"
-          label="企业微信成员"
-        >
-        </el-table-column>
-        <el-table-column
-          v-if="tabId == '2'"
-          prop="chatName"
-          label="群名称"
-          key="qmc"
-        >
-        </el-table-column>
-        <el-table-column
-          v-if="tabId == '2'"
-          prop="ownerName"
-          key="qz"
-          label="群主"
-        >
-        </el-table-column>
-        <el-table-column prop="orderPriceAll">
-          <template slot="header">
-            下单金额/笔数
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                时间段内好友通过商品链接触达后下单总金额/笔数（已付款+未付款订单）
-              </template>
-            </el-tooltip>
-          </template>
-          <template slot-scope="scope">
-            <template>
-              {{ scope.row.orderPriceAll }}/{{ scope.row.orderCountAll }}
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="payPriceAll">
-          <template slot="header">
-            付款金额/笔数
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                时间段内好友通过商品链接触达后下单并付款总金额/笔数
-              </template>
-            </el-tooltip>
-          </template>
-          <template slot-scope="scope">
-            <template>
-              {{ scope.row.payPriceAll }}/{{ scope.row.payCountAll }}
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="refundPriceAll">
-          <template slot="header">
-            退款金额/笔数
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                时间段内好友通过商品链接触达后下单并退款完成的总金额/笔数
-              </template>
-            </el-tooltip>
-          </template>
-          <template slot-scope="scope">
-            <template>
-              {{ scope.row.refundPriceAll }}/{{ scope.row.refundCountAll }}
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="avgCustomerPrice">
-          <template slot="header">
-            平均客单价
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                时间段内好友通过商品链接触达后下单并付款总金额/付款人数
-              </template>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column prop="buyCustomerCount">
-          <template slot="header">
-            购买人数
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                时间段内所有有过付款行为的好友数
-              </template>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column prop="buyCustomerTax">
-          <template slot="header">
-            购买率
-            <el-tooltip
-              effect="light"
-              popper-class="popperClass"
-              placement="top"
-            >
-              <Icon type="question-circle" class="question-circle" />
-              <template slot="content">
-                指定时间范围内所有有过付款行为的好友数/所有好友数
-              </template>
-            </el-tooltip>
-          </template>
-          <template slot-scope="scope">
-            <template>
-              {{ floatObj.multiply(scope.row.buyCustomerTax, 100) }}%
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="address" width="125px" label="操作">
-          <template slot-scope="scope">
-            <ns-button type="text" @click="handleDetail(scope.row)"
-              >详情
-            </ns-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        key=""
-        class="template-table__pagination"
-        :page-sizes="pagination.sizeOpts"
-        :total="pagination.total"
-        :current-page="pagination.page"
-        :page-size="pagination.size"
-        layout="slot, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
-        @current-change="handlePageChange"
-      >
-        <span class="pagination-text">单页显示: </span>
-      </el-pagination>
-    </div>
-
-    <el-dialog
-      title="统计设置"
-      custom-class="full-dialog"
-      class="full-dialog"
-      width="758px"
-      :visible.sync="dialogVisible"
-    >
-      <div class="dialog-content">
-        <div class="blue-tip">
-          <div>
-            成员分享的商品链接被好友点击后，好友在规定的时间内下单即可被统计计算业绩。
-          </div>
-        </div>
-        <div>
-          <el-form :model="dialogData" size="small">
-            <el-form-item label="销售数据统计 ">
-              <el-form-item prop="saleSwitch">
-                <el-switch
-                  class="sale-switch"
-                  v-model="dialogData.saleSwitch"
-                />
-              </el-form-item>
-            </el-form-item>
-            <div v-if="dialogData.saleSwitch">
-              <el-form-item label="时间间隔设置" prop="saleTime">
-                <!-- <el-input v-model="dialogData.saleTime" width="68" /> -->
-                <el-input-number
-                  class="input-number"
-                  v-model="dialogData.saleTime"
-                  type="number"
-                  :min="1"
-                  :max="999"
-                ></el-input-number>
-                小时
-              </el-form-item>
-              <div class="sub-title">
-                <span class="yellow-point"></span>
-                <span>用户点开商品链接，在间隔时间内下单即可被统计</span>
+            <div class="operation-view base-view" style="width: auto">
+              <div class="name" style="width: 70px">订单来源：</div>
+              <div class="item-select">
+                <el-select
+                  v-model="tableParams.searchMap.platform"
+                  :default-first-option="true"
+                  @change="fetchList()"
+                >
+                  <el-option
+                    v-for="item in orderOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="icon-view">
+                <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
               </div>
             </div>
-          </el-form>
+            <div class="operation-view base-view" style="width: auto">
+              <div class="name" style="width: 70px">店铺来源：</div>
+              <div class="item-select">
+                <el-select
+                  v-model="tableParams.searchMap.shopId"
+                  :default-first-option="true"
+                  @change="fetchList()"
+                >
+                  <el-option
+                    v-for="item in storeOptions"
+                    :key="item.shopId"
+                    :label="item.shopName"
+                    :value="item.shopId"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="icon-view">
+                <Icon type="ns-arrow-drowdown" style="color: #8c8c8c" />
+              </div>
+            </div>
+            <div class="date-view base-view">
+              <span style="font-size: 13px">下单时间: </span>
+              <el-date-picker
+                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy/MM/dd"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :clearable="false"
+                v-model="orderTime"
+                @change="fetchList()"
+                :pickerOptions="pickerOptions"
+                :default-time="['00:00:00', '23:59:59']"
+              >
+              </el-date-picker>
+            </div>
+          </div>
         </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <ns-button
-          @click="
-            () => {
-              this.dialogVisible = !this.dialogVisible
-            }
-          "
-          >取 消</ns-button
+        <el-table
+          :data="table.tableData"
+          class="new-table_border table-container"
+          style="width: 100%"
+          v-loading="table.loading"
+          @sort-change="tableSort"
         >
-        <ns-button type="primary" @click="confirm()">保 存</ns-button>
-      </span>
-    </el-dialog>
+          <el-table-column
+            v-if="tabId == '1'"
+            prop="userName"
+            key="qw"
+            label="企业微信成员"
+          >
+          </el-table-column>
+          <el-table-column
+            v-if="tabId == '2'"
+            prop="chatName"
+            label="群名称"
+            key="qmc"
+          >
+          </el-table-column>
+          <el-table-column
+            v-if="tabId == '2'"
+            prop="ownerName"
+            key="qz"
+            label="群主"
+          >
+          </el-table-column>
+          <el-table-column prop="orderPriceAll" sortable="custom">
+            <template slot="header">
+              下单金额/笔数
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  时间段内好友通过商品链接触达后下单总金额/笔数（已付款+未付款订单）
+                </template>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <template>
+                {{ scope.row.orderPriceAll }}元/{{ scope.row.orderCountAll }}
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column prop="payPriceAll" sortable="custom">
+            <template slot="header">
+              付款金额/笔数
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  时间段内好友通过商品链接触达后下单并付款总金额/笔数
+                </template>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <template>
+                {{ scope.row.payPriceAll }}元/{{ scope.row.payCountAll }}
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column prop="refundPriceAll" sortable="custom">
+            <template slot="header">
+              退款金额/笔数
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  时间段内好友通过商品链接触达后下单并退款完成的总金额/笔数
+                </template>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <template>
+                {{ scope.row.refundPriceAll }}元/{{ scope.row.refundCountAll }}
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column prop="avgCustomerPrice">
+            <template slot="header">
+              平均客单价
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  时间段内好友通过商品链接触达后下单并付款总金额/付款人数
+                </template>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="buyCustomerCount">
+            <template slot="header">
+              购买人数
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  {{ `时间段内所有有过付款行为的${formTipText}数` }}
+                </template>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="buyCustomerTax">
+            <template slot="header">
+              购买率
+              <el-tooltip
+                effect="light"
+                popper-class="popperClass"
+                placement="top"
+              >
+                <Icon type="question-circle" class="question-circle" />
+                <template slot="content">
+                  {{
+                    `指定时间范围内所有有过付款行为的${formTipText}数/所有${formTipText}数`
+                  }}
+                </template>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              <template>
+                {{ floatObj.multiply(scope.row.buyCustomerTax, 100) }}%
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" width="125px" label="操作">
+            <template slot-scope="scope">
+              <ns-button type="text" @click="handleDetail(scope.row)"
+                >详情
+              </ns-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          key=""
+          class="template-table__pagination"
+          :page-sizes="pagination.sizeOpts"
+          :total="pagination.total"
+          :current-page="pagination.page"
+          :page-size="pagination.size"
+          layout="slot, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handlePageChange"
+        >
+          <span class="pagination-text">单页显示: </span>
+        </el-pagination>
+      </div>
+
+      <el-dialog
+        title="统计设置"
+        custom-class="full-dialog"
+        class="full-dialog"
+        width="758px"
+        :visible.sync="dialogVisible"
+      >
+        <div class="dialog-content">
+          <div class="blue-tip">
+            <div>
+              成员分享的商品链接被好友点击后，好友在规定的时间内下单即可被统计计算业绩。
+            </div>
+          </div>
+          <div>
+            <el-form :model="dialogData" size="small">
+              <el-form-item label="销售数据统计 ">
+                <el-form-item prop="saleSwitch">
+                  <el-switch
+                    class="sale-switch"
+                    v-model="dialogData.saleSwitch"
+                  />
+                </el-form-item>
+              </el-form-item>
+              <div v-if="dialogData.saleSwitch">
+                <el-form-item label="时间间隔设置" prop="saleTime">
+                  <el-input
+                    class="sale-number"
+                    type="number"
+                    v-model.number="dialogData.saleTime"
+                    @change="handleChangeInput"
+                  />
+                  小时
+                </el-form-item>
+                <div class="sub-title">
+                  <span class="yellow-point"></span>
+                  <span>用户点开商品链接，在间隔时间内下单即可被统计</span>
+                </div>
+              </div>
+            </el-form>
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <ns-button
+            @click="
+              () => {
+                this.dialogVisible = !this.dialogVisible
+              }
+            "
+            >取 消</ns-button
+          >
+          <ns-button type="primary" @click="confirm()">保 存</ns-button>
+        </span>
+      </el-dialog>
+    </div>
+    <div v-if="isDetails">
+      <MemberStatistics
+        :detailsData="detailsData"
+        @handleJumpList="handleJumpList"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -424,18 +354,22 @@ import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import { getErrorMsg } from '@/utils/toast'
 import GuideDialog from '@/components/NewUi/GuideDialog'
-import ElInputNumber from '@nascent/nui/lib/input-number'
 import { ShipOptions, StatisticsCode } from './src/const.js'
 import { floatObj } from '@/utils/common.js'
+import MemberStatistics from '../memberStatistics/index'
 export default {
+  name: 'SalesStatistics',
   components: {
-    ElInputNumber,
-    GuideDialog
+    GuideDialog,
+    MemberStatistics
   },
   data () {
     return {
+      isDetails: false,
+      detailsData: {},
       floatObj: { ...floatObj },
       dialogVisible: false,
+      oSaleTime: '',
       dialogData: {
         saleSwitch: false,
         saleTime: '',
@@ -462,6 +396,8 @@ export default {
       tableParams: {
         start: 0,
         length: 15,
+        orderKey: 'orderPriceAll',
+        orderDir: 'desc',
         searchMap: {
           chatId: '',
           createdEnd: '',
@@ -491,6 +427,13 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    formTipText () {
+      let str = ''
+      str = { 1: '好友', 2: '群成员' }[this.tabId] || '好友'
+      return str
     }
   },
   created () {
@@ -556,16 +499,23 @@ export default {
           this.$notify.error(getErrorMsg('加载失败', resp))
         })
     },
+    tableSort (data) {
+      let { order, prop } = data
+      order = { 'ascending': 'asc', 'descending': 'desc' }[order]
+      this.tableParams = { ...this.tableParams, orderDir: order, orderKey: prop }
+      this.fetchList()
+    },
     handleDetail (row) {
-      let _params = {
+      let params = {
         ...this.tableParams.searchMap,
         userIdList: row.userID,
         chatId: row.chatID
       }
-      this.$router.push({
-        name: 'memberStatistics',
-        params: _params
-      })
+      this.detailsData = params
+      this.isDetails = true
+    },
+    handleJumpList () {
+      this.isDetails = !this.isDetails
     },
     guideClick (value) {
       this.guideIds = value.map(item => item.userId)
@@ -632,6 +582,7 @@ export default {
               saleSwitch: parseStr.isOpen,
               saleTime: parseStr.hours
             }
+            this.oSaleTime = parseStr.hours
           }
         })
         .catch(resp => {
@@ -666,6 +617,15 @@ export default {
       let day = date.getDate() > 10 ? date.getDate() : '0' + date.getDate()
       day--
       return `${year}-${month}-${day}` + ' 23:59:59'
+    },
+    handleChangeInput () {
+      if (!/^[0-9]*[1-9][0-9]*$/.test(this.dialogData.saleTime)) {
+        this.dialogData.saleTime = this.oSaleTime
+        this.$notify.error('请输入正整数')
+      } else if (this.dialogData.saleTime > 99999) {
+        this.dialogData.saleTime = this.oSaleTime
+        this.$notify.error('输入值超出最大上限')
+      }
     }
   }
 }
@@ -690,6 +650,11 @@ export default {
 }
 .sale-switch {
   margin-left: 8px;
+}
+.sale-number {
+  margin-left: 8px;
+  width: 93px;
+  text-align: left;
 }
 .input-number {
   width: 100px;

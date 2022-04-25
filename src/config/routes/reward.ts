@@ -259,12 +259,6 @@ export default {
           'name': 'SalesStatistics',
           'title': '销售数据统计',
           'component': () => import('@/pages/PerformanceAppraisal/SalesStatistics/index.vue')
-        },
-        {
-          'path': '/PerformanceAppraisal/SalesStatistics/Details',
-          'name': 'memberStatistics',
-          'title': '销售数据统计(详情)',
-          'component': () => import('@/pages/PerformanceAppraisal/memberStatistics/index.vue')
         }
       ]
     }
