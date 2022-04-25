@@ -63,7 +63,8 @@ export default ($route) => {
     '/Marketing/EffectAnalysisEnterpriseGroup',
     '/EnterpriseGroupExamine',
     '/PerformanceAppraisal/SalesStatistics/List',
-    '/Guide/Material/Library'
+    '/Guide/Material/Library',
+    '/Social/OperationData/MaterialChat'
 
   ]
 
