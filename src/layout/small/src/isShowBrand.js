@@ -40,7 +40,8 @@ export default ($route) => {
     '/Social/WeWorkGroup/ChatRecord',
     '/Social/WeComCustomerOperation/DeleteCustomers',
     '/Social/WeComCustomerOperation/BeDeleteCustomers',
-    '/Guide/Material/Library'
+    '/Guide/Material/Library',
+    '/Social/OperationData/MaterialChat'
 
   ]
 

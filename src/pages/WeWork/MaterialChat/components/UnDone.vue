@@ -148,7 +148,8 @@
                         <img src="./images/head_demo.svg" width="60" height="60"/>
                       </div> -->
                       <div>
-                        <img :src="checkUrl(scope.row.headImg)" width="60" height="60"/>
+                        <img v-if="scope.row.headImg" :src="scope.row.headImg" width="60" height="60"/>
+                        <span v-else>-</span>
                       </div>
                     </template>
                   </el-table-column>
@@ -220,14 +221,6 @@ export default {
     }
   },
   methods: {
-    checkUrl (url) {
-      if (url !== null && url !== '') {
-        if (url.indexOf('img.alicdn.com') !== -1) {
-          url = url + '_200x200.jpg'
-        }
-      }
-      return url
-    },
     transPost (val) {
       if (val === 1) {
         return '店长'
