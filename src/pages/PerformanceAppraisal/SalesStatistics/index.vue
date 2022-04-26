@@ -226,6 +226,9 @@
                 </template>
               </el-tooltip>
             </template>
+            <template slot-scope="scope">
+              {{ scope.row.avgCustomerPrice || '-' }}
+            </template>
           </el-table-column>
           <el-table-column prop="buyCustomerCount">
             <template slot="header">

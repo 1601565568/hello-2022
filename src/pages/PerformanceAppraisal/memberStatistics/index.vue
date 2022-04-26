@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-25 15:33:02
+ * @LastEditTime: 2022-04-26 16:38:29
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -109,7 +109,7 @@
         >
           <template slot-scope="scope">
             <template>
-              {{ scope.row.orderPrice }}/{{ scope.row.orderCount }}
+              {{ scope.row.orderPrice }}元/{{ scope.row.orderCount }}
             </template>
           </template>
         </el-table-column>
@@ -121,14 +121,14 @@
         >
           <template slot-scope="scope">
             <template>
-              {{ scope.row.payPrice }}/{{ scope.row.payCount }}
+              {{ scope.row.payPrice }}元/{{ scope.row.payCount }}
             </template>
           </template>
         </el-table-column>
         <el-table-column prop="userName" label="退款金额/笔数" align="center">
           <template slot-scope="scope">
             <template>
-              {{ scope.row.refundPrice }}/{{ scope.row.refundCount }}
+              {{ scope.row.refundPrice }}元/{{ scope.row.refundCount }}
             </template>
           </template>
         </el-table-column>
