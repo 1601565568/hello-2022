@@ -40,7 +40,7 @@
                 :showEmoji='false'
                 :showTextEmoji='false'
                 ref="tagContent"
-                placeholder="输入链接地址"
+                placeholder="输入小程序地址"
                 tag="wise"
                 :tools="placeholderLink"
                 emojiClass=''
@@ -244,6 +244,11 @@ export default {
     needLink: {
       type: Boolean,
       dafault: true
+    },
+    // 是否需要corpid占位符（素材库）
+    needCorpid: {
+      type: Boolean,
+      dafault: false
     }
   },
   computed: {
@@ -397,6 +402,15 @@ export default {
     } else {
       if (this.cloudPlatformType === 'kd') {
         this.placeholderLink = this.placeholderLinkKD
+        if (this.needCorpid) {
+          const obj = {
+            text: '企业微信corpid',
+            id: 'corpId',
+            type: 'tag',
+            value: '企业微信corpid'
+          }
+          this.placeholderLink.splice(1, 0, obj)
+        }
       }
     }
   },
