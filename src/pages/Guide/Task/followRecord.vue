@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     init () {
-      console.log(this.name)
+      // console.log(this.name)
       this.queryTask()
     },
     queryTask () {

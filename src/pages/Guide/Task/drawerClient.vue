@@ -244,7 +244,7 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          console.log(data)
+          // console.log(data)
         },
         icon: '$.noop',
         name: '查看详情',
@@ -367,7 +367,7 @@ export default {
       }
     },
     goDetail (data) {
-      console.log(data)
+      // console.log(data)
       this.nameToChildren = { customerName: data.customerName, encCustomerName: data.encCustomerName }
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId
