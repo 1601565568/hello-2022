@@ -383,7 +383,8 @@ export default {
         shopName: this.shopName,
         guideName: this.guideName,
         taskName: this.taskName,
-        queryDate: this.queryDate
+        queryDate: this.queryDate,
+        followType: this.followType
       }
       this.$http
         .fetch(this.$api.guide.task.exportExcel, sendParams)
