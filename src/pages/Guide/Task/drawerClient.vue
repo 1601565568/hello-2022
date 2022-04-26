@@ -367,7 +367,7 @@ export default {
       }
     },
     goDetail (data) {
-      console.log(data)
+      // console.log(data)
       this.nameToChildren = { customerName: data.customerName, encCustomerName: data.encCustomerName }
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId

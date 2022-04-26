@@ -754,7 +754,7 @@ function apis (wpo, undef) {
       }
     } catch (err) {
       if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && window.console) {
-        console.error('retcode log errMsgFitler error', err)
+        // console.error('retcode log errMsgFitler error', err)
       }
     } // 未识别的过滤规则统一不过滤
 
