@@ -76,7 +76,7 @@
           prop="tradeTagName"
           label="营销对象">
           <template slot-scope="scope">
-            <template>{{scope.row.targetCount}}个群主</template>
+            <template>{{scope.row.targetCount}}个群聊</template>
           </template>
         </el-table-column>
 
