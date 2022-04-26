@@ -216,9 +216,13 @@ export default {
       const midTime = nowMoment - timestamp
       const startT = moment(midTime + 1000).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
       const endT = moment(nowMoment).format('YYYY-MM-DD HH:mm:ss')
-      const { type, start, end } = this.$route.query
+      const { type, start, end, createTime } = this.$route.query
       if (Number(type) === 2) {
-        return [startT, endT]
+        if (moment(createTime).isBefore(startT)) {
+          return [startT, endT]
+        } else {
+          return [createTime, endT]
+        }
       }
       if (Number(type) === 1) {
         // 如果活动 起始时间 比 计算的的开始时间（基于现在的一个月前） 晚 => 起始时间 === 活动起始时间; 早 起始时间 === 基于现在的一个月前
