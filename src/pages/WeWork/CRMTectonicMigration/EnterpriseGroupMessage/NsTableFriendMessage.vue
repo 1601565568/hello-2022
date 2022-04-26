@@ -176,7 +176,7 @@
       <div class="table-title" slot="title">已选群聊</div>
       <div>
         <div>
-          <el-input v-model="chatRoomName" class="input-search" placeholder="请输入分群名称" @keyup.enter.native="getTableList">
+          <el-input v-model="chatRoomName" class="input-search" placeholder="请输入群聊名称" @keyup.enter.native="getTableList">
             <Icon type="ns-search" slot="suffix" class='search-icon' @click="getTableList"></Icon>
           </el-input>
         </div>
