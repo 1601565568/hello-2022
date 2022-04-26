@@ -107,7 +107,7 @@
             prop="trade_tag_name"
             label="营销对象">
             <template slot-scope="scope">
-              <template><span class="mem-detail" @click="lookReceiver(scope.row.id)">{{scope.row.chatRoomCount}}</span>个群主</template>
+              <template><span class="mem-detail" @click="lookReceiver(scope.row.id)">{{scope.row.chatRoomCount}}</span>个群聊</template>
               <!-- <template v-else><span class="mem-detail" @click="lookReceiver(1, scope.row.id)">{{scope.row.targetCount}}</span>个{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}全部好友</template> -->
             </template>
           </el-table-column>
@@ -173,7 +173,7 @@
       </template>
     </page-table>
     <el-dialog :visible.sync="showTableDialog" width="67%">
-      <div class="table-title" slot="title">已选择分群</div>
+      <div class="table-title" slot="title">已选群聊</div>
       <div>
         <div>
           <el-input v-model="chatRoomName" class="input-search" placeholder="请输入分群名称" @keyup.enter.native="getTableList">
@@ -188,7 +188,7 @@
               <el-table-column
                 :show-overflow-tooltip="true"
                 prop="name"
-                label="微信群名">
+                label="群聊名称">
                 <template slot-scope="scope">
                   {{scope.row.name || '-'}}
                 </template>

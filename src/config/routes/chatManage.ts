@@ -1,3 +1,9 @@
+/*
+ * @Date: 2022-03-30 14:04:17
+ * @LastEditors: Cosima
+ * @LastEditTime: 2022-04-21 16:04:53
+ * @FilePath: \ECRP-SG-WEB\src\config\routes\chatManage.ts
+ */
 export default {
   'path': '/Chat/ChatManage',
   'name': 'ChatManage',
