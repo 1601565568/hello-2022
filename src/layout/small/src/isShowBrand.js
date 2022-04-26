@@ -41,7 +41,8 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/DeleteCustomers',
     '/Social/WeComCustomerOperation/BeDeleteCustomers',
     '/Guide/Material/Library',
-    '/Social/OperationData/MaterialChat'
+    '/Social/OperationData/MaterialChat',
+    '/Social/OperationData/NoStatistical'
 
   ]
 
