@@ -21,7 +21,7 @@
       <div class="nav">
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">执行导购</p>
-          <span class="data-item__num">{{ isHaveGroup ? pagination.total : "-" }}</span>
+          <span class="data-item__num">{{ isHaveGroup ? pagination.total : "- -" }}</span>
           <span class="data-item__icon distributionStore">
             <Icon type="distributionstore" class="distributionStoreIcon" />
           </span>
@@ -105,6 +105,7 @@
               <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
               <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
               <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
+              <div  v-if="!scope.row.state">-</div>
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerTotal" label="分配客户">
@@ -149,7 +150,7 @@
                   >
                     <img :src="item" />
                   </div>
-                  <span title="点击查看全部" v-if="formatUrlJson(scope.row.urlJson).length > 1" @click="onShowPic(scope.row.urlJson)"
+                  <span title="点击查看全部" v-if="formatUrlJson(scope.row.urlJson).length >= 1" @click="onShowPic(scope.row.urlJson)"
                     >共{{ scope.row.urlJson.split(",").length }}张</span
                   >
                 </div>
@@ -160,6 +161,7 @@
             <template slot-scope="scope">
               <ns-table-column-operate-button
                 :buttons="table.table_buttons"
+                :class="[!isHaveGroup && 'zhihui']"
                 :prop="scope"
               >
               </ns-table-column-operate-button>
@@ -245,6 +247,9 @@ export default drawerVisible
   }
   @b table {
     padding-top: 16px;
+    .zhihui >>> button {
+        color: #606266;
+      }
     >>> .el-button--text {
         font-size: 14px;
       }

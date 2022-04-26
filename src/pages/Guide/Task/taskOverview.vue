@@ -391,6 +391,7 @@
         :runType="runType"
         :taskName="taskMsg.name"
         :queryTime="searchMap.queryTime"
+        :isHaveGroup="isHaveGroup"
       />
     </el-drawer>
     <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">

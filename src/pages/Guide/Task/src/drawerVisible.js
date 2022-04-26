@@ -25,6 +25,9 @@ export default {
     },
     taskName: {
       type: String
+    },
+    isHaveGroup: {
+      type: Number
     }
   },
   mixins: [tableMixin, scrollHeight],
@@ -44,9 +47,15 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          this.drawerVisible = true
-          this.guideName = data.row.name
-          this.guideId = data.row.guideId
+          if (!this.isHaveGroup) {
+            this.drawerVisible = false
+            this.$notify.info('任务未分配客户，无法查看跟进详情')
+          } else {
+            console.log(data, this.isHaveGroup)
+            this.drawerVisible = true
+            this.guideName = data.row.name
+            this.guideId = data.row.guideId
+          }
         },
         icon: '$.noop',
         name: '查看详情',
@@ -66,7 +75,6 @@ export default {
       guideId: null,
       guideName: null,
       drawerVisible: false,
-      isHaveGroup: 0,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
