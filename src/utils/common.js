@@ -1,8 +1,12 @@
 /*
  * @Date: 2022-04-21 11:48:28
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-22 15:34:56
+ * @LastEditTime: 2022-04-25 19:20:07
  * @FilePath: \ECRP-SG-WEB\src\utils\common.js
+ */
+
+/** 实现加减乘除运算，确保不丢失精度
+ *  运算类型，有加减乘除（add/subtract/multiply/divide）
  */
 export const floatObj = (function () {
   /*
@@ -42,9 +46,8 @@ export const floatObj = (function () {
    * @param b {number} 运算数2
    * @param digits {number} 精度，保留的小数点数，比如 2, 即保留为两位小数
    * @param op {string} 运算类型，有加减乘除（add/subtract/multiply/divide）
-   *
    */
-  function operation (a, b, digits = 1, op) {
+  function operation (a, b, digits = 2, op) {
     var o1 = toInteger(a)
     var o2 = toInteger(b)
     var n1 = o1.num
@@ -65,10 +68,7 @@ export const floatObj = (function () {
           // o1 小数位 小于 o2
           result = n1 * (t2 / t1) + n2
         }
-        if (digits) {
-          return toFixedDigits(result / max, digits)
-        }
-        return result / max
+        return toFixedDigits(result / max, digits)
       case 'subtract':
         if (t1 === t2) {
           result = n1 - n2
@@ -77,24 +77,22 @@ export const floatObj = (function () {
         } else {
           result = n1 * (t2 / t1) - n2
         }
-        if (digits) {
-          return toFixedDigits(result / max, digits)
-        }
-        return result / max
+        return toFixedDigits(result / max, digits)
       case 'multiply':
         result = (n1 * n2) / (t1 * t2)
-        if (digits) {
-          return toFixedDigits(result, digits)
-        }
-        return result
+        return toFixedDigits(result, digits)
       case 'divide':
         result = (n1 / n2) * (t2 / t1)
-        if (digits) {
-          return toFixedDigits(result, digits)
-        }
-        return result
+        return toFixedDigits(result, digits)
     }
   }
+
+  /**
+   * @description: 保留小数点后n位
+   * @param {*} num
+   * @param {*} digits
+   * @return {*}
+   */
   function toFixedDigits (num, digits) {
     let times = Math.pow(10, digits)
     var o1 = toInteger(times)
@@ -106,17 +104,9 @@ export const floatObj = (function () {
     var result = null
     result = (n1 * n2) / (t1 * t2)
     result = parseInt(result, 10) / times
-    var xsd = result.toString().split('.')
-    if (xsd.length === 1) {
-      result = result.toString() + '.00'
-      return result
-    }
-    if (xsd.length > 1) {
-      if (xsd[1].length < 2) {
-        result = result.toString() + '0'
-      }
-      return result
-    }
+    result = Math.round(result * times) / times
+    result = result.toFixed(digits)
+    return result
   }
   // 加减乘除的四个接口
   function add (a, b, digits) {
