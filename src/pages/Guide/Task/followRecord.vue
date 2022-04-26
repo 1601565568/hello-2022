@@ -1,7 +1,9 @@
 <template>
   <div class="drawer">
     <ElScrollbar ref="fullScreen">
-      <div class="nav">导购的跟进记录</div>
+      <div class="nav">
+        <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="name.encCustomerName || '-'" :sensitiveData="name.customerName || '-'"></ns-sg-sensitive-button>
+        的跟进记录</div>
       <div class="content">
         <el-timeline :reverse="false">
           <el-timeline-item
@@ -77,6 +79,9 @@ export default {
     },
     subgroupCustomerId: {
       type: String
+    },
+    name: {
+      type: Object
     }
   },
   mixins: [scrollHeight],
@@ -105,6 +110,7 @@ export default {
   },
   methods: {
     init () {
+      console.log(this.name)
       this.queryTask()
     },
     queryTask () {

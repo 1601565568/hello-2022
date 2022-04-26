@@ -171,6 +171,7 @@
         :runType="runType"
         :draw="isHaveGroup"
         :followType ="followTypeItem"
+        :name ="nameToChildren"
         :guideId="guideId"
         :queryDate="queryDate"
         :shopId="shopId"
@@ -252,6 +253,7 @@ export default {
       }
     ]
     return {
+      nameToChildren: {},
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -365,6 +367,8 @@ export default {
       }
     },
     goDetail (data) {
+      console.log(data)
+      this.nameToChildren = { customerName: data.customerName, encCustomerName: data.encCustomerName }
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId
       this.drawerVisible = true
