@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:31:11
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-19 19:25:32
+ * @LastEditTime: 2022-04-26 10:14:15
  */
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
@@ -20,6 +20,7 @@ import sessionStatistics from './sessionStatistics.js'
 import groupManager from './groupManager.js'
 import groupWelcomeCode from './groupWelcomeCode'
 import salesStatistics from './salesStatistics'
+import sessionCollect from './sessionCollect'
 export default {
   welcomeCode,
   behaviorData,
@@ -35,5 +36,6 @@ export default {
   sessionStatistics,
   groupManager,
   groupWelcomeCode,
-  salesStatistics
+  salesStatistics,
+  sessionCollect
 }
