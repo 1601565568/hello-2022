@@ -16,7 +16,7 @@
           <el-table-column
             :show-overflow-tooltip="true"
             prop="name"
-            label="微信群名">
+            label="群聊名称">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
             </template>
