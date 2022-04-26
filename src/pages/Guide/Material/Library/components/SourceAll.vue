@@ -113,6 +113,7 @@
               :showPitBit="cloudPlatformType === 'ecrp'"
               ref="WechatMessageBar"
               :multipleImage='true'
+              :needCorpid='true'
               :limitImage='limitImage'
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"
