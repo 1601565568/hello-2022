@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-22 19:32:43
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-24 16:44:26
+ * @LastEditTime: 2022-04-27 10:52:25
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\SessionCollect\src\index.js
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
@@ -42,14 +42,15 @@ export default {
       this.guideIds = arr.map((item) => { return item.userId })
       this.changeSearchfrom({ userIds: this.guideIds })
     },
+    // 导出数据
     handleExcelExport () {
       const params = {
         ...this.$data._order,
-        exportType: 14
+        exportType: 100
       }
       const elem = document.getElementById('exportButton')
       const rect = elem.getBoundingClientRect()
-      this.$http.fetch(this.$api.weWork.sessionCollect.exportSessionStatistics, params).then((resp) => {
+      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
         this.$store.dispatch({
           type: 'down/downAction',
           status: true,

@@ -65,6 +65,7 @@ export default ($route) => {
     '/PerformanceAppraisal/SalesStatistics/List',
     '/Guide/Material/Library',
     '/Social/OperationData/MaterialChat',
+    '/Social/OperationData/NoStatistical',
     '/PerformanceAppraisal/SessionCollect/List'
 
   ]

@@ -314,6 +314,11 @@ export default {
       type: Boolean,
       dafault: true
     },
+    // 是否需要corpid占位符（素材库）
+    needCorpid: {
+      type: Boolean,
+      dafault: false
+    },
     content: {
       type: Object,
       default: function () {
@@ -479,6 +484,15 @@ export default {
     } else {
       if (this.cloudPlatformType === 'kd') {
         this.placeholderLink = this.placeholderLinkKD
+        if (this.needCorpid) {
+          const obj = {
+            text: '企业微信corpid',
+            id: 'corpId',
+            type: 'tag',
+            value: '企业微信corpid'
+          }
+          this.placeholderLink.splice(1, 0, obj)
+        }
       }
     }
   },
