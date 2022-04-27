@@ -21,7 +21,7 @@
       <div class="nav">
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">执行导购</p>
-          <span class="data-item__num">{{ isHaveGroup ? pagination.total : "- -" }}</span>
+          <span class="data-item__num">{{ finishedCount }}</span>
           <span class="data-item__icon distributionStore">
             <Icon type="distributionstore" class="distributionStoreIcon" />
           </span>
