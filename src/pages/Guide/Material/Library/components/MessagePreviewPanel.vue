@@ -399,7 +399,7 @@ export default {
       }
     }
     .u_linkList{
-      width: 242px;
+      min-width: 242px;
       height: auto;
       margin-bottom: 12px;
       padding: 6px 10px;
@@ -461,7 +461,7 @@ export default {
       }
     }
     .u_appList{
-      width: 242px;
+      min-width: 242px;
       height: 278px;
       background: #FFFFFF;
       border: 1px solid #EEEEEE;
