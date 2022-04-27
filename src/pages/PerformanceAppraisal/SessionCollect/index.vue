@@ -44,10 +44,7 @@
         </el-form>
       </template>
       <template slot="button">
-        <ns-button
-          size="large"
-          @click="handleExcelExport()"
-          id="exportButton"
+        <ns-button size="large" @click="handleExcelExport()" id="exportButton"
           >导出文件
         </ns-button>
       </template>
@@ -94,7 +91,11 @@
               </template>
               <template slot-scope="scope">
                 <template>
-                  {{ scope.row.replyPercentage }}
+                  {{
+                    scope.row.replyPercentage
+                      ? scope.row.replyPercentage + '%'
+                      : '-'
+                  }}
                 </template>
               </template>
             </el-table-column>
@@ -111,6 +112,11 @@
                     客户主动发起聊天后，企微成员在当天24点前所有聊天首次回复总时长/回复接待客户数比例，不包括群聊
                   </template>
                 </el-tooltip>
+              </template>
+              <template slot-scope="scope">
+                {{
+                  scope.row.avgReplyTime ? scope.row.avgReplyTime + 'min' : '-'
+                }}
               </template>
             </el-table-column>
             <el-table-column prop="roomSpeakTotal" label="群聊发言次数">
