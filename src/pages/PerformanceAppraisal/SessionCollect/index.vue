@@ -46,7 +46,7 @@
       <template slot="button">
         <ns-button
           size="large"
-          @click="handleExcelExport(model)"
+          @click="handleExcelExport()"
           id="exportButton"
           >导出文件
         </ns-button>
@@ -169,8 +169,6 @@
 <script>
 import Index from './src/index'
 import PageTable from '@/components/NewUi/PageTablePro'
-import NsGuideDialog from '@/components/NsGuideDialog'
-import NsGuideWeChatDialog from '@/components/NsGuideWeChatDialog'
 import GuideDialog from '@/components/NewUi/GuideDialog'
 Index.components = {
   PageTable, GuideDialog
