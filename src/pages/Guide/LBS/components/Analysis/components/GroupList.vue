@@ -5,7 +5,7 @@
         <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
-              <NsChatRoomDialog ref='nsChatRoomDialog' :selectedDataParent='chooseChatroom' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
+              <NsChatRoomDialog ref='nsChatRoomDialog' :selectedDataParent='chooseChatroom' btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false' :selectedMax="isWhiteList ? 100 : 5"></NsChatRoomDialog>
             </el-form-item>
           </el-form>
         </template>
@@ -112,7 +112,8 @@ export default {
       },
       state: -1,
       name: this.$route.query ? this.$route.query.name : '',
-      loadingIndex: -1 // 删除的chatId
+      loadingIndex: -1, // 删除的chatId
+      isWhiteList: false
     }
   },
   computed: {
@@ -126,6 +127,17 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
+    // 是否有白名单
+    async checkWhiteList () {
+      try {
+        const resp = await this.$http.fetch(this.$api.guide.chatRoomConfig.isWhiteList)
+        if (resp.success) {
+          this.isWhiteList = !!resp.result
+        }
+      } catch (error) {
+        this.$notify.error('是否是白名单获取失败')
+      }
+    },
     changeSearchfrom (obj = {}) {
       this.model = Object.assign(this.model, obj)
       this.$searchAction$()
@@ -210,6 +222,9 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted () {
+    this.checkWhiteList()
   }
 }
 </script>
