@@ -866,7 +866,9 @@ export default {
           break
         }
       }
-      params.content = this.$refs.tagContent.htmlToString(this.pitContent)
+      let content = this.$refs.tagContent.htmlToString(this.pitContent)
+      content = content.replace(/&nbsp;/g, '\u0020')
+      params.content = content
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
       if (!this.isEdit && this.model.notifyState === 1 && this.model.notifyType === 2) {
