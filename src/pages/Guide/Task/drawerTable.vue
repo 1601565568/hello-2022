@@ -2,7 +2,9 @@
   <div class="drawer">
     <ElScrollbar ref="fullScreen">
       <div class="drawer-head clearfix">
-        {{ name }}
+        <div class="headTitle">
+          {{ name }}
+        </div>
         <ElForm inline class="float-right" :model="form">
           <ElFormItem label="日期：" v-if="type === 1">
             <ElDatePicker
@@ -102,9 +104,12 @@
           <el-table-column prop="shopName" label="门店名称" />
           <el-table-column align="left" label="任务状态">
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
-              <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
-              <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
+              <div v-if="scope.row.state === 0">无效</div>
+              <div  v-if="scope.row.state === 1">执行中</div>
+              <div  v-if="scope.row.state === 2">已关闭</div>
+              <div  v-if="scope.row.state === 3">已完成</div>
+              <div  v-if="scope.row.state === 5">未开始</div>
+              <div  v-if="scope.row.state === 6">未完成</div>
               <div  v-if="!scope.row.state">-</div>
             </template>
           </el-table-column>
@@ -220,12 +225,16 @@ export default drawerVisible
 >>> .el-drawer__header {
   margin-bottom: 0;
   display: block;
+
 }
 @component-namespace drawer {
   @b head {
     line-height: 28px;
     font-size: var(--default-font-size-middle);
     padding: 12px 0;
+    .headTitle{
+    font-weight: bold;
+  }
     >>> .el-form-item--small.el-form-item {
       margin: 0 16px 0 0 !important;
     }
