@@ -4,8 +4,12 @@
       <div class="nav">
         <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="name.encCustomerName || '-'" :sensitiveData="name.customerName || '-'"></ns-sg-sensitive-button>
         的跟进记录</div>
-      <div class="content">
-        <el-timeline :reverse="false">
+      <div  class="infinite-list-wrapper content" >
+        <el-timeline
+        :reverse="false"
+        class="list"
+        v-infinite-scroll="load"
+        infinite-scroll-disabled="disabled">
           <el-timeline-item
             v-for="itemF in recordData"
             :key="itemF.id"
@@ -27,8 +31,10 @@
             </div>
           </el-timeline-item>
         </el-timeline>
+         <p v-if="loading">加载中...</p>
+         <p v-if="noMore">没有更多了</p>
       </div>
-       <el-pagination
+       <!-- <el-pagination
         v-if="pagination.enable"
         class="drawer-footer"
         :page-sizes="pagination.sizeOpts"
@@ -39,7 +45,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="$sizeChange$"
         @current-change="$currentChange$"
-      />
+      /> -->
     </ElScrollbar>
     <NsPreview ref="NsPreview" :appendToBody="true"></NsPreview>
   </div>
@@ -99,6 +105,8 @@ export default {
       total: 0
     }
     return {
+      noMore: false,
+      loading: false,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -108,9 +116,19 @@ export default {
       pagination: pagination
     }
   },
+  computed: {
+    disabled () {
+      return this.loading || this.noMore
+    }
+  },
   methods: {
     init () {
       // console.log(this.name)
+      this.queryTask()
+    },
+    load () {
+      this.loading = true
+      this.pagination.page = this.pagination.page + 1
       this.queryTask()
     },
     queryTask () {
@@ -131,7 +149,10 @@ export default {
         .fetch(this.$api.guide.queryRecord, params)
         .then((resp) => {
           if (resp.success) {
-            this.recordData = resp.result.data
+            this.loading = false
+            !resp.result.data.length && (this.noMore = true)
+            // console.log(this.noMore, resp.result.data)
+            this.recordData = [...this.recordData, ...resp.result.data]
             this.pagination.total = Number(resp.result.recordsTotal)
           }
         })
@@ -174,6 +195,10 @@ export default {
   margin-bottom: 16px;
 }
 .content{
+  p{
+    padding-left: 25px;
+    color: #595959
+  }
    .el-timeline{
     padding-left: 2px;
   }

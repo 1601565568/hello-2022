@@ -51,7 +51,7 @@ export default {
             this.drawerVisible = false
             this.$notify.info('任务未分配客户，无法查看跟进详情')
           } else {
-            console.log(data, this.isHaveGroup)
+            // console.log(data, this.isHaveGroup)
             this.drawerVisible = true
             this.guideName = data.row.name
             this.guideId = data.row.guideId
