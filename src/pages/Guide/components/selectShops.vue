@@ -149,7 +149,7 @@ export default {
     callBack: Function,
     // 是否对外透出1：是；0：否 默认为null
     penetrate: {
-      type: Number
+      type: String
     }
   },
   mixins: [listPageMixin, tableMixin],

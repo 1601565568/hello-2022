@@ -100,7 +100,8 @@ export default {
       radiobox: 'radiobox',
       radioboxQA: 'radioboxQA',
       fuscousQA: 'fuscousQA',
-      fuscousIcon: 'fuscousIcon'
+      fuscousIcon: 'fuscousIcon',
+      showWhiteNum: 0
     }
   },
   props: {
@@ -277,9 +278,21 @@ export default {
     inputLength (length) {
       this.activityIntroductionLength = length
       this.$refs.ruleForm && this.$refs.ruleForm.validateField('roomBaseName')
+    },
+    async checkWhiteList () {
+      try {
+        const resp = await this.$http.fetch(this.$api.guide.chatRoomConfig.isWhiteList)
+        if (resp.success) {
+          this.isWhiteList = !!resp.result
+          this.showWhiteNum = this.isWhiteList ? 100 : 5
+        }
+      } catch (error) {
+        this.$notify.error('是否是白名单获取失败')
+      }
     }
   },
   mounted () {
+    this.checkWhiteList()
     if (this.$route.query && this.$route.query.guid) {
       this.init()
     } else {

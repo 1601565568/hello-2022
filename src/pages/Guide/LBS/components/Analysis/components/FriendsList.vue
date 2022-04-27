@@ -1,58 +1,107 @@
 <template>
-  <div class='container-warpper'>
-    <div class='container-div'>
-      <page-table :title='`${shopName}-${name}`'>
-        <template slot='table'>
-          <div class='form-item_tip'>
+  <div class="container-warpper">
+    <div class="container-div">
+      <page-table :title="`${shopName}-${name}`">
+        <template slot="button">
+          <button size="large" @click="handleExport" class="btn">导出</button>
+        </template>
+        <template slot="table">
+          <div class="form-item_tip" id="beClick">
             客户选择此门店时，会随机添加以下的任意一名在职员工
           </div>
           <el-table
             :data="_data._table.data"
             class="new-table_border"
             @sort-change="handleSort"
-            style="width: 100%">
-            <el-table-column
-              prop="userName"
-              label="员工姓名">
+            style="width: 100%"
+          >
+            <el-table-column prop="userName" label="员工姓名">
               <template slot-scope="scope">
-                {{scope.row.userName || '-'}}
+                {{ scope.row.userName || "-" }}
               </template>
             </el-table-column>
-            <el-table-column
-              prop="workNumber"
-              label="工号">
+            <el-table-column prop="workNumber" label="工号">
               <template slot-scope="scope">
-                {{scope.row.workNumber || '-'}}
+                {{ scope.row.workNumber || "-" }}
               </template>
             </el-table-column>
-            <el-table-column
-              prop="addUserNum"
-              sortable="custom"
-              label="添加好友数">
+            <el-table-column prop="adduserNum" sortable="custom" label="添加好友数">
             </el-table-column>
-            <el-table-column
-              prop="addTotalUserNum"
-              label="好友总数">
+            <el-table-column prop="customerCountTotal">
+              <template slot="header">
+                <span>
+                  <span>好友会员数 </span>
+                  <el-tooltip content="活动期间内，该员工添加好友的会员数量">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="customerCount">
+              <template slot="header">
+                <span>
+                  <span>新增会员数 </span>
+                  <el-tooltip content="活动期间内，该员工的新增会员数量">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="tradeCount">
+              <template slot="header">
+                <span>
+                  <span>订单转化数 </span>
+                  <el-tooltip content="活动期间内，该员工添加好友的订单转化数">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="payment">
+              <template slot="header">
+                <span>
+                  <span>订单转化金额 </span>
+                  <el-tooltip content="活动期间内，该员工添加好友的订单转化金额">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="refundFee">
+              <template slot="header">
+                <span>
+                  <span>转化退单金额 </span>
+                  <el-tooltip content="活动期间内，该员工添加好友的退款订单金额">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </span>
+              </template>
             </el-table-column>
           </el-table>
         </template>
-        <template slot='pagination'>
-          <div class='drawer-pagination'>
-            <div class='pagecontent-left'>
-              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个门店</div>
-              <div class='content-item' @click='handleNext'>下一个门店<i class="el-icon-arrow-right"></i></div>
+        <template slot="pagination">
+          <div class="drawer-pagination">
+            <div class="pagecontent-left">
+              <div class="content-item" @click="handlePrev">
+                <i class="el-icon-arrow-left"></i>上一个门店
+              </div>
+              <div class="content-item" @click="handleNext">
+                下一个门店<i class="el-icon-arrow-right"></i>
+              </div>
             </div>
-            <el-pagination v-if="_data._pagination.enable"
-                            class="template-table__pagination"
-                            :page-sizes="_data._pagination.sizeOpts"
-                            :total="_data._pagination.total"
-                            :current-page="_data._pagination.page"
-                            :page-size="_data._pagination.size"
-                            layout="total, prev, pager, next, jumper"
-                            @size-change="$sizeChange$"
-                            @current-change="$pageChange$">
-              </el-pagination>
-            </div>
+            <el-pagination
+              v-if="_data._pagination.enable"
+              class="template-table__pagination"
+              :page-sizes="_data._pagination.sizeOpts"
+              :total="_data._pagination.total"
+              :current-page="_data._pagination.page"
+              :page-size="_data._pagination.size"
+              layout="total, prev, pager, next, jumper"
+              @size-change="$sizeChange$"
+              @current-change="$pageChange$"
+            >
+            </el-pagination>
+          </div>
         </template>
       </page-table>
     </div>
@@ -62,6 +111,7 @@
 import PageTable from '@/components/NewUi/PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import api from '@/config/http'
+import { join } from 'lodash'
 export default {
   data () {
     return {
@@ -86,12 +136,45 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId', 'startTime', 'endTime'],
+  props: [
+    'firstQrCodeUserId',
+    'channelState',
+    'modelData',
+    'shopId',
+    'guid',
+    'shopName',
+    'configId',
+    'addFriendsStartTime',
+    'addFriendsEndTime',
+    'timeType',
+    'activityStartTime',
+    'activityEndTime',
+    'activeName'
+  ],
   components: {
     PageTable
   },
   mixins: [tableMixin],
   methods: {
+    handleExport () {
+      const sendParams = {
+        ...this.modelData,
+        firstQrCodeUserId: this.firstQrCodeUserId,
+        channelState: this.channelState,
+        shopId: this.shopId,
+        name: this.activeName,
+        shopName: this.shopName,
+        exportType: 37
+      }
+      this.$http
+        .fetch(this.$api.guide.task.exportExcel, sendParams)
+        .then((resp) => {
+          this.$notify.success('文件已导入下载中心')
+        })
+        .catch((resp) => {
+          this.$notify.error(resp.msg || '导出报错，请联系管理员')
+        })
+    },
     changeSearchfrom (obj = {}) {
       this.model = Object.assign(this.model, obj)
       this.$searchAction$()
@@ -114,10 +197,12 @@ export default {
     },
     // 删除群聊
     delect (configId, chatId) {
-      this.$http.fetch(this.deleteApi, { configId, chatId, guid: this.model.guid })
+      this.$http
+        .fetch(this.deleteApi, { configId, chatId, guid: this.model.guid })
         .then(() => {
           this.$searchAction$()
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$notify.error('操作失败')
         })
     },
@@ -143,8 +228,17 @@ export default {
         this.model.shopId = newVal
         this.model.guid = this.guid
         this.model.configId = this.configId
-        this.model.startTime = this.startTime
-        this.model.endTime = this.endTime
+        this.model.addFriendsStartTime = this.addFriendsStartTime
+        this.model.addFriendsEndTime = this.addFriendsEndTime
+        this.model.timeType = this.timeType
+        this.model.activityStartTime = this.activityStartTime
+        this.model.activityEndTime = this.activityEndTime
+        this.model.firstQrCodeUserId = this.firstQrCodeUserId
+        this.model.channelState = this.channelState
+        this.model.tradeStartTime = this.modelData.tradeStartTime || null
+        this.model.tradeEndTime = this.modelData.tradeEndTime || null
+        this.model.chargebackStartTime = this.modelData.chargebackStartTime || null
+        this.model.chargebackEndTime = this.modelData.chargebackEndTime || null
         this.$searchAction$()
       },
       immediate: true
@@ -153,82 +247,109 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "@components/NewUi/styles/reset.css";
-  .container-warpper {
-    height: 100vh;
-    overflow-y:auto;
-  }
-  .container-div {
-    min-height: 100vh;
-    padding-bottom: 66px;
-    position: relative;
-  }
-  .search-icon {
-    font-size: 22px;
-    margin-top: 2px;
-  }
-  .scope-name_tag.el-tag {
-    border-radius: 2px;
-    &.el-tag--success {
-      background: #F7FFF0;
-      border: 1px solid #53BF1D;
-      color: #262626;
-    }
-    &.el-tag--info {
-      background: #F5F5F5;
-      border: 1px solid #D9D9D9;
-      color: #262626;
-    }
-    &.el-tag--warning {
-      background: #FFFBE6;
-      border: 1px solid #FFAE0D;
-      color: #262626;
-    }
-  }
-  .form-item_tip {
-    background: #F2F9FE;
-    border-radius: 2px;
-    padding: 9px 16px;
+@import "@components/NewUi/styles/reset.css";
+.btn{
+    padding: 9px 20px;
     font-size: 14px;
-    color: #595959;
-    line-height: 22px;
-    margin-bottom: 25px;
+    border: 1px solid #DCDFE6;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 3px;
+    display: inline-block;
+    background: #FFFFFF;
+    color: #606266;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+}
+.btn:hover{
+    background: #e6f4ff;
+    color: #0091fa;
+    border-color: #b3defe;
+}
+.container-warpper {
+  height: 100vh;
+  overflow-y: auto;
+}
+.container-div {
+  min-height: 100vh;
+  padding-bottom: 66px;
+  position: relative;
+}
+.search-icon {
+  font-size: 22px;
+  margin-top: 2px;
+}
+.scope-name_tag.el-tag {
+  border-radius: 2px;
+  &.el-tag--success {
+    background: #f7fff0;
+    border: 1px solid #53bf1d;
+    color: #262626;
   }
-  .drawer-pagination {
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 50px;
+  &.el-tag--info {
+    background: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    color: #262626;
+  }
+  &.el-tag--warning {
+    background: #fffbe6;
+    border: 1px solid #ffae0d;
+    color: #262626;
+  }
+}
+.form-item_tip {
+  background: #f2f9fe;
+  border-radius: 2px;
+  padding: 9px 16px;
+  font-size: 14px;
+  color: #595959;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
+.drawer-pagination {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .pagecontent-left {
+    width: 223px;
+    height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    border-radius: 2px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .pagecontent-left {
-      width: 223px;
-      height: 32px;
-      border: 1px solid #D9D9D9;
-      border-radius: 2px;
-      border-radius: 2px;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    &:after {
+      content: " ";
+      position: absolute;
+      left: 50%;
+      top: 4px;
+      bottom: 4px;
+      width: 1px;
+      background-color: #e8e8e8;
+    }
+    .content-item {
+      width: 50%;
+      font-size: 14px;
+      color: #595959;
       display: flex;
-      position: relative;
-      user-select:none;
-      cursor: pointer;
-      &:after {
-        content: ' ';
-        position: absolute;
-        left: 50%;
-        top: 4px;
-        bottom: 4px;
-        width: 1px;
-        background-color: #E8E8E8;
-      }
-      .content-item {
-        width: 50%;
-        font-size: 14px;
-        color: #595959;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      align-items: center;
+      justify-content: center;
     }
   }
+}
+</style>
+<style scoped>
+.form-item_tip {
+  margin-bottom: 20px;
+}
+.container-warpper >>> .template-table__bar {
+  margin-bottom: 20px;
+}
 </style>
