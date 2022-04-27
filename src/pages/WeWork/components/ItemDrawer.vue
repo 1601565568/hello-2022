@@ -6,7 +6,13 @@
           <i class="el-icon-close"></i>
         </div>
       </div>
-      <div class="title">聊天记录</div>
+      <div class="title">
+        {{
+          (userInfo.userTypeText
+            ? userInfo.userTypeText + userInfo.userName + '的'
+            : '') + '聊天记录'
+        }}
+      </div>
       <div class="warpper">
         <ChatRecordList
           v-if="drawer"
@@ -31,6 +37,12 @@ export default {
     },
     drawer: {
       type: Boolean
+    },
+    userInfo: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   methods: {

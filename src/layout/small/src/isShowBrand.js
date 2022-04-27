@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-08 11:49:37
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 14:51:01
+ * @LastEditTime: 2022-04-24 11:48:26
  * @FilePath: \ECRP-SG-WEB\src\layout\small\src\isShowBrand.js
  */
 /**
@@ -31,6 +31,7 @@ export default ($route) => {
     '/Social/WeComCustomerOperation/ExternalContactList',
     '/Social/WeComCustomerOperation/FriendsAnalysis',
     '/Social/WeComCustomerOperation/RepeatCustomer',
+    '/Guide/SgQuicklyWord/List', // 快捷话术
     '/Customer/Group/CustomerGroup',
     '/WeWork/Customer/SessionStatistics',
     '/Social/WeComCustomerOperation/RoomList',
@@ -39,7 +40,15 @@ export default ($route) => {
     '/Social/WeWorkGroup/sensitiveWords',
     '/Social/WeWorkGroup/ChatRecord',
     '/Social/WeComCustomerOperation/DeleteCustomers',
-    '/Social/WeComCustomerOperation/BeDeleteCustomers'
+    '/Social/WeComCustomerOperation/BeDeleteCustomers',
+    '/Social/OperationConfig/topicAnalysis',
+    '/Social/OperationData/CircleOfFriends',
+    '/Social/OperationData/CircleOfFriends/costomDetail',
+    '/Social/OperationData/CircleOfFriends/detail',
+    '/Marketing/EnterpriseGroupMessage',
+    '/Marketing/EnterpriseGroupMessagePush',
+    '/Marketing/EffectAnalysisEnterpriseGroup',
+    '/EnterpriseGroupExamine'
 
   ]
 

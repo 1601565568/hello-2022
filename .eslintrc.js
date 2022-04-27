@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-12 17:03:00
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-12 17:22:26
+ * @LastEditTime: 2022-04-14 16:18:52
  * @FilePath: \ECRP-SG-WEB\.eslintrc.js
  */
 module.exports = {
@@ -16,9 +16,7 @@ module.exports = {
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'space-before-function-paren': 0,
-    'indent': 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'
