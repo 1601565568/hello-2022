@@ -53,92 +53,43 @@ export default {
       },
       rules: {
         name: [
-          {
-            required: true,
-            message: '请输入活动名称',
-            trigger: ['blur', 'change']
-          },
-          {
-            min: 1,
-            max: 20,
-            message: '长度在1-20个字符',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请输入活动名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
         ],
         shopIdList: [
-          {
-            required: true,
-            message: '请选择参加门店',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请选择参加门店', trigger: ['blur', 'change'] }
         ],
         time: [
-          {
-            required: true,
-            message: '请选择有效日期',
-            trigger: ['blur', 'change']
-          },
+          { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] },
           { validator: checkTime, trigger: ['blur', 'change'] }
         ],
         activityPoster: [
-          {
-            required: true,
-            message: '请选择活动海报',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请选择活动海报', trigger: ['blur', 'change'] }
         ],
         welcomePoster: [
           { required: true, message: '请选择海报', trigger: ['blur', 'change'] }
         ],
         roomRule: [
-          {
-            required: true,
-            message: '请输入群名称规则',
-            trigger: ['blur', 'change']
-          },
-          {
-            min: 1,
-            max: 50,
-            message: '长度在1-50个字符',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请输入群名称规则', trigger: ['blur', 'change'] },
+          { min: 1, max: 50, message: '长度在1-50个字符', trigger: ['blur', 'change'] }
         ],
         qrcodePoster: [
-          {
-            required: true,
-            message: '请上传海报背景',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请上传海报背景', trigger: ['blur', 'change'] }
         ],
         qrcodeType: [
-          {
-            required: true,
-            message: '请选择聚合码设置',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请选择聚合码设置', trigger: ['blur', 'change'] }
         ],
         roomBaseId: [
-          {
-            validator: validateNumber.bind(this, 1, 100),
-            trigger: ['blur', 'change']
-          }
+          { validator: validateNumber.bind(this, 1, 100), trigger: ['blur', 'change'] }
         ],
         roomUserNum: [
-          {
-            validator: validateNumber.bind(this, 1, 200),
-            trigger: ['blur', 'change']
-          }
+          { validator: validateNumber.bind(this, 1, 200), trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,
       roomBaseNameLength: 0,
       tools: [
-        {
-          type: 'tag',
-          text: '门店名称',
-          id: 'LBS_SHOP_NAME',
-          value: '门店名称'
-        }
+        { type: 'tag', text: '门店名称', id: 'LBS_SHOP_NAME', value: '门店名称' }
       ],
       validateActivityIntroduction,
       loadOver: false, // 保存是否加载完成
@@ -150,7 +101,6 @@ export default {
       radioboxQA: 'radioboxQA',
       fuscousQA: 'fuscousQA',
       fuscousIcon: 'fuscousIcon',
-      isWhiteList: false,
       showWhiteNum: 0
     }
   },
@@ -180,7 +130,8 @@ export default {
     },
     // 参与门店提示
     shopTip () {
-      return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
+      // return this.type === 'Group' ? '会根据客户位置信息，自动推荐最近门店群聚合码' : '会根据客户位置信息，自动推荐最近门店的企微聚合码'
+      return '根据客户选择城市，推荐附近参与活动的门店列表'
     },
     // 海报提示
     welcomePosterTip () {
@@ -192,7 +143,8 @@ export default {
     },
     // 手机title
     phoneTitle () {
-      return this.type === 'Group' ? '加入门店群' : 'LBS好友拉新活动名称'
+      // return this.type === 'Group' ? '加入门店群' : 'LBS好友拉新活动名称'
+      return this.model.name || '活动名称'
     },
     // q群聚合码设置
     groupSet () {

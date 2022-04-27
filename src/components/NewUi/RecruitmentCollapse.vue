@@ -5,7 +5,7 @@
         <template slot='title'>
           <slot name='title'></slot>
         </template>
-        <PhoneBox :phoneTitle='phoneTitle' :phoneBar='phoneBar' :isShowPhone='isShowPhone'>
+        <PhoneBox :phoneTitle='phoneTitle' :phoneBar='phoneBar' :isShowPhone='isShowPhone' :isH5bar='isH5bar'>
           <template slot='collapse-left'>
             <slot name='collapse-left'></slot>
           </template>
@@ -30,6 +30,11 @@ export default {
     }
   },
   props: {
+    // 是否是h5头部，默认展示小程序头部
+    isH5bar: {
+      type: Boolean,
+      default: false
+    },
     isShowPhone: {
       type: Boolean,
       default: true
