@@ -567,7 +567,7 @@ export default {
     font-size: 16px;
     color: #262626;
     line-height: 56px;
-    font-weight: 500;
+    font-weight: bold;
   }
   .block {
     width: 100%;
@@ -664,8 +664,12 @@ export default {
       /* width: 143px;
     height: 32px; */
       box-sizing: border-box;
+    & >>>.el-form-item__label{
+      color: #262626;
+    }
       & >>> .el-input__inner {
         max-width: 88px;
+        color: #262626;
       }
     }
   }
