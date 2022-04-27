@@ -99,182 +99,155 @@
         </recruitment-collapse>
          <!-- 基础信息 end -->
         <!-- 消费者进群页面设置 start -->
-        <SimpleCollapse  :title='groupTip'>
-          <PhoneBox class='first-phone' title='01 引导页设置' :phoneBar='phoneTitle' phoneTitle='' showBottom>
-            <template slot='collapse-left'>
-              <el-form-item label='海报' required prop='welcomePoster'>
-                <drap-upload tip='建议：宽度750像素，高度不限，jpg、jpeg或png的图片，小于1M' v-model='model.welcomePoster' :maxSize='1'>
-                  <template slot='footer'>
-                    <p class='prompt-text'>{{welcomePosterTip}}</p>
-                  </template>
-                </drap-upload>
+        <recruitment-collapse  :title='groupTip' phoneTitle='' :phoneBar='phoneTitle' :isH5bar='true'>
+          <template slot='collapse-left'>
+            <!-- 群聚合码设置 start -->
+            <template v-if='type === "Group"'>
+              <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
+                消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码入群<br />
+                群满后会根据以下规则自动创建新群
+              </div>
+              <div class='step-content'>
+                <div class='step-name'>Step1：</div>
+                <div class='step-value'>
+                  引导店长创建门店群
+                </div>
+                <div class='step-tip'>
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <Icon type="question-circle" class='question-circle_detail'/>
+                    <template slot='content'>
+                      <p class='popperClass'>消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码入群群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）</p>
+                    </template>
+                  </el-tooltip>
+                </div>
+              </div>
+              <el-form-item label='群名称规则' required prop='roomRule'>
+                <div class='form-item_toptext'>
+                将同步店长端显示，提示店长群名称格式规范
+                </div>
+                <length-input :disabled='isStating' type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
               </el-form-item>
-            </template>
-            <template slot='collapse-right'>
-              <div class='search-bar'>
-                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
-                <span class='search-bar_text'>搜索您最近的门店</span>
-              </div>
-              <div class='preview-img short-img' :style='{backgroundImage: `url(${model.welcomePoster})`}'>
-                <div v-if='!model.welcomePoster'>
-                  <div class='user-content_bg' >你还未上传活动海报</div>
-                  <div class="upload-content_lbs">
-                    <drap-upload v-model='model.welcomePoster' :showPont='false' :drag='false'>
-                    </drap-upload>
-                    上传海报图
-                  </div>
+              <div class='step-content'>
+                <div class='step-name'>Step2：</div>
+                <div class='step-value'>根据门店群自动创建群聚合码</div>
+                <div class='step-tip'>
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <Icon type="question-circle" class='question-circle_detail'/>
+                    <template slot='content'>
+                      <p class='popperClass'>自动创建的群聚合码不会显示在【获客引流->群引流->群聚合码列表】</p>
+                    </template>
+                  </el-tooltip>
                 </div>
               </div>
-            </template>
-          </PhoneBox>
-          <PhoneBox :title='groupSet' :phoneBar='phoneTitle' phoneTitle=''>
-            <template slot='collapse-left'>
-              <!-- 群聚合码设置 start -->
-              <template v-if='type === "Group"'>
-                <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
-                  消费者进入此活动页面后，根据定位位置自动推荐最近门店的群聚合码，客户可扫码入群<br />
-                  群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）
+              <el-form-item label='自动建群名称' prop='roomBaseName' :rules="[
+                { validator: validateActivityIntroduction.bind(this, roomBaseNameLength), trigger: ['blur', 'change'] }
+              ]">
+                <div class='form-item_toptext'>
+                  将以原群主身份自动创建新群，如未设置，自动新建的群名称为初始群名称
                 </div>
-                <div class='step-content'>
-                  <div class='step-name'>Step1：</div>
-                  <div class='step-value'>引导店长创建门店群</div>
-                  <div class='step-tip'>
-                    <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" class='question-circle_detail'/>
-                      <template slot='content'>
-                        <p class='popperClass'>店长收到创建群通知</p>
-                      </template>
-                    </el-tooltip>
-                  </div>
-                </div>
-                <el-form-item label='群名称规则' required prop='roomRule'>
-                  <div class='form-item_toptext'>
-                  将同步店长端显示，提示店长群名称格式规范
-                  </div>
-                  <length-input :disabled='isStating' type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
-                </el-form-item>
-                <div class='step-content'>
-                  <div class='step-name'>Step2：</div>
-                  <div class='step-value'>根据门店群自动创建群聚合码</div>
-                  <div class='step-tip'>
-                    <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" class='question-circle_detail'/>
-                      <template slot='content'>
-                        <p class='popperClass'>自动创建的群聚合码不会显示在群聚合码列表</p>
-                      </template>
-                    </el-tooltip>
-                  </div>
-                </div>
-                <el-form-item label='自动建群名称' prop='roomBaseName' :rules="[
-                  { validator: validateActivityIntroduction.bind(this, roomBaseNameLength), trigger: ['blur', 'change'] }
-                ]">
-                  <div class='form-item_toptext'>
-                    将以原群主身份自动创建新群，如未设置，自动新建的群名称为初始群名称
-                  </div>
-                  <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="50" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
-                </el-form-item>
-                <el-form-item label='自动建群序号' prop='roomBaseId'>
-                  <el-input-number :disabled='isStating' style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
-                  <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
-                  <p class='prompt-text'><span class='yellow-point'></span>自动创建的群聊按照序号开始依次生成，如“广州客户群1”，请输入1-100的正整数</p>
-                </el-form-item>
-                <el-form-item label='自动移除群' class='larger-item'>
-                  <template slot='label' class='larger-item_icon'>
-                    <span>自动移除群</span>
+                <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="50" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
+              </el-form-item>
+              <el-form-item label='自动建群序号' prop='roomBaseId'>
+                <el-input-number :disabled='isStating' style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
+                <p class='prompt-text'><span class='yellow-point'></span>自动创建的群聊按照序号开始依次生成，如“广州客户群1”，请输入1-100的正整数</p>
+              </el-form-item>
+              <el-form-item label='自动移除群' class='larger-item'>
+                <template slot='label' class='larger-item_icon'>
+                  <span>自动移除群</span>
 
-                    <el-tooltip content=""  placement="top">
-                      <div slot="content">
-                        <span>企微接口限制，单个群码聚合超过100个群时，无法自动创建新群</span><br/>
-                        <span>请输入1-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群）</span>
-                      </div>
-                      <Icon type="question-circle" class='question-circle' />
-                    </el-tooltip>
-                  </template>
-                  <div style='display:flex;'>
-                    当群聚合超的群过100个群时，自动移除 <div class='cha'></div>
-                    <el-form-item prop='roomUserNum'>
-                      <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
-                    </el-form-item><div class='cha'></div>人以上群聊
-                  </div>
-                </el-form-item>
-                <div class='step-content'>
-                  <div class='step-name'>Step3：</div>
-                  <div class='step-value'>群二维码海报配置</div>
-                  <div class='step-tip'>
-                    <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle"  class='question-circle_detail'/>
-                      <template slot='content'>
-                        <p class='popperClass'>消费者选择定位后，展示此海报和对应的群聚合码</p>
-                      </template>
-                    </el-tooltip>
-                  </div>
+                  <el-tooltip content=""  placement="top">
+                    <div slot="content">
+                      <span>一个群聚合码最多可关联100个群，超过100个群时无法自动创建群</span><br/>
+                      <span>请设置需自动移除的群聊（不会解散群）</span>
+                    </div>
+                    <Icon type="question-circle" class='question-circle' />
+                  </el-tooltip>
+                </template>
+                <div style='display:flex;'>
+                  自动从群聚合码中移除 <div class='cha'></div>
+                  <el-form-item prop='roomUserNum'>
+                    <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                  </el-form-item><div class='cha'></div>人以上的群聊
                 </div>
-              </template>
-              <!-- 群聚合码设置 end -->
-              <!-- 好友聚合码设置 start -->
-              <template v-if='type === "Friends"'>
-                <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
-                  消费者进入此活动页面后，根据定位位置自动推荐最近门店的企微聚合码，客户可扫码添加企业员工为好友
-                </div>
-                <div class='step-content'>
-                  <div class='step-name'>Step1：</div>
-                  <div class='step-value'>聚合二维码海报配置</div>
-                  <div class='step-tip'>
-                    <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle"  class='question-circle_detail'/>
-                      <template slot='content'>
-                        <p class='popperClass'>设置门店的企微聚合码</p>
-                      </template>
-                    </el-tooltip>
-                  </div>
-                </div>
-                <el-form-item label='聚合码设置' required prop='qrcodeType'  class='larger-item' :class="[messageQA==='QA'?radioboxQA:radiobox]">
-                  <el-radio-group v-model="model.qrcodeType">
-                    <el-radio :label="1">门店全部员工</el-radio>
-                    <el-radio :label="2">仅店长</el-radio>
-                  </el-radio-group>
-                  <p class='prompt-text'><span class='yellow-point'></span>聚合码最多添加100人，超过时将自动截取</p>
-                </el-form-item>
-                <div class='step-content'>
-                  <div class='step-name'>Step2：</div>
-                  <div class='step-value'>二维码海报配置</div>
-                  <div class='step-tip'>
-                    <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle"  class='question-circle_detail'/>
-                      <template slot='content'>
-                        <p class='popperClass'>消费者选择定位后，展示此海报和开启的企微聚合码</p>
-                      </template>
-                    </el-tooltip>
-                  </div>
-                </div>
-              </template>
-              <!-- 好友聚合码设置 end -->
-              <el-form-item label='海报背景' required prop='qrcodePoster'>
-                <drap-upload v-model='model.qrcodePoster' tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'  :isNeedCrop='true' :maxSize='1'>
-                </drap-upload>
               </el-form-item>
-            </template>
-            <template slot='collapse-right'>
-              <div class='search-bar'>
-                <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
-                <span class='search-bar_text'>搜索您最近的门店</span>
-              </div>
-              <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
-                <div v-if='!model.qrcodePoster'>
-                  <div class='user-content_bg' >你还未上传活动海报</div>
-                  <div class="upload-content_lbs">
-                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false' :isNeedCrop='true'>
-                    </drap-upload>
-                    上传海报图
-                  </div>
+              <div class='step-content'>
+                <div class='step-name'>Step3：</div>
+                <div class='step-value'>群二维码海报配置</div>
+                <div class='step-tip'>
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <Icon type="question-circle"  class='question-circle_detail'/>
+                    <template slot='content'>
+                      <p class='popperClass'>消费者选择门店后，展示此海报和门店的群聚合码</p>
+                    </template>
+                  </el-tooltip>
                 </div>
-                <VueDragResize v-if='loadOver' :w="model.qrcodeWidth" :h="model.qrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
-                  <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
-                </VueDragResize>
               </div>
             </template>
-          </PhoneBox>
-        </SimpleCollapse>
+            <!-- 群聚合码设置 end -->
+            <!-- 好友聚合码设置 start -->
+            <template v-if='type === "Friends"'>
+              <div class='form-item_tip' :class="[messageQA==='QA'?fuscousQA:fuscousIcon]">
+                消费者进入此活动页面后，根据定位位置自动推荐最近门店列表，客户可扫码添加门店员工为好友
+              </div>
+              <div class='step-content'>
+                <div class='step-name'>Step1：</div>
+                <div class='step-value'>门店聚合码设置</div>
+                <div class='step-tip'>
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <Icon type="question-circle"  class='question-circle_detail'/>
+                    <template slot='content'>
+                      <p class='popperClass'>设置门店的企微聚合码</p>
+                    </template>
+                  </el-tooltip>
+                </div>
+              </div>
+              <el-form-item label='聚合码中员工设置' required prop='qrcodeType'  class='larger-item'>
+                <el-radio-group v-model="model.qrcodeType">
+                  <el-radio :label="1">门店全部员工</el-radio>
+                  <el-radio :label="2">仅店长</el-radio>
+                </el-radio-group>
+                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加100人，超过时将自动截取</p>
+              </el-form-item>
+              <div class='step-content'>
+                <div class='step-name'>Step2：</div>
+                <div class='step-value'>二维码海报配置</div>
+                <div class='step-tip'>
+                  <el-tooltip  placement="top" popper-class='popperClass'>
+                    <Icon type="question-circle"  class='question-circle_detail'/>
+                    <template slot='content'>
+                      <p class='popperClass'>消费者选择门店后，展示此海报和门店的企微聚合码</p>
+                    </template>
+                  </el-tooltip>
+                </div>
+              </div>
+            </template>
+            <!-- 好友聚合码设置 end -->
+            <el-form-item label='海报背景' required prop='qrcodePoster'>
+              <drap-upload v-model='model.qrcodePoster' tip='请上传格式为jpg、jpeg或png的图片，大小不超过1M' :maxWidth='750' :maxHeight='1334' :showPont='false' :showFooter='false'  :isNeedCrop='true' :maxSize='1'>
+              </drap-upload>
+            </el-form-item>
+          </template>
+          <template slot='collapse-right'>
+            <!-- <div class='search-bar'>
+              <Icon type="ns-search" slot="suffix" class='search-icon'></Icon>
+              <span class='search-bar_text'>搜索您最近的门店</span>
+            </div> -->
+            <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
+              <div v-if='!model.qrcodePoster'>
+                <div class='user-content_bg' >你还未上传活动海报</div>
+                <div class="upload-content_lbs">
+                  <drap-upload v-model='model.qrcodePoster' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false' :isNeedCrop='true'>
+                  </drap-upload>
+                  上传海报图
+                </div>
+              </div>
+              <VueDragResize v-if='loadOver' :w="model.qrcodeWidth" :h="model.qrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
+                <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
+              </VueDragResize>
+            </div>
+          </template>
+        </recruitment-collapse>
         <!-- 消费者进群页面设置 end -->
       </template>
     </page-edit>
@@ -525,7 +498,7 @@ export default Index
     background-origin: 50% 50%;
     position: relative;
     &.short-img {
-      height:476px;
+      height:513px;
       .user-content_bg {
         top: 120px;
       }

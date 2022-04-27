@@ -57,6 +57,13 @@
             class="icon" />
       <span class="item-tip">二维码海报</span>
     </div>
+    <div class="add-material-item"
+         v-if="showCostomCode"
+         @click="visibleCostomCodeDialog = true">
+      <Icon type="icon-liebiandashi"
+            class="icon" />
+      <span class="item-tip">裂变大师</span>
+    </div>
     <!-- 链接消息 -->
     <LinkMessageDialog
       :content="linkMsg ? linkMsg.content : null"
@@ -78,6 +85,16 @@
                          :content="posterMsg ? posterMsg.content : null"
                          :visible.sync="visiblePosterMessageDialog"
                          @update:visible="posterMsg = null" />
+    <!-- 二维码海报 -->
+    <PosterMessageDialog @confirm="addMessage"
+                         :content="posterMsg ? posterMsg.content : null"
+                         :visible.sync="visiblePosterMessageDialog"
+                         @update:visible="posterMsg = null" />
+    <!-- 裂变大师 -->
+    <CostomCodeDialog :visible.sync="visibleCostomCodeDialog"
+                      :content="posterMsg ? posterMsg.content : null"
+                      @update:visible="posterMsg = null"
+                      @confirm="addMessage"/>
     <!-- 自建坑位消息 -->
     <PitbitMessageDialog ref='pitbit'
                          @confirm="addMessage"
@@ -98,6 +115,7 @@ import LinkMessageDialog from './LinkMessageDialog'
 import MiniProgramMessageDialog from './MiniProgramMessageDialog'
 import PosterMessageDialog from './PosterMessageDialog'
 import PitbitMessageDialog from './PitbitMessageDialog'
+import CostomCodeDialog from './CostomCodeDialog'
 import ImageCode from './ImageCode'
 export default {
   components: {
@@ -107,7 +125,8 @@ export default {
     MiniProgramMessageDialog,
     PosterMessageDialog,
     PitbitMessageDialog,
-    ImageCode
+    ImageCode,
+    CostomCodeDialog
   },
   props: {
     pitBit: {
@@ -139,6 +158,13 @@ export default {
       default () {
         return true
       }
+    },
+    // 是否需要显示裂变大师
+    showCostomCode: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -155,7 +181,9 @@ export default {
       posterMsg: null,
       pitbitMsg: null,
       imageCodeMsg: null,
+      costomCodeMsg: null, // 裂变大师
       visibleImageCodeDialog: false,
+      visibleCostomCodeDialog: false,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 平台判断
 
     }
@@ -207,6 +235,7 @@ export default {
       if (this.posterMsg) msg = this.posterMsg
       if (this.pitbitMsg) msg = this.pitbitMsg
       if (this.imageCodeMsg) msg = this.imageCodeMsg
+      if (this.costomCodeMsg) msg = this.costomCodeMsg
       // 新增时，添加sop活动类型
       let type
       if (msg.type === undefined && !this.pitBit) {
@@ -225,6 +254,8 @@ export default {
           type = 4
         } else if (message.type === 'imagecode') {
           type = 5
+        } else if (message.type === 'costomCode') {
+          type = 6
         }
       }
       this.$emit('addMessage', { ...msg, type, content: message.content })
@@ -304,6 +335,8 @@ export default {
           return WelcomeMessageType.Poster
         case 'pitbit':
           return WelcomeMessageType.Pitbit
+        case 'costomCode':
+          return WelcomeMessageType.CostomCode
         default:
           break
       }

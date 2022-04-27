@@ -97,6 +97,10 @@ export default {
           {
             value: WelcomeMessageType.MiniProgram,
             label: '小程序'
+          },
+          {
+            value: WelcomeMessageType.CostomCode,
+            label: '裂变大师'
           }
         ]
         if (this.cloudPlatformType === 'ecrp') {
