@@ -239,10 +239,10 @@ export default {
         })
     },
     // 去报表
-    handleAnalysis (guid, name, state, time, type) {
+    handleAnalysis (guid, name, state, time, type, createTime) {
       this.$router.push({
         path: this.analysisPath,
-        query: { guid, name, state, start: time.start, end: time.end, type }
+        query: { guid, name, state, start: time.start, end: time.end, type, createTime }
       })
     },
     // 跳转详情
