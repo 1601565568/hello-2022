@@ -92,6 +92,10 @@
         @onConfirm="onSettingConfirm"
         :rewardSettingList="rewardSettingList"
       />
+      <PageSetupSetting
+        ref="PageSetupSetting"
+        @onConfirm="onSetupConfirm"
+      />
     </div>
   </PageEdit>
 </template>
@@ -103,13 +107,15 @@ import PageContentLeft from './components/PageContentLeft'
 import PageContentMiddle from './components/PageContentMiddle'
 import PageContentRight from './components/PageContentRight'
 import PageRewardSetting from './components/pageComponents/pageRewardSetting'
+import PageSetupSetting from './components/pageComponents/pageSetupSetting'
 Edit.components = {
   ScrollView,
   PageContentLeft,
   PageContentMiddle,
   PageContentRight,
   PageEdit,
-  PageRewardSetting
+  PageRewardSetting,
+  PageSetupSetting
 }
 export default Edit
 </script>

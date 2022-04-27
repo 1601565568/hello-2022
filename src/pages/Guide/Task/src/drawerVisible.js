@@ -1,6 +1,8 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsPreview from '@/components/NsPreview'
+import ElDrawer from '@nascent/nui/lib/drawer'
+import drawerClient from '../drawerClient'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
@@ -20,11 +22,19 @@ export default {
     },
     queryTime: {
       type: String
+    },
+    taskName: {
+      type: String
+    },
+    isHaveGroup: {
+      type: Number
     }
   },
   mixins: [tableMixin, scrollHeight],
   components: {
-    NsPreview
+    NsPreview,
+    ElDrawer,
+    drawerClient
   },
   data () {
     const pagination = {
@@ -36,7 +46,17 @@ export default {
     }
     const tableButtons = [
       {
-        func: function () {},
+        func: function (data) {
+          if (!this.isHaveGroup) {
+            this.drawerVisible = false
+            this.$notify.info('任务未分配客户，无法查看跟进详情')
+          } else {
+            // console.log(data, this.isHaveGroup)
+            this.drawerVisible = true
+            this.guideName = data.row.name
+            this.guideId = data.row.guideId
+          }
+        },
         icon: '$.noop',
         name: '查看详情',
         auth: '',
@@ -52,6 +72,9 @@ export default {
       },
       {})
     return {
+      guideId: null,
+      guideName: null,
+      drawerVisible: false,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -63,7 +86,7 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       pagination: pagination,
       // eslint-disable-next-line vue/no-reserved-keys
-      _table: {
+      table: {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
@@ -74,11 +97,11 @@ export default {
       form: {
         time: ''
       },
-      totalNum: 0, // 任务分配导购总数
       finishedCount: 0, // 完成数量
       tableData: [],
       name: null,
-      type: null
+      type: null,
+      extData: {}
     }
   },
   methods: {
@@ -119,10 +142,11 @@ export default {
         .fetch(this.$api.guide.queryShopTaskDetail, params)
         .then(resp => {
           if (resp.success) {
+            this.extData = resp.result.draw && resp.result.ext
+            this.isHaveGroup = resp.result.draw
             this.tableData = resp.result.data
             this.pagination.total = parseInt(resp.result.recordsTotal)
             this.finishedCount = parseInt(resp.result.recordsFiltered)
-            this.totalNum = parseInt(resp.result.recordsTotal)
           }
         })
         .catch(resp => {
@@ -130,16 +154,26 @@ export default {
         })
     },
     exportData () {
-      var url = API_ROOT + '/guide/task/exportGuideCompleteData'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('type', 1))
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('shopId', this.shopId))
-      form.appendChild(this.generateHideElement('queryTime', this.form.time))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
+      const sendParams = {
+        taskId: this.id,
+        exportType: 52,
+        shopId: this.shopId,
+        shopName: this.name,
+        taskName: this.taskName,
+        queryDate: this.queryTime
+      }
+      this.$http
+        .fetch(this.$api.guide.task.exportExcel, sendParams)
+        .then((resp) => {
+          this.$notify.success('文件已导入下载中心')
+        })
+        .catch((resp) => {
+          this.$notify.error(resp.msg || '导出报错，请联系管理员')
+        })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
