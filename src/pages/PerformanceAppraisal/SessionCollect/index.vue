@@ -44,7 +44,15 @@
         </el-form>
       </template>
       <template slot="button">
-        <ns-button size="large" @click="handleExcelExport()" id="exportButton"
+        <ns-button
+          v-down="{
+            url: this.$api.guide.task.exportExcel,
+            params: {
+              ...this.$data._order,
+              exportType: 100
+            }
+          }"
+          size="large"
           >导出文件
         </ns-button>
       </template>
@@ -91,11 +99,7 @@
               </template>
               <template slot-scope="scope">
                 <template>
-                  {{
-                    scope.row.replyPercentage
-                      ? scope.row.replyPercentage + '%'
-                      : '-'
-                  }}
+                  {{ scope.row.replyPercentage || '-' }}
                 </template>
               </template>
             </el-table-column>
@@ -114,9 +118,7 @@
                 </el-tooltip>
               </template>
               <template slot-scope="scope">
-                {{
-                  scope.row.avgReplyTime ? scope.row.avgReplyTime + 'min' : '-'
-                }}
+                {{ scope.row.avgReplyTime || '-' }}
               </template>
             </el-table-column>
             <el-table-column prop="roomSpeakTotal" label="群聊发言次数">
@@ -144,7 +146,7 @@
                 >
                   <Icon type="question-circle" class="question-circle" />
                   <template slot="content">
-                    在敏感词管理预置好敏感词之后，记录该成员时间段内在其群聊里敏感词的触发总次数
+                    在敏感词管理预置好敏感词之后，记录该成员时间段内敏感词的触发总次数
                   </template>
                 </el-tooltip>
               </template>

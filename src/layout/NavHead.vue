@@ -83,7 +83,7 @@ export default {
         label: 'areaName',
         value: 'areaId'
       },
-      pageVersion: this.$store.state.user.remumber.remumber_login_info.productConfig.pageVersion,
+      pageVersion: this.$store.state.user.remumber.remumber_login_info.productConfig.pageVersion || {},
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       areaSelDisabled: false,
       originArea: {

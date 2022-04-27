@@ -1,7 +1,7 @@
 /*
- * @Date: 2022-03-30 14:04:17
+ * @Date: 2022-04-26 16:48:39
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-15 17:08:02
+ * @LastEditTime: 2022-04-27 17:03:42
  * @FilePath: \ECRP-SG-WEB\src\directives\index.ts
  */
 import Vue, { ComponentOptions, VueConstructor } from 'vue'
@@ -13,6 +13,8 @@ import copy from './modules/copy.js'
 import elTableInfiniteScroll from './modules/table-infinite-scroll.js'
 // @ts-ignore
 import platformShow from './modules/platform-show.js'
+// @ts-ignore
+import down from './modules/down.js'
 
 export interface VueNotificationsPlugin {
   install: (vue: VueConstructor, pluginOptions?: ComponentOptions<Vue>) => void,
@@ -23,6 +25,7 @@ const Index: VueNotificationsPlugin = {
     vue.directive('infinite-scroll', InfiniteScroll)
     vue.directive('el-table-infinite-scroll', elTableInfiniteScroll)
     vue.directive('platform-show', platformShow)
+    vue.directive('down', down)
   }
 }
 
