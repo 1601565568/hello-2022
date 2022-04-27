@@ -170,5 +170,10 @@ export default {
   friendCreators: {
     url: '/wework/groupMessage/friendCreators',
     method: 'post'
+  },
+  // 群营销列表获取营销对象数据
+  groupChatRooms: {
+    url: '/wework/groupMessage/target/chatRooms',
+    method: 'post'
   }
 }

@@ -113,6 +113,7 @@
               :showPitBit="cloudPlatformType === 'ecrp'"
               ref="WechatMessageBar"
               :multipleImage='true'
+              :needCorpid='true'
               :limitImage='limitImage'
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"
@@ -299,7 +300,7 @@
     </el-form>
     <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
-    <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
+    <SelectGoods v-if="cloudPlatformType === 'ecrp'" ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
     <div class="cus-diglog-view">
     </div>
     <GuideInfo ref="guideInfo" />

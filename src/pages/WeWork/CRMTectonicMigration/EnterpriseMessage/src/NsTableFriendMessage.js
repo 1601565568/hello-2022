@@ -252,8 +252,8 @@ export default {
       handleObj: {}, // 处理行内容
       showTableDialog: false, // 显示营销对象弹框
       showStaff: false, // 区别员工/群
-      staffName: '', // 表格搜索员工名称
-      groupName: '', // 表格搜索群名称
+      guideName: '', // 表格搜索员工名称
+      chatRoomName: '', // 表格搜索群名称
       messageListId: '', // 此行记录id
       tableDialogData: [], // 表格数据
       tableDialogLoading: false, // 加载标识
@@ -310,6 +310,7 @@ export default {
     getStatusName (value) {
       return this.statusName[value]
     },
+    // 创建人筛选
     getEmployeeId (value) {
       this.$searchAction$()
     },
@@ -320,9 +321,9 @@ export default {
     lookReceiver (val, id) {
       if (val === 1) {
         this.showStaff = true
-        this.staffName = ''
+        this.guideName = ''
       } else {
-        this.groupName = ''
+        this.chatRoomName = ''
         this.showStaff = false
       }
       this.messageListId = id
@@ -343,11 +344,12 @@ export default {
     },
     getTableList () {
       let params = {
-        searchValue: this.showStaff ? this.staffName : this.groupName,
         start: (this.paginationDialog.page - 1) * this.paginationDialog.size,
         length: this.paginationDialog.size,
         searchMap: {
-          messageId: this.messageListId
+          messageId: this.messageListId,
+          guideName: this.guideName,
+          targetName: this.chatRoomName
         }
       }
       this.tableDialogLoading = true

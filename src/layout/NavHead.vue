@@ -33,6 +33,11 @@
       <div class="nav-brand" v-if="isShowAreaSelect" >
         <ns-droptree ref="areaTree" :title="area.text" v-model="area" v-loading.lock="areaSelDisabled" :data="areaData" :droptreePopoverWidth="280" droptreePopoverPlacement="bottom-end" :clearable="false" :inputDisabled="areaSelDisabled" @current-change="onChangeArea"></ns-droptree>
       </div>
+      <div v-if='pageVersion.showSwitchVersion' class='check' @click="toNew()">
+        <el-tooltip class="item" effect="dark" content="去新版" placement="bottom">
+          <img src='@/assets/qiehuan.svg' />
+        </el-tooltip>
+      </div>
       <el-dropdown
         trigger="click"
         @command='setDialogInfo'>
@@ -78,6 +83,7 @@ export default {
         label: 'areaName',
         value: 'areaId'
       },
+      pageVersion: this.$store.state.user.remumber.remumber_login_info.productConfig.pageVersion,
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       areaSelDisabled: false,
       originArea: {
@@ -126,6 +132,17 @@ export default {
       this.$store.dispatch('user/logout').catch(() => {
         this.$notify.error('退出失败，系统异常！')
       })
+    },
+    // 去新版
+    toNew () {
+      // showSwitchVersion: true 是否显示去新版按钮
+      if (this.pageVersion && this.pageVersion.showSwitchVersion) {
+        this.$http.fetch({ url: '/core/access/changePageVersion', method: 'post' }, { version: 1 }).then(resp => {
+          window.location.href = window.location.origin + '/v3' + window.location.pathname
+        }).catch(resp => {
+          that.$notify.error(getErrorMsg('切换失败', resp))
+        })
+      }
     },
     /**
      * 弹出框-修改密码或者系统设置
@@ -331,7 +348,10 @@ export default {
     }
   }
 }
-
+.check{
+  margin-right: 18px;
+  cursor: pointer
+}
 /* 右侧工具栏 */
 @b tool {
   display: flex;

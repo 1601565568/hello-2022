@@ -86,7 +86,7 @@
               <span class="mgr4">确认结果</span>
               <el-tooltip placement="top" effect="light" stype="">
                 <Icon type="question-circle" theme="outlined" className="text-primary"/>
-                <div slot="content">员工在移动端收到消息提醒后是否点击“发送”结果</div>
+                <div slot="content">{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}在移动端收到消息提醒后是否点击“发送”结果</div>
               </el-tooltip>
             </template>
             <template slot-scope="scope">

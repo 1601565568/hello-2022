@@ -2,7 +2,9 @@
   <div class="drawer">
     <ElScrollbar ref="fullScreen">
       <div class="drawer-head clearfix">
-        {{ name }}
+        <div class="headTitle">
+          {{ name }}
+        </div>
         <ElForm inline class="float-right" :model="form">
           <ElFormItem label="日期：" v-if="type === 1">
             <ElDatePicker
@@ -21,7 +23,7 @@
       <div class="nav">
         <div class="taskOverview-detail__data-item">
           <p class="data-item__title">执行导购</p>
-          <span class="data-item__num">{{ isHaveGroup ? pagination.total : "-" }}</span>
+          <span class="data-item__num">{{ finishedCount }}</span>
           <span class="data-item__icon distributionStore">
             <Icon type="distributionstore" class="distributionStoreIcon" />
           </span>
@@ -102,9 +104,13 @@
           <el-table-column prop="shopName" label="门店名称" />
           <el-table-column align="left" label="任务状态">
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
-              <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
-              <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
+              <div v-if="scope.row.state === 0">无效</div>
+              <div  v-if="scope.row.state === 1">执行中</div>
+              <div  v-if="scope.row.state === 2">已关闭</div>
+              <div  v-if="scope.row.state === 3">已完成</div>
+              <div  v-if="scope.row.state === 5">未开始</div>
+              <div  v-if="scope.row.state === 6">未完成</div>
+              <div  v-if="!scope.row.state">-</div>
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerTotal" label="分配客户">
@@ -114,22 +120,22 @@
           </el-table-column>
           <el-table-column align="left" prop="customerNoFollowNum" label="未联系客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerNoFollowNum+'人': scope.row.customerNoFollowNum}` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number(scope.row.customerNoFollowNum))? scope.row.customerNoFollowNum+'人': (scope.row.customerNoFollowNum || '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowingNum" label="联系中客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${Number.isFinite(Number())? scope.row.customerFollowingNum+'人': scope.row.customerFollowingNum}` : "-" }}
+              {{ isHaveGroup ? `${Number.isFinite(Number(scope.row.customerFollowingNum))? scope.row.customerFollowingNum+'人': (scope.row.customerFollowingNum|| '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="customerFollowNum" label="跟进成功客户">
             <template slot-scope="scope">
-              {{ isHaveGroup ? `${ Number.isFinite(Number())?scope.row.customerFollowNum+'人': scope.row.customerFollowNum}` : "-" }}
+              {{ isHaveGroup ? `${ Number.isFinite(Number(scope.row.customerFollowNum))?scope.row.customerFollowNum+'人': (scope.row.customerFollowNum || '-')}` : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="followProgress" label="跟进进度">
             <template slot-scope="scope">
-              {{ isHaveGroup ? scope.row.followProgress : "-" }}
+              {{ isHaveGroup ? (scope.row.followProgress || "-") : "-" }}
             </template>
           </el-table-column>
           <el-table-column align="left" prop="completeTime" label="完成时间">
@@ -149,7 +155,7 @@
                   >
                     <img :src="item" />
                   </div>
-                  <span title="点击查看全部" @click="onShowPic(scope.row.urlJson)"
+                  <span title="点击查看全部" v-if="formatUrlJson(scope.row.urlJson).length >= 1" @click="onShowPic(scope.row.urlJson)"
                     >共{{ scope.row.urlJson.split(",").length }}张</span
                   >
                 </div>
@@ -160,6 +166,7 @@
             <template slot-scope="scope">
               <ns-table-column-operate-button
                 :buttons="table.table_buttons"
+                :class="[!isHaveGroup && 'zhihui']"
                 :prop="scope"
               >
               </ns-table-column-operate-button>
@@ -218,12 +225,16 @@ export default drawerVisible
 >>> .el-drawer__header {
   margin-bottom: 0;
   display: block;
+
 }
 @component-namespace drawer {
   @b head {
     line-height: 28px;
     font-size: var(--default-font-size-middle);
     padding: 12px 0;
+    .headTitle{
+    font-weight: bold;
+  }
     >>> .el-form-item--small.el-form-item {
       margin: 0 16px 0 0 !important;
     }
@@ -245,6 +256,9 @@ export default drawerVisible
   }
   @b table {
     padding-top: 16px;
+    .zhihui >>> button {
+        color: #606266;
+      }
     >>> .el-button--text {
         font-size: 14px;
       }

@@ -26,7 +26,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="创建人：">
-          <ns-select v-model="model.employeeId" :props="selectProps" @change="getEmployeeId" filterable clearable :url="$api.marketing.weworkMarketing.groupCreators"/>
+          <ns-select v-model="model.employeeId" :props="selectProps" @change="getCreater" filterable clearable :url="$api.marketing.weworkMarketing.groupCreators"/>
         </el-form-item>
       </el-form>
     </template>
@@ -76,7 +76,7 @@
           prop="tradeTagName"
           label="营销对象">
           <template slot-scope="scope">
-            <template>{{scope.row.targetCount}}个群主</template>
+            <template>{{scope.row.targetCount}}个群聊</template>
           </template>
         </el-table-column>
 

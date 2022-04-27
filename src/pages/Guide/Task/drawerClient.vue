@@ -88,13 +88,13 @@
         >
           <el-table-column prop="customerName" label="会员姓名" align="center">
             <template slot-scope="scope">
-              {{ scope.row.customerName || "-" }}
+              <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encCustomerName || '-'" :sensitiveData="scope.row.customerName || '-'"></ns-sg-sensitive-button>
             </template>
           </el-table-column>
           <el-table-column prop="mobile" label="会员手机号">
-            <template slot-scope="scope">
-              {{ scope.row.mobile || "-" }}
-            </template>
+             <template slot-scope="scope">
+                <ns-sg-sensitive-button type="phone" :defaultText="true" :encryptData="scope.row.encMobile" :sensitiveData="scope.row.mobile"></ns-sg-sensitive-button>
+              </template >
           </el-table-column>
           <el-table-column align="left" label="跟进状态">
             <template slot-scope="scope">
@@ -171,6 +171,7 @@
         :runType="runType"
         :draw="isHaveGroup"
         :followType ="followTypeItem"
+        :name ="nameToChildren"
         :guideId="guideId"
         :queryDate="queryDate"
         :shopId="shopId"
@@ -252,6 +253,7 @@ export default {
       }
     ]
     return {
+      nameToChildren: {},
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -365,6 +367,8 @@ export default {
       }
     },
     goDetail (data) {
+      // console.log(data)
+      this.nameToChildren = { customerName: data.customerName, encCustomerName: data.encCustomerName }
       this.followTypeItem = data.followType
       this.subgroupCustomerId = data.subgroupCustomerId
       this.drawerVisible = true
@@ -383,7 +387,8 @@ export default {
         shopName: this.shopName,
         guideName: this.guideName,
         taskName: this.taskName,
-        queryDate: this.queryDate
+        queryDate: this.queryDate,
+        followType: this.followType
       }
       this.$http
         .fetch(this.$api.guide.task.exportExcel, sendParams)
@@ -562,7 +567,7 @@ export default {
     font-size: 16px;
     color: #262626;
     line-height: 56px;
-    font-weight: 500;
+    font-weight: bold;
   }
   .block {
     width: 100%;
@@ -659,8 +664,12 @@ export default {
       /* width: 143px;
     height: 32px; */
       box-sizing: border-box;
+    & >>>.el-form-item__label{
+      color: #262626;
+    }
       & >>> .el-input__inner {
         max-width: 88px;
+        color: #262626;
       }
     }
   }

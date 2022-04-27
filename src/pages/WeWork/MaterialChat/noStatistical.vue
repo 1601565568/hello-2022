@@ -64,12 +64,12 @@
                   scope.row.noCompleteSend || '-'
                 }}</template>
               </el-table-column>
-              <el-table-column prop="noCompleteDownload" label="未下载人次">
+              <el-table-column v-if="cloudPlatformType === 'ecrp'" prop="noCompleteDownload" label="未下载人次">
                 <template slot-scope="scope">{{
                   scope.row.noCompleteDownload || '-'
                 }}</template>
               </el-table-column>
-              <el-table-column prop="noCompleteCompletion" label="未补全人次">
+              <el-table-column v-if="cloudPlatformType === 'ecrp'" prop="noCompleteCompletion" label="未补全人次">
                 <template slot-scope="scope">{{
                   scope.row.materialScriptType === 2 ? scope.row.noCompleteCompletion || '-' : '-'
                 }}</template>
@@ -126,6 +126,8 @@ export default {
   },
   data () {
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       inputTitle: '',
       paginationToDate: {
         size: 10,

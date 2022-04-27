@@ -35,6 +35,7 @@
             <ElFormItem label="小程序路径" prop="path" label-width="110px">
               <tag-area
                 class="tag-area"
+                className="group-mini_input"
                 v-model='defaultModel.path'
                 :maxlength="255"
                 :showEmoji='false'

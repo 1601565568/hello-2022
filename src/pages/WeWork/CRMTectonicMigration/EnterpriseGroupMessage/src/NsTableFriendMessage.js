@@ -254,7 +254,7 @@ export default {
       handleStatus: '', // 弹框处理的状态
       handleObj: {}, // 处理行内容
       showTableDialog: false, // 显示营销对象弹框
-      groupName: '', // 表格搜索群名称
+      chatRoomName: '', // 表格搜索群名称
       messageListId: '', // 此行记录id
       tableDialogData: [], // 表格数据
       tableDialogLoading: false, // 加载标识
@@ -321,7 +321,7 @@ export default {
     },
     // 打开接收人弹框
     lookReceiver (id) {
-      this.groupName = ''
+      this.chatRoomName = ''
       this.messageListId = id
       this.paginationDialog.size = 15
       this.paginationDialog.page = 1
@@ -340,15 +340,15 @@ export default {
     },
     getTableList () {
       let params = {
-        searchValue: this.groupName,
         start: (this.paginationDialog.page - 1) * this.paginationDialog.size,
         length: this.paginationDialog.size,
         searchMap: {
-          messageId: this.messageListId
+          messageId: this.messageListId,
+          chatRoomName: this.chatRoomName
         }
       }
       this.tableDialogLoading = true
-      this.$http.fetch(this.$api.marketing.weworkMarketing.targetWxActivity, params).then((resp) => {
+      this.$http.fetch(this.$api.marketing.weworkMarketing.groupChatRooms, params).then((resp) => {
         this.tableDialogData = resp.result.data
         this.paginationDialog.total = parseInt(resp.result.recordsTotal)
       }).catch((err) => {

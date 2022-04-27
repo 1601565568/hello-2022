@@ -71,45 +71,27 @@
 
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="auditStatus"
-            label="审核状态">
-            <template slot="header">
-              <span class="mgr4">审核状态</span>
-              <el-tooltip placement="top" effect="light" stype="">
-                <Icon type="question-circle" theme="outlined" className="text-primary"/>
-                <div slot="content">企微官方错误排查审核</div>
-              </el-tooltip>
-            </template>
-            <template slot-scope="scope">
-              <template v-if="scope.row.auditStatus === 0">未审核</template>
-              <template v-else-if="scope.row.auditStatus === 1">审核成功</template>
-              <template v-else>审核不通过</template>
-            </template>
-          </el-table-column>
-
-          <!-- <el-table-column
-            :show-overflow-tooltip="true"
             prop="sendStatus"
             label="确认结果">
             <template slot="header">
               <span class="mgr4">确认结果</span>
               <el-tooltip placement="top" effect="light" stype="">
                 <Icon type="question-circle" theme="outlined" className="text-primary"/>
-                <div slot="content">员工在移动端收到消息提醒后是否点击“发送”结果</div>
+                <div slot="content">{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}在移动端收到消息提醒后是否点击“发送”结果</div>
               </el-tooltip>
             </template>
             <template slot-scope="scope">
               <template v-if="scope.row.sendStatus >= 4">确认发送</template>
               <template v-else>未确认发送</template>
             </template>
-          </el-table-column> -->
+          </el-table-column>
 
           <el-table-column
             :show-overflow-tooltip="true"
             prop="sendStatus"
             label="发送状态">
             <template slot-scope="scope">
-              <template v-if="scope.row.sendStatus === 2">待发送</template>
+              <template v-if="scope.row.sendStatus === 1 || scope.row.sendStatus === 2">待发送</template>
               <template v-else-if="scope.row.sendStatus === 4">发送成功</template>
               <template v-else>
                 <span class="mgr4">发送失败</span>

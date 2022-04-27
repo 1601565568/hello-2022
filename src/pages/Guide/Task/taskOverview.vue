@@ -185,7 +185,7 @@
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">分配客户</p>
                 <span class="data-item__num">{{
-                  isHaveGroup ? taskMsg.customerTotal : "-"
+                  isHaveGroup ? (taskMsg.customerTotal || "-") : "-"
                 }}</span>
                 <span class="data-item__icon distributionGuideA">
                   <Icon
@@ -200,7 +200,7 @@
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">联系中客户</p>
                 <span class="data-item__num">{{
-                  isHaveGroup ? taskMsg.customerFollowingNum : "-"
+                  isHaveGroup ? (taskMsg.customerFollowingNum || '-') : "-"
                 }}</span>
                 <span class="data-item__icon distributionGuideB">
                   <Icon
@@ -215,7 +215,7 @@
               <div class="taskOverview-detail__data-item">
                 <p class="data-item__title">跟进成功客户</p>
                 <span class="data-item__num">{{
-                  isHaveGroup ? taskMsg.customerFollowNum : "-"
+                  isHaveGroup ? (taskMsg.customerFollowNum || '-') : "-"
                 }}</span>
                 <span class="data-item__icon distributionGuideC">
                   <Icon
@@ -306,7 +306,7 @@
                   isHaveGroup
                     ? `${
                         !Number.isFinite(Number(scope.row.customerTotal))
-                          ? scope.row.customerTotal
+                          ? (scope.row.customerTotal || '-')
                           : scope.row.customerTotal + "人"
                       }`
                     : "-"
@@ -319,7 +319,7 @@
                   isHaveGroup
                     ? `${
                         !Number.isFinite(Number(scope.row.customerNoFollowNum))
-                          ? scope.row.customerNoFollowNum
+                          ? (scope.row.customerNoFollowNum || '-')
                           : scope.row.customerNoFollowNum + "人"
                       }`
                     : "-"
@@ -332,7 +332,7 @@
                   isHaveGroup
                     ? `${
                         !Number.isFinite(Number(scope.row.customerFollowingNum))
-                          ? scope.row.customerFollowingNum
+                          ? (scope.row.customerFollowingNum || '-')
                           : scope.row.customerFollowingNum + "人"
                       }`
                     : "-"
@@ -345,7 +345,7 @@
                   isHaveGroup
                     ? `${
                         !Number.isFinite(Number(scope.row.customerFollowNum))
-                          ? scope.row.customerFollowNum
+                          ? (scope.row.customerFollowNum || '-')
                           : scope.row.customerFollowNum + "人"
                       }`
                     : "-"
@@ -391,6 +391,7 @@
         :runType="runType"
         :taskName="taskMsg.name"
         :queryTime="searchMap.queryTime"
+        :isHaveGroup="isHaveGroup"
       />
     </el-drawer>
     <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">

@@ -261,10 +261,10 @@ export default {
           'component': () => import('@/pages/PerformanceAppraisal/SalesStatistics/index.vue')
         },
         {
-          'path': '/PerformanceAppraisal/SalesStatistics/Details',
-          'name': 'memberStatistics',
-          'title': '销售数据统计(详情)',
-          'component': () => import('@/pages/PerformanceAppraisal/memberStatistics/index.vue')
+          'path': '/PerformanceAppraisal/SessionCollect/List',
+          'name': 'SessionCollect',
+          'title': '会话数据统计',
+          'component': () => import('@/pages/PerformanceAppraisal/SessionCollect/index.vue')
         }
       ]
     }

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-21 15:02:25
+ * @LastEditTime: 2022-04-26 16:38:29
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -37,7 +37,7 @@
             <Icon
               type="search"
               className=" el-input__icon"
-              style="padding: 5px;"
+              style="padding: 5px"
               slot="suffix"
               name="name"
               @click="$quickSearchAction$('customerNameOrPlatNick')"
@@ -109,7 +109,7 @@
         >
           <template slot-scope="scope">
             <template>
-              {{ scope.row.orderPrice }}/{{ scope.row.orderCount }}
+              {{ scope.row.orderPrice }}元/{{ scope.row.orderCount }}
             </template>
           </template>
         </el-table-column>
@@ -121,14 +121,14 @@
         >
           <template slot-scope="scope">
             <template>
-              {{ scope.row.payPrice }}/{{ scope.row.payCount }}
+              {{ scope.row.payPrice }}元/{{ scope.row.payCount }}
             </template>
           </template>
         </el-table-column>
         <el-table-column prop="userName" label="退款金额/笔数" align="center">
           <template slot-scope="scope">
             <template>
-              {{ scope.row.refundPrice }}/{{ scope.row.refundCount }}
+              {{ scope.row.refundPrice }}元/{{ scope.row.refundCount }}
             </template>
           </template>
         </el-table-column>
@@ -166,15 +166,19 @@ export default {
   props: {
     types: Object,
     department: Array,
-    role: Array
+    role: Array,
+    detailsData: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
   },
   data: function () {
     const operateButtons = [
       {
         func: function () {
-          vm.$router.push({
-            path: '/PerformanceAppraisal/SalesStatistics/List'
-          })
+          vm.$emit('handleJumpList')
         },
         icon: '$.noop',
         name: '返回',
@@ -243,7 +247,6 @@ export default {
       },
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
-      state: {},
       url: this.$api.weWork.salesStatistics.statisticsDetail,
       pagination: {
         enable: true,
@@ -262,11 +265,7 @@ export default {
   },
   mounted: function () {
     vm = this
-    if (typeof this.$init === 'function') {
-      this.$init(this, this.$generateParams$)
-    } else {
-      this.$reload()
-    }
+    this.$reload()
   },
   components: {
     ElImage
@@ -288,7 +287,7 @@ export default {
      * 参数设置
      */
     $handleParams: function (params) {
-      Object.assign(params.searchMap, this.$route.params)
+      Object.assign(params.searchMap, this.detailsData)
       return params
     }
   }

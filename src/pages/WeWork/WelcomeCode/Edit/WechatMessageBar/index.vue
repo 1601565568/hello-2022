@@ -71,6 +71,7 @@
       @update:visible="linkMsg = null"
       @confirm="addMessage"
       :needLink="needLink"
+      :needCorpid="needCorpid"
     />
     <!-- 小程序消息 -->
     <MiniProgramMessageDialog
@@ -79,6 +80,7 @@
       @update:visible="miniProgramMsg = null"
       @confirm="addMessage"
       :needLink="needLink"
+      :needCorpid="needCorpid"
     />
     <!-- 海报消息 -->
     <PosterMessageDialog @confirm="addMessage"
@@ -158,6 +160,11 @@ export default {
       default () {
         return true
       }
+    },
+    // 是否需要corpid占位符（素材库）
+    needCorpid: {
+      type: Boolean,
+      dafault: false
     },
     // 是否需要显示裂变大师
     showCostomCode: {
