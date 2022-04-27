@@ -113,6 +113,7 @@
               :pitBit='true'
               ref="WechatMessageBar"
               :multipleImage='true'
+              :needCorpid='true'
               :limitImage='limitImage'
               @addMessage="addAnnexMessage"
               @uploadVideoProgress="uploadProgress"
