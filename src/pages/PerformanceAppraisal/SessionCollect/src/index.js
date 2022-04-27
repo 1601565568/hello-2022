@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-22 19:32:43
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-27 10:52:25
+ * @LastEditTime: 2022-04-27 16:38:42
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\SessionCollect\src\index.js
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
@@ -41,25 +41,6 @@ export default {
     handleGuideIds (arr) {
       this.guideIds = arr.map((item) => { return item.userId })
       this.changeSearchfrom({ userIds: this.guideIds })
-    },
-    // 导出数据
-    handleExcelExport () {
-      const params = {
-        ...this.$data._order,
-        exportType: 100
-      }
-      const elem = document.getElementById('exportButton')
-      const rect = elem.getBoundingClientRect()
-      this.$http.fetch(this.$api.guide.task.exportExcel, params).then((resp) => {
-        this.$store.dispatch({
-          type: 'down/downAction',
-          status: true,
-          top: rect.top,
-          right: 60
-        })
-      }).catch((resp) => {
-        this.$notify.error(resp.msg || '导出报错，请联系管理员')
-      })
     }
   }
 }

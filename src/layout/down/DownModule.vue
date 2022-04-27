@@ -11,22 +11,36 @@
       <div class="down-cover-view">
         <div>您有文件已生成，快去下载吧</div>
       </div>
-      <div class="dowm-module" id="dowm-module" slot="reference" @click="openDownFileList">
-        <Icon type="down-file" class="down-icon"  className="nav-avatar__icon--svg" />
+      <div
+        class="dowm-module"
+        id="dowm-module"
+        slot="reference"
+        @click="openDownFileList"
+      >
+        <Icon
+          type="down-file"
+          class="down-icon"
+          className="nav-avatar__icon--svg"
+        />
         <div class="down-red-view" v-show="showRed"></div>
       </div>
     </el-popover>
     <div v-show="showFile">
-      <div class="run-icon-view" id="run-icon-view" :style="{top: iconTop, right: iconRight}">
+      <div
+        class="run-icon-view"
+        id="run-icon-view"
+        :style="{ top: iconTop, right: iconRight }"
+      >
         <span class="iconfont icon-wenben2x red-file-view"></span>
       </div>
     </div>
-    <DownFileList ref="downFileList" @updateShowRed="updateShowRed"/>
+    <DownFileList ref="downFileList" @updateShowRed="updateShowRed" />
   </div>
 </template>
 
 <script>
 import isShowArea from '@/layout/small/src/isShowArea'
+import isShowBrand from '@/layout/small/src/isShowBrand'
 import DownFileList from './components/DownFileList'
 export default {
   name: 'downModule',
@@ -43,7 +57,7 @@ export default {
     $route: {
       handler () {
         this.activeName = this.$route.matched[0].name
-        this.isShowAreaSelect = isShowArea(this.$route)
+        this.isShowAreaSelect = isShowArea(this.$route) || isShowBrand(this.$route)
         this.visible = false
       },
       immediate: true
@@ -137,7 +151,7 @@ export default {
   margin-right: calc(15px + 8px);
   width: 32px;
   height: 32px;
-  background: rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -158,7 +172,7 @@ export default {
 }
 .run-icon-view {
   width: 32px;
-  height:32px;
+  height: 32px;
   border-radius: 50%;
   position: fixed;
   top: 350px;
@@ -167,7 +181,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #5BA5F5;
+  background: #5ba5f5;
   .red-file-view {
     color: white;
   }
