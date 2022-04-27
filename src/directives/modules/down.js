@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-26 17:11:31
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-27 16:54:23
+ * @LastEditTime: 2022-04-27 17:51:26
  * @FilePath: \ECRP-SG-WEB\src\directives\modules\down.js
  */
 
@@ -43,8 +43,6 @@ export default {
         }).catch((resp) => {
           Notification.error(resp.msg || '导出报错，请联系管理员')
         })
-      } else {
-        console.error('指令v-down: 参数缺失')
       }
     }
     el.addEventListener('click', el.handler)
