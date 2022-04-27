@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-22 19:32:43
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-26 14:42:27
+ * @LastEditTime: 2022-04-27 10:52:25
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\SessionCollect\src\index.js
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
@@ -46,7 +46,7 @@ export default {
     handleExcelExport () {
       const params = {
         ...this.$data._order,
-        exportType: 37
+        exportType: 100
       }
       const elem = document.getElementById('exportButton')
       const rect = elem.getBoundingClientRect()
