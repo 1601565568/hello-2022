@@ -20,6 +20,12 @@ export default {
         chargebackEndTime: null // 好友拉新 退款结束
       },
       pickerOptions1: {
+        // onPick: ({ maxDate, minDate }) => {
+        //   this.selectDate = minDate.getTime()
+        //   if (maxDate) {
+        //     this.selectDate = ''
+        //   }
+        // },
         disabledDate: (time) => {
           // 先判断活动类型timeType 如果是2那么时间限制一年前到现在
           // 否则timeType===1，判断活动起始时间是否超过一年，超过一年，活动结束时间小于当前时间，那么就是范围就是活动结束时间一年前~活动结束时间，
@@ -216,9 +222,25 @@ export default {
       const midTime = nowMoment - timestamp
       const startT = moment(midTime + 1000).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
       const endT = moment(nowMoment).format('YYYY-MM-DD HH:mm:ss')
-      const { type, start, end } = this.$route.query
+      const { type, start, end, createTime, state } = this.$route.query
       if (Number(type) === 2) {
-        return [startT, endT]
+        // 活动提前关闭
+        if (state === 3) {
+          // 活动时间小于一个月
+          const endLessMonths = moment(end).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
+          if (moment(endLessMonths).isBefore(createTime)) {
+            return [createTime, end]
+          } else {
+            return [endLessMonths, end]
+          }
+        } else {
+          // 活动还在进行中 & 活动时间小于一个月
+          if (moment(startT).isBefore(createTime)) {
+            return [createTime, endT]
+          } else {
+            return [startT, endT]
+          }
+        }
       }
       if (Number(type) === 1) {
         // 如果活动 起始时间 比 计算的的开始时间（基于现在的一个月前） 晚 => 起始时间 === 活动起始时间; 早 起始时间 === 基于现在的一个月前

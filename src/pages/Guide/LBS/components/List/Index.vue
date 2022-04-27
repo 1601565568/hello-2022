@@ -177,7 +177,8 @@
                       scope.row.name,
                       scope.row.state,
                       { start: scope.row.startTime, end: scope.row.endTime },
-                      scope.row.timeType
+                      scope.row.timeType,
+                      scope.row.createTime
                     )
                   "
                   >效果分析</ns-button
