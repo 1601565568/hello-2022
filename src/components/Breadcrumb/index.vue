@@ -27,7 +27,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'Breadcrumb',
   components: { ElBreadcrumb, ElBreadcrumbItem },
-  data() {
+  data () {
     return {
       levelList: this.getBreadcrumb()
     }
@@ -36,13 +36,13 @@ export default {
     menus: state => state.user.menus
   }),
   watch: {
-    $route() {
+    $route () {
       this.levelList = this.getBreadcrumb()
     }
   },
   methods: {
     // translateTitle,
-    getBreadcrumb() {
+    getBreadcrumb () {
       // console.log(this.$route.matched, 'route-----')
       // todo  [{name: 1}, {name:2}, {name:3}]
       // [{},{}]
@@ -60,13 +60,13 @@ export default {
         // }
         tree()
       })
-      function tree(itemData) {
+      function tree (itemData) {
         let res = {}
         itemData.map(() => {})
         return res
       }
     },
-    handleLink(redirect) {
+    handleLink (redirect) {
       this.$router.push(redirect)
     }
   }
