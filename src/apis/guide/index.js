@@ -431,6 +431,21 @@ export default {
     url: '/guide/task/queryShopTaskDetail',
     method: 'post'
   },
+  // 查询会员列表
+  querySubGroupCustomerMsg: {
+    url: '/guide/task/querySubGroupCustomerMsg',
+    method: 'post'
+  },
+  // 统计会员信息
+  statisticsSubGroupCustomerMsg: {
+    url: '/guide/task/statisticsSubGroupCustomerMsg',
+    method: 'post'
+  },
+  // 3. 查询客户跟踪记录
+  queryRecord: {
+    url: '/guide/task/queryCustomerFollowRecordByGuide',
+    method: 'post'
+  },
   taskEdit: {
     // 品牌任务编辑
     url: '/guide/task/saveOrUpdateTask',
