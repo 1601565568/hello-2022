@@ -20,12 +20,12 @@ export default {
         chargebackEndTime: null // 好友拉新 退款结束
       },
       pickerOptions1: {
-        onPick: ({ maxDate, minDate }) => {
-          this.selectDate = minDate.getTime()
-          if (maxDate) {
-            this.selectDate = ''
-          }
-        },
+        // onPick: ({ maxDate, minDate }) => {
+        //   this.selectDate = minDate.getTime()
+        //   if (maxDate) {
+        //     this.selectDate = ''
+        //   }
+        // },
         disabledDate: (time) => {
           // 先判断活动类型timeType 如果是2那么时间限制一年前到现在
           // 否则timeType===1，判断活动起始时间是否超过一年，超过一年，活动结束时间小于当前时间，那么就是范围就是活动结束时间一年前~活动结束时间，
