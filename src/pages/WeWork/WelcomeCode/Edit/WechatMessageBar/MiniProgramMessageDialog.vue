@@ -40,7 +40,7 @@
                 :showEmoji='false'
                 :showTextEmoji='false'
                 ref="tagContent"
-                placeholder="输入链接地址"
+                placeholder="输入小程序地址"
                 tag="wise"
                 :tools="placeholderLink"
                 emojiClass=''
@@ -244,6 +244,11 @@ export default {
     needLink: {
       type: Boolean,
       dafault: true
+    },
+    // 是否需要corpid占位符（素材库）
+    needCorpid: {
+      type: Boolean,
+      dafault: false
     }
   },
   computed: {
@@ -273,7 +278,7 @@ export default {
     }
 
     return {
-      cloudPlatformType: '',
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       ENV: process.env.VUE_APP_THEME,
       brandDialogVisible: false,
       defaultModel: {
@@ -354,6 +359,38 @@ export default {
           value: '时间戳'
         }
       ],
+      placeholderLinkKD: [
+        {
+          text: '集团ID',
+          id: 'groupId',
+          type: 'tag',
+          value: '集团ID'
+        },
+        {
+          text: '好友userid',
+          id: 'userId',
+          type: 'tag',
+          value: '好友userid'
+        },
+        {
+          text: '成员userid',
+          id: 'guideUserId',
+          type: 'tag',
+          value: '成员userid'
+        },
+        {
+          text: '随机数标识',
+          id: 'random',
+          type: 'tag',
+          value: '随机数标识'
+        },
+        {
+          text: '时间戳',
+          id: 'timestamp',
+          type: 'tag',
+          value: '时间戳'
+        }
+      ],
       defaultUrl: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/mini-default-img.jpg',
       linkLength: 0
     }
@@ -362,6 +399,19 @@ export default {
     // this.cloudPlatformType = this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     if (!this.needLink) {
       this.placeholderLink = []
+    } else {
+      if (this.cloudPlatformType === 'kd') {
+        this.placeholderLink = this.placeholderLinkKD
+        if (this.needCorpid) {
+          const obj = {
+            text: '企业微信corpid',
+            id: 'corpId',
+            type: 'tag',
+            value: '企业微信corpid'
+          }
+          this.placeholderLink.splice(1, 0, obj)
+        }
+      }
     }
   },
   methods: {

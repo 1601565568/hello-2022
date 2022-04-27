@@ -28,31 +28,31 @@
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 export default {
   components: { ChatRecordList },
-  data() {
+  data () {
     return {}
   },
   props: {
     dataList: {
-      default() {}
+      default () {}
     },
     drawer: {
       type: Boolean
     },
     userInfo: {
       type: Object,
-      default() {
+      default () {
         return {}
       }
     }
   },
   methods: {
-    getMore() {
+    getMore () {
       this.$emit('getMore')
     },
-    handleScrollTop() {
+    handleScrollTop () {
       this.$emit('handleScrollTop')
     },
-    handleClose() {
+    handleClose () {
       this.$emit('handleClose')
     }
   }

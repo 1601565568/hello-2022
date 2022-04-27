@@ -44,7 +44,12 @@ export default ($route) => {
     '/Social/OperationConfig/topicAnalysis',
     '/Social/OperationData/CircleOfFriends',
     '/Social/OperationData/CircleOfFriends/costomDetail',
-    '/Social/OperationData/CircleOfFriends/detail'
+    '/Social/OperationData/CircleOfFriends/detail',
+    '/Marketing/EnterpriseGroupMessage',
+    '/Marketing/EnterpriseGroupMessagePush',
+    '/Marketing/EffectAnalysisEnterpriseGroup',
+    '/EnterpriseGroupExamine'
+
   ]
 
   return showBrandSelectPathList.indexOf($route.path) > -1
