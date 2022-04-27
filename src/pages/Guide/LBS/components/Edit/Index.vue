@@ -158,7 +158,7 @@
 
                   <el-tooltip content=""  placement="top">
                     <div slot="content">
-                      <span>一个群聚合码最多可关联100个群，超过100个群时无法自动创建群</span><br/>
+                      <span>一个群聚合码最多可关联{{showWhiteNum}}个群，超过{{showWhiteNum}}个群时无法自动创建群</span><br/>
                       <span>请设置需自动移除的群聊（不会解散群）</span>
                     </div>
                     <Icon type="question-circle" class='question-circle' />
@@ -207,7 +207,7 @@
                   <el-radio :label="1">门店全部员工</el-radio>
                   <el-radio :label="2">仅店长</el-radio>
                 </el-radio-group>
-                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加100人，超过时将自动截取</p>
+                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加{{showWhiteNum}}人，超过时将自动截取</p>
               </el-form-item>
               <div class='step-content'>
                 <div class='step-name'>Step2：</div>

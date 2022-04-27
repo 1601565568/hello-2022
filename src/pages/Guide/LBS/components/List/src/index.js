@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     headerTip () {
-      return this.type === 'Group' ? '需向企业微信申请企业白名单，才可使用此功能' : ''
+      return ''
     },
     title () {
       return this.type === 'Friends' ? 'LBS好友拉新活动' : 'LBS群拉新活动'
@@ -239,10 +239,10 @@ export default {
         })
     },
     // 去报表
-    handleAnalysis (guid, name, state) {
+    handleAnalysis (guid, name, state, time, type) {
       this.$router.push({
         path: this.analysisPath,
-        query: { guid, name, state }
+        query: { guid, name, state, start: time.start, end: time.end, type }
       })
     },
     // 跳转详情
