@@ -1,4 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -76,6 +77,22 @@ export default {
     }
   },
   mixins: [tableMixin],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    guideNamesEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与活动成员'
+    },
+    guideIdSelectEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '参与员工' : '选择企业微信成员'
+    },
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    }
+
+  },
   methods: {
     openTagDrawer (tagsStr) {
       this.CheckTagDrawerVisible = true

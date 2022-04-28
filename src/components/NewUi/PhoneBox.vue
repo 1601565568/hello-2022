@@ -24,7 +24,7 @@
       <div class='phone-title' v-if='phoneTitle'>{{phoneTitle}}</div>
       <Phone>
         <div class='mobile-header' v-if='phoneBar'>
-          <img src='@/assets/phoneBar.png' class='header-img'/>
+          <img :src='isH5bar?h5Bar:minpageBar' class='header-img'/>
           <span class='phone-bar'>{{phoneBar}}</span>
         </div>
         <div class='mobile-header' v-if='showPhoneHead'>
@@ -39,14 +39,23 @@
 <script>
 import Phone from './Phone'
 import Box from './Box'
+import minpageBar from '@/assets/phoneBar.png'
+import h5Bar from '@/assets/phoneBar1.jpg'
 export default {
   data () {
     return {
       collapseList: [1],
-      isOpen: true
+      isOpen: true,
+      minpageBar,
+      h5Bar
     }
   },
   props: {
+    // 是否是h5头部，默认展示小程序头部
+    isH5bar: {
+      type: Boolean,
+      default: false
+    },
     isShowPhone: {
       type: Boolean,
       default: true
@@ -65,7 +74,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // 群欢迎语替换图片
+    // (头部内容预览)替换图片，群欢迎语、好友营销都有用到
     showPhoneHead: {
       type: Boolean,
       default: false
