@@ -78,7 +78,7 @@
                 >
                   <Icon type="question-circle" class="question-circle" />
                   <template slot="content">
-                    客户主动发起聊天后，企微成员在当天24点前回复接待的人数，不包括群聊
+                    发起聊天后，企微成员在当天24点前回复接待的人数，不包括群聊
                   </template>
                 </el-tooltip>
               </template>
