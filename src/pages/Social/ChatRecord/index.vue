@@ -8,9 +8,9 @@
             @input="handleClick"
             :before-leave="beforeLeave"
           >
-            <el-tab-pane label="客户" name="1"></el-tab-pane>
+            <el-tab-pane label="好友" name="1"></el-tab-pane>
             <el-tab-pane label="群" name="2"></el-tab-pane>
-            <el-tab-pane label="导购" name="3"></el-tab-pane>
+            <el-tab-pane :label="this.formatTabName()" name="3"></el-tab-pane>
           </el-tabs>
         </div>
         <div>

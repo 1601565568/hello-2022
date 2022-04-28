@@ -81,13 +81,31 @@
                 @input="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
-            <NsButton @click="exportShopCompleteData">导出CSV文件</NsButton>
+            <NsButton @click="exportShopCompleteData" id="exportBtn">导出文件</NsButton>
           </ElForm>
         </div>
         <div class='total-tip'>
-          <span class='label'>执行导购：</span>
+          <!-- <span class='label'>执行导购：</span>
           <span class='value'>{{pagination.total}}人（ <span class='value-key'>{{unfinishedTotal}}</span> 人未完成）</span>
-          <span></span>
+          <span></span> -->
+          <div class="item addMargin">
+            <div class="lf">
+              <p class="title">执行导购</p>
+              <span class="num">{{ pagination.total || "-" }}</span>
+            </div>
+            <span class="icon guider">
+              <Icon type="distributionstore" class="sign" />
+            </span>
+          </div>
+          <div class="item">
+            <div class="lf">
+              <p class="title">完成进度</p>
+              <span class="num">{{ completionProgress || "-" }}</span>
+            </div>
+            <span class="icon complete">
+              <Icon type="degreecompletion" class="sign" />
+            </span>
+          </div>
         </div>
         <div class="taskOverview-detail__table">
           <el-table ref="table" :data="tableData"
@@ -115,19 +133,19 @@
                 <el-tag type="danger" v-if="compareState(scope.row) === '未完成'">未完成</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="endTime"
+            <el-table-column align="left" prop="endTime"
                              label="完成时间">
               <template slot-scope="scope">
                 {{scope.row.completeTime || '-'}}
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="completion"
-                             label="反馈" >
+            <el-table-column align="left" prop="completion"
+                             label="任务反馈">
               <template slot-scope="scope">
                 <div>
                 <div class="remark">{{scope.row.remark || '-'}}</div>
-                <div class="urkJsonimageContent">
-                  <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
+                <div class="urkJsonimageContent" v-if="scope.row && scope.row.urlJson">
+                  <div  class="urkJsonimageWarpper">
                     <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
                       <img :src="item"/>
                     </div>
@@ -480,21 +498,65 @@ export default taskDetail
     color: rgb(65,197,0);
   }
   .total-tip {
-    background: #F2F9FE;
-    height: 40px;
+    height: 96px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 16px;
+    /* padding:0 16px; */
     font-size: 14px;
-    .label {
-      color: #303133;
+    margin-top: 12px;
+    .addMargin{
+        margin-right: 16px;
     }
-    .value {
-      color: #262626;
-    }
-    .value-key {
-      color: #da4625;
+    .item{
+      flex: 1;
+      height: 100%;
+      border: 1px solid rgba(217,217,217,1);
+      border-radius: 4px;
+      padding: 17px 16px;
+      display: flex;
+    justify-content: space-between;
+    align-items: center;
+      .lf{
+        display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+        .title{
+          color: #8C8C8C;
+          line-height: 22px;
+          margin-bottom: 8px;
+        }
+        .num{
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 500;
+          color: #262626;
+        }
+      }
+      .icon{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .guider{
+        background: #FFF6E6;
+        .sign{
+          width: 26px;
+          height: 26px;
+          color: #ffae0d;
+        }
+      }
+      .complete{
+        background: #EDF9E8;
+        .sign{
+          width: 26px;
+          height: 26px;
+          color: #41c500;
+        }
+      }
     }
   }
   .remark {

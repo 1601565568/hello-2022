@@ -3,7 +3,7 @@
     <PhoneBox phoneTitle=''>
       <template slot='collapse-left'>
         <div class="form-item_tip" :class="[btnNext==='QA'?fuscousQA:fuscousIcon]">
-          裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加员工企业微信。
+          {{fuscousEnv}}
         </div>
         <el-form
           label-width="110px"
@@ -95,16 +95,16 @@
           </el-form-item>
           <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item" :class="[btnNext==='QA'?radioQA:radio]">
             <el-radio-group v-model="model.qrCodeType">
-              <el-radio :label="0">单员工二维码</el-radio>
+              <el-radio :label="0">单{{employeeEnv}}二维码</el-radio>
               <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
-                员工二维码：用户扫码后将添加分享员工为好友
+                {{employeeEnv}}二维码：用户扫码后将添加分享{{employeeEnv}}为好友
                 <el-tooltip  placement="top" popper-class='popperClass'>
                   <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </span>
                   <template slot='content'>
-                    消费者通过员工小A分享的裂变活动都将添加小A为好友
+                    消费者通过{{employeeEnv}}小A分享的裂变活动都将添加小A为好友
                   </template>
                 </el-tooltip>
               </div>
@@ -112,13 +112,13 @@
               <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
                 <span>
-                  员工聚合码：用户扫码后将添第一步（活动信息）中参加活动的员工中任一员工为好友，参与员工超过100人时，无法使用聚合码（仅可使用单员工二维码）
+                  {{employeeEnv}}聚合码：用户扫码后将添第一步（活动信息）中参加活动的{{employeeEnv}}中任一{{employeeEnv}}为好友，参与{{employeeEnv}}超过100人时，无法使用聚合码（仅可使用单{{employeeEnv}}二维码）
                   <el-tooltip  placement="top" popper-class='popperClass'>
                   <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
                   </span>
                   <template slot='content'>
-                    消费者通过员工小A分享的裂变活动，将添加聚合码中任一员工为好友
+                    消费者通过{{employeeEnv}}小A分享的裂变活动，将添加聚合码中任一{{employeeEnv}}为好友
                   </template>
                 </el-tooltip>
                 </span>
@@ -188,6 +188,7 @@ import VueDragResize from 'vue-drag-resize'
 import ElAvatar from '@nascent/nui/lib/avatar'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
 import SimpleUpload from '@/components/NewUi/SimpleUpload'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -233,6 +234,18 @@ export default {
     }
   },
   props: ['data', 'isStating', 'selectedGuideNum'],
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    fuscousEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加员工企业微信。' : '裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加企业微信。'
+    },
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    }
+  },
   components: {
     PhoneBox, VueDragResize, SimpleUpload, ElColorPicker
   },

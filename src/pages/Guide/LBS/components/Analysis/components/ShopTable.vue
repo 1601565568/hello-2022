@@ -194,6 +194,9 @@ export default {
     },
     // 添加群聊
     handleAddGroup (row, index) {
+      // this.activeRow = {
+      //   chooseChatroom: [{ 'chatId': 'wraQfGDQAAQnF-VJeQkl1kb6CFRC4mOw', 'name': '未命名群聊' }, { 'chatId': 'wraQfGDQAABjU802QTmUSC2_m2ISvQbA', 'name': '未命名群聊' }]
+      // }
       this.activeRow = row
       this.display = true
       this.$nextTick(() => {

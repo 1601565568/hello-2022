@@ -54,6 +54,66 @@ export default {
           }
           return false
         }
+        // onPick: ({ maxDate, minDate }) => {
+        //   this.selectDate = minDate.getTime()
+        //   if (maxDate) {
+        //     this.selectDate = ''
+        //   }
+        // },
+        // disabledDate: (time) => {
+        //   // 活动起始时间， 活动结束时间， 活动类型， 活动创建时间， 活动状态
+        //   const { start, end, type, createTime, state } = this.$route.query
+        //   const now = new Date().getTime() // 此刻时间
+        //   const inTime = new Date(time).getTime() // 用户输入时间
+        //   const aYearTime = moment(now).subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss') // 相对于此刻 一年前
+        //   const activityIsEnd = moment(now).isAfter(end, 'day')
+        //   if (this.selectDate !== '') {
+        //     // 用户选择时间一年前还在活动范围内，
+        //     const rangeSubtract = moment(selectDate).subtract(1, 'year').isAfter(createTime, 'day')
+        //     // 用户选择时间一年后超出活动范围（或者超出当前时间）
+        //     const initTime = state === 3 ? end : now
+        //     const rangeAdd = moment(selectDate).add(1, 'year').isAfter(initTime, 'day')
+        //     if (Number(type) === 2) {
+        //       const isActivityLengthMoreYear = () => {
+        //         const initTime = state === 3 ? end : now
+        //         const moreYear = moment(initTime).subtract(1, 'year').isAfter(createTime, 'day')
+        //         return !!moreYear
+        //       }
+        //       // 起始时间可能值，selectDate - 一年 || 活动创建时间 ，结束时间可能值，selectDate + 一年 || 活动提前结束时间
+        //       const timeStart = () => {
+        //         // 活动是否超过一年，未超：起始时间就是创建时间，超过：判断selectDate-一年是否在活动时间范围内，如果不在就是创建时间
+        //         if (isActivityLengthMoreYear()) {
+        //           const inTheRange = moment(selectDate).subtract(1, 'year').isAfter(createTime, 'day')
+        //           return inTheRange ? moment(selectDate).subtract(1, 'year') : createTime.getTime()
+        //         } else {
+        //           return createTime.getTime()
+        //         }
+        //       }
+        //       const timeEnd = () => {
+        //         // 活动是否超过一年，没有：结束时间是end || now，超过：selectDate + 一年 || now || end
+        //         if (isActivityLengthMoreYear()) {
+        //           const inTheRange = moment(selectDate).add(1, 'year').isAfter(initTime, 'day')
+        //           return !inTheRange ? moment(selectDate).subtract(1, 'year') : initTime
+        //         }
+        //       }
+        //       return inTime < timeStart() || inTime > timeEnd()
+        //     }
+        //     if (Number(type) === 1) {
+        //       // 活动时长是否大于一年，
+        //       const isMoreYear = moment(end).subtract(1, 'year').isAfter(start, 'day')
+        //       // 活动是否是未来结束
+        //       const isStillGoing = moment(end).isAfter(now, 'day')
+        //       if (isMoreYear) {
+        //         // 开始时间和结束时间需要根据selectData进行判断
+
+        //       } else {
+        //         const timeEnd = isStillGoing ? now : end
+        //         return inTime < start || inTime > timeEnd
+        //       }
+        //     }
+        //     return false
+        //   }
+        // }
       },
       time: this.type !== 'Group' ? this.initTime() : this.changeDate(1), // 时间筛选
       timeOrder: [],
@@ -216,9 +276,25 @@ export default {
       const midTime = nowMoment - timestamp
       const startT = moment(midTime + 1000).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
       const endT = moment(nowMoment).format('YYYY-MM-DD HH:mm:ss')
-      const { type, start, end } = this.$route.query
+      const { type, start, end, createTime, state } = this.$route.query
       if (Number(type) === 2) {
-        return [startT, endT]
+        // 活动提前关闭
+        if (state === 3) {
+          // 活动时间小于一个月
+          const endLessMonths = moment(end).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss')
+          if (moment(endLessMonths).isBefore(createTime)) {
+            return [createTime, end]
+          } else {
+            return [endLessMonths, end]
+          }
+        } else {
+          // 活动还在进行中 & 活动时间小于一个月
+          if (moment(startT).isBefore(createTime)) {
+            return [createTime, endT]
+          } else {
+            return [startT, endT]
+          }
+        }
       }
       if (Number(type) === 1) {
         // 如果活动 起始时间 比 计算的的开始时间（基于现在的一个月前） 晚 => 起始时间 === 活动起始时间; 早 起始时间 === 基于现在的一个月前
