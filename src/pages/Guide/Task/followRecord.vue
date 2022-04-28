@@ -132,7 +132,7 @@ export default {
       this.queryTask()
     },
     queryTask () {
-      // 这个接口还可以接收三个参数，orderDir orderKey searchValue 暂时用不到
+      // 这个接口还可以接收三个参数，orderDir orderKey searchValue 暂时用不到。
       const params = {
         draw: this.draw,
         length: this.pagination.size,
