@@ -74,6 +74,7 @@
       :showIcon="false"
       :isLoaded="false"
       @onClose="display = false"
+      :selectedMax="isWhiteList ? 100 : 5"
     ></NsChatRoomDialog>
     <el-drawer
       class="low-drawer"
@@ -126,7 +127,8 @@ export default {
       addState: ['0', '1'], // 能新建群聊的状态
       state: -1,
       display: false,
-      addiding: -1 // 点击添加群聊的id
+      addiding: -1, // 点击添加群聊的id
+      isWhiteList: false
     }
   },
   components: {
@@ -144,6 +146,17 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
+    // 是否有白名单
+    async checkWhiteList () {
+      try {
+        const resp = await this.$http.fetch(this.$api.guide.chatRoomConfig.isWhiteList)
+        if (resp.success) {
+          this.isWhiteList = !!resp.result
+        }
+      } catch (error) {
+        this.$notify.error('是否是白名单获取失败')
+      }
+    },
     getChatRoomData (list) {
       this.$refs.nsChatRoomDialog.emptyData()
       const { shopId } = this.activeRow
@@ -260,6 +273,7 @@ export default {
     }
   },
   mounted () {
+    this.checkWhiteList()
     this.state =
       this.$route.query && this.$route.query.state
         ? this.$route.query.state.toString()
