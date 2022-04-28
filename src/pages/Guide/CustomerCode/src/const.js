@@ -44,37 +44,43 @@ export const DEFAULT_DATA = {
   validIntervalTimeOfStatistical: 0, // 统计的有效间隔时间(统计时效)：0=立即生效；>0 =间隔该时间后生效
   repeatParticipation: 0 // 是否允许重复参与：0=允许；1=不允许
 }
-export const ANALYSIS_DATE = {
-  DISTINC_TYPE: {
-    1: '全局去重：活动外已添加过企业内员工为好友（无论是否还保持），则通过裂变大师添加好友不计入裂变好友数。',
-    2: '活动内去重：活动内添加多名员工为好友时，数据去重，不计入好友数据。',
-    0: '不去重：活动内用户添加员工为好友，即计入裂变数据。'
-  },
-  UNFRIEND_DEDUCTION: {
-    0: '解除关系扣减（关闭）：活动有效期内，解除好友关系时，不扣减裂变好友数。',
-    1: '解除关系扣减（开启）：活动有效期内，解除好友关系时，扣减裂变好友数。'
-  },
-  VALID_INTERVAL_TIME_OF_STATISTICAL (num) {
-    return num === 0 ? '统计时效：添加好友后立即计入裂变好友数。' : `统计时效：好友关系保持${num}小时后计入裂变好友数。`
-  },
-  REPEACT_PARTICIPATION: {
-    0: '允许重复参加（开启）：单个活动内，允许成为多名员工的裂变大师。',
-    1: '允许重复参加（关闭）：单个活动内，不允许成为多名员工的裂变大师。'
+export const ANALYSIS_DATE = (type) => {
+  const name = type === 'ecrp' ? '员工' : '成员'
+  return {
+    DISTINC_TYPE: {
+      1: `全局去重：活动外已添加过企业内${name}为好友（无论是否还保持），则通过裂变大师添加好友不计入裂变好友数。`,
+      2: `活动内去重：活动内添加多名${name}为好友时，数据去重，不计入好友数据。`,
+      0: `不去重：活动内用户添加${name}为好友，即计入裂变数据。`
+    },
+    UNFRIEND_DEDUCTION: {
+      0: '解除关系扣减（关闭）：活动有效期内，解除好友关系时，不扣减裂变好友数。',
+      1: '解除关系扣减（开启）：活动有效期内，解除好友关系时，扣减裂变好友数。'
+    },
+    VALID_INTERVAL_TIME_OF_STATISTICAL (num) {
+      return num === 0 ? '统计时效：添加好友后立即计入裂变好友数。' : `统计时效：好友关系保持${num}小时后计入裂变好友数。`
+    },
+    REPEACT_PARTICIPATION: {
+      0: `允许重复参加（开启）：单个活动内，允许成为多名${name}的裂变大师。`,
+      1: `允许重复参加（关闭）：单个活动内，不允许成为多名${name}的裂变大师。`
+    }
   }
 }
-export const EDIT_DATA = {
-  DEDUP_WAY: {
-    0: {
-      text: '活动内用户添加员工为好友，即计入裂变数据',
-      tip: '消费者张三通过裂变大师活动添加员工小A和小B为好友，即记录为小A的好友数同时也记录为小B的好友数'
-    },
-    1: {
-      text: '单个活动内添加多名员工为好友时（不论与之前员工是否还保留好友关系），数据去重，不再计入裂变数据',
-      tip: '消费者张三通过裂变活动1与员工小A成为好友，张三又通过同一个裂变活动1与员工小B成为好友，张三仅记录为小A的新好友数，不会记录为小B的新好友数'
-    },
-    2: {
-      text: '若在该活动外已添加过企业内员工为好友（无论是否还保持），则通过裂变大师添加好友不计入裂变好友数',
-      tip: '消费者张三与员工小A已是好友，张三通过裂变大师活动又添加员工小B为好友，张三不会记录为员工小B的新好友数'
+export const EDIT_DATA = (type) => {
+  const name = type === 'ecrp' ? '员工' : '成员'
+  return {
+    DEDUP_WAY: {
+      0: {
+        text: `活动内用户添加${name}为好友，即计入裂变数据`,
+        tip: `消费者张三通过裂变大师活动添加${name}小A和小B为好友，即记录为小A的好友数同时也记录为小B的好友数`
+      },
+      1: {
+        text: `单个活动内添加多名${name}为好友时（不论与之前${name}是否还保留好友关系），数据去重，不再计入裂变数据`,
+        tip: `消费者张三通过裂变活动1与${name}小A成为好友，张三又通过同一个裂变活动1与${name}小B成为好友，张三仅记录为小A的新好友数，不会记录为小B的新好友数`
+      },
+      2: {
+        text: `若在该活动外已添加过企业内${name}为好友（无论是否还保持），则通过裂变大师添加好友不计入裂变好友数`,
+        tip: `消费者张三与${name}小A已是好友，张三通过裂变大师活动又添加${name}小B为好友，张三不会记录为${name}小B的新好友数`
+      }
     }
   }
 }
@@ -140,6 +146,32 @@ export const DEFAULT_PAGEDECORATION_DATA = {
   shareBtnText: '立即分享',
   virtualFinishedCount: 0
 }
+export const DEFAULT_PAGEDECORATION_DATA_KEDAO = {
+  pageColor: '#FFA30E,#F96C39,#FFFFFF', // 活动页面配色方案
+  showColor: {
+    mainColor: '#FFA30E',
+    bgColor: '#F96C39',
+    strColor: '#FFFFFF'
+  },
+  getBtnColor: '#ffa30e',
+  shareBtnColor: '#ffa30e',
+  eidtList: [
+    { itemName: '主图模块', itemCode: 'banner', status: 1, value: {} },
+    { itemName: '倒计时模块', itemCode: 'countdown', status: 1, value: {} },
+    { itemName: '活动奖励模块', itemCode: 'reward', status: 1, value: {} },
+    { itemName: '成功邀请好友模块', itemCode: 'invitedFriend', status: 1, value: {} },
+    { itemName: '活动规则', itemCode: 'activityRule', status: 1, value: {} },
+    { itemName: '注册会员模块', itemCode: 'memberRegister', status: 0, value: {}, isHide: true },
+    { itemName: '分享按钮模块', hideImg: true, itemCode: 'shareButton', status: 1, value: {} }
+  ],
+  activeInfo: {},
+  activeInfoList: [],
+  bannerUrl: defBanner,
+  rules: '',
+  regUrl: defRegUrl,
+  shareBtnText: '立即分享',
+  virtualFinishedCount: 0
+}
 // 设置裂变海报
 export const defBgImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/allgrey.jpg'
 export const demoImg = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-H5/page/customCode/demo.jpg'
@@ -160,6 +192,10 @@ export const DEFAULT_SETPOSTER_DATA = {
 export const DEFAULT_WELCOMECODE = `你好，我是{USER_NICK}\n恭喜你成功参与本次福利活动，分享活动邀请好友扫码添加{USER_NICK}为好友\n邀请5位好友即可领取奖品！奖品限量100份，先到先得哦！\n活动有效期：{ACTIVITY_VALIT_TIME}\n点击下方链接去分享吧↓↓`
 export const Tools = [
   { type: 'tag', text: '插入员工微信昵称', id: 'USER_NICK', value: '员工微信昵称' },
+  { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
+]
+export const ToolsByKedao = [
+  { type: 'tag', text: '插入成员微信昵称', id: 'USER_NICK', value: '成员微信昵称' },
   { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
 ]
 export const DEFAULT_SETWELCOMECODE_DATA = {

@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import $ from 'jquery'
+import PageTable from '@/components/NewUi/PageTablePro'
 
 let vm
 export default {
@@ -22,19 +23,18 @@ export default {
     const tableButtons = []
 
     const operateButtons = [
+      // {
+      //   func: function () {
+      //     this.$router.go(-1)
+      //   },
+      //   icon: '',
+      //   type: 'default',
+      //   name: '返回',
+      //   visible: ''
+      // },
       {
         func: function () {
-          this.$router.go(-1)
-        },
-        icon: '',
-        type: 'default',
-        name: '返回',
-        visible: ''
-      },
-      {
-        func: function () {
-          this.$parent.$searchAction$()
-          this.$parent.getTotal()
+          this.$searchAction$()
         },
         icon: '$.noop',
         name: '刷新',
@@ -72,6 +72,8 @@ export default {
     })
 
     return {
+      // 环境判断
+      cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType,
       model: model,
       statistics: {
         total: 0,
@@ -86,7 +88,7 @@ export default {
       typeOptions: [],
       sourceOptions: [],
       Options: {},
-      url: this.$api.marketing.weworkMarketing.queryTableSendData,
+      url: this.$api.marketing.weworkMarketing.receiverWxActivity,
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
@@ -111,7 +113,8 @@ export default {
     vm.getTotal()
   },
   components: {
-    NsDatetime
+    NsDatetime,
+    PageTable
   },
   methods: {
     employeeList () {
@@ -130,9 +133,15 @@ export default {
         }).finally(() => {})
     },
     getTotal: function () {
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryTotal, { id: this.$route.query.id })
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getMsgDetail, { messageId: this.$route.query.id })
         .then((resp) => {
-          vm.statistics = resp.result
+          let countInfo = resp.result.formatReceiverStatusCount
+          vm.statistics = {
+            total: countInfo.success + countInfo.fail + countInfo.pending,
+            successTotal: countInfo.success,
+            failTotal: countInfo.fail,
+            unSendTotal: countInfo.pending
+          }
         }).catch((resp) => {
           vm.$notify.error(resp.msg)
         }).finally()
@@ -146,8 +155,8 @@ export default {
       this.$formatTextToShow$()
     },
     $handleParams: function (param) {
-      param.searchMap.planId = this.$route.query.id
-      param.searchMap.markingType = 4
+      param.searchMap.messageId = this.$route.query.id
+      // param.searchMap.markingType = 4
       return param
     },
     change () {
@@ -158,6 +167,12 @@ export default {
     },
     onSearch () {
       this.$searchAction$()
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
     }
   }
 }
