@@ -16,5 +16,9 @@ export default {
   saveOrUpdateMiniProgramPageSetting: {
     url: '/setting/miniprogrampagesetting/saveOrUpdateMiniProgramPageSetting',
     method: 'post'
+  },
+  findMiniGuideBusinessSettingList: {
+    url: '/setting/miniprogrampagesetting/findMiniGuideBusinessSettingList',
+    method: 'get'
   }
 }

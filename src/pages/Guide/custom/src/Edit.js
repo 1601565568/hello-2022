@@ -18,7 +18,9 @@ export default {
       settingCode: '', // 点击设置的区域
       rewardSettingList: [], // 业绩数据来源设置
       templateCode: '',
-      activeSetName: [] // 右侧设置栏默认展开获取数据
+      activeSetName: [], // 右侧设置栏默认展开获取数据
+      guideSettingList: [],
+      shopSettingList: []
     }
   },
   mounted () {
@@ -39,6 +41,8 @@ export default {
             this.templateCode = res.result[0].templateCode
             this.findMiniProgramPageModuleSettingList()
             this.getRewardSettingList(this.templateCode)
+            this.getSetUpSettingList(this.templateCode, 1)
+            this.getSetUpSettingList(this.templateCode, 2)
             this.menuArr = this.forMatMenuArr(res.result)
           } else {
             this.$notify.error('查询菜单列表接口失败')
@@ -148,6 +152,25 @@ export default {
           this.$notify.error(err.msg)
         })
     },
+    getSetUpSettingList (templateCode, type) {
+      this.$http
+        .fetch(this.$api.guide.custom.findMiniGuideBusinessSettingList, {
+          templateCode: templateCode,
+          type
+        })
+        .then(res => {
+          if (res.success) {
+            if (type === 1) {
+              this.guideSettingList = this.formalist(res.result)
+            } else if (type === 2) {
+              this.shopSettingList = this.formalist(res.result)
+            }
+          }
+        })
+        .catch(err => {
+          this.$notify.error(err.msg)
+        })
+    },
     // 获取右侧列表列表展示默认数据
     forMatActiveName (pageModuleType) {
       return pageModuleType.map(item => {
@@ -211,7 +234,9 @@ export default {
           pageModuleSettingList: this.forMatPageModuleSettingList(
             this.pageModuleType
           ),
-          pageRewardSettingList: this.rewardSettingList
+          pageRewardSettingList: this.rewardSettingList,
+          pageGuideTurnoverList: this.guideSettingList,
+          pageShopTurnoverList: this.shopSettingList
         }
         this.$http
           .fetch(
@@ -299,8 +324,14 @@ export default {
       this.settingCode = data
     },
     // 调用金额来源设置
-    onPageRewardSetting () {
-      this.$refs.PageRewardSetting.init()
+    onPageRewardSetting (itemCode) {
+      if (itemCode === 'setting') {
+        this.$refs.PageSetupSetting.init(this.guideSettingList, 'guide')
+      } else if (itemCode === 'month-manage-quota') {
+        this.$refs.PageSetupSetting.init(this.shopSettingList, 'shop')
+      } else {
+        this.$refs.PageRewardSetting.init()
+      }
     },
     // 保存金额来源确认
     onSettingConfirm (data) {
@@ -308,6 +339,13 @@ export default {
     },
     onClearSettingCode () {
       this.settingCode = ''
+    },
+    onSetupConfirm (data, type) {
+      if (type === 'guide') {
+        this.guideSettingList = data
+      } else if (type === 'shop') {
+        this.shopSettingList = data
+      }
     }
   }
 }

@@ -88,8 +88,8 @@ export default {
     onChangeItem (data, index) {
       this.pageModuleType[index].itemList = data
     },
-    onPageRewardSetting () {
-      this.$emit('onPageRewardSetting')
+    onPageRewardSetting (itemCode) {
+      this.$emit('onPageRewardSetting', itemCode)
     },
     onMove (e) {
       // console.log(e)
