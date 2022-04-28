@@ -2,7 +2,7 @@
   <div>
     <div class="instructions-content">
       <div class="instructions-content__info">
-        Tips:好友主动删除员工<br>
+        Tips:好友主动删除{{cloudPlatformType === 'ecrp' ? '员工' : '成员'}}<br>
       </div>
     </div>
     <ns-page-table :colButton="0">
@@ -44,22 +44,26 @@
             ></el-input>
           </el-form-item>
           <!--导购员工组件-->
-          <el-form-item label="选择员工：">
+          <el-form-item :label="cloudPlatformType === 'ecrp' ? '选择员工：' : '选择成员：'">
             <div class="template-search__box">
             <span v-if="model.guideIds && model.guideIds.length>0">
                 已选择{{model.guideIds.length}}个
             </span>
               <span v-else>全部</span>
               <div style="float: right;">
-                <NsGuideDialog
-                  :isButton="false"
+                <GuideDialog
                   :validNull="true"
-                  :auth="false"
+                  :selfBtn='false'
+                  :appendToBody='true'
+                  :isButton="false"
+                  :auth="true"
                   type="primary"
                   btnTitle="选择"
-                  dialogTitle="选择员工"
+                  :dialogTitle="cloudPlatformType === 'ecrp' ? '选择员工' : '选择成员'"
                   v-model="model.guideIds"
-                ></NsGuideDialog>
+                  @input="owenerChange"
+                >
+                </GuideDialog>
               </div>
             </div>
           </el-form-item>
@@ -115,12 +119,12 @@
               {{scope.row.customerGender || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="guideName" label="所属员工" align="left" min-width="100">
+          <el-table-column prop="guideName" :label="cloudPlatformType === 'ecrp' ? '所属员工' : '所属成员'" align="left" min-width="100">
             <template slot-scope="scope">
               {{scope.row.guideName || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="shopName" label="员工门店" align="left" min-width="100" show-overflow-tooltip>
+          <el-table-column v-if="cloudPlatformType === 'ecrp'" prop="shopName" label="员工门店" align="left" min-width="100" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.shopName || '-'}}
             </template>
@@ -128,6 +132,13 @@
           <el-table-column prop="deleteTime" label="删除时间" align="left" min-width="100">
             <template slot-scope="scope">
               {{scope.row.deleteTime || '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center" width="100">
+            <template slot-scope="scope">
+              <ns-table-column-operate-button :buttons="operateButtons"
+                                              :prop="scope">
+              </ns-table-column-operate-button>
             </template>
           </el-table-column>
         </el-table>
@@ -147,16 +158,19 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
+    <NsFriendDetail ref="NsFriendDetail" :isShowView="false" :cloudPlatformType="cloudPlatformType"/>
   </div>
 </template>
 
 <script>
 import beDeletedCustomers from './src/beDeletedCustomers'
-import NsGuideDialog from '@/components/NsGuideDialog'
 import ElAvatar from '@nascent/nui/lib/avatar'
+import GuideDialog from '@/components/NewUi/GuideDialog'
+import NsFriendDetail from '@/components/NsFriendDetail'
 beDeletedCustomers.components = {
-  NsGuideDialog,
-  ElAvatar
+  GuideDialog,
+  ElAvatar,
+  NsFriendDetail
 }
 export default beDeletedCustomers
 </script>

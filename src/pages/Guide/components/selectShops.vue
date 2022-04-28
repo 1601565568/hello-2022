@@ -149,7 +149,7 @@ export default {
     callBack: Function,
     // 是否对外透出1：是；0：否 默认为null
     penetrate: {
-      type: Number
+      type: String
     }
   },
   mixins: [listPageMixin, tableMixin],
@@ -674,6 +674,10 @@ export default {
         border-bottom: 1px dashed #f2f2f2;
         .name {
           float: left;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          width: 90%;
         }
         .del {
           font-size: var(--default-font-size-middle);

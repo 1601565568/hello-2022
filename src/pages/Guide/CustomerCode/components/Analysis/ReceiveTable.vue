@@ -2,15 +2,15 @@
   <page-table :searchCol='22'>
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
-        <el-form-item label="所属员工：">
-          <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+        <el-form-item :label="`所属${employeeEnv}：`">
+          <GuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" :dialogTitle="`选择${employeeEnv}`" v-model="guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <div class='self-btn'>
-                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+                {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个${employeeEnv}`:'全部'}}
                 <Icon type="geren" class='guideIds-icon'></Icon>
               </div>
             </template>
-          </NsGuideDialog>
+          </GuideDialog>
         </el-form-item>
         <el-form-item label="奖励类型：" class='el-form__change'>
           <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({prizeType:value})}'>
@@ -33,8 +33,8 @@
             type="datetimerange"
             value-format="yyyy-MM-dd HH:mm:ss"
             range-separator="至"
-            start-placeholder="请选择开始日期"
-            end-placeholder="请选择结束日期"
+            start-placeholder = "请选择开始日期"
+            end-placeholder = "请选择结束日期"
             :default-time="['00:00:00','23:59:59']"
             align="right">
           </el-date-picker>
@@ -69,14 +69,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column width="120px" prop="guideName" label="所属员工">
+          <el-table-column width="120px" prop="guideName" :label="`所属${employeeEnv}`">
             <template slot-scope="scope">
               <div class="scope-title_text">
                 {{scope.row.guideName|| '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="guideName" label="员工所属门店">
+          <el-table-column v-if='cloudPlatformType === "ecrp"' prop="guideName" :label="`${employeeEnv}所属门店`">
             <template slot-scope="scope">
               <div class="scope-name">
                 <div :class="'scope-name_text'" >
@@ -141,8 +141,9 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import NsGuideDialog from '@/components/NsGuideDialog'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import defaultIcon from '@/assets/defultheadPic.png'
+import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
   data () {
@@ -213,7 +214,16 @@ export default {
       defaultIcon
     }
   },
-  components: { PageTable, NsGuideDialog },
+  components: { PageTable, GuideDialog },
+  computed: {
+    ...mapState({
+      // 环境判断
+      cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
+    }),
+    employeeEnv () {
+      return this.cloudPlatformType === 'ecrp' ? '员工' : '成员'
+    }
+  },
   mixins: [tableMixin],
   props: ['startTime', 'endTime'],
   mounted () {

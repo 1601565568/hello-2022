@@ -7,7 +7,8 @@ export enum WelcomeMessageType {
   Link,
   MiniProgram,
   Poster,
-  Video
+  Video,
+  CostomCode
 }
 /**
  * 欢迎语附件类型对应Icon和标题
@@ -32,6 +33,10 @@ export const WelcomeMessageTypeTip = {
   [WelcomeMessageType.Poster]: {
     tip: '二维码海报',
     icon: 'poster-1'
+  },
+  [WelcomeMessageType.CostomCode]: {
+    tip: '裂变大师',
+    icon: 'icon-liebiandashi'
   },
   [WelcomeMessageType.a]: {
     tip: '坑位',
