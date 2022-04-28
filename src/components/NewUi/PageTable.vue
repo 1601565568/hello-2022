@@ -1,7 +1,9 @@
 <template>
   <div class="template-table">
+    <!-- nav -->
+    <slot name='nav' />
     <!-- 工具栏 -->
-    <div class="template-table__bar">
+    <div class="template-table__bar" v-if='tableBarShow'>
       <div class='template-table__bar-name' v-if='title'>
         {{title}}
       </div>
@@ -37,6 +39,10 @@ export default {
     },
     title: {
       type: String
+    },
+    tableBarShow: {
+      type: Boolean,
+      default: true
     }
   }
 }
