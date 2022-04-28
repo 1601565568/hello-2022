@@ -36,7 +36,17 @@ export default {
     const tableButtons = [
       {
         func: function (data) {
-          this.drawerVisible = true
+          const { customerNoFollowNum, customerTotal, customerFollowingNum, customerFollowNum } = data.row
+          if (customerNoFollowNum === '正在获取中…' ||
+          customerTotal === '正在获取中…' ||
+          customerFollowingNum === '正在获取中…' ||
+          customerFollowNum === '正在获取中…') {
+            this.drawerVisible = false
+            this.$notify.info('客户正在获取中，无法查看详情')
+          } else {
+            this.drawerVisible = true
+          }
+
           this.shopId = data.row.shopId
           this.shopName = data.row.shopName
           this.runType = this.taskMsg.runType
@@ -58,6 +68,7 @@ export default {
       {}
     )
     return {
+      isHaveGroup: 0,
       dialogFlag: false,
       listMap: {},
       model: model,
@@ -87,7 +98,10 @@ export default {
         subgroupName: '',
         shopNum: 0,
         guideNum: 0,
-        completion: 0
+        completion: 0,
+        customerTotal: '',
+        customerFollowingNum: '',
+        customerFollowNum: ''
       },
       searchMap: {
         shopId: null,
@@ -233,6 +247,15 @@ export default {
             this.taskMsg.shopNum = result.shopNum
             this.taskMsg.guideNum = result.guideNum
             this.taskMsg.completion = result.completion
+            this.taskMsg.customerTotal = result.customerTotal
+            this.taskMsg.customerFollowingNum = result.customerFollowingNum
+            this.taskMsg.customerFollowNum = result.customerFollowNum
+            if (result.completion === '正在获取中…' ||
+             result.customerTotal === '正在获取中…' ||
+             result.customerFollowingNum === '正在获取中…' ||
+             result.customerFollowNum === '正在获取中…') {
+              this.noToDetail = !this.noToDetail
+            }
           }
         })
         .catch(resp => {
@@ -256,6 +279,7 @@ export default {
             var result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
+            this.isHaveGroup = result.draw
             this.table.loadingtable = false
           }
         })
@@ -263,28 +287,65 @@ export default {
           this.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
         })
     },
-    // 导出导购完成明细csv文件
+    // 导出导购完成明细文件，迁移到下载中心
     exportGuideCompleteData () {
-      var url = API_ROOT + '/guide/task/guideCompleteDataExport'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
+      const { id, startTime, endTime, name } = this.taskMsg
+      const { shopId, queryTime } = this.searchMap
+      const sendParams = {
+        taskId: id,
+        startTime,
+        endTime,
+        taskName: name,
+        shopId,
+        queryDate: queryTime,
+        exportType: 50
+      }
+      const elem = document.getElementById('exportButton')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 170
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
-    // 导出csv文件
+    // 导出文件
     exportShopCompleteData () {
-      var url = API_ROOT + '/guide/task/exportShopCompleteData'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      if (this.tableData.length === 0) {
+        this.$notify.error('当前没有匹配的数据项')
+        return
+      }
+      const { id, startTime, endTime, name } = this.taskMsg
+      const { shopId, queryTime } = this.searchMap
+      const sendParams = {
+        taskId: id,
+        startTime,
+        endTime,
+        taskName: name,
+        shopId,
+        queryDate: queryTime,
+        exportType: 51
+      }
+      const elem = document.getElementById('exportFile')
+      const rect = elem.getBoundingClientRect()
+      this.$http.fetch(this.$api.guide.task.exportExcel, sendParams).then((resp) => {
+        this.$store.dispatch({
+          type: 'down/downAction',
+          status: true,
+          top: rect.top,
+          right: 60
+        })
+      }).catch((resp) => {
+        this.$notify.error(resp.msg || '导出报错，请联系管理员')
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
