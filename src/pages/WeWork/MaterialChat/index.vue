@@ -613,20 +613,20 @@ export default {
               yFriendsCircleSum.push(item.nowFriendsCircleSum)
             }
             this.option.xAxis.data = times
-            if (this.cloudPlatformType === 'ecrp') {
+            if (this.cloudPlatformType === 'kd') {
               this.option.legend.data = [
                 '素材发送总次数',
-                '素材下载总次数',
+                // '素材下载总次数',
                 // '素材补全总次数',
                 '素材发朋友圈总次数',
                 '每日素材发送次数',
-                '每日素材下载次数',
+                // '每日素材下载次数',
                 // '每日素材补全次数',
                 '每日素材发朋友圈次数'
               ]
               this.option.legend.selected = {
                 素材发送总次数: false,
-                素材下载总次数: false,
+                // 素材下载总次数: false,
                 // 素材补全总次数: false,
                 素材发朋友圈总次数: false
               }
@@ -637,7 +637,7 @@ export default {
                 type: 'line',
                 data: sendTotal
               },
-              {
+              this.cloudPlatformType === 'ecrp' && {
                 name: '素材下载总次数',
                 type: 'line',
                 data: downTotal
@@ -657,7 +657,7 @@ export default {
                 type: 'line',
                 data: ySendTotal
               },
-              {
+              this.cloudPlatformType === 'ecrp' && {
                 name: '每日素材下载次数',
                 type: 'line',
                 data: yDownTotal
@@ -673,6 +673,10 @@ export default {
                 data: yFriendsCircleSum
               }
             ]
+            if (this.cloudPlatformType === 'kd') {
+              // this.option.series.splice(1, 2)
+              // this.option.series.splice(3, 2)
+            }
           }
         })
         .catch(resp => {})
