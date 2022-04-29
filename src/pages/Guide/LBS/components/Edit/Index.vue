@@ -207,7 +207,7 @@
                   <el-radio :label="1">门店全部员工</el-radio>
                   <el-radio :label="2">仅店长</el-radio>
                 </el-radio-group>
-                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加100人，超过时将自动截取</p>
+                <p class='prompt-text'><span class='yellow-point'></span>每个门店的聚合码最多添加{{showWhiteNum}}人，超过时将自动截取</p>
               </el-form-item>
               <div class='step-content'>
                 <div class='step-name'>Step2：</div>
