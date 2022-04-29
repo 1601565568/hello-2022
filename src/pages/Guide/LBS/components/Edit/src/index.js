@@ -101,7 +101,6 @@ export default {
       radioboxQA: 'radioboxQA',
       fuscousQA: 'fuscousQA',
       fuscousIcon: 'fuscousIcon',
-      isWhiteList: false,
       showWhiteNum: 0
     }
   },

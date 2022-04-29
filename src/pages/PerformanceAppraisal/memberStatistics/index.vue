@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 14:15:10
  * @LastEditors: Cosima
- * @LastEditTime: 2022-04-26 16:38:29
+ * @LastEditTime: 2022-04-28 11:13:24
  * @FilePath: \ECRP-SG-WEB\src\pages\PerformanceAppraisal\memberStatistics\index.vue
 -->
 <template>
@@ -80,7 +80,7 @@
           prop="customerName"
           label="微信昵称"
           align="center"
-          :width="200"
+          min-width="145px"
         >
         </el-table-column>
         <el-table-column
@@ -88,7 +88,7 @@
           prop="workTag"
           label="企业标签"
           align="center"
-          :width="200"
+          min-width="145px"
         >
         </el-table-column>
         <el-table-column
@@ -96,7 +96,7 @@
           prop="platNick"
           label="平台昵称"
           align="center"
-          :width="200"
+          min-width="145px"
         >
         </el-table-column>
         <el-table-column
@@ -105,7 +105,7 @@
           label="下单金额/笔数"
           align="center"
           sortable="custom"
-          :width="200"
+          min-width="145px"
         >
           <template slot-scope="scope">
             <template>
@@ -118,6 +118,7 @@
           prop="payPrice"
           label="付款金额/笔数"
           align="center"
+          min-width="100px"
         >
           <template slot-scope="scope">
             <template>
@@ -125,7 +126,12 @@
             </template>
           </template>
         </el-table-column>
-        <el-table-column prop="userName" label="退款金额/笔数" align="center">
+        <el-table-column
+          prop="userName"
+          label="退款金额/笔数"
+          align="center"
+          min-width="100px"
+        >
           <template slot-scope="scope">
             <template>
               {{ scope.row.refundPrice }}元/{{ scope.row.refundCount }}

@@ -152,7 +152,7 @@
             label="群主"
           >
           </el-table-column>
-          <el-table-column prop="orderPriceAll" sortable="custom">
+          <el-table-column prop="orderPriceAll" sortable="custom" min-width="145px">
             <template slot="header">
               下单金额/笔数
               <el-tooltip
@@ -172,7 +172,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="payPriceAll" sortable="custom">
+          <el-table-column prop="payPriceAll" sortable="custom" min-width="145px">
             <template slot="header">
               付款金额/笔数
               <el-tooltip
@@ -192,7 +192,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="refundPriceAll" sortable="custom">
+          <el-table-column prop="refundPriceAll" sortable="custom" min-width="145px">
             <template slot="header">
               退款金额/笔数
               <el-tooltip
@@ -212,7 +212,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="avgCustomerPrice">
+          <el-table-column prop="avgCustomerPrice" min-width="100px">
             <template slot="header">
               平均客单价
               <el-tooltip
@@ -230,7 +230,7 @@
               {{ scope.row.avgCustomerPrice || '-' }}
             </template>
           </el-table-column>
-          <el-table-column prop="buyCustomerCount">
+          <el-table-column prop="buyCustomerCount" min-width="90px">
             <template slot="header">
               购买人数
               <el-tooltip
@@ -267,7 +267,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="address" width="125px" label="操作">
+          <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
               <ns-button type="text" @click="handleDetail(scope.row)"
                 >详情
