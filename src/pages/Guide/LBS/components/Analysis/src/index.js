@@ -41,7 +41,7 @@ export default {
             const initTimeA = state === 3 ? end : now
             const rangeAdd = moment(this.selectDate).add(1, 'year').isAfter(initTimeA, 'day')
             // 永久活动
-            console.log(Number(type), this.$route.query, time)
+            // console.log(Number(type), this.$route.query, time)
             if (Number(type) === 2) {
               // 活动时长是否超过一年
               const isActivityLengthMoreYear = () => {
@@ -66,7 +66,7 @@ export default {
                   return initTimeA
                 }
               }
-              console.log(timeStart(), timeEnd(), this.selectDate)
+              // console.log(timeStart(), timeEnd(), this.selectDate)
               return moment(inTime).isBefore(timeStart(), 'day') || moment(inTime).isAfter(timeEnd(), 'day')
             }
             // 非永久活动
@@ -85,7 +85,7 @@ export default {
                 return moment(inTime).isBefore(startTime, 'day') || moment(inTime).isAfter(endTime, 'day')
               } else {
                 const timeEnd = isStillGoing ? now : end
-                console.log(inTime, moment().valueOf(start), moment().valueOf(timeEnd))
+                // console.log(inTime, moment().valueOf(start), moment().valueOf(timeEnd))
                 return moment(inTime).isBefore(start, 'day') || moment(inTime).isAfter(timeEnd, 'day')
               }
             }
