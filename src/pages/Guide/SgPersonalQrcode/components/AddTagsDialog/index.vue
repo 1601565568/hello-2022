@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="选择标签" width="758px" :visible="visible" @close="cancel" @open="open">
     <el-form class="add-tags" label-width="100px" label-position="left">
-      <!-- <el-form-item label="运营视角" required>
+      <!-- <el-form-item label="运营体系" required>
         <el-select v-model="selectedValue" filterable placeholder="请选择">
           <el-option
             v-for="item in operateViewList"

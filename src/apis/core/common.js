@@ -174,7 +174,7 @@ export default {
     url: '/core/common/queryEmployeeList4Component',
     method: 'post'
   },
-  findViewListByAreaId: { // 区域模式下根据区域id查询该区域下视角列表
+  findViewListByAreaId: { // 区域模式下根据区域id查询该区域下体系列表
     url: '/core/common/findViewListByAreaId',
     method: 'get'
   }

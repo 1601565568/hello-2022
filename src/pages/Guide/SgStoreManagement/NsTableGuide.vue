@@ -60,7 +60,7 @@
             <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
             <template slot="searchSearch">
               <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-                <el-form-item v-if="viewRange === 1" v-show="_data._queryConfig.expand === false" label="视角：">
+                <el-form-item v-if="viewRange === 1" v-show="_data._queryConfig.expand === false" label="体系：">
                   <ViewSelect :showTitle="false" v-model="model.viewId" :initViewId.sync="model.viewId"></ViewSelect>
                 </el-form-item>
                 <el-form-item v-show="_data._queryConfig.expand === false" label="线下门店名称/ID：">
@@ -85,7 +85,7 @@
             <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
             <template slot="advancedSearch" v-if="_data._queryConfig.expand">
               <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-                <el-form-item v-if="viewRange === 1" label="视角：">
+                <el-form-item v-if="viewRange === 1" label="体系：">
                   <ViewSelect :showTitle="false" v-model="model.viewId" :initViewId.sync="model.viewId"></ViewSelect>
                 </el-form-item>
                 <el-form-item label="门店名称：">

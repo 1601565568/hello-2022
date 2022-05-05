@@ -244,7 +244,7 @@ export default {
   },
   computed: {
     /**
-     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     * 体系范围 1-不同品牌不同体系，2-不同区域不同体系
      */
     viewRange () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange

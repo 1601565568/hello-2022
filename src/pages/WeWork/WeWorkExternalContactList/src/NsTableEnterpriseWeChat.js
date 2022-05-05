@@ -144,7 +144,7 @@ export default {
         expand: false
       },
       userDetails: {},
-      // 视角Id
+      // 体系Id
       propsViewId: '',
       selectParams: { isTagGroup: 0 },
       cloudPlatformType: this.$store.state.user.remumber.remumber_login_info.productConfig.cloudPlatformType // 判断客道、ecrp环境

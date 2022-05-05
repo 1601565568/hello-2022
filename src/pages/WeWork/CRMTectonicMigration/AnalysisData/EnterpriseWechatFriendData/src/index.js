@@ -95,7 +95,7 @@ export default {
       shopOptions: [],
       allShopOptions: [],
       shopAreaData: [],
-      viewList: [] // 视角列表
+      viewList: [] // 体系列表
     }
   },
   computed: {
@@ -111,7 +111,7 @@ export default {
     this.findViewList()
   },
   methods: {
-    // 区域模式下 查询区域对应的视角列表
+    // 区域模式下 查询区域对应的体系列表
     findViewList () {
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
         .then(res => {
@@ -126,7 +126,7 @@ export default {
             this.$notify.error(res.msg)
           }
         }).catch(res => {
-          this.$notify.error('视角列表查询失败')
+          this.$notify.error('体系列表查询失败')
         })
     },
     viewChange () {
@@ -306,7 +306,7 @@ export default {
         params.tableData = JSON.stringify(that.tableData)
       }
 
-      // 视角id
+      // 体系id
       params.viewId = this.model.viewId
 
       return params

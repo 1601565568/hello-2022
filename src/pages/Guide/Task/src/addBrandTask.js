@@ -85,7 +85,7 @@ export default {
         runType: 0,
         areaId: '', // 区域id
         areaName: '',
-        viewId: '', // 视角id
+        viewId: '', // 体系id
         cost: '', // 获取客户名单花费时间
         isClickBudget: false,
         subgroupId: '',
@@ -112,8 +112,8 @@ export default {
         taskSendTime: [{ required: true, message: '请选择提醒时间' }]
       },
       areaOptions: [], // 区域集合
-      viewOptions: [], // 视角集合
-      subgroups: [], // 视角下分组集合
+      viewOptions: [], // 体系集合
+      subgroups: [], // 体系下分组集合
       selectMaterial: {}, // 当前选择的素材对象
       canNotEdit: false, // 编辑进来禁止
       allNotEdit: false, // 全部禁止
@@ -134,9 +134,9 @@ export default {
     }
   },
   computed: {
-    // viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
+    // viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同体系，2-不同区域不同体系
     /**
-     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     * 体系范围 1-不同品牌不同体系，2-不同区域不同体系
      */
     viewRange () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
@@ -165,7 +165,7 @@ export default {
       this.model.viewId = ''
       this.viewOptions = []
       this.backinitial()
-      // 根据选择区域查询视角列表
+      // 根据选择区域查询体系列表
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
         .then(res => {
           if (res.success) {
@@ -174,7 +174,7 @@ export default {
             this.$notify.error(res.msg)
           }
         }).catch(res => {
-          this.$notify.error('视角列表查询失败')
+          this.$notify.error('体系列表查询失败')
         })
     },
     dialogClick (row) {
@@ -187,7 +187,7 @@ export default {
     handleCancel () {
       this.$router.push({ name: 'CustomerCodeList' })
     },
-    // 选择视角
+    // 选择体系
     chooseView (viewId) {
       this.model.viewId = viewId
       this.subgroups = []
@@ -208,7 +208,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询视角分组信息失败', resp)
+          this.$notify.error('查询体系分组信息失败', resp)
         })
     },
     // 提示
@@ -328,7 +328,7 @@ export default {
           }
 
           if (this.model.areaId && !this.model.viewId) {
-            this.$notify.error('请选择视角')
+            this.$notify.error('请选择体系')
             return
           }
 
@@ -490,7 +490,7 @@ export default {
         this.areaOptions = this.$store.state.user.areas
       }
 
-      // 品牌模式下，固定视角信息
+      // 品牌模式下，固定体系信息
       if (this.viewRange === 1) {
         this.viewOptions = this.$store.state.user.views
       }

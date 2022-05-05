@@ -188,12 +188,12 @@ export default {
       })
     },
     /**
-     * 处理视角切换命令
+     * 处理体系切换命令
      * @param command
      */
     onHandleAreaCommand: function (command) {
       const that = this
-      // 判断是否品牌视角有改变
+      // 判断是否品牌体系有改变
       if (this.$store.state.user.area.id !== command) {
         isRefresh(this).then(() => {
           that.$store.state.user.areas.forEach(item => {
@@ -214,7 +214,7 @@ export default {
                   value: item.areaId
                 }
               }
-              // 视角切换接口
+              // 体系切换接口
               that.changeArea({ id: item.areaId, name: item.areaName, areaType: item.areaType }).then(() => {
                 that.$set(that, 'area', area)
                 that.$emit('area-change', command)

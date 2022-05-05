@@ -46,7 +46,7 @@
             </ElFormItem>
             <div class="taskStore-wrapper__text text-warning">
               <Icon type="exclamation-circle" theme="outlined" />
-              <span>您可使用系统提供的模板填写信息并导入，只支持选中当前视角的店铺。 </span>
+              <span>您可使用系统提供的模板填写信息并导入，只支持选中当前体系的店铺。 </span>
               <NsButton type="text" @click="downloadTaskTemple">下载模板</NsButton>
             </div>
           </ElForm>
@@ -131,7 +131,7 @@ export default {
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
           if (resp.success) {
-            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在体系下、店铺编码错误等)')
             this.storeInfo = resp.result
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
@@ -173,7 +173,7 @@ export default {
       if (response.success) {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
-        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在体系下、店铺编码错误等)')
       } else {
         this.$refs.uploadRef.clearFiles()
         if (response.code === '1') {

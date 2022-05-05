@@ -17,13 +17,13 @@
         </div>
         <el-form label-width="70px" :inline="true">
           <el-form-item v-show="tabType === 'group'">
-            <el-form-item label="选择视角：">
+            <el-form-item label="选择体系：">
               <el-form-grid>
                 <el-select
                   filterable
                   :clearable='true'
                   v-model='model.viewId'
-                  placeholder='请选择视角'
+                  placeholder='请选择体系'
                   @change='chooseView'
                 >
                   <el-option
@@ -324,7 +324,7 @@ export default {
         shopArea: {}, // 选择的门店分类
         shopId: '', // 选择的门店
         employeeType: '', // 选择的员工类型
-        viewId: '' // 选择的视角
+        viewId: '' // 选择的体系
       },
       groupData: {
         groupTree: [],
@@ -357,7 +357,7 @@ export default {
       loadSelectedData: [],
       shopAreaData: [],
       deptData: [],
-      viewOptions: [], // 视角列表
+      viewOptions: [], // 体系列表
       isLoadShopAreaTree: false // 判断区域树是否请求完成
     }
   },
@@ -401,7 +401,7 @@ export default {
   methods: {
     getViewList () {
       const areaId = this.$store.state.user.area.id
-      // 根据选择区域查询视角列表
+      // 根据选择区域查询体系列表
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId })
         .then(res => {
           if (res.success) {
@@ -413,7 +413,7 @@ export default {
             this.$notify.error(res.msg)
           }
         }).catch(res => {
-          this.$notify.error('视角列表查询失败')
+          this.$notify.error('体系列表查询失败')
         })
     },
     chooseView (viewId) {
