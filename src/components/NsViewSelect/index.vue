@@ -1,6 +1,6 @@
 <template>
   <div class="view-select">
-    <span class="label-title" v-if="showTitle">视角：</span>
+    <span class="label-title" v-if="showTitle">体系：</span>
     <el-select
       v-bind="$attrs"
       v-on="selectListeners"
@@ -20,7 +20,7 @@
 
 <script>
 /**
- * 视角切换全局缓存
+ * 体系切换全局缓存
  */
 export default {
   inheritAttrs: false,
@@ -42,7 +42,7 @@ export default {
       return this.$store.state.user.area.id
     },
     /**
-     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     * 体系范围 1-不同品牌不同体系，2-不同区域不同体系
      */
     viewRange () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig.viewRange
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     /**
-     * 设置组件渲染的视角列表
+     * 设置组件渲染的体系列表
      */
     setViewList () {
       if (this.viewRange === 1) {
@@ -117,7 +117,7 @@ export default {
               this.$notify.error(res.msg)
             }
           }).catch(res => {
-            this.$notify.error('视角列表查询失败')
+            this.$notify.error('体系列表查询失败')
           })
       }
     },

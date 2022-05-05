@@ -71,7 +71,7 @@ instance.interceptors.request.use(config => {
   // if (area && area.id) {
   //   config.headers.areaId = area.id
   // }
-  // // 视角ID
+  // // 体系ID
   // if (loginInfo && loginInfo.productConfig.viewId) {
   //   config.headers.viewId = loginInfo.productConfig.viewId
   // }

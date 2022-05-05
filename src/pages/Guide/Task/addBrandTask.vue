@@ -134,7 +134,7 @@
                     filterable
                     :clearable='false'
                     v-model='model.viewId'
-                    placeholder='请选择视角'
+                    placeholder='请选择体系'
                     @change='chooseView'
                     :disabled='canNotEdit'
                   >

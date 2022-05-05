@@ -102,9 +102,9 @@ export default {
         page: 1,
         total: 0
       },
-      // 视角列表
+      // 体系列表
       viewList: [],
-      // 视角Id
+      // 体系Id
       viewId: '',
       visible: false
     }
@@ -138,7 +138,7 @@ export default {
         unionId: this.unionId
       })
     },
-    // 查询区域对应的视角列表
+    // 查询区域对应的体系列表
     findViewList () {
       this.$http.fetch(this.$api.core.common.findViewListByAreaId, { areaId: this.areaId })
         .then(res => {
@@ -152,10 +152,10 @@ export default {
             this.$notify.error(res.msg)
           }
         }).catch(res => {
-          this.$notify.error('视角列表查询失败')
+          this.$notify.error('体系列表查询失败')
         })
     },
-    // 视角切换传值
+    // 体系切换传值
     viewChange () {
       this.$emit('viewId', this.viewId)
       this.checkVip()

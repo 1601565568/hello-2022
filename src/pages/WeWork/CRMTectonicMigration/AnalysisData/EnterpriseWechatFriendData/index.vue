@@ -12,7 +12,7 @@
       <template slot="advancedSearch">
         <el-form label-width="90px"
                  :inline="true" :model="model">
-          <el-form-item label="视角：" label-width="60px">
+          <el-form-item label="体系：" label-width="60px">
             <view-select :showTitle="false" :viewList="viewList" ref="viewSelect" v-model="model.viewId" @change="viewChange"/>
           </el-form-item>
           <el-form-item label="工作门店：">

@@ -79,11 +79,11 @@ export default {
             cloudPlatformType,
             wxPlan: res.data.result.wxPlan,
             user,
-            viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同视角，2-不同区域不同视角
+            viewRange: res.data.result.viewRange || 2, // 1-不同品牌不同体系，2-不同区域不同体系
             openGroupOperation: res.data.result.openGroupOperation || 0, // 是否是集团运营
             groupViewId: res.data.result.groupViewId,
             brands: res.data.result.brands,
-            viewId: '' // 已选的视角id
+            viewId: '' // 已选的体系id
           },
           area: {
             id: res.data.result.currentArea.areaId,

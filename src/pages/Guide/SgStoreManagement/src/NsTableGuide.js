@@ -71,7 +71,7 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     var findVo = {
-      viewId: null, // 视角id
+      viewId: null, // 体系id
       name: null,
       shopName: null, // 门店名称
       shopId: null, // 门店ID
@@ -183,7 +183,7 @@ export default {
   },
   computed: {
     /**
-     * 视角范围 1-不同品牌不同视角，2-不同区域不同视角
+     * 体系范围 1-不同品牌不同体系，2-不同区域不同体系
      */
     viewRange () {
       return this.$store.state.user.remumber.remumber_login_info.productConfig
