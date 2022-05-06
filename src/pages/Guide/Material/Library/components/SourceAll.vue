@@ -871,7 +871,7 @@ export default {
         }
       }
       let content = this.$refs.tagContent.htmlToString(this.pitContent)
-      content = content.replace(/&nbsp;/g, '\u0020').replace(/&amp;/g, '&')
+      content = content.replace(/&nbsp;/g, '\u0020').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot/g, '"').replace(/&apos/g, "'")
       params.content = content
       params.parentId = this.catalogue[this.catalogue.length - 1].id
 
