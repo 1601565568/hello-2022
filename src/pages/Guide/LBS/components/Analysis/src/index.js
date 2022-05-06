@@ -28,14 +28,24 @@ export default {
           }
         },
         disabledDate: (time) => {
+          // 活动起始时间， 活动结束时间， 活动类型， 活动创建时间， 活动状态
+          const { start: startD, end, type, createTime: createTimeD, state } = this.$route.query
+          const start = moment(startD).utc().startOf('day').valueOf()
+          const createTime = moment(createTimeD).utc().startOf('day').valueOf()
+          const now = new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1 // 此刻时间
+          if (this.selectDate === '') {
+            if (Number(type) === 2) {
+              const endTime = state === 3 ? end : now
+              return time > moment(endTime).valueOf() || time < moment(createTime).valueOf()
+            } else {
+              const entTime = end && moment(end).isAfter(now) ? now : end
+              return time > moment(entTime).valueOf() || time < moment(start).valueOf()
+            }
+          }
           if (this.selectDate !== '') {
-            // 活动起始时间， 活动结束时间， 活动类型， 活动创建时间， 活动状态
-            const { start, end, type, createTime, state } = this.$route.query
-            const now = new Date().getTime() // 此刻时间
             const inTime = time.getTime() // 用户输入时间
-            const createTimeF = new Date(createTime).getTime()
             // 用户选择时间一年前还在活动范围内，
-            const initTimeS = (Number(type) === 2 && state === 3) ? createTimeF : start
+            const initTimeS = (Number(type) === 2 && state === 3) ? createTime : start
             const rangeSubtract = moment(this.selectDate).subtract(1, 'year').isAfter(initTimeS, 'day')
             // 用户选择时间一年后超出活动范围了吗？（或者超出当前时间）
             const initTimeA = state === 3 ? end : now
@@ -46,16 +56,16 @@ export default {
               // 活动时长是否超过一年
               const isActivityLengthMoreYear = () => {
                 const initTime = state === 3 ? end : now
-                const moreYear = moment(initTime).subtract(1, 'year').isAfter(createTimeF, 'day')
+                const moreYear = moment(initTime).subtract(1, 'year').isAfter(createTime, 'day')
                 return !!moreYear
               }
               // 起始时间可能值，selectDate - 一年 || 活动创建时间 ，结束时间可能值，selectDate + 一年 || 活动提前结束时间
               const timeStart = () => {
                 // 活动是否超过一年，未超：起始时间就是创建时间，超过：判断selectDate-一年是否在活动时间范围内，如果不在就是创建时间
                 if (isActivityLengthMoreYear()) {
-                  return rangeSubtract ? moment(this.selectDate).subtract(1, 'year') : createTimeF
+                  return rangeSubtract ? moment(this.selectDate).subtract(1, 'year') : createTime
                 } else {
-                  return createTimeF
+                  return createTime
                 }
               }
               const timeEnd = () => {
