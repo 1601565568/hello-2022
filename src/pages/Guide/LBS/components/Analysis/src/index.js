@@ -30,16 +30,16 @@ export default {
         disabledDate: (time) => {
           // 活动起始时间， 活动结束时间， 活动类型， 活动创建时间， 活动状态
           const { start: startD, end, type, createTime: createTimeD, state } = this.$route.query
-          const start = moment(startD).utc().startOf('day').valueOf()
-          const createTime = moment(createTimeD).utc().startOf('day').valueOf()
+          const start = moment(startD).startOf('day').valueOf()
+          const createTime = moment(createTimeD).startOf('day').valueOf()
           const now = new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1 // 此刻时间
           if (this.selectDate === '') {
             if (Number(type) === 2) {
               const endTime = state === 3 ? end : now
-              return time > moment(endTime).valueOf() || time < moment(createTime).valueOf()
+              return time > moment(endTime).valueOf() || time < createTime
             } else {
               const entTime = end && moment(end).isAfter(now) ? now : end
-              return time > moment(entTime).valueOf() || time < moment(start).valueOf()
+              return time > moment(entTime).valueOf() || time < start
             }
           }
           if (this.selectDate !== '') {
@@ -51,7 +51,6 @@ export default {
             const initTimeA = state === 3 ? end : now
             const rangeAdd = moment(this.selectDate).add(1, 'year').isAfter(initTimeA, 'day')
             // 永久活动
-            // console.log(Number(type), this.$route.query, time)
             if (Number(type) === 2) {
               // 活动时长是否超过一年
               const isActivityLengthMoreYear = () => {
@@ -76,7 +75,6 @@ export default {
                   return initTimeA
                 }
               }
-              // console.log(timeStart(), timeEnd(), this.selectDate)
               return moment(inTime).isBefore(timeStart(), 'day') || moment(inTime).isAfter(timeEnd(), 'day')
             }
             // 非永久活动
