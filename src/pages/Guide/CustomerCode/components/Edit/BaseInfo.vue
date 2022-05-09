@@ -197,10 +197,10 @@ export default {
       cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }),
     guideNamesEnv () {
-      return this.cloudPlatformType === 'ecrp' ? '参与活动人员' : '参与活动成员'
+      return this.cloudPlatformType === 'ecrp' ? '分享活动人员' : '参与活动成员'
     },
     guideTipEnv () {
-      return this.cloudPlatformType === 'ecrp' ? '请选择可以在企微侧边栏使用该活动裂变大师的员工' : '选择的成员可以在企微侧边栏发送该裂变大师活动'
+      return this.cloudPlatformType === 'ecrp' ? '选择的员工才可以发送裂变大师活动' : '选择的成员可以在企微侧边栏发送该裂变大师活动'
     },
     guideName () {
       return this.cloudPlatformType === 'ecrp' ? '人员' : '成员'

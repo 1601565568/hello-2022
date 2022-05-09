@@ -11,6 +11,7 @@
           label-position="left"
           :model="model"
           class="normal-from padding-form"
+          :rules="rules"
           ref="setPosterForm"
         >
           <el-form-item label="上传海报" prop="content">
@@ -93,12 +94,12 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="二维码类型" prop="qrCodeType" class="larger-item" :class="[btnNext==='QA'?radioQA:radio]">
+          <el-form-item :label="QrCode" prop="qrCodeType" class="larger-item" :class="[btnNext==='QA'?radioQA:radio]">
             <el-radio-group v-model="model.qrCodeType">
               <el-radio :label="0">单{{employeeEnv}}二维码</el-radio>
               <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
-                {{employeeEnv}}二维码：用户扫码后将添加分享{{employeeEnv}}为好友
+                {{employeeEnv}}二维码：{{promptQrCode}}
                 <el-tooltip  placement="top" popper-class='popperClass'>
                   <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
@@ -108,11 +109,59 @@
                   </template>
                 </el-tooltip>
               </div>
-              <el-radio :label="1" :disabled="codeDisabled">聚合二维码</el-radio>
-              <div class="qrcode-bottom-view padding">
+              <el-radio :label="1" :disabled="codeDisabled">{{isEmployee}}</el-radio>
+                 <html-area v-if="cloudPlatformType === 'ecrp'">
+                <div class="employee-list">
+                  <template v-if="model.guideDatas.length > 0">
+                    <template v-for="(item, index) in model.guideDatas">
+                      <div class="employee-list_item" :key="item.id">
+                        {{ item.name }}
+                        <i
+                          class="el-icon-close"
+                          @click="handleDelect(index)"
+                        ></i>
+                      </div>
+                    </template>
+                    <span
+                      class="employee-list_all"
+                      v-if="model.guideDatas.length > 0"
+                    >
+                      <i class="el-icon-close" @click="handleDelectAll()"></i>
+                    </span>
+                  </template>
+                  <template v-else>
+                    <p class="employee-text">
+                      请选择聚合二维码的员工
+                    </p>
+                  </template>
+                </div>
+                <template slot="suffix">
+                  <div class="employee-suffix">
+                    <GuideDialog
+                      :selfBtn="true"
+                      :appendToBody="true"
+                      :isButton="false"
+                      :validNull="true"
+                      :auth="false"
+                      :isOpenDialogAfterRequest='false'
+                      btnTitle=""
+                      type="text"
+                      :dialogTitle="`选择${guideName}`"
+                      v-model="model.guideIds"
+                      @inputAllData="handleChangeGuide"
+                      @input="handleChangeGuide"
+                    >
+                      <template slot="selfBtn">
+                          <Icon type="geren"></Icon>
+                        </template>
+                    </GuideDialog>
+                  </div>
+                </template>
+                </html-area>
+                <div class="qrcode-bottom-view padding">
                 <span class="remind-view"></span>
                 <span>
-                  {{employeeEnv}}聚合码：用户扫码后将添第一步（活动信息）中参加活动的{{employeeEnv}}中任一{{employeeEnv}}为好友，参与{{employeeEnv}}超过100人时，无法使用聚合码（仅可使用单{{employeeEnv}}二维码）
+                  {{employeeEnv}}聚合码：用户扫码后将{{describe}}中任一{{employeeEnv}}为好友，参与{{employeeEnv}}超过100人时，无法使用聚合码（仅可使用单{{employeeEnv}}二维码）
                   <el-tooltip  placement="top" popper-class='popperClass'>
                   <span type='text' class='safe-btn' :class="[btnNext==='QA'?btnSafeQA:btnSafe]">
                     示例说明
@@ -124,6 +173,7 @@
                 </span>
               </div>
             </el-radio-group>
+
           </el-form-item>
         </el-form>
       </template>
@@ -183,6 +233,8 @@
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import { DEFAULT_SETPOSTER_DATA, STEP_LIST, GUIDE_MAX, defBgImg, demoImg } from '../../src/const'
 import validates from '../../src/validates'
+import HtmlArea from '@/components/NewUi/HtmlArea'
+import GuideDialog from '@/components/NewUi/GuideDialog'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import VueDragResize from 'vue-drag-resize'
 import ElAvatar from '@nascent/nui/lib/avatar'
@@ -214,6 +266,12 @@ export default {
           nickPosition: 1
         }
       },
+      rules: {
+        guideIds: [
+          { required: true, message: `请选择`, trigger: ['blur', 'change'] },
+          { validator: validates.validateGuideIds, message: `请选择`, trigger: ['blur', 'change'] }
+        ]
+      },
       loading: false,
       demoImg,
       defBgImg,
@@ -239,6 +297,21 @@ export default {
       // 环境判断
       cloudPlatformType: state => state.user.remumber.remumber_login_info.productConfig.cloudPlatformType
     }),
+    QrCode () {
+      return this.cloudPlatformType === 'ecrp' ? '员工二维码' : '二维码类型'
+    },
+    guideName () {
+      return this.cloudPlatformType === 'ecrp' ? '人员' : '成员'
+    },
+    promptQrCode () {
+      return this.cloudPlatformType === 'ecrp' ? '用户通过活动海报扫码后，将添加分享员工为好友' : '用户扫码后将添加分享成员为好友'
+    },
+    isEmployee () {
+      return this.cloudPlatformType === 'ecrp' ? '员工聚合二维码' : '聚合二维码'
+    },
+    describe () {
+      return this.cloudPlatformType === 'ecrp' ? '添加员工聚合二维码' : '添第一步（活动信息）中参加活动的成员'
+    },
     fuscousEnv () {
       return this.cloudPlatformType === 'ecrp' ? '裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加员工企业微信。' : '裂变大师点击上一步中的“立即分享”按钮分享海报，邀请好友添加企业微信。'
     },
@@ -247,7 +320,7 @@ export default {
     }
   },
   components: {
-    PhoneBox, VueDragResize, SimpleUpload, ElColorPicker
+    PhoneBox, VueDragResize, SimpleUpload, ElColorPicker, HtmlArea, GuideDialog
   },
   watch: {
     selectedGuideNum (val) {
@@ -260,6 +333,22 @@ export default {
     }
   },
   methods: {
+    handleChangeGuide (value) {
+      this.model.guideDatas = value
+      this.$refs.setPosterForm && this.$refs.setPosterForm.validateField('guideIds')
+    },
+    // 删除所选员工
+    handleDelect (index) {
+      this.model.guideDatas.splice(index, 1)
+      this.model.guideIds.splice(index, 1)
+      this.$refs.setPosterForm && this.$refs.setPosterForm.validateField('guideIds')
+    },
+    // 删除所有员工
+    handleDelectAll () {
+      this.model.guideIds = []
+      this.model.guideDatas = []
+      this.$refs.setPosterForm && this.$refs.setPosterForm.validateField('guideIds')
+    },
     // 拖动二维码
     onDragResize (params) {
       this.model = { ...this.model,
@@ -289,10 +378,14 @@ export default {
   },
   mounted () {
     // setTimeout(() => {
-    //   this.loading = true
+    //   console.log();
     // }, 1000)
-    // console.log(this.model)
-    this.model = { ...this.data }
+    this.model = { ...this.data, guideIds: [], guideDatas: [] }
+    console.log(this.model)
+    this.rules.guideIds = [
+      { required: true, message: `请选择${this.guideNamesEnv}`, trigger: ['blur', 'change'] },
+      { validator: validates.validateGuideIds, message: `请选择${this.guideNamesEnv}`, trigger: ['blur', 'change'] }
+    ]
   }
 }
 </script>
@@ -381,8 +474,93 @@ export default {
 .demo-img {
   width: 100px;
 }
+// 新增员工选择器样式
+.html-area{
+  // height: 32px;
+  margin-top: 8px;
+}
+
+.employee-list {
+    display: flex;
+    padding: 8px 0 0 8px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+.employee-list_item {
+  display: inline-block;
+  align-items: center;
+  background: #f5f5f5;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  i {
+    margin-left: 4px;
+    cursor: pointer;
+    display: inline;
+  }
+}
+.employee-list_all {
+  font-size: 12px;
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  color: #fff;
+  width: 18px;
+  text-align: center;
+  border-radius: 50%;
+  background: #8c8c8c;
+  margin-top: 3px;
+  cursor: pointer;
+}
+.employee-selected-text {
+  font-size: 14px;
+  padding-bottom: 8px;
+}
+.employee-text {
+  font-size: 14px;
+  color: #bfbfbf;
+  padding-bottom: 8px;
+}
+.prompt-text {
+  display: flex;
+  align-items: center;
+  .yellow-point {
+    background: #f2aa18;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+}
+.question-circle {
+  position: relative;
+  top: 1px;
+  left: 5px;
+}
+.form-item_time {
+  display: flex;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 2px;
+}
+.employee-suffix {
+  cursor: pointer;
+  min-width: 40px;
+  font-size: 12px;
+  color: #262626;
+  text-align: center;
+}
+
 </style>
 <style scoped>
+.employee-suffix >>> .template-search__chooes{
+    color: #262626;
+  }
 .customCode-content_box {
   >>> .collapse-right,>>> .collapse-left{
     height: 100%;
